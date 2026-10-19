@@ -2933,6 +2933,106 @@ window.CS2_TOOLS_DATA = [
     "usage": "python tools/scan_signatures.py --dir versions/archive/2026-10-15_25966348\npython tools/scan_signatures.py --diff <old_dir> <new_dir>",
     "exampleOutput": "SOURCE 2 FUNCTION SIGNATURE & OFFSET VERIFICATION REPORT\nclient.dll         | AngleVectors        | [PASS] | 0x017402a0 | 0x17402a0 | +0x0 | 1\nclient.dll         | CalculateWorldBones | [PASS] | 0x00aa0f80 | 0x0aa0f80 | +0x0 | 1\nserver.dll         | LineOfSightThroughSmoke | [PASS] | 0x009b7f50 | 0x09b7f50 | +0x0 | 1\npulse_system.dll   | PulseInstructionDispatchLoop | [PASS] | 0x0008f810 | 0x008f810 | +0x0 | 1\nTotal: 21 | Unchanged: 21 | Shifted: 0 | Broken: 0",
     "codeSnippet": "regex = pattern_to_regex(sig['pattern'])\nmatches = [m.start() for m in regex.finditer(pe.data)]\nassert len(matches) == 1 # Validates unique function signature"
+  },
+  {
+    "id": "find_smoke_classes",
+    "name": "find_smoke_classes.py",
+    "category": "Physics & Camera Reverse Engineering",
+    "language": "Python 3",
+    "targets": [
+      "server.dll",
+      "particles.dll"
+    ],
+    "summary": "Analyzes volumetric smoke grenade classes, 32x32x32 voxel grid structures, and 3D Morton-order bit-interleaving.",
+    "purpose": "Extracts CSmokeGrenadeProjectile and CParticleProperty schema reflection tables. Locates the double-buffered 512-word uint64 voxel occupancy bitmasks, bullet tunnel carving routines (FUN_1809cb810), and line-of-sight raymarching density thresholds.",
+    "usage": "python tools/find_smoke_classes.py",
+    "exampleOutput": "Found 12 Smoke & Voxel Classes in server.dll\n  CSmokeGrenadeProjectile (Size: 0x1180, Fields: 42)\n    +0x0df8: m_bSmokeVolumeCreated (bool)\n    +0x0e00: m_vSmokeColor (Vector3)\n  Voxel occupancy grid: 32x32x32 = 32,768 cells (512 QWORDs)",
+    "codeSnippet": "def part1_by_2(n):\n    n &= 0x000003ff\n    n = (n ^ (n << 16)) & 0xff0000ff\n    n = (n ^ (n <<  8)) & 0x0300f00f\n    n = (n ^ (n <<  4)) & 0x030c30c3\n    n = (n ^ (n <<  2)) & 0x09249249\n    return n"
+  },
+  {
+    "id": "find_lag_comp",
+    "name": "find_lag_comp.py",
+    "category": "Protobuf & Network Inspection",
+    "language": "Python 3",
+    "targets": [
+      "server.dll"
+    ],
+    "summary": "Analyzes server-side player lag compensation history buffers, hitbox track records, and sub-tick time rewinds.",
+    "purpose": "Locates CLagCompensationManager (FUN_18084a920) and CHitboxHistoryRecord allocations. Extracts the 64-tick circular history buffer, bone matrix interpolation formulas, and raycast hitbox rewinding logic used during authoritative bullet hit registration.",
+    "usage": "python tools/find_lag_comp.py",
+    "exampleOutput": "Scanning server.dll for CLagCompensationManager...\n  VTable: 0x180bb2940 (24 slots)\n  Record size: 0x0380 bytes per player tick\n  History buffer: 64 entries (1.000s window at 64Hz)",
+    "codeSnippet": "def get_lerp_time(cl_interp, cl_updaterate):\n    return max(cl_interp, 1.0 / cl_updaterate)"
+  },
+  {
+    "id": "dump_game_events_proto",
+    "name": "dump_game_events_proto.py",
+    "category": "Protobuf & Network Inspection",
+    "language": "Python 3",
+    "targets": [
+      "networksystem.dll"
+    ],
+    "summary": "Extracts CSVCMsg_GameEventList and CSVCMsgList_GameEvents protobuf wire descriptor tables.",
+    "purpose": "Parses compiled Google Protobuf FileDescriptorProto structures embedded in networksystem.dll .rdata to extract event declaration wire tags, field numbers, and serialization schemas for multiplayer killfeed, round start, and bomb events.",
+    "usage": "python tools/dump_game_events_proto.py",
+    "exampleOutput": "Extracted GameEvents Protobuf Descriptors:\n  CSVCMsg_GameEventList (wire tag: 0x1e / 30)\n  CSVCMsgList_GameEvents (wire tag: 0x22 / 34)\n  Fields: descriptor_keys, event_data, passthrough_tags",
+    "codeSnippet": "with open('networksystem.dll', 'rb') as f:\n    pos = data.find(b'CSVCMsg_GameEventList')"
+  },
+  {
+    "id": "dump_usercmd_proto",
+    "name": "dump_usercmd_proto.py",
+    "category": "Protobuf & Network Inspection",
+    "language": "Python 3",
+    "targets": [
+      "networksystem.dll"
+    ],
+    "summary": "Extracts CSGOUserCmdPB and CSubtickMoveStep protobuf wire schemas and field tags.",
+    "purpose": "Maps the sub-tick input serialization wire layout: legacy command number, input history protobuf array, and fractional sub-tick step timestamps (when: 0.0f..1.0f).",
+    "usage": "python tools/dump_usercmd_proto.py",
+    "exampleOutput": "CSGOUserCmdPB Wire Descriptors:\n  Tag 1: legacy_command_number (uint32)\n  Tag 2: client_tick (uint32)\n  Tag 3: subtick_moves (repeated CSubtickMoveStep)\n  Tag 4: input_history (repeated CSGOInputHistoryEntryPB)",
+    "codeSnippet": "pos = data.find(b'CSGOUserCmdPB')"
+  },
+  {
+    "id": "dump_setconvar_proto",
+    "name": "dump_setconvar_proto.py",
+    "category": "Protobuf & Network Inspection",
+    "language": "Python 3",
+    "targets": [
+      "networksystem.dll"
+    ],
+    "summary": "Extracts CNETMsg_SetConVar and CMsg_CVars network replication protobuf wire schemas.",
+    "purpose": "Decodes the client-server replicated ConVar wire format (ID 0x06 / 6) carrying name-value pairs across the network boundary.",
+    "usage": "python tools/dump_setconvar_proto.py",
+    "exampleOutput": "CNETMsg_SetConVar Wire Descriptors:\n  Tag 1: convars (CMsg_CVars)\n  CMsg_CVars.CVar:\n    Tag 1: name (string)\n    Tag 2: value (string)",
+    "codeSnippet": "pos = data.find(b'CNETMsg_SetConVar')"
+  },
+  {
+    "id": "find_cvar_flags",
+    "name": "find_cvar_flags.py",
+    "category": "RTTI & VTable Crawlers",
+    "language": "Python 3",
+    "targets": [
+      "tier0.dll",
+      "engine2.dll"
+    ],
+    "summary": "Extracts 64-bit ConVar flag bitmasks and security gates from ConVar creation routines.",
+    "purpose": "Locates bitwise flag checks guarding FCVAR_REPLICATED (Bit 13 / 0x2000), FCVAR_CHEAT (Bit 14 / 0x4000), and FCVAR_DEVELOPMENTONLY in CCvar::RegisterConVar.",
+    "usage": "python tools/find_cvar_flags.py",
+    "exampleOutput": "Scanning tier0.dll for ConVar flag security bitmasks...\n  Found FCVAR_REPLICATED mask at 0x1800825e0\n  Found FCVAR_CHEAT gate at 0x180083110",
+    "codeSnippet": "FCVAR_REPLICATED = 1 << 13\nFCVAR_CHEAT = 1 << 14\nFCVAR_PROTECTED = 1 << 5"
+  },
+  {
+    "id": "enrich_signatures",
+    "name": "enrich_signatures.py",
+    "category": "Binary Scanning & Automation",
+    "language": "Python 3",
+    "targets": [
+      "data/function_signatures.json"
+    ],
+    "summary": "Enriches canonical function signature records with Ghidra decompiled C++ snippets and explanations.",
+    "purpose": "Reads data/function_signatures.json and injects structured decompilation blocks and architecture references for web portal rendering.",
+    "usage": "python tools/enrich_signatures.py",
+    "exampleOutput": "Enriched 21 signatures with C++ snippets and verification docs.",
+    "codeSnippet": "with open('data/function_signatures.json', 'r') as f:\n    sigs = json.load(f)"
   }
 ];
 

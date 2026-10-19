@@ -37,7 +37,7 @@ cs2-reverse/
 
 ## 3. Analysis Tools (`tools/`)
 
-The utilities in `tools/` require only standard Python 3.x (no external pip dependencies like `pefile` needed; all PE headers and section RVAs are parsed directly via standard `struct`):
+The utilities in `tools/` require only standard Python 3.x (no external pip dependencies needed; all PE headers and section RVAs are parsed directly via standard `struct`):
 
 ### 3.1 Schema & Type Reflection Tools
 - **`tools/extract_schema_classes.py`**:
@@ -46,24 +46,56 @@ The utilities in `tools/` require only standard Python 3.x (no external pip depe
 - **`tools/find_all_schema_chunks.py`**:
   - **Purpose**: Discovers all independent schema registration callbacks across monolithic modules like `client.dll` (which split thousands of classes across multiple registration callbacks).
   - **Mechanism**: Scans `.text` for references to exported `InstallSchemaBindings` registration tables and dumps classes by name.
-- **`tools/dump_schemasystem_vtable.py` & `tools/dump_typescope_vtable.py`**:
-  - **Purpose**: Dumps the complete virtual method jump tables for `CSchemaSystem` (40 methods) and `CSchemaSystemTypeScope` (35 methods).
+- **`tools/dump_schemasystem_vtable.py`**:
+  - **Purpose**: Dumps the complete virtual method jump table for `CSchemaSystem` (40 methods).
   - **Mechanism**: Uses MSVC Complete Object Locator (COL) RTTI references to find the exact vtable address in `.rdata` and prints all 64-bit function pointers.
-- **`tools/inspect_controller_pawn.py` & `tools/inspect_server_pawn.py`**:
+- **`tools/inspect_controller_pawn.py`**:
   - **Purpose**: Queries and compares entity field layouts between client and server (e.g. `CCSPlayerController` vs. `CCSPlayerPawn`).
 
-### 3.2 VTable & RTTI Discovery Tools
+### 3.2 VTable, Interface & RTTI Discovery Tools
 - **`tools/find_vtable_rtti.py`**:
   - **Purpose**: Universal MSVC x64 RTTI crawler.
   - **Mechanism**: Locates the mangled `TypeDescriptor` string (e.g. `.?AVCCvar@@` or `.?AVCViewRender@@`), calculates its RVA, searches `.rdata` for the `_s__RTTICompleteObjectLocator` referencing that RVA, and then searches for the vtable that points to that COL at offset `-8`.
+- **`tools/dump_interfaces.py`**:
+  - **Purpose**: Scans `CreateInterface` export tables across all core binaries, dumping interface versions and constructor pointers.
+- **`tools/dump_cvar_vtable.py` & `tools/find_cvar_flags.py`**:
+  - **Purpose**: Inspects `tier0.dll`'s `CCvar` (`VEngineCvar007`) 46-method vtable and extracts 64-bit ConVar flag bitmasks and security gates.
 
-### 3.3 ConVar & Network Inspection Tools
-- **`tools/dump_cvar_vtable.py`**:
-  - **Purpose**: Inspects `tier0.dll`'s `CCvar` (`VEngineCvar007`) 46-method vtable.
+### 3.3 Protobuf, Wire & Network Inspection Tools
 - **`tools/dump_net_messages.py`**:
   - **Purpose**: Extracts protobuf descriptor strings and message ID registrations across `NET_Messages`, `CLC_Messages`, and `SVC_Messages`.
-- **`tools/dump_fp_ops.py` & `tools/dump_type_table.py`**:
+- **`tools/dump_game_events_proto.py`**:
+  - **Purpose**: Extracts `CSVCMsg_GameEventList` and `CSVCMsgList_GameEvents` protobuf wire descriptor tables.
+- **`tools/dump_usercmd_proto.py`**:
+  - **Purpose**: Extracts `CSGOUserCmdPB` and `CSubtickMoveStep` protobuf wire schemas and field tags.
+- **`tools/dump_setconvar_proto.py`**:
+  - **Purpose**: Decodes `CNETMsg_SetConVar` and `CMsg_CVars` network replication protobuf wire schemas.
+- **`tools/dump_fp_ops.py`**:
   - **Purpose**: Extracts the 40-operation Huffman bit-tree table and field type serializers from `networksystem.dll`.
+
+### 3.4 Physics, Animation & Simulation Analysis Tools
+- **`tools/inspect_vphysics2_rubikon.py`**:
+  - **Purpose**: Resolves 80-slot VTables, convex polyhedron half-spaces, and GJK support function addresses for the Rubikon physics engine.
+- **`tools/explore_camera_pipeline.py`**:
+  - **Purpose**: Disassembles camera setup, FOV interpolation, `AngleVectors`, and 2.0x recoil punch multipliers in `client.dll`.
+- **`tools/find_animation_classes.py`**:
+  - **Purpose**: Extracts `CSkeletonInstance`, `CTransform` SIMD routines, and Two-Bone IK solvers from `animationsystem.dll`.
+- **`tools/find_smoke_classes.py`**:
+  - **Purpose**: Analyzes volumetric smoke grenade classes, 32x32x32 voxel grid structures, and 3D Morton-order bit-interleaving.
+- **`tools/find_lag_comp.py`**:
+  - **Purpose**: Analyzes server-side player lag compensation history buffers, hitbox track records, and sub-tick time rewinds in `server.dll`.
+
+### 3.5 Binary Scanning, Differential Analysis & Automation
+- **`tools/scan_signatures.py`**:
+  - **Purpose**: High-speed AOB pattern scanner verifying 100% uniqueness (1 match) and tracking RVA shifts across CS2 updates.
+- **`tools/cs2_patch_diff.py`**:
+  - **Purpose**: Multi-dimensional binary patch diffing engine tracking schema offset shifts, new ConVars, and interface bumps across updates.
+- **`tools/fast_scan.cpp` & `tools/run_fast_scan.bat`**:
+  - **Purpose**: High-performance C++ multithreaded byte pattern and string scanner using Windows memory-mapped files.
+- **`tools/enrich_signatures.py`**:
+  - **Purpose**: Enriches canonical function signature records with Ghidra decompiled C++ snippets and explanations.
+- **`tools/generate_portal_data.py` & `tools/generate_docs_bundle.py`**:
+  - **Purpose**: Bundles architectural documentation, binary profiles, C++ simulators, and the tools catalog into web portal data.
 
 ---
 
