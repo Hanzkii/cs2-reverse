@@ -1,0 +1,206 @@
+[
+  {
+    "caller": "180005255",
+    "interface": "Source2EngineToClient001",
+    "factory": "0x180075870",
+    "singleton": "0x18061fff0"
+  },
+  {
+    "caller": "180005bf5",
+    "interface": "Source2EngineToClientStringTable001",
+    "factory": "0x18009cbd0",
+    "singleton": "0x180620050"
+  },
+  {
+    "caller": "1800066c5",
+    "interface": "Source2EngineToServer001",
+    "factory": "0x1800a3640",
+    "singleton": "0x1806200c8"
+  },
+  {
+    "caller": "1800079f5",
+    "interface": "Source2EngineToServerStringTable001",
+    "factory": "0x1800bb8e0",
+    "singleton": "0x1806200f0"
+  },
+  {
+    "caller": "18000ba05",
+    "interface": "INETSUPPORT_001",
+    "factory": "0x180107b90",
+    "singleton": "0x18061bc30"
+  },
+  {
+    "caller": "18000f6e5",
+    "interface": "EngineGameUI001",
+    "factory": "0x18013c6c0",
+    "singleton": "0x1806206e0"
+  },
+  {
+    "caller": "18000f715",
+    "interface": "VENGINE_GAMEUIFUNCS_VERSION005",
+    "factory": "0x18013d3c0",
+    "singleton": "0x180620770"
+  },
+  {
+    "caller": "180010e75",
+    "interface": "BenchmarkService001",
+    "factory": "0x1801a8e20",
+    "singleton": "0x180622c80"
+  },
+  {
+    "caller": "180010f95",
+    "interface": "BugService001",
+    "factory": "0x1801a9e80",
+    "singleton": "0x1808db7f0"
+  },
+  {
+    "caller": "180010fe5",
+    "interface": "BugBugService001",
+    "factory": "0x1801ad640",
+    "singleton": "0x180622d80"
+  },
+  {
+    "caller": "1800110b5",
+    "interface": "GameResourceServiceClientV001",
+    "factory": "0x1801b1450",
+    "singleton": "0x180622dc0"
+  },
+  {
+    "caller": "1800110f5",
+    "interface": "GameResourceServiceServerV001",
+    "factory": "0x1801b1460",
+    "singleton": "0x180622e20"
+  },
+  {
+    "caller": "1800114d5",
+    "interface": "GameUIService_001",
+    "factory": "0x1801b49c0",
+    "singleton": "0x1808dbc40"
+  },
+  {
+    "caller": "180011715",
+    "interface": "InputService_001",
+    "factory": "0x1801b8990",
+    "singleton": "0x1808dbf20"
+  },
+  {
+    "caller": "180012645",
+    "interface": "MapListService_001",
+    "factory": "0x1801cc200",
+    "singleton": "0x18091ad90"
+  },
+  {
+    "caller": "180012815",
+    "interface": "NetworkClientService_001",
+    "factory": "0x1801d3890",
+    "singleton": "0x18091af20"
+  },
+  {
+    "caller": "180012915",
+    "interface": "NetworkP2PService_001",
+    "factory": "0x1801db0c0",
+    "singleton": "0x18091b260"
+  },
+  {
+    "caller": "180012ca5",
+    "interface": "NetworkServerService_001",
+    "factory": "0x1801dfd20",
+    "singleton": "0x18091b410"
+  },
+  {
+    "caller": "180012fe5",
+    "interface": "NetworkService_001",
+    "factory": "0x1801e5ee0",
+    "singleton": "0x180622f90"
+  },
+  {
+    "caller": "180013075",
+    "interface": "RenderService_001",
+    "factory": "0x1801e6340",
+    "singleton": "0x18091b680"
+  },
+  {
+    "caller": "180013945",
+    "interface": "ScreenshotService001",
+    "factory": "0x1801e9080",
+    "singleton": "0x18091b940"
+  },
+  {
+    "caller": "180013ba5",
+    "interface": "SoundService_001",
+    "factory": "0x1801edf60",
+    "singleton": "0x180622fd0"
+  },
+  {
+    "caller": "180014a65",
+    "interface": "SplitScreenService_001",
+    "factory": "0x1801f47c0",
+    "singleton": "0x1806232b0"
+  },
+  {
+    "caller": "180014b35",
+    "interface": "StatsService_001",
+    "factory": "0x1801f7340",
+    "singleton": "0x18091bc80"
+  },
+  {
+    "caller": "180014ce5",
+    "interface": "ToolService_001",
+    "factory": "0x1801fb7d0",
+    "singleton": "0x1806233b0"
+  },
+  {
+    "caller": "180015275",
+    "interface": "VProfService_001",
+    "factory": "0x1801fcc50",
+    "singleton": "0x1806233f0"
+  },
+  {
+    "caller": "180015645",
+    "interface": "ClientServerSharedHandleSystem001",
+    "factory": "0x1801ff270",
+    "singleton": "0x18091c440"
+  },
+  {
+    "caller": "180017225",
+    "interface": "EngineServiceMgr001",
+    "factory": "0x1802114a0",
+    "singleton": "0x18091c700"
+  },
+  {
+    "caller": "1800175f5",
+    "interface": "GameEventSystemClientV001",
+    "factory": "0x180216c20",
+    "singleton": "0x18091c9e0"
+  },
+  {
+    "caller": "180017615",
+    "interface": "GameEventSystemServerV001",
+    "factory": "0x180216c30",
+    "singleton": "0x18091cb10"
+  },
+  {
+    "caller": "180017765",
+    "interface": "HostStateMgr001",
+    "factory": "0x18021b690",
+    "singleton": "0x180623540"
+  },
+  {
+    "caller": "180017795",
+    "interface": "KeyValueCache001",
+    "factory": "0x18021dd30",
+    "singleton": "0x1806235f0"
+  },
+  {
+    "caller": "180018525",
+    "interface": "ClientServerEngineLoopService_001",
+    "factory": "0x180223c20",
+    "singleton": "0x18091ce30"
+  },
+  {
+    "caller": "180018a65",
+    "interface": "SimpleEngineLoopService_001",
+    "factory": "0x180233570",
+    "singleton": "0x180623650"
+  }
+]

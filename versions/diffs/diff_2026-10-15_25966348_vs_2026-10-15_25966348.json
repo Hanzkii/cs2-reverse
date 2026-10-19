@@ -1,0 +1,34 @@
+{
+  "old_tag": "2026-10-15_25966348",
+  "new_tag": "2026-10-15_25966348",
+  "old_build_id": "25966348",
+  "new_build_id": "25966348",
+  "old_date": "2026-10-15",
+  "new_date": "2026-10-15",
+  "generated_at": "2026-10-19T23:11:35.574491",
+  "summary": {
+    "binaries_modified_count": 0,
+    "classes_added_count": 0,
+    "classes_removed_count": 0,
+    "classes_modified_count": 0,
+    "fields_shifted_total": 0,
+    "interfaces_added_count": 0,
+    "interfaces_removed_count": 0,
+    "cvars_added_count": 0,
+    "cvars_removed_count": 0
+  },
+  "binary_diffs": [],
+  "schemas": {
+    "added_classes": [],
+    "removed_classes": [],
+    "modified_classes": []
+  },
+  "interfaces": {
+    "added": [],
+    "removed": []
+  },
+  "cvars": {
+    "added": [],
+    "removed": []
+  }
+}

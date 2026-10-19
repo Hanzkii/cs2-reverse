@@ -1,0 +1,29 @@
+# Compiled binaries & memory dumps
+*.exe
+*.obj
+*.dll
+*.pdb
+*.idb
+*.lib
+*.a
+*.exp
+*.so
+*.dylib
+*.bin
+*.dmp
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Ghidra files & caches
+ghidra-mcp/
+*.gpr
+*.rep/
+
+# Visual Studio / MSVC build artifacts
+*.ilk
+*.log
+
+# Raw binary archives (keep profiles and diffs, keep binaries local)
+versions/archive/
