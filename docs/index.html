@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,10 +99,10 @@
     }
   </style>
 </head>
-<body class="bg-cs2-dark text-slate-200 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-black">
+<body class="bg-cs2-dark text-slate-200 antialiased h-full h-screen overflow-hidden flex flex-col selection:bg-brand-500 selection:text-black">
 
   <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur border-b border-cs2-border px-4 lg:px-8 py-3 flex items-center justify-between">
+  <header class="sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur border-b border-cs2-border px-4 lg:px-8 py-3 flex items-center justify-between shrink-0">
     <div class="flex items-center gap-3">
       <button id="sidebarToggle" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -163,14 +163,14 @@
   </header>
 
   <!-- Main View Area -->
-  <div class="flex-1 flex overflow-hidden">
+  <div class="flex-1 flex overflow-hidden min-h-0">
 
     <!-- TAB 1: ARCHITECTURE DOCS -->
-    <div id="tabDocsView" class="flex-1 flex overflow-hidden">
+    <div id="tabDocsView" class="flex-1 flex overflow-hidden min-h-0">
       <!-- Left Sidebar (Document Catalog & Search) -->
-      <aside id="sidebar" class="w-84 border-r border-cs2-border bg-[#0d1117] flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      <aside id="sidebar" class="w-84 border-r border-cs2-border bg-[#0d1117] flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 h-full overflow-hidden">
         <!-- Search Input & Quick Filters -->
-        <div class="p-3 border-b border-cs2-border space-y-2 bg-[#090d16]">
+        <div class="p-3 border-b border-cs2-border space-y-2 bg-[#090d16] shrink-0">
           <div class="relative">
             <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             <input type="text" id="docSearchInput" placeholder="Search keywords, functions, 0x, schemas..." class="w-full bg-slate-900 border border-slate-700/80 rounded-lg pl-9 pr-7 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 font-sans">
@@ -199,14 +199,14 @@
         </div>
 
         <!-- Sidebar Footer -->
-        <div class="p-3 border-t border-cs2-border bg-slate-900/50 text-[11px] text-slate-400 flex items-center justify-between">
-          <span>11 Subsystems Reversed</span>
-          <span class="text-emerald-400 font-mono">100% C++ Verified</span>
+        <div class="p-3 border-t border-cs2-border bg-slate-900/50 text-[11px] text-slate-400 flex items-center justify-between shrink-0">
+          <span>14 Subsystems Documented</span>
+          <span class="text-emerald-400 font-mono">100% Verified</span>
         </div>
       </aside>
 
       <!-- Document Content Body -->
-      <main class="flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-10 relative">
+      <main id="docContentMain" class="flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-10 relative h-full">
         <div class="max-w-4xl mx-auto">
           <!-- In-Doc Search Match Navigator (Appears when searching or jumping from Omnisearch) -->
           <div id="inDocSearchNavigator" class="hidden mb-4 p-2.5 rounded-xl bg-slate-900/95 border border-brand-500/40 backdrop-blur shadow-lg flex items-center justify-between text-xs sticky top-0 z-20">
@@ -246,6 +246,11 @@
             <!-- Rendered by Marked.js -->
           </article>
         </div>
+
+        <!-- Floating Scroll-to-Top Button -->
+        <button id="scrollToTopBtn" onclick="scrollDocToTop()" class="hidden fixed bottom-6 right-6 z-30 p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-brand-400 border border-brand-500/40 backdrop-blur shadow-xl transition-all cursor-pointer group" title="Scroll back to top">
+          <svg class="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+        </button>
       </main>
     </div>
 
@@ -1130,7 +1135,12 @@
             ? 'bg-slate-800 text-white border-brand-500/50 shadow-sm' 
             : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/70'
         }`;
-        btn.onclick = () => selectDoc(d.id, q);
+        btn.onclick = () => {
+          selectDoc(d.id, q);
+          if (window.innerWidth < 1024) {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+          }
+        };
 
         let matchBadgeHtml = '';
         if (q && matchCount > 0) {
@@ -1157,7 +1167,16 @@
       });
     }
 
+    function scrollDocToTop() {
+      const docMain = document.getElementById('docContentMain');
+      if (docMain) {
+        docMain.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
     function selectDoc(docId, highlightTerm = '') {
+      const docMain = document.getElementById('docContentMain');
+      if (docMain) docMain.scrollTop = 0;
       currentDocId = docId;
       const currentQuery = highlightTerm || document.getElementById('docSearchInput').value.trim();
       renderDocList(document.getElementById('docSearchInput').value);
@@ -4028,6 +4047,20 @@
     // 9. Startup
     // ========================================================================
     document.addEventListener('DOMContentLoaded', () => {
+      // Scroll listener for floating scroll-to-top button
+      const docMain = document.getElementById('docContentMain');
+      if (docMain) {
+        docMain.addEventListener('scroll', () => {
+          const btn = document.getElementById('scrollToTopBtn');
+          if (!btn) return;
+          if (docMain.scrollTop > 350) {
+            btn.classList.remove('hidden');
+          } else {
+            btn.classList.add('hidden');
+          }
+        });
+      }
+
       renderDocList();
       if (currentDocId) selectDoc(currentDocId);
       renderBinariesTable(BINARIES_DATA);
