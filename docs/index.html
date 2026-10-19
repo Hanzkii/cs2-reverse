@@ -549,7 +549,7 @@
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-mono font-bold">13 Standalone Utilities</span>
+            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-mono font-bold">16 Standalone Utilities</span>
           </div>
         </div>
 
@@ -563,7 +563,7 @@
 
           <!-- Category Pills -->
           <div class="flex flex-wrap gap-1 bg-slate-900 p-1 rounded-xl border border-cs2-border text-xs font-mono" id="toolCategoryPills">
-            <button onclick="setToolCategory('all')" id="toolCat_all" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30">All (13)</button>
+            <button onclick="setToolCategory('all')" id="toolCat_all" class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30">All (16)</button>
             <button onclick="setToolCategory('Schema & Type Reflection')" id="toolCat_schema" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">Schema</button>
             <button onclick="setToolCategory('RTTI & VTable Crawlers')" id="toolCat_rtti" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">RTTI/VTables</button>
             <button onclick="setToolCategory('Protobuf & Network Inspection')" id="toolCat_proto" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">Protobuf</button>
@@ -2031,16 +2031,28 @@
 
         const targetsPills = t.targets.map(tg => `<span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-400 font-bold">${tg}</span>`).join(' ');
 
+        const fileNames = t.name.split('&').map(s => s.trim());
+        const sourceButtonsHtml = fileNames.map(fn => `
+          <a href="https://github.com/Hanzkii/cs2-reverse/blob/main/tools/${fn}" target="_blank" class="px-2.5 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-mono font-medium flex items-center gap-1.5 transition-all shadow-sm group cursor-pointer" title="View ${fn} source code on GitHub">
+            <svg class="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            <span>View Source${fileNames.length > 1 ? ` (${fn})` : ''}</span>
+            <svg class="w-3 h-3 text-amber-400/70 group-hover:text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        `).join('');
+
         card.innerHTML = `
           <div class="space-y-3">
-            <div class="flex items-start justify-between gap-2">
+            <div class="flex items-start justify-between gap-2 flex-wrap">
               <div>
                 <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">${t.category}</span>
                 <h3 class="text-base font-bold text-white font-mono mt-1.5 flex items-center gap-2">
                   <span>${t.name}</span>
                 </h3>
               </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${t.language}</span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${t.language}</span>
+                ${sourceButtonsHtml}
+              </div>
             </div>
 
             <div class="flex flex-wrap gap-1 items-center text-[11px] font-mono">
@@ -2076,6 +2088,18 @@
               </summary>
               <pre class="mt-2 p-2 bg-[#0b0f19] border border-slate-800/80 rounded text-[10px] font-mono text-slate-300 overflow-x-auto max-h-44 leading-tight">${t.exampleOutput}</pre>
             </details>
+
+            ${t.codeSnippet ? `
+            <details class="group bg-slate-900/40 rounded-lg border border-slate-800/60 p-2 text-xs">
+              <summary class="font-mono text-[11px] text-slate-400 cursor-pointer hover:text-white flex items-center justify-between select-none">
+                <span class="flex items-center gap-1.5 text-amber-400/90 font-medium">
+                  <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                  Preview Core Implementation
+                </span>
+                <span class="text-slate-500 group-open:rotate-90 transition-transform">&rarr;</span>
+              </summary>
+              <pre class="mt-2 p-2 bg-[#0b0f19] border border-slate-800/80 rounded text-[11px] font-mono text-cyan-300 overflow-x-auto max-h-48 leading-relaxed"><code>${escapeHtml(t.codeSnippet)}</code></pre>
+            </details>` : ''}
           </div>
         `;
         container.appendChild(card);
