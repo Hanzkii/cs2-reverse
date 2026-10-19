@@ -32,3 +32,8 @@
 - **100% Uniqueness Invariant**: Every pattern MUST be verified against the baseline archive to produce exactly 1 match using `python tools/scan_signatures.py`. Ambiguous (>1) or broken (0) patterns must be extended with discriminator bytes.
 - **Automated Update Diffing**: On each new CS2 patch, `tools/cs2_patch_diff.py` and `tools/scan_signatures.py --diff` automatically detect RVA shifts (`+N` bytes) and flag broken signatures requiring Ghidra re-analysis.
 
+## 6. Temporary Tools & Scratchpad Guardrail
+- **No Temporary or Auxiliary Scripts in `tools/`**: Only canonical, documented reverse-engineering utilities that directly analyze game binaries or build project datasets may reside in `tools/`.
+- **Use `temp/` for Scratchpad Operations**: Any one-off migration, cleanup, temporary scraping, or intermediate inspection scripts must be placed in `temp/` (or `tools/temp/`), which is excluded via `.gitignore`.
+- **Immediate Post-Task Cleanup**: Always delete temporary scripts immediately after their execution. Never stage or commit ad-hoc exploration scripts to Git.
+

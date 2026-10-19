@@ -27,3 +27,8 @@ ghidra-mcp/
 
 # Raw binary archives (keep profiles and diffs, keep binaries local)
 versions/archive/
+
+# Temporary scratch scripts & auxiliary tools
+temp/
+tools/temp/
+tmp/
