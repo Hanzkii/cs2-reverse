@@ -10,7 +10,7 @@ docs_catalog = []
 metadata_map = {
     "00_tooling_and_methodology.md": {
         "id": "tooling",
-        "title": "Tooling, Methodology & 24-Binary Ecosystem",
+        "title": "Tooling, Methodology & 34-Binary Ecosystem",
         "category": "Architecture & Tools",
         "badge": "Methodology",
         "order": 0
