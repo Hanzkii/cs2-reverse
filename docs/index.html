@@ -493,7 +493,7 @@
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4">
             <div class="text-[10px] text-slate-500 uppercase font-mono">Archived Binaries</div>
             <div id="diffMetricBinaries" class="text-xl font-bold text-emerald-400 mt-1">24 DLLs</div>
-            <div class="text-[11px] text-slate-400 mt-0.5 font-mono">174.4 MB Total</div>
+            <div id="diffMetricVolume" class="text-[11px] text-slate-400 mt-0.5 font-mono">165.3 MB Volume</div>
           </div>
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4">
             <div class="text-[10px] text-slate-500 uppercase font-mono">Discovered Schemas</div>
@@ -533,6 +533,7 @@
             </div>
             <div class="flex items-center gap-2">
               <span id="diffStatusTag" class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Baseline Verified</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono text-slate-300 bg-slate-900 border border-slate-700">Total Volume: <strong class="text-emerald-400 font-bold" id="diffVolumeVal">165.3 MB</strong></span>
             </div>
           </div>
 
@@ -2445,6 +2446,12 @@
       const cvarsEl = document.getElementById('diffMetricCVars');
       if (cvarsEl && vNew) cvarsEl.innerText = `${(vNew.cvars_count || 5208).toLocaleString()} CVars`;
 
+      const volValEl = document.getElementById('diffVolumeVal');
+      if (volValEl && vNew) volValEl.innerText = `${getManifestTotalMb(vNew)} MB`;
+
+      const volMetricEl = document.getElementById('diffMetricVolume');
+      if (volMetricEl && vNew) volMetricEl.innerText = `${getManifestTotalMb(vNew)} MB Volume`;
+
       const statusTag = document.getElementById('diffStatusTag');
       if (statusTag) {
         if (currentDiffOld === currentDiffNew) {
@@ -2919,48 +2926,6 @@
               <span>View Changelog</span>
               <span>&rarr;</span>
             </button>
-          </div>
-        </div>
-
-        <!-- Build Comparison Hero Card -->
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cs2-border pb-4">
-            <div>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30 uppercase">
-                ${isSelf ? 'Baseline Version State' : 'Multi-Version Differential'}
-              </span>
-              <h2 class="text-lg font-bold text-white mt-1.5 flex items-center gap-2">
-                <span>${vOld ? vOld.date : 'Baseline'} (Build ${vOld ? vOld.build_id : '25966348'})</span>
-                <span class="text-slate-500 font-normal text-sm">➔</span>
-                <span>${vNew ? vNew.date : 'Baseline'} (Build ${vNew ? vNew.build_id : '25966348'})</span>
-              </h2>
-            </div>
-            <div class="flex items-center gap-2 font-mono text-xs">
-              <span class="text-slate-400">Total Binary Volume:</span>
-              <span class="text-emerald-400 font-bold">${getManifestTotalMb(vNew)} MB</span>
-            </div>
-          </div>
-
-          <p class="text-slate-300 text-xs leading-relaxed">
-            ${isSelf ? 
-              `<strong>Baseline State:</strong> This profile establishes the authoritative baseline for Counter-Strike 2 Build <code>${vOld ? vOld.build_id : '25966348'}</code> (released October 15, 2026). All 34 core engine binaries, 2,275 SchemaSystem classes, 5,208 ConVars, and 4,107 CreateInterface versions are indexed and stored in <code>versions/profiles/</code>. When future game updates are published to Steam, our pipeline parses the newly patched binaries, pinpoints exact memory shifts, and updates this portal automatically.` :
-              `<strong>Differential Analysis:</strong> Comparing Build <code>${vOld.build_id}</code> against Build <code>${vNew.build_id}</code>. Click the tabs above to inspect class offset shifts, PE section modifications, and interface version bumps.`
-            }
-          </p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 font-mono text-xs">
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-              <span class="text-slate-500 block text-[10px]">PE Export Crawl</span>
-              <span class="text-white font-bold">All RVAs Mapped</span>
-            </div>
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-              <span class="text-slate-500 block text-[10px]">Static Schema Parser</span>
-              <span class="text-amber-400 font-bold">Zero-Hooking Reflection</span>
-            </div>
-            <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-              <span class="text-slate-500 block text-[10px]">Git Storage Policy</span>
-              <span class="text-emerald-400 font-bold">Local Archives, Git Profiles</span>
-            </div>
           </div>
         </div>
 
