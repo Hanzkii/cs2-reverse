@@ -4340,14 +4340,18 @@
         });
       }
 
+      const initialHash = window.location.hash ? window.location.hash.replace(/^#\/?/, '').trim() : '';
+
       renderDocList();
-      if (currentDocId) selectDoc(currentDocId);
       renderBinariesTable(BINARIES_DATA);
       renderToolsCatalog();
       renderSimulatorsMatrix();
       initDiffSelectors();
-      if (window.location.hash) {
+
+      if (initialHash && initialHash.length > 0) {
         handleUrlRoute();
+      } else {
+        if (currentDocId) selectDoc(currentDocId, '', false);
       }
     });
   
@@ -4362,9 +4366,21 @@
 
       if (!modal || !bodyEl) return;
 
-      const diff = DIFFS_DATA.find(d => d.old_tag === currentDiffOld && d.new_tag === currentDiffNew);
+      if (!currentDiffOld || !currentDiffNew) {
+        initDiffSelectors();
+      }
+
+      let diff = DIFFS_DATA.find(d => d.old_tag === currentDiffOld && d.new_tag === currentDiffNew);
+      if (!diff || !diff.code_deltas || !diff.code_deltas[binName]) {
+        diff = DIFFS_DATA.find(d => d.code_deltas && (d.code_deltas[binName] || d.code_deltas[binName + '.dll'])) || DIFFS_DATA[0];
+      }
+
       const deltas = (diff && diff.code_deltas) ? diff.code_deltas : {};
-      const data = deltas[binName];
+      let targetName = binName;
+      if (!deltas[targetName] && deltas[targetName + '.dll']) {
+        targetName = targetName + '.dll';
+      }
+      const data = deltas[targetName];
 
       titleEl.innerHTML = `<span class="text-amber-400">${binName}</span> &mdash; Code &amp; Assembly Delta`;
       subtitleEl.innerText = `Detailed instruction disassembly and section diffs between Build ${currentDiffOld} and Build ${currentDiffNew}`;
