@@ -1400,10 +1400,36 @@ def main():
     version_manifests = []
     if os.path.exists(profiles_dir):
         for tag in sorted(os.listdir(profiles_dir)):
-            m_path = os.path.join(profiles_dir, tag, "manifest.json")
+            p_dir = os.path.join(profiles_dir, tag)
+            m_path = os.path.join(p_dir, "manifest.json")
             if os.path.exists(m_path):
                 with open(m_path, "r", encoding="utf-8") as f:
-                    version_manifests.append(json.load(f))
+                    m = json.load(f)
+
+                # Compute aggregates
+                binaries = m.get("binaries", {})
+                total_bytes = sum(b.get("size", 0) for b in binaries.values())
+                m["total_size_bytes"] = total_bytes
+                m["total_size_mb"] = round(total_bytes / (1024 * 1024), 1)
+                m["binary_count"] = len(binaries)
+
+                sch_path = os.path.join(p_dir, "schemas.json")
+                if os.path.exists(sch_path):
+                    with open(sch_path, "r", encoding="utf-8") as f_sch:
+                        m["schema_classes_count"] = len(json.load(f_sch))
+
+                cv_path = os.path.join(p_dir, "cvars.json")
+                if os.path.exists(cv_path):
+                    with open(cv_path, "r", encoding="utf-8") as f_cv:
+                        cv_data = json.load(f_cv)
+                        m["cvars_count"] = sum(len(c) for c in cv_data.values())
+
+                if_path = os.path.join(p_dir, "interfaces.json")
+                if os.path.exists(if_path):
+                    with open(if_path, "r", encoding="utf-8") as f_if:
+                        m["interfaces_count"] = len(json.load(f_if))
+
+                version_manifests.append(m)
 
     diff_reports = []
     if os.path.exists(diffs_dir):

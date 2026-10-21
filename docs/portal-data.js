@@ -3754,7 +3754,13 @@ window.CS2_VERSIONS_DATA = [
           ".reloc": 9980
         }
       }
-    }
+    },
+    "total_size_bytes": 173319216,
+    "total_size_mb": 165.3,
+    "binary_count": 34,
+    "schema_classes_count": 2275,
+    "cvars_count": 5208,
+    "interfaces_count": 4107
   },
   {
     "tag": "2026-10-21_26087496",
@@ -4176,7 +4182,13 @@ window.CS2_VERSIONS_DATA = [
           ".reloc": 9980
         }
       }
-    }
+    },
+    "total_size_bytes": 173319216,
+    "total_size_mb": 165.3,
+    "binary_count": 34,
+    "schema_classes_count": 2275,
+    "cvars_count": 5208,
+    "interfaces_count": 4107
   }
 ];
 

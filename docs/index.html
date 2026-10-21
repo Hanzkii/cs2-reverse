@@ -2397,13 +2397,13 @@
       if (buildsEl) buildsEl.innerText = `${VERSIONS_DATA.length} Build${VERSIONS_DATA.length > 1 ? 's' : ''}`;
 
       const binsEl = document.getElementById('diffMetricBinaries');
-      if (binsEl && vNew) binsEl.innerText = `${vNew.binary_count || 24} DLLs`;
+      if (binsEl && vNew) binsEl.innerText = `${vNew.binary_count || Object.keys(vNew.binaries || {}).length || 34} Binaries`;
 
       const schemasEl = document.getElementById('diffMetricSchemas');
-      if (schemasEl && vNew) schemasEl.innerText = `${(vNew.schema_classes_count || 2241).toLocaleString()} Classes`;
+      if (schemasEl && vNew) schemasEl.innerText = `${(vNew.schema_classes_count || 2275).toLocaleString()} Classes`;
 
       const cvarsEl = document.getElementById('diffMetricCVars');
-      if (cvarsEl && vNew) cvarsEl.innerText = `${(vNew.cvars_count || 5070).toLocaleString()} CVars`;
+      if (cvarsEl && vNew) cvarsEl.innerText = `${(vNew.cvars_count || 5208).toLocaleString()} CVars`;
 
       const statusTag = document.getElementById('diffStatusTag');
       if (statusTag) {
@@ -2440,6 +2440,16 @@
       }
     }
 
+    function getManifestTotalMb(m) {
+      if (!m) return '142.8';
+      if (m.total_size_mb !== undefined) return m.total_size_mb;
+      if (m.binaries) {
+        const totalBytes = Object.values(m.binaries).reduce((acc, b) => acc + (b.size || 0), 0);
+        return (totalBytes / (1024 * 1024)).toFixed(1);
+      }
+      return '142.8';
+    }
+
     function renderDiffOverview(container, vOld, vNew, diff) {
       const isSelf = (currentDiffOld === currentDiffNew);
       const s = diff ? diff.summary : {
@@ -2460,7 +2470,7 @@
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 flex flex-col justify-between">
             <span class="text-[10px] font-mono text-slate-500 uppercase">Binaries Modified</span>
             <span class="text-2xl font-bold font-mono ${s.binaries_modified_count > 0 ? 'text-amber-400' : 'text-emerald-400'} mt-1">${s.binaries_modified_count}</span>
-            <span class="text-[11px] text-slate-400 mt-1">out of 24 PE binaries</span>
+            <span class="text-[11px] text-slate-400 mt-1">out of 34 PE binaries</span>
           </div>
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 flex flex-col justify-between">
             <span class="text-[10px] font-mono text-slate-500 uppercase">Field Offsets Shifted</span>
@@ -2494,13 +2504,13 @@
             </div>
             <div class="flex items-center gap-2 font-mono text-xs">
               <span class="text-slate-400">Total Binary Volume:</span>
-              <span class="text-emerald-400 font-bold">${vNew ? vNew.total_size_mb : 174.4} MB</span>
+              <span class="text-emerald-400 font-bold">${getManifestTotalMb(vNew)} MB</span>
             </div>
           </div>
 
           <p class="text-slate-300 text-xs leading-relaxed">
             ${isSelf ? 
-              `<strong>Baseline State:</strong> This profile establishes the authoritative baseline for Counter-Strike 2 Build <code>${vOld ? vOld.build_id : '25966348'}</code> (released October 15, 2026). All 24 core engine binaries, 2,241 SchemaSystem classes, 5,070 ConVars, and 3,025 CreateInterface versions are indexed and stored in <code>versions/profiles/</code>. When future game updates are published to Steam, our pipeline parses the newly patched binaries, pinpoints exact memory shifts, and updates this portal automatically.` :
+              `<strong>Baseline State:</strong> This profile establishes the authoritative baseline for Counter-Strike 2 Build <code>${vOld ? vOld.build_id : '25966348'}</code> (released October 15, 2026). All 34 core engine binaries, 2,275 SchemaSystem classes, 5,208 ConVars, and 4,107 CreateInterface versions are indexed and stored in <code>versions/profiles/</code>. When future game updates are published to Steam, our pipeline parses the newly patched binaries, pinpoints exact memory shifts, and updates this portal automatically.` :
               `<strong>Differential Analysis:</strong> Comparing Build <code>${vOld.build_id}</code> against Build <code>${vNew.build_id}</code>. Click the tabs above to inspect class offset shifts, PE section modifications, and interface version bumps.`
             }
           </p>
@@ -2529,7 +2539,7 @@
               Core Source 2 Engine Modules in this Snapshot
             </h3>
             <button onclick="setDiffSubtab('binaries')" class="text-xs font-mono text-sky-400 hover:text-sky-300">
-              View All 24 Binaries &rarr;
+              View All 34 Binaries &rarr;
             </button>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
