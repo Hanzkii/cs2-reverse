@@ -509,45 +509,42 @@
 
         <!-- Version Selectors & Diff Controls -->
         <div class="bg-[#111827] border border-cs2-border rounded-2xl p-5 shadow-xl space-y-4">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div class="flex flex-wrap sm:flex-nowrap items-end gap-3 w-full md:w-auto">
               <div>
                 <label class="block text-[11px] font-mono text-slate-400 mb-1">Baseline (Old Version)</label>
                 <select id="diffSelectOld" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-brand-500" onchange="onDiffVersionChange()">
                   <!-- Populated by JS -->
                 </select>
               </div>
-              <div class="text-slate-500 font-mono pt-4 text-xs">➔</div>
+              <div class="text-slate-500 font-mono pb-1.5 text-xs">➔</div>
               <div>
                 <label class="block text-[11px] font-mono text-slate-400 mb-1">Target (New Version)</label>
                 <select id="diffSelectNew" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-brand-500" onchange="onDiffVersionChange()">
                   <!-- Populated by JS -->
                 </select>
               </div>
-              <div class="pt-4">
-                <button onclick="runWebDiff()" class="px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 shadow-sm">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                  Compare Builds
-                </button>
-              </div>
+              <button onclick="runWebDiff()" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition-colors inline-flex items-center gap-1.5 shadow-sm whitespace-nowrap shrink-0">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>Compare Builds</span>
+              </button>
             </div>
-            <div class="flex items-center gap-2">
-              <span id="diffStatusTag" class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Baseline Verified</span>
-              <span class="px-2.5 py-1 rounded-md text-xs font-mono text-slate-300 bg-slate-900 border border-slate-700">Total Volume: <strong class="text-emerald-400 font-bold" id="diffVolumeVal">165.3 MB</strong></span>
+            <div class="flex items-center gap-2 shrink-0">
+              <span id="diffStatusTag" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">Baseline Verified (100% Match)</span>
             </div>
           </div>
 
           <!-- Subtab Navigation -->
-          <div class="flex flex-wrap gap-1.5 border-t border-slate-800 pt-3 text-xs font-mono">
-            <button onclick="setDiffSubtab('overview')" id="diffSubtabBtn_overview" class="px-3 py-1 rounded-lg bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30">Overview</button>
-            <button onclick="setDiffSubtab('patches')" id="diffSubtabBtn_patches" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white border border-transparent flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              Patch History &amp; Changelog
+          <div class="flex flex-wrap items-center gap-1.5 border-t border-slate-800 pt-3 text-xs font-mono">
+            <button onclick="setDiffSubtab('overview')" id="diffSubtabBtn_overview" class="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30 inline-flex items-center gap-1.5 whitespace-nowrap">Overview</button>
+            <button onclick="setDiffSubtab('patches')" id="diffSubtabBtn_patches" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">
+              <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Patch History &amp; Changelog</span>
             </button>
-            <button onclick="setDiffSubtab('schemas')" id="diffSubtabBtn_schemas" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white border border-transparent">Schema Shifts &amp; Offsets</button>
-            <button onclick="setDiffSubtab('binaries')" id="diffSubtabBtn_binaries" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white border border-transparent">Binary PE Deltas</button>
-            <button onclick="setDiffSubtab('interfaces')" id="diffSubtabBtn_interfaces" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white border border-transparent">Interfaces &amp; ConVars</button>
-            <button onclick="setDiffSubtab('guide')" id="diffSubtabBtn_guide" class="px-3 py-1 rounded-lg text-slate-400 hover:text-white border border-transparent">How to Diff Updates</button>
+            <button onclick="setDiffSubtab('schemas')" id="diffSubtabBtn_schemas" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Schema Shifts &amp; Offsets</button>
+            <button onclick="setDiffSubtab('binaries')" id="diffSubtabBtn_binaries" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Binary PE Deltas</button>
+            <button onclick="setDiffSubtab('interfaces')" id="diffSubtabBtn_interfaces" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Interfaces &amp; ConVars</button>
+            <button onclick="setDiffSubtab('guide')" id="diffSubtabBtn_guide" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">How to Diff Updates</button>
           </div>
         </div>
 
@@ -2417,9 +2414,9 @@
         const btn = document.getElementById('diffSubtabBtn_' + t);
         if (btn) {
           if (t === subtab) {
-            btn.className = 'px-3 py-1 rounded-lg bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30';
+            btn.className = 'px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30 inline-flex items-center gap-1.5 whitespace-nowrap';
           } else {
-            btn.className = 'px-3 py-1 rounded-lg text-slate-400 hover:text-white border border-transparent';
+            btn.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap';
           }
         }
       });
@@ -2453,20 +2450,20 @@
       const cvarsSubEl = document.getElementById('diffMetricCVarsSub');
       if (cvarsSubEl && vNew) cvarsSubEl.innerText = `${(vNew.interfaces_count || 4107).toLocaleString()} Interfaces`;
 
-      const volValEl = document.getElementById('diffVolumeVal');
-      if (volValEl && vNew) volValEl.innerText = `${getManifestTotalMb(vNew)} MB`;
-
       const volMetricEl = document.getElementById('diffMetricVolume');
       if (volMetricEl && vNew) volMetricEl.innerText = `${getManifestTotalMb(vNew)} MB Volume`;
 
+      const diffObj = DIFFS_DATA.find(d => d.old_tag === currentDiffOld && d.new_tag === currentDiffNew);
       const statusTag = document.getElementById('diffStatusTag');
       if (statusTag) {
         if (currentDiffOld === currentDiffNew) {
-          statusTag.className = 'px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
+          statusTag.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 whitespace-nowrap';
           statusTag.innerText = 'Baseline Verified (100% Match)';
         } else {
-          statusTag.className = 'px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30';
-          statusTag.innerText = `Diff: ${currentDiffOld} ➔ ${currentDiffNew}`;
+          const modCount = diffObj && diffObj.summary ? diffObj.summary.binaries_modified_count : 2;
+          const shiftCount = diffObj && diffObj.summary ? diffObj.summary.fields_shifted_total : 0;
+          statusTag.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30 whitespace-nowrap';
+          statusTag.innerText = `${modCount} Binaries Modified · ${shiftCount} Shifts`;
         }
       }
 
