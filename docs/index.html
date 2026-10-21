@@ -488,7 +488,7 @@
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4">
             <div class="text-[10px] text-slate-500 uppercase font-mono">Archived Builds</div>
             <div id="diffMetricBuilds" class="text-xl font-bold text-sky-400 mt-1">1 Build</div>
-            <div class="text-[11px] text-slate-400 mt-0.5 font-mono">Oct 15, 2026 (25966348)</div>
+            <div id="diffMetricBuildsSub" class="text-[11px] text-slate-400 mt-0.5 font-mono">Oct 15, 2026 (25966348)</div>
           </div>
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4">
             <div class="text-[10px] text-slate-500 uppercase font-mono">Archived Binaries</div>
@@ -503,7 +503,7 @@
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4">
             <div class="text-[10px] text-slate-500 uppercase font-mono">Engine ConVars</div>
             <div id="diffMetricCVars" class="text-xl font-bold text-purple-400 mt-1">5,070 ConVars</div>
-            <div class="text-[11px] text-slate-400 mt-0.5 font-mono">3,025 Interfaces</div>
+            <div id="diffMetricCVarsSub" class="text-[11px] text-slate-400 mt-0.5 font-mono">3,025 Interfaces</div>
           </div>
         </div>
 
@@ -2436,6 +2436,11 @@
 
       const buildsEl = document.getElementById('diffMetricBuilds');
       if (buildsEl) buildsEl.innerText = `${VERSIONS_DATA.length} Build${VERSIONS_DATA.length > 1 ? 's' : ''}`;
+      const buildsSubEl = document.getElementById('diffMetricBuildsSub');
+      if (buildsSubEl && VERSIONS_DATA.length > 0) {
+        const latest = VERSIONS_DATA[VERSIONS_DATA.length - 1];
+        buildsSubEl.innerText = `Latest: ${latest.date || 'Oct 21, 2026'}`;
+      }
 
       const binsEl = document.getElementById('diffMetricBinaries');
       if (binsEl && vNew) binsEl.innerText = `${vNew.binary_count || Object.keys(vNew.binaries || {}).length || 34} Binaries`;
@@ -2445,6 +2450,8 @@
 
       const cvarsEl = document.getElementById('diffMetricCVars');
       if (cvarsEl && vNew) cvarsEl.innerText = `${(vNew.cvars_count || 5208).toLocaleString()} CVars`;
+      const cvarsSubEl = document.getElementById('diffMetricCVarsSub');
+      if (cvarsSubEl && vNew) cvarsSubEl.innerText = `${(vNew.interfaces_count || 4107).toLocaleString()} Interfaces`;
 
       const volValEl = document.getElementById('diffVolumeVal');
       if (volValEl && vNew) volValEl.innerText = `${getManifestTotalMb(vNew)} MB`;
@@ -2506,35 +2513,25 @@
     function renderDiffPatches(container) {
       container.innerHTML = `
         <div class="space-y-6">
-          <!-- Header Banner with Valve Release Notes Link -->
-          <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cs2-border pb-4">
-              <div>
-                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
-                  Update Directory &amp; Module Changelog
-                </span>
-                <h2 class="text-xl font-bold text-white mt-1.5 flex items-center gap-2">
-                  <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                  Counter-Strike 2 Patch Changelog
-                </h2>
-                <p class="text-xs text-slate-400 mt-1">
-                  Track every CS2 update: click any modified module to inspect the exact disassembled instructions and lines that changed.
-                </p>
+          <!-- Compact Header Bar with Single Official Valve Release Notes Link -->
+          <div class="bg-[#111827] border border-cs2-border rounded-2xl p-5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <h2 class="text-lg font-bold text-white">Counter-Strike 2 Patch Changelog</h2>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">2 Releases Tracked</span>
               </div>
-
-              <!-- Valve Official Release Notes External Link -->
-              <a href="https://www.counter-strike.net/news/updates" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-mono font-bold transition-all flex items-center gap-2 self-start sm:self-auto shadow-lg hover:border-orange-500/50">
-                <svg class="w-4 h-4 text-orange-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                <span>Valve Official Release Notes</span>
-                <span class="text-[10px]">&nearr;</span>
-              </a>
+              <p class="text-xs text-slate-400 mt-1">
+                Select an update to compare or click any recompiled module below to inspect exact disassembled instructions and lines that changed.
+              </p>
             </div>
 
-            <!-- Quick Jump Filter Tabs -->
-            <div class="flex items-center gap-2 text-xs font-mono">
-              <span class="text-slate-400">Available Patches:</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-sky-400 font-bold border border-slate-700">2 Releases Tracked</span>
-            </div>
+            <!-- Single Canonical External Link to Official Valve Patch Notes -->
+            <a href="https://www.counter-strike.net/news/updates" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-mono font-bold transition-all flex items-center gap-2 self-start sm:self-auto shrink-0 shadow-sm hover:border-orange-500/50">
+              <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              <span>Valve Official Release Notes</span>
+              <span class="text-[10px]">&nearr;</span>
+            </a>
           </div>
 
           <!-- PATCH 1: October 21, 2026 (Build 26087496) -->
@@ -2559,12 +2556,8 @@
               </div>
 
               <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
-                <a href="https://www.counter-strike.net/news/updates" target="_blank" class="px-3 py-1.5 rounded-lg bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold transition-all flex items-center gap-1.5">
-                  <span>Valve Notes</span>
-                  <span>&nearr;</span>
-                </a>
-                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496')" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-sm">
-                  <span>Load Diff Engine</span>
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496')" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-sm">
+                  <span>Compare with Baseline</span>
                   <span>&rarr;</span>
                 </button>
               </div>
@@ -2708,12 +2701,8 @@
               </div>
 
               <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
-                <a href="https://www.counter-strike.net/news/updates" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold transition-all flex items-center gap-1.5">
-                  <span>Valve Notes</span>
-                  <span>&nearr;</span>
-                </a>
-                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-15_25966348')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700">
-                  <span>View Baseline</span>
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-15_25966348')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700">
+                  <span>View Baseline Snapshot</span>
                   <span>&rarr;</span>
                 </button>
               </div>
@@ -2906,28 +2895,6 @@
         </div>
 
         ${modifiedBannerHtml}
-
-        <!-- Quick Patch Changelog Bar -->
-        <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs shadow-md">
-          <div class="flex items-center gap-3">
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase">
-              Latest Patch
-            </span>
-            <div class="text-slate-300">
-              <strong class="text-white">Build 26087496 (Oct 21, 2026)</strong> &mdash; 2 modules recompiled (<code>client.dll</code>, <code>server.dll</code>). 0 schema shifts.
-            </div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <a href="https://www.counter-strike.net/news/updates" target="_blank" class="px-2.5 py-1 rounded bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 text-[11px] font-bold transition-all flex items-center gap-1">
-              <span>Valve Notes</span>
-              <span>&nearr;</span>
-            </a>
-            <button onclick="setDiffSubtab('patches')" class="px-2.5 py-1 rounded bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 text-[11px] font-bold transition-all flex items-center gap-1">
-              <span>View Changelog</span>
-              <span>&rarr;</span>
-            </button>
-          </div>
-        </div>
 
         <!-- Quick Binary Section Breakdown -->
         <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
