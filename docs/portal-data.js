@@ -3755,6 +3755,428 @@ window.CS2_VERSIONS_DATA = [
         }
       }
     }
+  },
+  {
+    "tag": "2026-10-21_26087496",
+    "build_id": "26087496",
+    "date": "2026-10-21",
+    "created_at": "2026-10-21T07:04:41.732395",
+    "binaries": {
+      "animationsystem.dll": {
+        "size": 9329816,
+        "sha256": "fb2b4cd71468e880c3b3845e8e7a18c9d550dd3c4504e4a257a2110fb91c1235",
+        "timestamp": 1792003301,
+        "sections": {
+          ".text": 6543696,
+          ".rdata": 1660946,
+          ".data": 3790992,
+          ".pdata": 379680,
+          ".reloc": 108060
+        }
+      },
+      "client.dll": {
+        "size": 39205528,
+        "sha256": "5a46a09b521bbd607012146364dafae2abfa50364246638391990d4c7dfb9d49",
+        "timestamp": 1792521244,
+        "sections": {
+          ".text": 27961408,
+          ".rdata": 7410446,
+          ".data": 6179180,
+          ".pdata": 1540020,
+          ".reloc": 531448
+        }
+      },
+      "cs2.exe": {
+        "size": 2967704,
+        "sha256": "8614097aaa2761b0a7157c0045861713e769fb1e8235f50fc68f411294dd60cf",
+        "timestamp": 1792003052,
+        "sections": {
+          ".text": 169397,
+          ".rdata": 73506,
+          ".data": 1953440,
+          ".pdata": 8556,
+          ".rsrc": 2176592,
+          ".reloc": 1736
+        }
+      },
+      "engine2.dll": {
+        "size": 6829720,
+        "sha256": "6456df18d8f954394024c2c07da8c848df15a5ace74ce7390d78970ceb39ee21",
+        "timestamp": 1792003411,
+        "sections": {
+          ".text": 4757722,
+          ".rdata": 1602766,
+          ".data": 3229540,
+          ".pdata": 244032,
+          "_RDATA": 48,
+          ".reloc": 45300
+        }
+      },
+      "filesystem_stdio.dll": {
+        "size": 2259096,
+        "sha256": "f5651b082ecd2c4d4f9ec29eba882a2a8151f8b41f66e8cdb4bd99b4c8d5a945",
+        "timestamp": 1792003108,
+        "sections": {
+          ".text": 1390782,
+          ".rdata": 475848,
+          ".data": 305324,
+          ".pdata": 67836,
+          ".reloc": 23044
+        }
+      },
+      "host.dll": {
+        "size": 1389208,
+        "sha256": "56efa66a333edb347f044c9bcbc5236bd7d006e478623b3364e5d0a7d681b9cc",
+        "timestamp": 1792003239,
+        "sections": {
+          ".text": 1021376,
+          ".rdata": 264142,
+          ".data": 82036,
+          ".pdata": 49020,
+          ".reloc": 9164
+        }
+      },
+      "inputsystem.dll": {
+        "size": 302232,
+        "sha256": "bed6c10a27f1629054f2e4552a7bf6f9325dc9e08d1295ca367fc14141f1e07d",
+        "timestamp": 1792003084,
+        "sections": {
+          ".text": 182766,
+          ".rdata": 82312,
+          ".data": 44196,
+          ".pdata": 10188,
+          ".reloc": 4620
+        }
+      },
+      "localize.dll": {
+        "size": 382104,
+        "sha256": "8f3abab5247f5a97ed62caffd0a4399c11a17901a64aea28e34ec6e46c94f449",
+        "timestamp": 1792003093,
+        "sections": {
+          ".text": 253790,
+          ".rdata": 90766,
+          ".data": 13884,
+          ".pdata": 14004,
+          ".reloc": 3340
+        }
+      },
+      "matchmaking.dll": {
+        "size": 1890968,
+        "sha256": "d41c00304993e8a584423c5e66cb101d39beceef27029c9778df87bb3a8b8b1d",
+        "timestamp": 1792003127,
+        "sections": {
+          ".text": 1380811,
+          ".rdata": 361024,
+          ".data": 223696,
+          ".pdata": 75660,
+          ".reloc": 13848
+        }
+      },
+      "materialsystem2.dll": {
+        "size": 1429144,
+        "sha256": "b4d5c667eb65f13d9193d743a88eb1f9dfa623cc8f745cef764d9977969e38b6",
+        "timestamp": 1792003168,
+        "sections": {
+          ".text": 1000012,
+          ".rdata": 329298,
+          ".data": 192668,
+          ".pdata": 49452,
+          ".reloc": 6096
+        }
+      },
+      "meshsystem.dll": {
+        "size": 1664664,
+        "sha256": "f66f01a90a2b2492dd281e41291e92a2151336c733c4b85d5f577714e0dfef4b",
+        "timestamp": 1792003377,
+        "sections": {
+          ".text": 1262720,
+          ".rdata": 250060,
+          ".data": 604968,
+          ".pdata": 66996,
+          ".reloc": 10464
+        }
+      },
+      "navsystem.dll": {
+        "size": 1314968,
+        "sha256": "919803ec647ac53c95524a6be8193fb19fddede2936ed05a8b8cda984f33098e",
+        "timestamp": 1792003187,
+        "sections": {
+          ".text": 1020656,
+          ".rdata": 184812,
+          ".data": 108208,
+          ".pdata": 43128,
+          ".reloc": 5448
+        }
+      },
+      "networksystem.dll": {
+        "size": 2841752,
+        "sha256": "be7e13ad771b21c986e25d9469993a1225be5649473f3d722ca5eefe375d1bec",
+        "timestamp": 1792003121,
+        "sections": {
+          ".text": 2113452,
+          ".rdata": 437498,
+          ".data": 222568,
+          ".pdata": 101736,
+          ".reloc": 16452
+        }
+      },
+      "panorama.dll": {
+        "size": 6108312,
+        "sha256": "b5028e9077f0176cd338e6cdac92b8d5024519e6833bd0e979a2f1062ccef412",
+        "timestamp": 1792003138,
+        "sections": {
+          ".text": 4469100,
+          ".rdata": 1022258,
+          ".data": 730028,
+          ".pdata": 208188,
+          ".rsrc": 1032,
+          ".reloc": 38708
+        }
+      },
+      "panorama_text_pango.dll": {
+        "size": 2997912,
+        "sha256": "0035ed5eaf603ea76c784d719f48a1d6c7ee1f882c57aee322688d0bdfcc92ad",
+        "timestamp": 1792003129,
+        "sections": {
+          ".text": 1993076,
+          ".rdata": 577064,
+          ".data": 314460,
+          ".pdata": 93072,
+          ".reloc": 25472
+        }
+      },
+      "panoramauiclient.dll": {
+        "size": 2748056,
+        "sha256": "060333bbf66a1b393b8239b2ee916e4b6b8165785de02db77887ed67fd3a4738",
+        "timestamp": 1792003100,
+        "sections": {
+          ".text": 2021788,
+          ".rdata": 504872,
+          ".data": 154472,
+          ".pdata": 122892,
+          ".reloc": 30336
+        }
+      },
+      "particles.dll": {
+        "size": 6460568,
+        "sha256": "04579a505614df9962bfb3248105ccfc079e1da65c9e0ee110989088c64a75a6",
+        "timestamp": 1792003399,
+        "sections": {
+          ".text": 4611568,
+          ".rdata": 1185956,
+          ".data": 2807116,
+          ".pdata": 171972,
+          ".reloc": 104324
+        }
+      },
+      "pulse_system.dll": {
+        "size": 2031768,
+        "sha256": "e547f35a9f669f7714add1e87a247c4fc4a8001f2cdf084ccace3596965c17c6",
+        "timestamp": 1792003088,
+        "sections": {
+          ".text": 1284090,
+          ".rdata": 532912,
+          ".data": 659980,
+          ".pdata": 76248,
+          ".reloc": 19380
+        }
+      },
+      "rendersystemdx11.dll": {
+        "size": 4545688,
+        "sha256": "34efae18998db8af3e9b9663006a45c3dada8dd34757bce880e27ea853ba51d8",
+        "timestamp": 1792003105,
+        "sections": {
+          ".text": 2001664,
+          ".rdata": 2358180,
+          ".data": 453260,
+          ".pdata": 87924,
+          ".reloc": 17972
+        }
+      },
+      "rendersystemvulkan.dll": {
+        "size": 6248600,
+        "sha256": "2febd86471b9ed1953e75875296f3e76999661f1e86cb68e928c0cb12a2afb4a",
+        "timestamp": 1792003145,
+        "sections": {
+          ".text": 2973744,
+          ".rdata": 3028768,
+          ".data": 477868,
+          ".pdata": 125412,
+          ".reloc": 19288
+        }
+      },
+      "resourcesystem.dll": {
+        "size": 532632,
+        "sha256": "0004439e37b6ffd5a37683f9f288726584be2a3b4ccc6674af8303cde0343027",
+        "timestamp": 1792003095,
+        "sections": {
+          ".text": 348554,
+          ".rdata": 122344,
+          ".data": 99924,
+          ".pdata": 22380,
+          ".reloc": 5080
+        }
+      },
+      "scenefilecache.dll": {
+        "size": 1297048,
+        "sha256": "25676a2da9a8c292a41a6125d22aa414b5b0012d0022221f9c849a0ac5ef6d36",
+        "timestamp": 1792003227,
+        "sections": {
+          ".text": 818304,
+          ".rdata": 325212,
+          ".data": 207180,
+          ".pdata": 44304,
+          ".reloc": 29540
+        }
+      },
+      "scenesystem.dll": {
+        "size": 7094936,
+        "sha256": "040eb851fa7875523346b890f1ed6e158abc59e08bccbd8dc60539435277efa5",
+        "timestamp": 1792003407,
+        "sections": {
+          ".text": 5718192,
+          ".rdata": 977048,
+          ".data": 2950820,
+          ".pdata": 242784,
+          ".reloc": 22876
+        }
+      },
+      "schemasystem.dll": {
+        "size": 445592,
+        "sha256": "d2a9b5164cb68953e77d0ef424c1263d2cc452a75e935316bc8b4c4500e63648",
+        "timestamp": 1792003096,
+        "sections": {
+          ".text": 295658,
+          ".rdata": 101558,
+          ".data": 81920,
+          ".pdata": 16764,
+          ".rsrc": 968,
+          ".reloc": 4176
+        }
+      },
+      "server.dll": {
+        "size": 34628248,
+        "sha256": "05e6f04972bb2983f463c08824c3133626e0703e881443589288b68e200acc4d",
+        "timestamp": 1792521244,
+        "sections": {
+          ".text": 24515136,
+          ".rdata": 6488288,
+          ".data": 6370804,
+          ".pdata": 1304820,
+          ".reloc": 567132
+        }
+      },
+      "soundsystem.dll": {
+        "size": 5849752,
+        "sha256": "4de8a596efcca2619fa55a46bedb151b7e835a52560c37849bbfb03ade7ad36b",
+        "timestamp": 1792003390,
+        "sections": {
+          ".text": 4167284,
+          ".rdata": 1164466,
+          ".data": 1457020,
+          ".pdata": 187596,
+          "_RDATA": 48,
+          ".reloc": 70292
+        }
+      },
+      "steamaudio.dll": {
+        "size": 3547288,
+        "sha256": "772d645c48f6dc2394311297fdc2fecf3cb930b3223b1d1c0ee732454df351ff",
+        "timestamp": 1792003245,
+        "sections": {
+          ".text": 2219674,
+          ".rdata": 785322,
+          ".data": 595588,
+          ".pdata": 107100,
+          ".reloc": 62400
+        }
+      },
+      "steamnetworkingsockets.dll": {
+        "size": 4290200,
+        "sha256": "ce0651d00c311606c7936fa730149d2b7e25557430ef5c3291eed47dfdcf0736",
+        "timestamp": 1777523303,
+        "sections": {
+          ".text": 3138452,
+          ".rdata": 907350,
+          ".data": 91700,
+          ".pdata": 136860,
+          ".reloc": 31324
+        }
+      },
+      "tier0.dll": {
+        "size": 3979928,
+        "sha256": "990ea56bf1626d299ba54b64b423f2e409bd592bb737c7a5edf7972ad5c7143e",
+        "timestamp": 1792003060,
+        "sections": {
+          ".text": 3069092,
+          ".rdata": 678016,
+          ".data": 277916,
+          ".pdata": 129708,
+          ".rsrc": 16296,
+          ".reloc": 12664
+        }
+      },
+      "v8system.dll": {
+        "size": 233624,
+        "sha256": "c899c3e6f41207fb1b7cb3bef8e60cd5021fd4343a2c236ac60088c8710fb263",
+        "timestamp": 1792003083,
+        "sections": {
+          ".text": 135934,
+          ".rdata": 65394,
+          ".data": 13604,
+          ".pdata": 8844,
+          ".reloc": 2980
+        }
+      },
+      "vconcomm.dll": {
+        "size": 259736,
+        "sha256": "8757565488a6097bae89945075f5c54317ca94b600b7a456d0ee5919e5ffa325",
+        "timestamp": 1792003097,
+        "sections": {
+          ".text": 154062,
+          ".rdata": 70830,
+          ".data": 15716,
+          ".pdata": 10752,
+          ".reloc": 2864
+        }
+      },
+      "vphysics2.dll": {
+        "size": 4829848,
+        "sha256": "1d7680455eb1ca3ad7c9b92165515351f607e96db66cf466140aaf3f00946dba",
+        "timestamp": 1792003326,
+        "sections": {
+          ".text": 3985792,
+          ".rdata": 497408,
+          ".data": 1156788,
+          ".pdata": 177768,
+          ".reloc": 21396
+        }
+      },
+      "vscript.dll": {
+        "size": 1352856,
+        "sha256": "e03cd94d4060c6230a6699eaf6e123d51e54c0486eba63bb1a969f342c06d8ee",
+        "timestamp": 1792003098,
+        "sections": {
+          ".text": 1029758,
+          ".rdata": 254242,
+          ".data": 44100,
+          ".pdata": 39396,
+          ".reloc": 5196
+        }
+      },
+      "worldrenderer.dll": {
+        "size": 2029720,
+        "sha256": "f9eeff50acb10a89ab78c98d2726d3e5e6b5adf7a8b11be2a41cb5ebded11dac",
+        "timestamp": 1792003314,
+        "sections": {
+          ".text": 1313066,
+          ".rdata": 559544,
+          ".data": 568996,
+          ".pdata": 72444,
+          ".reloc": 9980
+        }
+      }
+    }
   }
 ];
 
@@ -3792,5 +4214,312 @@ window.CS2_DIFFS_DATA = [
       "added": [],
       "removed": []
     }
+  },
+  {
+    "old_tag": "2026-10-15_25966348",
+    "new_tag": "2026-10-21_26087496",
+    "old_build_id": "25966348",
+    "new_build_id": "26087496",
+    "old_date": "2026-10-15",
+    "new_date": "2026-10-21",
+    "generated_at": "2026-10-21T07:05:21.444019",
+    "summary": {
+      "binaries_modified_count": 2,
+      "classes_added_count": 0,
+      "classes_removed_count": 0,
+      "classes_modified_count": 0,
+      "fields_shifted_total": 0,
+      "interfaces_added_count": 0,
+      "interfaces_removed_count": 0,
+      "cvars_added_count": 0,
+      "cvars_removed_count": 0,
+      "signatures_shifted_count": 0,
+      "signatures_broken_count": 0
+    },
+    "binary_diffs": [
+      {
+        "binary": "client.dll",
+        "status": "MODIFIED",
+        "old_size": 39205528,
+        "new_size": 39205528,
+        "delta": 0,
+        "delta_kb": 0.0
+      },
+      {
+        "binary": "server.dll",
+        "status": "MODIFIED",
+        "old_size": 34628248,
+        "new_size": 34628248,
+        "delta": 0,
+        "delta_kb": 0.0
+      }
+    ],
+    "schemas": {
+      "added_classes": [],
+      "removed_classes": [],
+      "modified_classes": []
+    },
+    "interfaces": {
+      "added": [],
+      "removed": []
+    },
+    "cvars": {
+      "added": [],
+      "removed": []
+    },
+    "signatures": [
+      {
+        "id": "client_angle_vectors",
+        "name": "AngleVectors",
+        "binary": "client.dll",
+        "category": "Rendering & Math",
+        "status": "UNCHANGED",
+        "old_rva": "0x17402a0",
+        "new_rva": "0x17402a0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors."
+      },
+      {
+        "id": "client_calc_world_bones",
+        "name": "CalculateWorldBones",
+        "binary": "client.dll",
+        "category": "Animation & Hitboxes",
+        "status": "UNCHANGED",
+        "old_rva": "0x0aa0f80",
+        "new_rva": "0x0aa0f80",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes."
+      },
+      {
+        "id": "client_concatenate_transforms",
+        "name": "CTransform::ConcatenateTransforms",
+        "binary": "client.dll",
+        "category": "Animation & Hitboxes",
+        "status": "UNCHANGED",
+        "old_rva": "0x1748480",
+        "new_rva": "0x1748480",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies."
+      },
+      {
+        "id": "server_los_smoke",
+        "name": "LineOfSightThroughSmoke",
+        "binary": "server.dll",
+        "category": "Volumetric & Smoke",
+        "status": "UNCHANGED",
+        "old_rva": "0x09b7f50",
+        "new_rva": "0x09b7f50",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold."
+      },
+      {
+        "id": "server_smoke_spawn",
+        "name": "CSmokeGrenadeProjectile::Spawn",
+        "binary": "server.dll",
+        "category": "Volumetric & Smoke",
+        "status": "UNCHANGED",
+        "old_rva": "0x09cb810",
+        "new_rva": "0x09cb810",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask."
+      },
+      {
+        "id": "server_smoke_tick_update",
+        "name": "CSmokeGrenadeProjectile::TickUpdate",
+        "binary": "server.dll",
+        "category": "Volumetric & Smoke",
+        "status": "UNCHANGED",
+        "old_rva": "0x09cea90",
+        "new_rva": "0x09cea90",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization."
+      },
+      {
+        "id": "server_voxel_raymarch",
+        "name": "VoxelGrid_Raymarch",
+        "binary": "server.dll",
+        "category": "Volumetric & Smoke",
+        "status": "UNCHANGED",
+        "old_rva": "0x09cd500",
+        "new_rva": "0x09cd500",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks."
+      },
+      {
+        "id": "server_voxel_expand_carve",
+        "name": "VoxelGrid_ExpandAndCarve",
+        "binary": "server.dll",
+        "category": "Volumetric & Smoke",
+        "status": "UNCHANGED",
+        "old_rva": "0x09c8e50",
+        "new_rva": "0x09c8e50",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units)."
+      },
+      {
+        "id": "server_serialize_sparse_delta",
+        "name": "SerializeSparseDelta",
+        "binary": "server.dll",
+        "category": "Volumetric & Smoke",
+        "status": "UNCHANGED",
+        "old_rva": "0x09b1bd0",
+        "new_rva": "0x09b1bd0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire."
+      },
+      {
+        "id": "server_lag_compensation",
+        "name": "CLagCompensationManager::StartLagCompensation",
+        "binary": "server.dll",
+        "category": "Gameplay & Physics",
+        "status": "UNCHANGED",
+        "old_rva": "0x080f320",
+        "new_rva": "0x080f320",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps."
+      },
+      {
+        "id": "pulse_instruction_dispatch",
+        "name": "PulseInstructionDispatchLoop",
+        "binary": "pulse_system.dll",
+        "category": "Scripting & VM",
+        "status": "UNCHANGED",
+        "old_rva": "0x008f810",
+        "new_rva": "0x008f810",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets."
+      },
+      {
+        "id": "tier0_cvar_findvar",
+        "name": "CCvar::FindVar",
+        "binary": "tier0.dll",
+        "category": "Engine Core",
+        "status": "UNCHANGED",
+        "old_rva": "0x006c6b0",
+        "new_rva": "0x006c6b0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Look up ConVar / ConCommand by hash or caseless name in tier0 CCvar registry (VEngineCvar007)."
+      },
+      {
+        "id": "tier0_hash_string_caseless",
+        "name": "HashStringCaseless",
+        "binary": "tier0.dll",
+        "category": "Engine Core",
+        "status": "UNCHANGED",
+        "old_rva": "0x006c8c0",
+        "new_rva": "0x006c8c0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Caseless Murmur/FNV string hash algorithm utilizing seed 0x31415926 for ConVar bucket indexing."
+      },
+      {
+        "id": "network_read_varbit_msg_id",
+        "name": "ReadVariableBitMessageId",
+        "binary": "networksystem.dll",
+        "category": "Networking",
+        "status": "UNCHANGED",
+        "old_rva": "0x01bf5c0",
+        "new_rva": "0x01bf5c0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens."
+      },
+      {
+        "id": "network_serialize_net_message",
+        "name": "SerializeNetMessage",
+        "binary": "networksystem.dll",
+        "category": "Networking",
+        "status": "UNCHANGED",
+        "old_rva": "0x00e23d0",
+        "new_rva": "0x00e23d0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment."
+      },
+      {
+        "id": "network_write_varint32",
+        "name": "WriteVarInt32",
+        "binary": "networksystem.dll",
+        "category": "Networking",
+        "status": "UNCHANGED",
+        "old_rva": "0x01c0760",
+        "new_rva": "0x01c0760",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths."
+      },
+      {
+        "id": "network_read_varint32",
+        "name": "ReadVarInt32",
+        "binary": "networksystem.dll",
+        "category": "Networking",
+        "status": "UNCHANGED",
+        "old_rva": "0x01bf770",
+        "new_rva": "0x01bf770",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths."
+      },
+      {
+        "id": "network_decode_fieldpaths",
+        "name": "DecodeFieldPaths",
+        "binary": "networksystem.dll",
+        "category": "Delta Compression",
+        "status": "UNCHANGED",
+        "old_rva": "0x00835f8",
+        "new_rva": "0x00835f8",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Walks entity delta bitstreams using 40-operation Huffman bit-trees to update flattened serializer properties."
+      },
+      {
+        "id": "vphysics2_convex_raycast",
+        "name": "ConvexPolyhedronRaycast",
+        "binary": "vphysics2.dll",
+        "category": "Physics & Collision",
+        "status": "UNCHANGED",
+        "old_rva": "0x02544a0",
+        "new_rva": "0x02544a0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Clips ray segment against Rubikon polyhedral half-spaces (RnHull_t) with 0.03125 unit skin tolerance."
+      },
+      {
+        "id": "vphysics2_capsule_sweep",
+        "name": "CapsuleSweepIntersection",
+        "binary": "vphysics2.dll",
+        "category": "Physics & Collision",
+        "status": "UNCHANGED",
+        "old_rva": "0x016caf0",
+        "new_rva": "0x016caf0",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Analytical finite cylinder and hemispherical endcap sweep intersection solver for player hitboxes."
+      },
+      {
+        "id": "animationsystem_twobone_ik",
+        "name": "CTwoBoneIK_LawOfCosines",
+        "binary": "animationsystem.dll",
+        "category": "Animation & Hitboxes",
+        "status": "UNCHANGED",
+        "old_rva": "0x02f9750",
+        "new_rva": "0x02f9750",
+        "delta_bytes": 0,
+        "delta_str": "+0x0",
+        "description": "Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d)."
+      }
+    ]
   }
 ];

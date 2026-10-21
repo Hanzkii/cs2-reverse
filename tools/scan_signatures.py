@@ -159,8 +159,15 @@ def scan_directory(source_dir: str, signatures_file: str) -> dict:
     ambiguous = sum(1 for r in results if r.get("status") == "AMBIGUOUS")
     missing = sum(1 for r in results if r.get("status") == "FILE_MISSING")
 
+    # Sanitize source_dir to always store clean relative path
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        rel_source_dir = os.path.relpath(source_dir, repo_root).replace("\\", "/")
+    except Exception:
+        rel_source_dir = os.path.basename(source_dir)
+
     return {
-        "source_dir": source_dir,
+        "source_dir": rel_source_dir,
         "scanned_at": time.strftime("%Y-%m-%d %H:%M:%S"),
         "duration_seconds": round(duration, 3),
         "total_signatures": total,

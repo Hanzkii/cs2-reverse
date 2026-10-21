@@ -1,0 +1,307 @@
+{
+  "old_tag": "2026-10-15_25966348",
+  "new_tag": "2026-10-21_26087496",
+  "old_build_id": "25966348",
+  "new_build_id": "26087496",
+  "old_date": "2026-10-15",
+  "new_date": "2026-10-21",
+  "generated_at": "2026-10-21T07:05:21.444019",
+  "summary": {
+    "binaries_modified_count": 2,
+    "classes_added_count": 0,
+    "classes_removed_count": 0,
+    "classes_modified_count": 0,
+    "fields_shifted_total": 0,
+    "interfaces_added_count": 0,
+    "interfaces_removed_count": 0,
+    "cvars_added_count": 0,
+    "cvars_removed_count": 0,
+    "signatures_shifted_count": 0,
+    "signatures_broken_count": 0
+  },
+  "binary_diffs": [
+    {
+      "binary": "client.dll",
+      "status": "MODIFIED",
+      "old_size": 39205528,
+      "new_size": 39205528,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "server.dll",
+      "status": "MODIFIED",
+      "old_size": 34628248,
+      "new_size": 34628248,
+      "delta": 0,
+      "delta_kb": 0.0
+    }
+  ],
+  "schemas": {
+    "added_classes": [],
+    "removed_classes": [],
+    "modified_classes": []
+  },
+  "interfaces": {
+    "added": [],
+    "removed": []
+  },
+  "cvars": {
+    "added": [],
+    "removed": []
+  },
+  "signatures": [
+    {
+      "id": "client_angle_vectors",
+      "name": "AngleVectors",
+      "binary": "client.dll",
+      "category": "Rendering & Math",
+      "status": "UNCHANGED",
+      "old_rva": "0x17402a0",
+      "new_rva": "0x17402a0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors."
+    },
+    {
+      "id": "client_calc_world_bones",
+      "name": "CalculateWorldBones",
+      "binary": "client.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "old_rva": "0x0aa0f80",
+      "new_rva": "0x0aa0f80",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes."
+    },
+    {
+      "id": "client_concatenate_transforms",
+      "name": "CTransform::ConcatenateTransforms",
+      "binary": "client.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "old_rva": "0x1748480",
+      "new_rva": "0x1748480",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies."
+    },
+    {
+      "id": "server_los_smoke",
+      "name": "LineOfSightThroughSmoke",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "UNCHANGED",
+      "old_rva": "0x09b7f50",
+      "new_rva": "0x09b7f50",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold."
+    },
+    {
+      "id": "server_smoke_spawn",
+      "name": "CSmokeGrenadeProjectile::Spawn",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "UNCHANGED",
+      "old_rva": "0x09cb810",
+      "new_rva": "0x09cb810",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask."
+    },
+    {
+      "id": "server_smoke_tick_update",
+      "name": "CSmokeGrenadeProjectile::TickUpdate",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "UNCHANGED",
+      "old_rva": "0x09cea90",
+      "new_rva": "0x09cea90",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization."
+    },
+    {
+      "id": "server_voxel_raymarch",
+      "name": "VoxelGrid_Raymarch",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "UNCHANGED",
+      "old_rva": "0x09cd500",
+      "new_rva": "0x09cd500",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks."
+    },
+    {
+      "id": "server_voxel_expand_carve",
+      "name": "VoxelGrid_ExpandAndCarve",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "UNCHANGED",
+      "old_rva": "0x09c8e50",
+      "new_rva": "0x09c8e50",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units)."
+    },
+    {
+      "id": "server_serialize_sparse_delta",
+      "name": "SerializeSparseDelta",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "UNCHANGED",
+      "old_rva": "0x09b1bd0",
+      "new_rva": "0x09b1bd0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire."
+    },
+    {
+      "id": "server_lag_compensation",
+      "name": "CLagCompensationManager::StartLagCompensation",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "UNCHANGED",
+      "old_rva": "0x080f320",
+      "new_rva": "0x080f320",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps."
+    },
+    {
+      "id": "pulse_instruction_dispatch",
+      "name": "PulseInstructionDispatchLoop",
+      "binary": "pulse_system.dll",
+      "category": "Scripting & VM",
+      "status": "UNCHANGED",
+      "old_rva": "0x008f810",
+      "new_rva": "0x008f810",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets."
+    },
+    {
+      "id": "tier0_cvar_findvar",
+      "name": "CCvar::FindVar",
+      "binary": "tier0.dll",
+      "category": "Engine Core",
+      "status": "UNCHANGED",
+      "old_rva": "0x006c6b0",
+      "new_rva": "0x006c6b0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Look up ConVar / ConCommand by hash or caseless name in tier0 CCvar registry (VEngineCvar007)."
+    },
+    {
+      "id": "tier0_hash_string_caseless",
+      "name": "HashStringCaseless",
+      "binary": "tier0.dll",
+      "category": "Engine Core",
+      "status": "UNCHANGED",
+      "old_rva": "0x006c8c0",
+      "new_rva": "0x006c8c0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Caseless Murmur/FNV string hash algorithm utilizing seed 0x31415926 for ConVar bucket indexing."
+    },
+    {
+      "id": "network_read_varbit_msg_id",
+      "name": "ReadVariableBitMessageId",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "UNCHANGED",
+      "old_rva": "0x01bf5c0",
+      "new_rva": "0x01bf5c0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens."
+    },
+    {
+      "id": "network_serialize_net_message",
+      "name": "SerializeNetMessage",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "UNCHANGED",
+      "old_rva": "0x00e23d0",
+      "new_rva": "0x00e23d0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment."
+    },
+    {
+      "id": "network_write_varint32",
+      "name": "WriteVarInt32",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "UNCHANGED",
+      "old_rva": "0x01c0760",
+      "new_rva": "0x01c0760",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths."
+    },
+    {
+      "id": "network_read_varint32",
+      "name": "ReadVarInt32",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "UNCHANGED",
+      "old_rva": "0x01bf770",
+      "new_rva": "0x01bf770",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths."
+    },
+    {
+      "id": "network_decode_fieldpaths",
+      "name": "DecodeFieldPaths",
+      "binary": "networksystem.dll",
+      "category": "Delta Compression",
+      "status": "UNCHANGED",
+      "old_rva": "0x00835f8",
+      "new_rva": "0x00835f8",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Walks entity delta bitstreams using 40-operation Huffman bit-trees to update flattened serializer properties."
+    },
+    {
+      "id": "vphysics2_convex_raycast",
+      "name": "ConvexPolyhedronRaycast",
+      "binary": "vphysics2.dll",
+      "category": "Physics & Collision",
+      "status": "UNCHANGED",
+      "old_rva": "0x02544a0",
+      "new_rva": "0x02544a0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Clips ray segment against Rubikon polyhedral half-spaces (RnHull_t) with 0.03125 unit skin tolerance."
+    },
+    {
+      "id": "vphysics2_capsule_sweep",
+      "name": "CapsuleSweepIntersection",
+      "binary": "vphysics2.dll",
+      "category": "Physics & Collision",
+      "status": "UNCHANGED",
+      "old_rva": "0x016caf0",
+      "new_rva": "0x016caf0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Analytical finite cylinder and hemispherical endcap sweep intersection solver for player hitboxes."
+    },
+    {
+      "id": "animationsystem_twobone_ik",
+      "name": "CTwoBoneIK_LawOfCosines",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "old_rva": "0x02f9750",
+      "new_rva": "0x02f9750",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d)."
+    }
+  ]
+}

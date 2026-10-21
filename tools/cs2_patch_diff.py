@@ -378,20 +378,29 @@ def create_profile(source_dir, output_profile_dir, tag, build_id="", date=""):
 
 
 def archive_version(source_dir, archive_root, profiles_root, tag, build_id="", date=""):
-    """Copies source DLLs to archive/<tag>/ and generates profile in profiles/<tag>/."""
+    """Copies source binaries to archive/<tag>/ and generates profile in profiles/<tag>/."""
     archive_dir = os.path.join(archive_root, tag)
     profile_dir = os.path.join(profiles_root, tag)
     os.makedirs(archive_dir, exist_ok=True)
 
     print(f"[*] Archiving binaries into: {archive_dir}")
     copied = 0
-    for fname in os.listdir(source_dir):
-        if fname.lower().endswith(".dll"):
-            src = os.path.join(source_dir, fname)
-            dst = os.path.join(archive_dir, fname)
-            shutil.copy2(src, dst)
-            copied += 1
-    print(f"[+] Archived {copied} DLL binaries.")
+    target_names = {b.lower(): b for b in CORE_BINARIES}
+    
+    # Support both flat directory and full game directory hierarchy (game/bin/win64, game/csgo/bin/win64)
+    for root, _, files in os.walk(source_dir):
+        for fname in files:
+            fl = fname.lower()
+            if fl in target_names:
+                canonical_name = target_names[fl]
+                src = os.path.join(root, fname)
+                dst = os.path.join(archive_dir, canonical_name)
+                if not os.path.exists(dst):
+                    shutil.copy2(src, dst)
+                    copied += 1
+                    print(f"  -> Archived {canonical_name}")
+
+    print(f"[+] Archived {copied} core binaries.")
 
     # Now build profile from the archived folder
     return create_profile(archive_dir, profile_dir, tag, build_id, date)
