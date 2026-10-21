@@ -303,5 +303,131 @@
       "delta_str": "+0x0",
       "description": "Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d)."
     }
-  ]
+  ],
+  "code_deltas": {
+    "client.dll": {
+      "binary": "client.dll",
+      "verdict": "0 Opcode Changes (100% Logic Identical) - Linker Displacement Re-alignment",
+      "summary": "Compiler Link-Time Code Generation (LTCG) string-pooling pass placed ConVar help strings in .rdata in a slightly different sequence (+120 bytes shift). This resulted in 27,256 32-bit RIP-relative displacement adjustments ([rip + disp32]) in .text referencing those strings. Across all 128,342 functions, zero assembly opcodes, branch conditions, or execution flows were modified.",
+      "metrics": {
+        "functions_total": 128342,
+        "functions_modified_logic": 0,
+        "functions_with_displacement_shifts": 9698,
+        "opcode_changes": 0,
+        "call_target_changes": 0,
+        "branch_changes": 0,
+        "text_diff_bytes": "30,632 / 27,961,856 B (0.1095%)",
+        "largest_contiguous_text_diff": "3 bytes (32-bit displacement operand)"
+      },
+      "sections": {
+        ".text": "Code section: all 128,342 function boundaries in .pdata are identical. Every single byte diff is a 32-bit displacement operand inside LEA, MOV, MOVUPS, and CMP instructions pointing to .rdata.",
+        ".rdata": "Read-only data: strings re-aligned by +120 bytes around ConVar descriptions (mp_dm_time_between_bonus_min, sv_matchpause_auto_5v5).",
+        ".data": "Global data: pointer arrays shifted by +8 to +48 bytes to reference new string offsets in .rdata.",
+        ".pdata": "Exception directory: 100% identical function unwind entries.",
+        ".reloc": "Relocation table: decreased by 8 bytes (531,456 -> 531,448 B)."
+      },
+      "samples": [
+        {
+          "title": "ConVar Registration Setup (LEA [rip + disp32])",
+          "rva": "0x00085390",
+          "offset": "0x000847f9",
+          "function": "FUN_180085390 (mp_buytime ConVar Setup)",
+          "old_bytes": "48 8d 15 03 bf b2 01",
+          "new_bytes": "48 8d 15 cb be b2 01",
+          "old_asm": "lea rdx, [rip + 0x01b2bf03]   ; -> VA 0x181bb1301 ('mp_buytime')",
+          "new_asm": "lea rdx, [rip + 0x01b2becb]   ; -> VA 0x181bb12c9 ('mp_buytime' -0x38b shift)",
+          "analysis": "Instruction opcode (48 8d 15 = LEA RDX) and register (rdx) are 100% identical. Only the 32-bit RIP-relative displacement adjusted to target the relocated string in .rdata."
+        },
+        {
+          "title": "ConVar State Comparison (CMP [rip + disp32], imm8)",
+          "rva": "0x000e9a50",
+          "offset": "0x000e8e52",
+          "function": "FUN_1800e9a50 (ConVar State Check)",
+          "old_bytes": "83 3d f1 ac 48 02 ff",
+          "new_bytes": "83 3d c1 ab 48 02 ff",
+          "old_asm": "cmp dword ptr [rip + 0x0248acf1], -1",
+          "new_asm": "cmp dword ptr [rip + 0x0248abc1], -1",
+          "analysis": "Instruction opcode (83 3d ... ff = CMP dword, -1) and condition logic are 100% identical. Compares with -1. Only the referenced variable address shifted by -0x30 bytes."
+        },
+        {
+          "title": "Floating-Point Math Constant Load (MOVUPS xmm2, [rip + disp32])",
+          "rva": "0x00121a90",
+          "offset": "0x00120e9e",
+          "function": "FUN_180121a90 (SIMD Vector Math Routine)",
+          "old_bytes": "0f 10 15 26 c9 c0 01",
+          "new_bytes": "0f 10 15 46 c9 c0 01",
+          "old_asm": "movups xmm2, [rip + 0x01c0c926]   ; Load SIMD vector constant",
+          "new_asm": "movups xmm2, [rip + 0x01c0c946]   ; Load SIMD vector constant (+0x20b shift)",
+          "analysis": "Instruction opcode (0f 10 15 = MOVUPS XMM2) and destination register (xmm2) are identical. Loads 16-byte vector constant from .rdata."
+        },
+        {
+          "title": ".rdata ConVar String Ordering Shift",
+          "rva": "0x01bb10c0",
+          "offset": "0x01bafec0",
+          "function": "String Pool in .rdata Section",
+          "old_bytes": "mp_dm_time_between_bonus_min\\0 ... sv_matchpause_auto_5v5\\0",
+          "new_bytes": "When enabled will automatically pause ... mp_dm_time_between_bonus_min\\0",
+          "old_asm": "Old sequence: [Bonus Min Description] -> [mp_dm_time_between_bonus_min] -> [Auto 5v5 Description] -> [sv_matchpause_auto_5v5]",
+          "new_asm": "New sequence: [Bonus Min Description] -> [Auto 5v5 Description] -> [mp_dm_time_between_bonus_min] -> [sv_matchpause_auto_5v5]",
+          "analysis": "Linker string pooling grouped help strings adjacent to each other, shifting ConVar name positions by 120 bytes and propagating displacement adjustments across all referencing code."
+        }
+      ]
+    },
+    "server.dll": {
+      "binary": "server.dll",
+      "verdict": "0 Code Delta - Metadata & Digital Certificate Renewal Only",
+      "summary": "The server gameplay binary contains zero code changes. The execution section (.text) is 100% byte-for-byte identical across all 24,515,136 bytes. The only modifications in the file are compiler buildworker metadata: PDB compilation age counter incremented from 28 to 30, PE timestamp updated to Oct 20, 2026, and Valve's Authenticode digital signature renewed.",
+      "metrics": {
+        "functions_total": 114890,
+        "functions_modified_logic": 0,
+        "text_diff_bytes": "0 / 24,515,136 B (100% Byte Identical)",
+        "opcode_changes": 0,
+        "call_target_changes": 0,
+        "branch_changes": 0,
+        "total_file_diff_bytes": "1,142 / 34,628,248 B (0.0033%)"
+      },
+      "sections": {
+        ".text": "100% byte-for-byte identical. Zero instructions or bytes changed.",
+        ".data": "100% byte-for-byte identical.",
+        ".pdata": "100% byte-for-byte identical (all exception handler function boundaries identical).",
+        ".reloc": "100% byte-for-byte identical.",
+        ".rdata": "Only PDB RSDS debug directory and Authenticode digital certificate changed."
+      },
+      "samples": [
+        {
+          "title": "MSVC PDB Debug Directory Age Counter Bump",
+          "rva": "0x01bc1928",
+          "offset": "0x01bc1928",
+          "function": "PE Debug Directory RSDS Record",
+          "old_bytes": "RSDS ... server.pdb | Age: 0x1c (28)",
+          "new_bytes": "RSDS ... server.pdb | Age: 0x1e (30)",
+          "old_asm": "PDB Path: C:\\buildworker\\csgo_rel_win64\\build\\src\\game\\server\\server.pdb (Age: 28)",
+          "new_asm": "PDB Path: C:\\buildworker\\csgo_rel_win64\\build\\src\\game\\server\\server.pdb (Age: 30)",
+          "analysis": "Buildworker iteration sequence counter incremented by Valve's CI/CD compiler pipeline."
+        },
+        {
+          "title": "Authenticode Digital Signature PKCS#7 Timestamp",
+          "rva": "0x0210604b",
+          "offset": "0x0210604b",
+          "function": "PE Security Certificate Directory (WIN_CERTIFICATE)",
+          "old_bytes": "UTCTimestamp: 261014184315Z",
+          "new_bytes": "UTCTimestamp: 261020183408Z",
+          "old_asm": "Signed: 2026-10-14 18:43:15 UTC (Valve Corporation)",
+          "new_asm": "Signed: 2026-10-20 18:34:08 UTC (Valve Corporation)",
+          "analysis": "Binary was re-signed with Valve's code signing certificate on October 20, 2026."
+        },
+        {
+          "title": "PE Header Compilation Timestamp",
+          "rva": "0x0000004c",
+          "offset": "0x0000004c",
+          "function": "IMAGE_FILE_HEADER::TimeDateStamp",
+          "old_bytes": "40 cd cf 6a (Unix: 1792003384)",
+          "new_bytes": "1e b4 d7 6a (Unix: 1792521244)",
+          "old_asm": "Timestamp: 2026-10-14 18:43:04 UTC",
+          "new_asm": "Timestamp: 2026-10-20 18:34:04 UTC",
+          "analysis": "Linker timestamp refreshed during maintenance rebuild."
+        }
+      ]
+    }
+  }
 }

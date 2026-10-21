@@ -2524,7 +2524,7 @@
                 const sizeMb = (b.newSize / (1024 * 1024)).toFixed(2);
                 const deltaStr = b.delta === 0 ? '+0 B (Identical byte size)' : (b.delta > 0 ? `+${b.delta} B` : `${b.delta} B`);
                 return `
-                  <div class="bg-slate-950/80 border border-amber-500/40 rounded-xl p-4 space-y-3 font-mono text-xs hover:border-amber-400 transition-all">
+                  <div onclick="openBinaryCodeDelta('${b.name}')" class="bg-slate-950/80 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group">
                     <div class="flex items-center justify-between">
                       <div class="flex items-center gap-2">
                         <span class="text-sm font-bold text-amber-300">${b.name}</span>
@@ -2555,6 +2555,11 @@
                         <span class="text-amber-400 font-mono font-bold">${b.newHash ? b.newHash.substring(0, 14) + '...' : 'N/A'}</span>
                       </div>
                     </div>
+
+                    <button onclick="event.stopPropagation(); openBinaryCodeDelta('${b.name}')" class="w-full mt-2 py-2 px-3 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 group-hover:bg-amber-500 group-hover:text-slate-950">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                      <span>Inspect Code &amp; Instruction Delta &rarr;</span>
+                    </button>
                   </div>
                 `;
               }).join('')}
@@ -2889,7 +2894,8 @@
         rowsHtml += `
           <tr class="${rowBg} transition-colors font-mono text-xs">
             <td class="p-3">
-              <span class="font-bold ${b.isModified ? 'text-amber-300 text-sm' : 'text-cyan-400'}">${b.name}</span>
+              <span class="font-bold ${b.isModified ? 'text-amber-300 text-sm hover:underline cursor-pointer' : 'text-cyan-400'}" ${b.isModified ? `onclick="openBinaryCodeDelta('${b.name}')"` : ''}>${b.name}</span>
+              ${b.isModified ? `<button onclick="openBinaryCodeDelta('${b.name}')" class="ml-2 px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-mono">View Code &rarr;</button>` : ''}
               ${b.isModified ? '<span class="ml-2 text-[10px] text-amber-400 font-normal">★ Recompiled</span>' : ''}
             </td>
             <td class="p-3 text-slate-300">${(b.oldSize / (1024 * 1024)).toFixed(2)} MB</td>
@@ -4305,6 +4311,200 @@
       renderSimulatorsMatrix();
       initDiffSelectors();
     });
-  </script>
+  
+    function openBinaryCodeDelta(binName) {
+      const modal = document.getElementById('binaryCodeDeltaModal');
+      const titleEl = document.getElementById('codeDeltaTitle');
+      const subtitleEl = document.getElementById('codeDeltaSubtitle');
+      const bodyEl = document.getElementById('codeDeltaBody');
+
+      if (!modal || !bodyEl) return;
+
+      const diff = DIFFS_DATA.find(d => d.old_tag === currentDiffOld && d.new_tag === currentDiffNew);
+      const deltas = (diff && diff.code_deltas) ? diff.code_deltas : {};
+      const data = deltas[binName];
+
+      titleEl.innerHTML = `<span class="text-amber-400">${binName}</span> &mdash; Code &amp; Assembly Delta`;
+      subtitleEl.innerText = `Detailed instruction disassembly and section diffs between Build ${currentDiffOld} and Build ${currentDiffNew}`;
+
+      if (!data) {
+        bodyEl.innerHTML = `
+          <div class="p-8 text-center text-slate-400 space-y-2">
+            <p class="font-bold text-white text-sm">No code changes recorded for ${binName}</p>
+            <p class="text-xs">This binary is byte-for-byte identical or contains no active diff metrics in this update snapshot.</p>
+          </div>
+        `;
+        modal.classList.remove('hidden');
+        return;
+      }
+
+      let samplesHtml = '';
+      if (data.samples && data.samples.length > 0) {
+        samplesHtml = data.samples.map((s, idx) => `
+          <div class="bg-slate-900/90 border border-cs2-border rounded-xl p-4 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                  Sample #${idx + 1}
+                </span>
+                <span class="font-bold text-white text-xs">${s.title}</span>
+              </div>
+              <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                <span>RVA: <code class="text-cyan-400 font-bold">${s.rva}</code></span>
+                <span>File Off: <code class="text-slate-300">${s.offset}</code></span>
+              </div>
+            </div>
+
+            <div class="text-[11px] text-slate-400">
+              <span class="text-slate-500">Function Routine:</span> <strong class="text-slate-200">${s.function}</strong>
+            </div>
+
+            <div class="space-y-2 pt-1">
+              <div class="bg-slate-950 p-3 rounded-lg border border-red-500/20 font-mono text-[11px] space-y-1">
+                <div class="flex items-center justify-between text-rose-400 text-[10px] font-bold uppercase">
+                  <span>[-] Baseline Build (${currentDiffOld})</span>
+                  <span class="text-slate-500 font-normal">Raw Bytes: ${s.old_bytes}</span>
+                </div>
+                <div class="text-rose-300 font-bold pl-2 border-l-2 border-rose-500 select-all">${s.old_asm}</div>
+              </div>
+
+              <div class="bg-slate-950 p-3 rounded-lg border border-emerald-500/20 font-mono text-[11px] space-y-1">
+                <div class="flex items-center justify-between text-emerald-400 text-[10px] font-bold uppercase">
+                  <span>[+] Target Build (${currentDiffNew})</span>
+                  <span class="text-slate-500 font-normal">Raw Bytes: ${s.new_bytes}</span>
+                </div>
+                <div class="text-emerald-300 font-bold pl-2 border-l-2 border-emerald-500 select-all">${s.new_asm}</div>
+              </div>
+            </div>
+
+            <div class="p-2.5 rounded-lg bg-amber-500/5 border border-amber-500/20 text-[11px] text-amber-300/90 leading-relaxed">
+              <strong>Disassembly Analysis:</strong> ${s.analysis}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      bodyEl.innerHTML = `
+        <!-- High Level Verdict Banner -->
+        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase">
+              Audit Verdict
+            </span>
+            <span class="text-sm font-bold text-white">${data.verdict}</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed font-sans">${data.summary}</p>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-500 block text-[10px]">Functions Analyzed</span>
+            <span class="text-white font-bold text-sm">${(data.metrics.functions_total || 0).toLocaleString()}</span>
+          </div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-500 block text-[10px]">Logic / Opcode Delta</span>
+            <span class="text-emerald-400 font-bold text-sm">${data.metrics.opcode_changes || 0} Changes</span>
+          </div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-500 block text-[10px]">Branch / Call Delta</span>
+            <span class="text-emerald-400 font-bold text-sm">${(data.metrics.call_target_changes || 0) + (data.metrics.branch_changes || 0)} Changes</span>
+          </div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="text-slate-500 block text-[10px]">Text Code Diff</span>
+            <span class="text-amber-400 font-bold text-xs">${data.metrics.text_diff_bytes || '0 B'}</span>
+          </div>
+        </div>
+
+        <!-- Section Disassembly Samples -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2 border-b border-cs2-border pb-2">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            Instruction-Level Code Disassembly &amp; Address Diffs
+          </h3>
+          <div class="space-y-4">
+            ${samplesHtml}
+          </div>
+        </div>
+
+        <!-- Section Breakdown -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-bold text-white flex items-center gap-2 border-b border-cs2-border pb-2">
+            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z"/></svg>
+            PE Section Breakdown
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
+            ${Object.entries(data.sections || {}).map(([sec, desc]) => `
+              <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 space-y-1">
+                <span class="text-cyan-400 font-bold">${sec}</span>
+                <p class="text-slate-300 font-sans leading-relaxed">${desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeBinaryCodeDelta() {
+      const modal = document.getElementById('binaryCodeDeltaModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function onCodeDeltaBackdropClick(event) {
+      if (event.target.id === 'binaryCodeDeltaModal') {
+        closeBinaryCodeDelta();
+      }
+    }
+
+    // Also close on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeBinaryCodeDelta();
+      }
+    });
+
+</script>
+
+  <!-- Binary Code Delta Modal Dialog -->
+  <div id="binaryCodeDeltaModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="onCodeDeltaBackdropClick(event)">
+    <div class="bg-[#111827] border border-amber-500/50 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-cs2-border flex items-center justify-between bg-slate-900/80">
+        <div class="flex items-center gap-3">
+          <span class="flex h-3 w-3 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+          </span>
+          <div>
+            <h2 id="codeDeltaTitle" class="text-lg font-bold text-white font-mono flex items-center gap-2">
+              Binary Code Delta Inspector
+            </h2>
+            <p id="codeDeltaSubtitle" class="text-xs text-slate-400 mt-0.5 font-mono">
+              Byte-level assembly instructions, RVAs, and section diffs
+            </p>
+          </div>
+        </div>
+        <button onclick="closeBinaryCodeDelta()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div id="codeDeltaBody" class="p-6 overflow-y-auto space-y-6 font-mono text-xs">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-cs2-border bg-slate-900/60 flex items-center justify-between">
+        <span class="text-[11px] font-mono text-slate-500">Static PE & Disassembly Differential Analysis Engine</span>
+        <button onclick="closeBinaryCodeDelta()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition-colors">
+          Close Inspector
+        </button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
