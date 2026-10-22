@@ -29,17 +29,13 @@
       </div>
     </div>
 
-    <!-- Mode Toggle & Key Indicator -->
+    <!-- Mode Banner & Hit Status -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="flex rounded-lg bg-[var(--background)] p-1 border border-[var(--border)]">
-        <button id="btnCS2" onclick="setMode('cs2')" class="flex-1 py-2 text-xs font-semibold rounded-md transition-all bg-emerald-600 text-white shadow-sm flex items-center justify-center gap-1.5">
+        <div id="btnCS2" class="flex-1 py-2 text-xs font-semibold rounded-md bg-emerald-600 text-white shadow-sm flex items-center justify-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          CS2 Sub-Tick System
-        </button>
-        <button id="btnCSGO" onclick="setMode('csgo')" class="flex-1 py-2 text-xs font-semibold rounded-md transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center justify-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          CS:GO Static 64-Tick
-        </button>
+          CS2 Sub-Tick System (Continuous Interpolation)
+        </div>
       </div>
 
       <!-- Hit Status Pill -->
@@ -48,7 +44,7 @@
           <div id="hitIndicatorDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
           <span id="hitResultText" class="font-bold text-sm tracking-wide">DIRECT HIT (Headshot Registered)</span>
         </div>
-        <span id="hitErrorText" class="text-xs font-mono text-[var(--muted-foreground)]">Quantization error: 0.0 units</span>
+        <span id="hitErrorText" class="text-xs font-mono text-[var(--muted-foreground)]">Interpolation error: 0.0 units</span>
       </div>
     </div>
 
@@ -130,28 +126,8 @@
   </div>
 
   <script>
-    let mode = 'cs2'; // 'cs2' or 'csgo'
-
     const canvas = document.getElementById('simCanvas');
     const ctx = canvas.getContext('2d');
-
-    function setMode(newMode) {
-      mode = newMode;
-      const btnCS2 = document.getElementById('btnCS2');
-      const btnCSGO = document.getElementById('btnCSGO');
-      const quantizeBar = document.getElementById('quantizeBar');
-
-      if (mode === 'cs2') {
-        btnCS2.className = 'flex-1 py-2 text-xs font-semibold rounded-md transition-all bg-emerald-600 text-white shadow-sm flex items-center justify-center gap-1.5';
-        btnCSGO.className = 'flex-1 py-2 text-xs font-semibold rounded-md transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center justify-center gap-1.5';
-        quantizeBar.classList.add('hidden');
-      } else {
-        btnCSGO.className = 'flex-1 py-2 text-xs font-semibold rounded-md transition-all bg-rose-600 text-white shadow-sm flex items-center justify-center gap-1.5';
-        btnCS2.className = 'flex-1 py-2 text-xs font-semibold rounded-md transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] flex items-center justify-center gap-1.5';
-        quantizeBar.classList.remove('hidden');
-      }
-      updateSim();
-    }
 
     function updateSim() {
       const subtickPct = parseInt(document.getElementById('subtickSlider').value);
@@ -169,26 +145,18 @@
       // Update timeline marker
       const marker = document.getElementById('subtickMarker');
       marker.style.left = `${subtickPct}%`;
-      const quantizeBar = document.getElementById('quantizeBar');
-      quantizeBar.style.left = `${subtickPct}%`;
 
       // Distance moved in tick
       const tickDuration = 0.015625;
       const unitsPerTick = speed * tickDuration;
 
       // Position calculations
-      // Let base position at Tick 5 be X = 320
       const baseX = 300;
       const clickX = baseX + (unitsPerTick * tau); // Exact click position
-      const tick6X = baseX + unitsPerTick;         // Quantized tick boundary
+      const tick6X = baseX + unitsPerTick;         // Next tick boundary
 
-      // What does server rewind to?
-      let rewoundX = (mode === 'cs2') ? clickX : tick6X;
-      let error = Math.abs(rewoundX - clickX);
-
-      // Hit calculation: Headbox width is 16 units in our 2D scale ([-8, +8])
-      const headHalfWidth = 14;
-      const isHit = Math.abs(clickX - rewoundX) <= headHalfWidth;
+      const rewoundX = clickX;
+      const isHit = true;
 
       // Update UI Status Card
       const statusCard = document.getElementById('hitStatusCard');
@@ -197,26 +165,12 @@
       const errorText = document.getElementById('hitErrorText');
       const timelineExp = document.getElementById('timelineExplanation');
 
-      if (isHit) {
-        statusCard.className = 'flex items-center justify-between px-4 py-2 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
-        statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
-        resultText.textContent = (mode === 'cs2') ? 'DIRECT HEADSHOT HIT (Sub-tick exact)' : 'HIT (Near edge)';
-      } else {
-        statusCard.className = 'flex items-center justify-between px-4 py-2 rounded-lg border bg-rose-500/10 border-rose-500/30 text-rose-400';
-        statusDot.className = 'w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse';
-        resultText.textContent = 'MISS (Bullet passed behind player)';
-      }
-
-      errorText.textContent = `Quantization error: ${(error * (250/speed)).toFixed(2)} units`;
-
-      if (mode === 'cs2') {
-        timelineExp.textContent = `CS2 rewinds to exact fraction \u03c4 = ${tau.toFixed(2)}`;
-        timelineExp.className = 'text-emerald-400 font-mono';
-      } else {
-        const wastedMs = ((1.0 - tau) * tickMs).toFixed(1);
-        timelineExp.textContent = `CS:GO delayed shot by ${wastedMs} ms to Tick #6 boundary`;
-        timelineExp.className = 'text-rose-400 font-mono';
-      }
+      statusCard.className = 'flex items-center justify-between px-4 py-2 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
+      statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
+      resultText.textContent = 'DIRECT HEADSHOT HIT (Sub-tick exact)';
+      errorText.textContent = 'Interpolation error: 0.00 units';
+      timelineExp.textContent = `CS2 rewinds to exact fraction \u03c4 = ${tau.toFixed(2)}`;
+      timelineExp.className = 'text-emerald-400 font-mono';
 
       // Render Canvas
       drawCanvas(baseX, clickX, tick6X, rewoundX, isHit);
@@ -277,14 +231,7 @@
       drawPlayerModel(curServerX, 210, 'rgba(244, 63, 94, 0.4)', 'rgba(244, 63, 94, 0.2)', 'Present Server Pos');
 
       // 2. Draw Rewound Hitbox (Where server checks bullet)
-      const hitColor = isHit ? 'rgba(52, 211, 153, 0.9)' : 'rgba(244, 63, 94, 0.9)';
-      const hitFill  = isHit ? 'rgba(52, 211, 153, 0.25)' : 'rgba(244, 63, 94, 0.25)';
-      drawPlayerModel(rewoundX, 210, hitColor, hitFill, (mode === 'cs2' ? 'Sub-Tick Rewound' : '64-Tick Quantized'));
-
-      // 3. If in 64-tick and missed, draw where the player actually was at click time
-      if (mode === 'csgo') {
-        drawGhostHead(clickX, shooterY - 55, 'rgba(56, 189, 248, 0.5)', 'Visual Screen Target');
-      }
+      drawPlayerModel(rewoundX, 210, 'rgba(52, 211, 153, 0.9)', 'rgba(52, 211, 153, 0.25)', 'Sub-Tick Rewound');
     }
 
     function drawPlayerModel(x, groundY, strokeColor, fillColor, label) {

@@ -7,11 +7,11 @@
 
 ---
 
-## 1. Architectural Overview: Havok to Rubikon Evolution
+## 1. Architectural Overview: Rubikon Physics Engine
 
-In Source 1 (Counter-Strike: Global Offensive), physics simulation and collision queries relied on a licensed, heavily patched version of **Havok Physics** (`vphysics.dll`). In Source 2 (Counter-Strike 2), Valve completely replaced Havok with their proprietary in-house physics engine named **Rubikon** (`vphysics2.dll`).
+In Counter-Strike 2 (Source 2), physics simulation and collision queries are powered by Valve's proprietary in-house physics engine **Rubikon** (`vphysics2.dll`).
 
-Rubikon introduces fundamental architectural shifts:
+Rubikon's core architectural features include:
 1. **Unified Memory Management**: Integrates directly with Source 2's `g_pMemAlloc` and ThreadPool job systems (`CWorldStepJob`) rather than maintaining isolated external heaps.
 2. **SchemaSystem Reflection**: Exposes physical assets (`RnHull_t`, `RnMesh_t`, `RnCompoundTree_t`, `CFeJiggleBone`) through `physicslib` and `vphysics2.dll` schema scopes.
 3. **Continuous Collision Detection (CCD) & Sub-Tick Integration**: Employs conservative advancement and exact support mapping functions for GJK (Gilbert-Johnson-Keerthi) and EPA (Expanding Polytope Algorithm).

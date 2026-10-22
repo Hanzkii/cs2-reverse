@@ -4,7 +4,7 @@
 
 Through static binary reverse engineering of `client.dll` and `animationsystem.dll`, we reconstructed the architecture of Valve's **Source 2 Skeletal Animation and Hitbox Pipeline**.
 
-In Source 2, characters, weapons, and animated props no longer use the legacy Source 1 $3 \times 4$ row-major float matrices (`matrix3x4_t`). Instead, Source 2 introduces:
+In Source 2, characters, weapons, and animated props are driven by a unified skeletal transform and animation graph system:
 1. **Packed 32-Byte `CTransform` Representation**: Every bone transform in memory is represented as a SIMD-friendly 32-byte struct containing a 16-byte unit quaternion rotation $(q_x, q_y, q_z, q_w)$, a 12-byte position vector $(p_x, p_y, p_z)$, and a 4-byte uniform scale factor $s$.
 2. **Forward Kinematics (FK) with Lazy Bitmask Caching**: `CSkeletonInstance::CalculateWorldBones` (`FUN_180aa0f80`) evaluates bones in topological parent-first order, caching calculated states into a compact 32-bit word bitmask ($(\text{boneCount} + 31) / 32$ words) guarded by thread-safe atomic mutex locks (`CAtomicMutex`).
 3. **Procedural Hitbox Binding**: `CHitBox` instances (`animationsystem.dll`) define local bounding volumes (Axis-Aligned Boxes or Capsule Cylinders with radius $r$) parented to specific bones via 32-bit name hashes (`m_nBoneNameHash`). These local primitives are dynamically transformed into world-space Oriented Bounding Boxes (OBB) and Capsules for sub-tick lag compensation and bullet ray-tracing.

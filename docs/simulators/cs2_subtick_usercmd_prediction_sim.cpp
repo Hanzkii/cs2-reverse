@@ -164,35 +164,6 @@ public:
             }
         }
     }
-
-    // Legacy CS:GO 64-tick discrete simulator (single uniform step per tick)
-    static void SimulateLegacyTick(PlayerPhysicsState_t& state, const CSGOUserCmdPB& cmd) {
-        float dt = TICK_INTERVAL;
-        if (state.m_bOnGround && (cmd.m_nButtons & IN_JUMP)) {
-            state.m_vecVelocity.z = JUMP_IMPULSE;
-            state.m_bOnGround = false;
-        }
-
-        if (state.m_bOnGround) {
-            float wishSpeed = MAX_SPEED;
-            Vector3 wishDir = { cmd.m_flForwardMove, cmd.m_flSideMove, 0.0f };
-            float len = wishDir.Length();
-            if (len > 0.0f) {
-                wishDir = wishDir * (1.0f / len);
-                state.m_vecVelocity.x = wishDir.x * wishSpeed;
-                state.m_vecVelocity.y = wishDir.y * wishSpeed;
-            }
-        } else {
-            state.m_vecVelocity.z -= GRAVITY * dt;
-        }
-
-        state.m_vecOrigin = state.m_vecOrigin + (state.m_vecVelocity * dt);
-        if (state.m_vecOrigin.z <= 0.0f) {
-            state.m_vecOrigin.z = 0.0f;
-            state.m_vecVelocity.z = 0.0f;
-            state.m_bOnGround = true;
-        }
-    }
 };
 
 } // namespace CS2Subtick
@@ -243,37 +214,23 @@ int main() {
     std::cout << "    * Shoot Origin: (" << fireHistory.m_vecShootPosition.x << ", " 
               << fireHistory.m_vecShootPosition.y << ", " << fireHistory.m_vecShootPosition.z << ")\n\n";
 
-    // 2. Compare Multi-Slice Movement Physics vs Discrete 64-Tick
-    std::cout << "[Step 2] Multi-Slice Sub-Tick Simulation vs Legacy 64-Tick Physics:\n";
+    // 2. Multi-Slice Movement Physics Simulation
+    std::cout << "[Step 2] CS2 Sub-Tick Multi-Slice Movement Simulation:\n";
     PlayerPhysicsState_t subtickState;
     subtickState.m_vecOrigin   = { 0.0f, 0.0f, 0.0f };
     subtickState.m_vecVelocity = { 250.0f, 0.0f, 0.0f };
     subtickState.m_bOnGround   = true;
 
-    PlayerPhysicsState_t legacyState = subtickState;
-
     std::cout << "  Initial State: Origin (0, 0, 0), Velocity (250, 0, 0), OnGround: TRUE\n";
-    std::cout << "  Simulating 1 Tick (15.625ms)...\n";
+    std::cout << "  Simulating 1 Tick (15.625ms) with jump at when = 0.40...\n";
 
     CSubtickMovementSimulator::SimulateSubtickTick(subtickState, cmd);
-    CSubtickMovementSimulator::SimulateLegacyTick(legacyState, cmd);
 
-    std::cout << "\n  [Legacy 64-Tick Simulation Result]:\n";
-    std::cout << "    Jump applied at tick boundary (t = 0.00ms)\n";
-    std::cout << "    Final Origin Z:   " << std::fixed << std::setprecision(3) << legacyState.m_vecOrigin.z << " units\n";
-    std::cout << "    Final Velocity Z: " << legacyState.m_vecVelocity.z << " units/s\n";
-
-    std::cout << "\n  [CS2 Sub-Tick Multi-Slice Result]:\n";
     std::cout << "    Ground slice (t = 0.00ms .. 6.25ms): Ran on ground\n";
     std::cout << "    Jump impulse applied at t = 6.25ms (when = 0.40)\n";
     std::cout << "    Air slice (t = 6.25ms .. 15.625ms): Airborne with gravity\n";
-    std::cout << "    Final Origin Z:   " << subtickState.m_vecOrigin.z << " units\n";
-    std::cout << "    Final Velocity Z: " << subtickState.m_vecVelocity.z << " units/s\n";
-
-    float zDiff = std::abs(subtickState.m_vecOrigin.z - legacyState.m_vecOrigin.z);
-    std::cout << "\n  Physics Trajectory Discrepancy: " << zDiff << " units.\n";
-    std::cout << "  * In CS:GO, a jump command was quantized to the whole tick, causing variable jump heights.\n";
-    std::cout << "  * In CS2, the jump height is mathematically continuous regardless of when in the tick you click!\n\n";
+    std::cout << "    Final Origin Z:   " << std::fixed << std::setprecision(3) << subtickState.m_vecOrigin.z << " units\n";
+    std::cout << "    Final Velocity Z: " << subtickState.m_vecVelocity.z << " units/s\n\n";
 
     // 3. Sub-Tick Hit Registration Verification
     std::cout << "[Step 3] Sub-Tick Hit Registration & Backtrack Verification:\n";

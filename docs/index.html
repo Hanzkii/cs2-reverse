@@ -3730,17 +3730,14 @@
           <div class="w-full space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <div class="flex rounded-lg bg-slate-900 p-1 border border-slate-800">
-                <button id="btnVisCS2" onclick="setSubtickMode('cs2')" class="px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all ${subtickMode === 'cs2' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'}">
-                  CS2 Sub-Tick
-                </button>
-                <button id="btnVisCSGO" onclick="setSubtickMode('csgo')" class="px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all ${subtickMode === 'csgo' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'}">
-                  CS:GO 64-Tick
-                </button>
+                <span class="px-3.5 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white shadow-sm">
+                  CS2 Sub-Tick Interpolation
+                </span>
               </div>
 
               <div id="visHitStatusCard" class="flex items-center gap-3 px-3.5 py-1.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-400 text-xs font-mono">
                 <span id="visHitStatusText" class="font-bold">DIRECT HIT (Sub-Tick Frame Perfect)</span>
-                <span id="visHitErrorText" class="text-slate-400 text-[11px]">Quantization Err: 0.0 units</span>
+                <span id="visHitErrorText" class="text-slate-400 text-[11px]">Interpolation Err: 0.0 units</span>
               </div>
             </div>
 
@@ -4325,19 +4322,9 @@
       const targetT1_X = tick1X;
       const exactShotX = targetT0_X + (targetT1_X - targetT0_X) * subtickFrac;
       
-      let rewoundX;
-      let error = 0;
-      let isHit = false;
-
-      if (subtickMode === 'cs2') {
-        rewoundX = exactShotX;
-        error = 0.0;
-        isHit = true;
-      } else {
-        rewoundX = targetT0_X;
-        error = Math.abs(exactShotX - rewoundX);
-        isHit = error < 30;
-      }
+      const rewoundX = exactShotX;
+      const error = 0.0;
+      const isHit = true;
 
       // Present Server Position
       ctx.fillStyle = 'rgba(244, 63, 94, 0.2)';
@@ -4349,11 +4336,11 @@
       ctx.fillText('Tick N+1 Host', targetT1_X - 35, targetY + 45);
 
       // Rewound Hitbox
-      ctx.fillStyle = isHit ? 'rgba(52, 211, 153, 0.25)' : 'rgba(239, 68, 68, 0.25)';
-      ctx.strokeStyle = isHit ? '#34d399' : '#ef4444';
+      ctx.fillStyle = 'rgba(52, 211, 153, 0.25)';
+      ctx.strokeStyle = '#34d399';
       ctx.beginPath(); ctx.arc(rewoundX, targetY, 26, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = isHit ? '#34d399' : '#ef4444';
-      ctx.fillText(subtickMode === 'cs2' ? 'Sub-Tick Hitbox' : 'Quantized Hitbox', rewoundX - 45, targetY - 38);
+      ctx.fillStyle = '#34d399';
+      ctx.fillText('Sub-Tick Hitbox', rewoundX - 45, targetY - 38);
 
       // Crosshair
       ctx.strokeStyle = '#38bdf8';
@@ -4373,14 +4360,9 @@
       const errText = document.getElementById('visHitErrorText');
 
       if (card && text && errText) {
-        if (isHit) {
-          card.className = 'flex items-center gap-3 px-3.5 py-1.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-400 text-xs font-mono';
-          text.innerText = subtickMode === 'cs2' ? 'DIRECT HIT (Sub-Tick Frame Perfect)' : 'HIT (Near Tick Margin)';
-        } else {
-          card.className = 'flex items-center gap-3 px-3.5 py-1.5 rounded-lg border bg-rose-500/10 border-rose-500/30 text-rose-400 text-xs font-mono';
-          text.innerText = 'TICK QUANTIZATION MISS (CS:GO Inaccuracy)';
-        }
-        errText.innerText = `Quantization Err: ${error.toFixed(1)} units`;
+        card.className = 'flex items-center gap-3 px-3.5 py-1.5 rounded-lg border bg-emerald-500/10 border-emerald-500/30 text-emerald-400 text-xs font-mono';
+        text.innerText = 'DIRECT HIT (Sub-Tick Frame Perfect)';
+        errText.innerText = `Interpolation Err: ${error.toFixed(1)} units`;
       }
     }
 

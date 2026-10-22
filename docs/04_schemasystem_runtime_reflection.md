@@ -4,7 +4,7 @@
 
 Through binary reverse engineering of `schemasystem.dll` and `client.dll` using Ghidra and PE binary inspection, we reconstructed the architecture of Valve's **Source 2 Schema System**.
 
-In traditional C++ game engines (including Source 1 / CS:GO), object serialization, entity networking, and save/load systems depended on manual data-tables (`RecvTable`/`SendTable`) and compile-time macros (`DECLARE_CLASS`, `DEFINE_FIELD`). In Source 2, Valve eliminated this paradigm in favor of an **engine-wide reflection system (`schemasystem.dll`)** that exposes complete class metadata, field offsets, types, sizes, and inheritance graphs dynamically at runtime without standard C++ RTTI overhead.
+Source 2 uses an **engine-wide reflection system (`schemasystem.dll`)** that exposes complete class metadata, field offsets, types, sizes, and inheritance graphs dynamically at runtime without standard C++ RTTI overhead.
 
 ---
 

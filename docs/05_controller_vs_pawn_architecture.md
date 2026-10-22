@@ -2,28 +2,26 @@
 
 ## Executive Summary
 
-Through binary reverse engineering of `client.dll` and `server.dll` schema descriptors and entity system routines, we analyzed the fundamental architectural shift between Valve's **Source 1 (CS:GO)** and **Source 2 (CS2)** entity paradigms.
+Through binary reverse engineering of `client.dll` and `server.dll` schema descriptors and entity system routines, we reconstructed the **Source 2 (CS2) Controller and Pawn** entity architecture.
 
-In CS:GO, `CBasePlayer` was a **monolithic entity**: a single C++ class that simultaneously tracked network connection details, chat name, money, kills, deaths, ping, and competitive rating alongside spatial coordinates, hitbox bounding boxes, skeletal bones, view angles, and active weapons. 
-
-In Source 2, Valve completely decoupled player identity from physical representation:
+In Source 2, player identity is decoupled from physical representation across two distinct entity classes:
 1. **`CCSPlayerController`** is **Persistent & Omnipresent**: tracks the player's connection, persona, inventory loadout, matchmaking stats, and replicated telemetry mirrors.
 2. **`CCSPlayerPawn`** is **Physical & Ephemeral**: represents the physical simulation body in the 3D map, possessing bones, hitboxes, health, velocity, and weapons.
 3. The two entities link via 32-bit handle references (`m_hPlayerPawn` and `m_hController`) and support dynamic re-possession (e.g. death cam transitions and seamless bot takeover).
 
 ---
 
-## 1. Architectural Comparison Matrix
+## 1. Controller vs. Pawn Architectural Summary
 
-| Architectural Dimension | Source 1 (CS:GO) `CBasePlayer` | Source 2 (CS2) Controller + Pawn |
-| :--- | :--- | :--- |
-| **Object Cardinality** | 1 Monolithic Entity per Player | 2 Decoupled Entities (`CCSPlayerController` + `CCSPlayerPawn`) |
-| **Entity Lifetime** | Tied to match connection (mutates state on death) | Controller lives entire match; Pawn spawns/despawns per round |
-| **Death Handling** | Entity mutates into ragdoll or dummy observer | Pawn is destroyed/ragdolled; Controller spawns `m_hObserverPawn` |
-| **Scoreboard/HUD Telemetry** | Read directly from physical player entity | Replicated through Controller proxy fields (`m_iPawnHealth`, `m_bPawnIsAlive`) |
-| **Network Culling (PVS)** | If player is far away, entire entity is culled | Pawn spatial data is culled; Controller state replicates globally |
-| **Bot Takeover** | Required deep copying stats and inventories | Simple handle swap (`m_hPlayerPawn` $\leftrightarrow$ `m_hController`) |
-| **Entity Handle Format** | 12-bit index (4096), 20-bit serial | 15-bit index (32,768), 17-bit serial |
+| Architectural Dimension | Source 2 (CS2) Controller + Pawn |
+| :--- | :--- |
+| **Object Cardinality** | 2 Decoupled Entities (`CCSPlayerController` + `CCSPlayerPawn`) |
+| **Entity Lifetime** | Controller lives entire match; Pawn spawns/despawns per round |
+| **Death Handling** | Pawn is destroyed/ragdolled; Controller spawns `m_hObserverPawn` |
+| **Scoreboard/HUD Telemetry** | Replicated through Controller proxy fields (`m_iPawnHealth`, `m_bPawnIsAlive`) |
+| **Network Culling (PVS)** | Pawn spatial data is culled; Controller state replicates globally |
+| **Bot Takeover** | Direct handle swap (`m_hPlayerPawn` $\leftrightarrow$ `m_hController`) |
+| **Entity Handle Format** | 15-bit index (32,768 slots), 17-bit serial number |
 
 ---
 
@@ -125,7 +123,6 @@ Reconstructed from `client.dll` and `server.dll` schema metadata:
 
 In networked multiplayer, high-frequency spatial updates (bone positions, ragdoll matrices, IK limb solving) are computationally expensive and subject to Potential Visible Set (PVS) culling:
 - If a player is far away across de_dust2, `server.dll` suppresses transmission of their `CCSPlayerPawn` bones and high-rate transforms to conserve client bandwidth.
-- In Source 1, this caused spectator and team HUD glitches because health was stored on the culled entity.
 - In Source 2, `CCSPlayerController` sits outside PVS culling. Its mirrored fields (`m_iPawnHealth`, `m_iPawnArmor`, `m_bPawnIsAlive`) are replicated continuously. As a result, the scoreboard, radar minimap, and teammate inventory widgets always display 100% accurate health without requiring spatial pawn updates.
 
 ---

@@ -27,7 +27,7 @@ SIMULATORS_METADATA = [
         "category": "Physics & Prediction",
         "badge": "Sub-Tick Input",
         "checks": "Continuous analog sub-tick fraction t in [0.0, 1.0), multi-slice physics splitting around input transitions (+jump), continuous analog jump trajectory, lag-compensated hitbox backtracking.",
-        "description": "Simulates continuous temporal slicing in Source 2 physics. Proves that jump commands split a tick into a ground friction slice, instantaneous impulse at t_when, and airborne gravity slice, eliminating CS:GO discrete 15.625 ms tick quantization error.",
+        "description": "Simulates continuous temporal slicing in Source 2 physics. Demonstrates that jump commands split a tick into a ground friction slice, instantaneous impulse at t_when, and airborne gravity slice across the 15.625 ms tick interval.",
         "addresses": [
             {"name": "CSGOInput Singleton", "addr": "0x181a4a9b0", "desc": "Sub-tick hardware input accumulator and UserCmd builder"},
             {"name": "CLagCompensationManager::StartLagCompensation", "addr": "0x18080f320", "desc": "Hermite/linear hitbox interpolation at (tick + fraction)"},
@@ -255,7 +255,7 @@ BINARIES_DETAIL = [
         "statusColor": "emerald",
         "ghidraSync": "Synchronized in CS2.gpr",
         "role": "Runtime type reflection (SchemaSystem_001), MurmurHash2 type scopes, dynamic class field offset resolution.",
-        "description": "SchemaSystem replaces compile-time C++ RTTI and Source 1 RecvTables with dynamic runtime reflection. It exposes class descriptors, member field byte offsets, inheritance hierarchies, and metadata across all engine modules via MurmurHash2 hash lookup tables.",
+        "description": "SchemaSystem provides engine-wide dynamic runtime reflection. It exposes class descriptors, member field byte offsets, inheritance hierarchies, and metadata across all engine modules via MurmurHash2 hash lookup tables.",
         "addresses": [
             {"symbol": "SchemaSystem_001 Factory", "addr": "0x180037560", "type": "Export", "desc": "Interface creation export in schemasystem.dll."},
             {"symbol": "CSchemaSystem::vftable", "addr": "0x180058598", "type": "VTable", "desc": "40-method virtual function jump table."},
@@ -668,7 +668,7 @@ BINARIES_DETAIL = [
         "statusColor": "emerald",
         "ghidraSync": "Synchronized in CS2.gpr",
         "role": "Source 2 Pulse visual node graph interpreter, runtime bytecode VM, event state machine execution.",
-        "description": "Source 2's brand new graph execution engine. Replaces legacy Source 1 entity I/O logic with compiled graph definitions (CPulseGraphDef), cell executions (CPulseCell_Base), 56-byte fixed-width bytecode instructions (PGDInstruction_t), and asynchronous coroutine cursors.",
+        "description": "Source 2's graph execution engine. Executes compiled graph definitions (CPulseGraphDef), cell executions (CPulseCell_Base), 56-byte fixed-width bytecode instructions (PGDInstruction_t), and asynchronous coroutine cursors.",
         "addresses": [
             {"symbol": "IPulseSystem_001", "addr": "Export", "type": "Factory", "desc": "Master Pulse system engine interface factory."},
             {"symbol": "CPulseCell_Base::vftable", "addr": "0x180143dd8", "type": "VTable", "desc": "Base virtual method table for all Pulse graph executable cells (Slots 0-5)."},
@@ -862,7 +862,7 @@ TOOLS_DATA = [
         "language": "Python 3",
         "targets": ["client.dll", "server.dll", "schemasystem.dll"],
         "summary": "Parses compiled SchemaClassInfoData_t arrays, class sizes, field counts, and member byte offsets directly from PE .rdata.",
-        "purpose": "Source 2 entities are driven by engine-wide reflection rather than compile-time C++ RTTI or legacy RecvTables. This utility directly parses the binary PE Section Headers to map Virtual Addresses (VA) to file offsets, walks the 32-byte SchemaClassInfoData_t table passed to ResolveDeclaredClasses, resolves type descriptors, and dumps every member field offset (e.g. m_pGameSceneNode at +0x0330, m_pAimPunchServices at +0x1598, m_hPlayerPawn at +0x07dc).",
+        "purpose": "Source 2 entities are driven by engine-wide reflection. This utility directly parses the binary PE Section Headers to map Virtual Addresses (VA) to file offsets, walks the 32-byte SchemaClassInfoData_t table passed to ResolveDeclaredClasses, resolves type descriptors, and dumps every member field offset (e.g. m_pGameSceneNode at +0x0330, m_pAimPunchServices at +0x1598, m_hPlayerPawn at +0x07dc).",
         "usage": "python tools/extract_schema_classes.py",
         "exampleOutput": "Reading SchemaClassInfoData_t table from 0x181d33c20 (file off 0x1d31c20)...\nClass C_CSPlayerPawn (Size: 0x3b80, Fields: 34):\n  +0x0330: m_pGameSceneNode (CGameSceneNode*)\n  +0x0344: m_iHealth (int32)\n  +0x0348: m_lifeState (uint8)\n  +0x1598: m_pAimPunchServices (CPlayer_AimPunchServices*)\n  +0x1600: m_hController (CEntityHandle)\n  +0x3600: m_angEyeAngles (QAngle)",
         "codeSnippet": "def va_to_off(v):\n    r = v - image_base\n    for name, rva, vsize, raw_ptr, raw_size in sections:\n        if rva <= r < rva + vsize:\n            return raw_ptr + (r - rva)\n    return None"

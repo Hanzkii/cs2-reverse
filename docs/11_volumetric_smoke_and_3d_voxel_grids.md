@@ -1,9 +1,7 @@
 # Source 2 (CS2) Volumetric Smoke Grenade & 3D Voxel Grid Simulation
 
 ## Executive Summary
-Through static reverse engineering of `server.dll` and `client.dll` using **Ghidra**, we uncovered the internal architecture of Counter-Strike 2's signature volumetric smoke system. 
-
-Valve replaced the legacy 2D alpha-blended particle sprite billboards of CS:GO with a **fully dynamic, server-authoritative 3D volumetric voxel simulation**. Key findings include:
+Through static reverse engineering of `server.dll` and `client.dll` using **Ghidra**, we uncovered the internal architecture of Counter-Strike 2's **server-authoritative 3D volumetric voxel smoke simulation**. Key findings include:
 
 1. **32x32x32 Voxel Volume Matrix**: Every smoke grenade allocates a continuous bounding volume of $640 \times 640 \times 640 \text{ Source units}$ centered at `m_vSmokeDetonationPos`. The bounding box is divided into $32 \times 32 \times 32 = 32,768$ cubic voxels ($20.0 \times 20.0 \times 20.0 \text{ units}$ per voxel).
 2. **3D Morton Space-Filling Curve (Z-Order Curve)**: Voxel coordinates $(X, Y, Z)$ are bit-interleaved into a 15-bit Morton index (`Part1By2`). This optimizes CPU cache spatial locality during 3D raymarching and radial physics queries.

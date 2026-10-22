@@ -14,23 +14,23 @@ The **cs2-reverse** project is built on a strict, reproducible engineering metho
 
 ```
 cs2-reverse/
-├── game/                      # Clean-room reconstructed C++ SDK grouped by module (header + implementation)
-│   ├── client/                # client.dll: ViewMatrix, AngleVectors, Sub-Tick prediction
-│   ├── server/                # server.dll: Lag compensation history, Controller <-> Pawn linkage
-│   ├── engine2/               # engine2.dll: ConVar engine storage, GameEventSystem dispatcher
-│   ├── schemasystem/          # schemasystem.dll: Runtime reflection & MurmurHash2 type scope
-│   ├── networksystem/         # networksystem.dll: Bitstream NetMessage framing & Flattened Serializers
-│   ├── vphysics2/             # vphysics2.dll: Rubikon collision solver & BVH raycaster
-│   ├── animationsystem/       # animationsystem.dll: Two-Bone IK analytical Law of Cosines solver
-│   ├── particles/             # particles.dll: 32x32x32 smoke voxel grid, 3D DDA LOS & bullet carve
-│   └── pulse_system/          # pulse_system.dll: Pulse graph interpreter & fiber coroutines
-├── docs/                      # Technical architecture documentation, Web Portal & Visualizers
-│   ├── visualizers/           # Interactive HTML visual simulation engines
-│   └── simulators/            # Standalone C++ verification simulation runners
-├── tools/                     # Custom Python PE extraction, differential analyzer & signature scanners
-├── data/                      # Centralized function signatures registry & baseline RVAs
-├── versions/                  # Version manifests, static reflection profiles, diff reports
-└── README.md                  # Project overview and reference guide
+|-- game/                      # Clean-room reconstructed C++ SDK grouped by module (header + implementation)
+|   |-- client/                # client.dll: ViewMatrix, AngleVectors, Sub-Tick prediction
+|   |-- server/                # server.dll: Lag compensation history, Controller <-> Pawn linkage
+|   |-- engine2/               # engine2.dll: ConVar engine storage, GameEventSystem dispatcher
+|   |-- schemasystem/          # schemasystem.dll: Runtime reflection & MurmurHash2 type scope
+|   |-- networksystem/         # networksystem.dll: Bitstream NetMessage framing & Flattened Serializers
+|   |-- vphysics2/             # vphysics2.dll: Rubikon collision solver & BVH raycaster
+|   |-- animationsystem/       # animationsystem.dll: Two-Bone IK analytical Law of Cosines solver
+|   |-- particles/             # particles.dll: 32x32x32 smoke voxel grid, 3D DDA LOS & bullet carve
+|   `-- pulse_system/          # pulse_system.dll: Pulse graph interpreter & fiber coroutines
+|-- docs/                      # Technical architecture documentation, Web Portal & Visualizers
+|   |-- visualizers/           # Interactive HTML visual simulation engines
+|   `-- simulators/            # Standalone C++ verification simulation runners
+|-- tools/                     # Custom Python PE extraction, differential analyzer & signature scanners
+|-- data/                      # Centralized function signatures registry & baseline RVAs
+|-- versions/                  # Version manifests, static reflection profiles, diff reports
+`-- README.md                  # Project overview and reference guide
 ```
 
 ---

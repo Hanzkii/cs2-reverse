@@ -3,24 +3,24 @@
 ## Executive Summary
 Through static reverse engineering of `networksystem.dll` using **Ghidra** and the **GhidraMCP** bridge, we investigated the low-level UDP framing, bitstream serialization, and Protobuf message dispatch architecture of Valve's **Source 2** engine.
 
-We identified significant architectural evolutions compared to CS:GO (Source 1), specifically:
-1. **Migration to SteamNetworkingSockets (SDR)**: Transport-level UDP packet reliability, multi-path relaying, MTU fragmentation, and encryption are now handled by `SteamNetworkingSockets` (`Networking006`), replacing legacy split-packet magic headers (`NET_SPLITPACKET_MAGIC` `0xFFFFFFFE`).
-2. **Variable-Bit Message ID Encoding**: A variable-length bitstream header format replaces fixed-width 6-bit/8-bit IDs, slashing packet header bandwidth by over **53%**.
+Key findings:
+1. **SteamNetworkingSockets (SDR) Transport**: Transport-level UDP packet reliability, multi-path relaying, MTU fragmentation, and encryption are handled by `SteamNetworkingSockets` (`Networking006`); the game layer performs no packet splitting of its own.
+2. **Variable-Bit Message ID Encoding**: Message IDs are written with a variable-length bitstream header (6, 10, 14, or 34 bits), keeping the per-message header small for the most frequent low-numbered messages.
 3. **Dynamic Hashcode Message IDs (`CUtlStringToken`)**: Dynamic/sub-tick game messages without hardcoded IDs use a MurmurHash2 algorithm seeded with $\pi$ (`0x31415926`) and top-bit tagged (`0x8000`), encoded via a 34-bit extension path.
 4. **Protobuf Bit-Alignment Serialization Fast Path**: If the bitstream write position is byte-aligned (`cur_bit & 7 == 0`), messages are directly streamed with zero-copy `memcpy`; unaligned bitstreams branch into an optimized bit-shifting blit path.
 
 ---
 
-## Architecture Comparison: Source 1 (CS:GO) vs. Source 2 (CS2)
+## Framing Architecture Overview
 
-| Subsystem | CS:GO (Source 1) | CS2 (Source 2) |
-| :--- | :--- | :--- |
-| **Transport Layer** | Raw UDP sockets (`recvfrom` / `sendto`) | `SteamNetworkingSockets` (`ISteamNetworkingSockets` / SDR) |
-| **Packet Fragmentation** | Custom split-packet framing (`0xFFFFFFFE` header) | Handled at the SDR transport MTU layer |
-| **Message ID Encoding** | Fixed 6-bit or 8-bit integer | **Variable-Bit Header** (6, 10, 14, or 34 bits) |
-| **Message IDs Limit** | Max 64/256 messages | Unlimited via `CUtlStringToken` (`0x8000` bitmask) |
-| **Payload Framing** | Length-prefixed with 16-bit or VarInt | Standard **LEB128 VarInt32** |
-| **Byte Alignment Optimization** | Bit-by-bit shift copy | Dual-path: Byte-aligned fast path + bitwise blit |
+| Subsystem | CS2 Implementation |
+| :--- | :--- |
+| **Transport Layer** | `SteamNetworkingSockets` (`ISteamNetworkingSockets` / SDR) |
+| **Packet Fragmentation** | Handled at the SDR transport MTU layer |
+| **Message ID Encoding** | **Variable-Bit Header** (6, 10, 14, or 34 bits) |
+| **Message ID Space** | Static IDs plus `CUtlStringToken` hashed IDs (`0x8000` bitmask) |
+| **Payload Framing** | Standard **LEB128 VarInt32** length prefix |
+| **Byte Alignment Optimization** | Dual-path: Byte-aligned fast path + bitwise blit |
 
 ```mermaid
 flowchart TD

@@ -4,7 +4,7 @@
 
 Through static binary reverse engineering of `tier0.dll`, `engine2.dll`, and `networksystem.dll`, we reconstructed the architecture of Valve's **Source 2 ConVar Subsystem**.
 
-ConVars (Console Variables) and ConCommands in Source 2 provide the runtime configuration, debugging controls, developer tools, and game rule definitions across the engine. Unlike Source 1 where ConVars were 32-bit flagged structures in a simple linked list, Source 2 introduces:
+ConVars (Console Variables) and ConCommands in Source 2 provide the runtime configuration, debugging controls, developer tools, and game rule definitions across the engine. Key components include:
 1. **64-bit ConVar Flag System**: Expands permission guards (`FCVAR_REPLICATED`, `FCVAR_CHEAT`, `FCVAR_PER_USER`, `FCVAR_NOT_CONNECTED`, `FCVAR_SERVER_CAN_EXECUTE`).
 2. **Centralized Engine Registry (`CCvar`)**: Implemented in `tier0.dll` as interface `VEngineCvar007` with hash table indexing using seed `0x31415926`.
 3. **Protobuf Network Wire Synchronization (`CNETMsg_SetConVar`)**: NetMessage ID `0x06` carrying batched `(name, value)` pairs in `CMsg_CVars`.

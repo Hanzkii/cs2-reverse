@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary & Architecture Overview
 
-In Counter-Strike 2 and modern Source 2 titles, Valve fundamentally re-engineered entity logic, state machines, and cinematic scripting. The legacy Source 1 entity I/O system—which relied on loose string-based triggers, output firing queues, and VScript Lua/Squirrel interpreters—has been superseded by **Pulse**: a high-performance, asynchronous, graph-compiled bytecode virtual machine hosted inside `pulse_system.dll`.
+In Counter-Strike 2, entity logic, state machines, and scripted behaviors are driven by **Pulse**: a high-performance, asynchronous, graph-compiled bytecode virtual machine hosted inside `pulse_system.dll`.
 
 Pulse powers complex game logic across Source 2:
 - **Map & Game Mode Logic:** Objective timers, door sequencing, bomb site boundaries, and scripted encounters.

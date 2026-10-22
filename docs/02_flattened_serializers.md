@@ -1,7 +1,7 @@
 # Source 2 (CS2) Flattened Serializers & Huffman FieldPath Delta Compression
 
 ## Executive Summary
-In Source 2 (`networksystem.dll`), Valve completely abandoned the legacy Source 1 (CS:GO) `SendTable` / `RecvTable` recursive tree hierarchy. Instead, entity replication is powered by **Flattened Serializers** and **Huffman-coded FieldPaths**.
+In Source 2 (`networksystem.dll`), entity replication is powered by **Flattened Serializers** and **Huffman-coded FieldPaths**.
 
 Through static binary reverse engineering and decompilation, we identified and verified:
 1. **Linearized Flattened Serializers (`CFlattenedSerializers`)**: Entity properties are flattened into linear arrays of property descriptors transmitted once at connection time via `CSVCMsg_FlattenedSerializer` (Msg ID `0x29` = 41).
