@@ -919,6 +919,7 @@
     let currentSigBinary = "all";
 
     let currentDocId = DOCS.length > 0 ? DOCS[0].id : null;
+    let renderedDocId = null;
     let currentDocCategory = "all";
     let inDocMatches = [];
     let inDocActiveMatchIndex = -1;
@@ -973,6 +974,11 @@
 
       if (tab === 'docs') {
         document.getElementById('tabDocsView').classList.remove('hidden');
+        // Lazily render the active document if the docs view was never populated
+        // (e.g. page was first opened on #diff or another tab).
+        if (currentDocId && renderedDocId !== currentDocId) {
+          selectDoc(currentDocId, '', false);
+        }
       } else if (tab === 'binaries') {
         document.getElementById('tabBinariesView').classList.remove('hidden');
         renderBinariesTable(BINARIES_DATA);
@@ -1218,6 +1224,7 @@
 
       const doc = DOCS.find(d => d.id === docId);
       if (!doc) return;
+      renderedDocId = docId;
 
       document.getElementById('docBadge').innerText = doc.badge;
       document.getElementById('docCategory').innerText = doc.category;
@@ -4792,6 +4799,7 @@
           setDiffSubtab(parts[1], false);
         }
       } else if (section === 'doc' && parts[1]) {
+        if (DOCS.some(d => d.id === parts[1])) currentDocId = parts[1];
         switchTab('docs', false);
         selectDoc(parts[1], '', false);
       } else if (['docs', 'binaries', 'tools', 'simulators', 'signatures'].includes(section)) {
