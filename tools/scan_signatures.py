@@ -285,6 +285,7 @@ def main():
     parser.add_argument("--dll", help="Path to single DLL to scan")
     parser.add_argument("--diff", nargs=2, metavar=("DIR_A", "DIR_B"), help="Compare signatures between two version directories")
     parser.add_argument("--db", default=DEFAULT_SIGNATURES_FILE, help="Path to function_signatures.json")
+    parser.add_argument("--update-db", action="store_true", help="Update function_signatures.json with latest verified RVAs and VAs")
     parser.add_argument("--json", help="Export scan results to specified JSON file")
 
     args = parser.parse_args()
@@ -333,6 +334,35 @@ def main():
 
     report = scan_directory(target_dir, args.db)
     print_scan_report(report)
+
+    if args.update_db:
+        # Determine build identifier from target_dir if available
+        dir_name = os.path.basename(os.path.normpath(target_dir))
+        build_id = dir_name.split("_")[-1] if "_" in dir_name else dir_name
+
+        with open(args.db, "r", encoding="utf-8") as f:
+            db_entries = json.load(f)
+
+        results_by_id = {r["id"]: r for r in report["signatures"] if "id" in r}
+        updated_count = 0
+
+        for entry in db_entries:
+            eid = entry.get("id")
+            if eid in results_by_id:
+                scan_res = results_by_id[eid]
+                if scan_res.get("matches") == 1:
+                    cur_rva_int = int(scan_res["current_rva"], 16) if isinstance(scan_res["current_rva"], str) else scan_res["current_rva"]
+                    cur_va_int = int(scan_res["current_va"], 16) if isinstance(scan_res["current_va"], str) else scan_res["current_va"]
+                    entry["current_rva"] = f"0x{cur_rva_int:08x}"
+                    entry["current_va"] = f"0x{cur_va_int:09x}"
+                    entry["delta_bytes"] = scan_res.get("delta_bytes", 0)
+                    entry["delta_str"] = scan_res.get("delta_str", "0x0")
+                    entry["last_verified_build"] = build_id
+                    updated_count += 1
+
+        with open(args.db, "w", encoding="utf-8") as f:
+            json.dump(db_entries, f, indent=2)
+        print(f"[+] Updated {updated_count} function signatures in {args.db} (Build: {build_id})")
 
     if args.json:
         with open(args.json, "w", encoding="utf-8") as f:

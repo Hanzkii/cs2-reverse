@@ -3049,7 +3049,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors.",
     "explanation": "Converts Euler viewing angles (Pitch, Yaw, Roll in degrees) into orthogonal 3D Cartesian basis unit vectors (Forward, Right, Up). In Source 2 x64, Valve uses SIMD vectorized sine and cosine computations with the conversion factor pi / 180.0f (0.017453292519943295f) for camera orientation and ray generation.",
     "code_snippet": "void AngleVectors(const QAngle& angles, Vector* forward, Vector* right, Vector* up) {\n    constexpr float DEG2RAD = 0.017453292519943295f;\n    float sp, cp, sy, cy, sr, cr;\n\n    DirectX::XMScalarSinCos(&sp, &cp, angles.pitch * DEG2RAD);\n    DirectX::XMScalarSinCos(&sy, &cy, angles.yaw   * DEG2RAD);\n    DirectX::XMScalarSinCos(&sr, &cr, angles.roll  * DEG2RAD);\n\n    if (forward) {\n        forward->x = cp * cy;\n        forward->y = cp * sy;\n        forward->z = -sp;\n    }\n    if (right) {\n        right->x = -1.0f * sr * sp * cy + -1.0f * cr * -sy;\n        right->y = -1.0f * sr * sp * sy + -1.0f * cr * cy;\n        right->z = -1.0f * sr * cp;\n    }\n    if (up) {\n        up->x = cr * sp * cy + -sr * -sy;\n        up->y = cr * sp * sy + -sr * cy;\n        up->z = cr * cp;\n    }\n}",
-    "reconstructed_file": "game/client/viewmatrix.cpp"
+    "reconstructed_file": "game/client/viewmatrix.cpp",
+    "current_rva": "0x01742500",
+    "current_va": "0x181742500",
+    "delta_bytes": 8800,
+    "delta_str": "+0x2260",
+    "last_verified_build": "26144732"
   },
   {
     "id": "client_calc_world_bones",
@@ -3063,7 +3068,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes.",
     "explanation": "Executes hierarchical forward kinematics bone transform propagation on CSkeletonInstance. Traverses parent bone links in topological order and concatenates local joint matrices using SIMD Rodrigues quaternion multiplication and position offset addition.",
     "code_snippet": "void CSkeletonInstance::CalculateWorldBones(uint32_t boneMask) {\n    CModelState* modelState = &this->m_modelState;\n    CTransform* boneToWorld = modelState->m_pBoneTransforms;\n    const int numBones = modelState->m_nBoneCount;\n\n    for (int i = 0; i < numBones; ++i) {\n        int parentIdx = modelState->m_pBoneParents[i];\n        if (parentIdx == -1) {\n            boneToWorld[i] = modelState->m_localTransforms[i];\n        } else {\n            // SIMD Rodrigues Quaternion concatenation + position translation\n            CTransform::ConcatenateTransforms(boneToWorld[parentIdx], modelState->m_localTransforms[i], &boneToWorld[i]);\n        }\n    }\n    this->m_nComputedBoneMask |= boneMask;\n}",
-    "reconstructed_file": "game/client/viewmatrix.cpp"
+    "reconstructed_file": "game/client/viewmatrix.cpp",
+    "current_rva": "0x00aa1dc0",
+    "current_va": "0x180aa1dc0",
+    "delta_bytes": 3648,
+    "delta_str": "+0xe40",
+    "last_verified_build": "26144732"
   },
   {
     "id": "client_concatenate_transforms",
@@ -3077,7 +3087,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies.",
     "explanation": "High-performance SIMD routine concatenating two 32-byte Source 2 CTransform structures (Quaternion rot [XYZW] + Vector pos [XYZ] + padding). Rotates the child translation by the parent orientation quaternion before accumulating parent translation.",
     "code_snippet": "void CTransform::ConcatenateTransforms(const CTransform& parent, const CTransform& child, CTransform* out) {\n    // 1. Quat Multiply: Q_out = Q_parent * Q_child\n    __m128 qP = _mm_loadu_ps(&parent.rot.x);\n    __m128 qC = _mm_loadu_ps(&child.rot.x);\n    out->rot = QuatMultiplySIMD(qP, qC);\n\n    // 2. Vector Translation: Pos_out = RotateVector(Q_parent, child.pos) + parent.pos\n    Vector rotatedPos = RotateVectorQuat(parent.rot, child.pos);\n    out->pos = parent.pos + rotatedPos;\n}",
-    "reconstructed_file": "game/animationsystem/two_bone_ik.cpp"
+    "reconstructed_file": "game/animationsystem/two_bone_ik.cpp",
+    "current_rva": "0x0174a6e0",
+    "current_va": "0x18174a6e0",
+    "delta_bytes": 8800,
+    "delta_str": "+0x2260",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_los_smoke",
@@ -3091,7 +3106,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold.",
     "explanation": "Authoritative server-side line-of-sight check. Traverses all active CSmokeGrenadeProjectile voxel volumes between start and end coordinates, stepping through the 3D Morton-indexed voxel grid via 3D DDA raymarching. If integrated optical smoke density exceeds 0.20, line of sight is obstructed.",
     "code_snippet": "bool LineOfSightThroughSmoke(const Vector& vStart, const Vector& vEnd, float flDensityThreshold) {\n    CSmokeGrenadeProjectile* pActiveSmoke = g_pSmokeListHead;\n    while (pActiveSmoke) {\n        if (pActiveSmoke->m_bDidSmokeDetonate && !pActiveSmoke->m_bSmokeFading) {\n            float density = pActiveSmoke->RaymarchVoxelGrid(vStart, vEnd);\n            if (density >= flDensityThreshold) {\n                return false; // Trajectory is occluded by volumetric smoke\n            }\n        }\n        pActiveSmoke = pActiveSmoke->m_pNext;\n    }\n    return true; // Clear line of sight\n}",
-    "reconstructed_file": "game/particles/smoke_voxels.cpp"
+    "reconstructed_file": "game/particles/smoke_voxels.cpp",
+    "current_rva": "0x009c5610",
+    "current_va": "0x1809c5610",
+    "delta_bytes": 54976,
+    "delta_str": "+0xd6c0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_smoke_spawn",
@@ -3105,7 +3125,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask.",
     "explanation": "Initializes a detonated smoke grenade on the server. Allocates a 3,072-byte double-buffered bitmask representing a 32x32x32 voxel grid (20-unit cell spacing), initializes the particle simulation volume, and activates network delta tracking.",
     "code_snippet": "void CSmokeGrenadeProjectile::Spawn() {\n    BaseClass::Spawn();\n    this->m_bDidSmokeDetonate = true;\n    this->m_flSpawnTime = gpGlobals->curtime;\n    // Allocate 32x32x32 voxel bitmask buffer (512 uint64 words = 4096 bytes)\n    this->m_pVoxelGrid = (VoxelGrid_t*)MemAlloc(sizeof(VoxelGrid_t));\n    memset(this->m_pVoxelGrid->occupancy, 0, sizeof(this->m_pVoxelGrid->occupancy));\n    this->ExpandInitialSphere(this->GetAbsOrigin(), 144.0f /* radius */);\n}",
-    "reconstructed_file": "game/particles/smoke_voxels.cpp"
+    "reconstructed_file": "game/particles/smoke_voxels.cpp",
+    "current_rva": "0x009d8d50",
+    "current_va": "0x1809d8d50",
+    "delta_bytes": 54592,
+    "delta_str": "+0xd540",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_smoke_tick_update",
@@ -3119,7 +3144,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization.",
     "explanation": "Tick-by-tick simulation loop for active volumetric smoke. Decrements smoke duration timer (18.0s), computes natural outward dissipation, checks explosive grenade shockwave radius to displace smoke voxels, and triggers SerializeSparseDelta if voxels are modified.",
     "code_snippet": "void CSmokeGrenadeProjectile::TickUpdate() {\n    float flElapsed = gpGlobals->curtime - this->m_flSpawnTime;\n    if (flElapsed > 18.0f) {\n        this->StartFading();\n        return;\n    }\n    // Update aerodynamic drag and blast wave displacement\n    this->UpdateBlastDispersion();\n    if (this->m_bGridDirty) {\n        this->NetworkStateChanged();\n    }\n}",
-    "reconstructed_file": "game/particles/smoke_voxels.cpp"
+    "reconstructed_file": "game/particles/smoke_voxels.cpp",
+    "current_rva": "0x009dbf40",
+    "current_va": "0x1809dbf40",
+    "delta_bytes": 54448,
+    "delta_str": "+0xd4b0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_voxel_raymarch",
@@ -3133,7 +3163,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks.",
     "explanation": "Core 3D Digital Differential Analyzer (DDA) raymarching loop through the 32x32x32 voxel grid. Traverses Morton Z-order interleaved cells along the ray vector and integrates accumulated optical density with early exit on maximum opacity.",
     "code_snippet": "float VoxelGrid_Raymarch(const VoxelGrid_t* grid, const Vector& start, const Vector& end) {\n    Vector dir = (end - start).Normalized();\n    float totalDist = (end - start).Length();\n    float stepSize = 10.0f; // Half voxel spacing\n    float accumulatedDensity = 0.0f;\n\n    for (float dist = 0.0f; dist < totalDist; dist += stepSize) {\n        Vector pt = start + dir * dist;\n        int vx = (int)(pt.x / 20.0f) & 31;\n        int vy = (int)(pt.y / 20.0f) & 31;\n        int vz = (int)(pt.z / 20.0f) & 31;\n        uint32_t mortonIdx = Morton3D(vx, vy, vz);\n        if (grid->TestBit(mortonIdx)) {\n            accumulatedDensity += 0.15f * (stepSize / 20.0f);\n            if (accumulatedDensity >= 1.0f) return 1.0f;\n        }\n    }\n    return accumulatedDensity;\n}",
-    "reconstructed_file": "game/particles/smoke_voxels.cpp"
+    "reconstructed_file": "game/particles/smoke_voxels.cpp",
+    "current_rva": "0x009da9b0",
+    "current_va": "0x1809da9b0",
+    "delta_bytes": 54448,
+    "delta_str": "+0xd4b0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_voxel_expand_carve",
@@ -3147,7 +3182,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units).",
     "explanation": "Manipulates voxel grid occupancy bitmasks for bullet penetration and grenade explosions. A bullet carve clears a cylindrical tunnel along the bullet trajectory, while HE grenade shockwaves push smoke outward radially.",
     "code_snippet": "void VoxelGrid_ExpandAndCarve(VoxelGrid_t* grid, const Vector& origin, const Vector& dir, float radius, bool isCarve) {\n    // 3D Bresenham cylinder traversal\n    for (int z = -2; z <= 2; ++z) {\n        for (int y = -2; y <= 2; ++y) {\n            for (int x = -2; x <= 2; ++x) {\n                Vector cellOffset(x * 20.0f, y * 20.0f, z * 20.0f);\n                if (cellOffset.Length() <= radius) {\n                    uint32_t idx = Morton3DFromWorld(origin + cellOffset);\n                    if (isCarve) grid->ClearBit(idx);\n                    else grid->SetBit(idx);\n                }\n            }\n        }\n    }\n}",
-    "reconstructed_file": "game/particles/smoke_voxels.cpp"
+    "reconstructed_file": "game/particles/smoke_voxels.cpp",
+    "current_rva": "0x009d6390",
+    "current_va": "0x1809d6390",
+    "delta_bytes": 54592,
+    "delta_str": "+0xd540",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_serialize_sparse_delta",
@@ -3161,7 +3201,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire.",
     "explanation": "Serializes changed voxel words into a compact network bitstream. Instead of transmitting all 512 words (4,096 bytes) per tick, it writes an active dirty-word index followed by the 64-bit mask, reducing wire payload by over 80%.",
     "code_snippet": "void SerializeSparseDelta(bf_write* buf, const VoxelGrid_t* oldGrid, const VoxelGrid_t* newGrid) {\n    for (int word = 0; word < 512; ++word) {\n        uint64_t delta = oldGrid->words[word] ^ newGrid->words[word];\n        if (delta != 0) {\n            buf->WriteOneBit(1);                  // Has change flag\n            buf->WriteUBitLong(word, 9);          // Word index (0..511 = 9 bits)\n            buf->WriteBytes(&newGrid->words[word], 8); // 8-byte payload\n        }\n    }\n    buf->WriteOneBit(0); // End-of-stream terminator\n}",
-    "reconstructed_file": "game/particles/smoke_voxels.cpp"
+    "reconstructed_file": "game/particles/smoke_voxels.cpp",
+    "current_rva": "0x009bf550",
+    "current_va": "0x1809bf550",
+    "delta_bytes": 55680,
+    "delta_str": "+0xd980",
+    "last_verified_build": "26144732"
   },
   {
     "id": "server_lag_compensation",
@@ -3175,7 +3220,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps.",
     "explanation": "Rolls back player hitboxes to their exact spatial coordinates at the time a client fired a shot. Computes interpolation fraction from sub-tick timestamp and samples the entity position history ring buffer.",
     "code_snippet": "void CLagCompensationManager::StartLagCompensation(CCSPlayerPawn* player, float flTargetTime) {\n    for (CCSPlayerPawn* target : g_pActivePawns) {\n        if (target == player || !target->IsAlive()) continue;\n        // Sample tick history ring buffer at interpolated flTargetTime\n        CPlayerStateRecord interpolatedRecord;\n        if (target->m_pHistory->GetRecordAtTime(flTargetTime, &interpolatedRecord)) {\n            target->SetupBonesFromRecord(interpolatedRecord);\n        }\n    }\n}",
-    "reconstructed_file": "game/server/lagcompensation.cpp"
+    "reconstructed_file": "game/server/lagcompensation.cpp",
+    "current_rva": "0x0081b770",
+    "current_va": "0x18081b770",
+    "delta_bytes": 50256,
+    "delta_str": "+0xc450",
+    "last_verified_build": "26144732"
   },
   {
     "id": "pulse_instruction_dispatch",
@@ -3189,7 +3239,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets.",
     "explanation": "Virtual machine opcode execution loop for Valve's Pulse Visual Scripting System (pulse_system.dll). Dispatches 56-byte PGDInstruction_t instructions across 122 opcode types, manages the operand stack, and coordinates asynchronous coroutine fiber yielding.",
     "code_snippet": "PulseRuntimeState_t PulseInstructionDispatchLoop(CPulseCursor* pCursor, const PGDInstruction_t* pCode) {\n    while (pCursor->m_pc < pCursor->m_nInstructionCount) {\n        const PGDInstruction_t& inst = pCode[pCursor->m_pc++];\n        switch (inst.opcode) {\n            case OP_CALL_EXTERNAL:\n                DispatchSchemaMethod(inst.targetSymbolHash, pCursor);\n                break;\n            case OP_YIELD:\n                pCursor->m_state = PULSE_CURSOR_WAITING_ASYNC;\n                return PULSE_SUSPENDED;\n            case OP_JUMP_COND:\n                if (pCursor->PopStackBool()) pCursor->m_pc = inst.jumpOffset;\n                break;\n            case OP_RETURN:\n                return PULSE_COMPLETED;\n        }\n    }\n    return PULSE_COMPLETED;\n}",
-    "reconstructed_file": "game/pulse_system/pulse_interpreter.cpp"
+    "reconstructed_file": "game/pulse_system/pulse_interpreter.cpp",
+    "current_rva": "0x0008f810",
+    "current_va": "0x18008f810",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "tier0_cvar_findvar",
@@ -3203,7 +3258,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Look up ConVar / ConCommand by hash or caseless name in tier0 CCvar registry (VEngineCvar007).",
     "explanation": "Hash-bucketed lookup into the Source 2 engine console variable registry (CCvar). Hashes the input variable name using caseless MurmurHash2 (seed 0x31415926) and walks the collision bucket linked list.",
     "code_snippet": "ConVar* CCvar::FindVar(const char* name) {\n    uint32_t hash = HashStringCaseless(name);\n    uint32_t bucket = hash % this->m_nBucketCount;\n    for (ConVar* cvar = this->m_pBuckets[bucket]; cvar != nullptr; cvar = cvar->m_pNext) {\n        if (cvar->m_hash == hash && _stricmp(cvar->m_pszName, name) == 0) {\n            return cvar;\n        }\n    }\n    return nullptr;\n}",
-    "reconstructed_file": "game/engine2/cvar_engine.cpp"
+    "reconstructed_file": "game/engine2/cvar_engine.cpp",
+    "current_rva": "0x0006c6b0",
+    "current_va": "0x18006c6b0",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "tier0_hash_string_caseless",
@@ -3217,7 +3277,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Caseless Murmur/FNV string hash algorithm utilizing seed 0x31415926 for ConVar bucket indexing.",
     "explanation": "Source 2 canonical caseless 32-bit MurmurHash2 implementation with seed 0x31415926. Converts characters to lowercase before mixing 4-byte chunks, ensuring consistent identifiers for schemas, cvars, and net messages.",
     "code_snippet": "uint32_t HashStringCaseless(const char* str) {\n    if (!str) return 0;\n    uint32_t len = (uint32_t)strlen(str);\n    uint32_t h = (len ^ 0x31415926) >>> 0;\n    const uint32_t m = 0x5bd1e995;\n    while (len >= 4) {\n        uint32_t k = (tolower(str[0])) | (tolower(str[1]) << 8) | (tolower(str[2]) << 16) | (tolower(str[3]) << 24);\n        k *= m; k ^= k >> 24; k *= m;\n        h *= m; h ^= k;\n        str += 4; len -= 4;\n    }\n    // Final byte chunk mixing\n    return h;\n}",
-    "reconstructed_file": "game/schemasystem/schemasystem.cpp"
+    "reconstructed_file": "game/schemasystem/schemasystem.cpp",
+    "current_rva": "0x0006c8c0",
+    "current_va": "0x18006c8c0",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "network_read_varbit_msg_id",
@@ -3231,7 +3296,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens.",
     "explanation": "Variable-bit message ID decoder from networksystem.dll. Inspects prefix bits to read 6-bit (ID 0..15), 10-bit (ID 16..255), 14-bit (ID 256..4095), or 34-bit token hashed message identifiers.",
     "code_snippet": "uint32_t ReadVariableBitMessageId(bf_read* buf) {\n    if (buf->ReadOneBit() == 0) {\n        return buf->ReadUBitLong(4); // Tier 0: 0..15 (6 bits total)\n    }\n    if (buf->ReadOneBit() == 0) {\n        return buf->ReadUBitLong(8) + 16; // Tier 1: 16..255 (10 bits total)\n    }\n    if (buf->ReadOneBit() == 0) {\n        return buf->ReadUBitLong(12) + 256; // Tier 2: 256..4095 (14 bits total)\n    }\n    return buf->ReadUBitLong(32); // Tier 3: 32-bit MurmurHash2 token (34 bits total)\n}",
-    "reconstructed_file": "game/networksystem/netmessage_framing.cpp"
+    "reconstructed_file": "game/networksystem/netmessage_framing.cpp",
+    "current_rva": "0x001bf5c0",
+    "current_va": "0x1801bf5c0",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "network_serialize_net_message",
@@ -3245,7 +3315,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment.",
     "explanation": "Serializes a network message object into an outgoing UDP packet buffer. Writes the variable-bit message ID prefix header, encodes the Protobuf payload length via VarInt32, and direct-blits the serialized Protobuf byte buffer.",
     "code_snippet": "void SerializeNetMessage(bf_write* buf, uint32_t msgId, const google::protobuf::Message& msg) {\n    WriteVariableBitMessageId(buf, msgId);\n    uint32_t byteSize = (uint32_t)msg.ByteSizeLong();\n    WriteVarInt32(buf, byteSize);\n    msg.SerializeWithCachedSizesToArray(buf->GetWritePtr());\n    buf->SeekToBit(buf->GetNumBitsWritten() + byteSize * 8);\n}",
-    "reconstructed_file": "game/networksystem/netmessage_framing.cpp"
+    "reconstructed_file": "game/networksystem/netmessage_framing.cpp",
+    "current_rva": "0x000e23d0",
+    "current_va": "0x1800e23d0",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "network_write_varint32",
@@ -3259,7 +3334,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths.",
     "explanation": "Encodes a 32-bit unsigned integer into LEB128 variable-length format. Emits 7 payload bits per byte with bit 7 set as continuation flag, serializing small integers (0..127) in a single byte.",
     "code_snippet": "void WriteVarInt32(bf_write* buf, uint32_t val) {\n    while (val >= 0x80) {\n        buf->WriteUBitLong((val & 0x7F) | 0x80, 8);\n        val >>= 7;\n    }\n    buf->WriteUBitLong(val, 8);\n}",
-    "reconstructed_file": "game/networksystem/netmessage_framing.cpp"
+    "reconstructed_file": "game/networksystem/netmessage_framing.cpp",
+    "current_rva": "0x001c0760",
+    "current_va": "0x1801c0760",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "network_read_varint32",
@@ -3273,7 +3353,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths.",
     "explanation": "Decodes a LEB128 variable-length unsigned 32-bit integer from a network bitstream. Accumulates 7-bit chunks while bit 7 is set, aborting after 5 bytes to prevent integer overflow.",
     "code_snippet": "uint32_t ReadVarInt32(bf_read* buf) {\n    uint32_t result = 0, shift = 0;\n    while (shift < 35) {\n        uint8_t byte = (uint8_t)buf->ReadUBitLong(8);\n        result |= (byte & 0x7F) << shift;\n        if (!(byte & 0x80)) return result;\n        shift += 7;\n    }\n    return result;\n}",
-    "reconstructed_file": "game/networksystem/netmessage_framing.cpp"
+    "reconstructed_file": "game/networksystem/netmessage_framing.cpp",
+    "current_rva": "0x001bf770",
+    "current_va": "0x1801bf770",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "network_decode_fieldpaths",
@@ -3287,7 +3372,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Walks entity delta bitstreams using 40-operation Huffman bit-trees to update flattened serializer properties.",
     "explanation": "Traverses a 40-operation Huffman prefix tree to unpack active property paths for flattened entity delta updates (CSVCMsg_PacketEntities), mapping compressed bitstream tokens to schema fields.",
     "code_snippet": "void DecodeFieldPaths(bf_read* buf, std::vector<FieldPath_t>* outPaths) {\n    FieldPath_t fp = {0};\n    while (true) {\n        int op = ReadHuffmanOp(buf, g_pFieldPathHuffmanTree);\n        if (op == OP_FINISH) break;\n        ExecuteFieldPathOp(op, &fp, buf);\n        outPaths->push_back(fp);\n    }\n}",
-    "reconstructed_file": "game/networksystem/flattened_serializers.cpp"
+    "reconstructed_file": "game/networksystem/flattened_serializers.cpp",
+    "current_rva": "0x000835f8",
+    "current_va": "0x1800835f8",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "vphysics2_convex_raycast",
@@ -3301,7 +3391,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Clips ray segment against Rubikon polyhedral half-spaces (RnHull_t) with 0.03125 unit skin tolerance.",
     "explanation": "Raycasts against a convex polyhedron collision hull in Valve's Rubikon physics engine (vphysics2.dll). Computes entry/exit fractions across bounding half-spaces with a 1/32\" (0.03125 unit) skin tolerance.",
     "code_snippet": "bool ConvexPolyhedronRaycast(const RnPolyhedron_t* poly, const Vector& start, const Vector& delta, RaycastResult_t* result) {\n    float enterFrac = 0.0f, exitFrac = 1.0f;\n    Vector enterNormal = Vector(0, 0, 0);\n    for (int i = 0; i < poly->m_nPlaneCount; ++i) {\n        const Plane_t& plane = poly->m_pPlanes[i];\n        float distStart = plane.Distance(start) - 0.03125f; // 1/32\" skin\n        float distEnd = plane.Distance(start + delta) - 0.03125f;\n        if (distStart > 0.0f && distEnd > 0.0f) return false; // Separating plane\n        // Clip enter and exit fractions...\n    }\n    result->fraction = enterFrac;\n    result->normal = enterNormal;\n    return true;\n}",
-    "reconstructed_file": "game/vphysics2/rubikon_collision.cpp"
+    "reconstructed_file": "game/vphysics2/rubikon_collision.cpp",
+    "current_rva": "0x002544a0",
+    "current_va": "0x1802544a0",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "vphysics2_capsule_sweep",
@@ -3315,7 +3410,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Analytical finite cylinder and hemispherical endcap sweep intersection solver for player hitboxes.",
     "explanation": "Calculates the exact continuous collision sweep between a moving point/sphere and an oriented cylinder capsule with hemispherical endcaps in vphysics2.dll. Solves the closest point quadratic polynomial.",
     "code_snippet": "bool CapsuleSweepIntersection(const Capsule_t& capsule, const Vector& start, const Vector& delta, SweepHit_t* hit) {\n    Vector segA = capsule.m_vCenter0, segB = capsule.m_vCenter1;\n    float radius = capsule.m_flRadius;\n    float tRay, tSeg;\n    ClosestSegmentSegment(start, start + delta, segA, segB, &tRay, &tSeg);\n    Vector ptRay = start + delta * tRay;\n    Vector ptSeg = segA + (segB - segA) * tSeg;\n    if ((ptRay - ptSeg).LengthSqr() <= radius * radius) {\n        hit->fraction = tRay;\n        hit->normal = (ptRay - ptSeg).Normalized();\n        return true;\n    }\n    return false;\n}",
-    "reconstructed_file": "game/vphysics2/rubikon_collision.cpp"
+    "reconstructed_file": "game/vphysics2/rubikon_collision.cpp",
+    "current_rva": "0x0016caf0",
+    "current_va": "0x18016caf0",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   },
   {
     "id": "animationsystem_twobone_ik",
@@ -3329,7 +3429,12 @@ window.CS2_SIGNATURES_DATA = [
     "description": "Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d).",
     "explanation": "Analytical two-bone inverse kinematics solver in animationsystem.dll. Applies the Law of Cosines to solve joint angles for player limbs (hip-to-knee or shoulder-to-elbow) toward an arbitrary IK target position.",
     "code_snippet": "bool CTwoBoneIK_LawOfCosines(float l1, float l2, float targetDist, float* outAngleA, float* outAngleB) {\n    // Law of Cosines: c^2 = a^2 + b^2 - 2ab * cos(C)\n    float clampedDist = std::clamp(targetDist, std::abs(l1 - l2) + 0.001f, (l1 + l2) - 0.001f);\n    float cosB = (l1 * l1 + l2 * l2 - clampedDist * clampedDist) / (2.0f * l1 * l2);\n    float cosA = (l1 * l1 + clampedDist * clampedDist - l2 * l2) / (2.0f * l1 * clampedDist);\n    *outAngleB = std::acos(std::clamp(cosB, -1.0f, 1.0f)); // Knee / Elbow bend\n    *outAngleA = std::acos(std::clamp(cosA, -1.0f, 1.0f)); // Shoulder / Hip bend\n    return true;\n}",
-    "reconstructed_file": "game/animationsystem/two_bone_ik.cpp"
+    "reconstructed_file": "game/animationsystem/two_bone_ik.cpp",
+    "current_rva": "0x002f9750",
+    "current_va": "0x1802f9750",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26144732"
   }
 ];
 
