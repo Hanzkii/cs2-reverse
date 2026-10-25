@@ -158,6 +158,11 @@
         <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
         Function Signatures
       </button>
+      <button onclick="switchTab('convars')" id="navTabConvars" class="px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1.5 relative">
+        <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        ConVars &amp; Commands
+        <span class="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">NEW</span>
+      </button>
     </nav>
 
     <!-- Right External Links & Search -->
@@ -858,6 +863,127 @@
       </div>
     </div>
 
+    <!-- TAB 7: CONVARS & CONSOLE COMMANDS DATABASE -->
+    <div id="tabConvarsView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-cyan-400"></span>
+              Source 2 ConVars &amp; Console Commands Catalog
+            </h1>
+            <p class="text-slate-400 text-sm mt-1">
+              Reverse-engineered database of console variables and commands across Source 2 binaries. Includes runtime FCVAR security flags, subsystem classifications, and functional impact explanations.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-bold" id="convarsTotalBadge">2,695 ConVars Cataloged</span>
+            <button onclick="setConvarCategory('new')" class="px-3 py-1 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer transition-colors" id="convarsNewBadge">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span id="convarsNewCountText">3 New in Latest Build</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Summary Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-cyan-500/50 transition-all" onclick="resetConvarFilters()">
+            <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Total ConVars</div>
+            <div class="text-2xl font-extrabold text-white mt-1" id="kpiConvarsTotal">2,695</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Across 3 Core DLLs</div>
+          </div>
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-amber-500/50 transition-all" onclick="setConvarCategory('new')">
+            <div class="text-[11px] font-mono text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              New in Update
+            </div>
+            <div class="text-2xl font-extrabold text-amber-300 mt-1" id="kpiConvarsNew">3</div>
+            <div class="text-[10px] text-amber-400/70 mt-0.5">Build 26144732</div>
+          </div>
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-sky-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_REPLICATED')">
+            <div class="text-[11px] font-mono text-sky-400 uppercase tracking-wider">Replicated</div>
+            <div class="text-2xl font-extrabold text-sky-300 mt-1" id="kpiConvarsReplicated">500+</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">CNETMsg_SetConVar</div>
+          </div>
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-red-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_CHEAT')">
+            <div class="text-[11px] font-mono text-red-400 uppercase tracking-wider">Protected Cheats</div>
+            <div class="text-2xl font-extrabold text-red-300 mt-1" id="kpiConvarsCheat">230+</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Guarded by sv_cheats</div>
+          </div>
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-emerald-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_ARCHIVE')">
+            <div class="text-[11px] font-mono text-emerald-400 uppercase tracking-wider">Archived Config</div>
+            <div class="text-2xl font-extrabold text-emerald-300 mt-1" id="kpiConvarsArchive">480+</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Persisted to User VCFG</div>
+          </div>
+        </div>
+
+        <!-- Filter Controls Area -->
+        <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 space-y-3.5">
+          <!-- Row 1: Search and Dropdowns -->
+          <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+            <div class="relative flex-1">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="convarSearchInput" placeholder="Search ConVar name, description, category, or flags (e.g. sv_cheats, subtick, AEC3)..." class="w-full bg-slate-900 border border-slate-700/80 rounded-lg pl-9 pr-8 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500" oninput="onConvarSearchInput(this.value)">
+              <button onclick="clearConvarSearch()" id="convarSearchClearBtn" class="hidden absolute right-2.5 top-2.5 text-slate-500 hover:text-slate-300 cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <!-- Binary Select -->
+              <select id="convarBinarySelect" onchange="setConvarBinaryFilter(this.value)" class="bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
+                <option value="all">All Binaries</option>
+                <option value="server.dll">server.dll</option>
+                <option value="client.dll">client.dll</option>
+                <option value="engine2.dll">engine2.dll</option>
+              </select>
+
+              <!-- Flags Select -->
+              <select id="convarFlagSelect" onchange="setConvarFlagFilter(this.value)" class="bg-slate-900 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono">
+                <option value="all">All Flags</option>
+                <option value="FCVAR_REPLICATED">FCVAR_REPLICATED</option>
+                <option value="FCVAR_CHEAT">FCVAR_CHEAT</option>
+                <option value="FCVAR_ARCHIVE">FCVAR_ARCHIVE</option>
+                <option value="FCVAR_NOTIFY">FCVAR_NOTIFY</option>
+                <option value="FCVAR_PROTECTED">FCVAR_PROTECTED</option>
+              </select>
+
+              <!-- Reset Filters -->
+              <button onclick="resetConvarFilters()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer whitespace-nowrap">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Row 2: Subsystem Category Pills -->
+          <div class="flex flex-wrap gap-1.5 pt-1 border-t border-slate-800/80 text-xs font-mono" id="convarCategoryPills">
+            <!-- Injected by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Telemetry Stats & Pagination Bar Top -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400 font-mono">
+          <div id="convarResultsCount">Showing 0 of 0 ConVars</div>
+          <div class="flex items-center gap-2" id="convarPaginationTop">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- ConVars Cards / List Container -->
+        <div id="convarsGrid" class="space-y-3">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Pagination Bar Bottom -->
+        <div class="flex items-center justify-center gap-2 pt-4 border-t border-slate-800/80 text-xs font-mono" id="convarPaginationBottom">
+          <!-- Populated by JavaScript -->
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- Global Omnisearch Modal Dialog (Ctrl + K) -->
@@ -883,6 +1009,7 @@
         <button onclick="setOmniFilter('doc')" id="omniPillDoc" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer">Docs</button>
         <button onclick="setOmniFilter('sim')" id="omniPillSim" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer">Simulators</button>
         <button onclick="setOmniFilter('tool')" id="omniPillTool" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer">Tools</button>
+        <button onclick="setOmniFilter('convar')" id="omniPillConvar" class="px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer">ConVars</button>
       </div>
 
       <!-- Omnisearch Results Area -->
@@ -918,6 +1045,14 @@
 
     const SIGNATURES_DATA = window.CS2_SIGNATURES_DATA || [];
     let currentSigBinary = "all";
+
+    const CONVARS_DATA = window.CS2_CONVARS_DATA || [];
+    let currentConvarCategory = "all";
+    let currentConvarBinary = "all";
+    let currentConvarFlag = "all";
+    let currentConvarSearch = "";
+    let currentConvarPage = 1;
+    const CONVARS_PER_PAGE = 40;
 
     let currentDocId = DOCS.length > 0 ? DOCS[0].id : null;
     let renderedDocId = null;
@@ -958,8 +1093,9 @@
       document.getElementById('tabToolsView').classList.add('hidden');
       document.getElementById('tabSimulatorsView').classList.add('hidden');
       document.getElementById('tabSignaturesView').classList.add('hidden');
+      document.getElementById('tabConvarsView').classList.add('hidden');
 
-      ['Docs', 'Binaries', 'Diff', 'Tools', 'Simulators', 'Signatures'].forEach(t => {
+      ['Docs', 'Binaries', 'Diff', 'Tools', 'Simulators', 'Signatures', 'Convars'].forEach(t => {
         const btn = document.getElementById('navTab' + t);
         if (btn) {
           btn.classList.remove('bg-slate-800', 'text-white', 'shadow-sm');
@@ -996,6 +1132,9 @@
         document.getElementById('tabSignaturesView').classList.remove('hidden');
         closeSignatureDetail();
         renderSignaturesCatalog();
+      } else if (tab === 'convars') {
+        document.getElementById('tabConvarsView').classList.remove('hidden');
+        renderConvarsCatalog();
       }
     }
 
@@ -1424,7 +1563,7 @@
 
     function setOmniFilter(type) {
       omniActiveFilter = type;
-      const pills = ['all', 'function', 'address', 'schema', 'doc', 'sim', 'tool'];
+      const pills = ['all', 'function', 'address', 'schema', 'doc', 'sim', 'tool', 'convar'];
       pills.forEach(p => {
         const id = 'omniPill' + p.charAt(0).toUpperCase() + p.slice(1);
         const btn = document.getElementById(id);
@@ -1653,6 +1792,33 @@
                 closeGlobalSearch();
                 switchTab('signatures');
                 openSignatureDetail(sig.id);
+              }
+            });
+          }
+        });
+      }
+
+      // 7. ConVars & Console Commands
+      if (omniActiveFilter === 'all' || omniActiveFilter === 'convar') {
+        CONVARS_DATA.forEach(c => {
+          const nameLower = c.name.toLowerCase();
+          const descLower = (c.description || '').toLowerCase();
+          const catLower = (c.category || '').toLowerCase();
+          const binLower = (c.binary || '').toLowerCase();
+          const matches = !q || nameLower.includes(q) || descLower.includes(q) || catLower.includes(q) || binLower.includes(q);
+          if (matches) {
+            omniResultsList.push({
+              kind: 'convar',
+              badgeText: c.is_new ? 'NEW CONVAR' : 'CONVAR',
+              badgeClass: c.is_new ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+              title: c.name,
+              subtext: c.binary,
+              meta: `${c.category} • ${(c.flags || []).slice(0, 3).join(', ')}`,
+              desc: c.description,
+              action: () => {
+                closeGlobalSearch();
+                switchTab('convars');
+                filterConvarsBySearch(c.name);
               }
             });
           }
@@ -2351,6 +2517,323 @@
 
     function copySigText(btn, text) {
       navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<span class="text-emerald-400 font-bold">Copied!</span>`;
+        setTimeout(() => { btn.innerHTML = orig; }, 1500);
+      });
+    }
+
+    // ========================================================================
+    // 4B-2. ConVars & Console Commands Catalog
+    // ========================================================================
+    const CONVAR_CATEGORIES = [
+      { id: "all", name: "All Subsystems" },
+      { id: "new", name: "🆕 New in Update", badge: true },
+      { id: "Movement & Physics", name: "Movement & Physics" },
+      { id: "Weapons & Combat", name: "Weapons & Combat" },
+      { id: "Netcode & Sub-Tick", name: "Netcode & Sub-Tick" },
+      { id: "Graphics & Rendering", name: "Graphics & Rendering" },
+      { id: "Audio & Voice", name: "Audio & Voice" },
+      { id: "Server & Host", name: "Server & Host" },
+      { id: "Interface & HUD", name: "Interface & HUD" },
+      { id: "Bots & Navigation", name: "Bots & Navigation" },
+      { id: "Debug & Cheats", name: "Debug & Cheats" },
+      { id: "Matchmaking & Game Rules", name: "Matchmaking & Rules" }
+    ];
+
+    function initConvarKPIs() {
+      const totalEl = document.getElementById('kpiConvarsTotal');
+      const newEl = document.getElementById('kpiConvarsNew');
+      const repEl = document.getElementById('kpiConvarsReplicated');
+      const cheatEl = document.getElementById('kpiConvarsCheat');
+      const archEl = document.getElementById('kpiConvarsArchive');
+
+      if (!totalEl) return;
+      const total = CONVARS_DATA.length;
+      const newCount = CONVARS_DATA.filter(c => c.is_new).length;
+      const repCount = CONVARS_DATA.filter(c => (c.flags || []).includes('FCVAR_REPLICATED')).length;
+      const cheatCount = CONVARS_DATA.filter(c => (c.flags || []).includes('FCVAR_CHEAT')).length;
+      const archCount = CONVARS_DATA.filter(c => (c.flags || []).includes('FCVAR_ARCHIVE')).length;
+
+      totalEl.innerText = total.toLocaleString();
+      newEl.innerText = newCount;
+      repEl.innerText = repCount.toLocaleString();
+      cheatEl.innerText = cheatCount.toLocaleString();
+      archEl.innerText = archCount.toLocaleString();
+
+      const totalBadge = document.getElementById('convarsTotalBadge');
+      if (totalBadge) totalBadge.innerText = `${total.toLocaleString()} ConVars Cataloged`;
+
+      const newBadge = document.getElementById('convarsNewCountText');
+      if (newBadge) newBadge.innerText = `${newCount} New in Latest Build`;
+    }
+
+    function renderConvarCategoryPills() {
+      const container = document.getElementById('convarCategoryPills');
+      if (!container) return;
+      container.innerHTML = '';
+
+      CONVAR_CATEGORIES.forEach(cat => {
+        let count = 0;
+        if (cat.id === 'all') {
+          count = CONVARS_DATA.length;
+        } else if (cat.id === 'new') {
+          count = CONVARS_DATA.filter(c => c.is_new).length;
+        } else {
+          count = CONVARS_DATA.filter(c => c.category === cat.id).length;
+        }
+
+        const btn = document.createElement('button');
+        const isActive = (currentConvarCategory === cat.id);
+        
+        if (isActive) {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40 cursor-pointer flex items-center gap-1.5';
+        } else if (cat.id === 'new') {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 hover:text-white border border-amber-500/30 cursor-pointer flex items-center gap-1.5 font-bold';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer flex items-center gap-1.5';
+        }
+
+        btn.onclick = () => setConvarCategory(cat.id);
+        btn.innerHTML = `<span>${cat.name}</span> <span class="text-[10px] opacity-70">(${count})</span>`;
+        container.appendChild(btn);
+      });
+    }
+
+    function getFilteredConvars() {
+      const q = currentConvarSearch.toLowerCase().trim();
+      return CONVARS_DATA.filter(c => {
+        // Category filter
+        if (currentConvarCategory === 'new') {
+          if (!c.is_new) return false;
+        } else if (currentConvarCategory !== 'all') {
+          if (c.category !== currentConvarCategory) return false;
+        }
+
+        // Binary filter
+        if (currentConvarBinary !== 'all') {
+          if ((c.binary || '').toLowerCase() !== currentConvarBinary.toLowerCase()) return false;
+        }
+
+        // Flag filter
+        if (currentConvarFlag !== 'all') {
+          if (!(c.flags || []).includes(currentConvarFlag)) return false;
+        }
+
+        // Search query
+        if (q) {
+          const matchName = c.name.toLowerCase().includes(q);
+          const matchDesc = (c.description || '').toLowerCase().includes(q);
+          const matchCat = (c.category || '').toLowerCase().includes(q);
+          const matchBin = (c.binary || '').toLowerCase().includes(q);
+          const matchFlags = (c.flags || []).some(f => f.toLowerCase().includes(q));
+          if (!matchName && !matchDesc && !matchCat && !matchBin && !matchFlags) return false;
+        }
+
+        return true;
+      });
+    }
+
+    function renderConvarsCatalog() {
+      initConvarKPIs();
+      renderConvarCategoryPills();
+
+      const container = document.getElementById('convarsGrid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const filtered = getFilteredConvars();
+      const totalFiltered = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalFiltered / CONVARS_PER_PAGE));
+
+      if (currentConvarPage > totalPages) currentConvarPage = totalPages;
+      if (currentConvarPage < 1) currentConvarPage = 1;
+
+      // Update count telemetry
+      const countEl = document.getElementById('convarResultsCount');
+      if (countEl) {
+        if (totalFiltered === 0) {
+          countEl.innerText = 'Showing 0 of 0 ConVars';
+        } else {
+          const startIdx = (currentConvarPage - 1) * CONVARS_PER_PAGE + 1;
+          const endIdx = Math.min(totalFiltered, currentConvarPage * CONVARS_PER_PAGE);
+          countEl.innerText = `Showing ${startIdx} - ${endIdx} of ${totalFiltered.toLocaleString()} ConVars`;
+        }
+      }
+
+      renderConvarPaginationControls(totalPages);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-8 text-center text-slate-400">
+            <svg class="w-8 h-8 mx-auto text-slate-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-sm font-medium text-slate-300">No ConVars or commands matched your filter criteria.</p>
+            <button onclick="resetConvarFilters()" class="mt-3 px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-bold hover:bg-cyan-500/20 cursor-pointer">
+              Reset All Filters
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const startIndex = (currentConvarPage - 1) * CONVARS_PER_PAGE;
+      const pageSlice = filtered.slice(startIndex, startIndex + CONVARS_PER_PAGE);
+
+      pageSlice.forEach(c => {
+        const card = document.createElement('div');
+        const isNew = c.is_new === true;
+        const borderClass = isNew ? 'border-amber-500/60 bg-amber-500/[0.03]' : 'border-cs2-border bg-[#111827]';
+        
+        // Binary styling
+        let binBadge = 'bg-slate-800 text-slate-300 border-slate-700';
+        if (c.binary === 'client.dll') binBadge = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30';
+        else if (c.binary === 'server.dll') binBadge = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+        else if (c.binary === 'engine2.dll') binBadge = 'bg-purple-500/10 text-purple-400 border-purple-500/30';
+
+        // Flags pills HTML
+        const flagsHtml = (c.flags || []).map(f => {
+          let flagClass = 'bg-slate-800 text-slate-300 border-slate-700';
+          if (f === 'FCVAR_CHEAT') flagClass = 'bg-red-500/10 text-red-400 border-red-500/30 font-bold';
+          else if (f === 'FCVAR_REPLICATED') flagClass = 'bg-sky-500/10 text-sky-400 border-sky-500/30 font-bold';
+          else if (f === 'FCVAR_ARCHIVE') flagClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+          else if (f === 'FCVAR_NOTIFY') flagClass = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
+          else if (f === 'FCVAR_PROTECTED') flagClass = 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+          return `<span class="px-2 py-0.5 rounded text-[10px] font-mono border ${flagClass}">${escapeHtml(f)}</span>`;
+        }).join(' ');
+
+        card.className = `border rounded-xl p-4 transition-all duration-150 hover:border-cyan-500/50 ${borderClass}`;
+        card.innerHTML = `
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-3">
+            <div class="space-y-1.5 flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-base font-bold font-mono text-white tracking-tight break-all">${escapeHtml(c.name)}</span>
+                ${isNew ? '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-extrabold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>NEW IN BUILD ' + escapeHtml(c.added_in_build || '26144732') + '</span>' : ''}
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono border ${binBadge}">${escapeHtml(c.binary || 'engine')}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400 border border-slate-700/80">${escapeHtml(c.category || 'General')}</span>
+              </div>
+              <p class="text-slate-300 text-xs leading-relaxed pt-1 font-sans">
+                ${escapeHtml(c.description || 'Source 2 internal engine console variable.')}
+              </p>
+            </div>
+            <div class="flex md:flex-col items-end gap-2 shrink-0">
+              <button onclick="copyConvarName(this, '${escapeHtml(c.name)}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-mono text-slate-300 hover:text-white transition-colors cursor-pointer flex items-center gap-1">
+                <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy
+              </button>
+            </div>
+          </div>
+          ${flagsHtml ? `<div class="mt-3 pt-2.5 border-t border-slate-800/80 flex flex-wrap gap-1.5 items-center"><span class="text-[10px] font-mono text-slate-500 mr-1">FLAGS:</span>${flagsHtml}</div>` : ''}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderConvarPaginationControls(totalPages) {
+      const topContainer = document.getElementById('convarPaginationTop');
+      const bottomContainer = document.getElementById('convarPaginationBottom');
+
+      const buildHtml = () => {
+        if (totalPages <= 1) return '';
+        return `
+          <button onclick="changeConvarPage(${currentConvarPage - 1})" ${currentConvarPage <= 1 ? 'disabled class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed"' : 'class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white cursor-pointer"'}>
+            Prev
+          </button>
+          <span class="px-2 text-slate-400 font-mono">Page ${currentConvarPage} of ${totalPages}</span>
+          <button onclick="changeConvarPage(${currentConvarPage + 1})" ${currentConvarPage >= totalPages ? 'disabled class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed"' : 'class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white cursor-pointer"'}>
+            Next
+          </button>
+        `;
+      };
+
+      const html = buildHtml();
+      if (topContainer) topContainer.innerHTML = html;
+      if (bottomContainer) bottomContainer.innerHTML = html;
+    }
+
+    function changeConvarPage(newPage) {
+      currentConvarPage = newPage;
+      renderConvarsCatalog();
+      const tab = document.getElementById('tabConvarsView');
+      if (tab) tab.scrollTop = 0;
+    }
+
+    function onConvarSearchInput(val) {
+      currentConvarSearch = val;
+      currentConvarPage = 1;
+      const clearBtn = document.getElementById('convarSearchClearBtn');
+      if (clearBtn) {
+        if (val.length > 0) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      renderConvarsCatalog();
+    }
+
+    function clearConvarSearch() {
+      const input = document.getElementById('convarSearchInput');
+      if (input) input.value = '';
+      currentConvarSearch = '';
+      currentConvarPage = 1;
+      const clearBtn = document.getElementById('convarSearchClearBtn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderConvarsCatalog();
+    }
+
+    function setConvarCategory(cat) {
+      currentConvarCategory = cat;
+      currentConvarPage = 1;
+      renderConvarsCatalog();
+    }
+
+    function setConvarBinaryFilter(bin) {
+      currentConvarBinary = bin;
+      currentConvarPage = 1;
+      const sel = document.getElementById('convarBinarySelect');
+      if (sel) sel.value = bin;
+      renderConvarsCatalog();
+    }
+
+    function setConvarFlagFilter(flag) {
+      currentConvarFlag = flag;
+      currentConvarPage = 1;
+      const sel = document.getElementById('convarFlagSelect');
+      if (sel) sel.value = flag;
+      renderConvarsCatalog();
+    }
+
+    function filterConvarsBySearch(name) {
+      const input = document.getElementById('convarSearchInput');
+      if (input) input.value = name;
+      currentConvarSearch = name;
+      currentConvarCategory = 'all';
+      currentConvarBinary = 'all';
+      currentConvarFlag = 'all';
+      currentConvarPage = 1;
+      const selBin = document.getElementById('convarBinarySelect');
+      if (selBin) selBin.value = 'all';
+      const selFlag = document.getElementById('convarFlagSelect');
+      if (selFlag) selFlag.value = 'all';
+      renderConvarsCatalog();
+    }
+
+    function resetConvarFilters() {
+      currentConvarSearch = '';
+      currentConvarCategory = 'all';
+      currentConvarBinary = 'all';
+      currentConvarFlag = 'all';
+      currentConvarPage = 1;
+      const input = document.getElementById('convarSearchInput');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('convarSearchClearBtn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      const selBin = document.getElementById('convarBinarySelect');
+      if (selBin) selBin.value = 'all';
+      const selFlag = document.getElementById('convarFlagSelect');
+      if (selFlag) selFlag.value = 'all';
+      renderConvarsCatalog();
+    }
+
+    function copyConvarName(btn, name) {
+      navigator.clipboard.writeText(name).then(() => {
         const orig = btn.innerHTML;
         btn.innerHTML = `<span class="text-emerald-400 font-bold">Copied!</span>`;
         setTimeout(() => { btn.innerHTML = orig; }, 1500);
@@ -4822,7 +5305,7 @@
         if (DOCS.some(d => d.id === parts[1])) currentDocId = parts[1];
         switchTab('docs', false);
         selectDoc(parts[1], '', false);
-      } else if (['docs', 'binaries', 'tools', 'simulators', 'signatures'].includes(section)) {
+      } else if (['docs', 'binaries', 'tools', 'simulators', 'signatures', 'convars'].includes(section)) {
         switchTab(section, false);
       }
     }

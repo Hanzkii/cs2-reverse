@@ -30,6 +30,7 @@
 ## 5. Canonical Function Signatures & RVA Tracking Protocol
 - **Centralized Registry**: Every reversed internal function, math routine, or virtual execution dispatcher MUST be registered in `data/function_signatures.json` with its target binary, symbol name, baseline RVA/VA, and robust IDA/Ghidra pattern.
 - **100% Uniqueness Invariant**: Every pattern MUST be verified against the baseline archive to produce exactly 1 match using `python tools/scan_signatures.py`. Ambiguous (>1) or broken (0) patterns must be extended with discriminator bytes.
+- **Mandatory Update Protocol**: With every CS2 update, developers and agents MUST scan and update Function signatures and Virtual Address / Offsets for all updated binaries (`python tools/scan_signatures.py --update-db`). This automatically synchronizes `current_rva`, `current_va`, `delta_bytes`, `delta_str`, and `status` across all registered entries in `data/function_signatures.json`.
 - **Automated Update Diffing**: On each new CS2 patch, `tools/cs2_patch_diff.py` and `tools/scan_signatures.py --diff` automatically detect RVA shifts (`+N` bytes) and flag broken signatures requiring Ghidra re-analysis.
 
 ## 6. Temporary Tools & Scratchpad Guardrail

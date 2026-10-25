@@ -16,7 +16,8 @@
     "current_va": "0x181742500",
     "delta_bytes": 8800,
     "delta_str": "+0x2260",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "client_calc_world_bones",
@@ -35,7 +36,8 @@
     "current_va": "0x180aa1dc0",
     "delta_bytes": 3648,
     "delta_str": "+0xe40",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "client_concatenate_transforms",
@@ -54,7 +56,8 @@
     "current_va": "0x18174a6e0",
     "delta_bytes": 8800,
     "delta_str": "+0x2260",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_los_smoke",
@@ -73,7 +76,8 @@
     "current_va": "0x1809c5610",
     "delta_bytes": 54976,
     "delta_str": "+0xd6c0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_smoke_spawn",
@@ -92,7 +96,8 @@
     "current_va": "0x1809d8d50",
     "delta_bytes": 54592,
     "delta_str": "+0xd540",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_smoke_tick_update",
@@ -111,7 +116,8 @@
     "current_va": "0x1809dbf40",
     "delta_bytes": 54448,
     "delta_str": "+0xd4b0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_voxel_raymarch",
@@ -130,7 +136,8 @@
     "current_va": "0x1809da9b0",
     "delta_bytes": 54448,
     "delta_str": "+0xd4b0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_voxel_expand_carve",
@@ -149,7 +156,8 @@
     "current_va": "0x1809d6390",
     "delta_bytes": 54592,
     "delta_str": "+0xd540",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_serialize_sparse_delta",
@@ -168,7 +176,8 @@
     "current_va": "0x1809bf550",
     "delta_bytes": 55680,
     "delta_str": "+0xd980",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "server_lag_compensation",
@@ -187,7 +196,8 @@
     "current_va": "0x18081b770",
     "delta_bytes": 50256,
     "delta_str": "+0xc450",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "pulse_instruction_dispatch",
@@ -206,7 +216,8 @@
     "current_va": "0x18008f810",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "tier0_cvar_findvar",
@@ -225,7 +236,8 @@
     "current_va": "0x18006c6b0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "tier0_hash_string_caseless",
@@ -244,7 +256,8 @@
     "current_va": "0x18006c8c0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "network_read_varbit_msg_id",
@@ -263,7 +276,8 @@
     "current_va": "0x1801bf5c0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "network_serialize_net_message",
@@ -282,7 +296,8 @@
     "current_va": "0x1800e23d0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "network_write_varint32",
@@ -301,7 +316,8 @@
     "current_va": "0x1801c0760",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "network_read_varint32",
@@ -320,7 +336,8 @@
     "current_va": "0x1801bf770",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "network_decode_fieldpaths",
@@ -339,7 +356,8 @@
     "current_va": "0x1800835f8",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "vphysics2_convex_raycast",
@@ -358,7 +376,8 @@
     "current_va": "0x1802544a0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "vphysics2_capsule_sweep",
@@ -377,7 +396,8 @@
     "current_va": "0x18016caf0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "animationsystem_twobone_ik",
@@ -396,7 +416,8 @@
     "current_va": "0x1802f9750",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "server_bullet_penetration",
@@ -415,7 +436,8 @@
     "current_va": "0x180a9d150",
     "delta_bytes": 54448,
     "delta_str": "+0xd4b0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "navsystem_pathfind_build_path",
@@ -434,7 +456,8 @@
     "current_va": "0x18003bdf0",
     "delta_bytes": 0,
     "delta_str": "+0x0",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "UNCHANGED"
   },
   {
     "id": "client_weapon_update_accuracy_penalty",
@@ -453,7 +476,8 @@
     "current_va": "0x180828a10",
     "delta_bytes": 3632,
     "delta_str": "+0xe30",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "client_aim_punch_decay",
@@ -472,7 +496,8 @@
     "current_va": "0x18085ea90",
     "delta_bytes": 3632,
     "delta_str": "+0xe30",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "client_walk_move",
@@ -491,7 +516,8 @@
     "current_va": "0x1808ea1b0",
     "delta_bytes": 3632,
     "delta_str": "+0xe30",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   },
   {
     "id": "client_air_accelerate",
@@ -510,6 +536,7 @@
     "current_va": "0x1808c0860",
     "delta_bytes": 3632,
     "delta_str": "+0xe30",
-    "last_verified_build": "26144732"
+    "last_verified_build": "26144732",
+    "status": "SHIFTED"
   }
 ]

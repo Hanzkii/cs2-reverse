@@ -260,7 +260,7 @@ class PEBinary:
 # ============================================================================
 # Archiving & Profiling
 # ============================================================================
-def create_profile(source_dir, output_profile_dir, tag, build_id="", date=""):
+def create_profile(source_dir, output_profile_dir, tag, build_id="", date="", update_db=True):
     """Scans all CS2 binaries in source_dir and produces a complete profile JSON directory."""
     os.makedirs(output_profile_dir, exist_ok=True)
     t0 = time.time()
@@ -358,14 +358,19 @@ def create_profile(source_dir, output_profile_dir, tag, build_id="", date=""):
             tools_dir = os.path.dirname(os.path.abspath(__file__))
             if tools_dir not in sys.path:
                 sys.path.insert(0, tools_dir)
-            from scan_signatures import scan_directory
+            from scan_signatures import scan_directory, update_signatures_db
             sig_report = scan_directory(source_dir, sig_db_path)
             all_signatures = sig_report.get("signatures", [])
             with open(os.path.join(output_profile_dir, "signatures.json"), "w", encoding="utf-8") as f:
                 json.dump(sig_report, f, indent=2)
             print(f"    - Function Signatures: {len(all_signatures)} scanned ({sig_report['metrics']['valid_unique']} unique verified)")
+
+            # Automatically synchronize verified RVAs, VAs, deltas, and status into data/function_signatures.json
+            if update_db:
+                up_count, _ = update_signatures_db(source_dir, sig_db_path, report=sig_report, build_id=build_id or tag)
+                print(f"    - Function Signatures DB: Updated {up_count} entries in data/function_signatures.json (Build: {build_id or tag})")
         except Exception as e:
-            print(f"    - Function Signatures: scan skipped ({e})")
+            print(f"    - Function Signatures: scan/update skipped ({e})")
 
     elapsed = time.time() - t0
     print(f"\n[+] Profile successfully generated in {elapsed:.2f}s!")
@@ -377,7 +382,7 @@ def create_profile(source_dir, output_profile_dir, tag, build_id="", date=""):
     return manifest
 
 
-def archive_version(source_dir, archive_root, profiles_root, tag, build_id="", date=""):
+def archive_version(source_dir, archive_root, profiles_root, tag, build_id="", date="", update_db=True):
     """Copies source binaries to archive/<tag>/ and generates profile in profiles/<tag>/."""
     archive_dir = os.path.join(archive_root, tag)
     profile_dir = os.path.join(profiles_root, tag)
@@ -386,7 +391,7 @@ def archive_version(source_dir, archive_root, profiles_root, tag, build_id="", d
     print(f"[*] Archiving binaries into: {archive_dir}")
     copied = 0
     target_names = {b.lower(): b for b in CORE_BINARIES}
-    
+
     # Support both flat directory and full game directory hierarchy (game/bin/win64, game/csgo/bin/win64)
     for root, _, files in os.walk(source_dir):
         for fname in files:
@@ -403,7 +408,7 @@ def archive_version(source_dir, archive_root, profiles_root, tag, build_id="", d
     print(f"[+] Archived {copied} core binaries.")
 
     # Now build profile from the archived folder
-    return create_profile(archive_dir, profile_dir, tag, build_id, date)
+    return create_profile(archive_dir, profile_dir, tag, build_id, date, update_db=update_db)
 
 
 # ============================================================================
@@ -551,6 +556,8 @@ def diff_profiles(old_profile_dir, new_profile_dir, output_dir=None):
                 s_new = new_sigs.get(sig_id, {})
                 rva_old = s_old.get("current_rva")
                 rva_new = s_new.get("current_rva")
+                va_old = s_old.get("current_va")
+                va_new = s_new.get("current_va")
                 if rva_old and rva_new:
                     delta = int(rva_new, 16) - int(rva_old, 16)
                     status = "UNCHANGED" if delta == 0 else "SHIFTED"
@@ -574,8 +581,11 @@ def diff_profiles(old_profile_dir, new_profile_dir, output_dir=None):
                     "binary": s_old.get("binary"),
                     "category": s_old.get("category"),
                     "status": status,
+                    "baseline_rva": s_old.get("baseline_rva"),
                     "old_rva": rva_old,
                     "new_rva": rva_new,
+                    "old_va": va_old,
+                    "new_va": va_new,
                     "delta_bytes": delta,
                     "delta_str": delta_str,
                     "description": s_old.get("description", "")
@@ -602,8 +612,11 @@ def diff_profiles(old_profile_dir, new_profile_dir, output_dir=None):
             "interfaces_removed_count": len(removed_ifs),
             "cvars_added_count": len(added_cvars),
             "cvars_removed_count": len(removed_cvars),
+            "signatures_total_count": len(signatures_diff),
             "signatures_shifted_count": len([s for s in signatures_diff if s["status"] == "SHIFTED"]),
-            "signatures_broken_count": len([s for s in signatures_diff if s["status"] == "BROKEN"])
+            "signatures_unchanged_count": len([s for s in signatures_diff if s["status"] == "UNCHANGED"]),
+            "signatures_broken_count": len([s for s in signatures_diff if s["status"] == "BROKEN"]),
+            "signatures_restored_count": len([s for s in signatures_diff if s["status"] == "RESTORED"])
         },
         "binary_diffs": bin_diffs,
         "schemas": {
@@ -720,15 +733,16 @@ def generate_markdown_report(diff):
 
     # Function Signatures Diff
     if diff.get("signatures"):
-        lines.append(f"## 6. Function Signatures & RVAs Delta")
-        lines.append(f"| Binary | Function Symbol | Status | Baseline RVA | Target RVA | Shift / Delta |")
-        lines.append(f"| :--- | :--- | :--- | :--- | :--- | :--- |")
+        lines.append(f"## 6. Canonical Function Signatures & Virtual Addresses / RVAs Delta")
+        lines.append(f"| Binary | Function Symbol | Status | Baseline RVA | Target RVA | Target Virtual Address (VA) | Shift / Delta |")
+        lines.append(f"| :--- | :--- | :--- | :--- | :--- | :--- | :--- |")
         for sig in diff["signatures"]:
             st = sig["status"]
             badge = f"**{st}**" if st != "UNCHANGED" else "UNCHANGED"
             old_r = sig.get("old_rva") or "-"
             new_r = sig.get("new_rva") or "-"
-            lines.append(f"| `{sig['binary']}` | `{sig['name']}` | {badge} | `{old_r}` | `{new_r}` | `{sig['delta_str']}` |")
+            new_va = sig.get("new_va") or "-"
+            lines.append(f"| `{sig['binary']}` | `{sig['name']}` | {badge} | `{old_r}` | `{new_r}` | `{new_va}` | `{sig['delta_str']}` |")
         lines.append("")
 
     return "\n".join(lines)
@@ -747,6 +761,7 @@ def main():
     p_arch.add_argument("--tag", required=True, help="Version tag (e.g. 2026-10-15_25966348)")
     p_arch.add_argument("--build-id", default="", help="SteamDB patch / build ID")
     p_arch.add_argument("--date", default="", help="Date of update (YYYY-MM-DD)")
+    p_arch.add_argument("--no-update-db", action="store_false", dest="update_db", help="Skip updating data/function_signatures.json")
 
     # Profile command
     p_prof = subparsers.add_parser("profile", help="Extract profile from a directory without archiving")
@@ -754,12 +769,18 @@ def main():
     p_prof.add_argument("--tag", required=True, help="Version tag")
     p_prof.add_argument("--build-id", default="", help="SteamDB patch / build ID")
     p_prof.add_argument("--date", default="", help="Date of update (YYYY-MM-DD)")
+    p_prof.add_argument("--no-update-db", action="store_false", dest="update_db", help="Skip updating data/function_signatures.json")
 
     # Diff command
     p_diff = subparsers.add_parser("diff", help="Diff two profiled versions")
     p_diff.add_argument("old_tag", help="Baseline version tag or path to profile dir")
     p_diff.add_argument("new_tag", help="Target version tag or path to profile dir")
     p_diff.add_argument("--output", default="versions/diffs", help="Output directory for diffs")
+
+    # Scan-signatures command
+    p_sigs = subparsers.add_parser("scan-signatures", help="Scan and synchronize function signatures & virtual addresses across binaries")
+    p_sigs.add_argument("--source", help="Directory containing CS2 binaries (defaults to latest archive)")
+    p_sigs.add_argument("--no-update-db", action="store_false", dest="update_db", help="Do not update data/function_signatures.json")
 
     # List command
     p_list = subparsers.add_parser("list", help="List all profiled and archived versions")
@@ -774,11 +795,24 @@ def main():
     diffs_root = os.path.join(versions_root, "diffs")
 
     if args.command == "archive":
-        archive_version(args.source, archive_root, profiles_root, args.tag, args.build_id, args.date)
+        archive_version(args.source, archive_root, profiles_root, args.tag, args.build_id, args.date, update_db=getattr(args, "update_db", True))
 
     elif args.command == "profile":
         out_dir = os.path.join(profiles_root, args.tag)
-        create_profile(args.source, out_dir, args.tag, args.build_id, args.date)
+        create_profile(args.source, out_dir, args.tag, args.build_id, args.date, update_db=getattr(args, "update_db", True))
+
+    elif args.command == "scan-signatures":
+        tools_dir = os.path.dirname(os.path.abspath(__file__))
+        if tools_dir not in sys.path:
+            sys.path.insert(0, tools_dir)
+        from scan_signatures import get_latest_archive_dir, scan_directory, print_scan_report, update_signatures_db
+        src = args.source or get_latest_archive_dir()
+        sig_db_path = os.path.join(repo_root, "data", "function_signatures.json")
+        rep = scan_directory(src, sig_db_path)
+        print_scan_report(rep)
+        if getattr(args, "update_db", True):
+            count, _ = update_signatures_db(src, sig_db_path, report=rep)
+            print(f"[+] Successfully updated {count} signatures in {sig_db_path}")
 
     elif args.command == "diff":
         old_dir = args.old_tag if os.path.isdir(args.old_tag) else os.path.join(profiles_root, args.old_tag)

@@ -101,8 +101,8 @@ def scan_binary_for_signatures(pe: PEBinary, signatures: list) -> list:
             "status": status,
             "matches": num_matches,
             "baseline_rva": baseline_rva_str,
-            "current_rva": f"0x{current_rva:07x}" if current_rva is not None else None,
-            "current_va": f"0x{current_va:016x}" if current_va is not None else None,
+            "current_rva": f"0x{current_rva:08x}" if current_rva is not None else None,
+            "current_va": f"0x{current_va:09x}" if current_va is not None else None,
             "delta_bytes": delta,
             "delta_str": (f"+0x{delta:x}" if delta > 0 else (f"-0x{-delta:x}" if delta < 0 else "+0x0")) if delta is not None else "N/A",
             "pattern": pattern_str,
@@ -182,27 +182,91 @@ def scan_directory(source_dir: str, signatures_file: str) -> dict:
         "signatures": results
     }
 
+def get_latest_archive_dir(archive_root: str = None) -> str:
+    """Finds the most recent version archive directory in versions/archive/."""
+    if not archive_root:
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        archive_root = os.path.join(repo_root, "versions", "archive")
+    if os.path.exists(archive_root):
+        subdirs = [d for d in os.listdir(archive_root) if os.path.isdir(os.path.join(archive_root, d))]
+        if subdirs:
+            subdirs.sort()
+            return os.path.join(archive_root, subdirs[-1])
+    return os.path.join(archive_root, "2026-10-15_25966348")
+
+def update_signatures_db(target_dir: str = None, signatures_file: str = DEFAULT_SIGNATURES_FILE, report: dict = None, build_id: str = "") -> tuple:
+    """Updates data/function_signatures.json with latest verified Virtual Addresses, RVAs, deltas, and status.
+
+    Returns (updated_count, report).
+    """
+    if not target_dir:
+        target_dir = get_latest_archive_dir()
+
+    if report is None:
+        report = scan_directory(target_dir, signatures_file)
+
+    if not build_id:
+        dir_name = os.path.basename(os.path.normpath(target_dir))
+        build_id = dir_name.split("_")[-1] if "_" in dir_name else dir_name
+
+    with open(signatures_file, "r", encoding="utf-8") as f:
+        db_entries = json.load(f)
+
+    results_by_id = {r["id"]: r for r in report["signatures"] if "id" in r}
+    updated_count = 0
+
+    for entry in db_entries:
+        eid = entry.get("id")
+        if eid in results_by_id:
+            scan_res = results_by_id[eid]
+            status = scan_res.get("status", "UNKNOWN")
+            entry["status"] = status
+            entry["last_verified_build"] = build_id
+
+            if scan_res.get("matches") == 1:
+                cur_rva_val = scan_res.get("current_rva")
+                cur_va_val = scan_res.get("current_va")
+                cur_rva_int = int(cur_rva_val, 16) if isinstance(cur_rva_val, str) else cur_rva_val
+                cur_va_int = int(cur_va_val, 16) if isinstance(cur_va_val, str) else cur_va_val
+                entry["current_rva"] = f"0x{cur_rva_int:08x}"
+                entry["current_va"] = f"0x{cur_va_int:09x}"
+                entry["delta_bytes"] = scan_res.get("delta_bytes", 0)
+                entry["delta_str"] = scan_res.get("delta_str", "+0x0")
+                updated_count += 1
+            elif status == "BROKEN":
+                entry["delta_str"] = "BROKEN"
+                updated_count += 1
+            elif status == "AMBIGUOUS":
+                entry["delta_str"] = f"AMBIGUOUS ({scan_res.get('matches', 0)} matches)"
+                updated_count += 1
+
+    with open(signatures_file, "w", encoding="utf-8") as f:
+        json.dump(db_entries, f, indent=2)
+
+    return updated_count, report
+
 def print_scan_report(report: dict):
-    """Prints a beautiful formatted ASCII report."""
-    print("=" * 115)
+    """Prints a beautiful formatted ASCII report with RVAs and VAs."""
+    print("=" * 130)
     print(f"  SOURCE 2 FUNCTION SIGNATURE & OFFSET VERIFICATION REPORT")
     print(f"  Directory: {report.get('source_dir')}")
     print(f"  Scanned At: {report.get('scanned_at')} | Duration: {report.get('duration_seconds')}s")
-    print("=" * 115)
+    print("=" * 130)
     m = report["metrics"]
     print(f"  Summary: Total: {report['total_signatures']} | "
           f"Unchanged: {m['unchanged']} | "
           f"Shifted: {m['shifted']} | "
           f"Broken: {m['broken']} | "
           f"Ambiguous: {m['ambiguous']}")
-    print("-" * 115)
-    print(f" {'Binary':<18} | {'Function Symbol':<32} | {'Status':<10} | {'Base RVA':<11} | {'Curr RVA':<11} | {'Delta':<8} | {'Matches'}")
-    print("-" * 115)
+    print("-" * 130)
+    print(f" {'Binary':<18} | {'Function Symbol':<32} | {'Status':<10} | {'Base RVA':<11} | {'Curr RVA':<11} | {'Curr VA':<13} | {'Delta':<8} | {'Matches'}")
+    print("-" * 130)
 
     for s in report["signatures"]:
         status = s.get("status", "UNKNOWN")
         base_rva = s.get("baseline_rva", "")
         curr_rva = s.get("current_rva") or "-"
+        curr_va = s.get("current_va") or "-"
         delta = s.get("delta_str") or "-"
         matches = str(s.get("matches", 0))
 
@@ -218,9 +282,9 @@ def print_scan_report(report: dict):
         else:
             status_tag = f"[{status[:5]}]"
 
-        print(f" {s.get('binary', ''):<18} | {s.get('name', ''):<32} | {status_tag:<10} | {base_rva:<11} | {curr_rva:<11} | {delta:<8} | {matches}")
+        print(f" {s.get('binary', ''):<18} | {s.get('name', ''):<32} | {status_tag:<10} | {base_rva:<11} | {curr_rva:<11} | {curr_va:<13} | {delta:<8} | {matches}")
 
-    print("=" * 115)
+    print("=" * 130)
 
 def diff_signatures(dir_a: str, dir_b: str, signatures_file: str) -> dict:
     """Compares signatures between two archived versions (A = baseline, B = new)."""
@@ -327,7 +391,7 @@ def main():
         print_scan_report(report)
         return
 
-    target_dir = args.dir or "versions/archive/2026-10-15_25966348"
+    target_dir = args.dir or get_latest_archive_dir()
     if not os.path.exists(target_dir):
         print(f"Error: Directory {target_dir} does not exist.")
         sys.exit(1)
@@ -336,32 +400,9 @@ def main():
     print_scan_report(report)
 
     if args.update_db:
-        # Determine build identifier from target_dir if available
+        updated_count, _ = update_signatures_db(target_dir, args.db, report=report)
         dir_name = os.path.basename(os.path.normpath(target_dir))
         build_id = dir_name.split("_")[-1] if "_" in dir_name else dir_name
-
-        with open(args.db, "r", encoding="utf-8") as f:
-            db_entries = json.load(f)
-
-        results_by_id = {r["id"]: r for r in report["signatures"] if "id" in r}
-        updated_count = 0
-
-        for entry in db_entries:
-            eid = entry.get("id")
-            if eid in results_by_id:
-                scan_res = results_by_id[eid]
-                if scan_res.get("matches") == 1:
-                    cur_rva_int = int(scan_res["current_rva"], 16) if isinstance(scan_res["current_rva"], str) else scan_res["current_rva"]
-                    cur_va_int = int(scan_res["current_va"], 16) if isinstance(scan_res["current_va"], str) else scan_res["current_va"]
-                    entry["current_rva"] = f"0x{cur_rva_int:08x}"
-                    entry["current_va"] = f"0x{cur_va_int:09x}"
-                    entry["delta_bytes"] = scan_res.get("delta_bytes", 0)
-                    entry["delta_str"] = scan_res.get("delta_str", "0x0")
-                    entry["last_verified_build"] = build_id
-                    updated_count += 1
-
-        with open(args.db, "w", encoding="utf-8") as f:
-            json.dump(db_entries, f, indent=2)
         print(f"[+] Updated {updated_count} function signatures in {args.db} (Build: {build_id})")
 
     if args.json:

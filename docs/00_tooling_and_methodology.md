@@ -209,8 +209,36 @@ Source 2 employs a strictly decoupled, shared-library architecture where engine 
 
 To maintain reproducible static analysis across Counter-Strike 2 updates without committing proprietary binaries to Git:
 1. **Local Binary Archiving (`versions/archive/<DATE>_<BUILD_ID>/`)**: Pristine game binaries from `<STEAM_LIBRARY>\steamapps\common\Counter-Strike Global Offensive\` are snapshotted into local-only archive directories (strictly excluded via `.gitignore`) and imported into the local `CS2.gpr` Ghidra project.
-2. **Version Telemetry Profiles (`versions/profiles/<DATE>_<BUILD_ID>/`)**: `tools/cs2_patch_diff.py` extracts lightweight JSON metadata (`manifest.json`, `schemas.json`, `convars.json`, `interfaces.json`) for Git tracking and automated patch diffing (`versions/diffs/`).
+2. **Version Telemetry Profiles (`versions/profiles/<DATE>_<BUILD_ID>/`)**: `tools/cs2_patch_diff.py` extracts lightweight JSON metadata (`manifest.json`, `schemas.json`, `cvars.json`, `interfaces.json`) for Git tracking and automated patch diffing (`versions/diffs/`).
 3. **Canonical Function Signature Registry (`data/function_signatures.json`)**: Every reversed internal routine, VTable, and dispatcher is registered with a 100% unique IDA/Ghidra wildcard byte pattern and verified against archived builds via `tools/scan_signatures.py`.
+
+### 6.1 CS2 Patch Diffing & Binary Telemetry Pipeline
+When a new Counter-Strike 2 update is released, the telemetry pipeline executes the following mandatory steps:
+1. **Archive Game Binaries & Extract Profile**:
+   ```bash
+   python tools/cs2_patch_diff.py archive --source "<STEAM_LIBRARY>/game" --tag "YYYY-MM-DD_<BUILD_ID>" --build-id "<BUILD_ID>" --date "YYYY-MM-DD"
+   ```
+2. **Automated Function Signature & Virtual Address / Offset Update**:
+   With every CS2 update, developers and agents MUST scan and update Function signatures and Virtual Address / Offsets for all updated binaries:
+   ```bash
+   python tools/scan_signatures.py --update-db
+   ```
+   Alternatively, `tools/cs2_patch_diff.py` invokes this verification automatically during the `archive` and `profile` commands (or via `python tools/cs2_patch_diff.py scan-signatures`). This pipeline automatically verifies 100% uniqueness (1 match), recalculates Relative Virtual Addresses (`current_rva`), computes 64-bit Virtual Addresses (`current_va`), determines net shift offsets (`delta_bytes`, `delta_str`), and updates verification status (`status`: `UNCHANGED`, `SHIFTED`, `BROKEN`, `AMBIGUOUS`) in `data/function_signatures.json`.
+3. **Differential Telemetry & Markdown Report Generation**:
+   ```bash
+   python tools/cs2_patch_diff.py diff <OLD_TAG> <NEW_TAG> --output versions/diffs
+   ```
+   Generates a full diff summary (`versions/diffs/diff_<OLD>_vs_<NEW>.json`) and human-readable Markdown diff (`versions/diffs/diff_<OLD>_vs_<NEW>.md`) reporting:
+   - Recompiled PE binary inventories and size deltas.
+   - Schema offset shifts and field mutations across classes.
+   - Newly introduced ConVars and ConCommands.
+   - Engine interface token changes.
+   - Canonical Function Signatures & Virtual Addresses / RVAs delta table (Baseline RVA, Target RVA, Target VA, Net Shift).
+4. **Portal Synchronization**:
+   ```bash
+   python tools/generate_docs_bundle.py; python tools/generate_portal_data.py
+   ```
+   Regenerates `docs/portal-data.js` and `docs/docs-data.js` to ensure web portal visualizers, signatures tables, and changelogs remain in sync with latest game data.
 
 ---
 
