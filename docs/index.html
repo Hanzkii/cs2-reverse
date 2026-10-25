@@ -158,10 +158,9 @@
         <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
         Function Signatures
       </button>
-      <button onclick="switchTab('convars')" id="navTabConvars" class="px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1.5 relative">
+      <button onclick="switchTab('convars')" id="navTabConvars" class="px-3.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        ConVars &amp; Commands
-        <span class="inline-flex items-center px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">NEW</span>
+        ConVars
       </button>
     </nav>
 
@@ -875,15 +874,12 @@
               Source 2 ConVars &amp; Console Commands Catalog
             </h1>
             <p class="text-slate-400 text-sm mt-1">
-              Reverse-engineered database of console variables and commands across Source 2 binaries. Includes runtime FCVAR security flags, subsystem classifications, and functional impact explanations.
+              Reverse-engineered database of 2,695 console variables and commands across Source 2 binaries. Includes runtime FCVAR security flags, subsystem classifications, and functional impact explanations.
             </p>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-bold" id="convarsTotalBadge">2,695 ConVars Cataloged</span>
-            <button onclick="setConvarCategory('new')" class="px-3 py-1 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer transition-colors" id="convarsNewBadge">
-              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              <span id="convarsNewCountText">3 New in Latest Build</span>
-            </button>
+            <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono">Static PE &amp; Ghidra Analysis</span>
           </div>
         </div>
 
@@ -894,13 +890,10 @@
             <div class="text-2xl font-extrabold text-white mt-1" id="kpiConvarsTotal">2,695</div>
             <div class="text-[10px] text-slate-500 mt-0.5">Across 3 Core DLLs</div>
           </div>
-          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-amber-500/50 transition-all" onclick="setConvarCategory('new')">
-            <div class="text-[11px] font-mono text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-              New in Update
-            </div>
-            <div class="text-2xl font-extrabold text-amber-300 mt-1" id="kpiConvarsNew">3</div>
-            <div class="text-[10px] text-amber-400/70 mt-0.5">Build 26144732</div>
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-purple-500/50 transition-all" onclick="resetConvarFilters()">
+            <div class="text-[11px] font-mono text-purple-400 uppercase tracking-wider">Subsystems</div>
+            <div class="text-2xl font-extrabold text-purple-300 mt-1">10 Subsystems</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Engine, Net, Phys, Audio</div>
           </div>
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-sky-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_REPLICATED')">
             <div class="text-[11px] font-mono text-sky-400 uppercase tracking-wider">Replicated</div>
@@ -2528,7 +2521,6 @@
     // ========================================================================
     const CONVAR_CATEGORIES = [
       { id: "all", name: "All Subsystems" },
-      { id: "new", name: "🆕 New in Update", badge: true },
       { id: "Movement & Physics", name: "Movement & Physics" },
       { id: "Weapons & Combat", name: "Weapons & Combat" },
       { id: "Netcode & Sub-Tick", name: "Netcode & Sub-Tick" },
@@ -2543,29 +2535,23 @@
 
     function initConvarKPIs() {
       const totalEl = document.getElementById('kpiConvarsTotal');
-      const newEl = document.getElementById('kpiConvarsNew');
       const repEl = document.getElementById('kpiConvarsReplicated');
       const cheatEl = document.getElementById('kpiConvarsCheat');
       const archEl = document.getElementById('kpiConvarsArchive');
 
       if (!totalEl) return;
       const total = CONVARS_DATA.length;
-      const newCount = CONVARS_DATA.filter(c => c.is_new).length;
       const repCount = CONVARS_DATA.filter(c => (c.flags || []).includes('FCVAR_REPLICATED')).length;
       const cheatCount = CONVARS_DATA.filter(c => (c.flags || []).includes('FCVAR_CHEAT')).length;
       const archCount = CONVARS_DATA.filter(c => (c.flags || []).includes('FCVAR_ARCHIVE')).length;
 
       totalEl.innerText = total.toLocaleString();
-      newEl.innerText = newCount;
       repEl.innerText = repCount.toLocaleString();
       cheatEl.innerText = cheatCount.toLocaleString();
       archEl.innerText = archCount.toLocaleString();
 
       const totalBadge = document.getElementById('convarsTotalBadge');
       if (totalBadge) totalBadge.innerText = `${total.toLocaleString()} ConVars Cataloged`;
-
-      const newBadge = document.getElementById('convarsNewCountText');
-      if (newBadge) newBadge.innerText = `${newCount} New in Latest Build`;
     }
 
     function renderConvarCategoryPills() {
@@ -2574,22 +2560,13 @@
       container.innerHTML = '';
 
       CONVAR_CATEGORIES.forEach(cat => {
-        let count = 0;
-        if (cat.id === 'all') {
-          count = CONVARS_DATA.length;
-        } else if (cat.id === 'new') {
-          count = CONVARS_DATA.filter(c => c.is_new).length;
-        } else {
-          count = CONVARS_DATA.filter(c => c.category === cat.id).length;
-        }
+        let count = (cat.id === 'all') ? CONVARS_DATA.length : CONVARS_DATA.filter(c => c.category === cat.id).length;
 
         const btn = document.createElement('button');
         const isActive = (currentConvarCategory === cat.id);
         
         if (isActive) {
           btn.className = 'px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40 cursor-pointer flex items-center gap-1.5';
-        } else if (cat.id === 'new') {
-          btn.className = 'px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-400 hover:text-white border border-amber-500/30 cursor-pointer flex items-center gap-1.5 font-bold';
         } else {
           btn.className = 'px-2.5 py-1 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer flex items-center gap-1.5';
         }
@@ -2604,9 +2581,7 @@
       const q = currentConvarSearch.toLowerCase().trim();
       return CONVARS_DATA.filter(c => {
         // Category filter
-        if (currentConvarCategory === 'new') {
-          if (!c.is_new) return false;
-        } else if (currentConvarCategory !== 'all') {
+        if (currentConvarCategory !== 'all') {
           if (c.category !== currentConvarCategory) return false;
         }
 
@@ -2681,8 +2656,6 @@
 
       pageSlice.forEach(c => {
         const card = document.createElement('div');
-        const isNew = c.is_new === true;
-        const borderClass = isNew ? 'border-amber-500/60 bg-amber-500/[0.03]' : 'border-cs2-border bg-[#111827]';
         
         // Binary styling
         let binBadge = 'bg-slate-800 text-slate-300 border-slate-700';
@@ -2701,13 +2674,12 @@
           return `<span class="px-2 py-0.5 rounded text-[10px] font-mono border ${flagClass}">${escapeHtml(f)}</span>`;
         }).join(' ');
 
-        card.className = `border rounded-xl p-4 transition-all duration-150 hover:border-cyan-500/50 ${borderClass}`;
+        card.className = 'border rounded-xl p-4 transition-all duration-150 hover:border-cyan-500/50 border-cs2-border bg-[#111827]';
         card.innerHTML = `
           <div class="flex flex-col md:flex-row md:items-start justify-between gap-3">
             <div class="space-y-1.5 flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="text-base font-bold font-mono text-white tracking-tight break-all">${escapeHtml(c.name)}</span>
-                ${isNew ? '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-extrabold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>NEW IN BUILD ' + escapeHtml(c.added_in_build || '26144732') + '</span>' : ''}
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono border ${binBadge}">${escapeHtml(c.binary || 'engine')}</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400 border border-slate-700/80">${escapeHtml(c.category || 'General')}</span>
               </div>
@@ -3309,6 +3281,58 @@
         });
       }
 
+      let convarsBannerHtml = '';
+      const addedCvars = (diff && diff.cvars && diff.cvars.added) ? diff.cvars.added : [];
+      const addedDetails = (diff && diff.cvars && diff.cvars.added_details) ? diff.cvars.added_details : [];
+
+      if (!isSelf && addedCvars.length > 0) {
+        convarsBannerHtml = `
+          <!-- Newly Introduced ConVars Banner in Patch Diffing -->
+          <div class="bg-gradient-to-r from-cyan-500/10 via-slate-900 to-[#111827] border-2 border-cyan-500/50 rounded-2xl p-6 shadow-2xl space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
+              <div>
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase tracking-wider">
+                  New ConVars &amp; Commands Added in this Update
+                </span>
+                <h3 class="text-base font-bold text-white mt-1.5 flex items-center gap-2">
+                  <span class="flex h-3 w-3 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                  </span>
+                  <span>${addedCvars.length} New ConVar${addedCvars.length > 1 ? 's' : ''} Introduced in Build ${vNew ? (vNew.build_id || vNew.tag) : ''}</span>
+                </h3>
+              </div>
+              <button onclick="setDiffSubtab('interfaces')" class="px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-mono font-bold transition-all flex items-center gap-1.5 self-start sm:self-auto shadow-lg shadow-cyan-500/20 cursor-pointer">
+                <span>View Full ConVar Deltas</span>
+                <span>&rarr;</span>
+              </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
+              ${(addedDetails.length > 0 ? addedDetails : addedCvars.map(cv => ({ name: cv, binary: 'engine2.dll', category: 'General', description: 'Newly introduced console variable.', flags: ['FCVAR_NONE'] }))).map(cv => `
+                <div onclick="switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="bg-slate-950/80 border border-cyan-500/40 hover:border-cyan-400 rounded-xl p-4 space-y-2.5 font-mono text-xs transition-all cursor-pointer group">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-cyan-300 break-all">${escapeHtml(cv.name)}</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/50">NEW</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-[10px]">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">${escapeHtml(cv.binary || 'engine2.dll')}</span>
+                    <span class="text-slate-400">${escapeHtml(cv.category || 'General')}</span>
+                  </div>
+                  <p class="text-slate-300 text-[11px] font-sans leading-relaxed line-clamp-3">
+                    ${escapeHtml(cv.description || '')}
+                  </p>
+                  <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-500">
+                    <span>${(cv.flags || []).slice(0, 2).join(', ') || 'FCVAR_NONE'}</span>
+                    <span class="text-cyan-400 group-hover:underline">Inspect in ConVars &rarr;</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
       let modifiedBannerHtml = '';
       if (!isSelf && modifiedBinList.length > 0) {
         modifiedBannerHtml = `
@@ -3420,6 +3444,8 @@
         </div>
 
         ${modifiedBannerHtml}
+
+        ${convarsBannerHtml}
 
         <!-- Quick Binary Section Breakdown -->
         <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
@@ -3861,56 +3887,90 @@
             <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
               <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                 <span class="text-sm font-bold text-white font-mono flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
                   Engine ConVars &amp; Commands
                 </span>
-                <span class="text-[11px] font-mono text-slate-400">${isSelf ? 'Baseline (Zero Deltas)' : 'Differential'}</span>
+                <span class="text-[11px] font-mono text-cyan-400 font-bold">${isSelf ? 'Baseline (Zero Deltas)' : (diff && diff.cvars && diff.cvars.added && diff.cvars.added.length > 0 ? `+${diff.cvars.added.length} Added in Update` : '0 Added')}</span>
               </div>
-              <p class="text-xs text-slate-400">Key engine variables tracked across updates:</p>
+
+              ${(!isSelf && diff && diff.cvars && diff.cvars.added && diff.cvars.added.length > 0) ? `
+                <!-- Newly Added ConVars in this Patch -->
+                <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-3 space-y-2">
+                  <div class="text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span>Newly Added in Build ${vNew ? (vNew.build_id || vNew.tag) : ''} (${diff.cvars.added.length})</span>
+                  </div>
+                  <div class="space-y-1.5">
+                    ${((diff.cvars.added_details && diff.cvars.added_details.length > 0) ? diff.cvars.added_details : diff.cvars.added.map(cv => ({ name: cv, binary: 'engine2.dll', category: 'General', description: 'Newly introduced console variable.', flags: [] }))).map(cv => `
+                      <div onclick="switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="diff-item-cvar bg-[#0b0f19] hover:bg-slate-900 border border-cyan-500/40 p-2.5 rounded cursor-pointer transition-all" data-name="${escapeHtml(cv.name)} ${escapeHtml(cv.binary || '')}">
+                        <div class="flex items-center justify-between font-mono text-xs">
+                          <span class="text-cyan-300 font-bold flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                            ${escapeHtml(cv.name)}
+                          </span>
+                          <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/30 font-bold">${escapeHtml(cv.binary || 'engine2.dll')}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-300 font-sans mt-1 leading-relaxed">${escapeHtml(cv.description || '')}</p>
+                        <div class="mt-2 pt-1.5 border-t border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                          <span>${(cv.flags || []).join(', ') || 'FCVAR_NONE'}</span>
+                          <span class="text-cyan-400 hover:underline">Inspect in ConVars Catalog &rarr;</span>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : `
+                <div class="bg-slate-950/60 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 font-mono flex items-center justify-between">
+                  <span>ConVar Additions in Snapshot:</span>
+                  <span class="text-emerald-400 font-bold">0 Added (Baseline Matches)</span>
+                </div>
+              `}
+
+              <p class="text-xs text-slate-400 pt-1">Key engine variables tracked across updates:</p>
               <div class="space-y-1.5 font-mono text-xs max-h-96 overflow-y-auto" id="diffCvarList">
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="subtick_show_debug client.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('subtick_show_debug')" data-name="subtick_show_debug client.dll">
                   <div>
                     <span class="text-slate-200 font-bold">subtick_show_debug</span>
                     <span class="text-[10px] text-slate-500 block">Visualizes client sub-tick sample slices</span>
                   </div>
                   <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">client.dll</span>
                 </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="sv_clockcorrection_msecs server.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('sv_clockcorrection_msecs')" data-name="sv_clockcorrection_msecs server.dll">
                   <div>
                     <span class="text-slate-200 font-bold">sv_clockcorrection_msecs</span>
                     <span class="text-[10px] text-slate-500 block">Sub-tick clock drift tolerance limit (30ms)</span>
                   </div>
                   <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">server.dll</span>
                 </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="cl_updaterate engine2.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('cl_updaterate')" data-name="cl_updaterate engine2.dll">
                   <div>
                     <span class="text-slate-200 font-bold">cl_updaterate</span>
                     <span class="text-[10px] text-slate-500 block">Fixed packet tick rate locked at 64Hz in Source 2</span>
                   </div>
                   <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">engine2.dll</span>
                 </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="net_droppackets networksystem.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('net_droppackets')" data-name="net_droppackets networksystem.dll">
                   <div>
                     <span class="text-slate-200 font-bold">net_droppackets</span>
                     <span class="text-[10px] text-slate-500 block">Simulates artificial packet loss on channel</span>
                   </div>
                   <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">networksystem.dll</span>
                 </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="r_drawviewmodel client.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('r_drawviewmodel')" data-name="r_drawviewmodel client.dll">
                   <div>
                     <span class="text-slate-200 font-bold">r_drawviewmodel</span>
                     <span class="text-[10px] text-slate-500 block">First-person weapon model rendering toggle</span>
                   </div>
                   <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">client.dll</span>
                 </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="sv_cheats tier0.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('sv_cheats')" data-name="sv_cheats tier0.dll">
                   <div>
                     <span class="text-slate-200 font-bold">sv_cheats</span>
                     <span class="text-[10px] text-slate-500 block">FCVAR_REPLICATED protected developer gate</span>
                   </div>
                   <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">tier0.dll</span>
                 </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="pulse_enable pulse_system.dll">
+                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('pulse_enable')" data-name="pulse_enable pulse_system.dll">
                   <div>
                     <span class="text-slate-200 font-bold">pulse_enable</span>
                     <span class="text-[10px] text-slate-500 block">Enables runtime Pulse node VM execution</span>

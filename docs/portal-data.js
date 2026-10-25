@@ -38367,7 +38367,7 @@ window.CS2_DIFFS_DATA = [
     "new_build_id": "26087496",
     "old_date": "2026-10-15",
     "new_date": "2026-10-21",
-    "generated_at": "2026-10-25T12:01:58.606105",
+    "generated_at": "2026-10-25T12:23:33.982195",
     "summary": {
       "binaries_modified_count": 2,
       "classes_added_count": 0,
@@ -38413,6 +38413,7 @@ window.CS2_DIFFS_DATA = [
     },
     "cvars": {
       "added": [],
+      "added_details": [],
       "removed": []
     },
     "signatures": [
@@ -38830,7 +38831,7 @@ window.CS2_DIFFS_DATA = [
     "new_build_id": "26144732",
     "old_date": "2026-10-15",
     "new_date": "2026-10-25",
-    "generated_at": "2026-10-25T12:02:00.431385",
+    "generated_at": "2026-10-25T12:23:35.703467",
     "summary": {
       "binaries_modified_count": 32,
       "classes_added_count": 1,
@@ -42013,6 +42014,38 @@ window.CS2_DIFFS_DATA = [
         "r_exit_threshold",
         "r_suppress",
         "r_transparent"
+      ],
+      "added_details": [
+        {
+          "name": "r_exit_threshold",
+          "binary": "engine2.dll",
+          "category": "Audio & Voice",
+          "description": "WebRTC AEC3 echo cancellation near-end detection energy exit threshold for terminating suppression state. Introduced in CS2 build 26144732.",
+          "flags": [
+            "FCVAR_DEVELOPMENTONLY",
+            "FCVAR_HIDDEN"
+          ]
+        },
+        {
+          "name": "r_suppress",
+          "binary": "engine2.dll",
+          "category": "Audio & Voice",
+          "description": "WebRTC AEC3 near-end suppression mask tuning factor attenuating residual acoustic echo feedback. Introduced in CS2 build 26144732.",
+          "flags": [
+            "FCVAR_DEVELOPMENTONLY",
+            "FCVAR_HIDDEN"
+          ]
+        },
+        {
+          "name": "r_transparent",
+          "binary": "engine2.dll",
+          "category": "Audio & Voice",
+          "description": "WebRTC AEC3 near-end transparency mask factor preventing clipping and muffling of player voice input. Introduced in CS2 build 26144732.",
+          "flags": [
+            "FCVAR_DEVELOPMENTONLY",
+            "FCVAR_HIDDEN"
+          ]
+        }
       ],
       "removed": []
     },
@@ -42431,7 +42464,7 @@ window.CS2_DIFFS_DATA = [
     "new_build_id": "26144732",
     "old_date": "2026-10-21",
     "new_date": "2026-10-25",
-    "generated_at": "2026-10-25T12:01:59.952360",
+    "generated_at": "2026-10-25T12:23:35.301876",
     "summary": {
       "binaries_modified_count": 32,
       "classes_added_count": 1,
@@ -45614,6 +45647,38 @@ window.CS2_DIFFS_DATA = [
         "r_exit_threshold",
         "r_suppress",
         "r_transparent"
+      ],
+      "added_details": [
+        {
+          "name": "r_exit_threshold",
+          "binary": "engine2.dll",
+          "category": "Audio & Voice",
+          "description": "WebRTC AEC3 echo cancellation near-end detection energy exit threshold for terminating suppression state. Introduced in CS2 build 26144732.",
+          "flags": [
+            "FCVAR_DEVELOPMENTONLY",
+            "FCVAR_HIDDEN"
+          ]
+        },
+        {
+          "name": "r_suppress",
+          "binary": "engine2.dll",
+          "category": "Audio & Voice",
+          "description": "WebRTC AEC3 near-end suppression mask tuning factor attenuating residual acoustic echo feedback. Introduced in CS2 build 26144732.",
+          "flags": [
+            "FCVAR_DEVELOPMENTONLY",
+            "FCVAR_HIDDEN"
+          ]
+        },
+        {
+          "name": "r_transparent",
+          "binary": "engine2.dll",
+          "category": "Audio & Voice",
+          "description": "WebRTC AEC3 near-end transparency mask factor preventing clipping and muffling of player voice input. Introduced in CS2 build 26144732.",
+          "flags": [
+            "FCVAR_DEVELOPMENTONLY",
+            "FCVAR_HIDDEN"
+          ]
+        }
       ],
       "removed": []
     },

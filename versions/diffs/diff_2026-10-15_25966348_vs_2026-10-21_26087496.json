@@ -5,7 +5,7 @@
   "new_build_id": "26087496",
   "old_date": "2026-10-15",
   "new_date": "2026-10-21",
-  "generated_at": "2026-10-25T12:01:58.606105",
+  "generated_at": "2026-10-25T12:23:33.982195",
   "summary": {
     "binaries_modified_count": 2,
     "classes_added_count": 0,
@@ -51,6 +51,7 @@
   },
   "cvars": {
     "added": [],
+    "added_details": [],
     "removed": []
   },
   "signatures": [

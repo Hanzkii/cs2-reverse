@@ -541,6 +541,34 @@ def diff_profiles(old_profile_dir, new_profile_dir, output_dir=None):
     added_cvars = sorted(list(new_cvars - old_cvars))
     removed_cvars = sorted(list(old_cvars - new_cvars))
 
+    # Enrich added cvars with metadata from data/convars.json if available
+    convars_db_map = {}
+    convars_db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "convars.json")
+    if os.path.exists(convars_db_path):
+        try:
+            with open(convars_db_path, "r", encoding="utf-8") as f:
+                for c in json.load(f):
+                    convars_db_map[c["name"]] = c
+        except Exception:
+            pass
+
+    added_cvars_details = []
+    for cv in added_cvars:
+        meta = convars_db_map.get(cv, {})
+        found_bin = meta.get("binary")
+        if not found_bin:
+            for b_name, b_cvars in new_cvars_dict.items():
+                if cv in b_cvars:
+                    found_bin = b_name
+                    break
+        added_cvars_details.append({
+            "name": cv,
+            "binary": found_bin or "engine2.dll",
+            "category": meta.get("category", "General Engine"),
+            "description": meta.get("description", "Source 2 engine console variable added in update."),
+            "flags": meta.get("flags", ["FCVAR_NONE"])
+        })
+
     # 5. Function Signatures & RVAs Diff
     signatures_diff = []
     old_sig_path = os.path.join(old_profile_dir, "signatures.json")
@@ -630,6 +658,7 @@ def diff_profiles(old_profile_dir, new_profile_dir, output_dir=None):
         },
         "cvars": {
             "added": added_cvars,
+            "added_details": added_cvars_details,
             "removed": removed_cvars
         },
         "signatures": signatures_diff
@@ -720,8 +749,15 @@ def generate_markdown_report(diff):
     # ConVars
     if diff["cvars"]["added"]:
         lines.append(f"## 4. Newly Introduced ConVars & Commands")
-        for cv in diff["cvars"]["added"]:
-            lines.append(f"- `{cv}`")
+        if diff["cvars"].get("added_details"):
+            lines.append(f"| ConVar / Command | Target Binary | Subsystem | Runtime Flags | Description & Impact |")
+            lines.append(f"| :--- | :--- | :--- | :--- | :--- |")
+            for cv in diff["cvars"]["added_details"]:
+                flags_str = ", ".join(f"`{f}`" for f in cv.get("flags", [])) or "`FCVAR_NONE`"
+                lines.append(f"| `{cv['name']}` | `{cv.get('binary', 'engine2.dll')}` | {cv.get('category', 'General Engine')} | {flags_str} | {cv.get('description', '-')} |")
+        else:
+            for cv in diff["cvars"]["added"]:
+                lines.append(f"- `{cv}`")
         lines.append("")
 
     # Interfaces
