@@ -24,5 +24,29 @@
     "binaries": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/binaries.json",
     "latest_diff": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json"
   },
-  "usage_instructions_for_ai": "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations."
+  "usage_instructions_for_ai": "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations.",
+  "self_update_protocol": {
+    "summary": "How AI agents and developers can obtain 100% up-to-date RVAs, signatures, and Schema offsets immediately after a CS2 Steam update, even if this GitHub repository has not been updated yet.",
+    "method_1_wildcard_pattern_scanning": {
+      "when_to_use": "Resolving shifted internal function RVAs/VAs (e.g. GetInaccuracy, FX_CalculateSpread, StartLagCompensation, AirAccelerate) on a newly patched CS2 binary.",
+      "how_it_works": "Every entry in /docs/api/v1/signatures.json contains an IDA/Ghidra wildcard byte pattern ('pattern') where '??' masks out relocatable 32-bit RIP-relative displacements. While 'current_rva' shifts by +N bytes after a game update, the 'pattern' remains invariant across builds.",
+      "cli_command": "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
+      "standalone_python_scanner": "import struct, re\ndef scan_pe_pattern(dll_path, ida_pattern):\n    data = open(dll_path, 'rb').read()\n    pe_off = struct.unpack_from('<I', data, 0x3C)[0]\n    num_sec = struct.unpack_from('<H', data, pe_off + 6)[0]\n    opt_sz = struct.unpack_from('<H', data, pe_off + 20)[0]\n    sec_table = pe_off + 24 + opt_sz\n    regex = b''.join(b'.' if tok == '??' else re.escape(bytes.fromhex(tok)) for tok in ida_pattern.split())\n    for i in range(num_sec):\n        s = sec_table + i * 40\n        vsize, rva, rsize, rptr = struct.unpack_from('<IIII', data, s + 8)\n        m = re.search(regex, data[rptr:rptr+rsize], re.DOTALL)\n        if m: return hex(rva + m.start()), hex(0x180000000 + rva + m.start())\n    return None"
+    },
+    "method_2_runtime_schemasystem_reflection": {
+      "when_to_use": "Resolving class member offsets (C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance) without relying on static schemas.json offsets.",
+      "how_it_works": "Query SchemaSystem_001 exported by schemasystem.dll -> CSchemaSystem::FindTypeScopeForModule('client.dll') (VTable slot 13) -> CSchemaSystemTypeScope::FindDeclaredClass('C_CSPlayerPawn') (VTable slot 2) -> iterate SchemaClassInfoData_t::m_pFields (+0x28) to read m_nSingleInheritanceOffset (+0x10). See game/schemasystem/schemasystem.h in sdk.json."
+    },
+    "method_3_local_repository_crawler": {
+      "when_to_use": "Regenerating all 2,276+ Schema classes, 138+ CreateInterface tokens, 2,695+ ConVars, and shifted RVAs locally from a user's Steam CS2 installation in ~30 seconds (zero Ghidra required).",
+      "commands": [
+        "git clone https://github.com/Hanzkii/cs2-reverse.git && cd cs2-reverse",
+        "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
+        "python tools/cs2_patch_diff.py archive --date YYYY-MM-DD --build <NEW_BUILD_ID> --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\"",
+        "python tools/cs2_patch_diff.py profile --tag YYYY-MM-DD_<NEW_BUILD_ID>",
+        "python tools/cs2_patch_diff.py diff --old 2026-10-25_26144732 --new YYYY-MM-DD_<NEW_BUILD_ID>",
+        "python tools/generate_docs_bundle.py && python tools/generate_portal_data.py"
+      ]
+    }
+  }
 }

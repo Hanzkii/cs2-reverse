@@ -6119,15 +6119,48 @@ Use the authoritative cs2-reverse static API & SDK endpoints below for all memor
 2. Concise AI Index:
    https://hanzkii.github.io/cs2-reverse/docs/llms.txt
 3. JSON API Endpoints:
-   - Master Index: https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json
+   - Master Index & Self-Update Protocol: https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json
    - 39 Function Signatures & RVAs: https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json
    - Clean-Room C++17 SDK (game/**/*.h & .cpp): https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json
    - Core Schema Classes & Offsets: https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json
    - 2,695 ConVars & Flags: https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json
    - Latest Patch Diffs: https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json
 
-Always use the current_rva / current_va from signatures.json and exact field offsets from schemas.json.`;
+4. ZERO-WAIT POST-PATCH RECOVERY (If CS2 Updates Before GitHub Is Updated):
+   - Function RVAs: Never rely solely on hardcoded current_rva if the game just updated. Always scan the target DLL's .text section using the invariant wildcard byte 'pattern' from signatures.json (where '??' masks relocatable RIP-relative displacements).
+   - Class Member Offsets: Resolve dynamically at runtime via SchemaSystem_001 -> CSchemaSystem::FindTypeScopeForModule (VTable slot 13) -> FindDeclaredClass (VTable slot 2) -> m_pFields[i].m_nSingleInheritanceOffset (+0x10) (see game/schemasystem/schemasystem.h in sdk.json).
+   - Local Full Resync (~30s, No Ghidra): Run 'python tools/scan_signatures.py --bin-dir "<STEAM_LIBRARY>/Counter-Strike Global Offensive" --update-db' and 'python tools/cs2_patch_diff.py' against the user's local Steam CS2 binaries.`;
       copyApiText(promptText, 'Copied AI Modding System Prompt to clipboard!');
+    }
+
+    function copyStandalonePatternScanner() {
+      const snippet = `import struct, re, json, urllib.request
+
+# Fetch invariant IDA wildcard byte patterns from cs2-reverse API and scan local patched CS2 DLL:
+def scan_local_dll(dll_path: str, ida_pattern: str):
+    data = open(dll_path, "rb").read()
+    pe_off = struct.unpack_from("<I", data, 0x3C)[0]
+    num_sec, opt_sz = struct.unpack_from("<H", data, pe_off + 6)[0], struct.unpack_from("<H", data, pe_off + 20)[0]
+    sec_table = pe_off + 24 + opt_sz
+    regex = b"".join(b"." if tok == "??" else re.escape(bytes.fromhex(tok)) for tok in ida_pattern.split())
+    for i in range(num_sec):
+        vsize, rva, rsize, rptr = struct.unpack_from("<IIII", data, sec_table + i * 40 + 8)
+        m = re.search(regex, data[rptr:rptr + rsize], re.DOTALL)
+        if m:
+            new_rva = rva + m.start()
+            return f"0x{new_rva:08x}", f"0x{0x180000000 + new_rva:09x}"
+    return None`;
+      copyApiText(snippet, 'Copied standalone Python PE pattern scanner!');
+    }
+
+    function copySelfUpdateCli() {
+      const cli = `git clone https://github.com/Hanzkii/cs2-reverse.git && cd cs2-reverse
+python tools/scan_signatures.py --bin-dir "<STEAM_LIBRARY>/Counter-Strike Global Offensive" --update-db
+python tools/cs2_patch_diff.py archive --date YYYY-MM-DD --build <NEW_BUILD_ID> --bin-dir "<STEAM_LIBRARY>/Counter-Strike Global Offensive"
+python tools/cs2_patch_diff.py profile --tag YYYY-MM-DD_<NEW_BUILD_ID>
+python tools/cs2_patch_diff.py diff --old 2026-10-25_26144732 --new YYYY-MM-DD_<NEW_BUILD_ID>
+python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
+      copyApiText(cli, 'Copied 30-second local CS2 update CLI commands!');
     }
 
     window.addEventListener('hashchange', handleUrlRoute);
@@ -6320,6 +6353,67 @@ Always use the current_rva / current_va from signatures.json and exact field off
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <!-- 3. Post-Patch Self-Recovery Protocol (When CS2 Updates Before GitHub Is Updated) -->
+        <div class="space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>3. If CS2 Updates Before GitHub Is Updated (Self-Service Offset &amp; Signature Recovery)</span>
+            </h3>
+            <span class="text-[10px] font-mono text-slate-400">Included automatically in <code class="text-cyan-300">llms.txt</code> &amp; <code class="text-amber-300">index.json</code></span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Method A: Wildcard Byte Pattern Scanning -->
+            <div class="bg-slate-900/90 border border-cyan-500/30 rounded-xl p-3.5 flex flex-col justify-between space-y-2.5">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between font-mono">
+                  <span class="text-cyan-300 font-bold text-xs">A. Wildcard Pattern Scan</span>
+                  <span class="px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[10px] font-bold">Function RVAs</span>
+                </div>
+                <p class="text-slate-300 text-[11px] leading-relaxed">
+                  When a patch shifts <code class="text-slate-100 font-mono">current_rva</code> by <code class="text-amber-300 font-mono">+N</code> bytes, the wildcard <code class="text-cyan-300 font-mono">pattern</code> in <code class="text-slate-100 font-mono">signatures.json</code> (<code class="text-slate-200 font-mono">??</code> masks relocatable RIP offsets) stays 100% invariant. Scan the local DLL's <code class="text-slate-200 font-mono">.text</code> section to get the new RVA immediately.
+                </p>
+              </div>
+              <button onclick="copyStandalonePatternScanner()" class="w-full py-1.5 px-2.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-mono font-bold text-[11px] transition-colors cursor-pointer">
+                Copy Python PE Scanner Snippet
+              </button>
+            </div>
+
+            <!-- Method B: Dynamic SchemaSystem_001 Reflection -->
+            <div class="bg-slate-900/90 border border-purple-500/30 rounded-xl p-3.5 flex flex-col justify-between space-y-2.5">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between font-mono">
+                  <span class="text-purple-300 font-bold text-xs">B. SchemaSystem_001</span>
+                  <span class="px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300 text-[10px] font-bold">Member Offsets</span>
+                </div>
+                <p class="text-slate-300 text-[11px] leading-relaxed">
+                  Never break on shifted struct fields: query <code class="text-purple-300 font-mono">SchemaSystem_001</code> at runtime via <code class="text-slate-100 font-mono">FindTypeScopeForModule("client.dll")</code> &rarr; <code class="text-slate-100 font-mono">FindDeclaredClass</code> &rarr; <code class="text-slate-100 font-mono">m_pFields[i].m_nSingleInheritanceOffset</code> (<code class="text-amber-300 font-mono">+0x10</code>).
+                </p>
+              </div>
+              <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json', 'Copied sdk.json URL (contains game/schemasystem/schemasystem.h)!')" class="w-full py-1.5 px-2.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 font-mono font-bold text-[11px] transition-colors cursor-pointer">
+                Copy C++17 Schema SDK URL
+              </button>
+            </div>
+
+            <!-- Method C: 30-Second Local Steam Resync CLI -->
+            <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-3.5 flex flex-col justify-between space-y-2.5">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between font-mono">
+                  <span class="text-emerald-300 font-bold text-xs">C. Local Binary Crawler</span>
+                  <span class="px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[10px] font-bold">~30s &bull; No Ghidra</span>
+                </div>
+                <p class="text-slate-300 text-[11px] leading-relaxed">
+                  Point <code class="text-emerald-300 font-mono">scan_signatures.py</code> and <code class="text-emerald-300 font-mono">cs2_patch_diff.py</code> at your local Steam CS2 folder to extract all 39 shifted RVAs, 2,276+ Schema classes, and 2,695+ ConVars in 30 seconds.
+                </p>
+              </div>
+              <button onclick="copySelfUpdateCli()" class="w-full py-1.5 px-2.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-mono font-bold text-[11px] transition-colors cursor-pointer">
+                Copy 30s Resync CLI Commands
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1738,7 +1738,46 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, "
             "engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. "
             "Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations."
-        )
+        ),
+        "self_update_protocol": {
+            "summary": "How AI agents and developers can obtain 100% up-to-date RVAs, signatures, and Schema offsets immediately after a CS2 Steam update, even if this GitHub repository has not been updated yet.",
+            "method_1_wildcard_pattern_scanning": {
+                "when_to_use": "Resolving shifted internal function RVAs/VAs (e.g. GetInaccuracy, FX_CalculateSpread, StartLagCompensation, AirAccelerate) on a newly patched CS2 binary.",
+                "how_it_works": "Every entry in /docs/api/v1/signatures.json contains an IDA/Ghidra wildcard byte pattern ('pattern') where '??' masks out relocatable 32-bit RIP-relative displacements. While 'current_rva' shifts by +N bytes after a game update, the 'pattern' remains invariant across builds.",
+                "cli_command": "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
+                "standalone_python_scanner": (
+                    "import struct, re\n"
+                    "def scan_pe_pattern(dll_path, ida_pattern):\n"
+                    "    data = open(dll_path, 'rb').read()\n"
+                    "    pe_off = struct.unpack_from('<I', data, 0x3C)[0]\n"
+                    "    num_sec = struct.unpack_from('<H', data, pe_off + 6)[0]\n"
+                    "    opt_sz = struct.unpack_from('<H', data, pe_off + 20)[0]\n"
+                    "    sec_table = pe_off + 24 + opt_sz\n"
+                    "    regex = b''.join(b'.' if tok == '??' else re.escape(bytes.fromhex(tok)) for tok in ida_pattern.split())\n"
+                    "    for i in range(num_sec):\n"
+                    "        s = sec_table + i * 40\n"
+                    "        vsize, rva, rsize, rptr = struct.unpack_from('<IIII', data, s + 8)\n"
+                    "        m = re.search(regex, data[rptr:rptr+rsize], re.DOTALL)\n"
+                    "        if m: return hex(rva + m.start()), hex(0x180000000 + rva + m.start())\n"
+                    "    return None"
+                )
+            },
+            "method_2_runtime_schemasystem_reflection": {
+                "when_to_use": "Resolving class member offsets (C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance) without relying on static schemas.json offsets.",
+                "how_it_works": "Query SchemaSystem_001 exported by schemasystem.dll -> CSchemaSystem::FindTypeScopeForModule('client.dll') (VTable slot 13) -> CSchemaSystemTypeScope::FindDeclaredClass('C_CSPlayerPawn') (VTable slot 2) -> iterate SchemaClassInfoData_t::m_pFields (+0x28) to read m_nSingleInheritanceOffset (+0x10). See game/schemasystem/schemasystem.h in sdk.json."
+            },
+            "method_3_local_repository_crawler": {
+                "when_to_use": "Regenerating all 2,276+ Schema classes, 138+ CreateInterface tokens, 2,695+ ConVars, and shifted RVAs locally from a user's Steam CS2 installation in ~30 seconds (zero Ghidra required).",
+                "commands": [
+                    "git clone https://github.com/Hanzkii/cs2-reverse.git && cd cs2-reverse",
+                    "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
+                    "python tools/cs2_patch_diff.py archive --date YYYY-MM-DD --build <NEW_BUILD_ID> --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\"",
+                    "python tools/cs2_patch_diff.py profile --tag YYYY-MM-DD_<NEW_BUILD_ID>",
+                    "python tools/cs2_patch_diff.py diff --old 2026-10-25_26144732 --new YYYY-MM-DD_<NEW_BUILD_ID>",
+                    "python tools/generate_docs_bundle.py && python tools/generate_portal_data.py"
+                ]
+            }
+        }
     }
 
     with open(os.path.join(api_dir, "index.json"), "w", encoding="utf-8") as f:
@@ -1801,6 +1840,53 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         f"- [Core Modding Schemas & Offsets (JSON)]({base_url}/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.",
         f"- [ConVars & Commands Database (JSON)]({base_url}/api/v1/convars.json): 2,695 categorized Source 2 console variables with FCVAR flags and descriptions.",
         f"- [Latest Patch Diff Telemetry (JSON)]({base_url}/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.",
+        "",
+        "## Post-Patch Self-Recovery Protocol (If CS2 Updates Before GitHub Is Updated)",
+        "When Valve ships a new Counter-Strike 2 Steam update before this repository is updated, AI agents and developers MUST use the following 3 mechanisms to obtain 100% accurate offsets and RVAs:",
+        "",
+        "### 1. Resolve Shifted Function RVAs via Wildcard Byte Signatures (`signatures.json`)",
+        "- **Why RVAs Shift**: Minor code changes shift function addresses (`current_rva`) by `+N` bytes, but the compiled instruction opcodes (`pattern` in `signatures.json`, with `??` masking relocatable 32-bit RIP-relative displacements) remain invariant.",
+        "- **In C++17 Mods**: Never hardcode `current_rva` alone. Scan the module's `.text` section at startup using the `pattern` string from `signatures.json`.",
+        "- **Standalone Zero-Dependency Python Scanner (Run on user's local `.dll` to get new RVA/VA)**:",
+        "```python",
+        "import struct, re, urllib.request, json",
+        "def resolve_new_rva(dll_path: str, ida_pattern: str):",
+        "    data = open(dll_path, 'rb').read()",
+        "    pe_off = struct.unpack_from('<I', data, 0x3C)[0]",
+        "    num_sec, opt_sz = struct.unpack_from('<H', data, pe_off + 6)[0], struct.unpack_from('<H', data, pe_off + 20)[0]",
+        "    sec_table = pe_off + 24 + opt_sz",
+        "    regex = b''.join(b'.' if tok == '??' else re.escape(bytes.fromhex(tok)) for tok in ida_pattern.split())",
+        "    for i in range(num_sec):",
+        "        vsize, rva, rsize, rptr = struct.unpack_from('<IIII', data, sec_table + i * 40 + 8)",
+        "        m = re.search(regex, data[rptr:rptr + rsize], re.DOTALL)",
+        "        if m:",
+        "            new_rva = rva + m.start()",
+        "            return f'0x{new_rva:08x}', f'0x{0x180000000 + new_rva:09x}'",
+        "    return None",
+        "```",
+        "",
+        "### 2. Resolve Shifted Class Member Offsets via Runtime `SchemaSystem_001` Reflection",
+        "- Instead of hardcoding static offsets from `schemas.json`, query `SchemaSystem_001` (`schemasystem.dll` export) at runtime:",
+        "  1. Call `CSchemaSystem::FindTypeScopeForModule(\"client.dll\")` (VTable Slot 13).",
+        "  2. Call `CSchemaSystemTypeScope::FindDeclaredClass(\"C_CSPlayerPawn\")` (VTable Slot 2).",
+        "  3. Iterate `SchemaClassInfoData_t::m_pFields` (`+0x28`, count at `+0x1C`) and read `SchemaClassFieldData_t::m_nSingleInheritanceOffset` (`+0x10`).",
+        "  4. Clean-room C++17 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).",
+        "",
+        "### 3. Full Local Repository Resync (~30 Seconds, Zero Ghidra Required)",
+        "If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, 2,695+ ConVars, and local API files:",
+        "```bash",
+        "# 1. Rescan all 39 byte patterns against local Steam CS2 binaries and update data/function_signatures.json:",
+        "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
+        "",
+        "# 2. Crawl local PE binaries to extract all 2,276+ Schema classes, Interfaces, and ConVars:",
+        "python tools/cs2_patch_diff.py archive --date YYYY-MM-DD --build <NEW_BUILD_ID> --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\"",
+        "python tools/cs2_patch_diff.py profile --tag YYYY-MM-DD_<NEW_BUILD_ID>",
+        "python tools/cs2_patch_diff.py diff --old 2026-10-25_26144732 --new YYYY-MM-DD_<NEW_BUILD_ID>",
+        "",
+        "# 3. Regenerate local API JSONs (docs/api/v1/*.json), llms-full.txt, and Ghidra C headers:",
+        "python tools/export_source2_ghidra_headers.py versions/profiles/YYYY-MM-DD_<NEW_BUILD_ID>/schemas.json data/source2_types.h",
+        "python tools/generate_docs_bundle.py && python tools/generate_portal_data.py",
+        "```",
         "",
         "## Reconstructed C++17 Modding SDK (`game/`)",
     ]
