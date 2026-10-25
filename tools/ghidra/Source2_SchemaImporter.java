@@ -129,7 +129,7 @@ public class Source2_SchemaImporter extends GhidraScript {
             }
 
             success = true;
-            println("[+] SUCCESS: Created " + createdCount + " classes with " + fieldsCount + " typed fields in " + progCat.getPathName());
+            println("[+] SUCCESS: Created " + createdCount + " classes with " + fieldsCount + " typed fields in " + progCat.getPath());
         } finally {
             dtm.endTransaction(transactionID, success);
         }
@@ -144,7 +144,7 @@ public class Source2_SchemaImporter extends GhidraScript {
         if (name.startsWith("m_b") || (name.startsWith("b") && name.length() > 2 && Character.isUpperCase(name.charAt(1)))) {
             return BooleanDataType.dataType;
         }
-        if (name.startsWith("m_fl") || (name.startswith("fl") && name.length() > 3 && Character.isUpperCase(name.charAt(2)))) {
+        if (name.startsWith("m_fl") || (name.startsWith("fl") && name.length() > 3 && Character.isUpperCase(name.charAt(2)))) {
             return FloatDataType.dataType;
         }
         if (name.startsWith("m_h") && handle != null) {
