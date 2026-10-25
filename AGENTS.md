@@ -37,3 +37,8 @@
 - **Use `temp/` for Scratchpad Operations**: Any one-off migration, cleanup, temporary scraping, or intermediate inspection scripts must be placed in `temp/` (or `tools/temp/`), which is excluded via `.gitignore`.
 - **Immediate Post-Task Cleanup**: Always delete temporary scripts immediately after their execution. Never stage or commit ad-hoc exploration scripts to Git.
 
+## 7. Parallel Subagent Delegation Policy
+- **Always Delegate to Subagents When Possible**: For any non-trivial task, research track, binary investigation, multi-file reverse engineering, or verification workflow, proactively spawn specialized subagents in parallel to maximize concurrency, speed, and contextual isolation.
+- **Model Selection for Subagents**: Use fast models (e.g., `Model: "flash"`) for parallel subagents to ensure rapid turnaround and prevent context/quota exhaustion.
+
+
