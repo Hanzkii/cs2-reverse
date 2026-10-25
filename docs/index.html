@@ -2523,7 +2523,7 @@
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
                 <h2 class="text-lg font-bold text-white">Counter-Strike 2 Patch Changelog</h2>
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">2 Releases Tracked</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">3 Releases Tracked</span>
               </div>
               <p class="text-xs text-slate-400 mt-1">
                 Select an update to compare or click any recompiled module below to inspect exact disassembled instructions and lines that changed.
@@ -2538,7 +2538,7 @@
             </a>
           </div>
 
-          <!-- PATCH 1: October 21, 2026 (Build 26087496) -->
+          <!-- PATCH 1: October 25, 2026 (Build 26144732) -->
           <div class="bg-[#111827] border-2 border-amber-500/50 rounded-2xl p-6 shadow-2xl space-y-5 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
             
@@ -2549,19 +2549,23 @@
                     Latest Patch
                   </span>
                   <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
-                    Patch 1.41.9.1
+                    Patch 1.41.9.2
                   </span>
-                  <span class="text-slate-500 text-xs font-mono">SourceRevision 11150591 (CL 11150504)</span>
+                  <span class="text-slate-500 text-xs font-mono">SourceRevision 11162119 (CL 2000935)</span>
                 </div>
                 <h3 class="text-lg font-bold text-white mt-1.5 flex items-center gap-2">
-                  <span>October 21, 2026 &mdash; Build 26087496</span>
-                  <span class="text-slate-500 font-normal text-sm font-mono">(Maintenance Rebuild)</span>
+                  <span>October 25, 2026 &mdash; Build 26144732</span>
+                  <span class="text-slate-500 font-normal text-sm font-mono">(Gameplay &amp; Audio Overhaul)</span>
                 </h3>
               </div>
 
               <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
-                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496')" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-sm">
-                  <span>Compare with Baseline</span>
+                <button onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732')" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-sm">
+                  <span>Compare with Previous</span>
+                  <span>&rarr;</span>
+                </button>
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-25_26144732')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold transition-all flex items-center gap-1.5">
+                  <span>Diff vs Baseline</span>
                   <span>&rarr;</span>
                 </button>
               </div>
@@ -2569,32 +2573,32 @@
 
             <!-- Summary & Telemetry Pills -->
             <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Valve released a client/server maintenance update. Our static analysis confirmed <strong>0 SchemaSystem field shifts</strong>, <strong>0 instruction opcode changes</strong>, and <strong>100% signature stability (21/21 verified)</strong>. Recompilation affected only <code>client.dll</code> and <code>server.dll</code>, renewing Authenticode digital signatures and realigning <code>.rdata</code> string pools.
+              Major engine update re-compiling <strong>32 of 34 core binaries</strong> (~129 MB patch). Static analysis identified <strong>1 new Schema class (<code>CVoiceContainerVMixSnd</code>)</strong>, <strong>25 modified classes with 255 shifted member offsets</strong> (including <code>C_CSPlayerPawn</code> viewmodel alignment fields), <strong>3 new render ConVars</strong>, and <strong>10 shifted canonical function signatures</strong> across <code>client.dll</code> and <code>server.dll</code>. All 21 signature patterns match with 100% uniqueness (0 broken).
             </p>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
               <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
                 <span class="text-slate-500 block text-[10px]">Recompiled Modules</span>
-                <span class="text-amber-400 font-bold">2 files (client, server)</span>
+                <span class="text-amber-400 font-bold">32 files (client, server, soundsystem...)</span>
               </div>
               <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
                 <span class="text-slate-500 block text-[10px]">Schema Shifts</span>
-                <span class="text-emerald-400 font-bold">0 (+0 bytes)</span>
+                <span class="text-amber-400 font-bold">255 offsets across 25 classes</span>
               </div>
               <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-500 block text-[10px]">Opcode Modifications</span>
-                <span class="text-emerald-400 font-bold">0 (100% Identical)</span>
+                <span class="text-slate-500 block text-[10px]">Added Engine Items</span>
+                <span class="text-emerald-400 font-bold">+1 class, +3 ConVars</span>
               </div>
               <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
                 <span class="text-slate-500 block text-[10px]">Signatures Intact</span>
-                <span class="text-cyan-400 font-bold">21 / 21 Unique</span>
+                <span class="text-cyan-400 font-bold">21 / 21 (10 shifted, 0 broken)</span>
               </div>
             </div>
 
-            <!-- Modified Modules List (Interactive & Clickable to see exact line/function) -->
+            <!-- Modified Modules List -->
             <div class="space-y-3 pt-2">
               <h4 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-                <span>Affected Modules in this Patch (Click any module to inspect code/line changes)</span>
+                <span>Key Affected Modules in this Patch</span>
                 <span class="text-[11px] text-amber-400 normal-case font-normal">Click card to open Disassembly Inspector &rarr;</span>
               </h4>
 
@@ -2607,28 +2611,28 @@
                       <span class="text-sm font-bold text-amber-300">client.dll</span>
                     </div>
                     <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">
-                      RECOMPILED (+0 B)
+                      RECOMPILED (+10.0 KB)
                     </span>
                   </div>
 
                   <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
-                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Functions &amp; Lines Changed:</span>
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routines &amp; Fields Changed:</span>
                     <ul class="space-y-1 text-slate-300">
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">FUN_180085390</strong> (RVA <code class="text-cyan-400">0x00085390</code>): <code>lea rdx, [rip+disp]</code> displacement shifted by -0x38b for <code>mp_buytime</code>.</span>
+                        <span><strong class="text-white">C_CSPlayerPawn</strong>: 11 member fields shifted (<code>m_flViewmodelOffsetX/Y/Z</code>, <code>m_flViewmodelFOV</code> at +0x1dc0).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">FUN_1800e9a50</strong> (RVA <code class="text-cyan-400">0x000e9a50</code>): <code>cmp dword ptr [rip+disp], -1</code> displacement shifted by -0x30b.</span>
+                        <span><strong class="text-white">AngleVectors</strong>: RVA shifted <code class="text-cyan-400">0x017402a0 &rarr; 0x01742500</code> (+0x2260 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">FUN_180121a90</strong> (RVA <code class="text-cyan-400">0x00121a90</code>): <code>movups xmm2, [rip+disp]</code> displacement shifted by +0x20b.</span>
+                        <span><strong class="text-white">CalculateWorldBones</strong>: RVA shifted <code class="text-cyan-400">0x00aa0f80 &rarr; 0x00aa1dc0</code> (+0xe40 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">.rdata string pool</strong> (RVA <code class="text-cyan-400">0x01bb10c0</code>): ConVar help strings re-ordered (+120b shift).</span>
+                        <span><strong class="text-white">ConcatenateTransforms</strong>: RVA shifted <code class="text-cyan-400">0x01748480 &rarr; 0x0174a6e0</code> (+0x2260 bytes).</span>
                       </li>
                     </ul>
                   </div>
@@ -2650,28 +2654,28 @@
                       <span class="text-sm font-bold text-amber-300">server.dll</span>
                     </div>
                     <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">
-                      RECOMPILED (+0 B)
+                      RECOMPILED (+57.5 KB)
                     </span>
                   </div>
 
                   <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
-                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Records &amp; Headers Changed:</span>
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routines &amp; Fields Changed:</span>
                     <ul class="space-y-1 text-slate-300">
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">Offset 0x1bc1928</strong>: PDB Debug Record (RSDS) build age counter incremented <code class="text-amber-400">0x1c (28) &rarr; 0x1e (30)</code>.</span>
+                        <span><strong class="text-white">StartLagCompensation</strong>: RVA shifted <code class="text-cyan-400">0x080f320 &rarr; 0x081b770</code> (+0xc450 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">Offset 0x210604b</strong>: Valve Authenticode Digital Certificate re-signed: <code class="text-amber-400">2026-10-14 &rarr; 2026-10-20 UTC</code>.</span>
+                        <span><strong class="text-white">LineOfSightThroughSmoke</strong>: RVA shifted <code class="text-cyan-400">0x09b7f50 &rarr; 0x09c5610</code> (+0xd6c0 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">Offset 0x000004c</strong>: PE Linker TimeDateStamp header refreshed.</span>
+                        <span><strong class="text-white">Smoke Spawn &amp; TickUpdate</strong>: RVA shifted by +0xd540 / +0xd4b0 bytes.</span>
                       </li>
                       <li class="flex items-start gap-1.5">
-                        <span class="text-emerald-400">&bull;</span>
-                        <span><strong class="text-emerald-400">Code Section (.text)</strong>: <strong>0 lines changed</strong> (100% byte-for-byte identical across all 24.5 MB).</span>
+                        <span class="text-cyan-400">&bull;</span>
+                        <span><strong class="text-white">CCSPlayerPawn</strong>: 9 zone/retakes fields shifted (e.g. <code>m_bInBuyZone</code> +0xf71).</span>
                       </li>
                     </ul>
                   </div>
@@ -2679,13 +2683,45 @@
                   <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
                     <span class="flex items-center gap-1.5">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                      Inspect Metadata &amp; Certificate Delta
+                      Inspect Metadata &amp; Assembly Delta
                     </span>
                     <span>&rarr;</span>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          <!-- PATCH 2: October 21, 2026 (Build 26087496) -->
+          <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cs2-border pb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+                    Previous Update
+                  </span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                    Patch 1.41.9.1
+                  </span>
+                  <span class="text-slate-500 text-xs font-mono">SourceRevision 11150591 (CL 11150504)</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mt-1.5 flex items-center gap-2">
+                  <span>October 21, 2026 &mdash; Build 26087496</span>
+                  <span class="text-slate-500 font-normal text-sm font-mono">(Maintenance Rebuild)</span>
+                </h3>
+              </div>
+
+              <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700">
+                  <span>Compare with Baseline</span>
+                  <span>&rarr;</span>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed font-sans">
+              Valve released a client/server maintenance update. Confirmed <strong>0 SchemaSystem field shifts</strong>, <strong>0 instruction opcode changes</strong>, and <strong>100% signature stability (21/21 verified)</strong>. Recompilation affected only <code>client.dll</code> and <code>server.dll</code>, renewing Authenticode digital signatures and realigning <code>.rdata</code> string pools.
+            </p>
           </div>
 
           <!-- PATCH 2: October 15, 2026 (Build 25966348) -->

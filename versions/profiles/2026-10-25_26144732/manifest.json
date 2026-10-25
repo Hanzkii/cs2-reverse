@@ -1,0 +1,422 @@
+{
+  "tag": "2026-10-25_26144732",
+  "build_id": "26144732",
+  "date": "2026-10-25",
+  "created_at": "2026-10-25T10:46:56.868039",
+  "binaries": {
+    "animationsystem.dll": {
+      "size": 9329816,
+      "sha256": "8aa57d0c5b90cb49ad5fd9f141004710180a601b08159e50e93c4470142ea132",
+      "timestamp": 1792684830,
+      "sections": {
+        ".text": 6543696,
+        ".rdata": 1661074,
+        ".data": 3790960,
+        ".pdata": 379680,
+        ".reloc": 108040
+      }
+    },
+    "client.dll": {
+      "size": 39215768,
+      "sha256": "ccaf4e4926babc052994502b19ec61198a11008a39dce712921b93dd993be9f5",
+      "timestamp": 1792701248,
+      "sections": {
+        ".text": 27970208,
+        ".rdata": 7410818,
+        ".data": 6179084,
+        ".pdata": 1540224,
+        ".reloc": 531500
+      }
+    },
+    "cs2.exe": {
+      "size": 2967704,
+      "sha256": "8614097aaa2761b0a7157c0045861713e769fb1e8235f50fc68f411294dd60cf",
+      "timestamp": 1792003052,
+      "sections": {
+        ".text": 169397,
+        ".rdata": 73506,
+        ".data": 1953440,
+        ".pdata": 8556,
+        ".rsrc": 2176592,
+        ".reloc": 1736
+      }
+    },
+    "engine2.dll": {
+      "size": 7497880,
+      "sha256": "e8533af07adc3426eac95391cb70804a0a27f8391c03d36f1cfa06f50d901d29",
+      "timestamp": 1792685080,
+      "sections": {
+        ".text": 5309162,
+        ".rdata": 1693598,
+        ".data": 3232804,
+        ".pdata": 267228,
+        "_RDATA": 48,
+        ".reloc": 46200
+      }
+    },
+    "filesystem_stdio.dll": {
+      "size": 2260120,
+      "sha256": "465be859c2cc231666301328939da3ed4f7b087ebdbaad325631b481717da183",
+      "timestamp": 1792684710,
+      "sections": {
+        ".text": 1392062,
+        ".rdata": 476072,
+        ".data": 305324,
+        ".pdata": 67920,
+        ".reloc": 23044
+      }
+    },
+    "host.dll": {
+      "size": 1389208,
+      "sha256": "f7db2685acbba12c27b3237aa0efa3f17a1698b0055adb0b950f0ee24519783c",
+      "timestamp": 1792684948,
+      "sections": {
+        ".text": 1021376,
+        ".rdata": 264142,
+        ".data": 82052,
+        ".pdata": 49020,
+        ".reloc": 9164
+      }
+    },
+    "inputsystem.dll": {
+      "size": 302232,
+      "sha256": "a74a4ac1906f6d1fc5e7180b6615b9f11cbd14457a323038c7c47f81a0aef52a",
+      "timestamp": 1792684708,
+      "sections": {
+        ".text": 182766,
+        ".rdata": 82312,
+        ".data": 44196,
+        ".pdata": 10188,
+        ".reloc": 4620
+      }
+    },
+    "localize.dll": {
+      "size": 382104,
+      "sha256": "8bd83648f42c1e1dcdc0c97a7e0befc5a53526ffa176e518f54fbe7edf6e702d",
+      "timestamp": 1792684704,
+      "sections": {
+        ".text": 253790,
+        ".rdata": 90766,
+        ".data": 13884,
+        ".pdata": 14004,
+        ".reloc": 3340
+      }
+    },
+    "matchmaking.dll": {
+      "size": 1890968,
+      "sha256": "aa7553299fe6e053a535b798280db32d7c0e7e9d49651adaca9393b1d3998e2f",
+      "timestamp": 1792684740,
+      "sections": {
+        ".text": 1380811,
+        ".rdata": 361024,
+        ".data": 223696,
+        ".pdata": 75660,
+        ".reloc": 13848
+      }
+    },
+    "materialsystem2.dll": {
+      "size": 1428632,
+      "sha256": "2fe9750177006c24aacd0f86b14efbc00d04ca61d86f27f1b07b263eefb06d69",
+      "timestamp": 1792684757,
+      "sections": {
+        ".text": 1000012,
+        ".rdata": 329170,
+        ".data": 192668,
+        ".pdata": 49452,
+        ".reloc": 6100
+      }
+    },
+    "meshsystem.dll": {
+      "size": 1664664,
+      "sha256": "e81beee25e94456b88b0af426c9bb4d0ee6ae2eba8cf303a205b4e4c9da98643",
+      "timestamp": 1792684916,
+      "sections": {
+        ".text": 1262720,
+        ".rdata": 249932,
+        ".data": 604968,
+        ".pdata": 66996,
+        ".reloc": 10464
+      }
+    },
+    "navsystem.dll": {
+      "size": 1314968,
+      "sha256": "1d26430b4dd3cad5fc080e3a54d68328fc9b55cca50e59d35dda3d0c06a55a57",
+      "timestamp": 1792684853,
+      "sections": {
+        ".text": 1020656,
+        ".rdata": 184812,
+        ".data": 108208,
+        ".pdata": 43128,
+        ".reloc": 5448
+      }
+    },
+    "networksystem.dll": {
+      "size": 2841752,
+      "sha256": "251f3d21652a65584d7034969eed0517378f01b7da02616c757802f0f1013275",
+      "timestamp": 1792684919,
+      "sections": {
+        ".text": 2113452,
+        ".rdata": 437498,
+        ".data": 222568,
+        ".pdata": 101736,
+        ".reloc": 16452
+      }
+    },
+    "panorama.dll": {
+      "size": 6108312,
+      "sha256": "b8b6d555059e6ddcaf80695f63061ef75f31fc18b909d86677cb40dce53ac602",
+      "timestamp": 1792684790,
+      "sections": {
+        ".text": 4469100,
+        ".rdata": 1022130,
+        ".data": 730028,
+        ".pdata": 208188,
+        ".rsrc": 1032,
+        ".reloc": 38708
+      }
+    },
+    "panorama_text_pango.dll": {
+      "size": 2997912,
+      "sha256": "be3d52eb2e8f217d62063c60a7b448374128063b102f85b5e5e7d99874c82d86",
+      "timestamp": 1792684707,
+      "sections": {
+        ".text": 1993172,
+        ".rdata": 577064,
+        ".data": 314460,
+        ".pdata": 93060,
+        ".reloc": 25472
+      }
+    },
+    "panoramauiclient.dll": {
+      "size": 2748056,
+      "sha256": "d86de934a196ad4326c19a182d82f58d4acd7390b2d82df82032afea8b22b0c6",
+      "timestamp": 1792684728,
+      "sections": {
+        ".text": 2021788,
+        ".rdata": 505000,
+        ".data": 154472,
+        ".pdata": 122892,
+        ".reloc": 30340
+      }
+    },
+    "particles.dll": {
+      "size": 6460568,
+      "sha256": "dfc4faf5df7625fcdd26c26991d7ac76db5985671c9d361433d17bb7be932878",
+      "timestamp": 1792684940,
+      "sections": {
+        ".text": 4611568,
+        ".rdata": 1185956,
+        ".data": 2806892,
+        ".pdata": 171972,
+        ".reloc": 104360
+      }
+    },
+    "pulse_system.dll": {
+      "size": 2031768,
+      "sha256": "c39b87ea223dd8e2696a2ad9a12376d8fee1c58dda1492a3fa13478e29d7ea58",
+      "timestamp": 1792684747,
+      "sections": {
+        ".text": 1284090,
+        ".rdata": 532912,
+        ".data": 659980,
+        ".pdata": 76248,
+        ".reloc": 19384
+      }
+    },
+    "rendersystemdx11.dll": {
+      "size": 4545688,
+      "sha256": "fbd28df3458e1f5d0a21ff03c2c25e63a372063098dc4f455b07b80b3473eb8f",
+      "timestamp": 1792684760,
+      "sections": {
+        ".text": 2001808,
+        ".rdata": 2358180,
+        ".data": 453260,
+        ".pdata": 87924,
+        ".reloc": 17972
+      }
+    },
+    "rendersystemvulkan.dll": {
+      "size": 6248600,
+      "sha256": "f1fe4ee70c284f85401919dcc85307e6fa00760fc1a0f2041a1bc25d9d1562cb",
+      "timestamp": 1792684787,
+      "sections": {
+        ".text": 2973888,
+        ".rdata": 3028896,
+        ".data": 477868,
+        ".pdata": 125412,
+        ".reloc": 19288
+      }
+    },
+    "resourcesystem.dll": {
+      "size": 532632,
+      "sha256": "29d503822278305b197c5d4c299b77961f6c5b9c0ab989dae81723c8546fa75f",
+      "timestamp": 1792684723,
+      "sections": {
+        ".text": 348506,
+        ".rdata": 122216,
+        ".data": 99796,
+        ".pdata": 22368,
+        ".reloc": 5072
+      }
+    },
+    "scenefilecache.dll": {
+      "size": 1297048,
+      "sha256": "5f24f532cf687d73ad1bbb9806c5ea52b780bc833daaa90bcd859497a7ec71f8",
+      "timestamp": 1792684842,
+      "sections": {
+        ".text": 818304,
+        ".rdata": 325212,
+        ".data": 207180,
+        ".pdata": 44304,
+        ".reloc": 29540
+      }
+    },
+    "scenesystem.dll": {
+      "size": 7094936,
+      "sha256": "0f17ccdc083290a496e6ac13e4fe54413077ad2b83b7dfd281749cffd2733d9b",
+      "timestamp": 1792684925,
+      "sections": {
+        ".text": 5718192,
+        ".rdata": 977176,
+        ".data": 2950804,
+        ".pdata": 242784,
+        ".reloc": 22868
+      }
+    },
+    "schemasystem.dll": {
+      "size": 445592,
+      "sha256": "2d2d04c4aa2ed8aca1c9b57f3f0d82278907e898156c417a2dd38f48c63c44f0",
+      "timestamp": 1792684713,
+      "sections": {
+        ".text": 295658,
+        ".rdata": 101558,
+        ".data": 81920,
+        ".pdata": 16764,
+        ".rsrc": 968,
+        ".reloc": 4176
+      }
+    },
+    "server.dll": {
+      "size": 34687128,
+      "sha256": "2a229dd46c8af0b52c1f49a3e343b99d9ffe946c102c56102a45b00f6a52349c",
+      "timestamp": 1792701251,
+      "sections": {
+        ".text": 24568576,
+        ".rdata": 6491282,
+        ".data": 6371316,
+        ".pdata": 1306536,
+        ".reloc": 567348
+      }
+    },
+    "soundsystem.dll": {
+      "size": 5837464,
+      "sha256": "d11169711d97a3e7641b1c277cf22076559fd3b754408bb169b2873a7039dfe2",
+      "timestamp": 1792685071,
+      "sections": {
+        ".text": 4158100,
+        ".rdata": 1162502,
+        ".data": 1457148,
+        ".pdata": 186876,
+        "_RDATA": 48,
+        ".reloc": 70292
+      }
+    },
+    "steamaudio.dll": {
+      "size": 3547288,
+      "sha256": "50a9eb97250dd9bc09c03b8c3abadb8f2c971712dc94db020d6a1c1691de5d1c",
+      "timestamp": 1792684839,
+      "sections": {
+        ".text": 2219674,
+        ".rdata": 785322,
+        ".data": 595588,
+        ".pdata": 107100,
+        ".reloc": 62400
+      }
+    },
+    "steamnetworkingsockets.dll": {
+      "size": 4290200,
+      "sha256": "ce0651d00c311606c7936fa730149d2b7e25557430ef5c3291eed47dfdcf0736",
+      "timestamp": 1777523303,
+      "sections": {
+        ".text": 3138452,
+        ".rdata": 907350,
+        ".data": 91700,
+        ".pdata": 136860,
+        ".reloc": 31324
+      }
+    },
+    "tier0.dll": {
+      "size": 3979928,
+      "sha256": "f96f4f9666be66ee3dd42a015b305d954b5dd5582b0608a74e50548df426584d",
+      "timestamp": 1792684616,
+      "sections": {
+        ".text": 3069092,
+        ".rdata": 678016,
+        ".data": 277916,
+        ".pdata": 129708,
+        ".rsrc": 16296,
+        ".reloc": 12664
+      }
+    },
+    "v8system.dll": {
+      "size": 233624,
+      "sha256": "eb81a399ac01a58c1584632e77aa7342c4df62d6c825c8024b2ceb9610592b1a",
+      "timestamp": 1792684716,
+      "sections": {
+        ".text": 135934,
+        ".rdata": 65394,
+        ".data": 13604,
+        ".pdata": 8844,
+        ".reloc": 2980
+      }
+    },
+    "vconcomm.dll": {
+      "size": 259736,
+      "sha256": "724b4e429bcf996f929a5b1cab460110054a994566e1e7c6bf04cb11ee8ae734",
+      "timestamp": 1792684737,
+      "sections": {
+        ".text": 154062,
+        ".rdata": 70830,
+        ".data": 15716,
+        ".pdata": 10752,
+        ".reloc": 2864
+      }
+    },
+    "vphysics2.dll": {
+      "size": 4829848,
+      "sha256": "3f5c2890aa694e4ad2da55528844e1cc3981466ff932619796f5876e009cc2be",
+      "timestamp": 1792684891,
+      "sections": {
+        ".text": 3985792,
+        ".rdata": 497408,
+        ".data": 1156788,
+        ".pdata": 177768,
+        ".reloc": 21408
+      }
+    },
+    "vscript.dll": {
+      "size": 1352856,
+      "sha256": "9b10dd0023dbe05057165f6a5c7199317a6c26cf55b2c10215578a76045f6f49",
+      "timestamp": 1792684827,
+      "sections": {
+        ".text": 1029758,
+        ".rdata": 254242,
+        ".data": 44100,
+        ".pdata": 39396,
+        ".reloc": 5196
+      }
+    },
+    "worldrenderer.dll": {
+      "size": 2029720,
+      "sha256": "e0b1ed04a652f8268fd9d6b75b5a97910ab57197e2cdb8a0a4966703a5ec8322",
+      "timestamp": 1792684830,
+      "sections": {
+        ".text": 1313066,
+        ".rdata": 559544,
+        ".data": 569060,
+        ".pdata": 72444,
+        ".reloc": 9980
+      }
+    }
+  }
+}
