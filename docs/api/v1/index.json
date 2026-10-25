@@ -1,0 +1,28 @@
+{
+  "name": "CS2 (Source 2) Reverse Engineering & Modding API",
+  "version": "1.0.0",
+  "latest_build": {
+    "tag": "2026-10-25_26144732",
+    "build_id": "26144732",
+    "date": "2026-10-25",
+    "binaries_count": 34,
+    "signatures_count": 39,
+    "schema_classes_count": 2276,
+    "convars_count": 2695,
+    "sdk_modules_count": 10
+  },
+  "ai_context_files": {
+    "llms_txt": "https://hanzkii.github.io/cs2-reverse/docs/llms.txt",
+    "llms_full_txt": "https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt"
+  },
+  "endpoints": {
+    "index": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json",
+    "signatures": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json",
+    "schemas": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json",
+    "sdk": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json",
+    "convars": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json",
+    "binaries": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/binaries.json",
+    "latest_diff": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json"
+  },
+  "usage_instructions_for_ai": "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations."
+}

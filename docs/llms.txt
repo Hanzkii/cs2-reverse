@@ -1,0 +1,89 @@
+# CS2 (Source 2) Reverse Engineering & Modding Reference
+
+> Authoritative clean-room C++17 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26144732).
+
+## Quick AI & Modding Context Links
+- [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 39 function signatures, C++17 SDK headers, key Schema offsets, and architecture docs.
+- [API Master Index (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.
+- [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
+- [Reconstructed C++17 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++17 headers and implementations across 9 Source 2 binaries.
+- [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.
+- [ConVars & Commands Database (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json): 2,695 categorized Source 2 console variables with FCVAR flags and descriptions.
+- [Latest Patch Diff Telemetry (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.
+
+## Reconstructed C++17 Modding SDK (`game/`)
+- **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
+- **client.dll** (`game/client/`): `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
+- **engine2.dll** (`game/engine2/`): `cvar_engine.cpp`, `cvar_engine.h`, `game_events.cpp`, `game_events.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine2)
+- **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
+- **networksystem.dll** (`game/networksystem/`): `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
+- **particles.dll** (`game/particles/`): `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
+- **pulse_system.dll** (`game/pulse_system/`): `pulse_interpreter.cpp`, `pulse_interpreter.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/pulse_system)
+- **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
+- **server.dll** (`game/server/`): `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
+- **vphysics2.dll** (`game/vphysics2/`): `rubikon_collision.cpp`, `rubikon_collision.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/vphysics2)
+
+## Verified Function Signatures Summary (Latest Build 26144732)
+| Binary | Symbol / Routine | Current RVA | Current VA | Category |
+| :--- | :--- | :--- | :--- | :--- |
+| `client.dll` | `AngleVectors` | `0x01742500` | `0x181742500` | Rendering & Math |
+| `client.dll` | `CalculateWorldBones` | `0x00aa1dc0` | `0x180aa1dc0` | Animation & Hitboxes |
+| `client.dll` | `CTransform::ConcatenateTransforms` | `0x0174a6e0` | `0x18174a6e0` | Animation & Hitboxes |
+| `server.dll` | `LineOfSightThroughSmoke` | `0x009c5610` | `0x1809c5610` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009d8d50` | `0x1809d8d50` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009dbf40` | `0x1809dbf40` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_Raymarch` | `0x009da9b0` | `0x1809da9b0` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009d6390` | `0x1809d6390` | Volumetric & Smoke |
+| `server.dll` | `SerializeSparseDelta` | `0x009bf550` | `0x1809bf550` | Volumetric & Smoke |
+| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x0081b770` | `0x18081b770` | Gameplay & Physics |
+| `pulse_system.dll` | `PulseInstructionDispatchLoop` | `0x0008f810` | `0x18008f810` | Scripting & VM |
+| `tier0.dll` | `CCvar::FindVar` | `0x0006c6b0` | `0x18006c6b0` | Engine Core |
+| `tier0.dll` | `HashStringCaseless` | `0x0006c8c0` | `0x18006c8c0` | Engine Core |
+| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001bf5c0` | `0x1801bf5c0` | Networking |
+| `networksystem.dll` | `SerializeNetMessage` | `0x000e23d0` | `0x1800e23d0` | Networking |
+| `networksystem.dll` | `WriteVarInt32` | `0x001c0760` | `0x1801c0760` | Networking |
+| `networksystem.dll` | `ReadVarInt32` | `0x001bf770` | `0x1801bf770` | Networking |
+| `networksystem.dll` | `DecodeFieldPaths` | `0x000835f8` | `0x1800835f8` | Delta Compression |
+| `vphysics2.dll` | `ConvexPolyhedronRaycast` | `0x002544a0` | `0x1802544a0` | Physics & Collision |
+| `vphysics2.dll` | `CapsuleSweepIntersection` | `0x0016caf0` | `0x18016caf0` | Physics & Collision |
+| `animationsystem.dll` | `CTwoBoneIK_LawOfCosines` | `0x002f9750` | `0x1802f9750` | Animation & Hitboxes |
+| `server.dll` | `EvaluateBulletPenetration` | `0x00a9d150` | `0x180a9d150` | Weapon & Penetration |
+| `navsystem.dll` | `NavAreaBuildPath` | `0x0003bdf0` | `0x18003bdf0` | Navigation & Pathfinding |
+| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x00828a10` | `0x180828a10` | Weapons & Ballistics |
+| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x0085ea90` | `0x18085ea90` | Weapons & Ballistics |
+| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008ea1b0` | `0x1808ea1b0` | Movement & Physics |
+| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008c0860` | `0x1808c0860` | Movement & Physics |
+| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f5640` | `0x1804f5640` | Sub-Tick & UserCmd |
+| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f70e0` | `0x1804f70e0` | Sub-Tick & UserCmd |
+| `client.dll` | `CSGOInput::CreateMove` | `0x00cfbd10` | `0x180cfbd10` | Sub-Tick & UserCmd |
+| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x0080cfd0` | `0x18080cfd0` | Weapons & Ballistics |
+| `client.dll` | `FX_CalculateSpread` | `0x00d25630` | `0x180d25630` | Weapons & Ballistics |
+| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00ecc690` | `0x180ecc690` | Gameplay & Physics |
+| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ee1250` | `0x180ee1250` | Gameplay & Physics |
+| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a8e500` | `0x180a8e500` | Weapons & Ballistics |
+| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00ad7ba0` | `0x180ad7ba0` | Weapons & Ballistics |
+| `animationsystem.dll` | `CBlendUpdateNode_ComputeWeights` | `0x002d7a80` | `0x1802d7a80` | Animation & Hitboxes |
+| `animationsystem.dll` | `CStateMachineUpdateNode_EvaluateTransitions` | `0x002c82c0` | `0x1802c82c0` | Animation & Hitboxes |
+| `animationsystem.dll` | `Quaternion_FromAngleAxis` | `0x0038dcc0` | `0x18038dcc0` | Animation & Hitboxes |
+
+## Architecture Documentation Reports (`docs/*.md`)
+- [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
+- [01_network_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/01_network_framing.md)
+- [02_flattened_serializers.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/02_flattened_serializers.md)
+- [03_subtick_usercmd_and_prediction.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/03_subtick_usercmd_and_prediction.md)
+- [04_schemasystem_runtime_reflection.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/04_schemasystem_runtime_reflection.md)
+- [05_controller_vs_pawn_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/05_controller_vs_pawn_architecture.md)
+- [06_convar_storage_and_replication.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/06_convar_storage_and_replication.md)
+- [07_camera_and_view_matrix_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/07_camera_and_view_matrix_pipeline.md)
+- [08_game_events_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/08_game_events_pipeline.md)
+- [09_skeleton_bone_hierarchy_and_animgraph.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/09_skeleton_bone_hierarchy_and_animgraph.md)
+- [10_vphysics2_rubikon_collision_engine.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/10_vphysics2_rubikon_collision_engine.md)
+- [11_volumetric_smoke_and_3d_voxel_grids.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/11_volumetric_smoke_and_3d_voxel_grids.md)
+- [12_binary_patch_diffing_and_version_archiving.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/12_binary_patch_diffing_and_version_archiving.md)
+- [13_pulse_system_visual_scripting_engine.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/13_pulse_system_visual_scripting_engine.md)
+- [14_bullet_penetration_and_surface_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/14_bullet_penetration_and_surface_physics.md)
+- [15_navigation_mesh_and_pathfinding.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/15_navigation_mesh_and_pathfinding.md)
+- [16_weapon_inaccuracy_and_recoil_decay.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/16_weapon_inaccuracy_and_recoil_decay.md)
+- [17_subtick_usercmd_wire_format.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/17_subtick_usercmd_wire_format.md)
+- [18_lag_compensation_and_hitbox_backtracking.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/18_lag_compensation_and_hitbox_backtracking.md)
+- [19_hit_registration_and_armor_damage.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md)

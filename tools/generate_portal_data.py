@@ -1196,8 +1196,10 @@ MODULE_RECONSTRUCTED_DATA = {
             "subsystems": [
                 {"name": "Camera & ViewMatrix", "status": "Reconstructed", "color": "emerald"},
                 {"name": "Sub-Tick Input Prediction", "status": "Reconstructed", "color": "emerald"},
-                {"name": "Recoil AimPunch Multiplier", "status": "Reconstructed", "color": "emerald"},
-                {"name": "Bone Hierarchy Forward Kinematics", "status": "In Progress", "color": "cyan"}
+                {"name": "Sub-Tick UserCmd Wire Codec", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Ground/Air Movement Physics", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Weapon Inaccuracy & Dual-Disk Spread", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Bone Hierarchy Forward Kinematics", "status": "Reconstructed", "color": "emerald"}
             ]
         },
         "reconstructedFiles": [
@@ -1208,6 +1210,30 @@ MODULE_RECONSTRUCTED_DATA = {
                 "title": "Sub-Tick Movement & Input Predictor",
                 "desc": "Simulates continuous temporal slicing in Source 2 physics. Jump commands split a tick into a ground friction slice, instantaneous impulse at t_when, and airborne gravity slice.",
                 "functions": ["CSubtickPredictor::PredictMovement", "CSubtickPredictor::ApplyJumpImpulse"]
+            },
+            {
+                "name": "usercmd_wire.cpp",
+                "path": "game/client/usercmd_wire.cpp",
+                "header": "game/client/usercmd_wire.h",
+                "title": "Sub-Tick UserCmd Protobuf Wire Codec",
+                "desc": "Packs and unpacks CSubtickMoveStep analog timestamps, 64-bit button masks, and QAngle deltas inside CCSGOUserCmdPB.",
+                "functions": ["CUserCmdWireCodec::CreateSubtickMove", "CUserCmdWireCodec::PackSubtickStepsToWire", "CUserCmdWireCodec::ProcessUserCmds"]
+            },
+            {
+                "name": "movement.cpp",
+                "path": "game/client/movement.cpp",
+                "header": "game/client/movement.h",
+                "title": "Player Movement Physics & Air Accelerate",
+                "desc": "Reconstructed CGameMovement::Friction, Accelerate, AirAccelerate (30.0f wishspeed cap), WalkMove, and TryPlayerMove sliding clip.",
+                "functions": ["CGameMovement::Friction", "CGameMovement::Accelerate", "CGameMovement::AirAccelerate", "CGameMovement::WalkMove", "CGameMovement::TryPlayerMove"]
+            },
+            {
+                "name": "weapon_accuracy.cpp",
+                "path": "game/client/weapon_accuracy.cpp",
+                "header": "game/client/weapon_accuracy.h",
+                "title": "Weapon Inaccuracy, Recoil Decay & Dual-Disk Spread",
+                "desc": "Exponential accuracy recovery ODE, 34%-95% movement speed remap, dual uniform disk spread sampling (FX_CalculateSpread), and damped spring aim-punch decay.",
+                "functions": ["C_CSWeaponBase::UpdateAccuracyPenalty", "C_CSWeaponBase::GetInaccuracy", "FX_CalculateSpread", "CPlayer_AimPunchServices::SimulateAimPunchDecay"]
             },
             {
                 "name": "viewmatrix.cpp",
@@ -1226,8 +1252,9 @@ MODULE_RECONSTRUCTED_DATA = {
             "subsystems": [
                 {"name": "Sub-Tick Lag Compensation", "status": "Reconstructed", "color": "emerald"},
                 {"name": "Controller <-> Pawn Lifecycle", "status": "Reconstructed", "color": "emerald"},
-                {"name": "Volumetric Smoke LOS", "status": "Reconstructed", "color": "emerald"},
-                {"name": "Damage & Hit Registration", "status": "In Progress", "color": "cyan"}
+                {"name": "Bullet Penetration & Wallbangs", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Hit Registration & Kevlar/Helmet Armor", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Volumetric Smoke LOS", "status": "Reconstructed", "color": "emerald"}
             ]
         },
         "reconstructedFiles": [
@@ -1236,8 +1263,24 @@ MODULE_RECONSTRUCTED_DATA = {
                 "path": "game/server/lagcompensation.cpp",
                 "header": "game/server/lagcompensation.h",
                 "title": "Server Lag Compensation & Backtracking",
-                "desc": "Sub-tick matrix interpolator rewinding hitboxes to shot instant (tick + fraction) via Hermite/linear interpolation.",
-                "functions": ["CLagCompensationManager::BacktrackPawn", "CLagCompensationManager::InterpolateHitboxes"]
+                "desc": "Sub-tick matrix interpolator rewinding hitboxes to shot instant (tick + fraction) via quaternion SLERP, 4096.0f teleport breaker, and sv_maxunlag window.",
+                "functions": ["CLagCompensationManager::StartLagCompensation", "CLagCompensationManager::BacktrackPlayer", "CLagCompensationManager::RestoreEntityToSnapshot"]
+            },
+            {
+                "name": "hit_registration_damage.cpp",
+                "path": "game/server/hit_registration_damage.cpp",
+                "header": "game/server/hit_registration_damage.h",
+                "title": "Hit Registration & Kevlar/Helmet Armor Damage",
+                "desc": "Authoritative hitgroup damage multipliers (4.0x Head, 1.25x Stomach, 0.75x Legs), 0.5f armor ratio scaling, and integer truncation in ApplyKevlarAndHealthDamage.",
+                "functions": ["CCSPlayer_DamageReactServices::TraceAttack", "CCSPlayer_DamageReactServices::ScaleDamageByHitGroup", "CCSPlayer_DamageReactServices::OnTakeDamage_Alive"]
+            },
+            {
+                "name": "bullet_penetration.cpp",
+                "path": "game/server/bullet_penetration.cpp",
+                "header": "game/server/bullet_penetration.h",
+                "title": "Bullet Penetration & Surface Wallbang Raymarch",
+                "desc": "4-step TraceToExit (90-unit max), combined surface penetration modifier, quadratic thickness energy loss, and 4-hit penetration cap.",
+                "functions": ["CCSWeaponBase::FireBullets", "CCSWeaponBase::TraceToExit", "CCSWeaponBase::HandleBulletPenetration"]
             },
             {
                 "name": "controller_pawn.cpp",
@@ -1359,8 +1402,8 @@ MODULE_RECONSTRUCTED_DATA = {
             "subsystems": [
                 {"name": "Two-Bone Analytical IK", "status": "Reconstructed", "color": "emerald"},
                 {"name": "Law of Cosines Solver", "status": "Reconstructed", "color": "emerald"},
-                {"name": "AnimGraph 2 State Machine", "status": "In Progress", "color": "cyan"},
-                {"name": "HitBox Descriptors", "status": "In Progress", "color": "cyan"}
+                {"name": "AnimGraph 2 State Machine & Pose Blender", "status": "Reconstructed", "color": "emerald"},
+                {"name": "8-Way Directional Strafe & AimMatrix", "status": "Reconstructed", "color": "emerald"}
             ]
         },
         "reconstructedFiles": [
@@ -1371,6 +1414,35 @@ MODULE_RECONSTRUCTED_DATA = {
                 "title": "Two-Bone Analytical Inverse Kinematics",
                 "desc": "Analytical limb IK solver using Law of Cosines trigonometry and pole vector planes for foot planting and hand placement.",
                 "functions": ["CTwoBoneIKSolver::Solve"]
+            },
+            {
+                "name": "animgraph_blender.cpp",
+                "path": "game/animationsystem/animgraph_blender.cpp",
+                "header": "game/animationsystem/animgraph_blender.h",
+                "title": "AnimGraph State Machine & Skeletal Pose Blender",
+                "desc": "Evaluates 8-way directional locomotion blend weights, Hermite smoothstep transitions, upper-body additive aim matrices, and quaternion SLERP.",
+                "functions": ["CAnimGraphPoseBlender::BlendBonePoses", "CAnimGraphPoseBlender::ComputeDirectionalWeights", "CAnimGraphPoseBlender::ApplyAimMatrixLayer"]
+            }
+        ]
+    },
+    "navsystem.dll": {
+        "progress": {
+            "status": "Extensively Reversed",
+            "badgeColor": "emerald",
+            "subsystems": [
+                {"name": "CNavArea Geometry & Elevations", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Generation-Counter A* Solver", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Bot Tactical Danger Costs", "status": "Reconstructed", "color": "emerald"}
+            ]
+        },
+        "reconstructedFiles": [
+            {
+                "name": "navmesh.cpp",
+                "path": "game/navsystem/navmesh.cpp",
+                "header": "game/navsystem/navmesh.h",
+                "title": "Navigation Mesh (CNavArea) & A* Bot Pathfinding",
+                "desc": "Reconstructed CNavArea bilinear Z-height query, point clamping, generation-counter A* shortest-path solver, and bot tactical traversal cost functor.",
+                "functions": ["CNavArea::GetZ", "CNavArea::GetClosestPointOnArea", "CNavMeshPathfinder::BuildShortestPath"]
             }
         ]
     },
@@ -1534,6 +1606,264 @@ def main():
         f.write(";\n")
 
     print(f"Successfully generated {out_file} ({os.path.getsize(out_file)} bytes)")
+
+    # Generate Static AI & Modding API (docs/llms.txt, docs/llms-full.txt, docs/api/v1/*.json)
+    generate_ai_modding_api(root, BINARIES_DETAIL, simulators_list, TOOLS_DATA, signatures_data, convars_data, version_manifests, diff_reports)
+
+
+def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, signatures_data, convars_data, version_manifests, diff_reports):
+    """Generates static AI/LLM context indices (llms.txt, llms-full.txt) and REST-like JSON endpoints under docs/api/v1/."""
+    docs_dir = os.path.join(root, "docs")
+    api_dir = os.path.join(docs_dir, "api", "v1")
+    os.makedirs(api_dir, exist_ok=True)
+
+    base_url = "https://hanzkii.github.io/cs2-reverse/docs"
+    repo_url = "https://github.com/Hanzkii/cs2-reverse"
+
+    latest_ver = version_manifests[-1] if version_manifests else {"tag": "2026-10-25_26144732", "build_id": "26144732", "date": "2026-10-25"}
+    latest_diff = diff_reports[-1] if diff_reports else {}
+
+    # 1. Collect all clean-room reconstructed C++17 SDK headers & source files under game/
+    game_dir = os.path.join(root, "game")
+    sdk_modules = []
+    if os.path.exists(game_dir):
+        for mod_name in sorted(os.listdir(game_dir)):
+            mod_path = os.path.join(game_dir, mod_name)
+            if not os.path.isdir(mod_path):
+                continue
+            files_map = {}
+            for fname in sorted(os.listdir(mod_path)):
+                if fname.endswith((".h", ".hpp", ".cpp")):
+                    fpath = os.path.join(mod_path, fname)
+                    with open(fpath, "r", encoding="utf-8") as f:
+                        files_map[fname] = f.read()
+            if files_map:
+                sdk_modules.append({
+                    "module": f"{mod_name}.dll",
+                    "directory": f"game/{mod_name}",
+                    "files": files_map
+                })
+
+    # 2. Extract curated + latest schema classes for modding
+    key_classes_names = [
+        "C_BaseEntity", "CBaseEntity", "CGameSceneNode", "CSkeletonInstance", "CModelState",
+        "CCSPlayerController", "C_CSPlayerPawn", "CCSPlayerPawn", "C_CSPlayerPawnBase", "CCSPlayerPawnBase",
+        "CPlayer_MovementServices", "CCSPlayer_MovementServices", "CPlayer_WeaponServices",
+        "CPlayer_CameraServices", "CCSPlayerBase_CameraServices", "CCSPlayer_DamageReactServices",
+        "C_CSWeaponBase", "CCSWeaponBase", "CCSWeaponBaseVData", "C_BasePlayerWeapon",
+        "CSmokeGrenadeProjectile", "C_SmokeGrenadeProjectile", "CPlantedC4", "CBaseAnimGraph"
+    ]
+    latest_schemas_path = os.path.join(root, "versions", "profiles", latest_ver["tag"], "schemas.json")
+    curated_schemas = {}
+    total_schema_classes = 0
+    if os.path.exists(latest_schemas_path):
+        with open(latest_schemas_path, "r", encoding="utf-8") as f:
+            all_sch = json.load(f)
+            total_schema_classes = len(all_sch)
+            for k in key_classes_names:
+                if k in all_sch:
+                    curated_schemas[k] = all_sch[k]
+
+    # 3. Write /docs/api/v1/ JSON endpoints
+    index_payload = {
+        "name": "CS2 (Source 2) Reverse Engineering & Modding API",
+        "version": "1.0.0",
+        "latest_build": {
+            "tag": latest_ver.get("tag"),
+            "build_id": latest_ver.get("build_id"),
+            "date": latest_ver.get("date"),
+            "binaries_count": len(binaries_detail),
+            "signatures_count": len(signatures_data),
+            "schema_classes_count": total_schema_classes,
+            "convars_count": len(convars_data),
+            "sdk_modules_count": len(sdk_modules)
+        },
+        "ai_context_files": {
+            "llms_txt": f"{base_url}/llms.txt",
+            "llms_full_txt": f"{base_url}/llms-full.txt"
+        },
+        "endpoints": {
+            "index": f"{base_url}/api/v1/index.json",
+            "signatures": f"{base_url}/api/v1/signatures.json",
+            "schemas": f"{base_url}/api/v1/schemas.json",
+            "sdk": f"{base_url}/api/v1/sdk.json",
+            "convars": f"{base_url}/api/v1/convars.json",
+            "binaries": f"{base_url}/api/v1/binaries.json",
+            "latest_diff": f"{base_url}/api/v1/latest_diff.json"
+        },
+        "usage_instructions_for_ai": (
+            "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, "
+            "engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. "
+            "Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations."
+        )
+    }
+
+    with open(os.path.join(api_dir, "index.json"), "w", encoding="utf-8") as f:
+        json.dump(index_payload, f, indent=2)
+
+    with open(os.path.join(api_dir, "signatures.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "tag": latest_ver.get("tag"),
+            "count": len(signatures_data),
+            "signatures": signatures_data
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "schemas.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "tag": latest_ver.get("tag"),
+            "total_classes_in_profile": total_schema_classes,
+            "curated_modding_classes_count": len(curated_schemas),
+            "classes": curated_schemas
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "sdk.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "standard": "C++17",
+            "modules_count": len(sdk_modules),
+            "modules": sdk_modules
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "convars.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "count": len(convars_data),
+            "convars": convars_data
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "binaries.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "count": len(binaries_detail),
+            "binaries": binaries_detail
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "latest_diff.json"), "w", encoding="utf-8") as f:
+        json.dump(latest_diff, f, indent=2)
+
+    # 4. Generate /docs/llms.txt (Standard concise AI directory index)
+    md_files = sorted([fn for fn in os.listdir(docs_dir) if fn.endswith(".md")])
+    llms_lines = [
+        "# CS2 (Source 2) Reverse Engineering & Modding Reference",
+        "",
+        f"> Authoritative clean-room C++17 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build {latest_ver.get('build_id')}).",
+        "",
+        "## Quick AI & Modding Context Links",
+        f"- [Full AI Context Bundle (llms-full.txt)]({base_url}/llms-full.txt): Single-file concatenation of all 39 function signatures, C++17 SDK headers, key Schema offsets, and architecture docs.",
+        f"- [API Master Index (JSON)]({base_url}/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.",
+        f"- [Function Signatures & RVAs (JSON)]({base_url}/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.",
+        f"- [Reconstructed C++17 SDK (JSON)]({base_url}/api/v1/sdk.json): Complete clean-room C++17 headers and implementations across 9 Source 2 binaries.",
+        f"- [Core Modding Schemas & Offsets (JSON)]({base_url}/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.",
+        f"- [ConVars & Commands Database (JSON)]({base_url}/api/v1/convars.json): 2,695 categorized Source 2 console variables with FCVAR flags and descriptions.",
+        f"- [Latest Patch Diff Telemetry (JSON)]({base_url}/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.",
+        "",
+        "## Reconstructed C++17 Modding SDK (`game/`)",
+    ]
+
+    for mod in sdk_modules:
+        fnames = ", ".join(f"`{k}`" for k in mod["files"].keys())
+        llms_lines.append(f"- **{mod['module']}** (`{mod['directory']}/`): {fnames} — [View on GitHub]({repo_url}/tree/main/{mod['directory']})")
+
+    llms_lines.extend([
+        "",
+        "## Verified Function Signatures Summary (Latest Build " + str(latest_ver.get("build_id")) + ")",
+        "| Binary | Symbol / Routine | Current RVA | Current VA | Category |",
+        "| :--- | :--- | :--- | :--- | :--- |"
+    ])
+    for sig in signatures_data:
+        rva = sig.get("current_rva") or sig.get("baseline_rva")
+        va = sig.get("current_va") or sig.get("baseline_va")
+        llms_lines.append(f"| `{sig['binary']}` | `{sig['name']}` | `{rva}` | `{va}` | {sig.get('category', '')} |")
+
+    llms_lines.extend([
+        "",
+        "## Architecture Documentation Reports (`docs/*.md`)"
+    ])
+    for fn in md_files:
+        llms_lines.append(f"- [{fn}]({repo_url}/blob/main/docs/{fn})")
+
+    llms_txt_path = os.path.join(docs_dir, "llms.txt")
+    with open(llms_txt_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(llms_lines) + "\n")
+
+    # 5. Generate /docs/llms-full.txt (Complete self-contained context for LLMs building mods)
+    full_lines = list(llms_lines)
+    full_lines.extend([
+        "",
+        "================================================================================",
+        "# SECTION 1: CANONICAL FUNCTION SIGNATURES, BYTE PATTERNS & RVAs",
+        "================================================================================",
+        ""
+    ])
+    for sig in signatures_data:
+        rva = sig.get("current_rva") or sig.get("baseline_rva")
+        va = sig.get("current_va") or sig.get("baseline_va")
+        full_lines.extend([
+            f"### {sig['name']} ({sig['binary']})",
+            f"- **ID**: `{sig['id']}`",
+            f"- **Current RVA**: `{rva}` (Baseline: `{sig['baseline_rva']}`, Delta: `{sig.get('delta_str', '+0x0')}`)",
+            f"- **Current VA**: `{va}`",
+            f"- **IDA / Ghidra Pattern**: `{sig['pattern']}`",
+            f"- **Description**: {sig.get('description', '')}",
+            ""
+        ])
+
+    full_lines.extend([
+        "================================================================================",
+        "# SECTION 2: CLEAN-ROOM C++17 SDK HEADERS (`game/**/*.h`)",
+        "================================================================================",
+        ""
+    ])
+    for mod in sdk_modules:
+        for fname, content in mod["files"].items():
+            if fname.endswith(".h"):
+                full_lines.extend([
+                    f"### File: `{mod['directory']}/{fname}` ({mod['module']})",
+                    "```cpp",
+                    content.strip(),
+                    "```",
+                    ""
+                ])
+
+    full_lines.extend([
+        "================================================================================",
+        "# SECTION 3: KEY SCHEMA CLASS MEMBER OFFSETS (Build " + str(latest_ver.get("build_id")) + ")",
+        "================================================================================",
+        ""
+    ])
+    for cname, cdata in curated_schemas.items():
+        full_lines.append(f"### `{cname}` (`{cdata.get('binary')}`, Size: `{cdata.get('size_hex')}` / {cdata.get('size')} bytes, Base: `{cdata.get('base') or 'None'}`)")
+        for fld in cdata.get("fields", [])[:60]:
+            full_lines.append(f"- `{fld['offset_hex']}` ({fld['offset']}): `{fld['type']} {fld['name']}`")
+        if len(cdata.get("fields", [])) > 60:
+            full_lines.append(f"- ... ({len(cdata['fields']) - 60} additional fields in `/docs/api/v1/schemas.json`)")
+        full_lines.append("")
+
+    full_lines.extend([
+        "================================================================================",
+        "# SECTION 4: ARCHITECTURAL REVERSE ENGINEERING REPORTS (`docs/00..19.md`)",
+        "================================================================================",
+        ""
+    ])
+    for fn in md_files:
+        fpath = os.path.join(docs_dir, fn)
+        with open(fpath, "r", encoding="utf-8") as f:
+            md_text = f.read()
+        full_lines.extend([
+            f"## Document: {fn}",
+            md_text.strip(),
+            "",
+            "--------------------------------------------------------------------------------",
+            ""
+        ])
+
+    llms_full_path = os.path.join(docs_dir, "llms-full.txt")
+    with open(llms_full_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(full_lines) + "\n")
+
+    print(f"Successfully generated Static AI & Modding API in {api_dir}, llms.txt ({os.path.getsize(llms_txt_path)} B), and llms-full.txt ({os.path.getsize(llms_full_path)} B)")
 
 if __name__ == "__main__":
     main()

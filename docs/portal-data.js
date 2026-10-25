@@ -159,14 +159,24 @@ window.CS2_BINARIES_DETAIL = [
           "color": "emerald"
         },
         {
-          "name": "Recoil AimPunch Multiplier",
+          "name": "Sub-Tick UserCmd Wire Codec",
+          "status": "Reconstructed",
+          "color": "emerald"
+        },
+        {
+          "name": "Ground/Air Movement Physics",
+          "status": "Reconstructed",
+          "color": "emerald"
+        },
+        {
+          "name": "Weapon Inaccuracy & Dual-Disk Spread",
           "status": "Reconstructed",
           "color": "emerald"
         },
         {
           "name": "Bone Hierarchy Forward Kinematics",
-          "status": "In Progress",
-          "color": "cyan"
+          "status": "Reconstructed",
+          "color": "emerald"
         }
       ]
     },
@@ -180,6 +190,45 @@ window.CS2_BINARIES_DETAIL = [
         "functions": [
           "CSubtickPredictor::PredictMovement",
           "CSubtickPredictor::ApplyJumpImpulse"
+        ]
+      },
+      {
+        "name": "usercmd_wire.cpp",
+        "path": "game/client/usercmd_wire.cpp",
+        "header": "game/client/usercmd_wire.h",
+        "title": "Sub-Tick UserCmd Protobuf Wire Codec",
+        "desc": "Packs and unpacks CSubtickMoveStep analog timestamps, 64-bit button masks, and QAngle deltas inside CCSGOUserCmdPB.",
+        "functions": [
+          "CUserCmdWireCodec::CreateSubtickMove",
+          "CUserCmdWireCodec::PackSubtickStepsToWire",
+          "CUserCmdWireCodec::ProcessUserCmds"
+        ]
+      },
+      {
+        "name": "movement.cpp",
+        "path": "game/client/movement.cpp",
+        "header": "game/client/movement.h",
+        "title": "Player Movement Physics & Air Accelerate",
+        "desc": "Reconstructed CGameMovement::Friction, Accelerate, AirAccelerate (30.0f wishspeed cap), WalkMove, and TryPlayerMove sliding clip.",
+        "functions": [
+          "CGameMovement::Friction",
+          "CGameMovement::Accelerate",
+          "CGameMovement::AirAccelerate",
+          "CGameMovement::WalkMove",
+          "CGameMovement::TryPlayerMove"
+        ]
+      },
+      {
+        "name": "weapon_accuracy.cpp",
+        "path": "game/client/weapon_accuracy.cpp",
+        "header": "game/client/weapon_accuracy.h",
+        "title": "Weapon Inaccuracy, Recoil Decay & Dual-Disk Spread",
+        "desc": "Exponential accuracy recovery ODE, 34%-95% movement speed remap, dual uniform disk spread sampling (FX_CalculateSpread), and damped spring aim-punch decay.",
+        "functions": [
+          "C_CSWeaponBase::UpdateAccuracyPenalty",
+          "C_CSWeaponBase::GetInaccuracy",
+          "FX_CalculateSpread",
+          "CPlayer_AimPunchServices::SimulateAimPunchDecay"
         ]
       },
       {
@@ -330,14 +379,19 @@ window.CS2_BINARIES_DETAIL = [
           "color": "emerald"
         },
         {
-          "name": "Volumetric Smoke LOS",
+          "name": "Bullet Penetration & Wallbangs",
           "status": "Reconstructed",
           "color": "emerald"
         },
         {
-          "name": "Damage & Hit Registration",
-          "status": "In Progress",
-          "color": "cyan"
+          "name": "Hit Registration & Kevlar/Helmet Armor",
+          "status": "Reconstructed",
+          "color": "emerald"
+        },
+        {
+          "name": "Volumetric Smoke LOS",
+          "status": "Reconstructed",
+          "color": "emerald"
         }
       ]
     },
@@ -347,10 +401,35 @@ window.CS2_BINARIES_DETAIL = [
         "path": "game/server/lagcompensation.cpp",
         "header": "game/server/lagcompensation.h",
         "title": "Server Lag Compensation & Backtracking",
-        "desc": "Sub-tick matrix interpolator rewinding hitboxes to shot instant (tick + fraction) via Hermite/linear interpolation.",
+        "desc": "Sub-tick matrix interpolator rewinding hitboxes to shot instant (tick + fraction) via quaternion SLERP, 4096.0f teleport breaker, and sv_maxunlag window.",
         "functions": [
-          "CLagCompensationManager::BacktrackPawn",
-          "CLagCompensationManager::InterpolateHitboxes"
+          "CLagCompensationManager::StartLagCompensation",
+          "CLagCompensationManager::BacktrackPlayer",
+          "CLagCompensationManager::RestoreEntityToSnapshot"
+        ]
+      },
+      {
+        "name": "hit_registration_damage.cpp",
+        "path": "game/server/hit_registration_damage.cpp",
+        "header": "game/server/hit_registration_damage.h",
+        "title": "Hit Registration & Kevlar/Helmet Armor Damage",
+        "desc": "Authoritative hitgroup damage multipliers (4.0x Head, 1.25x Stomach, 0.75x Legs), 0.5f armor ratio scaling, and integer truncation in ApplyKevlarAndHealthDamage.",
+        "functions": [
+          "CCSPlayer_DamageReactServices::TraceAttack",
+          "CCSPlayer_DamageReactServices::ScaleDamageByHitGroup",
+          "CCSPlayer_DamageReactServices::OnTakeDamage_Alive"
+        ]
+      },
+      {
+        "name": "bullet_penetration.cpp",
+        "path": "game/server/bullet_penetration.cpp",
+        "header": "game/server/bullet_penetration.h",
+        "title": "Bullet Penetration & Surface Wallbang Raymarch",
+        "desc": "4-step TraceToExit (90-unit max), combined surface penetration modifier, quadratic thickness energy loss, and 4-hit penetration cap.",
+        "functions": [
+          "CCSWeaponBase::FireBullets",
+          "CCSWeaponBase::TraceToExit",
+          "CCSWeaponBase::HandleBulletPenetration"
         ]
       },
       {
@@ -921,14 +1000,14 @@ window.CS2_BINARIES_DETAIL = [
           "color": "emerald"
         },
         {
-          "name": "AnimGraph 2 State Machine",
-          "status": "In Progress",
-          "color": "cyan"
+          "name": "AnimGraph 2 State Machine & Pose Blender",
+          "status": "Reconstructed",
+          "color": "emerald"
         },
         {
-          "name": "HitBox Descriptors",
-          "status": "In Progress",
-          "color": "cyan"
+          "name": "8-Way Directional Strafe & AimMatrix",
+          "status": "Reconstructed",
+          "color": "emerald"
         }
       ]
     },
@@ -941,6 +1020,18 @@ window.CS2_BINARIES_DETAIL = [
         "desc": "Analytical limb IK solver using Law of Cosines trigonometry and pole vector planes for foot planting and hand placement.",
         "functions": [
           "CTwoBoneIKSolver::Solve"
+        ]
+      },
+      {
+        "name": "animgraph_blender.cpp",
+        "path": "game/animationsystem/animgraph_blender.cpp",
+        "header": "game/animationsystem/animgraph_blender.h",
+        "title": "AnimGraph State Machine & Skeletal Pose Blender",
+        "desc": "Evaluates 8-way directional locomotion blend weights, Hermite smoothstep transitions, upper-body additive aim matrices, and quaternion SLERP.",
+        "functions": [
+          "CAnimGraphPoseBlender::BlendBonePoses",
+          "CAnimGraphPoseBlender::ComputeDirectionalWeights",
+          "CAnimGraphPoseBlender::ApplyAimMatrixLayer"
         ]
       }
     ]
@@ -1594,27 +1685,40 @@ window.CS2_BINARIES_DETAIL = [
     ],
     "simulators": [],
     "progress": {
-      "status": "Synchronized in Ghidra",
-      "badgeColor": "cyan",
+      "status": "Extensively Reversed",
+      "badgeColor": "emerald",
       "subsystems": [
         {
-          "name": "CreateInterface Export Discovery",
-          "status": "Mapped",
+          "name": "CNavArea Geometry & Elevations",
+          "status": "Reconstructed",
           "color": "emerald"
         },
         {
-          "name": "PE Section Geometry & Imports",
-          "status": "Mapped",
+          "name": "Generation-Counter A* Solver",
+          "status": "Reconstructed",
           "color": "emerald"
         },
         {
-          "name": "Virtual Method Table Resolution",
-          "status": "In Progress",
-          "color": "cyan"
+          "name": "Bot Tactical Danger Costs",
+          "status": "Reconstructed",
+          "color": "emerald"
         }
       ]
     },
-    "reconstructedFiles": []
+    "reconstructedFiles": [
+      {
+        "name": "navmesh.cpp",
+        "path": "game/navsystem/navmesh.cpp",
+        "header": "game/navsystem/navmesh.h",
+        "title": "Navigation Mesh (CNavArea) & A* Bot Pathfinding",
+        "desc": "Reconstructed CNavArea bilinear Z-height query, point clamping, generation-counter A* shortest-path solver, and bot tactical traversal cost functor.",
+        "functions": [
+          "CNavArea::GetZ",
+          "CNavArea::GetClosestPointOnArea",
+          "CNavMeshPathfinder::BuildShortestPath"
+        ]
+      }
+    ]
   },
   {
     "name": "resourcesystem.dll",

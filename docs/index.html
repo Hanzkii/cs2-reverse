@@ -180,6 +180,12 @@
         <span class="hidden sm:inline">Share</span>
       </button>
 
+      <!-- AI & Modding API Button -->
+      <button onclick="openAiApiModal()" id="topAiApiBtn" title="AI & Modding API Endpoints (llms.txt & JSON API)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-xs font-bold text-amber-300 hover:text-amber-200 transition-all border border-amber-500/40 cursor-pointer shadow-sm">
+        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span class="hidden sm:inline">AI / Mod API</span>
+      </button>
+
       <a href="https://github.com/Hanzkii/cs2-reverse" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors border border-cs2-border">
         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         <span class="hidden md:inline">GitHub Repo</span>
@@ -5520,9 +5526,52 @@
         if (DOCS.some(d => d.id === parts[1])) currentDocId = parts[1];
         switchTab('docs', false);
         selectDoc(parts[1], '', false);
+      } else if (section === 'api' || section === 'ai-api') {
+        openAiApiModal(false);
       } else if (['docs', 'binaries', 'tools', 'simulators', 'signatures', 'convars'].includes(section)) {
         switchTab(section, false);
       }
+    }
+
+    function openAiApiModal(updateHash = true) {
+      if (updateHash) setUrlHash('api');
+      const modal = document.getElementById('aiModdingApiModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAiApiModal() {
+      setUrlHash(activeTab === 'docs' && currentDocId ? 'doc/' + currentDocId : activeTab);
+      const modal = document.getElementById('aiModdingApiModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function copyApiText(text, label) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(label || 'Copied to clipboard!');
+        });
+      }
+    }
+
+    function copyAiModdingPrompt() {
+      const latest = VERSIONS_DATA.length > 0 ? VERSIONS_DATA[VERSIONS_DATA.length - 1] : { build_id: '26144732', date: '2026-10-25' };
+      const promptText = `You are a Counter-Strike 2 (Source 2 Engine, Build ${latest.build_id}) C++17 modding and reverse-engineering assistant.
+Use the authoritative cs2-reverse static API & SDK endpoints below for all memory offsets, IDA/Ghidra byte signatures, RVAs, SchemaSystem fields, and reconstructed C++17 classes:
+
+1. Full Single-File AI Context (All Signatures + C++17 SDK Headers + Schemas + Docs):
+   https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt
+2. Concise AI Index:
+   https://hanzkii.github.io/cs2-reverse/docs/llms.txt
+3. JSON API Endpoints:
+   - Master Index: https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json
+   - 39 Function Signatures & RVAs: https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json
+   - Clean-Room C++17 SDK (game/**/*.h & .cpp): https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json
+   - Core Schema Classes & Offsets: https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json
+   - 2,695 ConVars & Flags: https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json
+   - Latest Patch Diffs: https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json
+
+Always use the current_rva / current_va from signatures.json and exact field offsets from schemas.json.`;
+      copyApiText(promptText, 'Copied AI Modding System Prompt to clipboard!');
     }
 
     window.addEventListener('hashchange', handleUrlRoute);
@@ -5574,6 +5623,160 @@
     </div>
   </div>
 
+
+  <!-- AI & Modding API Modal Dialog -->
+  <div id="aiModdingApiModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="if(event.target.id==='aiModdingApiModal') closeAiApiModal()">
+    <div class="bg-[#111827] border border-amber-500/50 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <!-- Header -->
+      <div class="p-5 border-b border-cs2-border flex items-center justify-between bg-slate-900/90">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-500/40 flex items-center justify-center text-amber-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-white font-mono flex items-center gap-2">
+              <span>AI &amp; Modding Static API</span>
+              <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/40">v1.0 &bull; Auto-Synced</span>
+            </h2>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Machine-readable <code class="text-cyan-300 font-mono">llms.txt</code> context bundles and JSON endpoints for building CS2 mods with Claude, ChatGPT, Cursor, or custom agents.
+            </p>
+          </div>
+        </div>
+        <button onclick="closeAiApiModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-6 overflow-y-auto space-y-5 text-xs">
+        <!-- 1-Click System Prompt Card -->
+        <div class="bg-gradient-to-r from-amber-500/15 via-slate-900 to-[#0d1322] border border-amber-500/40 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span>Ready-to-Paste AI Modding System Prompt</span>
+            </div>
+            <p class="text-slate-200 text-xs leading-relaxed">
+              Copy a pre-configured system prompt containing all <code class="text-cyan-300 font-mono">llms-full.txt</code> and <code class="text-cyan-300 font-mono">/api/v1/*.json</code> URLs to paste directly into Claude, ChatGPT, Cursor (<code class="text-amber-300 font-mono">@Docs</code>), or any coding agent.
+            </p>
+          </div>
+          <button onclick="copyAiModdingPrompt()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs transition-all shrink-0 cursor-pointer shadow-lg shadow-amber-500/20 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span>Copy AI Modding Prompt</span>
+          </button>
+        </div>
+
+        <!-- LLM Context Files (llms.txt standard) -->
+        <div class="space-y-2.5">
+          <h3 class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">1. Standard LLM Context Bundles (<code class="text-cyan-300">llms.txt</code> Standard)</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-cyan-300 font-bold text-xs">/docs/llms-full.txt</span>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold">~425 KB &bull; Complete Context</span>
+              </div>
+              <p class="text-slate-300 font-sans text-[11px] leading-relaxed">
+                Single-file bundle containing all 39 function signatures, all 20 C++17 SDK headers (<code class="text-slate-200">game/**/*.h</code>), key Schema class offsets, and all 20 architecture docs.
+              </p>
+              <div class="flex items-center gap-2 pt-1">
+                <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt', 'Copied llms-full.txt URL!')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] cursor-pointer">Copy URL</button>
+                <a href="llms-full.txt" target="_blank" class="px-2.5 py-1 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[11px]">Open Raw &nearr;</a>
+              </div>
+            </div>
+
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-emerald-300 font-bold text-xs">/docs/llms.txt</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">~11 KB &bull; Fast Index</span>
+              </div>
+              <p class="text-slate-300 font-sans text-[11px] leading-relaxed">
+                Compact directory index of all API endpoints, C++17 SDK modules, and a complete table of all 39 reversed function RVAs/VAs for fast agent discovery.
+              </p>
+              <div class="flex items-center gap-2 pt-1">
+                <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/llms.txt', 'Copied llms.txt URL!')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] cursor-pointer">Copy URL</button>
+                <a href="llms.txt" target="_blank" class="px-2.5 py-1 rounded bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-[11px]">Open Raw &nearr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Structured JSON Endpoints -->
+        <div class="space-y-2.5">
+          <h3 class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">2. Structured JSON API Endpoints (<code class="text-purple-300">/docs/api/v1/*.json</code>)</h3>
+          <div class="rounded-xl border border-cs2-border overflow-hidden font-mono text-xs">
+            <table class="w-full text-left">
+              <thead class="bg-slate-900 border-b border-cs2-border text-slate-300">
+                <tr>
+                  <th class="p-3">Endpoint</th>
+                  <th class="p-3">Contents for AI / Modding Tools</th>
+                  <th class="p-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cs2-border bg-[#0b0f19]">
+                <tr class="hover:bg-slate-900/60">
+                  <td class="p-3 font-bold text-amber-300">/docs/api/v1/index.json</td>
+                  <td class="p-3 font-sans text-slate-300">Master API manifest, latest CS2 build metadata, and endpoint directory.</td>
+                  <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
+                    <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json', 'Copied index.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
+                    <a href="api/v1/index.json" target="_blank" class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 text-[10px]">JSON &nearr;</a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-900/60">
+                  <td class="p-3 font-bold text-cyan-300">/docs/api/v1/signatures.json</td>
+                  <td class="p-3 font-sans text-slate-300">All 39 verified IDA/Ghidra byte patterns, baseline RVAs, and latest shifted RVAs/VAs.</td>
+                  <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
+                    <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json', 'Copied signatures.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
+                    <a href="api/v1/signatures.json" target="_blank" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[10px]">JSON &nearr;</a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-900/60">
+                  <td class="p-3 font-bold text-emerald-300">/docs/api/v1/sdk.json</td>
+                  <td class="p-3 font-sans text-slate-300">All 40 reconstructed C++17 headers &amp; source files (<code class="text-slate-200">game/**/*.h, .cpp</code>) across 10 modules.</td>
+                  <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
+                    <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json', 'Copied sdk.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
+                    <a href="api/v1/sdk.json" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px]">JSON &nearr;</a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-900/60">
+                  <td class="p-3 font-bold text-purple-300">/docs/api/v1/schemas.json</td>
+                  <td class="p-3 font-sans text-slate-300">Core modding classes (<code class="text-slate-200">C_CSPlayerPawn</code>, <code class="text-slate-200">CCSPlayerController</code>, <code class="text-slate-200">C_CSWeaponBase</code>) with exact field offsets.</td>
+                  <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
+                    <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json', 'Copied schemas.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
+                    <a href="api/v1/schemas.json" target="_blank" class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[10px]">JSON &nearr;</a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-900/60">
+                  <td class="p-3 font-bold text-sky-300">/docs/api/v1/convars.json</td>
+                  <td class="p-3 font-sans text-slate-300">All 2,695 Source 2 ConVars with subsystem categories, FCVAR flags, and functional descriptions.</td>
+                  <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
+                    <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json', 'Copied convars.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
+                    <a href="api/v1/convars.json" target="_blank" class="px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30 text-[10px]">JSON &nearr;</a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-900/60">
+                  <td class="p-3 font-bold text-slate-200">/docs/api/v1/latest_diff.json</td>
+                  <td class="p-3 font-sans text-slate-300">Latest CS2 patch differential report (shifted RVAs, shifted schema offsets, new ConVars).</td>
+                  <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
+                    <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json', 'Copied latest_diff.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
+                    <a href="api/v1/latest_diff.json" target="_blank" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px]">JSON &nearr;</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-cs2-border bg-slate-900/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
+        <span>Automatically regenerated by <code class="text-slate-300">python tools/generate_portal_data.py</code> on every CS2 update</span>
+        <button onclick="closeAiApiModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold transition-colors cursor-pointer">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Notification Container -->
   <div id="shareToast" class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-900 border border-sky-500/50 text-white shadow-2xl font-mono text-xs">
