@@ -1041,9 +1041,9 @@ TOOLS_DATA = [
         "category": "Binary Scanning & Automation",
         "language": "Python 3",
         "targets": ["All 34 Binaries across Updates"],
-        "summary": "Function signature and offset verification engine: scans IDA/Ghidra byte patterns with wildcards, validates 100% uniqueness, and tracks RVA shifts across updates.",
-        "purpose": "Locates stripped and internal functions across CS2 binaries (AngleVectors, CalculateWorldBones, LineOfSightThroughSmoke, Pulse dispatch loop, etc.) without symbols. Verifies pattern uniqueness (1 match), computes exact RVAs and deltas (+/- bytes), and detects broken or refactored routines after game patches.",
-        "usage": "python tools/scan_signatures.py --dir versions/archive/2026-10-15_25966348\npython tools/scan_signatures.py --diff <old_dir> <new_dir>",
+        "summary": "Function signature and offset verification engine: scans IDA/Ghidra byte patterns with wildcards, validates 100% uniqueness, and tracks/syncs RVA shifts across updates.",
+        "purpose": "Locates stripped and internal functions across CS2 binaries (AngleVectors, CalculateWorldBones, LineOfSightThroughSmoke, Pulse dispatch loop, etc.) without symbols. Verifies pattern uniqueness (1 match), computes exact RVAs and deltas (+/- bytes), and dynamically updates function_signatures.json via --update-db on every new game build.",
+        "usage": "python tools/scan_signatures.py --dir versions/archive/2026-10-25_26144732 --update-db\npython tools/scan_signatures.py --diff <old_dir> <new_dir>",
         "exampleOutput": "SOURCE 2 FUNCTION SIGNATURE & OFFSET VERIFICATION REPORT\nclient.dll         | AngleVectors        | [PASS] | 0x017402a0 | 0x17402a0 | +0x0 | 1\nclient.dll         | CalculateWorldBones | [PASS] | 0x00aa0f80 | 0x0aa0f80 | +0x0 | 1\nserver.dll         | LineOfSightThroughSmoke | [PASS] | 0x009b7f50 | 0x09b7f50 | +0x0 | 1\npulse_system.dll   | PulseInstructionDispatchLoop | [PASS] | 0x0008f810 | 0x008f810 | +0x0 | 1\nTotal: 21 | Unchanged: 21 | Shifted: 0 | Broken: 0",
         "codeSnippet": "regex = pattern_to_regex(sig['pattern'])\nmatches = [m.start() for m in regex.finditer(pe.data)]\nassert len(matches) == 1 # Validates unique function signature"
     },
@@ -1130,6 +1130,42 @@ TOOLS_DATA = [
         "usage": "python tools/enrich_signatures.py",
         "exampleOutput": "Enriched 21 signatures with C++ snippets and verification docs.",
         "codeSnippet": "with open('data/function_signatures.json', 'r') as f:\n    sigs = json.load(f)"
+    },
+    {
+        "id": "export_source2_ghidra_headers",
+        "name": "export_source2_ghidra_headers.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3",
+        "targets": ["data/source2_types.h", "schemas.json", "client.dll", "server.dll"],
+        "summary": "Generates C-compatible header files containing all 2,276 Source 2 Schema classes and primitives with exact struct padding for Ghidra C-Parser.",
+        "purpose": "Transmutes raw extracted JSON schema tables into C struct definitions with explicit byte-aligned padding (uint8_t _pad_0x[N]), deduced member types (Vector, QAngle, CEntityHandle, pointers, floats, booleans), and verified total class byte allocations. Allows researchers to import 2,000+ typed structures into any Ghidra project in 2 seconds via File -> Parse C Source.",
+        "usage": "python tools/export_source2_ghidra_headers.py versions/profiles/2026-10-25_26144732/schemas.json data/source2_types.h",
+        "exampleOutput": "[+] Successfully exported 2276 classes to data/source2_types.h (1,189,283 bytes)",
+        "codeSnippet": "def generate_headers(schemas_path, out_path, module_filter=None):\n    with open(schemas_path, 'r', encoding='utf-8') as f:\n        schemas = json.load(f)\n    # Generates C structs with uint8_t _pad_0x[N] padding"
+    },
+    {
+        "id": "source2_schema_importer",
+        "name": "Source2_SchemaImporter.java",
+        "category": "Ghidra Integration",
+        "language": "Java (GhidraScript)",
+        "targets": ["client.dll", "server.dll", "DataTypeManager"],
+        "summary": "Ghidra Script that parses Source 2 schema profiles and automatically creates StructureDataType definitions with exact field offsets and types.",
+        "purpose": "Ingests schemas.json through Gson reflection directly into the active Ghidra program's DataTypeManager. Resolves Hungarian type conventions into Ghidra base types (Vector, QAngle, CEntityHandle, pointers) and populates every field via struct.replaceAtOffset(). Organizes structures into /Source2/<binary> categories, instantly turning raw pointer decompiler math (*(int*)(param_1 + 0x15a8)) into high-level field accesses (param_1->m_flHealthShotBoostExpirationTime).",
+        "usage": "Ghidra Script Manager: Source2 -> Source2_SchemaImporter.java (or via MCP run_ghidra_script)",
+        "exampleOutput": "[*] Target Program: client.dll\n[*] Total schema definitions parsed: 2276\n[+] SUCCESS: Created 183 classes with 2055 typed fields in /Source2/client.dll",
+        "codeSnippet": "StructureDataType struct = new StructureDataType(progCat, className, classSize, dtm);\nstruct.replaceAtOffset(offset, fType, fSize, fieldName, comment);\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER);"
+    },
+    {
+        "id": "source2_base_types",
+        "name": "Source2_BaseTypes.java",
+        "category": "Ghidra Integration",
+        "language": "Java (GhidraScript)",
+        "targets": ["DataTypeManager", "/Source2/BaseTypes"],
+        "summary": "Ghidra Script that registers foundational Source 2 primitives, vectors, quaternions, handles, and containers into /Source2/BaseTypes.",
+        "purpose": "Pre-defines core Source 2 types with exact memory alignments: Vector (12B), Vector2D (8B), Vector4D (16B), QAngle (12B), Quaternion (16B), CTransform (32B SIMD aligned), CEntityHandle (4B bitfield: index & 0x7FFF, serial >> 15), CUtlString (8B), CUtlSymbolLarge (8B), CUtlStringToken (4B), and CUtlVector_void (16B).",
+        "usage": "Ghidra Script Manager: Source2 -> Source2_BaseTypes.java",
+        "exampleOutput": "[+] Successfully registered 11 Source 2 base types in /Source2/BaseTypes",
+        "codeSnippet": "StructureDataType transform = new StructureDataType(cat, \"CTransform\", 32, dtm);\ntransform.replaceAtOffset(0, quat, 16, \"rot\", \"Rodrigues rotation quaternion\");\ntransform.replaceAtOffset(16, vec, 12, \"pos\", \"Translation world position\");\ndtm.addDataType(transform, DataTypeConflictHandler.REPLACE_HANDLER);"
     }
 ]
 

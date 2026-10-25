@@ -97,6 +97,24 @@ The utilities in `tools/` require only standard Python 3.x (no external pip depe
 - **`tools/generate_portal_data.py` & `tools/generate_docs_bundle.py`**:
   - **Purpose**: Bundles architectural documentation, binary profiles, C++ simulators, and the tools catalog into web portal data.
 
+### 3.6 Ghidra Reverse Engineering & Type Automation
+To eliminate the friction of reversing stripped Source 2 binaries where decompiler views initially display anonymous struct math (`*(int *)(param_1 + 0x15a8)`), we developed dedicated Ghidra automation tools:
+
+- **`tools/export_source2_ghidra_headers.py`**:
+  - **Purpose**: Generates C-compatible header files containing all 2,276 Source 2 Schema classes and primitives with exact struct padding for Ghidra C-Parser.
+  - **Output**: `data/source2_types.h` (1.18 MB).
+  - **Mechanism**: Reads extracted schema tables, maps Hungarian naming conventions to primitive types, calculates explicit byte padding (`uint8_t _pad_0x[N]`) to match exact member byte offsets, and outputs standard C struct definitions.
+  - **Usage**: In Ghidra, go to **File** $\rightarrow$ **Parse C Source...**, add `data/source2_types.h`, and click **Parse to Program** to import all 2,000+ classes in 2 seconds.
+- **`tools/ghidra/Source2_SchemaImporter.java`**:
+  - **Purpose**: Native Ghidra Java Script that reads `schemas.json` and populates the active program's `DataTypeManager`.
+  - **Mechanism**: Reads schema definitions using Gson reflection, detects the open binary (e.g. `client.dll` or `server.dll`), creates `StructureDataType` instances, and populates fields at their exact byte offsets using `struct.replaceAtOffset()`. Organizes structures into `/Source2/<binary>` categories.
+  - **Execution**: Can be run from Ghidra's Script Manager (**Window** $\rightarrow$ **Script Manager** $\rightarrow$ `Source2 -> Source2_SchemaImporter.java`) or via MCP `/run_ghidra_script`.
+- **`tools/ghidra/Source2_BaseTypes.java`**:
+  - **Purpose**: Standalone Ghidra script registering foundational Source 2 primitives, vectors, quaternions, handles, and containers into `/Source2/BaseTypes`.
+  - **Types Registered**: `Vector` (12B), `Vector2D` (8B), `Vector4D` (16B), `QAngle` (12B), `Quaternion` (16B), `CTransform` (32B SIMD aligned), `CEntityHandle` (4B bitfield: index & 0x7FFF, serial >> 15), `CUtlString` (8B), `CUtlSymbolLarge` (8B), `CUtlStringToken` (4B), and `CUtlVector_void` (16B).
+- **`tools/scan_signatures.py --update-db`**:
+  - **Purpose**: Automatically scans game binaries across update archives, validates 100% uniqueness, and synchronizes verified RVAs, VAs, and delta offsets into `data/function_signatures.json`.
+
 ---
 
 ## 4. Reconstructed SDK (`game/`) & Reference Simulators (`docs/simulators/`)

@@ -237,3 +237,27 @@ A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim
 
 [Step 5] Verification Complete: All Schema lookups, MurmurHash2 calculations, and inheritance field traversals passed with 100% accuracy.
 ```
+
+---
+
+## 7. Static Decompilation Bridge: Ghidra Schema Importer & Type Archives
+
+While Source 2 dynamically resolves schema fields at runtime through `CSchemaSystemTypeScope`, static reverse engineering in Ghidra requires concrete compile-time data types in the `DataTypeManager`. Without type definitions, the Ghidra decompiler defaults to untyped pointers and pointer arithmetic (`*(undefined4 *)(param_1 + 0x15a8)`).
+
+To bridge runtime reflection into static analysis, our tooling transmutes extracted schema tables into Ghidra types through two mechanisms:
+
+1. **`tools/export_source2_ghidra_headers.py`**:
+   Converts all 2,276 classes across all 34 modules into a standard C header (`data/source2_types.h`). Classes use explicit byte padding (`uint8_t _pad_0x[N]`) to preserve exact member offsets regardless of struct alignment. In Ghidra, parsing via **File** $\rightarrow$ **Parse C Source...** creates the complete type library in seconds.
+2. **`tools/ghidra/Source2_SchemaImporter.java`**:
+   A native Ghidra script executing inside the Ghidra GUI or via MCP. It connects to the active Program's `DataTypeManager`, resolves class descriptors into `StructureDataType` instances, and inserts member types at their exact offsets using `struct.replaceAtOffset()`.
+
+Once imported, decompiled functions automatically resolve pawn and controller fields into clean member accesses:
+```cpp
+// Before Schema Importer:
+*(int *)(param_1 + 0x34c) = 100;
+uVar1 = *(ulonglong *)(param_1 + 0x1570);
+
+// After Schema Importer:
+pPawn->m_iHealth = 100;
+uVar1 = pPawn->m_pBulletServices;
+```
