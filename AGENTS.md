@@ -40,6 +40,6 @@
 
 ## 7. Parallel Subagent Delegation Policy
 - **Always Delegate to Subagents When Possible**: For any non-trivial task, research track, binary investigation, multi-file reverse engineering, or verification workflow, proactively spawn specialized subagents in parallel to maximize concurrency, speed, and contextual isolation.
-- **Model Selection for Subagents**: Use fast models (e.g., `Model: "flash"`) for parallel subagents to ensure rapid turnaround and prevent context/quota exhaustion.
+- **Model Selection & Quota Verification**: Because `flash` model quota can become exhausted (`RESOURCE_EXHAUSTED 429`), use **Gemini 4 Argon** (`Model: "inherit"`) for subagents. Always verify that sufficient model usage/quota remains before spawning multiple subagents, and fall back to direct execution if rate-limited.
 
 

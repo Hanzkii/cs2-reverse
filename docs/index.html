@@ -96,7 +96,7 @@
     .markdown-body li { margin-bottom: 0.35rem; }
     .markdown-body pre { background: #0d1117; border: 1px solid #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin-bottom: 1.25rem; }
     .markdown-body code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.85em; }
-    .markdown-body :not(pre) > code { background: #1e293b; color: #f43f5e; padding: 0.15rem 0.35rem; border-radius: 0.25rem; }
+    .markdown-body :not(pre) > code { background: #1e293b; color: #7dd3fc; border: 1px solid #334155; padding: 0.15rem 0.4rem; border-radius: 0.3rem; font-weight: 500; }
     .markdown-body blockquote { border-left: 4px solid #f59e0b; padding-left: 1rem; margin-left: 0; margin-bottom: 1rem; color: #94a3b8; font-style: italic; background: rgba(245, 158, 11, 0.05); padding-top: 0.5rem; padding-bottom: 0.5rem; border-radius: 0 0.375rem 0.375rem 0; }
     .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.875rem; }
     .markdown-body th { background: #1e293b; color: #f8fafc; font-weight: 600; text-align: left; padding: 0.6rem 0.8rem; border: 1px solid #334155; }
@@ -834,7 +834,7 @@
               </button>
             </div>
             <div class="bg-[#0b0f19] border border-slate-800 rounded-xl p-3.5 overflow-x-auto">
-              <code id="sigDetailPattern" class="text-xs font-mono text-rose-300 select-all tracking-wider block">
+              <code id="sigDetailPattern" class="text-xs font-mono text-amber-200 select-all tracking-wider block">
                 Pattern...
               </code>
             </div>
@@ -900,9 +900,9 @@
             <div class="text-2xl font-extrabold text-sky-300 mt-1" id="kpiConvarsReplicated">500+</div>
             <div class="text-[10px] text-slate-500 mt-0.5">CNETMsg_SetConVar</div>
           </div>
-          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-red-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_CHEAT')">
-            <div class="text-[11px] font-mono text-red-400 uppercase tracking-wider">Protected Cheats</div>
-            <div class="text-2xl font-extrabold text-red-300 mt-1" id="kpiConvarsCheat">230+</div>
+          <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-amber-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_CHEAT')">
+            <div class="text-[11px] font-mono text-amber-400 uppercase tracking-wider">Protected Cheats</div>
+            <div class="text-2xl font-extrabold text-amber-300 mt-1" id="kpiConvarsCheat">230+</div>
             <div class="text-[10px] text-slate-500 mt-0.5">Guarded by sv_cheats</div>
           </div>
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-emerald-500/50 transition-all" onclick="setConvarFlagFilter('FCVAR_ARCHIVE')">
@@ -2429,7 +2429,7 @@
           </div>
 
           <div class="flex items-center justify-between gap-3 bg-[#0b0f19] border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono">
-            <div class="overflow-x-auto text-rose-300 select-all tracking-wider text-[11px] whitespace-nowrap">
+            <div class="overflow-x-auto text-slate-200 select-all tracking-wider text-[11px] whitespace-nowrap">
               ${escapeHtml(s.pattern)}
             </div>
             <button onclick="copySigText(this, '${escapeHtml(s.pattern)}')" class="shrink-0 hover:text-white px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors flex items-center gap-1 text-[11px] text-slate-400 cursor-pointer">
@@ -2666,11 +2666,11 @@
         // Flags pills HTML
         const flagsHtml = (c.flags || []).map(f => {
           let flagClass = 'bg-slate-800 text-slate-300 border-slate-700';
-          if (f === 'FCVAR_CHEAT') flagClass = 'bg-red-500/10 text-red-400 border-red-500/30 font-bold';
-          else if (f === 'FCVAR_REPLICATED') flagClass = 'bg-sky-500/10 text-sky-400 border-sky-500/30 font-bold';
-          else if (f === 'FCVAR_ARCHIVE') flagClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
-          else if (f === 'FCVAR_NOTIFY') flagClass = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
-          else if (f === 'FCVAR_PROTECTED') flagClass = 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+          if (f === 'FCVAR_CHEAT') flagClass = 'bg-amber-500/15 text-amber-300 border-amber-500/40 font-bold';
+          else if (f === 'FCVAR_REPLICATED') flagClass = 'bg-sky-500/15 text-sky-300 border-sky-500/40 font-bold';
+          else if (f === 'FCVAR_ARCHIVE') flagClass = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40';
+          else if (f === 'FCVAR_NOTIFY') flagClass = 'bg-indigo-500/15 text-indigo-300 border-indigo-500/40';
+          else if (f === 'FCVAR_PROTECTED') flagClass = 'bg-purple-500/15 text-purple-300 border-purple-500/40';
           return `<span class="px-2 py-0.5 rounded text-[10px] font-mono border ${flagClass}">${escapeHtml(f)}</span>`;
         }).join(' ');
 
@@ -3481,57 +3481,173 @@
         </div>
       `;
     }
+    let diffSchemaBinaryFilter = 'all';
+    let diffSchemaSearchQuery = '';
+
+    function setDiffSchemaBinaryFilter(bin) {
+      diffSchemaBinaryFilter = bin;
+      renderDiffSubtabContent();
+    }
+
+    function onDiffSchemaSearch(val) {
+      diffSchemaSearchQuery = val;
+      filterDiffSchemaRows();
+    }
+
+    function filterDiffSchemaRows() {
+      const q = (diffSchemaSearchQuery || '').toLowerCase().trim();
+      let visibleCount = 0;
+      document.querySelectorAll('#diffSchemaTableBody tr.diff-schema-row').forEach(tr => {
+        const text = (tr.getAttribute('data-search') || '').toLowerCase();
+        const bin = (tr.getAttribute('data-binary') || '').toLowerCase();
+        const matchBin = (diffSchemaBinaryFilter === 'all' || bin === diffSchemaBinaryFilter.toLowerCase());
+        const matchQ = (!q || text.includes(q));
+        if (matchBin && matchQ) {
+          tr.style.display = '';
+          visibleCount++;
+        } else {
+          tr.style.display = 'none';
+        }
+      });
+      const countEl = document.getElementById('diffSchemaRowCount');
+      if (countEl) countEl.innerText = `${visibleCount} shifted fields shown`;
+    }
+
     function renderDiffSchemas(container, vOld, vNew, diff) {
       const s = diff ? diff.schemas : { added_classes: [], removed_classes: [], modified_classes: [] };
       const hasShifts = s.modified_classes && s.modified_classes.length > 0;
+      const addedClasses = s.added_classes || [];
+      const totalShiftedFields = hasShifts ? s.modified_classes.reduce((acc, m) => acc + ((m.shifted_fields || []).length), 0) : 0;
+
+      // Collect unique binaries across modified classes
+      const binCounts = {};
+      if (hasShifts) {
+        s.modified_classes.forEach(m => {
+          const bName = m.binary || 'client.dll';
+          binCounts[bName] = (binCounts[bName] || 0) + ((m.shifted_fields || []).length);
+        });
+      }
 
       let html = `
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
+        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-5">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cs2-border pb-4">
             <div>
               <h2 class="text-lg font-bold text-white flex items-center gap-2">
                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                 SchemaSystem Class &amp; Member Offset Shifts
               </h2>
-              <p class="text-xs text-slate-400 mt-1">
-                Monitors byte offset drifts across 2,241 statically parsed Schema classes. Offsets are extracted directly from PE data sections without running the game.
+              <p class="text-xs text-slate-300 mt-1">
+                Monitors byte offset drifts across 2,275+ statically parsed Schema classes. Offsets are extracted directly from PE data sections without running the game.
               </p>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                ${hasShifts ? `${s.modified_classes.length} Classes Shifted` : '0 Shifts (Baseline Matches)'}
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              ${addedClasses.length > 0 ? `
+                <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/40">
+                  +${addedClasses.length} New Class${addedClasses.length > 1 ? 'es' : ''}
+                </span>
+              ` : ''}
+              <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40">
+                ${hasShifts ? `${s.modified_classes.length} Classes · ${totalShiftedFields} Shifted Offsets` : '0 Shifts (Baseline Matches)'}
               </span>
             </div>
           </div>
       `;
 
+      if (addedClasses.length > 0) {
+        html += `
+          <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 space-y-2">
+            <div class="text-xs font-mono font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>Newly Added Schema Classes in Build ${vNew ? (vNew.build_id || vNew.tag) : ''} (${addedClasses.length})</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              ${addedClasses.map(ac => {
+                const cName = ac.class || ac.class_name || 'UnknownClass';
+                const cBin = ac.binary || 'soundsystem.dll';
+                const cSize = ac.size_hex || (ac.size ? '0x' + ac.size.toString(16) : '0x0');
+                const fCount = (ac.fields || []).length || ac.fields_count || 0;
+                return `
+                  <div class="bg-[#0b0f19] border border-emerald-500/30 rounded-lg p-3 flex items-center justify-between font-mono text-xs">
+                    <div>
+                      <span class="text-white font-bold text-sm">${escapeHtml(cName)}</span>
+                      <span class="text-slate-400 text-[11px] block mt-0.5">Instance Size: <code class="text-emerald-300 font-bold">${escapeHtml(cSize)}</code> (${ac.size || 0} B) &bull; ${fCount} member fields</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-cyan-300 font-bold text-[11px]">${escapeHtml(cBin)}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
       if (hasShifts) {
         html += `
+          <!-- Interactive Search & Module Filter Bar -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-900/70 p-3 rounded-xl border border-slate-800">
+            <div class="relative flex-1">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="diffSchemaSearchInput" value="${escapeHtml(diffSchemaSearchQuery)}" placeholder="Filter shifted classes or member fields (e.g. C_CSPlayerPawn, m_ArmorValue, +0x1514)..." class="w-full bg-slate-950 border border-slate-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-amber-400 font-mono" oninput="onDiffSchemaSearch(this.value)">
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+              <button onclick="setDiffSchemaBinaryFilter('all')" class="px-2.5 py-1 rounded-lg ${diffSchemaBinaryFilter === 'all' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors cursor-pointer">
+                All (${totalShiftedFields})
+              </button>
+              ${Object.keys(binCounts).map(b => `
+                <button onclick="setDiffSchemaBinaryFilter('${escapeHtml(b)}')" class="px-2.5 py-1 rounded-lg ${diffSchemaBinaryFilter === b ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors cursor-pointer">
+                  ${escapeHtml(b)} (${binCounts[b]})
+                </button>
+              `).join('')}
+              <span id="diffSchemaRowCount" class="text-[11px] text-slate-400 ml-2">${totalShiftedFields} shifted fields shown</span>
+            </div>
+          </div>
+
           <div class="rounded-xl border border-cs2-border overflow-hidden">
             <table class="w-full text-left text-xs">
-              <thead class="bg-slate-900 border-b border-cs2-border text-slate-400 font-mono">
+              <thead class="bg-slate-900 border-b border-cs2-border text-slate-300 font-mono">
                 <tr>
-                  <th class="p-3">Class</th>
+                  <th class="p-3">Class &amp; Module</th>
                   <th class="p-3">Member Field</th>
-                  <th class="p-3">Type</th>
+                  <th class="p-3">Field Type</th>
                   <th class="p-3">Old Offset</th>
                   <th class="p-3">New Offset</th>
                   <th class="p-3">Shift Delta</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-cs2-border font-mono">
+              <tbody id="diffSchemaTableBody" class="divide-y divide-cs2-border font-mono">
         `;
         s.modified_classes.forEach(m => {
+          const clsName = m.class || m.class_name || 'UnknownClass';
+          const binName = m.binary || 'client.dll';
           (m.shifted_fields || []).forEach(f => {
-            const shiftSign = f.shift > 0 ? `+${f.shift}` : `${f.shift}`;
+            const fldName = f.field || f.field_name || 'unknown_field';
+            const fldType = f.type || 'void*';
+            const oldHex = f.old_hex || ('+0x' + (f.old_offset || 0).toString(16));
+            const newHex = f.new_hex || ('+0x' + (f.new_offset || 0).toString(16));
+            const shiftSign = f.shift_str || (f.shift > 0 ? `+${f.shift} bytes` : `${f.shift} bytes`);
+            const searchData = `${clsName} ${binName} ${fldName} ${fldType} ${oldHex} ${newHex} ${f.old_offset} ${f.new_offset}`;
+
             html += `
-              <tr class="hover:bg-slate-800/40 transition-colors">
-                <td class="p-3 font-bold text-white">${escapeHtml(m.class_name)}</td>
-                <td class="p-3 text-cyan-400">${escapeHtml(f.field_name)}</td>
-                <td class="p-3 text-slate-400 font-sans text-[11px]">${escapeHtml(f.type || 'unknown')}</td>
-                <td class="p-3 text-rose-400">${escapeHtml(f.old_offset)}</td>
-                <td class="p-3 text-emerald-400">${escapeHtml(f.new_offset)}</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 font-bold border border-amber-500/30">${shiftSign} bytes</span></td>
+              <tr class="diff-schema-row hover:bg-slate-800/50 transition-colors" data-binary="${escapeHtml(binName)}" data-search="${escapeHtml(searchData)}">
+                <td class="p-3">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-bold text-white text-xs">${escapeHtml(clsName)}</span>
+                    <span class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-[10px] text-sky-300">${escapeHtml(binName)}</span>
+                  </div>
+                </td>
+                <td class="p-3 font-bold text-cyan-300">${escapeHtml(fldName)}</td>
+                <td class="p-3 text-purple-300 font-mono text-[11px]">${escapeHtml(fldType)}</td>
+                <td class="p-3">
+                  <span class="text-slate-200 font-semibold">${escapeHtml(oldHex)}</span>
+                  <span class="text-slate-400 text-[10px] ml-1">(${f.old_offset})</span>
+                </td>
+                <td class="p-3">
+                  <span class="text-emerald-300 font-bold">${escapeHtml(newHex)}</span>
+                  <span class="text-slate-400 text-[10px] ml-1">(${f.new_offset})</span>
+                </td>
+                <td class="p-3">
+                  <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-bold border border-amber-500/40 whitespace-nowrap">${escapeHtml(shiftSign)}</span>
+                </td>
               </tr>
             `;
           });
@@ -3617,12 +3733,27 @@
 
       html += `</div>`;
       container.innerHTML = html;
+      if (hasShifts && (diffSchemaSearchQuery || diffSchemaBinaryFilter !== 'all')) {
+        filterDiffSchemaRows();
+      }
     }
 
     let diffBinariesFilter = 'all';
+    let diffBinariesSortBy = 'status';
+    let diffBinariesSearchQuery = '';
 
     function setDiffBinariesFilter(f) {
       diffBinariesFilter = f;
+      renderDiffSubtabContent();
+    }
+
+    function setDiffBinariesSort(sortMode) {
+      diffBinariesSortBy = sortMode;
+      renderDiffSubtabContent();
+    }
+
+    function onDiffBinariesSearch(val) {
+      diffBinariesSearchQuery = val;
       renderDiffSubtabContent();
     }
 
@@ -3648,6 +3779,8 @@
         const newSize = bInfo ? bInfo.size : 0;
         const oldSize = oldInfo ? oldInfo.size : newSize;
         const delta = newSize - oldSize;
+        const textBytes = (bInfo && bInfo.sections && bInfo.sections['.text']) ? bInfo.sections['.text'] : 0;
+        const dataBytes = (bInfo && bInfo.sections && bInfo.sections['.data']) ? bInfo.sections['.data'] : 0;
 
         return {
           name: bName,
@@ -3657,58 +3790,100 @@
           oldSize,
           newSize,
           delta,
+          absDelta: Math.abs(delta),
+          textBytes,
+          dataBytes,
           oldHash: oldInfo ? oldInfo.sha256 : '',
           newHash: bInfo ? bInfo.sha256 : ''
         };
       });
 
       const modifiedCount = binList.filter(b => b.isModified).length;
+      const identicalCount = binList.length - modifiedCount;
+      const sizeChangedCount = binList.filter(b => b.delta !== 0).length;
 
-      // Sort: modified binaries FIRST, then alphabetical
-      binList.sort((a, b) => {
-        if (a.isModified && !b.isModified) return -1;
-        if (!a.isModified && b.isModified) return 1;
+      // Apply Status Filter
+      let displayedBins = binList;
+      if (diffBinariesFilter === 'modified') {
+        displayedBins = binList.filter(b => b.isModified);
+      } else if (diffBinariesFilter === 'identical') {
+        displayedBins = binList.filter(b => !b.isModified);
+      } else if (diffBinariesFilter === 'size_changed') {
+        displayedBins = binList.filter(b => b.delta !== 0);
+      }
+
+      // Apply Search Filter
+      const q = (diffBinariesSearchQuery || '').toLowerCase().trim();
+      if (q) {
+        displayedBins = displayedBins.filter(b => b.name.toLowerCase().includes(q) || b.newHash.toLowerCase().includes(q));
+      }
+
+      // Apply Sort Order
+      displayedBins.sort((a, b) => {
+        if (diffBinariesSortBy === 'status') {
+          if (a.isModified !== b.isModified) return a.isModified ? -1 : 1;
+          if (b.absDelta !== a.absDelta) return b.absDelta - a.absDelta;
+          return a.name.localeCompare(b.name);
+        } else if (diffBinariesSortBy === 'delta_desc') {
+          if (b.absDelta !== a.absDelta) return b.absDelta - a.absDelta;
+          if (a.isModified !== b.isModified) return a.isModified ? -1 : 1;
+          return b.newSize - a.newSize;
+        } else if (diffBinariesSortBy === 'size_desc') {
+          return b.newSize - a.newSize;
+        } else if (diffBinariesSortBy === 'size_asc') {
+          return a.newSize - b.newSize;
+        } else if (diffBinariesSortBy === 'text_desc') {
+          return b.textBytes - a.textBytes;
+        } else if (diffBinariesSortBy === 'name_asc') {
+          return a.name.localeCompare(b.name);
+        }
         return a.name.localeCompare(b.name);
       });
 
-      // Apply filter
-      const displayedBins = (diffBinariesFilter === 'modified') ? binList.filter(b => b.isModified) : binList;
-
       let rowsHtml = '';
       displayedBins.forEach(b => {
-        const deltaStr = b.delta === 0 ? '+0 B' : (b.delta > 0 ? `+${b.delta} B` : `${b.delta} B`);
+        const deltaKb = (b.delta / 1024).toFixed(1);
+        const deltaStr = b.delta === 0
+          ? '+0 B'
+          : (Math.abs(b.delta) >= 1024
+              ? `${b.delta > 0 ? '+' : ''}${deltaKb} KB (${b.delta > 0 ? '+' : ''}${b.delta.toLocaleString()} B)`
+              : `${b.delta > 0 ? '+' : ''}${b.delta} B`);
+
         const statusBadge = b.isModified ?
-          `<span class="px-2.5 py-1 rounded text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50 flex items-center gap-1.5 w-fit">
-             <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+          `<span class="px-2.5 py-1 rounded text-xs font-bold ${b.delta !== 0 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50' : 'bg-sky-500/15 text-sky-300 border border-sky-500/40'} flex items-center gap-1.5 w-fit">
+             <span class="w-1.5 h-1.5 rounded-full ${b.delta !== 0 ? 'bg-amber-400 animate-pulse' : 'bg-sky-400'}"></span>
              MODIFIED (${deltaStr})
            </span>` :
-          `<span class="px-2 py-0.5 rounded text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Identical</span>`;
+          `<span class="px-2 py-0.5 rounded text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Identical (+0 B)</span>`;
 
-        const textSec = b.bInfo && b.bInfo.sections && b.bInfo.sections['.text'] ? (b.bInfo.sections['.text'] / (1024 * 1024)).toFixed(2) + ' MB' : '-';
-        const dataSec = b.bInfo && b.bInfo.sections && b.bInfo.sections['.data'] ? (b.bInfo.sections['.data'] / (1024 * 1024)).toFixed(2) + ' MB' : '-';
+        const textSec = b.textBytes ? (b.textBytes / (1024 * 1024)).toFixed(2) + ' MB' : '-';
+        const dataSec = b.dataBytes ? (b.dataBytes / (1024 * 1024)).toFixed(2) + ' MB' : '-';
 
-        const rowBg = b.isModified ? 'bg-amber-500/10 hover:bg-amber-500/15 border-l-4 border-l-amber-500' : 'hover:bg-slate-800/40';
+        const rowBg = b.isModified
+          ? (b.delta !== 0 ? 'bg-amber-500/10 hover:bg-amber-500/15 border-l-4 border-l-amber-500' : 'bg-slate-900/60 hover:bg-slate-800/60 border-l-4 border-l-sky-500')
+          : 'hover:bg-slate-800/40';
 
         rowsHtml += `
           <tr class="${rowBg} transition-colors font-mono text-xs">
             <td class="p-3">
-              <span class="font-bold ${b.isModified ? 'text-amber-300 text-sm hover:underline cursor-pointer' : 'text-cyan-400'}" ${b.isModified ? `onclick="openBinaryCodeDelta('${b.name}')"` : ''}>${b.name}</span>
-              ${b.isModified ? `<button onclick="openBinaryCodeDelta('${b.name}')" class="ml-2 px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-mono">View Code &rarr;</button>` : ''}
-              ${b.isModified ? '<span class="ml-2 text-[10px] text-amber-400 font-normal">★ Recompiled</span>' : ''}
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-bold ${b.isModified ? 'text-amber-300 text-sm hover:underline cursor-pointer' : 'text-cyan-400'}" ${b.isModified ? `onclick="openBinaryCodeDelta('${b.name}')"` : ''}>${b.name}</span>
+                ${b.isModified ? `<button onclick="openBinaryCodeDelta('${b.name}')" class="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-mono cursor-pointer">View Code &rarr;</button>` : ''}
+              </div>
             </td>
             <td class="p-3 text-slate-300">${(b.oldSize / (1024 * 1024)).toFixed(2)} MB</td>
-            <td class="p-3 text-slate-200 font-bold">${(b.newSize / (1024 * 1024)).toFixed(2)} MB</td>
+            <td class="p-3 text-white font-bold">${(b.newSize / (1024 * 1024)).toFixed(2)} MB</td>
             <td class="p-3">${statusBadge}</td>
-            <td class="p-3 text-slate-400">${textSec}</td>
-            <td class="p-3 text-slate-400">${dataSec}</td>
+            <td class="p-3 text-slate-300">${textSec}</td>
+            <td class="p-3 text-slate-300">${dataSec}</td>
             <td class="p-3 text-[10px] font-mono">
               ${b.isModified ? `
                 <div class="space-y-0.5">
                   <div class="text-slate-400 line-through">${b.oldHash.substring(0, 10)}...</div>
-                  <div class="text-amber-400 font-bold">${b.newHash.substring(0, 10)}...</div>
+                  <div class="text-amber-300 font-bold">${b.newHash.substring(0, 10)}...</div>
                 </div>
               ` : `
-                <span class="text-slate-500 truncate max-w-[120px] block" title="${b.newHash}">${b.newHash.substring(0, 14)}...</span>
+                <span class="text-slate-400 truncate max-w-[120px] block" title="${b.newHash}">${b.newHash.substring(0, 14)}...</span>
               `}
             </td>
           </tr>
@@ -3717,47 +3892,61 @@
 
       container.innerHTML = `
         <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cs2-border pb-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-cs2-border pb-4">
             <div>
               <h2 class="text-lg font-bold text-white flex items-center gap-2">
                 <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                 PE Binary Section &amp; Hash Deltas
               </h2>
-              <p class="text-xs text-slate-400 mt-1">Tracks raw byte file sizes, PE section allocations (.text, .rdata, .data), and SHA-256 binary manifests across all 34 Source 2 modules.</p>
+              <p class="text-xs text-slate-300 mt-1">Tracks raw byte file sizes, PE section allocations (.text, .rdata, .data), and SHA-256 binary manifests across all 34 Source 2 modules.</p>
             </div>
             
-            <div class="flex items-center gap-2 font-mono text-xs">
-              <span class="text-slate-400 mr-1">Filter:</span>
-              <button onclick="setDiffBinariesFilter('all')" class="px-3 py-1 rounded-lg ${diffBinariesFilter === 'all' ? 'bg-sky-500 text-white font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors">
+            <!-- Filter Pills -->
+            <div class="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+              <button onclick="setDiffBinariesFilter('all')" class="px-3 py-1.5 rounded-lg ${diffBinariesFilter === 'all' ? 'bg-sky-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors cursor-pointer">
                 All (${binList.length})
               </button>
-              <button onclick="setDiffBinariesFilter('modified')" class="px-3 py-1 rounded-lg ${diffBinariesFilter === 'modified' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'} transition-colors">
+              <button onclick="setDiffBinariesFilter('modified')" class="px-3 py-1.5 rounded-lg ${diffBinariesFilter === 'modified' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'} transition-colors cursor-pointer">
                 Modified (${modifiedCount})
+              </button>
+              <button onclick="setDiffBinariesFilter('size_changed')" class="px-3 py-1.5 rounded-lg ${diffBinariesFilter === 'size_changed' ? 'bg-purple-500 text-white font-bold' : 'bg-slate-800 text-purple-300 hover:bg-slate-700'} transition-colors cursor-pointer">
+                Size &Delta; &ne; 0 (${sizeChangedCount})
+              </button>
+              <button onclick="setDiffBinariesFilter('identical')" class="px-3 py-1.5 rounded-lg ${diffBinariesFilter === 'identical' ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-800 text-emerald-300 hover:bg-slate-700'} transition-colors cursor-pointer">
+                Identical (${identicalCount})
               </button>
             </div>
           </div>
 
-          ${modifiedCount > 0 && diffBinariesFilter === 'all' ? `
-            <div class="px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between font-mono text-xs text-amber-300">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                <span><strong>${modifiedCount} binaries</strong> recompiled in this update: <strong>${binList.filter(b => b.isModified).map(b => b.name).join(', ')}</strong> (pinned to top of table).</span>
-              </div>
-              <button onclick="setDiffBinariesFilter('modified')" class="underline text-amber-400 hover:text-amber-200 ml-4 whitespace-nowrap">
-                Show modified only &rarr;
-              </button>
+          <!-- Search and Sort Controls Bar -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-900/70 p-3 rounded-xl border border-slate-800">
+            <div class="relative flex-1">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="diffBinSearchInput" value="${escapeHtml(diffBinariesSearchQuery)}" placeholder="Search binary module name or SHA-256 hash (e.g. client.dll, server.dll, engine2)..." class="w-full bg-slate-950 border border-slate-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500 font-mono" oninput="onDiffBinariesSearch(this.value)">
             </div>
-          ` : ''}
+
+            <div class="flex flex-wrap items-center gap-2 font-mono text-xs shrink-0">
+              <span class="text-slate-400 text-[11px]">Sort by:</span>
+              <select onchange="setDiffBinariesSort(this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-sky-500 cursor-pointer">
+                <option value="status" ${diffBinariesSortBy === 'status' ? 'selected' : ''}>Status &amp; Delta (Modified + Largest &Delta; First)</option>
+                <option value="delta_desc" ${diffBinariesSortBy === 'delta_desc' ? 'selected' : ''}>Size Delta (Largest Byte &Delta; First)</option>
+                <option value="size_desc" ${diffBinariesSortBy === 'size_desc' ? 'selected' : ''}>Target Size (Largest MB &rarr; Smallest)</option>
+                <option value="size_asc" ${diffBinariesSortBy === 'size_asc' ? 'selected' : ''}>Target Size (Smallest MB &rarr; Largest)</option>
+                <option value="text_desc" ${diffBinariesSortBy === 'text_desc' ? 'selected' : ''}>.text Code Section Size (High &rarr; Low)</option>
+                <option value="name_asc" ${diffBinariesSortBy === 'name_asc' ? 'selected' : ''}>Binary Name (A &rarr; Z)</option>
+              </select>
+            </div>
+          </div>
 
           <div class="rounded-xl border border-cs2-border overflow-hidden">
             <table class="w-full text-left">
-              <thead class="bg-slate-900 border-b border-cs2-border text-slate-400 font-mono text-xs">
+              <thead class="bg-slate-900 border-b border-cs2-border text-slate-300 font-mono text-xs">
                 <tr>
-                  <th class="p-3">Binary</th>
-                  <th class="p-3">Baseline Size</th>
-                  <th class="p-3">Target Size</th>
-                  <th class="p-3">Status / Delta</th>
-                  <th class="p-3">.text Code</th>
+                  <th class="p-3 cursor-pointer hover:text-white" onclick="setDiffBinariesSort('name_asc')">Binary &updownarrow;</th>
+                  <th class="p-3 cursor-pointer hover:text-white" onclick="setDiffBinariesSort('size_desc')">Baseline Size</th>
+                  <th class="p-3 cursor-pointer hover:text-white" onclick="setDiffBinariesSort('size_desc')">Target Size &updownarrow;</th>
+                  <th class="p-3 cursor-pointer hover:text-white" onclick="setDiffBinariesSort('delta_desc')">Status / Delta &updownarrow;</th>
+                  <th class="p-3 cursor-pointer hover:text-white" onclick="setDiffBinariesSort('text_desc')">.text Code &updownarrow;</th>
                   <th class="p-3">.data Memory</th>
                   <th class="p-3">SHA-256 Digest</th>
                 </tr>
@@ -3766,7 +3955,7 @@
                 ${rowsHtml.length > 0 ? rowsHtml : `
                   <tr>
                     <td colspan="7" class="p-8 text-center text-slate-400 font-mono text-xs">
-                      No modified binaries found matching current filter.
+                      No binaries found matching current filter criteria.
                     </td>
                   </tr>
                 `}
@@ -3775,208 +3964,174 @@
           </div>
         </div>
       `;
+      if (diffBinariesSearchQuery) {
+        const inp = document.getElementById('diffBinSearchInput');
+        if (inp) {
+          inp.focus();
+          inp.setSelectionRange(inp.value.length, inp.value.length);
+        }
+      }
     }
     function renderDiffInterfaces(container, vOld, vNew, diff) {
       const isSelf = (currentDiffOld === currentDiffNew);
-      const ifaceCount = (vNew && vNew.interfaces_count) ? vNew.interfaces_count : 3025;
-      const cvarCount = (vNew && vNew.cvars_count) ? vNew.cvars_count : 5070;
+      const ifaceCount = (vNew && vNew.interfaces_count) ? vNew.interfaces_count : 4107;
+      const cvarCount = (vNew && vNew.cvars_count) ? vNew.cvars_count : 5208;
+      const addedCvars = (!isSelf && diff && diff.cvars && diff.cvars.added) ? diff.cvars.added : [];
+      const addedDetails = (!isSelf && diff && diff.cvars && diff.cvars.added_details && diff.cvars.added_details.length > 0)
+        ? diff.cvars.added_details
+        : addedCvars.map(cv => ({ name: cv, binary: 'engine2.dll', category: 'General', description: 'Newly introduced console variable.', flags: ['FCVAR_NONE'] }));
+
+      const addedIfaces = (!isSelf && diff && diff.interfaces && diff.interfaces.added) ? diff.interfaces.added : [];
+
+      const coreInterfaces = [
+        { token: 'SchemaSystem_001', binary: 'schemasystem.dll', desc: 'Global runtime type reflection, MurmurHash2 lookup tables & class scope manager' },
+        { token: 'Source2EngineToClient001', binary: 'engine2.dll', desc: 'Engine client dispatch, frame execution & prediction synchronization' },
+        { token: 'Source2Client002', binary: 'client.dll', desc: 'Game client world entity simulation, view setup & sub-tick UserCmd sampling' },
+        { token: 'Source2Server001', binary: 'server.dll', desc: 'Server-side authoritative pawn simulation, lag compensation & damage arbitration' },
+        { token: 'GameEventSystemServer001', binary: 'engine2.dll', desc: 'Two-phase signon dictionary & tick-batched match event broadcaster' },
+        { token: 'NetworkSystemVersion001', binary: 'networksystem.dll', desc: 'Variable-bit packet framing, Protobuf channels & 40-op Huffman fieldpaths' },
+        { token: 'InputSystemVersion001', binary: 'inputsystem.dll', desc: 'Raw hardware mouse input sampling, window focus & button state polling' },
+        { token: 'VPhysics2Interface001', binary: 'vphysics2.dll', desc: 'Rubikon physics engine, polyhedral slab raycasting & 48-byte SIMD BVH trees' },
+        { token: 'PulseSystem001', binary: 'pulse_system.dll', desc: 'Visual scripting VM bytecode dispatcher & coroutine timeline scheduler' },
+        { token: 'AnimationSystemUtils_001', binary: 'animationsystem.dll', desc: 'AnimGraph state machine evaluator, pose blending & Two-Bone IK solver' },
+        { token: 'NavSystem001', binary: 'navsystem.dll', desc: 'Generation-counter A* pathfinding, navmesh areas & ladder adjacency graphs' },
+        { token: 'SoundOpSystem001', binary: 'soundsystem.dll', desc: 'VMix DSP audio graph processor, voice containers & spatial occlusion' },
+        { token: 'WorldRendererMgr001', binary: 'worldrenderer.dll', desc: 'Scene world node hierarchy, PVS visibility & draw call batching' },
+        { token: 'ParticleSystemMgr003', binary: 'particles.dll', desc: 'Volumetric particle emitters, lighting probes & smoke voxel rendering' }
+      ];
+
+      const coreCvars = [
+        { name: 'sv_subtick_movement_view_angles', binary: 'server.dll', category: 'Netcode & Sub-Tick', desc: 'Interpolates continuous sub-tick view angles during server movement slicing' },
+        { name: 'cl_subtick_mouse_Aim', binary: 'client.dll', category: 'Netcode & Sub-Tick', desc: 'Samples exact hardware mouse angle timestamps inside sub-tick UserCmds' },
+        { name: 'sv_lagcompensation_teleport_dist', binary: 'server.dll', category: 'Netcode & Sub-Tick', desc: '64-unit squared distance teleportation breaker (4096.0f) invalidating backtrack' },
+        { name: 'sv_maxunlag', binary: 'server.dll', category: 'Netcode & Sub-Tick', desc: 'Maximum historical lag compensation rewind window (default 0.200s / 200ms)' },
+        { name: 'sv_clockcorrection_msecs', binary: 'server.dll', category: 'Netcode & Sub-Tick', desc: 'Server sub-tick clock drift tolerance clamp (default 30ms)' },
+        { name: 'sv_jump_impulse', binary: 'server.dll', category: 'Movement & Physics', desc: 'Instantaneous vertical velocity impulse applied on +jump (301.993377 u/s)' },
+        { name: 'sv_gravity', binary: 'server.dll', category: 'Movement & Physics', desc: 'World vertical gravity acceleration constant (default 800.0 u/s²)' },
+        { name: 'sv_accelerate', binary: 'server.dll', category: 'Movement & Physics', desc: 'Ground movement acceleration multiplier in CGameMovement::Accelerate (5.5)' },
+        { name: 'sv_airaccelerate', binary: 'server.dll', category: 'Movement & Physics', desc: 'Airborne strafe acceleration constant capped at 30.0 wishspeed (12.0)' },
+        { name: 'sv_friction', binary: 'server.dll', category: 'Movement & Physics', desc: 'Ground surface kinetic friction deceleration multiplier (5.2)' },
+        { name: 'weapon_recoil_decay2_exp', binary: 'client.dll', category: 'Weapons & Combat', desc: 'Exponential recoil aim-punch decay exponent in SimulateAimPunchDecay (8.0)' },
+        { name: 'weapon_accuracy_nospread', binary: 'server.dll', category: 'Weapons & Combat', desc: 'Disables dual-disk random inaccuracy & spread deflection in FX_FireBullets' },
+        { name: 'ff_damage_reduction_bullets', binary: 'server.dll', category: 'Weapons & Combat', desc: 'Friendly fire bullet damage multiplier applied before Kevlar armor absorption' },
+        { name: 'sv_cheats', binary: 'engine2.dll', category: 'Debug & Cheats', desc: 'Authoritative FCVAR_REPLICATED gatekeeper controlling protected developer ConVars' }
+      ];
 
       container.innerHTML = `
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-5">
+          <!-- Header -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cs2-border pb-4">
             <div>
               <h2 class="text-lg font-bold text-white flex items-center gap-2">
                 <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                 CreateInterface Versions &amp; Engine ConVars
               </h2>
-              <p class="text-xs text-slate-400 mt-1">
-                Tracks interface version tokens registered through <code class="text-cyan-400 font-mono">CreateInterface</code> / <code class="text-slate-300 font-mono">s_pInterfaceRegs</code>, along with console variable additions and deprecations.
+              <p class="text-xs text-slate-300 mt-1">
+                Tracks interface version tokens registered through <code class="text-cyan-300 font-mono">CreateInterface</code> / <code class="text-slate-200 font-mono">s_pInterfaceRegs</code>, along with console variable additions and deprecations.
               </p>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400 font-bold">${ifaceCount.toLocaleString()} Interfaces</span>
-              <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-xs font-mono text-purple-400 font-bold">${cvarCount.toLocaleString()} ConVars</span>
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300 font-bold">${ifaceCount.toLocaleString()} Interfaces</span>
+              <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-purple-300 font-bold">${cvarCount.toLocaleString()} ConVars</span>
+              <button onclick="switchTab('convars')" class="px-3 py-1 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold transition-colors cursor-pointer">
+                Browse All ConVars &rarr;
+              </button>
             </div>
           </div>
+
+          ${addedDetails.length > 0 ? `
+            <!-- Full-Width Newly Added ConVars Highlight Banner -->
+            <div class="bg-gradient-to-r from-cyan-500/10 via-slate-900 to-[#0d1322] border border-cyan-500/40 rounded-xl p-4 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/20 pb-2.5">
+                <div class="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                  <span>Newly Added ConVars in Build ${vNew ? (vNew.build_id || vNew.tag) : ''} (+${addedDetails.length} Added, ${addedIfaces.length} Interface Bumps)</span>
+                </div>
+                <span class="text-[11px] font-mono text-slate-400">Click any ConVar to inspect in catalog</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                ${addedDetails.map(cv => `
+                  <div onclick="switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="diff-item-cvar bg-[#0b0f19] hover:bg-slate-900/90 border border-cyan-500/40 hover:border-cyan-400 p-3 rounded-xl cursor-pointer transition-all flex flex-col justify-between space-y-2 group" data-name="${escapeHtml(cv.name)} ${escapeHtml(cv.binary || '')} ${escapeHtml(cv.description || '')}">
+                    <div class="space-y-1.5">
+                      <div class="flex items-center justify-between font-mono text-xs gap-2">
+                        <span class="text-cyan-300 font-bold break-all group-hover:text-white transition-colors">${escapeHtml(cv.name)}</span>
+                        <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/30 font-bold shrink-0">NEW</span>
+                      </div>
+                      <div class="flex items-center gap-1.5 text-[10px] font-mono">
+                        <span class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">${escapeHtml(cv.binary || 'engine2.dll')}</span>
+                        <span class="text-slate-400">${escapeHtml(cv.category || 'General')}</span>
+                      </div>
+                      <p class="text-[11px] text-slate-200 font-sans leading-relaxed">${escapeHtml(cv.description || '')}</p>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                      <span>${(cv.flags || []).slice(0, 2).join(', ') || 'FCVAR_NONE'}</span>
+                      <span class="text-cyan-400 group-hover:underline">Inspect &rarr;</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : `
+            <div class="bg-slate-900/70 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-300 font-mono flex items-center justify-between">
+              <span>Differential Interface &amp; ConVar Status:</span>
+              <span class="text-emerald-400 font-bold">0 Interface Bumps &bull; 0 ConVar Additions (Baseline Matches)</span>
+            </div>
+          `}
 
           <!-- Quick Filter Input -->
           <div class="relative">
             <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" id="diffInterfaceSearch" placeholder="Search interfaces (e.g. SchemaSystem, Source2Client) or convars (e.g. subtick, cl_updaterate)..." class="w-full bg-slate-900 border border-slate-700/80 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500" oninput="filterDiffInterfaces(this.value)">
+            <input type="text" id="diffInterfaceSearch" placeholder="Filter interfaces (e.g. SchemaSystem, VPhysics2) or engine ConVars (e.g. subtick, sv_jump_impulse, recoil)..." class="w-full bg-slate-950 border border-slate-700/80 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-500 font-mono" oninput="filterDiffInterfaces(this.value)">
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Balanced 2-Column Grid with Matching Flex Heights -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             <!-- Interfaces Column -->
-            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col h-[540px]">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 shrink-0">
                 <span class="text-sm font-bold text-white font-mono flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
                   CreateInterface Registry
                 </span>
-                <span class="text-[11px] font-mono text-slate-400">${isSelf ? 'Baseline (Zero Deltas)' : 'Differential'}</span>
+                <span class="text-[11px] font-mono text-emerald-400 font-bold">${addedIfaces.length > 0 ? `+${addedIfaces.length} Added` : '100% Version Locked'}</span>
               </div>
-              <p class="text-xs text-slate-400">Key Source 2 subsystem interface tokens registered in memory:</p>
-              <div class="space-y-1.5 font-mono text-xs max-h-96 overflow-y-auto" id="diffInterfaceList">
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="schemasystem_001 schemasystem.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">SchemaSystem_001</span>
-                    <span class="text-[10px] text-slate-500 block">Global type reflection &amp; class scope manager</span>
+              <p class="text-xs text-slate-300 py-2 shrink-0">Authoritative Source 2 factory interface tokens (<code class="text-cyan-300">s_pInterfaceRegs</code>):</p>
+              <div class="space-y-2 font-mono text-xs flex-1 overflow-y-auto pr-1" id="diffInterfaceList">
+                ${coreInterfaces.map(item => `
+                  <div onclick="switchTab('binaries'); showBinaryDetail('${escapeHtml(item.binary)}')" class="diff-item-iface bg-[#0b0f19] hover:bg-slate-900 p-3 rounded-lg border border-slate-800 hover:border-cyan-500/40 flex justify-between items-center gap-3 cursor-pointer transition-colors" data-name="${escapeHtml(item.token)} ${escapeHtml(item.binary)} ${escapeHtml(item.desc)}">
+                    <div class="min-w-0">
+                      <span class="text-white font-bold block truncate">${escapeHtml(item.token)}</span>
+                      <span class="text-[11px] text-slate-300 font-sans block mt-0.5 leading-snug">${escapeHtml(item.desc)}</span>
+                    </div>
+                    <span class="text-emerald-300 text-[10px] bg-slate-900 px-2 py-0.5 rounded border border-slate-700 shrink-0 font-bold">${escapeHtml(item.binary)}</span>
                   </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">schemasystem.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="source2enginetoclient001 engine2.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">Source2EngineToClient001</span>
-                    <span class="text-[10px] text-slate-500 block">Engine client dispatch &amp; frame execution</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">engine2.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="source2client002 client.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">Source2Client002</span>
-                    <span class="text-[10px] text-slate-500 block">Game client world entity simulation</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">client.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="source2server001 server.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">Source2Server001</span>
-                    <span class="text-[10px] text-slate-500 block">Server-side authoritative pawn &amp; physics logic</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">server.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="gameeventsystemserver001 engine2.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">GameEventSystemServer001</span>
-                    <span class="text-[10px] text-slate-500 block">Two-phase signon &amp; match event dispatcher</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">engine2.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="networksystemversion001 networksystem.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">NetworkSystemVersion001</span>
-                    <span class="text-[10px] text-slate-500 block">Variable-bit framing &amp; Protobuf wire serialization</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">networksystem.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="inputsystemversion001 inputsystem.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">InputSystemVersion001</span>
-                    <span class="text-[10px] text-slate-500 block">Raw input mouse sampling &amp; window focus</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">inputsystem.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="vphysics2interface001 vphysics2.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">VPhysics2Interface001</span>
-                    <span class="text-[10px] text-slate-500 block">Rubikon rigid bodies &amp; collision shape queries</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">vphysics2.dll</span>
-                </div>
-                <div class="diff-item-iface bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center" data-name="pulsesystem001 pulse_system.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">PulseSystem001</span>
-                    <span class="text-[10px] text-slate-500 block">Visual scripting VM bytecode executor &amp; coroutines</span>
-                  </div>
-                  <span class="text-emerald-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">pulse_system.dll</span>
-                </div>
+                `).join('')}
               </div>
             </div>
 
             <!-- ConVars Column -->
-            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-col h-[540px]">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 shrink-0">
                 <span class="text-sm font-bold text-white font-mono flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                  <span class="w-2 h-2 rounded-full bg-purple-400"></span>
                   Engine ConVars &amp; Commands
                 </span>
-                <span class="text-[11px] font-mono text-cyan-400 font-bold">${isSelf ? 'Baseline (Zero Deltas)' : (diff && diff.cvars && diff.cvars.added && diff.cvars.added.length > 0 ? `+${diff.cvars.added.length} Added in Update` : '0 Added')}</span>
+                <span class="text-[11px] font-mono text-purple-300 font-bold">${coreCvars.length} Core Tunables</span>
               </div>
-
-              ${(!isSelf && diff && diff.cvars && diff.cvars.added && diff.cvars.added.length > 0) ? `
-                <!-- Newly Added ConVars in this Patch -->
-                <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-3 space-y-2">
-                  <div class="text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                    <span>Newly Added in Build ${vNew ? (vNew.build_id || vNew.tag) : ''} (${diff.cvars.added.length})</span>
-                  </div>
-                  <div class="space-y-1.5">
-                    ${((diff.cvars.added_details && diff.cvars.added_details.length > 0) ? diff.cvars.added_details : diff.cvars.added.map(cv => ({ name: cv, binary: 'engine2.dll', category: 'General', description: 'Newly introduced console variable.', flags: [] }))).map(cv => `
-                      <div onclick="switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="diff-item-cvar bg-[#0b0f19] hover:bg-slate-900 border border-cyan-500/40 p-2.5 rounded cursor-pointer transition-all" data-name="${escapeHtml(cv.name)} ${escapeHtml(cv.binary || '')}">
-                        <div class="flex items-center justify-between font-mono text-xs">
-                          <span class="text-cyan-300 font-bold flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                            ${escapeHtml(cv.name)}
-                          </span>
-                          <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/30 font-bold">${escapeHtml(cv.binary || 'engine2.dll')}</span>
-                        </div>
-                        <p class="text-[11px] text-slate-300 font-sans mt-1 leading-relaxed">${escapeHtml(cv.description || '')}</p>
-                        <div class="mt-2 pt-1.5 border-t border-slate-800 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                          <span>${(cv.flags || []).join(', ') || 'FCVAR_NONE'}</span>
-                          <span class="text-cyan-400 hover:underline">Inspect in ConVars Catalog &rarr;</span>
-                        </div>
+              <p class="text-xs text-slate-300 py-2 shrink-0">Key reversed movement, sub-tick, combat &amp; replication ConVars:</p>
+              <div class="space-y-2 font-mono text-xs flex-1 overflow-y-auto pr-1" id="diffCvarList">
+                ${coreCvars.map(cv => `
+                  <div onclick="switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="diff-item-cvar bg-[#0b0f19] hover:bg-slate-900 p-3 rounded-lg border border-slate-800 hover:border-purple-500/40 flex justify-between items-center gap-3 cursor-pointer transition-colors" data-name="${escapeHtml(cv.name)} ${escapeHtml(cv.binary)} ${escapeHtml(cv.category)} ${escapeHtml(cv.desc)}">
+                    <div class="min-w-0">
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <span class="text-white font-bold truncate">${escapeHtml(cv.name)}</span>
+                        <span class="text-[10px] text-cyan-300 bg-cyan-500/10 px-1.5 py-0.2 rounded border border-cyan-500/20">${escapeHtml(cv.category)}</span>
                       </div>
-                    `).join('')}
+                      <span class="text-[11px] text-slate-300 font-sans block mt-0.5 leading-snug">${escapeHtml(cv.desc)}</span>
+                    </div>
+                    <span class="text-purple-300 text-[10px] bg-slate-900 px-2 py-0.5 rounded border border-slate-700 shrink-0 font-bold">${escapeHtml(cv.binary)}</span>
                   </div>
-                </div>
-              ` : `
-                <div class="bg-slate-950/60 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 font-mono flex items-center justify-between">
-                  <span>ConVar Additions in Snapshot:</span>
-                  <span class="text-emerald-400 font-bold">0 Added (Baseline Matches)</span>
-                </div>
-              `}
-
-              <p class="text-xs text-slate-400 pt-1">Key engine variables tracked across updates:</p>
-              <div class="space-y-1.5 font-mono text-xs max-h-96 overflow-y-auto" id="diffCvarList">
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('subtick_show_debug')" data-name="subtick_show_debug client.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">subtick_show_debug</span>
-                    <span class="text-[10px] text-slate-500 block">Visualizes client sub-tick sample slices</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">client.dll</span>
-                </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('sv_clockcorrection_msecs')" data-name="sv_clockcorrection_msecs server.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">sv_clockcorrection_msecs</span>
-                    <span class="text-[10px] text-slate-500 block">Sub-tick clock drift tolerance limit (30ms)</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">server.dll</span>
-                </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('cl_updaterate')" data-name="cl_updaterate engine2.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">cl_updaterate</span>
-                    <span class="text-[10px] text-slate-500 block">Fixed packet tick rate locked at 64Hz in Source 2</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">engine2.dll</span>
-                </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('net_droppackets')" data-name="net_droppackets networksystem.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">net_droppackets</span>
-                    <span class="text-[10px] text-slate-500 block">Simulates artificial packet loss on channel</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">networksystem.dll</span>
-                </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('r_drawviewmodel')" data-name="r_drawviewmodel client.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">r_drawviewmodel</span>
-                    <span class="text-[10px] text-slate-500 block">First-person weapon model rendering toggle</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">client.dll</span>
-                </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('sv_cheats')" data-name="sv_cheats tier0.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">sv_cheats</span>
-                    <span class="text-[10px] text-slate-500 block">FCVAR_REPLICATED protected developer gate</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">tier0.dll</span>
-                </div>
-                <div class="diff-item-cvar bg-[#0b0f19] p-2.5 rounded border border-slate-800 flex justify-between items-center cursor-pointer hover:border-cyan-500/40" onclick="switchTab('convars'); filterConvarsBySearch('pulse_enable')" data-name="pulse_enable pulse_system.dll">
-                  <div>
-                    <span class="text-slate-200 font-bold">pulse_enable</span>
-                    <span class="text-[10px] text-slate-500 block">Enables runtime Pulse node VM execution</span>
-                  </div>
-                  <span class="text-purple-400 text-[10px] bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">pulse_system.dll</span>
-                </div>
+                `).join('')}
               </div>
             </div>
           </div>
@@ -5196,12 +5351,12 @@
             </div>
 
             <div class="space-y-2 pt-1">
-              <div class="bg-slate-950 p-3 rounded-lg border border-red-500/20 font-mono text-[11px] space-y-1">
-                <div class="flex items-center justify-between text-rose-400 text-[10px] font-bold uppercase">
+              <div class="bg-slate-950 p-3 rounded-lg border border-amber-500/20 font-mono text-[11px] space-y-1">
+                <div class="flex items-center justify-between text-amber-300 text-[10px] font-bold uppercase">
                   <span>[-] Baseline Build (${currentDiffOld})</span>
-                  <span class="text-slate-500 font-normal">Raw Bytes: ${s.old_bytes}</span>
+                  <span class="text-slate-400 font-normal">Raw Bytes: ${s.old_bytes}</span>
                 </div>
-                <div class="text-rose-300 font-bold pl-2 border-l-2 border-rose-500 select-all">${s.old_asm}</div>
+                <div class="text-slate-200 font-bold pl-2 border-l-2 border-amber-500 select-all">${s.old_asm}</div>
               </div>
 
               <div class="bg-slate-950 p-3 rounded-lg border border-emerald-500/20 font-mono text-[11px] space-y-1">

@@ -4795,7 +4795,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_anglespeedkey",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl anglespeedkey parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -5013,7 +5013,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_boxmove_speed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "how fast to run (1 to use player max run speed).",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -5251,7 +5251,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_clock_recvmargin_adjust_limit_speedup",
     "binary": "engine2.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Clock sync will not slow down time slower than N%",
     "flags": [
       "FCVAR_RELEASE",
@@ -5296,7 +5296,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_clock_recvmargin_timeconstant_speedup",
     "binary": "engine2.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Clock sync will remove 63.2% of the error in N seconds",
     "flags": [
       "FCVAR_RELEASE",
@@ -8955,7 +8955,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_obs_interp_speed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Spectator camera interpolation speed",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -9498,7 +9498,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_pitchspeed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl pitchspeed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -9988,7 +9988,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_quickinventory_line_update_speed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl quickinventory line update speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -11669,7 +11669,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_smoke_lower_speed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl smoke lower speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -11817,7 +11817,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_smooth_root_velocity_coeff",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl smooth root velocity coeff parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -11830,7 +11830,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_smooth_targetspeed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl smooth targetspeed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -12884,7 +12884,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "cl_yawspeed",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls cl yawspeed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -13848,7 +13848,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "demo_step_tick",
     "binary": "engine2.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Play for N ticks (default=1) and then pause.",
     "flags": [
       "FCVAR_RELEASE",
@@ -14186,7 +14186,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "mat_disable_normal_mapping",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls mat disable normal mapping parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -15375,7 +15375,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "mp_footsteps_serverside",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Makes the server always play footstep sounds. Clients never calculate footstep sounds locally, instead relying on the server.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -15623,7 +15623,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "mp_hostages_run_speed_modifier",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Default is 1.0, slow down hostages by setting this to < 1.0.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -17886,7 +17886,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_curve_max_step",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav curve max step parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -17911,7 +17911,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_curve_step",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav curve step parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -18023,7 +18023,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_draw_area_gravity",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav draw area gravity parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -18084,7 +18084,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_draw_area_normal",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav draw area normal parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -18289,7 +18289,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_draw_jump_links",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Draw the mesh's spatial grid structure around the edit cursor position.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -18602,7 +18602,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_gen_add_jumps",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav gen add jumps parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -18796,7 +18796,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_gen_jump_connection_min_overlap_ratio",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Minimum edge overlap required for jump connection consideration as a percentage of agent radius",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -18941,7 +18941,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_gen_opt_to_quads_num_steps",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Number of quad simplification optimization steps performed during automated nav mesh polygon generation.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -19402,7 +19402,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_path_draw_jump_segments",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav path draw jump segments parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -19475,7 +19475,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_path_jump_process_debug",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav path jump process debug parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_DEVELOPMENTONLY",
@@ -20021,7 +20021,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_draw_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth draw speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20070,7 +20070,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_relax_use_timesteps",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth relax use timesteps parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20131,7 +20131,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_spring_factor_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth spring factor speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20192,7 +20192,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_spring_timestep_factor_accel",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth spring timestep factor accel parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20205,7 +20205,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_spring_timestep_factor_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth spring timestep factor speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20218,7 +20218,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_spring_timestep_max",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth spring timestep max parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20231,7 +20231,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_spring_timestep_min",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth spring timestep min parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20244,7 +20244,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_smooth_spring_yaw_rotation_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav smooth spring yaw rotation speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20329,7 +20329,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_test_area_gravity",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav test area gravity parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20702,7 +20702,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_test_getareaoverlapping_gravity",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav test getareaoverlapping gravity parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -20715,7 +20715,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_test_getnearestnav_gravity",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav test getnearestnav gravity parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -21076,7 +21076,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_test_smooth_in_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav test smooth in speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -21101,7 +21101,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "nav_test_smooth_path_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls nav test smooth path speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -22078,7 +22078,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "r_csgo_cubemap_normalization",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls r csgo cubemap normalization parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -22912,7 +22912,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "r_csgo_reconstruct_normals",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls r csgo reconstruct normals parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -22925,7 +22925,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "r_csgo_reconstruct_normals_method",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls r csgo reconstruct normals method parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
@@ -26217,7 +26217,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "snd_opvar_set_dome_cluster_steps_per_think",
     "binary": "client.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls snd opvar set dome cluster steps per think parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -27080,7 +27080,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_accelerate",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Linear ground acceleration factor applied to ground movement when player inputs directional commands. Default: 5.5.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -27094,7 +27094,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_accelerate_debug_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Enable this to visualize collisions between player and geometry.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -27109,7 +27109,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_accelerate_use_weapon_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv accelerate use weapon speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -27136,7 +27136,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_air_max_wishspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Decay factor exponent for view punch",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -27149,7 +27149,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_airaccelerate",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Air acceleration rate controlling player directional steering and strafe turning mid-air. Default: 12.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -27423,7 +27423,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_autobunnyhopping",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Enables automatic jump repetition when holding the jump key across successive landings. 0 = disabled, 1 = enabled.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -27476,7 +27476,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_backspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "How much to slow down backwards motion",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -28019,7 +28019,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_cs_player_speed_has_hostage",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv cs player speed has hostage parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -28513,7 +28513,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_enablebunnyhopping",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Bypasses the 1.1x speed clamping restriction on successive bunnyhops, allowing uncapped velocity gains.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -28745,7 +28745,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_footsteps",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Play footstep sound for players",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -28886,7 +28886,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_friction",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "World surface friction factor slowing horizontal player velocity when touching the ground. Default: 5.2.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -28989,7 +28989,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_gravity",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "World gravitational acceleration applied to player entities and physics objects in units per second squared. Default: 800.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29146,7 +29146,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_health_approach_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv health approach speed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29376,7 +29376,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_jump_impulse",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Instantaneous vertical velocity boost applied upon jump command dispatch. Default: 301.993 units/sec.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29389,7 +29389,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_jump_precision_enable",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Enable jump precision. Some game modes benefit from being able to turn this off.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29402,7 +29402,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_jump_spam_penalty_time",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "For subtick jumps, if this much time or less has elapsed since the last time the user has pressed the jump key, pretend they hadn't. Lowering this makes bunnyhopping easier.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29493,7 +29493,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_ladder_scale_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Scalar velocity multiplier applied when moving up and down vertical ladder entities. Default: 0.78.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29570,7 +29570,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_legacy_jump",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Whether or not to use the pre-2026 jump code.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29849,7 +29849,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_max_distance_transmit_footsteps",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Maximum distance to transmit footstep sound effects.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -29948,7 +29948,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_maxspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Maximum absolute velocity cap for players under standard ground movement. Default: 320 units/sec.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -30000,7 +30000,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_maxvelocity",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Maximum speed any ballistically moving object is allowed to attain per axis.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -30049,7 +30049,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_min_jump_landing_sound",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv min jump landing sound parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -30241,7 +30241,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_noclipaccelerate",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Spring damping ratio for length constraint",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -30268,7 +30268,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_noclipfriction",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Friction during noclip move.",
     "flags": [
       "FCVAR_CHEAT",
@@ -30281,7 +30281,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_noclipspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv noclipspeed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_CHEAT",
@@ -30294,7 +30294,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_noclipspeedscaleonshift",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Friction during noclip move.",
     "flags": [
       "FCVAR_CHEAT",
@@ -30793,7 +30793,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_pushaway_min_player_speed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "If a player is moving slower than this, don't push away physics objects (enables ducking behind things).",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31175,7 +31175,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_rollspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Max view roll angle",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31784,7 +31784,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_specaccelerate",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv specaccelerate parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -31811,7 +31811,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_specspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv specspeed parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31848,7 +31848,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_staminajumpcost",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "sv_legacy_jump only: Stamina penalty for jumping",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31861,7 +31861,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_staminalandcost",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "sv_legacy_jump only: Stamina penalty for landing",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31874,7 +31874,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_staminamax",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Maximum stamina penalty accumulation cap slowing player movement after consecutive jumps or crouches. Default: 80.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31887,7 +31887,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_staminarecoveryrate",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Rate at which movement stamina recovers back to baseline 0 per second. Default: 60.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -31901,7 +31901,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_standable_normal",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Minimum upward surface normal Z component required for a surface to be considered standable terrain. Default: 0.7.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31986,7 +31986,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_step_move_vel_min",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Min velocity for step move.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -31999,7 +31999,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_stepsize",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Maximum height in units that a player can automatically step over without jumping. Default: 18.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -32012,7 +32012,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_stopspeed",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Minimum velocity threshold below which player ground deceleration stops abruptly to prevent drifting. Default: 80.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -33019,7 +33019,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_walkable_normal",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv walkable normal parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -33058,7 +33058,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_wateraccelerate",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Controls sv wateraccelerate parameter within the Movement subsystem.",
     "flags": [
       "FCVAR_ARCHIVE",
@@ -33085,7 +33085,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "sv_waterfriction",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Play footstep sound for players",
     "flags": [
       "FCVAR_GAMEDLL",
@@ -34359,7 +34359,7 @@ window.CS2_CONVARS_DATA = [
   {
     "name": "weapon_action_speedscale",
     "binary": "server.dll",
-    "category": "Movement",
+    "category": "Movement & Physics",
     "description": "Sound (%s) (%s)",
     "flags": [
       "FCVAR_GAMEDLL",
