@@ -105,6 +105,48 @@ metadata_map = {
         "category": "Scripting & Graph Execution",
         "badge": "Pulse Scripting",
         "order": 13
+    },
+    "14_bullet_penetration_and_surface_physics.md": {
+        "id": "bullet-penetration",
+        "title": "Bullet Penetration, Wallbang Raymarching & Surface Physics",
+        "category": "Weapons & Ballistics",
+        "badge": "Bullet Penetration",
+        "order": 14
+    },
+    "15_navigation_mesh_and_pathfinding.md": {
+        "id": "navmesh-pathfinding",
+        "title": "Navigation Mesh (CNavArea) & A* Bot Pathfinding",
+        "category": "AI & Navigation",
+        "badge": "NavMesh & A*",
+        "order": 15
+    },
+    "16_weapon_inaccuracy_and_recoil_decay.md": {
+        "id": "weapon-inaccuracy",
+        "title": "Weapon Inaccuracy, Recoil Decay & Dual-Disk Spread RNG",
+        "category": "Weapons & Ballistics",
+        "badge": "Weapon Accuracy & Spread",
+        "order": 16
+    },
+    "17_subtick_usercmd_wire_format.md": {
+        "id": "subtick-wire-format",
+        "title": "Sub-Tick UserCmd Protobuf Wire Serialization & Unpacking",
+        "category": "Networking",
+        "badge": "Sub-Tick Wire Codec",
+        "order": 17
+    },
+    "18_lag_compensation_and_hitbox_backtracking.md": {
+        "id": "lag-compensation",
+        "title": "Lag Compensation & Sub-Tick Hitbox Backtracking",
+        "category": "Gameplay & Physics",
+        "badge": "Lag Compensation",
+        "order": 18
+    },
+    "19_hit_registration_and_armor_damage.md": {
+        "id": "hit-registration-damage",
+        "title": "Hit Registration, HitGroup Multipliers & Kevlar/Helmet Damage",
+        "category": "Weapons & Ballistics",
+        "badge": "HitReg & Armor Math",
+        "order": 19
     }
 }
 

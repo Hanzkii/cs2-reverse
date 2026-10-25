@@ -82,6 +82,14 @@ struct AimPunchState {
 };
 
 /**
+ * @brief 2D spread deflection vector on the view plane.
+ */
+struct SpreadVector2D {
+    float x = 0.0f;
+    float y = 0.0f;
+};
+
+/**
  * @brief Global engine ConVars controlling accuracy and recoil physics.
  */
 struct AccuracyConVars {
@@ -98,8 +106,32 @@ struct AccuracyConVars {
 };
 
 /**
+ * @brief Clean-room implementation of Valve's CUniformRandomStream (tier0.dll).
+ * Based on Park-Miller minimal standard LCG with Bays-Durham shuffle table (ran1).
+ */
+class CUniformRandomStream {
+private:
+    int32_t m_idum = 0;
+    int32_t m_iy = 0;
+    int32_t m_iv[32]{};
+
+public:
+    CUniformRandomStream() = default;
+    explicit CUniformRandomStream(int32_t seed) { SetSeed(seed); }
+
+    void SetSeed(int32_t seed);
+    float RandomFloat(float minVal = 0.0f, float maxVal = 1.0f);
+    int32_t RandomInt(int32_t minVal, int32_t maxVal);
+};
+
+/**
  * @brief Clean-room reconstructed CS2 Weapon Accuracy, Spread Cone, and Recoil Decay Pipeline.
- * Reverse engineered from client.dll (FUN_180827be0, FUN_18080c1a0, FUN_18080cef0, FUN_18085dc60).
+ * Reverse engineered from client.dll:
+ *   - FUN_18080c1a0 (C_CSWeaponBase::GetInaccuracy @ RVA 0x0080c1a0 / 0x0080cfd0)
+ *   - FUN_180d23fe0 (FX_CalculateSpread @ RVA 0x00d23fe0 / 0x00d25630)
+ *   - FUN_180827be0 (C_CSWeaponBase::UpdateAccuracyPenalty @ RVA 0x00827be0 / 0x00828a10)
+ *   - FUN_18080cef0 (GetRecoveryTime @ RVA 0x0080cef0)
+ *   - FUN_18085dc60 (CPlayer_AimPunchServices::SimulateAimPunchDecay @ RVA 0x0085dc60 / 0x0085ea90)
  */
 class CWeaponAccuracyPipeline {
 public:
@@ -137,7 +169,7 @@ public:
 
     /**
      * @brief Main tick update for weapon accuracy penalty and recoil index decay.
-     * Reconstructed from FUN_180827be0 @ RVA 0x00827be0.
+     * Reconstructed from FUN_180827be0 @ RVA 0x00827be0 / 0x00828a10.
      */
     static void UpdateAccuracyPenalty(
         WeaponAccuracyState& state,
@@ -150,7 +182,7 @@ public:
 
     /**
      * @brief Evaluates total composite weapon inaccuracy and base spread.
-     * Reconstructed from FUN_18080c1a0 @ RVA 0x0080c1a0.
+     * Reconstructed from FUN_18080c1a0 @ RVA 0x0080c1a0 / 0x0080cfd0.
      */
     static float GetInaccuracy(
         const WeaponAccuracyState& state,
@@ -158,6 +190,46 @@ public:
         const PlayerPawnAccuracyContext& ctx,
         float* outSpread,
         float* outJumpInacc,
+        const AccuracyConVars& cvars
+    );
+
+    /**
+     * @brief Retrieves intrinsic weapon spread from weapon vdata.
+     */
+    static float GetSpread(
+        const CCSWeaponBaseVData_Accuracy& vdata,
+        int32_t weaponMode = 0
+    );
+
+    /**
+     * @brief Generates dual uniform disk spread deflection vector for bullet/pellet.
+     * Reconstructed from FX_CalculateSpread @ RVA 0x00d23fe0 / 0x00d25630 (FUN_180d23fe0).
+     *
+     * Evaluates independent uniform random variates for inaccuracy disk (r1, theta1)
+     * and intrinsic spread disk (r2, theta2), applying weapon-specific distributions
+     * (Revolver fan-the-hammer power inversion, Negev continuous spin-up convergence)
+     * and summing them vectorially.
+     *
+     * @param itemDefIndex Weapon item definition index (64 = revolver, 28 = negev, etc.)
+     * @param bulletIndex Index of pellet/bullet in current burst
+     * @param numBullets Total pellets/bullets fired in this shot
+     * @param weaponMode Primary (0) or Secondary (1)
+     * @param randomSeed Deterministic random seed
+     * @param inaccuracy Current composite inaccuracy from GetInaccuracy
+     * @param spread Intrinsic weapon spread from GetSpread
+     * @param recoilIndex Current continuous recoil index
+     * @param cvars Accuracy ConVars
+     * @return 2D spread deflection vector (dx, dy)
+     */
+    static SpreadVector2D CalculateSpreadVector(
+        uint16_t itemDefIndex,
+        int32_t bulletIndex,
+        int32_t numBullets,
+        int32_t weaponMode,
+        int32_t randomSeed,
+        float inaccuracy,
+        float spread,
+        float recoilIndex,
         const AccuracyConVars& cvars
     );
 
@@ -182,7 +254,17 @@ public:
     );
 
     /**
-     * @brief Generates 3D perturbed firing ray direction vector from spread cone.
+     * @brief Generates 3D perturbed firing ray direction vector from spread deflection.
+     */
+    static Vector3 CalculateSpreadConeRay(
+        const SpreadVector2D& spreadVec,
+        const Vector3& forward,
+        const Vector3& right,
+        const Vector3& up
+    );
+
+    /**
+     * @brief Generates 3D perturbed firing ray direction vector from spread cone (polar overload).
      */
     static Vector3 CalculateSpreadConeRay(
         float inaccuracy,

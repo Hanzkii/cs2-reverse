@@ -31,6 +31,7 @@
 #include <cassert>
 #include <cstring>
 #include <iomanip>
+#include <algorithm>
 
 namespace cs2 {
 
@@ -72,6 +73,22 @@ struct alignas(16) Quaternion {
     Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {}
     Quaternion(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) {}
 
+    float Dot(const Quaternion& q) const {
+        return x * q.x + y * q.y + z * q.z + w * q.w;
+    }
+
+    Quaternion operator-() const {
+        return {-x, -y, -z, -w};
+    }
+
+    Quaternion operator+(const Quaternion& q) const {
+        return {x + q.x, y + q.y, z + q.z, w + q.w};
+    }
+
+    Quaternion operator*(float s) const {
+        return {x * s, y * s, z * s, w * s};
+    }
+
     // Hamilton product: q1 * q2 (matching FUN_181748480)
     Quaternion operator*(const Quaternion& q) const {
         return {
@@ -102,6 +119,49 @@ struct alignas(16) Quaternion {
         float s = std::sin(half);
         Vector3D norm = axis.Normalized();
         return {norm.x * s, norm.y * s, norm.z * s, std::cos(half)};
+    }
+
+    // Shortest-arc Normalized Linear Interpolation (Nlerp)
+    static Quaternion Nlerp(const Quaternion& q1, const Quaternion& q2, float t, bool shortestArc = true) {
+        float dot = q1.Dot(q2);
+        Quaternion target = q2;
+        if (shortestArc && dot < 0.0f) {
+            target = -q2;
+        }
+        float invT = 1.0f - t;
+        return Quaternion(
+            q1.x * invT + target.x * t,
+            q1.y * invT + target.y * t,
+            q1.z * invT + target.z * t,
+            q1.w * invT + target.w * t
+        ).Normalized();
+    }
+
+    // Shortest-arc Spherical Linear Interpolation (Slerp) matching animationsystem.dll @ 0x1804721a0
+    static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t, bool shortestArc = true) {
+        float dot = q1.Dot(q2);
+        Quaternion target = q2;
+        if (shortestArc && dot < 0.0f) {
+            target = -q2;
+            dot = -dot;
+        }
+        if (dot > 0.9995f) {
+            return Nlerp(q1, target, t, false);
+        }
+        dot = std::clamp(dot, -1.0f, 1.0f);
+        float theta = std::acos(dot);
+        float sinTheta = std::sin(theta);
+        if (sinTheta < 1e-6f) {
+            return Nlerp(q1, target, t, false);
+        }
+        float w1 = std::sin((1.0f - t) * theta) / sinTheta;
+        float w2 = std::sin(t * theta) / sinTheta;
+        return Quaternion(
+            q1.x * w1 + target.x * w2,
+            q1.y * w1 + target.y * w2,
+            q1.z * w1 + target.z * w2,
+            q1.w * w1 + target.w * w2
+        );
     }
 };
 
@@ -493,6 +553,105 @@ void Test_TwoBoneIKSolver() {
               << "), Target Err=" << err << "\n";
 }
 
+void Test_StateMachineTransitions() {
+    std::cout << "[Test 4] Verifying CStateMachineUpdateNode Transition Crossfade (FUN_1802c82c0 / FUN_180361670)... ";
+
+    // Transition from Idle (State 0) to Run (State 1) over duration 0.5s starting at t = 1.0s
+    float startTime = 1.0f;
+    float duration = 0.5f;
+
+    // Hermite smoothstep: w(t) = 3t^2 - 2t^3
+    auto HermiteSmoothStep = [](float t) -> float {
+        float c = std::max(0.0f, std::min(1.0f, t));
+        return c * c * (3.0f - 2.0f * c);
+    };
+
+    // Evaluate normalized time progress t = (currTime - startTime) / duration
+    auto EvalProgress = [startTime, duration](float curr) -> float {
+        if (curr <= startTime) return 0.0f;
+        if (curr >= startTime + duration) return 1.0f;
+        return (curr - startTime) / duration;
+    };
+
+    // Test start: t = 1.0s -> progress 0.0, weight 0.0
+    float t0 = EvalProgress(1.0f);
+    assert(std::abs(t0 - 0.0f) < 1e-5f);
+    assert(std::abs(HermiteSmoothStep(t0) - 0.0f) < 1e-5f);
+
+    // Test midpoint: t = 1.25s -> progress 0.5, Hermite weight = 3*(0.25) - 2*(0.125) = 0.75 - 0.25 = 0.5
+    float tMid = EvalProgress(1.25f);
+    assert(std::abs(tMid - 0.5f) < 1e-5f);
+    float wMid = HermiteSmoothStep(tMid);
+    assert(std::abs(wMid - 0.5f) < 1e-5f);
+
+    // Test 25% point: t = 1.125s -> progress 0.25, Hermite weight = 3*(1/16) - 2*(1/64) = 3/16 - 1/32 = 5/32 = 0.15625
+    float tQuarter = EvalProgress(1.125f);
+    float wQuarter = HermiteSmoothStep(tQuarter);
+    assert(std::abs(wQuarter - 0.15625f) < 1e-5f);
+    // Smoothstep must be smoother than linear at endpoints: wQuarter (0.15625) < tQuarter (0.25)
+    assert(wQuarter < tQuarter);
+
+    // Test completion: t = 1.5s -> progress 1.0, weight 1.0
+    float tEnd = EvalProgress(1.5f);
+    assert(std::abs(tEnd - 1.0f) < 1e-5f);
+    assert(std::abs(HermiteSmoothStep(tEnd) - 1.0f) < 1e-5f);
+
+    // Test overshoot: t = 2.0s -> clamped to 1.0
+    float tOver = EvalProgress(2.0f);
+    assert(std::abs(tOver - 1.0f) < 1e-5f);
+    assert(std::abs(HermiteSmoothStep(tOver) - 1.0f) < 1e-5f);
+
+    std::cout << "PASSED! w(0.25)=" << wQuarter << ", w(0.5)=" << wMid << ", w(1.0)=1.0\n";
+}
+
+void Test_PoseBlendingAndQuaternionSlerp() {
+    std::cout << "[Test 5] Verifying CBlendUpdateNode Shortest-Arc Quaternion Slerp (FUN_1802d7a80 / 0x1804721a0)... ";
+
+    // 1. Verify CBlendUpdateNode 1D weight computation (FUN_1802d7a80)
+    // Blend parameter 1.75 across 3 children (0, 1, 2)
+    // Child 1 and 2 active, baseIndex = 1, frac = 0.75 -> weight1 = 0.25, weight2 = 0.75
+    float blendVal = 1.75f;
+    float baseF = std::floor(blendVal);
+    int childA = static_cast<int>(baseF);
+    int childB = childA + 1;
+    float weightB = blendVal - baseF;
+    float weightA = 1.0f - weightB;
+
+    assert(childA == 1 && childB == 2);
+    assert(std::abs(weightA - 0.25f) < 1e-5f);
+    assert(std::abs(weightB - 0.75f) < 1e-5f);
+
+    // 2. Verify Shortest-Arc Quaternion Slerp
+    // q1: identity rotation
+    cs2::Quaternion q1(0.0f, 0.0f, 0.0f, 1.0f);
+
+    // q2: 90 degrees around Z axis: (0, 0, sin(45 deg), cos(45 deg))
+    cs2::Quaternion q2 = cs2::Quaternion::FromAxisAngle({0.0f, 0.0f, 1.0f}, 1.5707963f);
+
+    // Midpoint Slerp t = 0.5 -> should be exactly 45 degrees around Z axis
+    cs2::Quaternion qMid = cs2::Quaternion::Slerp(q1, q2, 0.5f, true);
+    cs2::Quaternion qExpected45 = cs2::Quaternion::FromAxisAngle({0.0f, 0.0f, 1.0f}, 0.78539816f);
+
+    assert(std::abs(qMid.Dot(qExpected45) - 1.0f) < 1e-4f);
+
+    // 3. Shortest-Arc Inversion Test
+    // If q2 is antipodal (-q2 represents identical 3D orientation), Slerp must still take shortest path
+    cs2::Quaternion q2Antipodal = -q2;
+    assert(q1.Dot(q2Antipodal) < 0.0f); // Dot is negative!
+
+    cs2::Quaternion qMidShortest = cs2::Quaternion::Slerp(q1, q2Antipodal, 0.5f, true);
+    assert(std::abs(std::abs(qMidShortest.Dot(qExpected45)) - 1.0f) < 1e-4f);
+
+    // 4. Vector Rotation after Slerp
+    // Vector (10, 0, 0) rotated by 45 degrees Z -> (10 * cos(45), 10 * sin(45), 0) = (7.071, 7.071, 0)
+    cs2::Vector3D vRot = qMid.Rotate({10.0f, 0.0f, 0.0f});
+    assert(std::abs(vRot.x - 7.0710678f) < 1e-3f);
+    assert(std::abs(vRot.y - 7.0710678f) < 1e-3f);
+    assert(std::abs(vRot.z - 0.0f) < 1e-3f);
+
+    std::cout << "PASSED! Slerp(45 deg) Pos=(" << vRot.x << ", " << vRot.y << ", " << vRot.z << ")\n";
+}
+
 int main() {
     std::cout << "====================================================================\n";
     std::cout << " Source 2 Skeleton Bone Hierarchy & AnimGraph Verification Simulator\n";
@@ -502,7 +661,9 @@ int main() {
     Test_TransformConcatenation();
     Test_SkeletalHierarchyAndHitboxes();
     Test_TwoBoneIKSolver();
+    Test_StateMachineTransitions();
+    Test_PoseBlendingAndQuaternionSlerp();
 
-    std::cout << "\n>> All 3 verification test suites successfully passed!\n";
+    std::cout << "\n>> All 5 verification test suites successfully passed!\n";
     return 0;
 }

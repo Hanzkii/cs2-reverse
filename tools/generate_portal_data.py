@@ -15,6 +15,7 @@ SIMULATOR_FILES = {
     "09": "cs2_skeleton_animation_sim.cpp",
     "10": "cs2_rubikon_physics_sim.cpp",
     "11": "cs2_volumetric_smoke_sim.cpp",
+    "16": "cs2_weapon_spread_recoil_sim.cpp",
 }
 
 SIMULATORS_METADATA = [
@@ -112,6 +113,24 @@ SIMULATORS_METADATA = [
             {"name": "SerializeSparseDelta", "addr": "0x1809b1bd0", "desc": "10-byte sparse record network serializer (2-byte word index + 8-byte bitmask)"}
         ],
         "docId": "volumetric-smoke"
+    },
+    {
+        "id": "16",
+        "name": "cs2_weapon_spread_recoil_sim.cpp",
+        "title": "Weapon Inaccuracy, Recoil Decay & Dual-Disk Spread RNG",
+        "target": "client.dll & server.dll",
+        "runner": "build_weapon_spread_sim.bat",
+        "category": "Weapons & Ballistics",
+        "badge": "Weapon Accuracy & Spread",
+        "checks": "Exponential accuracy penalty recovery exp(-(ln10/tau)*dt), 34%-95% movement speed remap with 0.25 crouch power curve, airborne apex penalty, dual uniform disk sampling (FX_CalculateSpread), R8 Revolver (1-r^2) and Negev spin-up laser convergence.",
+        "description": "Simulates CS2's weapon accuracy, recoil decay, and dual uniform disk bullet spread mechanics. Models continuous exponential ODE penalty recovery, stance/movement inaccuracy curves, and Park-Miller LCG + 32-entry Bays-Durham shuffle table RNG.",
+        "addresses": [
+            {"name": "C_CSWeaponBase::UpdateAccuracyPenalty", "addr": "0x180828a10", "desc": "Exponential accuracy decay and movement/stance penalty integrator"},
+            {"name": "C_CSWeaponBase::GetInaccuracy", "addr": "0x18080cfd0", "desc": "Composite weapon inaccuracy scalar evaluator in [0.0, 1.0]"},
+            {"name": "FX_CalculateSpread", "addr": "0x180d25630", "desc": "Dual uniform disk (inaccuracy + intrinsic spread) 2D deflection sampler"},
+            {"name": "CPlayer_AimPunchServices::SimulateAimPunchDecay", "addr": "0x18085ea90", "desc": "Damped spring-mass-damper recoil aim punch integrator"}
+        ],
+        "docId": "weapon-inaccuracy"
     }
 ]
 

@@ -60,6 +60,13 @@ flowchart TD
 ### 2.2 `animationsystem.dll` (Base: `0x180000000`)
 - **`CTwoBoneIKPoseOperation` VTable**: `0x180689268`
 - **`SolveTwoBoneIK` (`FUN_1802f9750`)**: Law of Cosines analytical limb solver.
+- **`CBlendUpdateNode` VTable**: `0x18065bb80`
+- **`CBlendUpdateNode::ComputeBlendWeights` (`FUN_1802d7a80`)**: Continuous parameter blend weight evaluator.
+- **`CStateMachineUpdateNode` VTable**: `0x180687838`
+- **`CStateMachineUpdateNode::EvaluateTransitions` (`FUN_1802c82c0`)**: State machine transition evaluator and crossfade driver.
+- **`CStateMachineUpdateNode::TransitionProgress` (`FUN_180361670`)**: Normalized transition progress calculator.
+- **`Quaternion::FromAngleAxis` (`FUN_18038dcc0`)**: Fast angle-axis to unit quaternion generator.
+- **`Sequence Pose Blending / Shortest-Arc Slerp` (`FUN_1804721a0`)**: SIMD quaternion Slerp and bone position blend pipeline.
 - **`CHitBox` Class Info**: `0x18081d840` (Size: 112 bytes)
 - **`CHitBoxSet` Class Info**: `0x18081d940` (Size: 48 bytes)
 
@@ -208,7 +215,73 @@ The end effector $\mathbf{E} = \mathbf{J} + \text{Normalize}(\mathbf{T} - \mathb
 
 ---
 
-## 7. Verification Simulator
+## 7. AnimGraph State Machine Transitions & Shortest-Arc Pose Blending
+
+Through decompilation of `animationsystem.dll` (specifically `CStateMachineUpdateNode` at VTable `0x180687838` and `CBlendUpdateNode` at VTable `0x18065bb80`), we reversed Valve's runtime state transition evaluator and skeletal pose interpolation pipeline.
+
+### 7.1 State Machine Transitions (`CStateMachineUpdateNode`)
+When transitioning between animation states (e.g. `Idle` $\to$ `Run` or `Airborne` $\to$ `Land`), the AnimGraph state machine evaluates active crossfades on each tick via `CAnimUpdateContext`:
+
+1. **Normalized Progress Evaluation (`FUN_180361670`)**:
+   Given transition start time $t_{start}$ and total transition duration $d_{trans} > 0$:
+   $$t_{norm} = \text{clamp}\left(\frac{t_{curr} - t_{start}}{d_{trans}}, 0, 1\right)$$
+
+2. **Hermite SmoothStep Cubic Crossfade Curve**:
+   Rather than crude linear blending, Source 2 evaluates an $S$-curve cubic Hermite polynomial to compute the cross-fade weight $w(t) \in [0, 1]$:
+   $$w(t) = 3t_{norm}^2 - 2t_{norm}^3$$
+
+   ```
+   Weight w(t)
+     1.0 |                                       * * * (Transition End: w=1, w'=0)
+         |                                 * * *
+         |                             * *
+         |                          *
+     0.5 |                       *   (Midpoint: t=0.5, w=0.5)
+         |                    *
+         |                * *
+         |          * * *
+     0.0 | * * * (Transition Start: w=0, w'=0)
+         +---------------------------------------
+          0.0                   0.5             1.0  Progress t
+   ```
+
+   **Mathematical Invariants**:
+   - Boundary condition zero velocity: $\left.\frac{dw}{dt}\right|_{t=0} = 6t - 6t^2 = 0$.
+   - Boundary condition zero arrival velocity: $\left.\frac{dw}{dt}\right|_{t=1} = 6(1) - 6(1)^2 = 0$.
+   - This guarantees $C^1$ continuity at transition boundaries, eliminating visual pops or angular jerk when state blends begin or settle.
+
+### 7.2 1D Blend Node Weight Evaluation (`CBlendUpdateNode`, `FUN_1802d7a80`)
+`CBlendUpdateNode` handles parameter-driven blending (such as movement speed or direction):
+1. Parameter $v$ is clamped to $[0, N - 1]$ where $N$ is the number of child nodes.
+2. The integer base child index is:
+   $$i_{base} = \lfloor v \rfloor$$
+3. Fractional parameter component:
+   $$f = v - i_{base}, \quad f \in [0, 1]$$
+4. Output child weights:
+   $$w_A = 1.0 - f \quad (\text{Child } i_{base}), \qquad w_B = f \quad (\text{Child } i_{base} + 1)$$
+All other children in the node receive weight $0.0$.
+
+### 7.3 SIMD Quaternion Shortest-Arc Pose Blending (`FUN_1804721a0`)
+Because quaternions represent a double cover of the 3D rotation group ($\mathbf{q} \equiv -\mathbf{q} \in \mathbb{RP}^3$), direct linear or spherical interpolation between raw coordinates can inadvertently interpolate along the long arc ($360^\circ - \theta$), causing rapid $360^\circ$ joint twists.
+
+Source 2 enforces the **shortest-arc geodesic condition** in SIMD assembly:
+$$\mathbf{q}_2 \leftarrow \begin{cases} -\mathbf{q}_2 & \text{if } \mathbf{q}_1 \cdot \mathbf{q}_2 < 0 \\ \mathbf{q}_2 & \text{otherwise} \end{cases}$$
+
+1. **Spherical Linear Interpolation (Slerp)**:
+   For angle $\theta = \arccos(\mathbf{q}_1 \cdot \mathbf{q}_2)$:
+   $$\mathbf{q}_{blend}(w) = \frac{\sin((1 - w)\theta)}{\sin\theta}\mathbf{q}_1 + \frac{\sin(w\theta)}{\sin\theta}\mathbf{q}_2$$
+
+2. **Normalized Linear Interpolation (Nlerp) Fallback**:
+   When $\mathbf{q}_1 \cdot \mathbf{q}_2 > 0.9995$ (nearly collinear rotations), $\sin\theta \to 0$. Source 2 falls back to fast normalized linear interpolation to prevent numerical instability:
+   $$\mathbf{q}_{lerp}(w) = (1 - w)\mathbf{q}_1 + w\mathbf{q}_2$$
+   $$\mathbf{q}_{blend}(w) = \frac{\mathbf{q}_{lerp}(w)}{\|\mathbf{q}_{lerp}(w)\|}$$
+
+3. **Bone Translation Linear Interpolation**:
+   $$\mathbf{p}_{blend}(w) = (1 - w)\mathbf{p}_1 + w\mathbf{p}_2$$
+
+---
+
+## 8. Verification Simulator
 
 The standalone C++17 verification simulator is available in:
 - Code: [`simulators/cs2_skeleton_animation_sim.cpp`](../simulators/cs2_skeleton_animation_sim.cpp)
@@ -224,6 +297,8 @@ Output:
 [Test 1] Verifying CTransform Concatenation (FUN_181748480)... PASSED! Pos=(100, 210, 79)
 [Test 2] Verifying Skeletal Hierarchy (CSkeletonInstance) & Hitbox Projection... PASSED! Head Bone Z=204, Hitbox Center=(503, 1000, 205)
 [Test 3] Verifying Two-Bone IK Analytical Law of Cosines (FUN_1802f9750)... PASSED! Knee Pos=(0, 11.8809, 19.9114), Target Err=0
+[Test 4] Verifying CStateMachineUpdateNode Transition Crossfade (FUN_1802c82c0 / FUN_180361670)... PASSED! w(0.25)=0.15625, w(0.5)=0.5, w(1.0)=1.0
+[Test 5] Verifying CBlendUpdateNode Shortest-Arc Quaternion Slerp (FUN_1802d7a80 / 0x1804721a0)... PASSED! Slerp(45 deg) Pos=(7.07107, 7.07107, 0)
 
->> All 3 verification test suites successfully passed!
+>> All 5 verification test suites successfully passed!
 ```

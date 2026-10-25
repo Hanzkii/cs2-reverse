@@ -25,6 +25,71 @@ static Vector3 NormalizeVector(const Vector3& v) {
     return {v.x * inv, v.y * inv, v.z * inv};
 }
 
+// =======================================================================================
+// CUniformRandomStream: Valve Park-Miller LCG with Bays-Durham Shuffle Table (tier0.dll)
+// Reconstructed from ?SetSeed_Locked@?$CUniformRandomStreamImpl@VCThreadNullMutex@@@@AEAAXH@Z
+// and ?GenerateRandomNumber_Locked@?$CUniformRandomStreamImpl@VCThreadNullMutex@@@@AEAAHXZ
+// =======================================================================================
+
+constexpr int32_t IA_PM   = 16807;
+constexpr int32_t IM_PM   = 2147483647; // 2^31 - 1
+constexpr int32_t IQ_PM   = 127773;
+constexpr int32_t IR_PM   = 2836;
+constexpr int32_t NTAB_PM = 32;
+
+void CUniformRandomStream::SetSeed(int32_t seed) {
+    m_idum = (seed < 0) ? seed : -seed;
+    if (m_idum == 0) m_idum = -1;
+    m_iy = 0;
+    for (int i = 0; i < NTAB_PM; ++i) {
+        m_iv[i] = 0;
+    }
+
+    // Warm-up shuffle table matching tier0.dll
+    for (int j = NTAB_PM + 7; j >= 0; --j) {
+        int32_t k = m_idum / IQ_PM;
+        m_idum = IA_PM * (m_idum - k * IQ_PM) - IR_PM * k;
+        if (m_idum < 0) {
+            m_idum += IM_PM;
+        }
+        if (j < NTAB_PM) {
+            m_iv[j] = m_idum;
+        }
+    }
+    m_iy = m_iv[0];
+}
+
+float CUniformRandomStream::RandomFloat(float minVal, float maxVal) {
+    if (m_idum == 0) {
+        SetSeed(1);
+    }
+    int32_t k = m_idum / IQ_PM;
+    m_idum = IA_PM * (m_idum - k * IQ_PM) - IR_PM * k;
+    if (m_idum < 0) {
+        m_idum += IM_PM;
+    }
+
+    int32_t j = m_iy / (1 + (IM_PM - 1) / NTAB_PM);
+    if (j < 0) j = 0;
+    if (j >= NTAB_PM) j = NTAB_PM - 1;
+    m_iy = m_iv[j];
+    m_iv[j] = m_idum;
+
+    float fl = static_cast<float>(m_iy) * (1.0f / static_cast<float>(IM_PM));
+    if (fl > (1.0f - 1.2e-7f)) {
+        fl = 1.0f - 1.2e-7f;
+    }
+    return minVal + fl * (maxVal - minVal);
+}
+
+int32_t CUniformRandomStream::RandomInt(int32_t minVal, int32_t maxVal) {
+    return static_cast<int32_t>(RandomFloat(static_cast<float>(minVal), static_cast<float>(maxVal) + 0.999f));
+}
+
+// =======================================================================================
+// CWeaponAccuracyPipeline Reconstructed Functions
+// =======================================================================================
+
 // FUN_18080cef0 @ RVA 0x0080cef0
 float CWeaponAccuracyPipeline::GetRecoveryTime(
     const CCSWeaponBaseVData_Accuracy& vdata,
@@ -135,7 +200,7 @@ void CWeaponAccuracyPipeline::UpdateTurningInaccuracy(
     state.m_vecTurningInaccuracyEyeDirLast = currentDir;
 }
 
-// FUN_180827be0 @ RVA 0x00827be0
+// FUN_180827be0 @ RVA 0x00827be0 / 0x00828a10
 void CWeaponAccuracyPipeline::UpdateAccuracyPenalty(
     WeaponAccuracyState& state,
     const CCSWeaponBaseVData_Accuracy& vdata,
@@ -198,7 +263,7 @@ void CWeaponAccuracyPipeline::UpdateAccuracyPenalty(
     state.m_flLastAccuracyUpdateTime = curTime;
 }
 
-// FUN_18080c1a0 @ RVA 0x0080c1a0
+// FUN_18080c1a0 @ RVA 0x0080c1a0 / 0x0080cfd0
 float CWeaponAccuracyPipeline::GetInaccuracy(
     const WeaponAccuracyState& state,
     const CCSWeaponBaseVData_Accuracy& vdata,
@@ -268,6 +333,94 @@ float CWeaponAccuracyPipeline::GetInaccuracy(
     return ClampFloat(totalInaccuracy, 0.0f, 1.0f);
 }
 
+float CWeaponAccuracyPipeline::GetSpread(
+    const CCSWeaponBaseVData_Accuracy& vdata,
+    int32_t /*weaponMode*/
+) {
+    return vdata.m_flSpread;
+}
+
+// FUN_180d23fe0 @ RVA 0x00d23fe0 / 0x00d25630 (FX_CalculateSpread)
+SpreadVector2D CWeaponAccuracyPipeline::CalculateSpreadVector(
+    uint16_t itemDefIndex,
+    int32_t /*bulletIndex*/,
+    int32_t /*numBullets*/,
+    int32_t weaponMode,
+    int32_t randomSeed,
+    float inaccuracy,
+    float spread,
+    float recoilIndex,
+    const AccuracyConVars& cvars
+) {
+    if (cvars.weapon_accuracy_nospread) {
+        return {0.0f, 0.0f};
+    }
+
+    CUniformRandomStream rng;
+    // Valve PRNG seed initialization matching RandomSeed(param_4)
+    rng.SetSeed(randomSeed);
+
+    // Dual uniform disk sampling
+    // -----------------------------------------------------------------------------------
+    // Disk 1: Inaccuracy Disk (r1 in [0, 1], theta1 in [0, 2*PI])
+    // -----------------------------------------------------------------------------------
+    float r1 = rng.RandomFloat(0.0f, 1.0f);
+    float theta1 = rng.RandomFloat(0.0f, 2.0f * PI);
+
+    // Revolver secondary fire (fan-the-hammer: item def 64, weaponMode 1)
+    constexpr uint16_t WEAPON_REVOLVER = 64;
+    constexpr uint16_t WEAPON_NEGEV    = 28;
+
+    if (itemDefIndex == WEAPON_REVOLVER && weaponMode == 1) {
+        // Power distribution pushes shots outwards towards cone perimeter
+        r1 = 1.0f - r1 * r1;
+    } else if (itemDefIndex == WEAPON_NEGEV && recoilIndex < 3.0f) {
+        // Negev initial spin-up inaccuracy power curve: collapses towards laser precision
+        for (int32_t i = 3; i > static_cast<int32_t>(recoilIndex); --i) {
+            r1 = r1 * r1;
+        }
+        r1 = 1.0f - r1;
+    }
+
+    if (cvars.weapon_accuracy_forcespread > 0.0f) {
+        r1 = 1.0f;
+    }
+
+    float R_inacc = r1 * inaccuracy;
+
+    // -----------------------------------------------------------------------------------
+    // Disk 2: Intrinsic Spread Disk (r2 in [0, 1], theta2 in [0, 2*PI])
+    // -----------------------------------------------------------------------------------
+    float r2 = rng.RandomFloat(0.0f, 1.0f);
+    float theta2 = rng.RandomFloat(0.0f, 2.0f * PI);
+
+    if (itemDefIndex == WEAPON_REVOLVER && weaponMode == 1) {
+        r2 = 1.0f - r2 * r2;
+    } else if (itemDefIndex == WEAPON_NEGEV && recoilIndex < 3.0f) {
+        for (int32_t i = 3; i > static_cast<int32_t>(recoilIndex); --i) {
+            r2 = r2 * r2;
+        }
+        r2 = 1.0f - r2;
+    }
+
+    if (cvars.weapon_accuracy_forcespread > 0.0f) {
+        r2 = 1.0f;
+    }
+
+    float R_spread = r2 * spread;
+
+    // -----------------------------------------------------------------------------------
+    // Vectorial combination matching FUN_180d23fe0 lines 128-137:
+    // dx = cos(theta1) * R_inacc + cos(theta2) * R_spread
+    // dy = sin(theta1) * R_inacc + sin(theta2) * R_spread
+    // -----------------------------------------------------------------------------------
+    SpreadVector2D result{};
+    result.x = std::cos(theta1) * R_inacc + std::cos(theta2) * R_spread;
+    result.y = std::sin(theta1) * R_inacc + std::sin(theta2) * R_spread;
+
+    return result;
+}
+
 void CWeaponAccuracyPipeline::OnWeaponFired(
     WeaponAccuracyState& state,
     const CCSWeaponBaseVData_Accuracy& vdata,
@@ -321,6 +474,21 @@ void CWeaponAccuracyPipeline::SimulateAimPunchDecay(
 
     // Clamp pitch to [-89.0f, +89.0f]
     punchState.m_aimPunchAngle.pitch = ClampFloat(punchState.m_aimPunchAngle.pitch, -89.0f, 89.0f);
+}
+
+Vector3 CWeaponAccuracyPipeline::CalculateSpreadConeRay(
+    const SpreadVector2D& spreadVec,
+    const Vector3& forward,
+    const Vector3& right,
+    const Vector3& up
+) {
+    Vector3 ray = {
+        forward.x + right.x * spreadVec.x + up.x * spreadVec.y,
+        forward.y + right.y * spreadVec.x + up.y * spreadVec.y,
+        forward.z + right.z * spreadVec.x + up.z * spreadVec.y
+    };
+
+    return NormalizeVector(ray);
 }
 
 Vector3 CWeaponAccuracyPipeline::CalculateSpreadConeRay(
