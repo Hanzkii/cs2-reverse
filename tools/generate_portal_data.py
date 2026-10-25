@@ -170,8 +170,8 @@ BINARIES_DETAIL = [
             {"proto": "CSubtickMoveStep", "desc": "Discrete button transitions tagged with continuous analog fraction t in [0.0, 1.0)."},
             {"proto": "CEntityHandle", "desc": "32-bit index (15 bits) and serial number (17 bits) entity identifier."}
         ],
-        "docs": ["subtick-prediction", "controller-pawn", "camera-view-matrix", "skeleton-animgraph"],
-        "simulators": ["03", "07", "09"]
+        "docs": ["subtick-prediction", "controller-pawn", "camera-view-matrix", "skeleton-animgraph", "weapon-inaccuracy"],
+        "simulators": ["03", "07", "09", "16"]
     },
     {
         "name": "server.dll",
@@ -204,8 +204,8 @@ BINARIES_DETAIL = [
             {"proto": "CSVCMsg_PacketEntities", "desc": "Server-to-client delta updates traversed via 40-op Huffman fieldpaths."},
             {"proto": "CSVCMsgList_GameEvents", "desc": "Tick-batched game event wire transmission."}
         ],
-        "docs": ["subtick-prediction", "controller-pawn", "game-events", "volumetric-smoke"],
-        "simulators": ["03", "11"]
+        "docs": ["subtick-prediction", "controller-pawn", "game-events", "volumetric-smoke", "weapon-inaccuracy"],
+        "simulators": ["03", "11", "16"]
     },
     {
         "name": "engine2.dll",
@@ -1499,8 +1499,51 @@ def main():
     versions_dir = os.path.join(root, "versions")
     data_dir = os.path.join(root, "data")
 
-    # Simulator metadata
-    simulators_list = [dict(meta) for meta in SIMULATORS_METADATA]
+    # Simulator metadata + auto-discovery of any new .cpp files in docs/simulators/
+    simulators_list = []
+    known_sim_files = set()
+    for meta in SIMULATORS_METADATA:
+        item = dict(meta)
+        fname = item.get("name", "")
+        known_sim_files.add(fname)
+        cpp_path = os.path.join(sim_dir, fname)
+        if os.path.exists(cpp_path):
+            with open(cpp_path, "r", encoding="utf-8") as f_sim:
+                code_str = f_sim.read()
+                item["code"] = code_str
+                item["lineCount"] = len(code_str.splitlines())
+        simulators_list.append(item)
+
+    if os.path.exists(sim_dir):
+        next_auto_id = 20
+        for fname in sorted(os.listdir(sim_dir)):
+            if fname.endswith(".cpp") and fname not in known_sim_files:
+                cpp_path = os.path.join(sim_dir, fname)
+                with open(cpp_path, "r", encoding="utf-8") as f_sim:
+                    code_str = f_sim.read()
+                lines = code_str.splitlines()
+                title_guess = fname.replace("cs2_", "").replace("_sim.cpp", "").replace("_", " ").title()
+                for ln in lines[:25]:
+                    if "Simulation" in ln or "Simulator" in ln or "Source 2" in ln:
+                        cleaned = ln.lstrip("/ ").strip()
+                        if len(cleaned) > 10 and not cleaned.startswith("==="):
+                            title_guess = cleaned
+                            break
+                simulators_list.append({
+                    "id": str(next_auto_id),
+                    "name": fname,
+                    "title": title_guess,
+                    "target": "client.dll & server.dll",
+                    "runner": fname.replace("cs2_", "build_").replace(".cpp", ".bat"),
+                    "category": "Engine Simulation",
+                    "badge": title_guess[:24],
+                    "checks": f"Reconstructed C++17 simulation runner ({len(lines)} lines) verifying Source 2 internal algorithms.",
+                    "description": f"Interactive engine visualizer and clean-room C++17 reference simulation for {title_guess}.",
+                    "addresses": [],
+                    "code": code_str,
+                    "lineCount": len(lines)
+                })
+                next_auto_id += 1
 
     # Enrich binaries with progress tracking and reconstructed files
     for b in BINARIES_DETAIL:

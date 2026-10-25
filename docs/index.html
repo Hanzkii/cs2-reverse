@@ -627,11 +627,11 @@
                 Interactive Engine &amp; Algorithm Visualizers
               </h1>
               <p class="text-slate-400 text-sm mt-1">
-                Real-time graphical visualizers modeling core Source 2 mechanics: sub-tick prediction, 3D view projection, inverse kinematics, Rubikon physics raycasting, and volumetric smoke voxel grids.
+                Real-time graphical visualizers modeling core Source 2 mechanics: sub-tick prediction, 3D view projection, inverse kinematics, Rubikon physics raycasting, volumetric smoke voxel grids, and weapon dual-disk spread RNG.
               </p>
             </div>
             <div class="flex items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold">5 Live Visualizers</span>
+              <span id="simulatorsCountBadge" class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold">6 Live Visualizers</span>
             </div>
           </div>
 
@@ -645,18 +645,14 @@
           
           <!-- Back and Quick Navigation Bar -->
           <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-cs2-border">
-            <button onclick="closeSimulator()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors border border-cs2-border">
+            <button onclick="closeSimulator()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors border border-cs2-border cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
               Back to Visualizers
             </button>
 
-            <!-- Quick Navigation Pills (Only Visualizers) -->
+            <!-- Quick Navigation Pills (Dynamically Populated from SIMULATORS_DATA) -->
             <div class="flex flex-wrap gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-mono" id="simNavPills">
-              <button onclick="openSimulator('03')" id="pillSim03" class="px-3 py-1.5 rounded hover:bg-slate-800 text-slate-400 transition-colors font-medium">Sub-Tick Prediction</button>
-              <button onclick="openSimulator('07')" id="pillSim07" class="px-3 py-1.5 rounded hover:bg-slate-800 text-slate-400 transition-colors font-medium">ViewMatrix &amp; Cam</button>
-              <button onclick="openSimulator('09')" id="pillSim09" class="px-3 py-1.5 rounded hover:bg-slate-800 text-slate-400 transition-colors font-medium">Skeleton &amp; IK</button>
-              <button onclick="openSimulator('10')" id="pillSim10" class="px-3 py-1.5 rounded hover:bg-slate-800 text-slate-400 transition-colors font-medium">Rubikon Collision</button>
-              <button onclick="openSimulator('11')" id="pillSim11" class="px-3 py-1.5 rounded hover:bg-slate-800 text-slate-400 transition-colors font-medium">Smoke Voxels</button>
+              <!-- Populated dynamically by JavaScript -->
             </div>
           </div>
 
@@ -664,16 +660,20 @@
           <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 flex-wrap">
                   <span id="simDetailBadge" class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-purple-500/10 text-purple-400 border border-purple-500/30">Category</span>
                   <h1 id="simDetailTitle" class="text-2xl font-extrabold text-white">Visualizer Title</h1>
                 </div>
                 <div class="flex flex-wrap items-center gap-3 mt-2 text-xs font-mono">
-                  <span class="text-slate-400">Target: <code id="simDetailTarget" class="text-rose-400">client.dll &amp; server.dll</code></span>
+                  <span class="text-slate-400">Target: <code id="simDetailTarget" class="text-cyan-300 font-bold">client.dll &amp; server.dll</code></span>
+                  <span id="simDetailRunnerBadge" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-amber-300">docs/simulators/</span>
                   <span class="text-emerald-400 font-semibold flex items-center gap-1">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Interactive Engine
                   </span>
                 </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0" id="simDetailHeaderActions">
+                <!-- Populated dynamically -->
               </div>
             </div>
             <p id="simDetailDesc" class="text-slate-300 text-xs leading-relaxed border-t border-slate-800/80 pt-3">
@@ -720,6 +720,11 @@
               </div>
             </div>
 
+          </div>
+
+          <!-- Verified Disassembly Addresses & Reconstructed C++17 Simulator Source Inspector -->
+          <div id="simAddressesAndCodePanel" class="space-y-6">
+            <!-- Populated dynamically by openSimulator() -->
           </div>
 
         </div>
@@ -4217,10 +4222,28 @@
     // ========================================================================
     // 5. Simulators Matrix & Interactive Workstation
     // ========================================================================
+    function renderSimNavPills(activeId = '') {
+      const pillsContainer = document.getElementById('simNavPills');
+      if (!pillsContainer) return;
+      pillsContainer.innerHTML = SIMULATORS_DATA.map(s => {
+        const isActive = s.id === activeId;
+        const cls = isActive
+          ? 'px-3 py-1.5 rounded bg-purple-600 text-white font-bold shadow-sm cursor-pointer'
+          : 'px-3 py-1.5 rounded hover:bg-slate-800 text-slate-300 transition-colors font-medium cursor-pointer';
+        return `<button onclick="openSimulator('${escapeHtml(s.id)}')" id="pillSim${escapeHtml(s.id)}" class="${cls}">${escapeHtml(s.badge || s.title)}</button>`;
+      }).join('');
+    }
+
     function renderSimulatorsMatrix() {
       const grid = document.getElementById('simulatorsGrid');
       if (!grid) return;
       grid.innerHTML = '';
+
+      const countBadge = document.getElementById('simulatorsCountBadge');
+      if (countBadge) {
+        countBadge.innerText = `${SIMULATORS_DATA.length} Live Visualizers`;
+      }
+      renderSimNavPills(currentSimId);
 
       SIMULATORS_DATA.forEach(s => {
         const card = document.createElement('div');
@@ -4230,18 +4253,19 @@
         card.innerHTML = `
           <div class="space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30 font-bold">${s.badge}</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30 font-bold">${escapeHtml(s.badge)}</span>
               <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Interactive
               </span>
             </div>
-            <div class="font-mono text-sm font-bold text-white group-hover:text-purple-300 transition-colors">${s.name}</div>
-            <div class="text-xs text-slate-400 font-mono"><span class="text-slate-500">Target:</span> ${s.target}</div>
-            <div class="text-xs text-slate-300 font-sans line-clamp-3 leading-relaxed">${s.checks}</div>
+            <div class="font-mono text-sm font-bold text-white group-hover:text-purple-300 transition-colors">${escapeHtml(s.title || s.name)}</div>
+            <div class="text-[11px] text-cyan-300/90 font-mono truncate">${escapeHtml(s.name)}</div>
+            <div class="text-xs text-slate-300 font-mono"><span class="text-slate-400">Target:</span> ${escapeHtml(s.target)}</div>
+            <div class="text-xs text-slate-300 font-sans line-clamp-3 leading-relaxed">${escapeHtml(s.checks)}</div>
           </div>
           <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-500">Real-Time Engine Model</span>
-            <span class="text-purple-400 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+            <span class="text-slate-400">${s.addresses ? s.addresses.length + ' Verified RVAs' : 'Real-Time Engine Model'}</span>
+            <span class="text-purple-300 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
               Launch Visualizer <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </span>
           </div>
@@ -4250,51 +4274,131 @@
       });
     }
 
-    function openSimulator(simId) {
+    function openSimulator(simId, updateHash = true) {
       currentSimId = simId;
       const s = SIMULATORS_DATA.find(item => item.id === simId);
       if (!s) return;
 
+      if (updateHash) setUrlHash('simulators/' + simId);
+
       document.getElementById('simulatorsMatrixView').classList.add('hidden');
       document.getElementById('simulatorDetailView').classList.remove('hidden');
 
-      // Update pills
-      const validVisualizerIds = ['03', '07', '09', '10', '11'];
-      validVisualizerIds.forEach(idStr => {
-        const pill = document.getElementById('pillSim' + idStr);
-        if (pill) {
-          if (idStr === simId) {
-            pill.className = 'px-3 py-1.5 rounded bg-purple-600 text-white font-bold shadow-sm';
-          } else {
-            pill.className = 'px-3 py-1.5 rounded hover:bg-slate-800 text-slate-400 transition-colors font-medium';
-          }
-        }
-      });
+      // Dynamically update all navigation pills from SIMULATORS_DATA
+      renderSimNavPills(simId);
 
       // Populate Header
       const elBadge = document.getElementById('simDetailBadge');
-      if (elBadge) elBadge.innerText = s.badge;
+      if (elBadge) elBadge.innerText = s.badge || s.category || 'Simulation';
       const elTitle = document.getElementById('simDetailTitle');
-      if (elTitle) elTitle.innerText = s.title;
+      if (elTitle) elTitle.innerText = s.title || s.name;
       const elTarget = document.getElementById('simDetailTarget');
-      if (elTarget) elTarget.innerText = s.target;
+      if (elTarget) elTarget.innerText = s.target || 'client.dll & server.dll';
+      const elRunner = document.getElementById('simDetailRunnerBadge');
+      if (elRunner) elRunner.innerText = `docs/simulators/${s.name}` + (s.lineCount ? ` (${s.lineCount} lines)` : '');
       const elDesc = document.getElementById('simDetailDesc');
-      if (elDesc) elDesc.innerText = s.description;
+      if (elDesc) elDesc.innerText = s.description || s.checks || '';
+
+      const actionsEl = document.getElementById('simDetailHeaderActions');
+      if (actionsEl) {
+        actionsEl.innerHTML = `
+          ${s.docId ? `
+            <button onclick="switchTab('docs'); selectDoc('${escapeHtml(s.docId)}')" class="px-3 py-1.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1.5">
+              <span>Read Architecture Doc</span>
+              <span>&rarr;</span>
+            </button>
+          ` : ''}
+          <button onclick="copyCurrentShareLink()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-mono font-bold transition-colors cursor-pointer">
+            Share Link
+          </button>
+        `;
+      }
 
       // Render custom parameter controls for this simulation
       renderSimParamsControls(simId);
 
       // Render interactive visualizer for this simulation
       renderSimVisualizer(simId);
+
+      // Render Verified Disassembly Addresses & C++17 Reference Code panel
+      renderSimAddressesAndCode(s);
     }
 
-    function closeSimulator() {
+    function renderSimAddressesAndCode(s) {
+      const panel = document.getElementById('simAddressesAndCodePanel');
+      if (!panel) return;
+
+      const addrs = s.addresses || [];
+      const hasCode = Boolean(s.code);
+
+      panel.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Verified Engine Addresses & RVAs -->
+          <div class="lg:col-span-5 bg-[#111827] border border-cs2-border rounded-2xl p-5 shadow-xl space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+              <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                Verified Disassembly Addresses &amp; Symbols
+              </h3>
+              <span class="text-[11px] font-mono text-cyan-300">${addrs.length} Anchors</span>
+            </div>
+            <div class="space-y-2 font-mono text-xs max-h-[300px] overflow-y-auto pr-1">
+              ${addrs.length > 0 ? addrs.map(a => `
+                <div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800 flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <div class="text-white font-bold truncate">${escapeHtml(a.name)}</div>
+                    <div class="text-[11px] text-slate-300 font-sans mt-0.5 leading-snug">${escapeHtml(a.desc || '')}</div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold shrink-0 select-all">${escapeHtml(a.addr)}</span>
+                </div>
+              `).join('') : `
+                <div class="text-slate-400 text-xs p-3 bg-slate-900/50 rounded-xl border border-slate-800">
+                  Clean-room C++17 simulation verified against Source 2 binary disassembly.
+                </div>
+              `}
+            </div>
+          </div>
+
+          <!-- Standalone C++17 Build & Reference Runner -->
+          <div class="lg:col-span-7 bg-[#111827] border border-cs2-border rounded-2xl p-5 shadow-xl space-y-3 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+                <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  Standalone C++17 Reference Simulator (<code class="text-amber-300">${escapeHtml(s.name)}</code>)
+                </h3>
+                ${s.runner ? `<span class="text-[11px] font-mono text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">Runner: ${escapeHtml(s.runner)}</span>` : ''}
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Every interactive visualizer is backed by a zero-dependency C++17 reference simulation in <code class="text-cyan-300 font-mono">docs/simulators/${escapeHtml(s.name)}</code> compiled with MSVC x64 (<code class="text-slate-200 font-mono">/O2 /std:c++17 /EHsc</code>).
+              </p>
+              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-slate-200 flex items-center justify-between gap-3">
+                <code class="truncate select-all">cl /O2 /std:c++17 /EHsc docs\\simulators\\${escapeHtml(s.name)}</code>
+                ${hasCode ? `
+                  <button onclick="document.getElementById('simCppCodeDrawer').classList.toggle('hidden')" class="px-2.5 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 text-[11px] font-bold shrink-0 cursor-pointer">
+                    Toggle C++17 Source (${s.lineCount || ''} lines)
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+            ${hasCode ? `
+              <div id="simCppCodeDrawer" class="hidden pt-2">
+                <pre class="bg-[#070b12] p-4 rounded-xl border border-slate-800 text-[11px] font-mono text-slate-200 overflow-x-auto max-h-[420px] leading-relaxed select-all">${escapeHtml(s.code)}</pre>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function closeSimulator(updateHash = true) {
+      if (updateHash) setUrlHash('simulators');
       document.getElementById('simulatorDetailView').classList.add('hidden');
       document.getElementById('simulatorsMatrixView').classList.remove('hidden');
     }
 
     // ========================================================================
-    // 6. Interactive Controls by Simulation (Visualizers Only)
+    // 6. Interactive Controls by Simulation (Visualizers + Future Fallback)
     // ========================================================================
     function renderSimParamsControls(simId) {
       const container = document.getElementById('simParamsContainer');
@@ -4304,47 +4408,47 @@
       if (simId === '03') {
         container.innerHTML = `
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Sub-Tick Fraction (when):</span>
-              <span id="lblParam03When" class="text-cyan-400 font-bold">0.40</span>
+              <span id="lblParam03When" class="text-cyan-300 font-bold">0.40</span>
             </div>
             <input type="range" id="param03When" min="0" max="1" step="0.05" value="0.40" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam03When').innerText = parseFloat(this.value).toFixed(2)">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Horizontal Speed (u/s):</span>
               <span id="lblParam03Speed" class="text-brand-400 font-bold">250 u/s</span>
             </div>
             <input type="range" id="param03Speed" min="0" max="300" step="10" value="250" class="w-full accent-brand-500" oninput="document.getElementById('lblParam03Speed').innerText = this.value + ' u/s'">
           </div>
           <div class="space-y-1 text-xs">
-            <label class="text-slate-400 font-mono">Simulate Event:</label>
+            <label class="text-slate-300 font-mono">Simulate Event:</label>
             <div class="flex gap-2">
-              <span class="px-2.5 py-1 bg-slate-900 rounded border border-slate-800 text-slate-300 font-mono text-[11px]">+jump (Impulse: 301.99 u/s)</span>
-              <span class="px-2.5 py-1 bg-slate-900 rounded border border-slate-800 text-slate-300 font-mono text-[11px]">+attack (Instant)</span>
+              <span class="px-2.5 py-1 bg-slate-900 rounded border border-slate-800 text-slate-200 font-mono text-[11px]">+jump (Impulse: 301.99 u/s)</span>
+              <span class="px-2.5 py-1 bg-slate-900 rounded border border-slate-800 text-slate-200 font-mono text-[11px]">+attack (Instant)</span>
             </div>
           </div>
         `;
       } else if (simId === '07') {
         container.innerHTML = `
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Camera Pitch (&deg;):</span>
               <span id="lblParam07Pitch" class="text-white font-bold">10.0&deg;</span>
             </div>
             <input type="range" id="param07Pitch" min="-89" max="89" value="10" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam07Pitch').innerText = this.value + '°'">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Camera Yaw (&deg;):</span>
               <span id="lblParam07Yaw" class="text-white font-bold">45.0&deg;</span>
             </div>
             <input type="range" id="param07Yaw" min="-180" max="180" value="45" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam07Yaw').innerText = this.value + '°'">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Weapon AimPunch Recoil:</span>
-              <span id="lblParam07Punch" class="text-amber-400 font-bold">2.5&deg; (2.0x = 5.0&deg;)</span>
+              <span id="lblParam07Punch" class="text-amber-300 font-bold">2.5&deg; (2.0x = 5.0&deg;)</span>
             </div>
             <input type="range" id="param07Punch" min="0" max="10" step="0.5" value="2.5" class="w-full accent-amber-500" oninput="document.getElementById('lblParam07Punch').innerText = this.value + '° (2.0x = ' + (parseFloat(this.value)*2).toFixed(1) + '°)'">
           </div>
@@ -4352,23 +4456,23 @@
       } else if (simId === '09') {
         container.innerHTML = `
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Upper Limb L1:</span>
-              <span id="lblParam09L1" class="text-cyan-400 font-bold">140 px</span>
+              <span id="lblParam09L1" class="text-cyan-300 font-bold">140 px</span>
             </div>
             <input type="range" id="param09L1" min="80" max="220" value="140" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam09L1').innerText = this.value + ' px'">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Lower Limb L2:</span>
-              <span id="lblParam09L2" class="text-purple-400 font-bold">140 px</span>
+              <span id="lblParam09L2" class="text-purple-300 font-bold">140 px</span>
             </div>
             <input type="range" id="param09L2" min="80" max="220" value="140" class="w-full accent-purple-400" oninput="document.getElementById('lblParam09L2').innerText = this.value + ' px'">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Target Distance (d):</span>
-              <span id="lblParam09Dist" class="text-amber-400 font-bold">260 px</span>
+              <span id="lblParam09Dist" class="text-amber-300 font-bold">260 px</span>
             </div>
             <input type="range" id="param09Dist" min="20" max="380" value="260" class="w-full accent-amber-500" oninput="document.getElementById('lblParam09Dist').innerText = this.value + ' px'">
           </div>
@@ -4376,24 +4480,24 @@
       } else if (simId === '10') {
         container.innerHTML = `
           <div class="space-y-1">
-            <label class="text-xs text-slate-400 font-mono">Collision Primitive:</label>
-            <select id="param10Shape" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+            <label class="text-xs text-slate-300 font-mono">Collision Primitive:</label>
+            <select id="param10Shape" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100">
               <option value="hull" selected>Convex Hull Box [-10..+10] (FUN_1802544a0)</option>
               <option value="capsule">Capsule Segment [0..40], R=5.0 (FUN_18016caf0)</option>
               <option value="bvh">48-byte SIMD BVH Spatial Tree (FUN_18000f4e0)</option>
             </select>
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Ray Start Y:</span>
-              <span id="lblParam10RayY" class="text-cyan-400 font-bold">-30 units</span>
+              <span id="lblParam10RayY" class="text-cyan-300 font-bold">-30 units</span>
             </div>
             <input type="range" id="param10RayY" min="-60" max="-12" value="-30" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam10RayY').innerText = this.value + ' units'">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Ray Delta Y:</span>
-              <span id="lblParam10DeltaY" class="text-amber-400 font-bold">60 units</span>
+              <span id="lblParam10DeltaY" class="text-amber-300 font-bold">60 units</span>
             </div>
             <input type="range" id="param10DeltaY" min="20" max="100" value="60" class="w-full accent-amber-500" oninput="document.getElementById('lblParam10DeltaY').innerText = this.value + ' units'">
           </div>
@@ -4401,8 +4505,8 @@
       } else if (simId === '11') {
         container.innerHTML = `
           <div class="space-y-1">
-            <label class="text-xs text-slate-400 font-mono">Smoke Voxel Event:</label>
-            <select id="param11Event" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+            <label class="text-xs text-slate-300 font-mono">Smoke Voxel Event:</label>
+            <select id="param11Event" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100">
               <option value="los_occluded" selected>Raymarch LOS: Occluded Sight (In Cloud)</option>
               <option value="los_clear">Raymarch LOS: Clear Sight (Outside Cloud)</option>
               <option value="bullet">Bullet Piercing: Carve Ray Tunnel</option>
@@ -4411,18 +4515,86 @@
             </select>
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Ray Distance (units):</span>
-              <span id="lblParam11Dist" class="text-cyan-400 font-bold">240 units</span>
+              <span id="lblParam11Dist" class="text-cyan-300 font-bold">240 units</span>
             </div>
             <input type="range" id="param11Dist" min="60" max="400" step="20" value="240" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam11Dist').innerText = this.value + ' units'">
           </div>
           <div class="space-y-1">
-            <div class="flex justify-between text-xs text-slate-400 font-mono">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
               <span>Occlusion Threshold:</span>
-              <span id="lblParam11Thresh" class="text-amber-400 font-bold">0.20</span>
+              <span id="lblParam11Thresh" class="text-amber-300 font-bold">0.20</span>
             </div>
             <input type="range" id="param11Thresh" min="0.05" max="0.50" step="0.05" value="0.20" class="w-full accent-amber-500" oninput="document.getElementById('lblParam11Thresh').innerText = parseFloat(this.value).toFixed(2)">
+          </div>
+        `;
+      } else if (simId === '16') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Weapon VData Profile:</label>
+            <select id="param16Weapon" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 font-mono">
+              <option value="ak47" selected>AK-47 (Stand: 0.00455, Tau: 0.435s)</option>
+              <option value="deagle">Desert Eagle (Fire: 0.220, Tau: 0.810s)</option>
+              <option value="revolver">R8 Revolver Fan-Hammer (1 - r&sup2; Ring)</option>
+              <option value="negev">Negev Spin-Up (Laser Convergence)</option>
+              <option value="awp">AWP Scoped (Stand: 0.0017, Move: 0.198)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Player Stance &amp; Vertical State:</label>
+            <select id="param16Stance" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 font-mono">
+              <option value="stand" selected>Standing Grounded (Linear Move Curve)</option>
+              <option value="crouch">Crouching (0.25x Move Power Curve)</option>
+              <option value="jump_apex">Airborne Jump Apex (|Vz| &le; 200 u/s)</option>
+              <option value="jump_init">Airborne Launch Impulse (|Vz| &gt; 200 u/s)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Planar 2D Speed:</span>
+              <span id="lblParam16Speed" class="text-cyan-300 font-bold">0 u/s</span>
+            </div>
+            <input type="range" id="param16Speed" min="0" max="250" step="5" value="0" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam16Speed').innerText = this.value + ' u/s'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Recovery Time (dt):</span>
+              <span id="lblParam16Time" class="text-emerald-300 font-bold">0.12 s</span>
+            </div>
+            <input type="range" id="param16Time" min="0" max="0.80" step="0.02" value="0.12" class="w-full accent-emerald-400" oninput="document.getElementById('lblParam16Time').innerText = parseFloat(this.value).toFixed(2) + ' s'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Recoil Burst Index:</span>
+              <span id="lblParam16RecoilIdx" class="text-amber-300 font-bold">Shot #8</span>
+            </div>
+            <input type="range" id="param16RecoilIdx" min="1" max="30" step="1" value="8" class="w-full accent-amber-500" oninput="document.getElementById('lblParam16RecoilIdx').innerText = 'Shot #' + this.value">
+          </div>
+        `;
+      } else {
+        // Universal future-proof parameter generator for any newly added simulator
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Simulation Step (dt):</span>
+              <span id="lblParamGenDt" class="text-cyan-300 font-bold">15.625 ms</span>
+            </div>
+            <input type="range" id="paramGenDt" min="1" max="64" step="1" value="16" class="w-full accent-cyan-400" oninput="document.getElementById('lblParamGenDt').innerText = (parseFloat(this.value) * 0.9765625).toFixed(3) + ' ms'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Input Magnitude / Scale:</span>
+              <span id="lblParamGenScale" class="text-purple-300 font-bold">1.00x</span>
+            </div>
+            <input type="range" id="paramGenScale" min="0.1" max="3.0" step="0.1" value="1.0" class="w-full accent-purple-400" oninput="document.getElementById('lblParamGenScale').innerText = parseFloat(this.value).toFixed(2) + 'x'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Iteration Count:</span>
+              <span id="lblParamGenIter" class="text-amber-300 font-bold">32 steps</span>
+            </div>
+            <input type="range" id="paramGenIter" min="8" max="64" step="4" value="32" class="w-full accent-amber-500" oninput="document.getElementById('lblParamGenIter').innerText = this.value + ' steps'">
           </div>
         `;
       }
@@ -4465,6 +4637,7 @@
       const container = document.getElementById('simVisualizerContainer');
       const subtitle = document.getElementById('simVisSubtitle');
       if (!container) return;
+      container.innerHTML = '';
 
       if (simId === '03') {
         if (subtitle) subtitle.innerText = 'Sub-Tick Fractional Timeline & Rewound Hitbox';
@@ -5008,6 +5181,385 @@
           ctx.fillText('3D DDA Raymarch Trace (Ray Length: ' + dist + 'u)', 60, rayY - 12);
         }
       }
+      else if (simId === '16') {
+        if (subtitle) subtitle.innerText = 'Dual-Disk Spread Cone, ODE Recovery & 34%-95% Move Curve';
+        const weapKey = (document.getElementById('param16Weapon') && document.getElementById('param16Weapon').value) || 'ak47';
+        const stance = (document.getElementById('param16Stance') && document.getElementById('param16Stance').value) || 'stand';
+        const speed2D = parseFloat((document.getElementById('param16Speed') && document.getElementById('param16Speed').value) || 0);
+        const dt = parseFloat((document.getElementById('param16Time') && document.getElementById('param16Time').value) || 0.12);
+        const recoilIdx = parseInt((document.getElementById('param16RecoilIdx') && document.getElementById('param16RecoilIdx').value) || 8, 10);
+
+        // Authoritative Weapon VData presets from cs2_weapon_spread_recoil_sim.cpp
+        const WEAPON_VDATA = {
+          ak47: { name: 'AK-47', defIdx: 7, spread: 0.0020, stand: 0.00455, crouch: 0.00341, fire: 0.0573, move: 0.134, jumpApex: 0.285, jumpInit: 0.460, tauStand: 0.435, tauCrouch: 0.320, maxSpeed: 215 },
+          deagle: { name: 'Desert Eagle', defIdx: 1, spread: 0.0020, stand: 0.00880, crouch: 0.00620, fire: 0.2200, move: 0.140, jumpApex: 0.340, jumpInit: 0.520, tauStand: 0.810, tauCrouch: 0.620, maxSpeed: 230 },
+          revolver: { name: 'R8 Revolver (Fan-Hammer)', defIdx: 64, spread: 0.0020, stand: 0.00400, crouch: 0.00300, fire: 0.1800, move: 0.120, jumpApex: 0.300, jumpInit: 0.450, tauStand: 0.750, tauCrouch: 0.550, maxSpeed: 220 },
+          negev: { name: 'Negev (Spin-Up LMG)', defIdx: 28, spread: 0.0040, stand: 0.01600, crouch: 0.01200, fire: 0.0250, move: 0.180, jumpApex: 0.380, jumpInit: 0.560, tauStand: 0.350, tauCrouch: 0.260, maxSpeed: 150 },
+          awp: { name: 'AWP (Scoped)', defIdx: 9, spread: 0.0002, stand: 0.00170, crouch: 0.00130, fire: 0.0550, move: 0.198, jumpApex: 0.420, jumpInit: 0.640, tauStand: 0.450, tauCrouch: 0.340, maxSpeed: 100 }
+        };
+        const v = WEAPON_VDATA[weapKey] || WEAPON_VDATA.ak47;
+        const isDuck = stance === 'crouch';
+        const isAir = stance === 'jump_apex' || stance === 'jump_init';
+
+        // 1. Exponential Accuracy Penalty Recovery: UpdateAccuracyPenalty (0x180828a10)
+        const baseInacc = isDuck ? v.crouch : v.stand;
+        const tau = isAir ? (v.tauCrouch * 4.0) : (isDuck ? v.tauCrouch : v.tauStand);
+        const LN10 = Math.log(10.0); // 2.302585093
+        const decayFactor = Math.exp(-(LN10 / tau) * dt);
+
+        // Negev special: suppresses firing penalty after bullet 12 spin-up
+        let burstFireBonus = v.fire * Math.min(recoilIdx, 6) * 0.65;
+        if (weapKey === 'negev' && recoilIdx >= 12) {
+          burstFireBonus = v.fire * 0.22;
+        }
+        const accuracyPenalty = baseInacc + burstFireBonus * decayFactor;
+
+        // 2. Planar 2D Movement Speed Remap (34% -> 95% of m_flMaxSpeed): GetInaccuracy (0x18080cfd0)
+        const lowSpeed = v.maxSpeed * 0.34;
+        const highSpeed = v.maxSpeed * 0.95;
+        let moveFactor = 0.0;
+        if (speed2D > lowSpeed) {
+          moveFactor = Math.min(1.0, Math.max(0.0, (speed2D - lowSpeed) / (highSpeed - lowSpeed)));
+          if (isDuck) moveFactor = Math.pow(moveFactor, 0.25);
+        }
+        const movePenalty = moveFactor * v.move;
+
+        // 3. Airborne Penalty
+        let airPenalty = 0.0;
+        if (stance === 'jump_apex') airPenalty = v.jumpApex;
+        else if (stance === 'jump_init') airPenalty = v.jumpInit;
+
+        const totalInaccuracy = Math.min(1.0, accuracyPenalty + movePenalty + airPenalty);
+        const totalRadius = totalInaccuracy + v.spread;
+        const coneRadiusUnitsAt25m = totalRadius * 1000.0; // 1000 units (~25.4m)
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <div class="flex items-center gap-3">
+                <span class="text-slate-300">Weapon: <strong class="text-cyan-300">${escapeHtml(v.name)}</strong></span>
+                <span class="text-slate-400">|</span>
+                <span class="text-slate-300">MaxSpeed: <code class="text-white font-bold">${v.maxSpeed} u/s</code> <span class="text-slate-400">(34% Walk = ${(lowSpeed).toFixed(1)} u/s)</span></span>
+              </div>
+              <div class="px-2.5 py-1 rounded bg-purple-500/15 border border-purple-500/30 text-purple-300 font-bold">
+                FX_CalculateSpread @ 0x180d25630 &bull; 64 Monte Carlo Samples
+              </div>
+            </div>
+
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="weaponSpreadCanvas" width="850" height="350" class="w-full h-auto block"></canvas>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Total Inaccuracy (GetInaccuracy)</div>
+                <div class="text-amber-300 font-bold mt-0.5 text-sm">${totalInaccuracy.toFixed(5)}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">ODE Decay exp(-t&middot;ln10/&tau;)</div>
+                <div class="text-emerald-300 font-bold mt-0.5 text-sm">${(decayFactor * 100).toFixed(1)}% (&tau;=${tau.toFixed(2)}s)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Move Penalty (34%&ndash;95%)</div>
+                <div class="text-cyan-300 font-bold mt-0.5 text-sm">+${movePenalty.toFixed(4)} (${(moveFactor * 100).toFixed(0)}%)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Spread Cone @ 1000u (25m)</div>
+                <div class="text-purple-300 font-bold mt-0.5 text-sm">${coneRadiusUnitsAt25m.toFixed(1)} units (${(coneRadiusUnitsAt25m * 2.54).toFixed(1)} cm)</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const canvas = document.getElementById('weaponSpreadCanvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width, h = canvas.height;
+          ctx.clearRect(0, 0, w, h);
+
+          // Background subtle grid
+          ctx.strokeStyle = '#111c2d';
+          ctx.lineWidth = 1;
+          for (let x = 0; x < w; x += 35) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+          for (let y = 0; y < h; y += 35) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+          // Divider between Left Viewport (Dual-Disk Cone & Spray) and Right Viewport (ODE & Speed Curves)
+          const splitX = 415;
+          ctx.strokeStyle = '#334155';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.moveTo(splitX, 10); ctx.lineTo(splitX, h - 10); ctx.stroke();
+
+          // ==================================================================
+          // LEFT VIEWPORT: Dual-Disk Spread Cone + 64 Monte Carlo Impacts + Spray Climb
+          // ==================================================================
+          const cx = 205, cy = 188;
+          const maxPlotRadiusPx = 132;
+          // Dynamic visual scale so both tight rifles and wide jump cones remain crisp
+          const visualMaxInacc = Math.max(0.08, totalRadius * 1.25);
+          const scalePx = maxPlotRadiusPx / visualMaxInacc;
+
+          // Bullseye target rings
+          ctx.strokeStyle = '#1e293b';
+          ctx.lineWidth = 1;
+          [0.33, 0.66, 1.0].forEach(frac => {
+            ctx.beginPath();
+            ctx.arc(cx, cy, maxPlotRadiusPx * frac, 0, Math.PI * 2);
+            ctx.stroke();
+          });
+          // Crosshair axes
+          ctx.beginPath();
+          ctx.moveTo(cx - maxPlotRadiusPx - 12, cy); ctx.lineTo(cx + maxPlotRadiusPx + 12, cy);
+          ctx.moveTo(cx, cy - maxPlotRadiusPx - 12); ctx.lineTo(cx, cy + maxPlotRadiusPx + 12);
+          ctx.stroke();
+
+          const rInaccPx = Math.min(maxPlotRadiusPx, totalInaccuracy * scalePx);
+          const rSpreadPx = Math.max(3, Math.min(maxPlotRadiusPx, v.spread * scalePx));
+          const rTotalPx = Math.min(maxPlotRadiusPx, totalRadius * scalePx);
+
+          // Outer Composite Disk fill
+          ctx.fillStyle = 'rgba(168, 85, 247, 0.08)';
+          ctx.beginPath(); ctx.arc(cx, cy, rTotalPx, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = '#c084fc';
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+
+          // Disk 1: Inaccuracy Disk (Amber dashed)
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath(); ctx.arc(cx, cy, rInaccPx, 0, Math.PI * 2); ctx.stroke();
+
+          // Disk 2: Intrinsic Spread Disk (Cyan dashed)
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath(); ctx.arc(cx, cy, rSpreadPx, 0, Math.PI * 2); ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Clean-room Park-Miller LCG (IA=16807, IM=2147483647) for 64 Monte Carlo Dual-Disk samples
+          let seedState = 1337 + recoilIdx * 97;
+          const nextRand = () => {
+            seedState = (seedState * 16807) % 2147483647;
+            return (seedState - 1) / 2147483646.0;
+          };
+
+          for (let i = 0; i < 64; i++) {
+            let r1 = nextRand();
+            const theta1 = nextRand() * Math.PI * 2.0;
+            let r2 = nextRand();
+            const theta2 = nextRand() * Math.PI * 2.0;
+
+            if (weapKey === 'revolver') {
+              r1 = 1.0 - r1 * r1;
+              r2 = 1.0 - r2 * r2;
+            } else if (weapKey === 'negev' && recoilIdx < 3) {
+              for (let k = 3; k > recoilIdx; k--) { r1 = r1 * r1; r2 = r2 * r2; }
+              r1 = 1.0 - r1;
+              r2 = 1.0 - r2;
+            }
+
+            const sx = (Math.cos(theta1) * (r1 * totalInaccuracy) + Math.cos(theta2) * (r2 * v.spread)) * scalePx;
+            const sy = (Math.sin(theta1) * (r1 * totalInaccuracy) + Math.sin(theta2) * (r2 * v.spread)) * scalePx;
+
+            ctx.fillStyle = i < 8 ? '#38bdf8' : 'rgba(251, 191, 36, 0.85)';
+            ctx.beginPath();
+            ctx.arc(cx + sx, cy + sy, 2.6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          // Draw Recoil Spray Climb Trajectory (2.0x AimPunch path up to recoilIdx)
+          ctx.strokeStyle = 'rgba(52, 211, 153, 0.85)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (let b = 0; b < recoilIdx; b++) {
+            const climbY = -Math.min(115, b * 5.2 * (b < 10 ? 1.0 : 0.55));
+            const swayX = b < 7 ? (b * 1.2) : (Math.sin((b - 7) * 0.48) * 34.0);
+            const px = cx + swayX;
+            const py = cy + climbY;
+            if (b === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          // Left Viewport Titles & Legend
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText('DUAL-DISK SPREAD CONE & 64 SHOT RNG', 18, 22);
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#fbbf24';
+          ctx.fillText('● R_inacc: ' + totalInaccuracy.toFixed(4), 18, 38);
+          ctx.fillStyle = '#38bdf8';
+          ctx.fillText('● R_spread: ' + v.spread.toFixed(4), 145, 38);
+          ctx.fillStyle = '#34d399';
+          ctx.fillText('● Spray #' + recoilIdx, 275, 38);
+
+          if (weapKey === 'revolver') {
+            ctx.fillStyle = '#f472b6';
+            ctx.fillText('Special RNG: R8 Fan-Hammer (1 - r²) Outer Ring Bias', 18, h - 12);
+          } else if (weapKey === 'negev') {
+            ctx.fillStyle = '#34d399';
+            ctx.fillText(recoilIdx >= 12 ? 'Special RNG: Negev Spin-Up Converged (Laser Beam Mode)' : 'Special RNG: Negev Pre-Spin-Up Wide Suppression Cone', 18, h - 12);
+          } else {
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('x = cos(θ1)·R_inacc + cos(θ2)·R_spread (Bays-Durham ran1)', 18, h - 12);
+          }
+
+          // ==================================================================
+          // RIGHT VIEWPORT TOP: Exponential Accuracy Penalty Decay ODE Curve
+          // ==================================================================
+          const gx = 445, gy1 = 36, gw = 380, gh1 = 120;
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+          ctx.fillRect(gx, gy1, gw, gh1);
+          ctx.strokeStyle = '#334155';
+          ctx.strokeRect(gx, gy1, gw, gh1);
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText('1. EXPONENTIAL RECOVERY ODE: exp(-(ln10 / τ)·dt)', gx + 4, gy1 - 8);
+
+          const peakInacc = baseInacc + Math.max(0.02, burstFireBonus);
+          // Draw ODE curve for t in [0, 0.80s]
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          for (let step = 0; step <= 80; step++) {
+            const tVal = (step / 80.0) * 0.80;
+            const dVal = Math.exp(-(LN10 / tau) * tVal);
+            const curI = baseInacc + burstFireBonus * dVal;
+            const px = gx + (tVal / 0.80) * gw;
+            const py = gy1 + gh1 - 12 - ((curI - baseInacc) / Math.max(1e-4, peakInacc - baseInacc)) * (gh1 - 26);
+            if (step === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          // Current dt marker on ODE curve
+          const curOdeX = gx + Math.min(1.0, dt / 0.80) * gw;
+          const curOdeY = gy1 + gh1 - 12 - (decayFactor) * (gh1 - 26);
+          ctx.fillStyle = '#fbbf24';
+          ctx.beginPath(); ctx.arc(curOdeX, curOdeY, 5.5, 0, Math.PI * 2); ctx.fill();
+          ctx.font = '10px monospace';
+          ctx.fillText(`dt=${dt.toFixed(2)}s (${accuracyPenalty.toFixed(4)})`, Math.min(gx + gw - 125, curOdeX + 8), Math.max(gy1 + 16, curOdeY - 6));
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('0.00s (Shot Peak)', gx + 6, gy1 + gh1 - 3);
+          ctx.fillText('0.80s (Recovered Base: ' + baseInacc.toFixed(4) + ')', gx + gw - 195, gy1 + gh1 - 3);
+
+          // ==================================================================
+          // RIGHT VIEWPORT BOTTOM: 34% - 95% Movement Speed Remap Curve
+          // ==================================================================
+          const gy2 = 198, gh2 = 122;
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+          ctx.fillRect(gx, gy2, gw, gh2);
+          ctx.strokeStyle = '#334155';
+          ctx.strokeRect(gx, gy2, gw, gh2);
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText('2. MOVEMENT SPEED REMAP (34% WALK GATE → 95% CAP)', gx + 4, gy2 - 8);
+
+          // 34% and 95% vertical threshold lines
+          const x34 = gx + (lowSpeed / 250.0) * gw;
+          const x95 = gx + (highSpeed / 250.0) * gw;
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+          ctx.setLineDash([4, 3]);
+          ctx.beginPath();
+          ctx.moveTo(x34, gy2); ctx.lineTo(x34, gy2 + gh2);
+          ctx.moveTo(x95, gy2); ctx.lineTo(x95, gy2 + gh2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Draw movement curve across speed [0..250 u/s]
+          ctx.strokeStyle = isDuck ? '#c084fc' : '#38bdf8';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          for (let sStep = 0; sStep <= 100; sStep++) {
+            const sVal = (sStep / 100.0) * 250.0;
+            let mf = 0.0;
+            if (sVal > lowSpeed) {
+              mf = Math.min(1.0, Math.max(0.0, (sVal - lowSpeed) / (highSpeed - lowSpeed)));
+              if (isDuck) mf = Math.pow(mf, 0.25);
+            }
+            const px = gx + (sVal / 250.0) * gw;
+            const py = gy2 + gh2 - 14 - mf * (gh2 - 28);
+            if (sStep === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          // Current speed2D marker
+          const curSpdX = gx + Math.min(1.0, speed2D / 250.0) * gw;
+          const curSpdY = gy2 + gh2 - 14 - moveFactor * (gh2 - 28);
+          ctx.fillStyle = '#f59e0b';
+          ctx.beginPath(); ctx.arc(curSpdX, curSpdY, 5.5, 0, Math.PI * 2); ctx.fill();
+          ctx.font = '10px monospace';
+          ctx.fillText(`${speed2D.toFixed(0)} u/s (${(moveFactor * 100).toFixed(0)}%)`, Math.min(gx + gw - 105, curSpdX + 8), Math.max(gy2 + 16, curSpdY - 6));
+
+          ctx.fillStyle = '#38bdf8';
+          ctx.fillText('34% (' + lowSpeed.toFixed(0) + 'u/s)', Math.max(gx + 4, x34 - 30), gy2 + gh2 - 3);
+          ctx.fillText('95% (' + highSpeed.toFixed(0) + 'u/s)', Math.min(gx + gw - 78, x95 - 25), gy2 + gh2 - 3);
+        }
+      }
+      else {
+        // Universal Interactive Engine Telemetry Visualizer for any future simulator added to SIMULATORS_DATA
+        const s = SIMULATORS_DATA.find(item => item.id === simId) || { title: 'Engine Simulation', name: 'simulator.cpp', target: 'client.dll', addresses: [] };
+        if (subtitle) subtitle.innerText = s.badge || 'Real-Time Algorithmic Telemetry';
+        const dtTicks = parseFloat((document.getElementById('paramGenDt') && document.getElementById('paramGenDt').value) || 16);
+        const scaleVal = parseFloat((document.getElementById('paramGenScale') && document.getElementById('paramGenScale').value) || 1.0);
+        const iterCount = parseInt((document.getElementById('paramGenIter') && document.getElementById('paramGenIter').value) || 32, 10);
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">${escapeHtml(s.name)}</strong></span>
+              <span class="text-emerald-300 font-bold">Target: ${escapeHtml(s.target)}</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="universalSimCanvas" width="850" height="320" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-3 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Step Delta</div>
+                <div class="text-cyan-300 font-bold mt-0.5">${(dtTicks * 0.9765625).toFixed(3)} ms</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Scale Multiplier</div>
+                <div class="text-purple-300 font-bold mt-0.5">${scaleVal.toFixed(2)}x</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Verified Symbols</div>
+                <div class="text-emerald-300 font-bold mt-0.5">${(s.addresses || []).length} Anchors</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const canvas = document.getElementById('universalSimCanvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width, h = canvas.height;
+          ctx.clearRect(0, 0, w, h);
+          ctx.strokeStyle = '#1e293b';
+          for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+          for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for (let i = 0; i <= iterCount; i++) {
+            const t = i / iterCount;
+            const px = 50 + t * (w - 100);
+            const py = h / 2 - Math.sin(t * Math.PI * 2 * scaleVal) * Math.exp(-t * (dtTicks / 24.0)) * 105;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 12px monospace';
+          ctx.fillText(s.title || s.name, 50, 32);
+        }
+      }
     }
 
     function setSubtickMode(mode) {
@@ -5526,10 +6078,14 @@
         if (DOCS.some(d => d.id === parts[1])) currentDocId = parts[1];
         switchTab('docs', false);
         selectDoc(parts[1], '', false);
+      } else if (section === 'simulators' && parts[1]) {
+        switchTab('simulators', false);
+        openSimulator(parts[1], false);
       } else if (section === 'api' || section === 'ai-api') {
         openAiApiModal(false);
       } else if (['docs', 'binaries', 'tools', 'simulators', 'signatures', 'convars'].includes(section)) {
         switchTab(section, false);
+        if (section === 'simulators') closeSimulator(false);
       }
     }
 

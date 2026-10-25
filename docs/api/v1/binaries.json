@@ -139,12 +139,14 @@
         "subtick-prediction",
         "controller-pawn",
         "camera-view-matrix",
-        "skeleton-animgraph"
+        "skeleton-animgraph",
+        "weapon-inaccuracy"
       ],
       "simulators": [
         "03",
         "07",
-        "09"
+        "09",
+        "16"
       ],
       "progress": {
         "status": "Extensively Reversed",
@@ -360,11 +362,13 @@
         "subtick-prediction",
         "controller-pawn",
         "game-events",
-        "volumetric-smoke"
+        "volumetric-smoke",
+        "weapon-inaccuracy"
       ],
       "simulators": [
         "03",
-        "11"
+        "11",
+        "16"
       ],
       "progress": {
         "status": "Extensively Reversed",
