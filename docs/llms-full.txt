@@ -8962,9 +8962,100 @@ Studio models contain bounding geometry grouped into hitbox sets mapping directl
 
 ---
 
-## 6. Verification & Header Compilation
+## 6. Phase 3: Input, Commands & Sub-Tick Timing Subsystems (`client.dll`)
 
-The SDK headers are self-contained and compile cleanly with standard C++20 compilers:
+### 6.1 `CCSGOInput` Subsystem & Singleton Lifecycle
+- **Global Instance Pointer**: `client.dll + 0x0223dc00` (VA: `0x18223dc00`)
+- **Static Instance**: `client.dll + 0x0257d780` (VA: `0x18257d780`)
+- **Canonical Getter**: `GetCSGOInput()` at `client.dll + 0x00ce37a0`
+- **Class VTable**: `client.dll + 0x01c9fa58` (33 virtual slots; destructor at Slot 0 `client.dll + 0x00cde340`)
+- **Allocation Footprint**: Exactly `0xc20` bytes (3,104 bytes in decimal)
+- **Sub-Tick Storage Buffer**:
+  - `m_nSubtickMoveStepCount`: `+0x284` (number of hardware/motion input slices recorded in current frame)
+  - `m_SubtickMoveSteps`: `+0x288` (fixed capacity 32 elements, 32 bytes per step, total `0x400` / 1,024 bytes)
+  - `m_angViewAngles`: `+0x688` (`QAngle`)
+  - `m_flSubtickAccumulator`: `+0x918` (`float`)
+- **Circular Command Buffer Hierarchy**:
+  - Command Manager maintains 150 circular command slots (`0x96`) of 152 bytes (`0x98` per `CUserCmd`) indexed via `sequence_number % 150`.
+  - Sub-tick history ring buffer tracks 64 circular slots indexed via `seq & 0x3F`.
+
+### 6.2 `CreateMove` Virtual Dispatcher & Signature
+- **VTable Slot**: **Slot 5** (`vtable[5]`)
+- **Method RVA**: `client.dll + 0x00b66c20` (VA: `0x180b66c20`)
+- **Calling Convention & Signature**:
+  ```cpp
+  bool __fastcall CCSGOInput::CreateMove(
+      CCSGOInput* this,           // rcx: Singleton instance pointer
+      std::int32_t nSlot,         // edx: Split-screen player slot (0 = primary)
+      bool bActive                // r8b: Input activation flag
+  );
+  ```
+- **Protobuf Wire Encoder Helper**: `CSGOInput_PopulateSubtickMovePB` at `client.dll + 0x00cfbd10` (VA: `0x180cfbd10`).
+
+### 6.3 `CUserCmd` Memory Layout & Multiple Inheritance
+`CUserCmd` implements multiple inheritance combining `CCSGOUserCmd` (host container) and `CSGOUserCmdPB` (wire serialization message):
+- **Total Instance Size**: `0x98` bytes (152 bytes), verified by scalar destructor at `client.dll + 0x0092c9d0`.
+- **Primary VTable**: `client.dll + 0x01c1cf68` (offset `+0x00`).
+- **Secondary VTable**: `client.dll + 0x01c1cfb0` (offset `+0x10`, `CSGOUserCmdPB` sub-object).
+- **Internal Members**:
+  - `m_nSequenceNumber`: `+0x08` (`int32_t`)
+  - `m_input_history`: `+0x28` (`RepeatedPtrField<CSGOInputHistoryEntryPB>`, size 24 bytes)
+  - `m_pBaseCmd`: `+0x40` (`CBaseUserCmdPB*`)
+  - `m_bHasBeenPredicted`: `+0x48` (`bool`)
+  - `m_nAttack1StartHistoryIndex`: `+0x4C` (`int32_t`)
+  - `m_nAttack2StartHistoryIndex`: `+0x50` (`int32_t`)
+  - `m_buttons`: `+0x58` (`CInButtonState`, size 32 bytes: vtable `0x181b2b5b0`, `m_nHeldButtons` `+0x08`, `m_nPressedButtons` `+0x10`, `m_nReleasedButtons` `+0x18`)
+  - `m_nImpulse`: `+0x78` (`int32_t`)
+  - `m_nWeaponSelect`: `+0x7C` (`int32_t`)
+  - `m_nRandomSeed`: `+0x80` (`int64_t`)
+  - `m_nMousedX`: `+0x88` (`int32_t`)
+  - `m_bHasPredicted`: `+0x8C` (`bool`)
+  - `m_nCommandStatus`: `+0x94` (`int32_t`, 2 = ready / executed)
+
+### 6.4 `CBaseUserCmdPB` & Wire Protobuf Offsets
+Size: `0x88` bytes (136 bytes), VTable `client.dll + 0x01b2f5c8`:
+- `m_subtick_moves`: `+0x18` (`RepeatedPtrField<CSubtickMoveStep>`, Tag `0x92 0x01`, Wire 2)
+- `move_crc`: `+0x30` (`std::string*`, Tag `0x9A 0x01`, `_has_bits_ |= 1 << 0`)
+- `m_pButtonsPB`: `+0x38` (`CInButtonStatePB*`, Tag `0x1A`, `_has_bits_ |= 1 << 1`)
+- `m_pViewAngles`: `+0x40` (`CMsgQAngle*`, Tag `0x22`, `_has_bits_ |= 1 << 2`)
+- `m_pExecutionNotes`: `+0x48` (`CBaseUserCmdExecutionNotes*`, Tag `0xB2 0x01`)
+- `m_nLegacyCommandNumber`: `+0x50` (`int32_t`, Tag `0x08`, `_has_bits_ |= 1 << 4`)
+- `m_nClientTick`: `+0x54` (`int32_t`, Tag `0x10`, `_has_bits_ |= 1 << 5`)
+- `m_flForwardMove`: `+0x58` (`float`, Tag `0x2D`, `_has_bits_ |= 1 << 6`)
+- `m_flLeftMove`: `+0x5C` (`float`, Tag `0x35`, `_has_bits_ |= 1 << 7`)
+- `m_flUpMove`: `+0x60` (`float`, Tag `0x3D`, `_has_bits_ |= 1 << 8`)
+- `m_nImpulse`: `+0x64` (`int32_t`, Tag `0x40`)
+- `m_nWeaponSelect`: `+0x68` (`int32_t`, Tag `0x48`)
+- `m_nRandomSeed`: `+0x6C` (`int32_t`, Tag `0x50`)
+- `m_nMousedX`: `+0x70` (`int32_t`, Tag `0x58`)
+- `m_nMousedY`: `+0x74` (`int32_t`, Tag `0x60`)
+- `m_nPredictionOffsetTicksX256`: `+0x78` (`uint32_t`, Tag `0x88 0x01`)
+- `m_nConsumedServerAngleChanges`: `+0x7C` (`uint32_t`, Tag `0xA0 0x01`)
+- `m_nCmdFlags`: `+0x80` (`int32_t`, Tag `0xA8 0x01`)
+- `m_nPawnEntityHandle`: `+0x84` (`uint32_t`, Tag `0x70`)
+
+### 6.5 Sub-Tick Temporal Mathematics & History Entry
+`CSGOInputHistoryEntryPB` (Size: `0x78` / 120 bytes, VTable `client.dll + 0x01bcecb0`):
+- `m_pViewAngles`: `+0x18` (`CMsgQAngle*`)
+- `m_pShootPosition`: `+0x40` (`CMsgVector*`)
+- `m_pTargetHeadPosCheck`: `+0x48` (`CMsgVector*`)
+- `m_pTargetAbsPosCheck`: `+0x50` (`CMsgVector*`)
+- `m_pTargetAbsAngCheck`: `+0x58` (`CMsgQAngle*`)
+- `m_nRenderTickCount`: `+0x60` (`int32_t`)
+- `m_flRenderTickFraction`: `+0x64` (`float` in $[0.0, 1.0]$)
+- `m_nPlayerTickCount`: `+0x68` (`int32_t`)
+- `m_flPlayerTickFraction`: `+0x6C` (`float` in $[0.0, 1.0]$)
+- `m_nFrameNumber`: `+0x70` (`int32_t`)
+- `m_nTargetEntIndex`: `+0x74` (`int32_t`)
+
+$$\text{Fractional Sub-tick Interpolation}: \quad w = \text{clamp}\left(\frac{T_{\text{event}} - T_{\text{tick\_start}}}{\Delta t_{\text{tick}}}, 0.0, 1.0\right)$$
+Where $\Delta t_{\text{tick}} = \frac{1}{64.0\text{ s}} = 0.015625\text{ s}$ ($15.625\text{ ms}$).
+
+---
+
+## 7. Verification & Header Compilation
+
+The reconstructed SDK headers (`interfaces_registry.hpp`, `schema_system.hpp`, `entity_system.hpp`, `client_classes.hpp`, `render_scene_material.hpp`, and `input_usercmd.hpp`) are self-contained and compile cleanly with standard C++20 compilers:
 ```cmd
 cl /std:c++20 /EHsc /W4 /WX /c test_sdk.cpp
 ```
