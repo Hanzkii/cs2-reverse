@@ -59,7 +59,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 ```
 
 ## Reconstructed C++17 & C++20 Modding SDK (`sdk/` & `game/`)
-- **cs2_sdk** (`sdk/`): `client_classes.hpp`, `cs2_sdk.hpp`, `entity_system.hpp`, `input_usercmd.hpp`, `interfaces_registry.hpp`, `render_scene_material.hpp`, `schema_system.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk)
+- **cs2_sdk** (`sdk/`): `client_classes.hpp`, `cs2_sdk.hpp`, `entity_system.hpp`, `input_usercmd.hpp`, `interfaces_registry.hpp`, `render_scene_material.hpp`, `schema_system.hpp`, `trace_events_aux.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk)
 - **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
 - **client.dll** (`game/client/`): `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
 - **engine2.dll** (`game/engine2/`): `cvar_engine.cpp`, `cvar_engine.h`, `game_events.cpp`, `game_events.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine2)

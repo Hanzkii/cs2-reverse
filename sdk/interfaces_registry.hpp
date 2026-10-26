@@ -492,10 +492,18 @@ public:
     virtual ~ISoundSystem() = default;
 };
 
+using SoundEventGuid_t = std::uint64_t;
+
 // soundsystem.dll: "SoundOpSystem001" (VTable: 0x4ab140, 218 methods)
 class ISoundOpSystem {
 public:
     virtual ~ISoundOpSystem() = default;
+    PAD(0x50, m_padAppSystem); // Slots 1..10 (IAppSystem methods: Connect, Disconnect, Init, Shutdown, etc.)
+    virtual SoundEventGuid_t StartSoundEvent(const char* pszSoundName, int nSeed = 0, ...) = 0; // Slot 11 (0x1801D19C0)
+    virtual SoundEventGuid_t StartSoundEventByHash(std::uint32_t nSoundHash, int nSeed = 0, ...) = 0;// Slot 12 (0x1801D19E0)
+    virtual SoundEventGuid_t StartSoundEventReliable(...) = 0;                                  // Slot 13 (0x1801D1990)
+    virtual void StopSoundEvent(SoundEventGuid_t guid, float flFadeOutTime = 0.0f) = 0;         // Slot 14 (0x1801D1C60)
+    virtual void SetSoundEventParam(SoundEventGuid_t guid, const char* pszParamName, float flValue) = 0; // Slot 15 (0x1801D17F0)
 };
 
 // panorama.dll: "PanoramaUIEngine001" (VTable: 0x4c22e0, 18 methods)

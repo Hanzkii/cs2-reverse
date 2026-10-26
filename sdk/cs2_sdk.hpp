@@ -16,6 +16,7 @@
 //   - Phase 1: client_classes.hpp        (C_BaseEntity, C_CSPlayerPawn, Controller, PlantedC4)
 //   - Phase 2: render_scene_material.hpp (VMatrix, CViewRender, studio hitboxes, scene objects)
 //   - Phase 3: input_usercmd.hpp         (CCSGOInput, CUserCmd, Protobuf wire serialization, subtick)
+//   - Phase 4: trace_events_aux.hpp      (CGameTraceManager, IGameEventManager2, SoundOpSystem, VData)
 // ============================================================================
 
 #include "interfaces_registry.hpp"
@@ -24,6 +25,7 @@
 #include "client_classes.hpp"
 #include "render_scene_material.hpp"
 #include "input_usercmd.hpp"
+#include "trace_events_aux.hpp"
 
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
@@ -95,6 +97,39 @@ public:
         return &pMatrices[nViewIndex];
 #else
         (void)nViewIndex;
+        return nullptr;
+#endif
+    }
+
+    // Spatial Query Manager (client.dll + 0x02229020)
+    [[nodiscard]] static inline CGameTraceManager* GetGameTraceManager() noexcept {
+#ifdef _WIN32
+        const auto modBase = reinterpret_cast<std::uintptr_t>(::GetModuleHandleA("client.dll"));
+        if (!modBase) return nullptr;
+        return *reinterpret_cast<CGameTraceManager**>(modBase + 0x02229020);
+#else
+        return nullptr;
+#endif
+    }
+
+    // Game Event Manager Interface ("GAMEEVENTSMANAGER002", client.dll + 0x02228E40)
+    [[nodiscard]] static inline IGameEventManager2* GetGameEventManager() noexcept {
+#ifdef _WIN32
+        const auto modBase = reinterpret_cast<std::uintptr_t>(::GetModuleHandleA("client.dll"));
+        if (!modBase) return nullptr;
+        return *reinterpret_cast<IGameEventManager2**>(modBase + 0x02228E40);
+#else
+        return nullptr;
+#endif
+    }
+
+    // Audio Subsystem Interface ("SoundOpSystem001", client.dll + 0x0279EE90)
+    [[nodiscard]] static inline ISoundOpSystem* GetSoundOpSystem() noexcept {
+#ifdef _WIN32
+        const auto modBase = reinterpret_cast<std::uintptr_t>(::GetModuleHandleA("client.dll"));
+        if (!modBase) return nullptr;
+        return *reinterpret_cast<ISoundOpSystem**>(modBase + 0x0279EE90);
+#else
         return nullptr;
 #endif
     }
