@@ -134,3 +134,4 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [17_subtick_usercmd_wire_format.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/17_subtick_usercmd_wire_format.md)
 - [18_lag_compensation_and_hitbox_backtracking.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/18_lag_compensation_and_hitbox_backtracking.md)
 - [19_hit_registration_and_armor_damage.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md)
+- [20_source2_reconstructed_sdk_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md)
