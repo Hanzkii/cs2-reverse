@@ -43,6 +43,7 @@ class CSchemaSystemTypeScope;
 class ConVar;
 class INetChannelInfo;
 class CNetworkGameClient;
+class CMaterial2;
 
 // ============================================================================
 // 1. ISource2EngineToClient (CEngineClient)
@@ -404,6 +405,18 @@ public:
 class IMaterialSystem2 {
 public:
     virtual ~IMaterialSystem2() = default;
+
+    virtual void Unk01() = 0; virtual void Unk02() = 0; virtual void Unk03() = 0;
+    virtual void Unk04() = 0; virtual void Unk05() = 0; virtual void Unk06() = 0;
+    virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0;
+    virtual void Unk13() = 0;
+
+    // Slot 14: materialsystem2.dll + 0x37200 (Finds or loads CMaterial2 instance from asset path)
+    virtual CMaterial2** FindOrCreateFromResource(CMaterial2** ppOutMaterial, const char* pszResourceName) = 0;
+
+    // Slot 15: materialsystem2.dll + 0x372d0 (Creates procedural / dynamic runtime material)
+    virtual CMaterial2** CreateMaterial(CMaterial2** ppOutMaterial, const char* pszMaterialName, void* pData) = 0;
 };
 
 // scenesystem.dll: "SceneSystem_002" (VTable: 0x5f17c0, 199 methods)
