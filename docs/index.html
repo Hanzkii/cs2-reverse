@@ -631,7 +631,7 @@
               </p>
             </div>
             <div class="flex items-center gap-2">
-              <span id="simulatorsCountBadge" class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold">6 Live Visualizers</span>
+              <span id="simulatorsCountBadge" class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold">8 Live Visualizers</span>
             </div>
           </div>
 
@@ -4429,6 +4429,39 @@
             </div>
           </div>
         `;
+      } else if (simId === '04') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Entity Target Preset:</label>
+            <select id="param04Preset" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="ctrl" selected>LocalPlayerController (Index 1, Chunk 0, Slot 1)</option>
+              <option value="pawn">LocalPlayerPawn (Index 65, Chunk 0, Slot 65)</option>
+              <option value="c4">PlantedC4 (Index 515, Chunk 1, Slot 3 - Multi-Chunk)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Entity Index (0..1023):</span>
+              <span id="lblParam04Index" class="text-cyan-300 font-bold">1</span>
+            </div>
+            <input type="range" id="param04Index" min="0" max="1023" step="1" value="1" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam04Index').innerText = this.value">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Serial Counter (17-bit):</span>
+              <span id="lblParam04Serial" class="text-purple-300 font-bold">1</span>
+            </div>
+            <input type="range" id="param04Serial" min="1" max="16" step="1" value="1" class="w-full accent-purple-400" oninput="document.getElementById('lblParam04Serial').innerText = this.value">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Lifecycle State:</label>
+            <select id="param04State" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="valid" selected>Active &amp; Valid (Serial Matches)</option>
+              <option value="dormant">Dormant Flag Set (0x02)</option>
+              <option value="stale">Stale Handle (Serial Mismatch / Destroyed)</option>
+            </select>
+          </div>
+        `;
       } else if (simId === '07') {
         container.innerHTML = `
           <div class="space-y-1">
@@ -4451,6 +4484,36 @@
               <span id="lblParam07Punch" class="text-amber-300 font-bold">2.5&deg; (2.0x = 5.0&deg;)</span>
             </div>
             <input type="range" id="param07Punch" min="0" max="10" step="0.5" value="2.5" class="w-full accent-amber-500" oninput="document.getElementById('lblParam07Punch').innerText = this.value + '° (2.0x = ' + (parseFloat(this.value)*2).toFixed(1) + '°)'">
+          </div>
+        `;
+      } else if (simId === '08') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Raycast Target Hitgroup:</label>
+            <select id="param08RayTarget" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="head" selected>Headshot (z=70, R=4.25u, 4.0x Damage)</option>
+              <option value="chest">Chest Hitbox (z=52, R=5.5u, 1.0x Damage)</option>
+              <option value="stomach">Pelvis / Stomach (z=36, R=6.0u, 1.25x Damage)</option>
+              <option value="legs">Legs / Limbs (z=18, R=3.8u, 0.75x Damage)</option>
+              <option value="miss">Whiff / Clean Miss (z=82, Overhead)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Bullet Pitch Elevation:</span>
+              <span id="lblParam08Pitch" class="text-cyan-300 font-bold">0.0&deg;</span>
+            </div>
+            <input type="range" id="param08Pitch" min="-15" max="15" step="0.5" value="0" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam08Pitch').innerText = parseFloat(this.value).toFixed(1) + '°'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Target Stance:</span>
+              <span id="lblParam08Stance" class="text-emerald-300 font-bold">Standing (64u)</span>
+            </div>
+            <select id="param08Stance" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-emerald-500">
+              <option value="stand" selected>Standing (Eye: 64u)</option>
+              <option value="crouch">Crouched / Ducking (Eye: 46u)</option>
+            </select>
           </div>
         `;
       } else if (simId === '09') {
@@ -4599,6 +4662,35 @@
         `;
       }
 
+      if (simId === '04') {
+        const preset = document.getElementById('param04Preset');
+        if (preset) {
+          preset.addEventListener('change', () => {
+            const idxInput = document.getElementById('param04Index');
+            const serInput = document.getElementById('param04Serial');
+            const lblIdx = document.getElementById('lblParam04Index');
+            const lblSer = document.getElementById('lblParam04Serial');
+            if (preset.value === 'ctrl') {
+              if (idxInput) idxInput.value = 1;
+              if (serInput) serInput.value = 1;
+              if (lblIdx) lblIdx.innerText = '1';
+              if (lblSer) lblSer.innerText = '1';
+            } else if (preset.value === 'pawn') {
+              if (idxInput) idxInput.value = 65;
+              if (serInput) serInput.value = 1;
+              if (lblIdx) lblIdx.innerText = '65';
+              if (lblSer) lblSer.innerText = '1';
+            } else if (preset.value === 'c4') {
+              if (idxInput) idxInput.value = 515;
+              if (serInput) serInput.value = 1;
+              if (lblIdx) lblIdx.innerText = '515';
+              if (lblSer) lblSer.innerText = '1';
+            }
+            renderSimVisualizer('04');
+          });
+        }
+      }
+
       // Universal live reactive event listeners across all inputs & selects
       const inputs = container.querySelectorAll('input, select');
       inputs.forEach(el => {
@@ -4676,6 +4768,204 @@
           renderSubtickSimulation();
         }
       }
+      else if (simId === '04') {
+        if (subtitle) subtitle.innerText = 'Entity System 2D Chunk Page-Table & Handle Resolution';
+        const rawIdx = parseInt((document.getElementById('param04Index') && document.getElementById('param04Index').value) || 1, 10);
+        const rawSerial = parseInt((document.getElementById('param04Serial') && document.getElementById('param04Serial').value) || 1, 10);
+        const state = (document.getElementById('param04State') && document.getElementById('param04State').value) || 'valid';
+
+        const index = rawIdx & 0x7FFF;
+        const serial = rawSerial & 0x1FFFF;
+        const chunk = index >> 9;
+        const slot = index & 0x1FF;
+        const handleVal = (index & 0x7FFF) | (serial << 15);
+
+        let entName = 'LocalPlayerController';
+        let entClass = 'CCSPlayerController';
+        let entSize = '0x980';
+        if (index === 65) {
+          entName = 'LocalPlayerPawn';
+          entClass = 'C_CSPlayerPawn';
+          entSize = '0x3720';
+        } else if (index >= 512) {
+          entName = 'PlantedC4_SiteA';
+          entClass = 'C_PlantedC4';
+          entSize = '0x1958';
+        } else if (index > 1) {
+          entName = `Entity_${index}`;
+          entClass = 'C_BaseEntity';
+          entSize = '0x600';
+        }
+
+        const isDormant = (state === 'dormant');
+        const isStale = (state === 'stale');
+        const storedSerial = isStale ? (serial + 1) : serial;
+        const storedFlags = isDormant ? '0x0002 (DORMANT)' : (isStale ? '0x0004 (DELETED)' : '0x0000 (ACTIVE)');
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300 font-bold">
+                  CEntityHandle: 0x${handleVal.toString(16).toUpperCase()}
+                </span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                  Index: <strong class="text-cyan-400">${index}</strong>
+                </span>
+                <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                  Serial: <strong class="text-purple-400">${serial}</strong>
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded text-xs font-bold border ${isStale ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : isDormant ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}">
+                  ${isStale ? 'REJECTED: Stale Handle (Serial Mismatch)' : isDormant ? 'DORMANT: Filtered (0x02 Flag Set)' : 'RESOLVED: O(1) Identity & Entity Match'}
+                </span>
+              </div>
+            </div>
+
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="chunkTableCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+
+            <div class="grid grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">+0x00 m_pEntity</div>
+                <div class="text-emerald-400 font-bold mt-0.5">${isStale ? 'nullptr (0x0)' : '0x7FFE_8A10'}</div>
+                <div class="text-[10px] text-slate-500 truncate">${entName}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">+0x08 m_pClassInfo</div>
+                <div class="text-cyan-400 font-bold mt-0.5 truncate">${entClass}</div>
+                <div class="text-[10px] text-slate-500">Size: ${entSize}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">+0x10 m_hHandle / +0x14 Flags</div>
+                <div class="text-amber-400 font-bold mt-0.5">${storedFlags}</div>
+                <div class="text-[10px] text-slate-500">Stored Serial: ${storedSerial}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">Page-Table Address</div>
+                <div class="text-purple-400 font-bold mt-0.5">Chunk [${chunk}][${slot}]</div>
+                <div class="text-[10px] text-slate-500">${chunk * 512 + slot} of 32,768</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const canvas = document.getElementById('chunkTableCanvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width, h = canvas.height;
+          ctx.clearRect(0, 0, w, h);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(40, 20, 770, 50);
+          ctx.strokeStyle = '#334155';
+          ctx.strokeRect(40, 20, 770, 50);
+
+          const serialW = (770 * 17) / 32;
+          ctx.fillStyle = 'rgba(168, 85, 247, 0.25)';
+          ctx.fillRect(40, 20, serialW, 50);
+          ctx.strokeStyle = '#a855f7';
+          ctx.strokeRect(40, 20, serialW, 50);
+
+          const indexW = 770 - serialW;
+          ctx.fillStyle = 'rgba(6, 182, 212, 0.25)';
+          ctx.fillRect(40 + serialW, 20, indexW, 50);
+          ctx.strokeStyle = '#06b6d4';
+          ctx.strokeRect(40 + serialW, 20, indexW, 50);
+
+          ctx.font = 'bold 12px monospace';
+          ctx.fillStyle = '#e9d5ff';
+          ctx.fillText(`SERIAL NUMBER: ${serial} (Bits [31:15], 17 bits)`, 55, 42);
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#c084fc';
+          ctx.fillText(`handle >> 15 = ${serial}`, 55, 58);
+
+          ctx.font = 'bold 12px monospace';
+          ctx.fillStyle = '#cffafe';
+          ctx.fillText(`ENTRY INDEX: ${index} (Bits [14:0], 15 bits)`, 40 + serialW + 20, 42);
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#22d3ee';
+          ctx.fillText(`Chunk: index >> 9 = ${chunk}  |  Slot: index & 0x1FF = ${slot}`, 40 + serialW + 20, 58);
+
+          ctx.font = 'bold 12px monospace';
+          ctx.fillStyle = '#f8fafc';
+          ctx.fillText(`CGameEntitySystem::m_EntityChunks[64]  (@ client.dll + 0x10)`, 40, 100);
+
+          for (let c = 0; c < 8; c++) {
+            const bx = 40 + c * 96;
+            const by = 112;
+            const isActiveChunk = (c === chunk);
+            ctx.fillStyle = isActiveChunk ? 'rgba(6, 182, 212, 0.3)' : '#1e293b';
+            ctx.strokeStyle = isActiveChunk ? '#06b6d4' : '#334155';
+            ctx.lineWidth = isActiveChunk ? 2 : 1;
+            ctx.fillRect(bx, by, 88, 48);
+            ctx.strokeRect(bx, by, 88, 48);
+
+            ctx.font = 'bold 10px monospace';
+            ctx.fillStyle = isActiveChunk ? '#38bdf8' : '#94a3b8';
+            ctx.fillText(`Chunk [${c}]`, bx + 12, by + 18);
+            ctx.font = '9px monospace';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(`${c * 512}..${c * 512 + 511}`, bx + 12, by + 34);
+
+            if (isActiveChunk) {
+              ctx.strokeStyle = '#06b6d4';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(bx + 44, by + 48);
+              ctx.lineTo(bx + 44, by + 68);
+              ctx.stroke();
+            }
+          }
+
+          ctx.font = 'bold 11px monospace';
+          ctx.fillStyle = '#38bdf8';
+          ctx.fillText(`Allocated Chunk [${chunk}] Page (512 CEntityIdentity Slots @ 0x70 bytes each):`, 40, 195);
+
+          const displaySlots = 16;
+          const startSlot = Math.max(0, Math.min(512 - displaySlots, slot - Math.floor(displaySlots / 2)));
+
+          for (let s = 0; s < displaySlots; s++) {
+            const currSlot = startSlot + s;
+            const sx = 40 + s * 48;
+            const sy = 210;
+            const isTarget = (currSlot === slot);
+
+            if (isTarget) {
+              ctx.fillStyle = isStale ? 'rgba(244, 63, 94, 0.35)' : isDormant ? 'rgba(245, 158, 11, 0.35)' : 'rgba(16, 185, 129, 0.35)';
+              ctx.strokeStyle = isStale ? '#f43f5e' : isDormant ? '#f59e0b' : '#10b981';
+              ctx.lineWidth = 2;
+            } else {
+              ctx.fillStyle = '#1e293b';
+              ctx.strokeStyle = '#334155';
+              ctx.lineWidth = 1;
+            }
+            ctx.fillRect(sx, sy, 44, 44);
+            ctx.strokeRect(sx, sy, 44, 44);
+
+            ctx.font = '9px monospace';
+            ctx.fillStyle = isTarget ? '#ffffff' : '#94a3b8';
+            ctx.fillText(`s.${currSlot}`, sx + 6, sy + 18);
+
+            ctx.font = '8px monospace';
+            if (isTarget) {
+              ctx.fillStyle = isStale ? '#f43f5e' : isDormant ? '#f59e0b' : '#10b981';
+              ctx.fillText(isStale ? 'STALE' : isDormant ? 'DORM' : 'MATCH', sx + 4, sy + 32);
+            } else {
+              ctx.fillStyle = '#475569';
+              ctx.fillText('0x70', sx + 10, sy + 32);
+            }
+          }
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '10px monospace';
+          ctx.fillText(`Algorithm: Identity = m_EntityChunks[${chunk}][${slot}]  |  Validation: (${storedSerial} == ${serial}) -> ${isStale ? 'FAIL (Null)' : 'PASS'}`, 40, 290);
+          ctx.fillText(`Cacheline: 0x70 (112 bytes) per Identity  |  Chunk Memory: 512 x 112 B = 57,344 B (56 KB page)`, 40, 310);
+        }
+      }
+
       else if (simId === '07') {
         if (subtitle) subtitle.innerText = 'Source 2 Camera Matrix, 2.0x Recoil & WorldToScreen';
         const pitch = parseFloat((document.getElementById('param07Pitch') && document.getElementById('param07Pitch').value) || 10);
@@ -4902,6 +5192,211 @@
           ctx.fillText(!isClipped ? 'Target [In Front]' : 'Target [Behind]', p2TgtX + 10, p2TgtY + 4);
         }
       }
+      else if (simId === '08') {
+        if (subtitle) subtitle.innerText = 'Hitbox Studio Bone OBB & Capsule Raycast Geometry';
+        const targetGroup = (document.getElementById('param08RayTarget') && document.getElementById('param08RayTarget').value) || 'head';
+        const bulletPitch = parseFloat((document.getElementById('param08Pitch') && document.getElementById('param08Pitch').value) || 0);
+        const stance = (document.getElementById('param08Stance') && document.getElementById('param08Stance').value) || 'stand';
+
+        const isCrouch = (stance === 'crouch');
+        const stanceDrop = isCrouch ? 18 : 0;
+
+        let hitGroupName = 'Head';
+        let hitMultiplier = '4.00x';
+        let hitMultiColor = 'text-rose-400';
+        let hitStatusText = 'HEADSHOT CRITICAL HIT';
+        let isHit = true;
+
+        if (targetGroup === 'chest') {
+          hitGroupName = 'Chest / Torso';
+          hitMultiplier = '1.00x';
+          hitMultiColor = 'text-cyan-400';
+          hitStatusText = 'CHEST DIRECT HIT';
+        } else if (targetGroup === 'stomach') {
+          hitGroupName = 'Pelvis / Stomach';
+          hitMultiplier = '1.25x';
+          hitMultiColor = 'text-emerald-400';
+          hitStatusText = 'STOMACH PENETRATION HIT';
+        } else if (targetGroup === 'legs') {
+          hitGroupName = 'Legs / Limbs';
+          hitMultiplier = '0.75x';
+          hitMultiColor = 'text-amber-400';
+          hitStatusText = 'LEG FLESH HIT';
+        } else if (targetGroup === 'miss') {
+          hitGroupName = 'None (Missed)';
+          hitMultiplier = '0.00x';
+          hitMultiColor = 'text-slate-400';
+          hitStatusText = 'WHIFF (No Hitbox Intersection)';
+          isHit = false;
+        }
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                  Target: <strong class="text-white">${hitGroupName}</strong>
+                </span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                  Multiplier: <strong class="${hitMultiColor}">${hitMultiplier}</strong>
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded text-xs font-bold border ${isHit ? (targetGroup === 'head' ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400') : 'bg-slate-800 border-slate-700 text-slate-400'}">
+                  ${hitStatusText}
+                </span>
+              </div>
+            </div>
+
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="hitboxCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+
+            <div class="grid grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">CHitBox Layout</div>
+                <div class="text-cyan-400 font-bold mt-0.5">0x70 Bytes (112 B)</div>
+                <div class="text-[10px] text-slate-500">Min/Max + Radius (+0x30)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">Capsule Solver</div>
+                <div class="text-emerald-400 font-bold mt-0.5">vphysics2.dll</div>
+                <div class="text-[10px] text-slate-500">FUN_18016caf0 (Analytical)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">Target Stance</div>
+                <div class="text-amber-400 font-bold mt-0.5">${isCrouch ? 'CROUCH (46u)' : 'STAND (64u)'}</div>
+                <div class="text-[10px] text-slate-500">Bone Matrix Dynamic Shift</div>
+              </div>
+              <div class="p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-500 uppercase">Damage Applied</div>
+                <div class="${hitMultiColor} font-bold mt-0.5">${hitMultiplier} (${targetGroup === 'head' ? '140 HP lethal' : targetGroup === 'chest' ? '35 HP' : targetGroup === 'stomach' ? '43 HP' : targetGroup === 'legs' ? '26 HP' : '0 HP'})</div>
+                <div class="text-[10px] text-slate-500">Base Rifle Damage: 35.0</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const canvas = document.getElementById('hitboxCanvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width, h = canvas.height;
+          ctx.clearRect(0, 0, w, h);
+
+          ctx.strokeStyle = '#1e293b';
+          ctx.lineWidth = 1;
+          for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+          for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+          const groundY = 290;
+          ctx.strokeStyle = '#475569';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(40, groundY); ctx.lineTo(w - 40, groundY); ctx.stroke();
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#64748b';
+          ctx.fillText('Ground Plane (z = 0)', 50, groundY + 16);
+
+          const tx = 620;
+          const headY = groundY - (190 - stanceDrop);
+          const neckY = groundY - (155 - stanceDrop);
+          const chestY = groundY - (130 - stanceDrop);
+          const pelvisY = groundY - (95 - stanceDrop);
+          const kneeY = groundY - (50 - (isCrouch ? 10 : 0));
+          const feetY = groundY - 10;
+
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(tx, headY); ctx.lineTo(tx, neckY);
+          ctx.lineTo(tx, chestY); ctx.lineTo(tx, pelvisY);
+          ctx.lineTo(tx - 18, kneeY); ctx.lineTo(tx - 18, feetY);
+          ctx.moveTo(tx, pelvisY);
+          ctx.lineTo(tx + 18, kneeY); ctx.lineTo(tx + 18, feetY);
+          ctx.stroke();
+
+          function drawCapsule(p1x, p1y, p2x, p2y, r, color, fillCol) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.fillStyle = fillCol;
+            ctx.lineWidth = 2;
+            const dx = p2x - p1x, dy = p2y - p1y;
+            const len = Math.hypot(dx, dy);
+            const angle = Math.atan2(dy, dx);
+            ctx.translate(p1x, p1y);
+            ctx.rotate(angle);
+            ctx.beginPath();
+            ctx.arc(0, 0, r, Math.PI / 2, -Math.PI / 2);
+            ctx.arc(len, 0, r, -Math.PI / 2, Math.PI / 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            ctx.restore();
+          }
+
+          const isHead = (targetGroup === 'head');
+          drawCapsule(tx, headY - 10, tx, headY + 10, 19, isHead ? '#f43f5e' : '#ec4899', isHead ? 'rgba(244, 63, 94, 0.4)' : 'rgba(236, 72, 153, 0.2)');
+
+          const isChest = (targetGroup === 'chest');
+          drawCapsule(tx, neckY, tx, chestY + 12, 26, isChest ? '#38bdf8' : '#0ea5e9', isChest ? 'rgba(56, 189, 248, 0.4)' : 'rgba(14, 165, 233, 0.2)');
+
+          const isStomach = (targetGroup === 'stomach');
+          drawCapsule(tx, chestY + 15, tx, pelvisY + 10, 28, isStomach ? '#10b981' : '#059669', isStomach ? 'rgba(16, 185, 129, 0.4)' : 'rgba(5, 150, 105, 0.2)');
+
+          const isLegs = (targetGroup === 'legs');
+          drawCapsule(tx - 18, pelvisY + 10, tx - 18, kneeY, 15, isLegs ? '#f59e0b' : '#d97706', isLegs ? 'rgba(245, 158, 11, 0.4)' : 'rgba(217, 119, 6, 0.2)');
+          drawCapsule(tx + 18, pelvisY + 10, tx + 18, kneeY, 15, isLegs ? '#f59e0b' : '#d97706', isLegs ? 'rgba(245, 158, 11, 0.4)' : 'rgba(217, 119, 6, 0.2)');
+
+          const sx = 80;
+          const sy = groundY - 160;
+
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath(); ctx.arc(sx, sy, 8, 0, Math.PI * 2); ctx.fill();
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText('Shooter Eye Origin (0, -200, 64)', sx - 20, sy - 14);
+
+          let aimTargetY = headY;
+          if (targetGroup === 'chest') aimTargetY = chestY;
+          else if (targetGroup === 'stomach') aimTargetY = pelvisY;
+          else if (targetGroup === 'legs') aimTargetY = kneeY;
+          else if (targetGroup === 'miss') aimTargetY = headY - 45;
+
+          aimTargetY += (bulletPitch * 3);
+
+          const rayEndX = isHit ? (tx - 18) : (w - 30);
+          const rayEndY = isHit ? aimTargetY : (sy + (aimTargetY - sy) * 1.5);
+
+          ctx.strokeStyle = isHit ? (targetGroup === 'head' ? '#f43f5e' : '#22c55e') : '#f59e0b';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.lineTo(rayEndX, rayEndY);
+          ctx.stroke();
+
+          if (isHit) {
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(rayEndX, rayEndY, 6, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = targetGroup === 'head' ? '#f43f5e' : '#22c55e';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.strokeStyle = '#facc15';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(rayEndX, rayEndY);
+            ctx.lineTo(rayEndX - 28, rayEndY - 12);
+            ctx.stroke();
+
+            ctx.font = 'bold 10px monospace';
+            ctx.fillStyle = '#facc15';
+            ctx.fillText('Normal n=(-0.92, -0.38)', rayEndX - 160, rayEndY - 16);
+          } else {
+            ctx.font = 'bold 10px monospace';
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillText('Miss: t > ray_len (No capsule intersection)', rayEndX - 260, rayEndY - 10);
+          }
+        }
+      }
+
       else if (simId === '09') {
         if (subtitle) subtitle.innerText = 'Analytical Two-Bone IK Solver (Law of Cosines)';
         container.innerHTML = `

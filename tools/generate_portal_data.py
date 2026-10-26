@@ -11,7 +11,9 @@ import json
 
 SIMULATOR_FILES = {
     "03": "cs2_subtick_usercmd_prediction_sim.cpp",
+    "04": "cs2_entity_system_chunk_table_sim.cpp",
     "07": "cs2_view_matrix_sim.cpp",
+    "08": "cs2_hitbox_bounding_capsule_sim.cpp",
     "09": "cs2_skeleton_animation_sim.cpp",
     "10": "cs2_rubikon_physics_sim.cpp",
     "11": "cs2_volumetric_smoke_sim.cpp",
@@ -37,6 +39,24 @@ SIMULATORS_METADATA = [
         "docId": "subtick-prediction"
     },
     {
+        "id": "04",
+        "name": "cs2_entity_system_chunk_table_sim.cpp",
+        "title": "Entity System 2D Chunk Page-Table & Handle Resolution",
+        "target": "client.dll (FUN_1807357c0)",
+        "runner": "build_entity_chunk_sim.bat",
+        "category": "Entities & Memory",
+        "badge": "Entity Chunk Table",
+        "checks": "64 chunks x 512 entries (32,768 max entities), 15-bit index & 17-bit serial CEntityHandle arithmetic, CEntityIdentity (0x70 bytes) layout, O(1) page-table lookup, stale handle detection and serial invalidation.",
+        "description": "Simulates Source 2's CGameEntitySystem 2D chunk page-table resolution. Models bitwise handle decomposition (chunk = index >> 9, slot = index & 0x1FF), CEntityIdentity (0x70 bytes) cacheline inspection, serial increment on deletion, and stale pointer prevention.",
+        "addresses": [
+            {"name": "CGameEntitySystem Global", "addr": "0x18271c8b8", "desc": "Active entity system singleton in client.dll"},
+            {"name": "GetEntityIdentity (Slot 2)", "addr": "0x1807357c0", "desc": "O(1) 2D chunk page-table resolution routine"},
+            {"name": "m_EntityChunks Table", "addr": "+0x10", "desc": "Array of 64 pointers to 512-slot CEntityIdentity pages"},
+            {"name": "CEntityIdentity Layout", "addr": "0x70 bytes", "desc": "Entity pointer (+0x00), ClassInfo (+0x08), Handle (+0x10), Flags (+0x14)"}
+        ],
+        "docId": "schemasystem"
+    },
+    {
         "id": "07",
         "name": "cs2_view_matrix_sim.cpp",
         "title": "Camera, View Matrix & Recoil Punch Pipeline",
@@ -53,6 +73,24 @@ SIMULATORS_METADATA = [
             {"name": "m_pAimPunchServices", "addr": "+0x1598", "desc": "Pawn service containing m_aimPunchCache (+0x40)"}
         ],
         "docId": "camera-view-matrix"
+    },
+    {
+        "id": "08",
+        "name": "cs2_hitbox_bounding_capsule_sim.cpp",
+        "title": "Hitbox Studio Bone OBB & Capsule Raycast Geometry",
+        "target": "client.dll & vphysics2.dll",
+        "runner": "build_hitbox_sim.bat",
+        "category": "Rendering & Geometry",
+        "badge": "Hitbox Geometry",
+        "checks": "CHitBox (0x70 bytes) and CHitBoxSet (0x30 bytes) struct layout, 3x4 affine bone matrix point transformation, analytical finite ray-capsule cylinder/sphere intersection solver (FUN_18016caf0), hitgroup damage multiplier hierarchy (Head=4.0x, Stomach=1.25x, Legs=0.75x).",
+        "description": "Simulates Source 2's skeletal hitbox volumes and bullet raycast intersection. Models 3D capsule mantle and hemispherical endcap analytical ray intersection, bone-to-world coordinate transforms, and authoritative CS2 hitgroup damage multipliers.",
+        "addresses": [
+            {"name": "CHitBox Definition", "addr": "0x70 bytes", "desc": "Studio bone hitbox bounds, radius (+0x30), bone (+0x34), group (+0x38)"},
+            {"name": "CHitBoxSet Definition", "addr": "0x30 bytes", "desc": "Hitbox set array header containing count and CHitBox array pointer"},
+            {"name": "RayCapsuleIntersection", "addr": "0x18016caf0", "desc": "vphysics2.dll analytical finite cylinder and spherical endcap solver"},
+            {"name": "HitGroup Multiplier Table", "addr": "client.dll", "desc": "Head 4.0x, Stomach 1.25x, Chest 1.0x, Legs 0.75x damage scaling"}
+        ],
+        "docId": "lag-compensation"
     },
     {
         "id": "09",
@@ -1666,9 +1704,29 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     latest_ver = version_manifests[-1] if version_manifests else {"tag": "2026-10-25_26144732", "build_id": "26144732", "date": "2026-10-25"}
     latest_diff = diff_reports[-1] if diff_reports else {}
 
-    # 1. Collect all clean-room reconstructed C++17 SDK headers & source files under game/
-    game_dir = os.path.join(root, "game")
+    # 1. Collect all clean-room reconstructed C++17 & C++20 SDK headers & source files
     sdk_modules = []
+
+    # 1a. Reconstructed Master C++20 SDK under sdk/
+    sdk_dir = os.path.join(root, "sdk")
+    if os.path.exists(sdk_dir):
+        sdk_files_map = {}
+        for fname in sorted(os.listdir(sdk_dir)):
+            if fname.endswith((".h", ".hpp", ".cpp")):
+                fpath = os.path.join(sdk_dir, fname)
+                with open(fpath, "r", encoding="utf-8") as f:
+                    sdk_files_map[fname] = f.read()
+        if sdk_files_map:
+            sdk_modules.append({
+                "module": "cs2_sdk",
+                "directory": "sdk",
+                "standard": "C++20 (/std:c++20 /W4 /WX)",
+                "description": "Production clean-room reconstructed Source 2 master SDK reverse-engineered and verified against native PE binaries.",
+                "files": sdk_files_map
+            })
+
+    # 1b. Module headers under game/
+    game_dir = os.path.join(root, "game")
     if os.path.exists(game_dir):
         for mod_name in sorted(os.listdir(game_dir)):
             mod_path = os.path.join(game_dir, mod_name)
@@ -1684,6 +1742,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
                 sdk_modules.append({
                     "module": f"{mod_name}.dll",
                     "directory": f"game/{mod_name}",
+                    "standard": "C++17",
                     "files": files_map
                 })
 
@@ -1803,7 +1862,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     with open(os.path.join(api_dir, "sdk.json"), "w", encoding="utf-8") as f:
         json.dump({
             "build_id": latest_ver.get("build_id"),
-            "standard": "C++17",
+            "standard": "C++17 / C++20",
             "modules_count": len(sdk_modules),
             "modules": sdk_modules
         }, f, indent=2)
@@ -1888,7 +1947,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "python tools/generate_docs_bundle.py && python tools/generate_portal_data.py",
         "```",
         "",
-        "## Reconstructed C++17 Modding SDK (`game/`)",
+        "## Reconstructed C++17 & C++20 Modding SDK (`sdk/` & `game/`)",
     ]
 
     for mod in sdk_modules:
@@ -1941,13 +2000,13 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     full_lines.extend([
         "================================================================================",
-        "# SECTION 2: CLEAN-ROOM C++17 SDK HEADERS (`game/**/*.h`)",
+        "# SECTION 2: CLEAN-ROOM C++17 & C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)",
         "================================================================================",
         ""
     ])
     for mod in sdk_modules:
         for fname, content in mod["files"].items():
-            if fname.endswith(".h"):
+            if fname.endswith((".h", ".hpp")):
                 full_lines.extend([
                     f"### File: `{mod['directory']}/{fname}` ({mod['module']})",
                     "```cpp",
