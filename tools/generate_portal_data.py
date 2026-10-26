@@ -12,6 +12,7 @@ import json
 SIMULATOR_FILES = {
     "03": "cs2_subtick_usercmd_prediction_sim.cpp",
     "04": "cs2_entity_system_chunk_table_sim.cpp",
+    "05": "cs2_ray_trace_shape_sim.cpp",
     "07": "cs2_view_matrix_sim.cpp",
     "08": "cs2_hitbox_bounding_capsule_sim.cpp",
     "09": "cs2_skeleton_animation_sim.cpp",
@@ -55,6 +56,25 @@ SIMULATORS_METADATA = [
             {"name": "CEntityIdentity Layout", "addr": "0x70 bytes", "desc": "Entity pointer (+0x00), ClassInfo (+0x08), Handle (+0x10), Flags (+0x14)"}
         ],
         "docId": "schemasystem"
+    },
+    {
+        "id": "05",
+        "name": "cs2_ray_trace_shape_sim.cpp",
+        "title": "CGameTraceManager Spatial Ray Tracing & Smoke Optical Occlusion",
+        "target": "client.dll & vphysics2.dll",
+        "runner": "build_trace_sim.bat",
+        "category": "Physics & Collision",
+        "badge": "Spatial Ray Tracing",
+        "checks": "Ray_t (64 bytes, alignas(16)), CTraceFilter (72 bytes), GameTrace_t (192 bytes with 40-byte Rubikon sweep payload), CGameTraceManager::TraceShape (VTable Slot 5 @ 0x180a1ae30), LineOfSightThroughSmoke (client.dll + 0x007ce470) with 0.20 optical density gate and dynamic bullet/blast cavity carving.",
+        "description": "Simulates Source 2's primary world ray tracing and line-of-sight determination pipeline in client.dll. Reconstructs Ray_t alignment, CTraceFilter entity exclusion rules, GameTrace_t physics payload, and authoritative smoke raymarching with 0.20 optical density threshold.",
+        "addresses": [
+            {"name": "CGameTraceManager Global", "addr": "0x182229020", "desc": "Active trace manager singleton in client.dll"},
+            {"name": "CGameTraceManager::TraceShape", "addr": "0x180a1ae30", "desc": "Slot 5: Master world and entity raycast dispatcher"},
+            {"name": "CGameTraceManager::ClipRayToEntity", "addr": "0x180a1b8a0", "desc": "Slot 1: Entity-specific collision boundary clipping"},
+            {"name": "LineOfSightThroughSmoke", "addr": "0x1807ce470", "desc": "Authoritative line-of-sight raymarcher with 0.20 density gate"},
+            {"name": "CTraceFilter VTable", "addr": "0x181ad4838", "desc": "Spatial filter virtual method table in client.dll"}
+        ],
+        "docId": "rubikon-physics"
     },
     {
         "id": "07",
@@ -1530,12 +1550,55 @@ MODULE_RECONSTRUCTED_DATA = {
     }
 }
 
+def collect_sdk_modules(root):
+    """Collects all clean-room reconstructed C++17 & C++20 SDK headers and source files."""
+    sdk_modules = []
+    sdk_dir = os.path.join(root, "sdk")
+    if os.path.exists(sdk_dir):
+        sdk_files_map = {}
+        for fname in sorted(os.listdir(sdk_dir)):
+            if fname.endswith((".h", ".hpp", ".cpp")):
+                fpath = os.path.join(sdk_dir, fname)
+                with open(fpath, "r", encoding="utf-8") as f:
+                    sdk_files_map[fname] = f.read()
+        if sdk_files_map:
+            sdk_modules.append({
+                "module": "cs2_sdk",
+                "directory": "sdk",
+                "standard": "C++20 (/std:c++20 /W4 /WX)",
+                "description": "Production clean-room reconstructed Source 2 master SDK reverse-engineered and verified against native PE binaries.",
+                "files": sdk_files_map
+            })
+
+    game_dir = os.path.join(root, "game")
+    if os.path.exists(game_dir):
+        for mod_name in sorted(os.listdir(game_dir)):
+            mod_path = os.path.join(game_dir, mod_name)
+            if not os.path.isdir(mod_path):
+                continue
+            files_map = {}
+            for fname in sorted(os.listdir(mod_path)):
+                if fname.endswith((".h", ".hpp", ".cpp")):
+                    fpath = os.path.join(mod_path, fname)
+                    with open(fpath, "r", encoding="utf-8") as f:
+                        files_map[fname] = f.read()
+            if files_map:
+                sdk_modules.append({
+                    "module": f"{mod_name}.dll",
+                    "directory": f"game/{mod_name}",
+                    "standard": "C++17",
+                    "files": files_map
+                })
+    return sdk_modules
+
+
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     sim_dir = os.path.join(root, "docs", "simulators")
     out_file = os.path.join(root, "docs", "portal-data.js")
     versions_dir = os.path.join(root, "versions")
     data_dir = os.path.join(root, "data")
+    sdk_modules = collect_sdk_modules(root)
 
     # Simulator metadata + auto-discovery of any new .cpp files in docs/simulators/
     simulators_list = []
@@ -1684,15 +1747,18 @@ def main():
         f.write(";\n\n")
         f.write("window.CS2_DIFFS_DATA = ")
         json.dump(diff_reports, f, indent=2)
+        f.write(";\n\n")
+        f.write("window.CS2_SDK_DATA = ")
+        json.dump(sdk_modules, f, indent=2)
         f.write(";\n")
 
     print(f"Successfully generated {out_file} ({os.path.getsize(out_file)} bytes)")
 
     # Generate Static AI & Modding API (docs/llms.txt, docs/llms-full.txt, docs/api/v1/*.json)
-    generate_ai_modding_api(root, BINARIES_DETAIL, simulators_list, TOOLS_DATA, signatures_data, convars_data, version_manifests, diff_reports)
+    generate_ai_modding_api(root, BINARIES_DETAIL, simulators_list, TOOLS_DATA, signatures_data, convars_data, version_manifests, diff_reports, sdk_modules)
 
 
-def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, signatures_data, convars_data, version_manifests, diff_reports):
+def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, signatures_data, convars_data, version_manifests, diff_reports, sdk_modules):
     """Generates static AI/LLM context indices (llms.txt, llms-full.txt) and REST-like JSON endpoints under docs/api/v1/."""
     docs_dir = os.path.join(root, "docs")
     api_dir = os.path.join(docs_dir, "api", "v1")
@@ -1703,48 +1769,6 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     latest_ver = version_manifests[-1] if version_manifests else {"tag": "2026-10-25_26144732", "build_id": "26144732", "date": "2026-10-25"}
     latest_diff = diff_reports[-1] if diff_reports else {}
-
-    # 1. Collect all clean-room reconstructed C++17 & C++20 SDK headers & source files
-    sdk_modules = []
-
-    # 1a. Reconstructed Master C++20 SDK under sdk/
-    sdk_dir = os.path.join(root, "sdk")
-    if os.path.exists(sdk_dir):
-        sdk_files_map = {}
-        for fname in sorted(os.listdir(sdk_dir)):
-            if fname.endswith((".h", ".hpp", ".cpp")):
-                fpath = os.path.join(sdk_dir, fname)
-                with open(fpath, "r", encoding="utf-8") as f:
-                    sdk_files_map[fname] = f.read()
-        if sdk_files_map:
-            sdk_modules.append({
-                "module": "cs2_sdk",
-                "directory": "sdk",
-                "standard": "C++20 (/std:c++20 /W4 /WX)",
-                "description": "Production clean-room reconstructed Source 2 master SDK reverse-engineered and verified against native PE binaries.",
-                "files": sdk_files_map
-            })
-
-    # 1b. Module headers under game/
-    game_dir = os.path.join(root, "game")
-    if os.path.exists(game_dir):
-        for mod_name in sorted(os.listdir(game_dir)):
-            mod_path = os.path.join(game_dir, mod_name)
-            if not os.path.isdir(mod_path):
-                continue
-            files_map = {}
-            for fname in sorted(os.listdir(mod_path)):
-                if fname.endswith((".h", ".hpp", ".cpp")):
-                    fpath = os.path.join(mod_path, fname)
-                    with open(fpath, "r", encoding="utf-8") as f:
-                        files_map[fname] = f.read()
-            if files_map:
-                sdk_modules.append({
-                    "module": f"{mod_name}.dll",
-                    "directory": f"game/{mod_name}",
-                    "standard": "C++17",
-                    "files": files_map
-                })
 
     # 2. Extract curated + latest schema classes for modding
     key_classes_names = [
