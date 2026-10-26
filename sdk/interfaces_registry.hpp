@@ -415,8 +415,21 @@ public:
     // Slot 14: materialsystem2.dll + 0x37200 (Finds or loads CMaterial2 instance from asset path)
     virtual CMaterial2** FindOrCreateFromResource(CMaterial2** ppOutMaterial, const char* pszResourceName) = 0;
 
-    // Slot 15: materialsystem2.dll + 0x372d0 (Creates procedural / dynamic runtime material)
-    virtual CMaterial2** CreateMaterial(CMaterial2** ppOutMaterial, const char* pszMaterialName, void* pData) = 0;
+    // Slot 15..27
+    virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0;
+    virtual void Unk21() = 0; virtual void Unk22() = 0; virtual void Unk23() = 0;
+    virtual void Unk24() = 0; virtual void Unk25() = 0; virtual void Unk26() = 0;
+    virtual void Unk27() = 0;
+
+    // Slot 28: materialsystem2.dll + 0x3af50 (Creates material deriving from parent)
+    virtual CMaterial2** CreateMaterialFromParent(CMaterial2** ppOutMaterial, const char* pszMaterialName, CMaterial2** ppParentMaterial, void* pKeyValues, int nFlags, std::uint8_t bUnk) = 0;
+
+    // Slot 29: materialsystem2.dll + 0x3ade0 (Creates dynamic procedural runtime material)
+    virtual CMaterial2** CreateMaterial(CMaterial2** ppOutMaterial, const char* pszMaterialName, void* pKeyValues, int nFlags, bool bUnk) = 0;
+
+    // Slot 30: materialsystem2.dll + 0x3abf0 (Creates material within specific type scope)
+    virtual CMaterial2** CreateMaterialWithScope(CMaterial2** ppOutMaterial, const char* pszMaterialName, void* pKeyValues, void* pTypeScope, char param6) = 0;
 };
 
 // scenesystem.dll: "SceneSystem_002" (VTable: 0x5f17c0, 199 methods)

@@ -149,13 +149,39 @@ public:
     virtual const char* GetName() const = 0;
 
     // Slot 1: materialsystem2.dll + 0xb370
+    virtual void GetPath(void* pBufferString) const = 0;
+
+    // Slot 2: materialsystem2.dll + 0xb5e0
     virtual const char* GetShaderName() const = 0;
 
-    virtual void Unk02() = 0;
     virtual void Unk03() = 0;
 
     // Slot 4: materialsystem2.dll + 0xa100
     virtual std::uint8_t GetFlags() const = 0;
+
+    virtual void Unk05() = 0;
+    virtual void Unk06() = 0;
+
+    // Slot 7: materialsystem2.dll + 0xba60
+    virtual void* GetMaterialData() const = 0;
+
+    virtual void Unk08() = 0; virtual void Unk09() = 0; virtual void Unk10() = 0;
+    virtual void Unk11() = 0; virtual void Unk12() = 0; virtual void Unk13() = 0;
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0;
+    virtual void Unk17() = 0; virtual void Unk18() = 0; virtual void Unk19() = 0;
+    virtual void Unk20() = 0; virtual void Unk21() = 0; virtual void Unk22() = 0;
+    virtual void Unk23() = 0; virtual void Unk24() = 0;
+
+    // Slot 25: materialsystem2.dll + 0xb880
+    virtual std::int32_t GetMaterialId() const = 0;
+
+    // Slot 26: materialsystem2.dll + 0x1b2d0
+    virtual void* GetShaderBinding() = 0;
+
+    virtual void Unk27() = 0; virtual void Unk28() = 0;
+
+    // Slot 29: materialsystem2.dll + 0xb890
+    virtual void IncrementRefCount() = 0;
 };
 static_assert(sizeof(CMaterial2) == 0x08, "CMaterial2 pointer must be 8 bytes");
 
@@ -164,6 +190,7 @@ static_assert(sizeof(CMaterial2) == 0x08, "CMaterial2 pointer must be 8 bytes");
 // Target Binary: scenesystem.dll
 // VTable RVA: scenesystem.dll + 0x5e5e50 (CSceneAnimatableObject, 3 methods)
 // VTable RVA: scenesystem.dll + 0x5e4748 (CSceneObject, 2 methods)
+// VTable RVA: scenesystem.dll + 0x5e5c90 (CAnimatableSceneObjectDesc)
 // ============================================================================
 class CSceneObject {
 public:
@@ -180,6 +207,19 @@ public:
     // Slot 1: scenesystem.dll + 0x36dc0 (Draws animatable mesh primitives)
     virtual void Draw(void* pRenderContext, void* pDrawContext) = 0;
 };
+
+// Scene mesh drawing callback signature for material override / chams
+// scenesystem.dll + 0x055a90 (Slot 19 in CAnimatableSceneObjectDesc)
+using FnDrawAnimatableSceneObjects = void (*)(
+    void*                   pDesc,              // CAnimatableSceneObjectDesc*
+    std::uint8_t            nDrawMode,          // 0=Depth, 1=Forward, 2=Shadow
+    void*                   pRenderContext,     // Command stream
+    void*                   pSceneView,         // Camera / View frustum state
+    void*                   pSceneLayer,        // Target render layer
+    void*                   pDrawCalls,         // Array of queued draw calls
+    std::uint32_t           nCount,             // Number of queued draw calls
+    CMaterial2*             pMaterialOverride   // Material override pointer
+);
 
 #undef PAD
 

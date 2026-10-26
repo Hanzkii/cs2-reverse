@@ -265,18 +265,27 @@ Studio models contain bounding geometry grouped into hitbox sets mapping directl
   - `m_HitBoxSets`: `+0x00` (`CUtlVector<CHitBoxSet>`)
 
 ### 5.4 Material System 2 & Scene Object Draw Dispatch
-- **`CMaterial2`**: VTable at `materialsystem2.dll + 0x129ae0` (25 methods).
+- **`CMaterial2`**: VTable at `materialsystem2.dll + 0x129ae0` (25 methods, allocation size `0x7E0` / 2016 bytes).
   - Slot 0 (`+0xb350`): `const char* GetName()`
-  - Slot 1 (`+0xb370`): `const char* GetShaderName()`
+  - Slot 1 (`+0xb370`): `void GetPath(CBufferString& outPath)`
+  - Slot 2 (`+0xb5e0`): `const char* GetShaderName()`
   - Slot 4 (`+0xa100`): `uint8_t GetFlags()`
+  - Slot 7 (`+0xba60`): `void* GetMaterialData()`
+  - Slot 25 (`+0xb880`): `int32_t GetMaterialId()`
+  - Slot 26 (`+0x1b2d0`): `void* GetShaderBinding()`
+  - Slot 29 (`+0xb890`): `void IncrementRefCount()`
 - **`IMaterialSystem2`**: VTable at `materialsystem2.dll + 0x12d920` (57 methods, singleton `+0x163530`).
   - Slot 14 (`+0x37200`): `FindOrCreateFromResource(CMaterial2** ppOut, const char* pszResourceName)`
-  - Slot 15 (`+0x372d0`): `CreateMaterial(CMaterial2** ppOut, const char* pszMaterialName, void* pData)`
+  - Slot 28 (`+0x3af50`): `CreateMaterialFromParent(CMaterial2** ppOut, const char* pszName, CMaterial2** ppParent, ...)`
+  - Slot 29 (`+0x3ade0`): `CreateMaterial(CMaterial2** ppOut, const char* pszMaterialName, void* pKeyValues, ...)`
+  - Slot 30 (`+0x3abf0`): `CreateMaterialWithScope(CMaterial2** ppOut, const char* pszMaterialName, void* pKeyValues, void* pTypeScope, ...)`
 - **`CSceneAnimatableObject`**: VTable at `scenesystem.dll + 0x5e5e50`.
   - Slot 1 (`+0x36dc0`): `Draw(void* pRenderContext, void* pDrawContext)` (dispatches mesh rendering via `[rax + 0x110]`).
-- **`CGlowProperty`**: Embedded at `C_BaseModelEntity + 0x0DE8` (Size: `0x58` bytes).
+- **`FnDrawAnimatableSceneObjects`**: Mesh draw dispatch callback at `scenesystem.dll + 0x055a90` (`CAnimatableSceneObjectDesc` Slot 19).
+- **`CGlowProperty`**: Embedded at `C_BaseModelEntity + 0x0DE8` (Size: `0x58` bytes, VTable `client.dll + 0x1c6f798`).
   - `m_fGlowColor`: `+0x08` (`Vector3`)
-  - `m_iGlowType`: `+0x30` (`int32_t`)
+  - `m_iGlowType`: `+0x30` (`int32_t`: 0=None, 1=Outline, 2=Model, 3=Pulse)
+  - `m_iGlowTeam`: `+0x34` (`int32_t`: -1=Any, 2=T, 3=CT)
   - `m_glowColorOverride`: `+0x40` (`uint32_t` RGBA packed)
   - `m_bGlowing`: `+0x51` (`bool`)
 
