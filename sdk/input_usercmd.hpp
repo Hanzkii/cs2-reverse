@@ -53,6 +53,8 @@ enum EInButtonState : std::uint64_t {
 // ============================================================================
 // 2. Google Protobuf Internal Wire & Arena Structures
 // ============================================================================
+#ifndef CS2_SDK_PROTOBUF_DEFINED
+#define CS2_SDK_PROTOBUF_DEFINED
 namespace protobuf {
     class Arena;
 
@@ -92,6 +94,7 @@ namespace protobuf {
 
     class Message : public MessageLite {};
 }
+#endif // CS2_SDK_PROTOBUF_DEFINED
 
 // ============================================================================
 // 3. Protobuf Message Types for Angles, Vectors, and Subtick Events

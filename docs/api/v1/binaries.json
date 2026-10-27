@@ -186,6 +186,19 @@
       },
       "reconstructedFiles": [
         {
+          "name": "inventory_schema.cpp",
+          "path": "game/client/inventory_schema.cpp",
+          "header": "game/client/inventory_schema.h",
+          "title": "Econ Item Schema & Wear Degradation ODE",
+          "desc": "Reconstructed dynamic attribute key-value store, Runge-Kutta 4th-order dynamic wear degradation ODE simulation, paint kit boundary clamping, and procedural texture UV matrix projection.",
+          "functions": [
+            "WearDegradationPipeline::SimulateWearDegradationODE",
+            "WearDegradationPipeline::EvaluateWearCondition",
+            "ProceduralTextureMapper::TransformUV",
+            "AttributeKeyValueStore::SetAttribute"
+          ]
+        },
+        {
           "name": "subtick_prediction.cpp",
           "path": "game/client/subtick_prediction.cpp",
           "header": "game/client/subtick_prediction.h",
@@ -699,6 +712,19 @@
         ]
       },
       "reconstructedFiles": [
+        {
+          "name": "entity_delta_codec.cpp",
+          "path": "game/networksystem/entity_delta_codec.cpp",
+          "header": "game/networksystem/entity_delta_codec.h",
+          "title": "Entity Delta Codec & Multi-Slot Baseline Snapshot Manager",
+          "desc": "Reconstructed 40-operation Huffman FieldPath tree unpacker, multi-slot baseline snapshots (0..63), quantized float dequantization, and property change subscription dispatcher.",
+          "functions": [
+            "CEntityDeltaCodec::DecodePacketEntities",
+            "CEntityBaselineStorage::SetBaseline",
+            "CFieldChangeDispatcher::Dispatch",
+            "CEntityDeltaCodec::DecodeFieldValue"
+          ]
+        },
         {
           "name": "netmessage_framing.cpp",
           "path": "game/networksystem/netmessage_framing.cpp",
@@ -1685,8 +1711,8 @@
       "cluster": "Input & Transport",
       "size": "1.3 MB",
       "path": "game/bin/win64/navsystem.dll",
-      "status": "Synchronized in Ghidra & Mapped",
-      "statusColor": "cyan",
+      "status": "Extensively Reversed & Verified",
+      "statusColor": "emerald",
       "ghidraSync": "Synchronized in CS2.gpr",
       "role": "CS2 navigation mesh (.nav) parsing, bot pathfinding, tactical cover evaluations.",
       "description": "Parses and navigates polygonal navigation meshes (.nav). Evaluates A* pathfinding, jump connections, ladder traversal, and tactical hiding spots for bots.",
@@ -1726,6 +1752,19 @@
         ]
       },
       "reconstructedFiles": [
+        {
+          "name": "pathfinder.cpp",
+          "path": "game/navsystem/pathfinder.cpp",
+          "header": "game/navsystem/pathfinder.h",
+          "title": "NavMesh V2 A* Pathfinding & Detour String-Pulling",
+          "desc": "Complete A* graph search with elevation gradient penalties, min-heap priority queue, and the Simple Stupid Funnel Algorithm (SSFA) corridor string-puller for smooth trajectory generation.",
+          "functions": [
+            "CPathfinder::FindPath",
+            "CPathfinder::SearchAStar",
+            "CPathfinder::StringPullCorridor",
+            "CPathfinder::ComputeHeuristic"
+          ]
+        },
         {
           "name": "navmesh.cpp",
           "path": "game/navsystem/navmesh.cpp",
@@ -1840,8 +1879,8 @@
       "cluster": "Panorama UI",
       "size": "6.1 MB",
       "path": "game/bin/win64/panorama.dll",
-      "status": "Synchronized in Ghidra & Mapped",
-      "statusColor": "cyan",
+      "status": "Extensively Reversed & Verified",
+      "statusColor": "emerald",
       "ghidraSync": "Synchronized in CS2.gpr",
       "role": "Valve GUI runtime: XML/CSS/JS DOM tree parser, JavaScript engine bindings, UI event bus.",
       "description": "Executes Valve's Panorama UI runtime. Parses XML templates and CSS stylesheets, binds JavaScript DOM manipulation, and manages UI event propagation.",
@@ -1860,27 +1899,46 @@
       ],
       "simulators": [],
       "progress": {
-        "status": "Synchronized in Ghidra",
-        "badgeColor": "cyan",
+        "status": "Extensively Reversed",
+        "badgeColor": "emerald",
         "subsystems": [
           {
-            "name": "CreateInterface Export Discovery",
-            "status": "Mapped",
+            "name": "CUIPanel 354-Slot VTable Hierarchy",
+            "status": "Reconstructed",
             "color": "emerald"
           },
           {
-            "name": "PE Section Geometry & Imports",
-            "status": "Mapped",
+            "name": "DOM Tree Pre/Post/BFS Traversal",
+            "status": "Reconstructed",
             "color": "emerald"
           },
           {
-            "name": "Virtual Method Table Resolution",
-            "status": "In Progress",
-            "color": "cyan"
+            "name": "Scissor Rect Layout Box Clipping",
+            "status": "Reconstructed",
+            "color": "emerald"
+          },
+          {
+            "name": "Queued Event Dispatcher & Bubbling",
+            "status": "Reconstructed",
+            "color": "emerald"
           }
         ]
       },
-      "reconstructedFiles": []
+      "reconstructedFiles": [
+        {
+          "name": "panorama_engine.cpp",
+          "path": "game/panorama/panorama_engine.cpp",
+          "header": "game/panorama/panorama_engine.h",
+          "title": "Panorama UI DOM Tree & Event Dispatch Engine",
+          "desc": "Reconstructed CUIPanel DOM tree traversal (pre-order, post-order, BFS), layout box scissor clipping, and queued event dispatcher with bubbling and hit-testing.",
+          "functions": [
+            "DOMTreeTraversal::TraversePreOrder",
+            "LayoutBoxClipper::ComputeScissorRect",
+            "EventQueueManager::DispatchEventImmediate",
+            "CReconstructedUIEngine::CreatePanel"
+          ]
+        }
+      ]
     },
     {
       "name": "panoramauiclient.dll",

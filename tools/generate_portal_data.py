@@ -19,6 +19,7 @@ SIMULATOR_FILES = {
     "10": "cs2_rubikon_physics_sim.cpp",
     "11": "cs2_volumetric_smoke_sim.cpp",
     "14": "cs2_bullet_penetration_sim.cpp",
+    "15": "cs2_econ_item_wear_sim.cpp",
     "16": "cs2_weapon_spread_recoil_sim.cpp",
 }
 
@@ -190,6 +191,24 @@ SIMULATORS_METADATA = [
             {"name": "ClipTraceToPlayers", "addr": "0x180181cd0", "desc": "Lag-compensated player hitbox capsule clipping routine"}
         ],
         "docId": "bullet-penetration"
+    },
+    {
+        "id": "15",
+        "name": "cs2_econ_item_wear_sim.cpp",
+        "title": "Econ Item Schema, Wear Degradation ODE & Texture UV Projection",
+        "target": "client.dll (C_EconItemView & CEconItemDefinition)",
+        "runner": "build_econ_item_wear_sim.bat",
+        "category": "Items & Inventory",
+        "badge": "Econ Item Schema",
+        "checks": "C_EconItemView (1456 bytes), C_AttributeContainer (1552 bytes), C_EconEntity (6424 bytes), 5 wear classification ratings [Factory New..Battle-Scarred], RK4 dynamic wear degradation ODE dw/dt = kappa*(1-w), procedural UV affine matrix [cos, -sin, sin, cos] projection from m_nFallbackSeed.",
+        "description": "Simulates Source 2's economy item schema and dynamic wear degradation pipeline in client.dll. Reconstructs C_EconItemView and C_AttributeContainer byte layouts, dynamic attribute key-value store, wear boundary remapping, Runge-Kutta 4th order ODE surface abrasion, and procedural seed UV coordinates.",
+        "addresses": [
+            {"name": "C_EconEntity Layout", "addr": "0x1918 bytes", "desc": "Econ entity containing C_AttributeContainer at +0x1290"},
+            {"name": "C_EconItemView Layout", "addr": "0x5b0 bytes", "desc": "1456-byte core econ item view structure"},
+            {"name": "Wear Float Rating", "addr": "0.00 .. 1.00", "desc": "Factory New (<0.07) to Battle-Scarred (>=0.45)"},
+            {"name": "Procedural UV Matrix", "addr": "m_nFallbackSeed", "desc": "Seed 0..1000 affine UV translation and rotation generator"}
+        ],
+        "docId": "item-schema"
     },
     {
         "id": "16",
@@ -616,8 +635,8 @@ BINARIES_DETAIL = [
         "cluster": "Input & Transport",
         "size": "1.3 MB",
         "path": "game/bin/win64/navsystem.dll",
-        "status": "Synchronized in Ghidra & Mapped",
-        "statusColor": "cyan",
+        "status": "Extensively Reversed & Verified",
+        "statusColor": "emerald",
         "ghidraSync": "Synchronized in CS2.gpr",
         "role": "CS2 navigation mesh (.nav) parsing, bot pathfinding, tactical cover evaluations.",
         "description": "Parses and navigates polygonal navigation meshes (.nav). Evaluates A* pathfinding, jump connections, ladder traversal, and tactical hiding spots for bots.",
@@ -670,8 +689,8 @@ BINARIES_DETAIL = [
         "cluster": "Panorama UI",
         "size": "6.1 MB",
         "path": "game/bin/win64/panorama.dll",
-        "status": "Synchronized in Ghidra & Mapped",
-        "statusColor": "cyan",
+        "status": "Extensively Reversed & Verified",
+        "statusColor": "emerald",
         "ghidraSync": "Synchronized in CS2.gpr",
         "role": "Valve GUI runtime: XML/CSS/JS DOM tree parser, JavaScript engine bindings, UI event bus.",
         "description": "Executes Valve's Panorama UI runtime. Parses XML templates and CSS stylesheets, binds JavaScript DOM manipulation, and manages UI event propagation.",
@@ -1281,6 +1300,14 @@ MODULE_RECONSTRUCTED_DATA = {
         },
         "reconstructedFiles": [
             {
+                "name": "inventory_schema.cpp",
+                "path": "game/client/inventory_schema.cpp",
+                "header": "game/client/inventory_schema.h",
+                "title": "Econ Item Schema & Wear Degradation ODE",
+                "desc": "Reconstructed dynamic attribute key-value store, Runge-Kutta 4th-order dynamic wear degradation ODE simulation, paint kit boundary clamping, and procedural texture UV matrix projection.",
+                "functions": ["WearDegradationPipeline::SimulateWearDegradationODE", "WearDegradationPipeline::EvaluateWearCondition", "ProceduralTextureMapper::TransformUV", "AttributeKeyValueStore::SetAttribute"]
+            },
+            {
                 "name": "subtick_prediction.cpp",
                 "path": "game/client/subtick_prediction.cpp",
                 "header": "game/client/subtick_prediction.h",
@@ -1419,6 +1446,14 @@ MODULE_RECONSTRUCTED_DATA = {
         },
         "reconstructedFiles": [
             {
+                "name": "entity_delta_codec.cpp",
+                "path": "game/networksystem/entity_delta_codec.cpp",
+                "header": "game/networksystem/entity_delta_codec.h",
+                "title": "Entity Delta Codec & Multi-Slot Baseline Snapshot Manager",
+                "desc": "Reconstructed 40-operation Huffman FieldPath tree unpacker, multi-slot baseline snapshots (0..63), quantized float dequantization, and property change subscription dispatcher.",
+                "functions": ["CEntityDeltaCodec::DecodePacketEntities", "CEntityBaselineStorage::SetBaseline", "CFieldChangeDispatcher::Dispatch", "CEntityDeltaCodec::DecodeFieldValue"]
+            },
+            {
                 "name": "netmessage_framing.cpp",
                 "path": "game/networksystem/netmessage_framing.cpp",
                 "header": "game/networksystem/netmessage_framing.h",
@@ -1522,12 +1557,42 @@ MODULE_RECONSTRUCTED_DATA = {
         },
         "reconstructedFiles": [
             {
+                "name": "pathfinder.cpp",
+                "path": "game/navsystem/pathfinder.cpp",
+                "header": "game/navsystem/pathfinder.h",
+                "title": "NavMesh V2 A* Pathfinding & Detour String-Pulling",
+                "desc": "Complete A* graph search with elevation gradient penalties, min-heap priority queue, and the Simple Stupid Funnel Algorithm (SSFA) corridor string-puller for smooth trajectory generation.",
+                "functions": ["CPathfinder::FindPath", "CPathfinder::SearchAStar", "CPathfinder::StringPullCorridor", "CPathfinder::ComputeHeuristic"]
+            },
+            {
                 "name": "navmesh.cpp",
                 "path": "game/navsystem/navmesh.cpp",
                 "header": "game/navsystem/navmesh.h",
                 "title": "Navigation Mesh (CNavArea) & A* Bot Pathfinding",
                 "desc": "Reconstructed CNavArea bilinear Z-height query, point clamping, generation-counter A* shortest-path solver, and bot tactical traversal cost functor.",
                 "functions": ["CNavArea::GetZ", "CNavArea::GetClosestPointOnArea", "CNavMeshPathfinder::BuildShortestPath"]
+            }
+        ]
+    },
+    "panorama.dll": {
+        "progress": {
+            "status": "Extensively Reversed",
+            "badgeColor": "emerald",
+            "subsystems": [
+                {"name": "CUIPanel 354-Slot VTable Hierarchy", "status": "Reconstructed", "color": "emerald"},
+                {"name": "DOM Tree Pre/Post/BFS Traversal", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Scissor Rect Layout Box Clipping", "status": "Reconstructed", "color": "emerald"},
+                {"name": "Queued Event Dispatcher & Bubbling", "status": "Reconstructed", "color": "emerald"}
+            ]
+        },
+        "reconstructedFiles": [
+            {
+                "name": "panorama_engine.cpp",
+                "path": "game/panorama/panorama_engine.cpp",
+                "header": "game/panorama/panorama_engine.h",
+                "title": "Panorama UI DOM Tree & Event Dispatch Engine",
+                "desc": "Reconstructed CUIPanel DOM tree traversal (pre-order, post-order, BFS), layout box scissor clipping, and queued event dispatcher with bubbling and hit-testing.",
+                "functions": ["DOMTreeTraversal::TraversePreOrder", "LayoutBoxClipper::ComputeScissorRect", "EventQueueManager::DispatchEventImmediate", "CReconstructedUIEngine::CreatePanel"]
             }
         ]
     },

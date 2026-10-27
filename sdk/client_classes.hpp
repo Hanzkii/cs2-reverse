@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <cmath>
 #include <type_traits>
 
 #include "interfaces_registry.hpp"
@@ -35,6 +36,33 @@ struct Vector3 {
 
     constexpr Vector3() noexcept = default;
     constexpr Vector3(float x_, float y_, float z_) noexcept : x(x_), y(y_), z(z_) {}
+
+    constexpr Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
+    constexpr Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
+    constexpr Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
+    constexpr Vector3 operator/(float s) const noexcept { return {x / s, y / s, z / s}; }
+
+    [[nodiscard]] constexpr float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
+    [[nodiscard]] constexpr float Dot2D(const Vector3& o) const noexcept { return x * o.x + y * o.y; }
+    [[nodiscard]] constexpr float LengthSqr() const noexcept { return Dot(*this); }
+    [[nodiscard]] constexpr float Length2DSqr() const noexcept { return Dot2D(*this); }
+    [[nodiscard]] float Length() const noexcept { return std::sqrt(LengthSqr()); }
+    [[nodiscard]] float Length2D() const noexcept { return std::sqrt(Length2DSqr()); }
+    [[nodiscard]] float DistTo(const Vector3& o) const noexcept { return (*this - o).Length(); }
+    [[nodiscard]] float Dist2DTo(const Vector3& o) const noexcept { return (*this - o).Length2D(); }
+
+    [[nodiscard]] Vector3 Normalized() const noexcept {
+        const float l = Length();
+        return l > 1e-6f ? (*this) * (1.0f / l) : Vector3{0.0f, 0.0f, 0.0f};
+    }
+
+    [[nodiscard]] constexpr Vector3 Cross(const Vector3& o) const noexcept {
+        return {
+            y * o.z - z * o.y,
+            z * o.x - x * o.z,
+            x * o.y - y * o.x
+        };
+    }
 };
 static_assert(sizeof(Vector3) == 0x0C, "Vector3 size must be 12 bytes");
 

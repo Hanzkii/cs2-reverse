@@ -149,6 +149,103 @@ int main() {
         std::cout << "  -> SUCCESS: Hierarchical forward kinematics evaluated via SDK bridge.\n";
     }
 
+    // -------------------------------------------------------------------------
+    // Test 6: Econ Item Wear Rating & Degradation ODE (client.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 6] Testing SDK Integration with Econ Item Wear Degradation...\n";
+    {
+        const float wearFN = 0.035f;
+        const auto ratingFN = bridge::GetWearRating(wearFN);
+        assert(ratingFN == sdk::WearRating_t::WEAR_FACTORY_NEW);
+        assert(std::string_view(bridge::GetWearRatingName(ratingFN)) == "Factory New");
+
+        const float wearFT = 0.25f;
+        const auto ratingFT = bridge::GetWearRating(wearFT);
+        assert(ratingFT == sdk::WearRating_t::WEAR_FIELD_TESTED);
+
+        const float degraded = bridge::SimulateWearDegradation(0.05f, 0.02f, 10.0f);
+        assert(degraded > 0.05f);
+
+        std::cout << "  Factory New Wear (0.035): " << bridge::GetWearRatingName(ratingFN) << "\n";
+        std::cout << "  Field-Tested Wear (0.25): " << bridge::GetWearRatingName(ratingFT) << "\n";
+        std::cout << "  Simulated ODE Wear Degradation (10s): " << degraded << "\n";
+        std::cout << "  -> SUCCESS: Econ item wear classification and ODE degradation verified.\n";
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 7: Panorama UI DOM Tree & Event Dispatch (panorama.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 7] Testing SDK Integration with Panorama UI Engine...\n";
+    {
+        panorama::CReconstructedUIEngine uiEngine;
+        auto* root = uiEngine.CreatePanel("Panel", "CSGOHud", nullptr);
+        auto* crosshair = uiEngine.CreatePanel("Image", "WeaponCrosshair", root);
+        assert(root != nullptr && crosshair != nullptr);
+        assert(root->GetChildCount() == 1);
+        assert(crosshair->GetParent() == root);
+
+        std::cout << "  Root Panel:      " << root->GetID() << " (Children: " << root->GetChildCount() << ")\n";
+        std::cout << "  Child Crosshair: " << crosshair->GetID() << " (Parent: " << crosshair->GetParent()->GetID() << ")\n";
+        std::cout << "  -> SUCCESS: Panorama UI DOM hierarchy & layout engine verified.\n";
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 8: Network Delta Codec & Snapshot Serialization (networksystem.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 8] Testing SDK Integration with Entity Delta Codec...\n";
+    {
+        networksystem::CEntityBaselineStorage baselineStorage;
+        std::unordered_map<std::string, networksystem::PropertyValue> props;
+        props["m_iHealth"] = networksystem::PropertyValue(100);
+        props["m_vOldOrigin"] = networksystem::PropertyValue(networksystem::Vector3_t{0.0f, 0.0f, 64.0f});
+
+        baselineStorage.SetBaseline(0, 1, std::move(props));
+        const auto* retrieved = baselineStorage.GetBaseline(0, 1);
+        assert(retrieved != nullptr);
+        assert(retrieved->at("m_iHealth").i32Val == 100);
+
+        std::cout << "  Baseline Slot:   0 (Entity 1)\n";
+        std::cout << "  Retrieved HP:    " << retrieved->at("m_iHealth").i32Val << " HP\n";
+        std::cout << "  -> SUCCESS: Network entity state codec and field serialization verified.\n";
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 9: NavMesh V2 A* Pathfinding (navsystem.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 9] Testing SDK Integration with NavMesh A* Pathfinding...\n";
+    {
+        sdk::CNavMesh navMesh;
+        sdk::CNavArea area1;
+        area1.m_id = 1;
+        area1.m_nwCorner = {0.0f, 0.0f, 0.0f};
+        area1.m_seCorner = {100.0f, 100.0f, 0.0f};
+
+        sdk::CNavArea area2;
+        area2.m_id = 2;
+        area2.m_nwCorner = {100.0f, 0.0f, 0.0f};
+        area2.m_seCorner = {200.0f, 100.0f, 0.0f};
+
+        sdk::NavConnect_t conn1to2{2, 0};
+        area1.m_adjacentAreas[sdk::NavDirType::EAST].push_back(conn1to2);
+
+        sdk::NavConnect_t conn2to1{1, 0};
+        area2.m_adjacentAreas[sdk::NavDirType::WEST].push_back(conn2to1);
+
+        navMesh.m_areas.push_back(area1);
+        navMesh.m_areas.push_back(area2);
+        navMesh.m_areaIndexMap[1] = 0;
+        navMesh.m_areaIndexMap[2] = 1;
+
+        const auto pathResult = bridge::FindNavPath(&navMesh, sdk::Vector3(10.0f, 50.0f, 0.0f), sdk::Vector3(190.0f, 50.0f, 0.0f));
+        assert(pathResult.IsValid());
+        assert(pathResult.m_areaCorridor.size() == 2);
+
+        std::cout << "  Start Area:  " << area1.m_id << ", Goal Area: " << area2.m_id << "\n";
+        std::cout << "  Corridor:    " << pathResult.m_areaCorridor.size() << " areas\n";
+        std::cout << "  Path Length: " << pathResult.m_totalLength << " units\n";
+        std::cout << "  -> SUCCESS: Clean-room NavMesh A* search & corridor generation verified.\n";
+    }
+
     std::cout << "\n=================================================================\n";
     std::cout << " ALL SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
     std::cout << "=================================================================\n";

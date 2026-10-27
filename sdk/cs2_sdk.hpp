@@ -17,6 +17,9 @@
 //   - Phase 2: render_scene_material.hpp (VMatrix, CViewRender, studio hitboxes, scene objects)
 //   - Phase 3: input_usercmd.hpp         (CCSGOInput, CUserCmd, Protobuf wire serialization, subtick)
 //   - Phase 4: trace_events_aux.hpp      (CGameTraceManager, IGameEventManager2, SoundOpSystem, VData)
+//   - Phase 5: item_schema.hpp           (CEconItemDefinition, CEconItemView, CAttributeManager, Paint Kits)
+//   - Phase 6: navmesh.hpp               (CNavArea, CNavNode, NavPortalEdge_t, CNavMesh V2 Graph)
+//   - Phase 7: panorama.hpp              (CUIPanel, IUIEngine, CPanelStyle, DOM Hierarchy & Event Queue)
 // ============================================================================
 
 #include "interfaces_registry.hpp"
@@ -25,7 +28,11 @@
 #include "client_classes.hpp"
 #include "render_scene_material.hpp"
 #include "input_usercmd.hpp"
+#include "netmessages.hpp"
 #include "trace_events_aux.hpp"
+#include "item_schema.hpp"
+#include "navmesh.hpp"
+#include "panorama.hpp"
 #include "game_bridge.hpp"
 
 #ifdef _WIN32
@@ -130,6 +137,17 @@ public:
         const auto modBase = reinterpret_cast<std::uintptr_t>(::GetModuleHandleA("client.dll"));
         if (!modBase) return nullptr;
         return *reinterpret_cast<ISoundOpSystem**>(modBase + 0x0279EE90);
+#else
+        return nullptr;
+#endif
+    }
+
+    // Panorama UI Engine Interface ("PanoramaUIEngine001", panorama.dll + 0x5F0988)
+    [[nodiscard]] static inline IUIEngine* GetPanoramaEngine() noexcept {
+#ifdef _WIN32
+        const auto modBase = reinterpret_cast<std::uintptr_t>(::GetModuleHandleA("panorama.dll"));
+        if (!modBase) return nullptr;
+        return *reinterpret_cast<IUIEngine**>(modBase + 0x5F0988);
 #else
         return nullptr;
 #endif

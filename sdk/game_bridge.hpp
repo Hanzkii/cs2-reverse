@@ -44,6 +44,7 @@
 #include "../game/client/weapon_accuracy.h"
 #include "../game/client/bone_setup.h"
 #include "../game/client/entity_system.h"
+#include "../game/client/inventory_schema.h"
 
 #include "../game/server/controller_pawn.h"
 #include "../game/server/hit_registration_damage.h"
@@ -56,9 +57,12 @@
 #include "../game/particles/smoke_voxels.h"
 #include "../game/pulse_system/pulse_interpreter.h"
 #include "../game/navsystem/navmesh.h"
+#include "../game/navsystem/pathfinder.h"
 #include "../game/materialsystem2/material_system2.h"
 #include "../game/scenesystem/scene_system.h"
 #include "../game/soundsystem/sound_ops.h"
+#include "../game/panorama/panorama_engine.h"
+#include "../game/networksystem/entity_delta_codec.h"
 
 namespace cs2::bridge {
 
@@ -228,6 +232,52 @@ namespace cs2::bridge {
     info.m_nHitGroup = hitGroup;
 
     return eval.ApplyArmorDamageCalculation(info, baseDamage, rangeModifier, distanceUnits);
+}
+
+/**
+ * @brief Computes an A* path and smoothed funnel corridor using the clean-room NavMesh engine.
+ */
+[[nodiscard]] inline navsystem::PathResult FindNavPath(
+    const sdk::CNavMesh* pNavMesh,
+    const sdk::Vector3& startPos,
+    const sdk::Vector3& goalPos,
+    const navsystem::PathOptions& options = {}
+) {
+    if (!pNavMesh) return {};
+    navsystem::CPathfinder pathfinder(pNavMesh);
+    return pathfinder.FindPath(startPos, goalPos, options);
+}
+
+/**
+ * @brief Evaluates weapon skin wear classification rating and condition name.
+ */
+[[nodiscard]] constexpr inline sdk::WearRating_t GetWearRating(float wear) noexcept {
+    return client::WearDegradationPipeline::EvaluateWearCondition(wear);
+}
+
+[[nodiscard]] constexpr inline const char* GetWearRatingName(sdk::WearRating_t rating) noexcept {
+    return client::WearDegradationPipeline::GetWearRatingName(rating);
+}
+
+/**
+ * @brief Remaps raw wear value to paint-kit specific bounds.
+ */
+[[nodiscard]] constexpr inline float RemapItemWear(float rawWear, float minWear, float maxWear) noexcept {
+    return client::WearDegradationPipeline::RemapWear(rawWear, minWear, maxWear);
+}
+
+/**
+ * @brief Simulates dynamic abrasion wear degradation ODE dw/dt = kappa * (1.0 - w).
+ */
+[[nodiscard]] inline float SimulateWearDegradation(
+    float initialWear,
+    float abrasionRate,
+    float durationSeconds,
+    float timeStep = 0.01f
+) noexcept {
+    return client::WearDegradationPipeline::SimulateWearDegradationODE(
+        initialWear, abrasionRate, durationSeconds, timeStep
+    );
 }
 
 } // namespace cs2::bridge
