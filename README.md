@@ -3,14 +3,27 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20x64-lightgrey.svg)](#)
 [![Source 2](https://img.shields.io/badge/engine-Valve%20Source%202-orange.svg)](#)
+[![C++20](https://img.shields.io/badge/standard-C%2B%2B20-blue.svg?logo=c%2B%2B)](#)
+[![Compiler](https://img.shields.io/badge/compiler-MSVC%20x64%20(%2Fstd%3Ac%2B%2B20)-informational.svg)](#)
+[![Simulators](https://img.shields.io/badge/simulators-10%20Live%20Suites-brightgreen.svg)](#)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-brightgreen.svg)](https://hanzkii.github.io/cs2-reverse/)
+[![Static API](https://img.shields.io/badge/API-Static%20JSON%20v1-blueviolet.svg)](https://hanzkii.github.io/cs2-reverse/api/v1/sdk.json)
 
 > 🌐 **Interactive Documentation & Visualizers Portal**: [**https://hanzkii.github.io/cs2-reverse/**](https://hanzkii.github.io/cs2-reverse/)  
-> Features live interactive Sub-Tick lag compensation visualizers, Two-Bone Inverse Kinematics solvers, 34-binary module catalog with reversal statuses, canonical function signature registry, and full architecture reports with KaTeX math and Mermaid diagrams.
+> Features 10 live interactive Web visualizers (Sub-Tick prediction, Multi-Material Bullet Penetration, Lag Compensation Unlag, Rubikon BVH Raymarching, Volumetric Smoke Voxel Carving, Two-Bone IK, and Recoil Decay), 34-binary Source 2 module catalog, canonical function signature registry, dual-mode C++20 SDK viewer, and full architecture reports with KaTeX math and Mermaid diagrams.
 
-A comprehensive, ground-truth technical reference on Valve's **Source 2** engine as implemented in **Counter-Strike 2**.
+---
 
-This project documents low-level engine architecture, binary memory layouts, wire serialization formats, and mathematical simulation models reconstructed through static binary reverse engineering of `client.dll`, `server.dll`, `networksystem.dll`, `schemasystem.dll`, `tier0.dll`, `engine2.dll`, `vphysics2.dll`, `animationsystem.dll`, `particles.dll`, and `pulse_system.dll`.
+## 📖 About This Project
+
+**cs2-reverse** is an authoritative, ground-truth technical knowledge base and reconstructed clean-room SDK for Valve's **Source 2** engine as implemented in **Counter-Strike 2**.
+
+Key pillars of this project include:
+1. **Zero Dynamic Injection / Pure Static Analysis**: No game process hooks, DLL injection, dynamic memory modification, or anti-cheat circumvention. All research is performed against static PE binaries on disk using **NSA Ghidra** paired with **Google DeepMind Antigravity** via MCP.
+2. **Unified C++20 Engineering Standard**: All reconstructed code across `sdk/`, `game/`, and `docs/simulators/` strictly adheres to **pure ISO C++20** compiled with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) with zero external third-party dependencies.
+3. **10 Standalone Mathematical Simulators**: Reconstructed algorithms (Sub-Tick prediction, Rubikon physics raycasting, volumetric smoke voxel grids, bullet penetration ODEs, and bone hierarchy forward kinematics) are provably verified with standalone C++20 runners and interactive web canvas visualizers.
+4. **Static AI & Modding API**: Machine-readable JSON endpoints (`docs/api/v1/`) and LLM discovery documents (`llms.txt`, `llms-full.txt`) powering automated agentic analysis and modding workflows.
+5. **Decoupled 34-Binary Ecosystem**: Exhaustive architectural coverage of all 34 Source 2 modular PE binaries (`client.dll`, `server.dll`, `engine2.dll`, `schemasystem.dll`, `networksystem.dll`, `vphysics2.dll`, `animationsystem.dll`, `particles.dll`, `pulse_system.dll`, etc.).
 
 ---
 

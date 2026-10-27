@@ -174,7 +174,7 @@ When an eliminated player spectates a live bot teammate and presses `+use`:
 
 ## 6. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`cs2_controller_pawn_lifecycle_sim.cpp`](../simulators/cs2_controller_pawn_lifecycle_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`cs2_controller_pawn_lifecycle_sim.cpp`](../simulators/cs2_controller_pawn_lifecycle_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Client Connects & Initializes Persistent Controller:

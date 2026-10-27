@@ -158,7 +158,7 @@ sequenceDiagram
 
 ## 5. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`simulators/cs2_game_events_sim.cpp`](../simulators/cs2_game_events_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`simulators/cs2_game_events_sim.cpp`](../simulators/cs2_game_events_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Server Declares Game Events & Typed Keys:

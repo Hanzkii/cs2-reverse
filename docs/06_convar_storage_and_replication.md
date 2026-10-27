@@ -195,7 +195,7 @@ To ensure clients do not bypass replication using memory hooks or local modifica
 
 ## 6. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`simulators/cs2_convar_replication_sim.cpp`](../simulators/cs2_convar_replication_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`simulators/cs2_convar_replication_sim.cpp`](../simulators/cs2_convar_replication_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Initialized CVar Registries (Hash Seed: 0x31415926):

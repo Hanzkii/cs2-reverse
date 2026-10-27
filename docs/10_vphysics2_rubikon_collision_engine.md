@@ -3,7 +3,7 @@
 > **Binary Target**: `vphysics2.dll` (Base Address: `0x180000000`, Image Size: 4,829,848 bytes)  
 > **Primary Subsystems**: `CVPhysics2Interface`, `CVPhys2World`, `CRnShape`, `RnCompoundTree_t`, `CTraceRay`, `CWorldStepJob`  
 > **Key Interfaces**: `VPhysics2_Interface_001` (`0x180350120`), `InstallSchemaBindings` (`0x1803526d0`)  
-> **Verification Status**: Standalone C++ Simulator verified with MSVC x64 (`simulators/cs2_rubikon_physics_sim.cpp`)
+> **Verification Status**: Standalone C++20 Simulator verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4`) (`simulators/cs2_rubikon_physics_sim.cpp`)
 
 ---
 

@@ -150,7 +150,7 @@ For any 3D world coordinate $\mathbf{P}_{\text{world}} = (x, y, z)$:
 
 ## 4. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`simulators/cs2_view_matrix_sim.cpp`](../simulators/cs2_view_matrix_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`simulators/cs2_view_matrix_sim.cpp`](../simulators/cs2_view_matrix_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Initializing Player Camera and Base View Angles:

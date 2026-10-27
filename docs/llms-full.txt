@@ -9870,7 +9870,7 @@ Extracted directly from the protobuf descriptors in `networksystem.dll`:
 
 ## 4. Standalone Simulator & Verification
 
-We wrote and compiled a standalone MSVC x64 C++ test harness:
+We wrote and compiled a standalone MSVC x64 C++20 (`/std:c++20 /O2 /EHsc /W4`) test harness:
 [`cs2_netmessage_framing_sim.cpp`](../simulators/cs2_netmessage_framing_sim.cpp)
 
 ### Execution Output:
@@ -10225,7 +10225,7 @@ When `server.dll`'s `CLagCompensationManager::StartLagCompensation` receives a `
 
 ## 4. Verification Simulation
 
-The multi-slice physics model and sub-tick UserCmd packing were validated in a standalone C++ simulator ([`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)) compiled with MSVC x64:
+The multi-slice physics model and sub-tick UserCmd packing were validated in a standalone C++20 simulator ([`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)) compiled with MSVC x64 (`/std:c++20 /O2 /EHsc /W4`):
 
 ```
 [Step 1] Constructing Sub-Tick User Command (CSGOUserCmdPB):
@@ -10478,7 +10478,7 @@ Using our automated schema parser script, we extracted real field layouts from `
 
 ## 6. Verification Simulation Results
 
-A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim.cpp`](../simulators/cs2_schemasystem_reflection_sim.cpp)) was compiled with MSVC 64-bit and executed:
+A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim.cpp`](../simulators/cs2_schemasystem_reflection_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and executed:
 
 ```
 [Step 1] Verifying MurmurHash2 Algorithm Ground Truth:
@@ -10711,7 +10711,7 @@ When an eliminated player spectates a live bot teammate and presses `+use`:
 
 ## 6. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`cs2_controller_pawn_lifecycle_sim.cpp`](../simulators/cs2_controller_pawn_lifecycle_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`cs2_controller_pawn_lifecycle_sim.cpp`](../simulators/cs2_controller_pawn_lifecycle_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Client Connects & Initializes Persistent Controller:
@@ -10954,7 +10954,7 @@ To ensure clients do not bypass replication using memory hooks or local modifica
 
 ## 6. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`simulators/cs2_convar_replication_sim.cpp`](../simulators/cs2_convar_replication_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`simulators/cs2_convar_replication_sim.cpp`](../simulators/cs2_convar_replication_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Initialized CVar Registries (Hash Seed: 0x31415926):
@@ -11143,7 +11143,7 @@ For any 3D world coordinate $\mathbf{P}_{\text{world}} = (x, y, z)$:
 
 ## 4. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`simulators/cs2_view_matrix_sim.cpp`](../simulators/cs2_view_matrix_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`simulators/cs2_view_matrix_sim.cpp`](../simulators/cs2_view_matrix_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Initializing Player Camera and Base View Angles:
@@ -11339,7 +11339,7 @@ sequenceDiagram
 
 ## 5. Standalone Verification Simulation
 
-Our standalone C++ simulator ([`simulators/cs2_game_events_sim.cpp`](../simulators/cs2_game_events_sim.cpp)) was compiled with MSVC 64-bit and verified:
+Our standalone C++20 simulator ([`simulators/cs2_game_events_sim.cpp`](../simulators/cs2_game_events_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Server Declares Game Events & Typed Keys:
@@ -11686,7 +11686,7 @@ Output:
 > **Binary Target**: `vphysics2.dll` (Base Address: `0x180000000`, Image Size: 4,829,848 bytes)  
 > **Primary Subsystems**: `CVPhysics2Interface`, `CVPhys2World`, `CRnShape`, `RnCompoundTree_t`, `CTraceRay`, `CWorldStepJob`  
 > **Key Interfaces**: `VPhysics2_Interface_001` (`0x180350120`), `InstallSchemaBindings` (`0x1803526d0`)  
-> **Verification Status**: Standalone C++ Simulator verified with MSVC x64 (`simulators/cs2_rubikon_physics_sim.cpp`)
+> **Verification Status**: Standalone C++20 Simulator verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4`) (`simulators/cs2_rubikon_physics_sim.cpp`)
 
 ---
 

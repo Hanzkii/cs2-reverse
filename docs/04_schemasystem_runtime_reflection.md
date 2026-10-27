@@ -208,7 +208,7 @@ Using our automated schema parser script, we extracted real field layouts from `
 
 ## 6. Verification Simulation Results
 
-A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim.cpp`](../simulators/cs2_schemasystem_reflection_sim.cpp)) was compiled with MSVC 64-bit and executed:
+A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim.cpp`](../simulators/cs2_schemasystem_reflection_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and executed:
 
 ```
 [Step 1] Verifying MurmurHash2 Algorithm Ground Truth:

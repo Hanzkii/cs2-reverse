@@ -151,7 +151,7 @@ When `server.dll`'s `CLagCompensationManager::StartLagCompensation` receives a `
 
 ## 4. Verification Simulation
 
-The multi-slice physics model and sub-tick UserCmd packing were validated in a standalone C++ simulator ([`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)) compiled with MSVC x64:
+The multi-slice physics model and sub-tick UserCmd packing were validated in a standalone C++20 simulator ([`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)) compiled with MSVC x64 (`/std:c++20 /O2 /EHsc /W4`):
 
 ```
 [Step 1] Constructing Sub-Tick User Command (CSGOUserCmdPB):

@@ -158,7 +158,7 @@ Extracted directly from the protobuf descriptors in `networksystem.dll`:
 
 ## 4. Standalone Simulator & Verification
 
-We wrote and compiled a standalone MSVC x64 C++ test harness:
+We wrote and compiled a standalone MSVC x64 C++20 (`/std:c++20 /O2 /EHsc /W4`) test harness:
 [`cs2_netmessage_framing_sim.cpp`](../simulators/cs2_netmessage_framing_sim.cpp)
 
 ### Execution Output:
