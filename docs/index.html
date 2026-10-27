@@ -418,7 +418,7 @@
                   <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                   Reconstructed Clean-Room C++ Modules (<code class="text-brand-400 font-mono text-sm">game/&lt;module&gt;/</code>)
                 </h2>
-                <p class="text-xs text-slate-400 mt-0.5">Pure C++17 implementations reverse engineered directly from Ghidra decompilation.</p>
+                <p class="text-xs text-slate-400 mt-0.5">Pure C++20 implementations reverse engineered directly from Ghidra decompilation.</p>
               </div>
               <span id="binReconCountBadge" class="px-2.5 py-1 rounded bg-brand-500/10 text-brand-400 border border-brand-500/30 text-xs font-mono font-bold w-max">2 Files</span>
             </div>
@@ -611,7 +611,7 @@
               Source 2 Analysis &amp; Reverse Engineering Tools
             </h1>
             <p class="text-slate-400 text-sm mt-1">
-              Custom Python 3 and C++17 utilities developed to inspect PE headers, extract MSVC x64 RTTI, dump runtime schema reflection offsets, crawl virtual method tables, and automate documentation generation with zero external pip dependencies.
+              Custom Python 3 and C++20 utilities developed to inspect PE headers, extract MSVC x64 RTTI, dump runtime schema reflection offsets, crawl virtual method tables, and automate documentation generation with zero external pip dependencies.
             </p>
           </div>
           <div class="flex items-center gap-2">
@@ -755,7 +755,7 @@
 
           </div>
 
-          <!-- Verified Disassembly Addresses & Reconstructed C++17 Simulator Source Inspector -->
+          <!-- Verified Disassembly Addresses & Reconstructed C++20 Simulator Source Inspector -->
           <div id="simAddressesAndCodePanel" class="space-y-6">
             <!-- Populated dynamically by openSimulator() -->
           </div>
@@ -1075,14 +1075,14 @@
 
         <!-- SUBTAB 1: MODULAR HEADERS EXPLORER -->
         <div id="sdkSectionHeaders" class="space-y-4">
-          <!-- Suite Selection Pills: C++20 sdk/ vs C++17 game/ -->
+          <!-- Suite Selection Pills: Master C++20 Suite (sdk/) vs Modular C++20 SDK (game/) -->
           <div class="flex items-center justify-between flex-wrap gap-2">
             <div class="flex items-center gap-1.5 bg-[#090d16] p-1 rounded-xl border border-cs2-border text-xs font-mono">
               <button onclick="setSdkSuiteMode('cpp20')" id="sdkSuiteCpp20Btn" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold transition-all shadow-sm cursor-pointer">
                 Master C++20 SDK (sdk/)
               </button>
               <button onclick="setSdkSuiteMode('cpp17')" id="sdkSuiteCpp17Btn" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer">
-                Modular C++17 Engine SDK (game/)
+                Modular C++20 Engine SDK (game/)
               </button>
             </div>
             <div id="sdkModuleSelectorContainer" class="hidden flex items-center gap-2 text-xs font-mono">
@@ -1181,7 +1181,7 @@
                 <span class="text-blue-400 font-mono font-bold text-xs">/docs/api/v1/sdk.json</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/20 text-blue-300">JSON</span>
               </div>
-              <p class="text-slate-400 text-xs">All C++20 and C++17 header source files, structures, and implementations across all engine modules.</p>
+              <p class="text-slate-400 text-xs">All production C++20 header source files, structures, and implementations across all engine modules.</p>
               <div class="pt-2 flex items-center gap-2">
                 <a href="api/v1/sdk.json" target="_blank" class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">View Endpoint</a>
                 <button onclick="copyApiText(window.location.origin + window.location.pathname.replace(/index\.html$/, '') + 'api/v1/sdk.json', 'Copied sdk.json URL!')" class="px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white text-xs font-mono">Copy URL</button>
@@ -2301,7 +2301,7 @@
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                  <span class="px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/40 text-[10px] font-mono font-bold">C++17</span>
+                  <span class="px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/40 text-[10px] font-mono font-bold">C++20</span>
                   <span class="font-mono text-xs font-bold text-white">${escapeHtml(f.name)}</span>
                   ${f.header ? `<span class="text-slate-500 text-[11px] font-mono">/ ${escapeHtml(f.header.split('/').pop())}</span>` : ''}
                 </div>
@@ -4562,7 +4562,7 @@
       // Render interactive visualizer for this simulation
       renderSimVisualizer(simId);
 
-      // Render Verified Disassembly Addresses & C++17 Reference Code panel
+      // Render Verified Disassembly Addresses & C++20 Reference Code panel
       renderSimAddressesAndCode(s);
     }
 
@@ -4595,30 +4595,30 @@
                 </div>
               `).join('') : `
                 <div class="text-slate-400 text-xs p-3 bg-slate-900/50 rounded-xl border border-slate-800">
-                  Clean-room C++17 simulation verified against Source 2 binary disassembly.
+                  Clean-room C++20 simulation verified against Source 2 binary disassembly.
                 </div>
               `}
             </div>
           </div>
 
-          <!-- Standalone C++17 Build & Reference Runner -->
+          <!-- Standalone C++20 Build & Reference Runner -->
           <div class="lg:col-span-7 bg-[#111827] border border-cs2-border rounded-2xl p-5 shadow-xl space-y-3 flex flex-col justify-between">
             <div class="space-y-3">
               <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
                 <h3 class="text-xs font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  Standalone C++17 Reference Simulator (<code class="text-amber-300">${escapeHtml(s.name)}</code>)
+                  Standalone C++20 Reference Simulator (<code class="text-amber-300">${escapeHtml(s.name)}</code>)
                 </h3>
                 ${s.runner ? `<span class="text-[11px] font-mono text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">Runner: ${escapeHtml(s.runner)}</span>` : ''}
               </div>
               <p class="text-xs text-slate-300 leading-relaxed">
-                Every interactive visualizer is backed by a zero-dependency C++17 reference simulation in <code class="text-cyan-300 font-mono">docs/simulators/${escapeHtml(s.name)}</code> compiled with MSVC x64 (<code class="text-slate-200 font-mono">/O2 /std:c++17 /EHsc</code>).
+                Every interactive visualizer is backed by a zero-dependency C++20 reference simulation in <code class="text-cyan-300 font-mono">docs/simulators/${escapeHtml(s.name)}</code> compiled with MSVC x64 (<code class="text-slate-200 font-mono">/O2 /std:c++20 /EHsc</code>).
               </p>
               <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-xs text-slate-200 flex items-center justify-between gap-3">
-                <code class="truncate select-all">cl /O2 /std:c++17 /EHsc docs\\simulators\\${escapeHtml(s.name)}</code>
+                <code class="truncate select-all">cl /O2 /std:c++20 /EHsc docs\\simulators\\${escapeHtml(s.name)}</code>
                 ${hasCode ? `
                   <button onclick="document.getElementById('simCppCodeDrawer').classList.toggle('hidden')" class="px-2.5 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 text-[11px] font-bold shrink-0 cursor-pointer">
-                    Toggle C++17 Source (${s.lineCount || ''} lines)
+                    Toggle C++20 Source (${s.lineCount || ''} lines)
                   </button>
                 ` : ''}
               </div>
@@ -7194,17 +7194,17 @@
 
     function copyAiModdingPrompt() {
       const latest = VERSIONS_DATA.length > 0 ? VERSIONS_DATA[VERSIONS_DATA.length - 1] : { build_id: '26144732', date: '2026-10-25' };
-      const promptText = `You are a Counter-Strike 2 (Source 2 Engine, Build ${latest.build_id}) C++17 modding and reverse-engineering assistant.
-Use the authoritative cs2-reverse static API & SDK endpoints below for all memory offsets, IDA/Ghidra byte signatures, RVAs, SchemaSystem fields, and reconstructed C++17 classes:
+      const promptText = `You are a Counter-Strike 2 (Source 2 Engine, Build ${latest.build_id}) C++20 modding and reverse-engineering assistant.
+Use the authoritative cs2-reverse static API & SDK endpoints below for all memory offsets, IDA/Ghidra byte signatures, RVAs, SchemaSystem fields, and reconstructed C++20 classes:
 
-1. Full Single-File AI Context (All Signatures + C++17 SDK Headers + Schemas + Docs):
+1. Full Single-File AI Context (All Signatures + C++20 SDK Headers + Schemas + Docs):
    https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt
 2. Concise AI Index:
    https://hanzkii.github.io/cs2-reverse/docs/llms.txt
 3. JSON API Endpoints:
    - Master Index & Self-Update Protocol: https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json
    - 39 Function Signatures & RVAs: https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json
-   - Clean-Room C++17 SDK (game/**/*.h & .cpp): https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json
+   - Clean-Room C++20 SDK (game/**/*.h & .cpp): https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json
    - Core Schema Classes & Offsets: https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json
    - 2,695 ConVars & Flags: https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json
    - Latest Patch Diffs: https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json
@@ -7253,7 +7253,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
     let activeSdkHeader = 'cs2_sdk.hpp';
     let activeSdkPath = 'sdk/cs2_sdk.hpp';
     let activeSdkSubtab = 'headers';
-    let activeSdkSuiteMode = 'cpp20'; // 'cpp20' or 'cpp17'
+    let activeSdkSuiteMode = 'cpp20'; // 'cpp20' (sdk/) or 'modular' (game/)
     let activeSdkModule = 'shared'; // for cpp17 mode
 
     function setSdkSuiteMode(mode) {
@@ -7454,7 +7454,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
         fileContent = `// ${activeSdkPath}\n// File available in repository under ${activeSdkPath}`;
       }
 
-      const stdLabel = activeSdkSuiteMode === 'cpp20' ? 'C++20' : 'C++17';
+      const stdLabel = 'C++20';
       const lines = fileContent.split('\n');
       if (metaEl) metaEl.innerText = `(${stdLabel}, ${lines.length} lines, ${(fileContent.length / 1024).toFixed(1)} KB)`;
       if (codeEl) {
@@ -7660,7 +7660,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
                 <span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold">~425 KB &bull; Complete Context</span>
               </div>
               <p class="text-slate-300 font-sans text-[11px] leading-relaxed">
-                Single-file bundle containing all 39 function signatures, all 20 C++17 SDK headers (<code class="text-slate-200">game/**/*.h</code>), key Schema class offsets, and all 20 architecture docs.
+                Single-file bundle containing all 39 function signatures, all C++20 SDK headers (<code class="text-slate-200">game/**/*.h</code>), key Schema class offsets, and all 20 architecture docs.
               </p>
               <div class="flex items-center gap-2 pt-1">
                 <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt', 'Copied llms-full.txt URL!')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] cursor-pointer">Copy URL</button>
@@ -7674,7 +7674,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
                 <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">~11 KB &bull; Fast Index</span>
               </div>
               <p class="text-slate-300 font-sans text-[11px] leading-relaxed">
-                Compact directory index of all API endpoints, C++17 SDK modules, and a complete table of all 39 reversed function RVAs/VAs for fast agent discovery.
+                Compact directory index of all API endpoints, C++20 SDK modules, and a complete table of all 39 reversed function RVAs/VAs for fast agent discovery.
               </p>
               <div class="flex items-center gap-2 pt-1">
                 <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/llms.txt', 'Copied llms.txt URL!')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] cursor-pointer">Copy URL</button>
@@ -7715,7 +7715,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
                 </tr>
                 <tr class="hover:bg-slate-900/60">
                   <td class="p-3 font-bold text-emerald-300">/docs/api/v1/sdk.json</td>
-                  <td class="p-3 font-sans text-slate-300">All 40 reconstructed C++17 headers &amp; source files (<code class="text-slate-200">game/**/*.h, .cpp</code>) across 10 modules.</td>
+                  <td class="p-3 font-sans text-slate-300">All reconstructed C++20 headers &amp; source files (<code class="text-slate-200">game/**/*.h, .cpp</code>) across 10 modules.</td>
                   <td class="p-3 text-right space-x-1.5 whitespace-nowrap">
                     <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json', 'Copied sdk.json URL!')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[10px] cursor-pointer">Copy URL</button>
                     <a href="api/v1/sdk.json" target="_blank" class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px]">JSON &nearr;</a>
@@ -7789,7 +7789,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
                 </p>
               </div>
               <button onclick="copyApiText('https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json', 'Copied sdk.json URL (contains game/schemasystem/schemasystem.h)!')" class="w-full py-1.5 px-2.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 font-mono font-bold text-[11px] transition-colors cursor-pointer">
-                Copy C++17 Schema SDK URL
+                Copy C++20 Schema SDK URL
               </button>
             </div>
 

@@ -8,7 +8,7 @@ if %ERRORLEVEL% neq 0 (
         call vcvars64.bat >nul 2>&1
     )
 )
-cl.exe /O2 /std:c++17 /EHsc cs2_rubikon_physics_sim.cpp
+cl.exe /O2 /std:c++20 /EHsc cs2_rubikon_physics_sim.cpp
 if %ERRORLEVEL% equ 0 (
     echo [BUILD SUCCESS] Running Rubikon Physics simulation...
     cs2_rubikon_physics_sim.exe

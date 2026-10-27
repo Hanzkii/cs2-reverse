@@ -1080,7 +1080,7 @@ TOOLS_DATA = [
         "id": "fast_scan",
         "name": "fast_scan.cpp & run_fast_scan.bat",
         "category": "Binary Scanning & Automation",
-        "language": "C++17 (MSVC x64)",
+        "language": "C++20 (MSVC x64)",
         "targets": ["All 24 Binaries"],
         "summary": "High-performance multithreaded byte pattern and string scanner using memory-mapped I/O.",
         "purpose": "Searches gigabytes of game binaries in milliseconds. Uses Windows memory-mapped files (CreateFileMapping) and SIMD bitwise scanning to locate byte patterns, RTTI descriptors, interface names, and instruction signatures without Python overhead.",
@@ -1551,7 +1551,7 @@ MODULE_RECONSTRUCTED_DATA = {
 }
 
 def collect_sdk_modules(root):
-    """Collects all clean-room reconstructed C++17 & C++20 SDK headers and source files."""
+    """Collects all clean-room reconstructed C++20 SDK headers and source files."""
     sdk_modules = []
     sdk_dir = os.path.join(root, "sdk")
     if os.path.exists(sdk_dir):
@@ -1587,7 +1587,7 @@ def collect_sdk_modules(root):
                 sdk_modules.append({
                     "module": mod_label,
                     "directory": f"game/{mod_name}",
-                    "standard": "C++17",
+                    "standard": "C++20 (/std:c++20 /W4)",
                     "files": files_map
                 })
     return sdk_modules
@@ -1639,8 +1639,8 @@ def main():
                     "runner": fname.replace("cs2_", "build_").replace(".cpp", ".bat"),
                     "category": "Engine Simulation",
                     "badge": title_guess[:24],
-                    "checks": f"Reconstructed C++17 simulation runner ({len(lines)} lines) verifying Source 2 internal algorithms.",
-                    "description": f"Interactive engine visualizer and clean-room C++17 reference simulation for {title_guess}.",
+                    "checks": f"Reconstructed C++20 simulation runner ({len(lines)} lines) verifying Source 2 internal algorithms.",
+                    "description": f"Interactive engine visualizer and clean-room C++20 reference simulation for {title_guess}.",
                     "addresses": [],
                     "code": code_str,
                     "lineCount": len(lines)
@@ -1821,7 +1821,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "usage_instructions_for_ai": (
             "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, "
             "engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. "
-            "Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations."
+            "Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++20 headers and implementations."
         ),
         "self_update_protocol": {
             "summary": "How AI agents and developers can obtain 100% up-to-date RVAs, signatures, and Schema offsets immediately after a CS2 Steam update, even if this GitHub repository has not been updated yet.",
@@ -1887,7 +1887,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     with open(os.path.join(api_dir, "sdk.json"), "w", encoding="utf-8") as f:
         json.dump({
             "build_id": latest_ver.get("build_id"),
-            "standard": "C++17 / C++20",
+            "standard": "C++20 (/std:c++20 /W4 /WX)",
             "modules_count": len(sdk_modules),
             "modules": sdk_modules
         }, f, indent=2)
@@ -1914,13 +1914,13 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     llms_lines = [
         "# CS2 (Source 2) Reverse Engineering & Modding Reference",
         "",
-        f"> Authoritative clean-room C++17 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build {latest_ver.get('build_id')}).",
+        f"> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build {latest_ver.get('build_id')}).",
         "",
         "## Quick AI & Modding Context Links",
-        f"- [Full AI Context Bundle (llms-full.txt)]({base_url}/llms-full.txt): Single-file concatenation of all 39 function signatures, C++17 SDK headers, key Schema offsets, and architecture docs.",
+        f"- [Full AI Context Bundle (llms-full.txt)]({base_url}/llms-full.txt): Single-file concatenation of all 39 function signatures, C++20 SDK headers, key Schema offsets, and architecture docs.",
         f"- [API Master Index (JSON)]({base_url}/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.",
         f"- [Function Signatures & RVAs (JSON)]({base_url}/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.",
-        f"- [Reconstructed C++17 SDK (JSON)]({base_url}/api/v1/sdk.json): Complete clean-room C++17 headers and implementations across 9 Source 2 binaries.",
+        f"- [Reconstructed C++20 SDK (JSON)]({base_url}/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 9 Source 2 binaries.",
         f"- [Core Modding Schemas & Offsets (JSON)]({base_url}/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.",
         f"- [ConVars & Commands Database (JSON)]({base_url}/api/v1/convars.json): 2,695 categorized Source 2 console variables with FCVAR flags and descriptions.",
         f"- [Latest Patch Diff Telemetry (JSON)]({base_url}/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.",
@@ -1930,7 +1930,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "",
         "### 1. Resolve Shifted Function RVAs via Wildcard Byte Signatures (`signatures.json`)",
         "- **Why RVAs Shift**: Minor code changes shift function addresses (`current_rva`) by `+N` bytes, but the compiled instruction opcodes (`pattern` in `signatures.json`, with `??` masking relocatable 32-bit RIP-relative displacements) remain invariant.",
-        "- **In C++17 Mods**: Never hardcode `current_rva` alone. Scan the module's `.text` section at startup using the `pattern` string from `signatures.json`.",
+        "- **In C++20 Mods**: Never hardcode `current_rva` alone. Scan the module's `.text` section at startup using the `pattern` string from `signatures.json`.",
         "- **Standalone Zero-Dependency Python Scanner (Run on user's local `.dll` to get new RVA/VA)**:",
         "```python",
         "import struct, re, urllib.request, json",
@@ -1954,7 +1954,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "  1. Call `CSchemaSystem::FindTypeScopeForModule(\"client.dll\")` (VTable Slot 13).",
         "  2. Call `CSchemaSystemTypeScope::FindDeclaredClass(\"C_CSPlayerPawn\")` (VTable Slot 2).",
         "  3. Iterate `SchemaClassInfoData_t::m_pFields` (`+0x28`, count at `+0x1C`) and read `SchemaClassFieldData_t::m_nSingleInheritanceOffset` (`+0x10`).",
-        "  4. Clean-room C++17 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).",
+        "  4. Clean-room C++20 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).",
         "",
         "### 3. Full Local Repository Resync (~30 Seconds, Zero Ghidra Required)",
         "If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, 2,695+ ConVars, and local API files:",
@@ -1972,7 +1972,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "python tools/generate_docs_bundle.py && python tools/generate_portal_data.py",
         "```",
         "",
-        "## Reconstructed C++17 & C++20 Modding SDK (`sdk/` & `game/`)",
+        "## Reconstructed C++20 Modding SDK (`sdk/` & `game/`)",
     ]
 
     for mod in sdk_modules:
@@ -2025,7 +2025,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     full_lines.extend([
         "================================================================================",
-        "# SECTION 2: CLEAN-ROOM C++17 & C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)",
+        "# SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)",
         "================================================================================",
         ""
     ])

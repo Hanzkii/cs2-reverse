@@ -24,7 +24,7 @@
     "binaries": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/binaries.json",
     "latest_diff": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json"
   },
-  "usage_instructions_for_ai": "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++17 headers and implementations.",
+  "usage_instructions_for_ai": "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++20 headers and implementations.",
   "self_update_protocol": {
     "summary": "How AI agents and developers can obtain 100% up-to-date RVAs, signatures, and Schema offsets immediately after a CS2 Steam update, even if this GitHub repository has not been updated yet.",
     "method_1_wildcard_pattern_scanning": {

@@ -24,7 +24,7 @@
 
 ## 4. Engineering & Verification Standards
 - **Static Analysis Only**: No live game process hooks, DLL injection, or dynamic memory modification.
-- **Reconstructed SDK & Simulator Standards**: Pure C++17 under `game/` (`game/interfaces/` and `game/shared/`) and reference simulation runners under `docs/simulators/`, compiled with MSVC x64 (`/O2 /std:c++17 /EHsc`), zero third-party pip/vcpkg runtime dependencies.
+- **Reconstructed SDK & Simulator Standards**: Pure C++20 across `sdk/`, `game/` (`game/interfaces/` and `game/shared/`), and reference simulation runners under `docs/simulators/`, compiled with MSVC x64 (`/O2 /std:c++20 /EHsc /W4`), zero third-party pip/vcpkg runtime dependencies.
 - **Portal Data Sync**: Whenever `docs/*.md` are modified or added, always regenerate portal data via `python tools/generate_docs_bundle.py; python tools/generate_portal_data.py`.
 
 ## 5. Canonical Function Signatures & RVA Tracking Protocol

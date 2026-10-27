@@ -1,12 +1,12 @@
 # CS2 (Source 2) Reverse Engineering & Modding Reference
 
-> Authoritative clean-room C++17 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26144732).
+> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26144732).
 
 ## Quick AI & Modding Context Links
-- [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 39 function signatures, C++17 SDK headers, key Schema offsets, and architecture docs.
+- [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 39 function signatures, C++20 SDK headers, key Schema offsets, and architecture docs.
 - [API Master Index (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.
 - [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
-- [Reconstructed C++17 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++17 headers and implementations across 9 Source 2 binaries.
+- [Reconstructed C++20 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 9 Source 2 binaries.
 - [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.
 - [ConVars & Commands Database (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json): 2,695 categorized Source 2 console variables with FCVAR flags and descriptions.
 - [Latest Patch Diff Telemetry (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.
@@ -16,7 +16,7 @@ When Valve ships a new Counter-Strike 2 Steam update before this repository is u
 
 ### 1. Resolve Shifted Function RVAs via Wildcard Byte Signatures (`signatures.json`)
 - **Why RVAs Shift**: Minor code changes shift function addresses (`current_rva`) by `+N` bytes, but the compiled instruction opcodes (`pattern` in `signatures.json`, with `??` masking relocatable 32-bit RIP-relative displacements) remain invariant.
-- **In C++17 Mods**: Never hardcode `current_rva` alone. Scan the module's `.text` section at startup using the `pattern` string from `signatures.json`.
+- **In C++20 Mods**: Never hardcode `current_rva` alone. Scan the module's `.text` section at startup using the `pattern` string from `signatures.json`.
 - **Standalone Zero-Dependency Python Scanner (Run on user's local `.dll` to get new RVA/VA)**:
 ```python
 import struct, re, urllib.request, json
@@ -40,7 +40,7 @@ def resolve_new_rva(dll_path: str, ida_pattern: str):
   1. Call `CSchemaSystem::FindTypeScopeForModule("client.dll")` (VTable Slot 13).
   2. Call `CSchemaSystemTypeScope::FindDeclaredClass("C_CSPlayerPawn")` (VTable Slot 2).
   3. Iterate `SchemaClassInfoData_t::m_pFields` (`+0x28`, count at `+0x1C`) and read `SchemaClassFieldData_t::m_nSingleInheritanceOffset` (`+0x10`).
-  4. Clean-room C++17 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).
+  4. Clean-room C++20 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).
 
 ### 3. Full Local Repository Resync (~30 Seconds, Zero Ghidra Required)
 If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, 2,695+ ConVars, and local API files:
@@ -58,7 +58,7 @@ python tools/export_source2_ghidra_headers.py versions/profiles/YYYY-MM-DD_<NEW_
 python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 ```
 
-## Reconstructed C++17 & C++20 Modding SDK (`sdk/` & `game/`)
+## Reconstructed C++20 Modding SDK (`sdk/` & `game/`)
 - **cs2_sdk** (`sdk/`): `client_classes.hpp`, `cs2_sdk.hpp`, `entity_system.hpp`, `input_usercmd.hpp`, `interfaces_registry.hpp`, `render_scene_material.hpp`, `schema_system.hpp`, `trace_events_aux.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk)
 - **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
 - **client.dll** (`game/client/`): `entity_system.cpp`, `entity_system.h`, `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
@@ -421,7 +421,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **Description**: Converts a 3D unit axis and radian angle into a 4D unit quaternion (axis * sin(theta/2), cos(theta/2)).
 
 ================================================================================
-# SECTION 2: CLEAN-ROOM C++17 & C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
+# SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
 ================================================================================
 
 ### File: `sdk/client_classes.hpp` (cs2_sdk)

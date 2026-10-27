@@ -8,7 +8,7 @@ if %ERRORLEVEL% neq 0 (
         call vcvars64.bat >nul 2>&1
     )
 )
-cl.exe /O2 /std:c++17 /EHsc cs2_weapon_spread_recoil_sim.cpp
+cl.exe /O2 /std:c++20 /EHsc cs2_weapon_spread_recoil_sim.cpp
 if %ERRORLEVEL% equ 0 (
     echo [BUILD SUCCESS] Running weapon spread & recoil simulation...
     cs2_weapon_spread_recoil_sim.exe

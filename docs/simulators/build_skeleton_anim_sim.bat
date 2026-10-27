@@ -14,7 +14,7 @@ if %ERRORLEVEL% neq 0 (
     )
 )
 
-cl.exe /O2 /std:c++17 /EHsc /W4 /Fe:cs2_skeleton_animation_sim.exe cs2_skeleton_animation_sim.cpp
+cl.exe /O2 /std:c++20 /EHsc /W4 /Fe:cs2_skeleton_animation_sim.exe cs2_skeleton_animation_sim.cpp
 if %ERRORLEVEL% neq 0 (
     echo Compilation failed!
     exit /b 1
