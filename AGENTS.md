@@ -27,11 +27,14 @@
 - **Reconstructed SDK & Simulator Standards**: Pure C++20 across `sdk/`, `game/` (`game/interfaces/` and `game/shared/`), and reference simulation runners under `docs/simulators/`, compiled with MSVC x64 (`/O2 /std:c++20 /EHsc /W4`), zero third-party pip/vcpkg runtime dependencies.
 - **Portal Data Sync**: Whenever `docs/*.md` are modified or added, always regenerate portal data via `python tools/generate_docs_bundle.py; python tools/generate_portal_data.py`.
 
-## 5. Canonical Function Signatures & RVA Tracking Protocol
+## 5. Canonical Function Signatures & Game Update Protocol
 - **Centralized Registry**: Every reversed internal function, math routine, or virtual execution dispatcher MUST be registered in `data/function_signatures.json` with its target binary, symbol name, baseline RVA/VA, and robust IDA/Ghidra pattern.
 - **100% Uniqueness Invariant**: Every pattern MUST be verified against the baseline archive to produce exactly 1 match using `python tools/scan_signatures.py`. Ambiguous (>1) or broken (0) patterns must be extended with discriminator bytes.
-- **Mandatory Update Protocol**: With every CS2 update, developers and agents MUST scan and update Function signatures and Virtual Address / Offsets for all updated binaries (`python tools/scan_signatures.py --update-db`). This automatically synchronizes `current_rva`, `current_va`, `delta_bytes`, `delta_str`, and `status` across all registered entries in `data/function_signatures.json`.
-- **Automated Update Diffing**: On each new CS2 patch, `tools/cs2_patch_diff.py` and `tools/scan_signatures.py --diff` automatically detect RVA shifts (`+N` bytes) and flag broken signatures requiring Ghidra re-analysis.
+- **Mandatory Game Update Protocol**: With every CS2 update:
+  1. **Archive Ingestion First**: Move updated game binaries directly into `versions/archive/<DATE>_<BUILD_ID>/` (strictly excluded from git via `.gitignore`).
+  2. **Automated Diffing & Signature Scanning**: Run `python tools/cs2_patch_diff.py` and `python tools/scan_signatures.py --update-db`. This synchronizes `current_rva`, `current_va`, `delta_bytes`, `delta_str`, and `status` across all registered entries in `data/function_signatures.json` and updates `versions/profiles/`.
+  3. **Ghidra Ingestion & Progress Porting**: Import the updated binaries into Ghidra under a dedicated project version folder (`/<DATE>_<BUILD_ID>/`). Automatically port reversed function names, labels, and bookmarks from `data/function_signatures.json` (`current_va`) to the updated binaries.
+  4. **Documentation & Portal Sync**: Re-run `python tools/generate_docs_bundle.py; python tools/generate_portal_data.py` to keep the live portal and static API synchronized.
 
 ## 6. Temporary Tools & Scratchpad Guardrail
 - **No Temporary or Auxiliary Scripts in `tools/`**: Only canonical, documented reverse-engineering utilities that directly analyze game binaries or build project datasets may reside in `tools/`.
