@@ -4868,6 +4868,54 @@
             <input type="range" id="param11Thresh" min="0.05" max="0.50" step="0.05" value="0.20" class="w-full accent-amber-500" oninput="document.getElementById('lblParam11Thresh').innerText = parseFloat(this.value).toFixed(2)">
           </div>
         `;
+      } else if (simId === '14') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Ballistics Weapon Profile:</label>
+            <select id="param14Weapon" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 font-mono">
+              <option value="ak47" selected>AK-47 Rifle (Dmg: 36, Pen: 2.0x, Falloff: 0.98)</option>
+              <option value="awp">AWP Sniper (Dmg: 115, Pen: 2.5x, Falloff: 0.99)</option>
+              <option value="m4a4">M4A4 Rifle (Dmg: 33, Pen: 1.0x, Falloff: 0.97)</option>
+              <option value="deagle">Desert Eagle (Dmg: 53, Pen: 2.0x, Falloff: 0.85)</option>
+              <option value="p90">P90 SMG (Dmg: 26, Pen: 1.0x, Falloff: 0.86)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Primary Wall Material:</label>
+            <select id="param14Mat1" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 font-mono">
+              <option value="wood" selected>Wood Planking ('W' &bull; penMod: 3.0)</option>
+              <option value="cardboard">Drywall / Cardboard ('U' &bull; penMod: 3.0)</option>
+              <option value="concrete">Solid Concrete ('C' &bull; penMod: 1.0)</option>
+              <option value="metal">Solid Steel Plate ('M' &bull; penMod: 1.0)</option>
+              <option value="glass">Reinforced Glass ('G' &bull; penMod: 3.0)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Primary Thickness:</span>
+              <span id="lblParam14Thick1" class="text-amber-300 font-bold">12 units</span>
+            </div>
+            <input type="range" id="param14Thick1" min="2" max="36" step="2" value="12" class="w-full accent-amber-500" oninput="document.getElementById('lblParam14Thick1').innerText = this.value + ' units'">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Secondary Barrier (Composite):</label>
+            <select id="param14Mat2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 font-mono">
+              <option value="none" selected>None (Single Barrier)</option>
+              <option value="sheet_metal">Sheet Metal Crate ('L' &bull; 6 units)</option>
+              <option value="wood_inner">Inner Wood Stud ('W' &bull; 10 units)</option>
+              <option value="concrete_slab">Concrete Ledge ('C' &bull; 14 units)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Target Hitbox Zone:</label>
+            <select id="param14Hitgroup" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 font-mono">
+              <option value="head" selected>Headshot (4.00x Damage Multiplier)</option>
+              <option value="chest">Chest / Thorax (1.00x Damage Multiplier)</option>
+              <option value="stomach">Pelvis / Stomach (1.25x Damage Multiplier)</option>
+              <option value="legs">Legs / Limbs (0.75x Damage Multiplier)</option>
+            </select>
+          </div>
+        `;
       } else if (simId === '16') {
         container.innerHTML = `
           <div class="space-y-1">
@@ -6263,6 +6311,287 @@
           ctx.font = '11px monospace';
           ctx.fillText('3D DDA Raymarch Trace (Ray Length: ' + dist + 'u)', 60, rayY - 12);
         }
+      }
+      else if (simId === '14') {
+        if (subtitle) subtitle.innerText = 'Authoritative Multi-Surface Penetration & Damage Absorption ODE';
+        const weapKey = (document.getElementById('param14Weapon') && document.getElementById('param14Weapon').value) || 'ak47';
+        const mat1Key = (document.getElementById('param14Mat1') && document.getElementById('param14Mat1').value) || 'wood';
+        const thick1 = parseFloat((document.getElementById('param14Thick1') && document.getElementById('param14Thick1').value) || 12);
+        const mat2Key = (document.getElementById('param14Mat2') && document.getElementById('param14Mat2').value) || 'none';
+        const hitgroupKey = (document.getElementById('param14Hitgroup') && document.getElementById('param14Hitgroup').value) || 'head';
+
+        // Weapon Profiles
+        const weapons = {
+          ak47:   { name: 'AK-47', baseDmg: 36.0, rangeMod: 0.98, penPower: 2.0, maxPens: 4 },
+          awp:    { name: 'AWP', baseDmg: 115.0, rangeMod: 0.99, penPower: 2.5, maxPens: 4 },
+          m4a4:   { name: 'M4A4', baseDmg: 33.0, rangeMod: 0.97, penPower: 1.0, maxPens: 4 },
+          deagle: { name: 'Desert Eagle', baseDmg: 53.0, rangeMod: 0.85, penPower: 2.0, maxPens: 4 },
+          p90:    { name: 'P90', baseDmg: 26.0, rangeMod: 0.86, penPower: 1.0, maxPens: 3 }
+        };
+        const weapon = weapons[weapKey] || weapons.ak47;
+
+        // Surface Profiles
+        const surfaces = {
+          wood:        { name: 'Wood Planking', char: "'W'", penMod: 3.0, dmgMod: 0.16, color: '#854d0e', borderColor: '#a16207' },
+          cardboard:   { name: 'Drywall / Plaster', char: "'U'", penMod: 3.0, dmgMod: 0.10, color: '#ca8a04', borderColor: '#eab308' },
+          concrete:    { name: 'Solid Concrete', char: "'C'", penMod: 1.0, dmgMod: 0.22, color: '#475569', borderColor: '#64748b' },
+          metal:       { name: 'Solid Steel Plate', char: "'M'", penMod: 1.0, dmgMod: 0.20, color: '#334155', borderColor: '#475569' },
+          glass:       { name: 'Reinforced Glass', char: "'G'", penMod: 3.0, dmgMod: 0.05, color: '#0369a1', borderColor: '#38bdf8' },
+          sheet_metal: { name: 'Sheet Metal', char: "'L'", penMod: 2.0, dmgMod: 0.16, thick: 6.0, color: '#1e293b', borderColor: '#38bdf8' },
+          wood_inner:  { name: 'Wood Stud', char: "'W'", penMod: 3.0, dmgMod: 0.16, thick: 10.0, color: '#854d0e', borderColor: '#a16207' },
+          concrete_slab:{ name: 'Concrete Ledge', char: "'C'", penMod: 1.0, dmgMod: 0.22, thick: 14.0, color: '#475569', borderColor: '#64748b' }
+        };
+        const mat1 = surfaces[mat1Key] || surfaces.wood;
+        const mat2 = mat2Key !== 'none' ? surfaces[mat2Key] : null;
+
+        // Hitgroup Multipliers
+        const hitgroups = {
+          head:    { name: 'Headshot', mult: 4.00, color: '#f43f5e' },
+          chest:   { name: 'Chest', mult: 1.00, color: '#38bdf8' },
+          stomach: { name: 'Stomach', mult: 1.25, color: '#10b981' },
+          legs:    { name: 'Legs', mult: 0.75, color: '#fbbf24' }
+        };
+        const hg = hitgroups[hitgroupKey] || hitgroups.head;
+
+        // Ballistics Calculations
+        const distToWall1 = 180.0; // units
+        let currentDamage = weapon.baseDmg * Math.pow(weapon.rangeMod, distToWall1 / 500.0);
+        const dmgAtEntry1 = currentDamage;
+        let remPens = weapon.maxPens;
+
+        // Wall 1 evaluation
+        const penModInv1 = Math.max(0.0, 1.0 / mat1.penMod);
+        const lostDist1 = (thick1 * thick1 * penModInv1) / 24.0;
+        const penPowerTerm1 = Math.max(0.0, (3.0 / weapon.penPower) * 1.25);
+        const lostEntry1 = penPowerTerm1 * (penModInv1 * 3.0) + (mat1.dmgMod * currentDamage);
+        const totalLost1 = lostDist1 + lostEntry1;
+        let wall1Penetrated = false;
+        let dmgAtExit1 = 0.0;
+
+        if (totalLost1 < currentDamage && (currentDamage - totalLost1) >= 1.0 && remPens > 0) {
+          wall1Penetrated = true;
+          currentDamage -= totalLost1;
+          dmgAtExit1 = currentDamage;
+          remPens--;
+        }
+
+        // Wall 2 evaluation (if active & wall 1 penetrated)
+        let wall2Penetrated = false;
+        let dmgAtExit2 = 0.0;
+        let totalLost2 = 0.0;
+        if (mat2 && wall1Penetrated) {
+          const gapDist = 50.0;
+          currentDamage *= Math.pow(weapon.rangeMod, gapDist / 500.0);
+          const thick2 = mat2.thick || 8.0;
+          const penModInv2 = Math.max(0.0, 1.0 / mat2.penMod);
+          const lostDist2 = (thick2 * thick2 * penModInv2) / 24.0;
+          const lostEntry2 = penPowerTerm1 * (penModInv2 * 3.0) + (mat2.dmgMod * currentDamage);
+          totalLost2 = lostDist2 + lostEntry2;
+
+          if (totalLost2 < currentDamage && (currentDamage - totalLost2) >= 1.0 && remPens > 0) {
+            wall2Penetrated = true;
+            currentDamage -= totalLost2;
+            dmgAtExit2 = currentDamage;
+            remPens--;
+          }
+        }
+
+        const bulletExited = (mat2 ? wall2Penetrated : wall1Penetrated);
+        const finalDamageDelivered = bulletExited ? (currentDamage * hg.mult) : 0.0;
+        const isLethal = finalDamageDelivered >= 100.0;
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2 font-mono text-xs">
+                <span class="px-2.5 py-1 rounded bg-blue-600 text-white font-bold">${weapon.name}</span>
+                <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Pen Power: ${weapon.penPower.toFixed(1)}x</span>
+                <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">Base: ${weapon.baseDmg} HP</span>
+              </div>
+              <div class="flex items-center gap-2 font-mono text-xs">
+                ${bulletExited ? (
+                  isLethal ?
+                    `<span class="px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span> LETHAL WALLBANG (${finalDamageDelivered.toFixed(1)} HP)</span>` :
+                    `<span class="px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">TAGGED ENEMY (${finalDamageDelivered.toFixed(1)} HP &bull; ${(100 - finalDamageDelivered).toFixed(1)} HP Left)</span>`
+                ) : `
+                  <span class="px-3 py-1 rounded bg-slate-800 text-slate-400 border border-slate-700 font-bold">BLOCKED (Kinetic Absorption)</span>
+                `}
+              </div>
+            </div>
+
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="penCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+              <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 space-y-1">
+                <div class="text-slate-500 text-[10px]">ENTRY 1 DAMAGE</div>
+                <div class="text-white font-bold text-sm">${dmgAtEntry1.toFixed(2)} HP</div>
+                <div class="text-[10px] text-slate-400">After 180u air falloff</div>
+              </div>
+              <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 space-y-1">
+                <div class="text-amber-400 text-[10px]">WALL 1 ABSORPTION</div>
+                <div class="text-amber-300 font-bold text-sm">-${totalLost1.toFixed(2)} HP</div>
+                <div class="text-[10px] text-slate-400">${mat1.name} (${thick1}u)</div>
+              </div>
+              <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 space-y-1">
+                <div class="text-cyan-400 text-[10px]">EXIT DAMAGE</div>
+                <div class="text-cyan-300 font-bold text-sm">${bulletExited ? currentDamage.toFixed(2) : '0.00'} HP</div>
+                <div class="text-[10px] text-slate-400">Remaining Pens: ${remPens}</div>
+              </div>
+              <div class="bg-[#0b0f19] border border-slate-800 rounded-lg p-2.5 space-y-1">
+                <div class="text-rose-400 text-[10px]">TARGET IMPACT</div>
+                <div class="${isLethal ? 'text-rose-400' : 'text-emerald-400'} font-bold text-sm">${finalDamageDelivered.toFixed(2)} HP</div>
+                <div class="text-[10px] text-slate-400">${hg.name} (${hg.mult.toFixed(2)}x)</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const canvas = document.getElementById('penCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+
+        // Background
+        ctx.fillStyle = '#060a12';
+        ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = 0; y < h; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+        const shooterX = 80;
+        const rayY = 170;
+
+        // Wall 1 Geometry
+        const scaleX = 1.6;
+        const wall1X = shooterX + 180 * scaleX;
+        const wall1W = Math.max(16, thick1 * 3.5);
+        const wall1H = 220;
+
+        // Draw Wall 1
+        ctx.fillStyle = mat1.color;
+        ctx.fillRect(wall1X, rayY - wall1H / 2, wall1W, wall1H);
+        ctx.strokeStyle = mat1.borderColor;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(wall1X, rayY - wall1H / 2, wall1W, wall1H);
+
+        // Wall 1 Hatch pattern
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.lineWidth = 1;
+        for (let y = rayY - wall1H / 2; y < rayY + wall1H / 2; y += 15) {
+          ctx.beginPath(); ctx.moveTo(wall1X, y); ctx.lineTo(wall1X + wall1W, y + 10); ctx.stroke();
+        }
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText(`${mat1.name} [${thick1}u]`, wall1X - 10, rayY - wall1H / 2 - 10);
+
+        // Wall 2 Geometry (if active)
+        let wall2X = 0, wall2W = 0, wall2H = 0;
+        if (mat2) {
+          wall2X = wall1X + wall1W + 60;
+          wall2W = Math.max(12, (mat2.thick || 8) * 3.5);
+          wall2H = 220;
+
+          ctx.fillStyle = mat2.color;
+          ctx.fillRect(wall2X, rayY - wall2H / 2, wall2W, wall2H);
+          ctx.strokeStyle = mat2.borderColor;
+          ctx.lineWidth = 2;
+          ctx.strokeRect(wall2X, rayY - wall2H / 2, wall2W, wall2H);
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 11px monospace';
+          ctx.fillText(`${mat2.name} [${mat2.thick || 8}u]`, wall2X - 10, rayY - wall2H / 2 - 10);
+        }
+
+        // Target Player Geometry
+        const targetX = mat2 ? (wall2X + wall2W + 90) : (wall1X + wall1W + 120);
+        const targetRadius = 22;
+
+        ctx.fillStyle = bulletExited ? (isLethal ? 'rgba(244, 63, 94, 0.25)' : 'rgba(56, 189, 248, 0.25)') : 'rgba(30, 41, 59, 0.5)';
+        ctx.strokeStyle = bulletExited ? (isLethal ? '#f43f5e' : '#38bdf8') : '#475569';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(targetX, rayY, targetRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText(`Enemy Pawn (${hg.name})`, targetX - 45, rayY + targetRadius + 18);
+
+        // Draw Bullet Trajectory Line
+        // 1. Air 1
+        ctx.strokeStyle = '#f59e0b'; // Amber laser
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(shooterX, rayY);
+        ctx.lineTo(wall1X, rayY);
+        ctx.stroke();
+
+        // Entry 1 Spark
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath(); ctx.arc(wall1X, rayY, 5, 0, Math.PI * 2); ctx.fill();
+
+        // 2. Inside Wall 1
+        if (wall1Penetrated) {
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath(); ctx.moveTo(wall1X, rayY); ctx.lineTo(wall1X + wall1W, rayY); ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Exit 1 Spark
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath(); ctx.arc(wall1X + wall1W, rayY, 4, 0, Math.PI * 2); ctx.fill();
+
+          // Air between walls
+          const nextStopX = mat2 ? wall2X : targetX;
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath(); ctx.moveTo(wall1X + wall1W, rayY); ctx.lineTo(nextStopX, rayY); ctx.stroke();
+
+          // Wall 2 penetration
+          if (mat2) {
+            if (wall2Penetrated) {
+              ctx.strokeStyle = '#ef4444';
+              ctx.setLineDash([3, 3]);
+              ctx.beginPath(); ctx.moveTo(wall2X, rayY); ctx.lineTo(wall2X + wall2W, rayY); ctx.stroke();
+              ctx.setLineDash([]);
+
+              // Exit 2 Spark
+              ctx.fillStyle = '#38bdf8';
+              ctx.beginPath(); ctx.arc(wall2X + wall2W, rayY, 4, 0, Math.PI * 2); ctx.fill();
+
+              // Final line to target
+              ctx.strokeStyle = isLethal ? '#f43f5e' : '#10b981';
+              ctx.lineWidth = 2.5;
+              ctx.beginPath(); ctx.moveTo(wall2X + wall2W, rayY); ctx.lineTo(targetX, rayY); ctx.stroke();
+            } else {
+              // Blocked in wall 2
+              ctx.strokeStyle = '#ef4444';
+              ctx.beginPath(); ctx.moveTo(wall2X, rayY); ctx.lineTo(wall2X + wall2W / 2, rayY); ctx.stroke();
+              ctx.fillStyle = '#ef4444';
+              ctx.beginPath(); ctx.arc(wall2X + wall2W / 2, rayY, 4, 0, Math.PI * 2); ctx.fill();
+            }
+          }
+        } else {
+          // Blocked inside wall 1
+          ctx.strokeStyle = '#ef4444';
+          ctx.beginPath(); ctx.moveTo(wall1X, rayY); ctx.lineTo(wall1X + wall1W / 2, rayY); ctx.stroke();
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath(); ctx.arc(wall1X + wall1W / 2, rayY, 4, 0, Math.PI * 2); ctx.fill();
+        }
+
+        // Shooter Muzzle
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath(); ctx.arc(shooterX, rayY, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#10b981';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('Shooter (Origin)', shooterX - 40, rayY - 14);
       }
       else if (simId === '16') {
         if (subtitle) subtitle.innerText = 'Dual-Disk Spread Cone, ODE Recovery & 34%-95% Move Curve';

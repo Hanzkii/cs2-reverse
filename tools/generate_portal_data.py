@@ -18,6 +18,7 @@ SIMULATOR_FILES = {
     "09": "cs2_skeleton_animation_sim.cpp",
     "10": "cs2_rubikon_physics_sim.cpp",
     "11": "cs2_volumetric_smoke_sim.cpp",
+    "14": "cs2_bullet_penetration_sim.cpp",
     "16": "cs2_weapon_spread_recoil_sim.cpp",
 }
 
@@ -171,6 +172,24 @@ SIMULATORS_METADATA = [
             {"name": "SerializeSparseDelta", "addr": "0x1809b1bd0", "desc": "10-byte sparse record network serializer (2-byte word index + 8-byte bitmask)"}
         ],
         "docId": "volumetric-smoke"
+    },
+    {
+        "id": "14",
+        "name": "cs2_bullet_penetration_sim.cpp",
+        "title": "Authoritative Bullet Penetration & Multi-Surface Wallbang Physics",
+        "target": "server.dll & vphysics2.dll",
+        "runner": "build_penetration_sim.bat",
+        "category": "Physics & Ballistics",
+        "badge": "Bullet Penetration",
+        "checks": "EvaluateBulletPenetration (@ 0x180a8fca0 / current RVA 0x00a9d150), air distance falloff pow(rangeMod, dist/500), 32-byte Rubikon surface descriptors, thickness stepping, and damage absorption ODE.",
+        "description": "Simulates Valve's authoritative bullet penetration pipeline in server.dll. Models continuous distance falloff, material-specific penetration modifiers (Wood, Concrete, Metal, Cardboard, Glass), multi-surface composite wallbangs, and kinetic energy loss.",
+        "addresses": [
+            {"name": "EvaluateBulletPenetration", "addr": "0x180a8fca0", "desc": "Authoritative penetration evaluation loop in server.dll (current: 0x0a9d150)"},
+            {"name": "CCSPlayerPawn::FireBullet", "addr": "0x1802975d0", "desc": "Authoritative weapon firing and bullet dispatch routine"},
+            {"name": "TraceLineIntervals", "addr": "0x180c26c40", "desc": "Rubikon multi-interval air & solid ray stepper"},
+            {"name": "ClipTraceToPlayers", "addr": "0x180181cd0", "desc": "Lag-compensated player hitbox capsule clipping routine"}
+        ],
+        "docId": "bullet-penetration"
     },
     {
         "id": "16",
