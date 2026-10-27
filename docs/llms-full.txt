@@ -61,14 +61,20 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 ## Reconstructed C++17 & C++20 Modding SDK (`sdk/` & `game/`)
 - **cs2_sdk** (`sdk/`): `client_classes.hpp`, `cs2_sdk.hpp`, `entity_system.hpp`, `input_usercmd.hpp`, `interfaces_registry.hpp`, `render_scene_material.hpp`, `schema_system.hpp`, `trace_events_aux.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk)
 - **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
-- **client.dll** (`game/client/`): `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
+- **client.dll** (`game/client/`): `entity_system.cpp`, `entity_system.h`, `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
 - **engine2.dll** (`game/engine2/`): `cvar_engine.cpp`, `cvar_engine.h`, `game_events.cpp`, `game_events.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine2)
+- **interfaces** (`game/interfaces/`): `cvar.h`, `engine_client.h`, `game_event_manager.h`, `interfaces.h`, `schema_interface.h`, `sound_system.h`, `trace_manager.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/interfaces)
+- **materialsystem2.dll** (`game/materialsystem2/`): `material_system2.cpp`, `material_system2.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/materialsystem2)
 - **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
 - **networksystem.dll** (`game/networksystem/`): `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
 - **particles.dll** (`game/particles/`): `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
 - **pulse_system.dll** (`game/pulse_system/`): `pulse_interpreter.cpp`, `pulse_interpreter.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/pulse_system)
+- **scenesystem.dll** (`game/scenesystem/`): `scene_system.cpp`, `scene_system.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/scenesystem)
 - **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
 - **server.dll** (`game/server/`): `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
+- **shared** (`game/shared/`): `entity_handle.h`, `hitbox.h`, `math_types.h`, `ray_trace.h`, `usercmd.h`, `weapon_vdata.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/shared)
+- **soundsystem.dll** (`game/soundsystem/`): `sound_ops.cpp`, `sound_ops.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/soundsystem)
+- **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
 - **vphysics2.dll** (`game/vphysics2/`): `rubikon_collision.cpp`, `rubikon_collision.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/vphysics2)
 
 ## Verified Function Signatures Summary (Latest Build 26144732)
@@ -4112,6 +4118,86 @@ public:
 #endif // CS2_TWO_BONE_IK_H
 ```
 
+### File: `game/client/entity_system.h` (client.dll)
+```cpp
+#ifndef CS2_CLIENT_ENTITY_SYSTEM_H
+#define CS2_CLIENT_ENTITY_SYSTEM_H
+
+#include <cstdint>
+#include <cstddef>
+#include "../shared/entity_handle.h"
+
+namespace cs2::client {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+constexpr std::uint32_t MAX_TOTAL_ENTITIES   = 32768; // 64 chunks * 512 slots
+constexpr std::uint32_t ENTITIES_PER_CHUNK   = 512;   // 0x200 slots per chunk
+constexpr std::uint32_t MAX_CHUNKS           = 64;    // 0x40 chunks in table
+
+/**
+ * @brief Authoritative Entity Identity Descriptor (CEntityIdentity)
+ * Size: exactly 112 bytes (0x70), alignas(8).
+ * Cacheline-aligned metadata container residing directly inside the 2D chunk array.
+ */
+struct alignas(8) CEntityIdentity {
+    void*                 m_pEntity{nullptr};        // +0x00: Active C_BaseEntity pointer (null if slot free)
+    void*                 m_pClassInfo{nullptr};     // +0x08: Runtime CSchemaClassInfo pointer
+    shared::CEntityHandle m_entityHandle{};          // +0x10: 32-bit handle (15-bit index, 17-bit serial)
+    std::uint32_t         m_flags{0};                // +0x14: Flags (0x02 = dormant, 0x04 = queued deletion)
+    CS2_PAD(0x40, m_pad18);                          // +0x18: Internal entity identity state
+    CEntityIdentity*      m_pPrev{nullptr};          // +0x58: Singly linked bucket pointer
+    CEntityIdentity*      m_pNext{nullptr};          // +0x60: Singly linked bucket pointer
+    CS2_PAD(0x08, m_pad68);                          // +0x68
+
+    [[nodiscard]] constexpr bool IsDormant() const noexcept { return (m_flags & 0x02) != 0; }
+    [[nodiscard]] constexpr bool IsQueuedForDeletion() const noexcept { return (m_flags & 0x04) != 0; }
+    [[nodiscard]] constexpr bool IsActive() const noexcept { return m_pEntity != nullptr && !IsDormant() && !IsQueuedForDeletion(); }
+};
+static_assert(sizeof(CEntityIdentity) == 0x70, "CEntityIdentity must be exactly 0x70 (112 bytes)");
+
+/**
+ * @brief Source 2 Entity System Master Singleton (CGameEntitySystem)
+ * Total Size: 8,576 bytes (0x2180).
+ * Global Pointer in client.dll: client.dll + 0x271c8b8.
+ */
+class CGameEntitySystem {
+public:
+    virtual ~CGameEntitySystem() = default;
+
+    // Slot 1: Release
+    virtual void Release() = 0;
+
+    // Slot 2: GetEntityIdentity (RVA: +0x007357c0, VA: 0x1807357c0)
+    virtual CEntityIdentity* GetEntityIdentity(int nIndex) = 0;
+
+    // Slot 3: GetEntityByIndex
+    virtual void* GetEntityByIndex(int nIndex) = 0;
+
+    CS2_PAD(0x08, m_pad0);
+    // +0x10: 2D Chunk Page-Table (64 pointers to 512-slot CEntityIdentity pages)
+    CEntityIdentity* m_EntityChunks[MAX_CHUNKS]{};
+    CS2_PAD(0x2170 - (MAX_CHUNKS * sizeof(void*)), m_padChunks);
+
+    /**
+     * @brief Resolves a 32-bit entity handle into a CEntityIdentity pointer.
+     * Matches client.dll @ 0x1807357c0 O(1) resolution algorithm.
+     */
+    [[nodiscard]] CEntityIdentity* ResolveIdentity(shared::CEntityHandle handle) const noexcept;
+
+    /**
+     * @brief Resolves an entity pointer by handle, verifying that serial numbers match.
+     */
+    [[nodiscard]] void* ResolveEntity(shared::CEntityHandle handle) const noexcept;
+};
+
+#undef CS2_PAD
+
+} // namespace cs2::client
+
+#endif // CS2_CLIENT_ENTITY_SYSTEM_H
+```
+
 ### File: `game/client/movement.h` (client.dll)
 ```cpp
 #ifndef CS2_CLIENT_MOVEMENT_H
@@ -5192,6 +5278,554 @@ private:
 #endif // CS2_ENGINE2_GAME_EVENTS_H
 ```
 
+### File: `game/interfaces/cvar.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_CVAR_H
+#define CS2_INTERFACES_CVAR_H
+
+#include <cstdint>
+#include <string_view>
+#include "../tier0/utl_string_token.h"
+
+namespace cs2::interfaces {
+
+// Source 2 ConVar Security & Replication Flags
+namespace FCVAR {
+    constexpr std::uint32_t UNREGISTERED              = (1 << 0);
+    constexpr std::uint32_t DEVELOPMENTONLY           = (1 << 1);
+    constexpr std::uint32_t GAMEDLL                   = (1 << 2);
+    constexpr std::uint32_t CLIENTDLL                 = (1 << 3);
+    constexpr std::uint32_t HIDDEN                    = (1 << 4);
+    constexpr std::uint32_t PROTECTED                 = (1 << 5);
+    constexpr std::uint32_t SPONLY                    = (1 << 6);
+    constexpr std::uint32_t ARCHIVE                   = (1 << 7);
+    constexpr std::uint32_t NOTIFY                    = (1 << 8);
+    constexpr std::uint32_t USERINFO                  = (1 << 9);
+    constexpr std::uint32_t CHEAT                     = (1 << 14);
+    constexpr std::uint32_t REPLICATED                = (1 << 29);
+    constexpr std::uint32_t DEMO                      = (1 << 16);
+    constexpr std::uint32_t DONTRECORD                = (1 << 17);
+    constexpr std::uint32_t RELEASE                   = (1 << 19);
+}
+
+/**
+ * @brief ConVar Raw Descriptor (Source 2)
+ */
+class ConVar {
+public:
+    const char*   m_pszName{nullptr};        // +0x00: Primary convar identifier
+    ConVar*       m_pNext{nullptr};          // +0x08: Next convar node in tier0 hash table
+    const char*   m_pszDescription{nullptr}; // +0x10: Descriptive documentation
+    std::uint32_t m_nFlags{0};               // +0x18: FCVAR flags bitmask
+
+    // Accessors
+    [[nodiscard]] const char* GetName() const noexcept { return m_pszName; }
+    [[nodiscard]] const char* GetHelpText() const noexcept { return m_pszDescription; }
+    [[nodiscard]] bool HasFlag(std::uint32_t flag) const noexcept { return (m_nFlags & flag) != 0; }
+};
+
+/**
+ * @brief Engine ConVar Master Interface (CCvar / ICvar)
+ * Token: "VEngineCvar007" in tier0.dll
+ * VTable RVA: +0x313208 (48 slots)
+ */
+class CCvar {
+public:
+    virtual ~CCvar() = default;
+
+    // Slot 12: FindVarByName
+    virtual ConVar* FindVarByName(const char* pszVarName) = 0;
+
+    // Slot 13: FindVarByToken
+    virtual ConVar* FindVarByToken(tier0::CUtlStringToken token) = 0;
+
+    // Slot 14: FindCommandByName
+    virtual void* FindCommandByName(const char* pszCommandName) = 0;
+
+    // Slot 27: GetFirstConVar
+    virtual ConVar* GetFirstConVar() = 0;
+
+    // Slot 28: GetNextConVar
+    virtual ConVar* GetNextConVar(ConVar* pPrev) = 0;
+};
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_CVAR_H
+```
+
+### File: `game/interfaces/engine_client.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_ENGINE_CLIENT_H
+#define CS2_INTERFACES_ENGINE_CLIENT_H
+
+#include <cstdint>
+#include <cstddef>
+#include "../shared/math_types.h"
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Engine to Client Interface (ISource2EngineToClient)
+ * Token: "Source2EngineToClient001" in engine2.dll
+ * VTable RVA: +0x5d5c38 (185 slots)
+ */
+class ISource2EngineToClient {
+public:
+    virtual ~ISource2EngineToClient() = default;
+
+    // Slot 1..26: Standard IAppSystem methods
+    virtual bool Connect(void* /*pFactory*/) = 0;
+    virtual void Disconnect() = 0;
+    virtual void* QueryInterface(const char* /*pInterfaceName*/) = 0;
+    virtual int  Init() = 0;
+    virtual void Shutdown() = 0;
+
+    // Slot 27: IsInGame (RVA: +0x1bf4b0)
+    virtual bool IsInGame() = 0;
+
+    // Slot 28: IsConnected
+    virtual bool IsConnected() = 0;
+
+    // Slot 29: IsPaused
+    virtual bool IsPaused() = 0;
+
+    // Slot 30: GetMaxClients
+    virtual int  GetMaxClients() = 0;
+
+    // Slot 31: GetLevelName
+    virtual const char* GetLevelName() = 0;
+
+    // Slot 32: GetLevelNameShort
+    virtual const char* GetLevelNameShort() = 0;
+
+    // Slot 33: GetScreenSize
+    virtual void GetScreenSize(int& width, int& height) = 0;
+
+    // Slot 35: GetLocalPlayerSlot (0-based client index)
+    virtual int  GetLocalPlayerSlot() = 0;
+};
+
+/**
+ * @brief Network Game Client Service (CNetworkGameClient)
+ * Token: "NetworkClientService_001" in engine2.dll
+ * VTable RVA: +0x613ac8 (64 slots)
+ */
+class CNetworkGameClient {
+public:
+    virtual ~CNetworkGameClient() = default;
+
+    // Slot 23: IsConnected
+    virtual bool IsConnected() = 0;
+
+    // Slot 24: GetDeltaFrame
+    virtual int  GetDeltaFrame() = 0;
+
+    // Slot 25: GetServerTick
+    virtual int  GetServerTick() = 0;
+
+    // Slot 26: GetClientTick
+    virtual int  GetClientTick() = 0;
+
+    // Slot 27: GetLatency (round-trip time in seconds)
+    virtual float GetLatency() = 0;
+};
+
+/**
+ * @brief Game Resource Service Client (CGameResourceService)
+ * Token: "GameResourceServiceClientV001" in engine2.dll
+ * VTable RVA: +0x60e7c8 (182 slots)
+ */
+class CGameResourceService {
+public:
+    virtual ~CGameResourceService() = default;
+
+    // Slot 58: GetGameEntitySystem (client.dll + 0x271c8b8)
+    virtual void* GetGameEntitySystem() = 0;
+};
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_ENGINE_CLIENT_H
+```
+
+### File: `game/interfaces/game_event_manager.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_GAME_EVENT_MANAGER_H
+#define CS2_INTERFACES_GAME_EVENT_MANAGER_H
+
+#include <cstdint>
+
+namespace cs2::interfaces {
+
+class IGameEvent {
+public:
+    virtual ~IGameEvent() = default;
+
+    // Slot 1: GetName (RVA: +0x009d9990)
+    virtual const char* GetName() const = 0;
+
+    // Slot 2: GetID
+    virtual int GetID() const = 0;
+
+    // Slot 3: IsReliable
+    virtual bool IsReliable() const = 0;
+
+    // Slot 4: IsLocal
+    virtual bool IsLocal() const = 0;
+
+    // Slot 5: IsEmpty
+    virtual bool IsEmpty(const char* keyName = nullptr) = 0;
+
+    // Slot 6: GetBool
+    virtual bool GetBool(const char* keyName = nullptr, bool defaultValue = false) = 0;
+
+    // Slot 7: GetInt
+    virtual int GetInt(const char* keyName = nullptr, int defaultValue = 0) = 0;
+
+    // Slot 8: GetUint64
+    virtual std::uint64_t GetUint64(const char* keyName = nullptr, std::uint64_t defaultValue = 0) = 0;
+
+    // Slot 9: GetFloat
+    virtual float GetFloat(const char* keyName = nullptr, float defaultValue = 0.0f) = 0;
+
+    // Slot 10: GetString
+    virtual const char* GetString(const char* keyName = nullptr, const char* defaultValue = "") = 0;
+};
+
+class IGameEventListener2 {
+public:
+    virtual ~IGameEventListener2() = default;
+    virtual void FireGameEvent(IGameEvent* pEvent) = 0;
+    virtual int  GetEventDebugID() { return 42; }
+};
+
+/**
+ * @brief Source 2 Game Events Subsystem (IGameEventManager2)
+ * Token: "GAMEEVENTSMANAGER002" in client.dll
+ * Global Instance: client.dll + 0x2228E40 -> 0x22292C0
+ * VTable: client.dll + 0x1C337A8 (16 slots)
+ */
+class IGameEventManager2 {
+public:
+    virtual ~IGameEventManager2() = default;
+
+    // Slot 1: LoadEventsFromFile
+    virtual int LoadEventsFromFile(const char* filename) = 0;
+
+    // Slot 2: Reset
+    virtual void Reset() = 0;
+
+    // Slot 3: AddListener (RVA: +0x009cab60)
+    virtual bool AddListener(IGameEventListener2* listener, const char* name, bool bServerSide = false) = 0;
+
+    // Slot 4: FindListener (RVA: +0x009e2a20)
+    virtual bool FindListener(IGameEventListener2* listener, const char* name) = 0;
+
+    // Slot 5: RemoveListener (RVA: +0x00a02370)
+    virtual void RemoveListener(IGameEventListener2* listener) = 0;
+
+    // Slot 6: CreateEvent (RVA: +0x009d5440)
+    virtual IGameEvent* CreateEvent(const char* name, bool bForce = false, int* pCookie = nullptr) = 0;
+
+    // Slot 7: FireEvent (RVA: +0x009e3500)
+    virtual bool FireEvent(IGameEvent* event, bool bDontBroadcast = false) = 0;
+
+    // Slot 8: FireEventClientSide (RVA: +0x009e3790)
+    virtual bool FireEventClientSide(IGameEvent* event) = 0;
+
+    // Slot 9: DuplicateEvent (RVA: +0x009d9990)
+    virtual IGameEvent* DuplicateEvent(IGameEvent* event) = 0;
+
+    // Slot 10: FreeEvent (RVA: +0x009e3fe0)
+    virtual void FreeEvent(IGameEvent* event) = 0;
+};
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_GAME_EVENT_MANAGER_H
+```
+
+### File: `game/interfaces/interfaces.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_INTERFACES_H
+#define CS2_INTERFACES_INTERFACES_H
+
+#include <cstdint>
+#include <cstring>
+
+namespace cs2::interfaces {
+
+using InstantiateInterfaceFn = void* (*)();
+
+/**
+ * @brief Source 2 Internal Interface Registry Node (InterfaceReg)
+ * Singly-linked list node populated by DLL exports.
+ * Size: 24 bytes (0x18) on x64.
+ */
+struct InterfaceReg {
+    InstantiateInterfaceFn m_CreateFn; // +0x00: Factory function returning interface instance
+    const char*            m_pName;    // +0x08: Null-terminated versioned token string
+    InterfaceReg*          m_pNext;    // +0x10: Next node in linked list
+};
+static_assert(sizeof(InterfaceReg) == 0x18, "InterfaceReg must be 24 bytes (0x18)");
+
+using CreateInterfaceFn = void* (*)(const char* pName, int* pReturnCode);
+
+/**
+ * @brief Traverses an InterfaceReg linked list to locate an interface by version token.
+ */
+inline void* CaptureInterface(InterfaceReg* pHead, const char* pInterfaceName) noexcept {
+    if (!pHead || !pInterfaceName) return nullptr;
+    for (InterfaceReg* pCur = pHead; pCur; pCur = pCur->m_pNext) {
+        if (pCur->m_pName && std::strcmp(pCur->m_pName, pInterfaceName) == 0) {
+            return pCur->m_CreateFn ? pCur->m_CreateFn() : nullptr;
+        }
+    }
+    return nullptr;
+}
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_INTERFACES_H
+```
+
+### File: `game/interfaces/schema_interface.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_SCHEMA_INTERFACE_H
+#define CS2_INTERFACES_SCHEMA_INTERFACE_H
+
+#include <cstdint>
+#include <cstddef>
+#include "../tier0/utl_string_token.h"
+
+namespace cs2::interfaces {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+struct SchemaClassFieldData_t {
+    const char*   m_pszName{nullptr};        // +0x00: Field identifier string
+    void*         m_pType{nullptr};          // +0x08: Schema type descriptor
+    std::int32_t  m_nSingleInheritanceOffset{0}; // +0x10: Exact byte offset within class
+    std::int32_t  m_nMetadataSize{0};        // +0x14: Metadata attribute count
+    void*         m_pMetadata{nullptr};      // +0x18: Schema metadata array pointer
+};
+static_assert(sizeof(SchemaClassFieldData_t) == 0x20, "SchemaClassFieldData_t must be 32 bytes (0x20)");
+
+struct CSchemaClassInfo {
+    void*                   m_pSelf{nullptr};         // +0x00
+    const char*             m_pszName{nullptr};       // +0x08: Class technical name
+    const char*             m_pszModuleName{nullptr}; // +0x10: Owning binary module name
+    std::int32_t            m_nSize{0};               // +0x18: Total instance byte size
+    std::int16_t            m_nFieldsCount{0};        // +0x1C: Field member count
+    CS2_PAD(0x0A, m_pad1e);
+    SchemaClassFieldData_t* m_pFields{nullptr};       // +0x28: Field descriptors array
+    CS2_PAD(0x38, m_pad30);
+};
+static_assert(sizeof(CSchemaClassInfo) == 0x68, "CSchemaClassInfo must be 104 bytes (0x68)");
+
+class CSchemaSystemTypeScope {
+public:
+    virtual ~CSchemaSystemTypeScope() = default;
+
+    // Slot 2: FindDeclaredClass (RVA: +0x00010380)
+    virtual CSchemaClassInfo* FindDeclaredClass(const char* pszClassName) = 0;
+};
+
+/**
+ * @brief SchemaSystem Master Interface (CSchemaSystem)
+ * Token: "SchemaSystem_001" in schemasystem.dll
+ * VTable: 0x180058598 (222 slots)
+ */
+class CSchemaSystem {
+public:
+    virtual ~CSchemaSystem() = default;
+
+    // Slot 13: FindTypeScopeForModule (RVA: +0x00013b80)
+    virtual CSchemaSystemTypeScope* FindTypeScopeForModule(const char* pszModuleName) = 0;
+};
+
+#undef CS2_PAD
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_SCHEMA_INTERFACE_H
+```
+
+### File: `game/interfaces/sound_system.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_SOUND_SYSTEM_H
+#define CS2_INTERFACES_SOUND_SYSTEM_H
+
+#include <cstdint>
+#include <cstddef>
+#include "../shared/math_types.h"
+#include "../shared/entity_handle.h"
+
+namespace cs2::interfaces {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+/**
+ * @brief Dispatch Sound Event Parameter Payload (StartSoundEventInfo_t)
+ * Total Size: exactly 128 bytes (0x80).
+ */
+struct StartSoundEventInfo_t {
+    shared::Vector3D     m_vecOrigin{};          // +0x00: 3D spatial emitter coordinates
+    shared::QAngle       m_angAngles{};          // +0x0C: Spatial directional orientation
+    float                m_flVolume{ 1.0f };     // +0x18: Linear gain amplitude [0.0..1.0]
+    float                m_flPitch{ 1.0f };      // +0x1C: Frequency pitch shift factor
+    shared::CEntityHandle m_hEntity{};           // +0x20: Associated emitter entity handle
+    CS2_PAD(0x0C, m_pad24);                      // +0x24: Padding to 16-byte alignment
+    float                m_matSpatial[3][4]{};   // +0x30: 3x4 spatial coordinate transform
+    CS2_PAD(0x20, m_pad60);                      // +0x60: DSP runtime context payload
+};
+static_assert(sizeof(StartSoundEventInfo_t) == 0x80, "StartSoundEventInfo_t must be 128 bytes (0x80)");
+
+/**
+ * @brief Source 2 Sound Operator Subsystem (ISoundOpSystem)
+ * Token: "SoundOpSystem001" in soundsystem.dll
+ * VTable: 0x1804AB140 (16 slots)
+ */
+class ISoundOpSystem {
+public:
+    virtual ~ISoundOpSystem() = default;
+
+    // Slot 1..10: IAppSystem methods
+    virtual bool Connect(void* /*pFactory*/) = 0;
+    virtual void Disconnect() = 0;
+    virtual void* QueryInterface(const char* /*pInterfaceName*/) = 0;
+    virtual int  Init() = 0;
+    virtual void Shutdown() = 0;
+
+    // Slot 11: StartSoundEvent
+    virtual std::uint64_t StartSoundEvent(const char* pEventName, const StartSoundEventInfo_t* pInfo) = 0;
+
+    // Slot 12: StartSoundEventByHash
+    virtual std::uint64_t StartSoundEventByHash(std::uint32_t nEventHash, const StartSoundEventInfo_t* pInfo) = 0;
+
+    // Slot 13: StartSoundEventReliable
+    virtual std::uint64_t StartSoundEventReliable(std::uint32_t nEventHash, const StartSoundEventInfo_t* pInfo) = 0;
+
+    // Slot 14: StopSoundEvent
+    virtual void StopSoundEvent(std::uint64_t nGuid, float flFadeTime) = 0;
+
+    // Slot 15: SetSoundEventParam
+    virtual void SetSoundEventParam(std::uint64_t nGuid, const char* pParamName, float flValue) = 0;
+};
+
+#undef CS2_PAD
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_SOUND_SYSTEM_H
+```
+
+### File: `game/interfaces/trace_manager.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_TRACE_MANAGER_H
+#define CS2_INTERFACES_TRACE_MANAGER_H
+
+#include <cstdint>
+#include "../shared/ray_trace.h"
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Spatial Query Master Interface (CGameTraceManager / IEngineTrace)
+ * Global Instance in client.dll: +0x02229020 (VA: 0x182229020)
+ * Static BSS Instance in client.dll: +0x0254cf30 (VA: 0x18254cf30)
+ */
+class CGameTraceManager {
+public:
+    virtual ~CGameTraceManager() = default;
+
+    // Slot 1: ClipRayToEntity (RVA: +0x00a1b8a0, VA: 0x180a1b8a0)
+    virtual bool ClipRayToEntity(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, void* pEntity, shared::GameTrace_t* pTrace) = 0;
+
+    // Slot 2: ClipRayToCollideable
+    virtual bool ClipRayToCollideable(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, void* pCollide, shared::GameTrace_t* pTrace) = 0;
+
+    // Slot 3: TraceRay
+    virtual void TraceRay(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, shared::GameTrace_t* pTrace) = 0;
+
+    // Slot 4: SetupTraceShape
+    virtual void SetupTraceShape(void* pShape, const shared::Ray_t* pRay) = 0;
+
+    // Slot 5: TraceShape (RVA: +0x00a1ae30, VA: 0x180a1ae30)
+    virtual bool TraceShape(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, shared::GameTrace_t* pTrace) = 0;
+};
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_TRACE_MANAGER_H
+```
+
+### File: `game/materialsystem2/material_system2.h` (materialsystem2.dll)
+```cpp
+#ifndef CS2_MATERIALSYSTEM2_H
+#define CS2_MATERIALSYSTEM2_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::materialsystem2 {
+
+/**
+ * @brief Material Instance Runtime Interface (CMaterial2)
+ * VTable: materialsystem2.dll + 0x129ae0 (25 methods)
+ */
+class CMaterial2 {
+public:
+    virtual ~CMaterial2() = default;
+
+    // Slot 1: GetName (RVA: +0x0000b350)
+    virtual const char* GetName() const = 0;
+
+    // Slot 2: GetPath (RVA: +0x0000b370)
+    virtual void GetPath(void* pBufferString) const = 0;
+
+    // Slot 3: GetShaderName (RVA: +0x0000b5e0)
+    virtual const char* GetShaderName() const = 0;
+
+    // Slot 4: GetFlags (RVA: +0x0000a100)
+    virtual std::uint8_t GetFlags() const = 0;
+
+    // Slot 7: GetMaterialData (RVA: +0x0000ba60)
+    virtual void* GetMaterialData() const = 0;
+
+    // Slot 25: GetMaterialId (RVA: +0x0000b880)
+    virtual std::int32_t GetMaterialId() const = 0;
+
+    // Slot 26: GetShaderBinding (RVA: +0x0001b2d0)
+    virtual void* GetShaderBinding() = 0;
+
+    // Slot 29: IncrementRefCount (RVA: +0x0000b890)
+    virtual void IncrementRefCount() = 0;
+};
+static_assert(sizeof(CMaterial2) == 8, "CMaterial2 interface must be 8 bytes (vptr)");
+
+/**
+ * @brief Source 2 Material System Interface (IMaterialSystem2)
+ * Token: "VMaterialSystem2_001" in materialsystem2.dll
+ * VTable: +0x12d920 (57 slots)
+ */
+class IMaterialSystem2 {
+public:
+    virtual ~IMaterialSystem2() = default;
+
+    // Slot 14: FindOrCreateMaterialFromResource
+    virtual CMaterial2* FindOrCreateMaterialFromResource(const char* pMaterialResourceName) = 0;
+
+    // Slot 24: CreateMaterial
+    virtual CMaterial2* CreateMaterial(const char* pMaterialName, void* pKeyValues) = 0;
+};
+
+} // namespace cs2::materialsystem2
+
+#endif // CS2_MATERIALSYSTEM2_H
+```
+
 ### File: `game/navsystem/navmesh.h` (navsystem.dll)
 ```cpp
 #ifndef CS2_NAVSYSTEM_NAVMESH_H
@@ -5790,6 +6424,59 @@ private:
 } // namespace cs2::pulse_system
 
 #endif // CS2_PULSE_INTERPRETER_H
+```
+
+### File: `game/scenesystem/scene_system.h` (scenesystem.dll)
+```cpp
+#ifndef CS2_SCENESYSTEM_H
+#define CS2_SCENESYSTEM_H
+
+#include <cstdint>
+#include <cstddef>
+#include "../shared/math_types.h"
+
+namespace cs2::scenesystem {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+/**
+ * @brief Animatable Scene Graph Object (CSceneAnimatableObject)
+ * Reconstructed from scenesystem.dll @ 0x1805f17c0.
+ */
+class CSceneAnimatableObject {
+public:
+    virtual ~CSceneAnimatableObject() = default;
+
+    CS2_PAD(0x18, m_pad0);
+    shared::Vector3D m_vOrigin{};           // +0x20: World coordinates
+    CS2_PAD(0x0C, m_pad2c);
+    shared::QAngle   m_angRotation{};        // +0x38: World rotation angles
+};
+
+/**
+ * @brief Source 2 Scene System Interface (CSceneSystem)
+ * Token: "SceneSystem_002" in scenesystem.dll
+ * VTable: +0x5F17C0 (199 slots)
+ */
+class CSceneSystem {
+public:
+    virtual ~CSceneSystem() = default;
+
+    // Slot 8: CreateSceneView
+    virtual void* CreateSceneView() = 0;
+
+    // Slot 9: DestroySceneView
+    virtual void DestroySceneView(void* pView) = 0;
+
+    // Slot 22: GetActiveScene
+    virtual void* GetActiveScene() = 0;
+};
+
+#undef CS2_PAD
+
+} // namespace cs2::scenesystem
+
+#endif // CS2_SCENESYSTEM_H
 ```
 
 ### File: `game/schemasystem/schemasystem.h` (schemasystem.dll)
@@ -6520,6 +7207,861 @@ using CLagCompensationManager = CLagCompensationServer;
 } // namespace cs2::server
 
 #endif // CS2_SERVER_LAGCOMPENSATION_H
+```
+
+### File: `game/shared/entity_handle.h` (shared)
+```cpp
+#ifndef CS2_SHARED_ENTITY_HANDLE_H
+#define CS2_SHARED_ENTITY_HANDLE_H
+
+#include <cstdint>
+
+namespace cs2::shared {
+
+constexpr std::uint32_t ENT_ENTRY_MASK        = 0x7FFF;
+constexpr std::uint32_t INVALID_EHANDLE_INDEX = 0x7FFF;
+constexpr std::uint32_t INVALID_EHANDLE_VAL   = 0xFFFFFFFF;
+
+/**
+ * @brief Source 2 32-bit Packed Entity Handle (CEntityHandle)
+ * Reconstructed from client.dll @ 0x1807357c0 (GetEntityIdentity).
+ * Decomposition:
+ *   - Bits 0..14:  15-bit entry index [0..32,767]
+ *   - Bits 15..31: 17-bit serial counter (incremented upon entity recycling)
+ */
+struct CEntityHandle {
+    std::uint32_t m_uValue{INVALID_EHANDLE_VAL};
+
+    constexpr CEntityHandle() noexcept = default;
+    constexpr explicit CEntityHandle(std::uint32_t val) noexcept : m_uValue(val) {}
+    constexpr CEntityHandle(std::uint32_t index, std::uint32_t serial) noexcept
+        : m_uValue((index & ENT_ENTRY_MASK) | (serial << 15)) {}
+
+    [[nodiscard]] constexpr bool IsValid() const noexcept {
+        return m_uValue != INVALID_EHANDLE_VAL && GetEntryIndex() != INVALID_EHANDLE_INDEX;
+    }
+
+    [[nodiscard]] constexpr std::uint32_t GetRaw() const noexcept {
+        return m_uValue;
+    }
+
+    [[nodiscard]] constexpr std::uint32_t GetEntryIndex() const noexcept {
+        return m_uValue & ENT_ENTRY_MASK;
+    }
+
+    [[nodiscard]] constexpr std::uint32_t GetSerialNumber() const noexcept {
+        return m_uValue >> 15;
+    }
+
+    [[nodiscard]] constexpr std::uint32_t GetChunkIndex() const noexcept {
+        return GetEntryIndex() >> 9;
+    }
+
+    [[nodiscard]] constexpr std::uint32_t GetSlotIndex() const noexcept {
+        return GetEntryIndex() & 0x1FF;
+    }
+
+    constexpr bool operator==(const CEntityHandle& o) const noexcept { return m_uValue == o.m_uValue; }
+    constexpr bool operator!=(const CEntityHandle& o) const noexcept { return m_uValue != o.m_uValue; }
+    constexpr bool operator<(const CEntityHandle& o) const noexcept { return m_uValue < o.m_uValue; }
+};
+static_assert(sizeof(CEntityHandle) == 4, "CEntityHandle must be 4 bytes");
+
+/**
+ * @brief Strongly typed entity handle template (CHandle<T>)
+ */
+template <typename T>
+class CHandle : public CEntityHandle {
+public:
+    using CEntityHandle::CEntityHandle;
+};
+static_assert(sizeof(CHandle<void>) == 4, "CHandle<T> must be 4 bytes");
+
+} // namespace cs2::shared
+
+#endif // CS2_SHARED_ENTITY_HANDLE_H
+```
+
+### File: `game/shared/hitbox.h` (shared)
+```cpp
+#ifndef CS2_SHARED_HITBOX_H
+#define CS2_SHARED_HITBOX_H
+
+#include <cstdint>
+#include "math_types.h"
+
+namespace cs2::shared {
+
+enum HitGroup_t : std::int32_t {
+    HITGROUP_GENERIC   = 0,
+    HITGROUP_HEAD      = 1,
+    HITGROUP_CHEST     = 2,
+    HITGROUP_STOMACH   = 3,
+    HITGROUP_LEFTARM   = 4,
+    HITGROUP_RIGHTARM  = 5,
+    HITGROUP_LEFTLEG   = 6,
+    HITGROUP_RIGHTLEG  = 7,
+    HITGROUP_NECK      = 8,
+    HITGROUP_UNUSED    = 9,
+    HITGROUP_GEAR      = 10
+};
+
+/**
+ * @brief Returns the authoritative CS2 damage multiplier for a target hitgroup.
+ * Head: 4.0x, Stomach: 1.25x, Chest: 1.0x, Limbs: 0.75x.
+ */
+inline constexpr float GetHitGroupDamageMultiplier(HitGroup_t group) noexcept {
+    switch (group) {
+        case HITGROUP_HEAD:     return 4.00f;
+        case HITGROUP_STOMACH:  return 1.25f;
+        case HITGROUP_CHEST:    return 1.00f;
+        case HITGROUP_LEFTARM:
+        case HITGROUP_RIGHTARM:
+        case HITGROUP_LEFTLEG:
+        case HITGROUP_RIGHTLEG: return 0.75f;
+        default:                return 1.00f;
+    }
+}
+
+/**
+ * @brief Studio bone hitbox bounding capsule / OBB (CHitBox)
+ * Size: exactly 112 bytes (0x70)
+ */
+struct CHitBox {
+    const char*   m_pName{nullptr};           // +0x00: Hitbox bone identifier string
+    const char*   m_pSurfaceProperty{nullptr};// +0x08: Material physics surface
+    const char*   m_pBoneName{nullptr};       // +0x10: Target skeleton bone
+    Vector3D      m_vMinBounds{};             // +0x18: Local minimum bounding coordinates (12 bytes)
+    Vector3D      m_vMaxBounds{};             // +0x24: Local maximum bounding coordinates (12 bytes)
+    float         m_flShapeRadius{0.0f};      // +0x30: Capsule mantle radius
+    std::uint32_t m_nBoneId{0};               // +0x34: Skeletal bone index
+    std::int32_t  m_nHitGroup{0};             // +0x38: Authoritative HitGroup_t
+    std::uint8_t  m_nPad[52]{};               // +0x3C: Studio model runtime padding
+};
+static_assert(sizeof(CHitBox) == 0x70, "CHitBox must be exactly 0x70 (112 bytes)");
+
+/**
+ * @brief Studio hitbox set array header (CHitBoxSet)
+ * Size: exactly 48 bytes (0x30)
+ */
+struct CHitBoxSet {
+    const char*   m_pName{nullptr};           // +0x00: Set name (e.g. "default")
+    std::uint32_t m_nNameHash{0};             // +0x08: MurmurHash2 token
+    std::uint32_t m_nPad0{0};                 // +0x0C
+    std::uint64_t m_nPad1{0};                 // +0x10
+    std::int32_t  m_nHitBoxCount{0};          // +0x18: Number of child hitboxes
+    std::uint32_t m_nPad2{0};                 // +0x1C
+    CHitBox*      m_pHitBoxes{nullptr};       // +0x20: Pointer to CHitBox array
+    std::uint64_t m_nPad3{0};                 // +0x28
+};
+static_assert(sizeof(CHitBoxSet) == 0x30, "CHitBoxSet must be exactly 0x30 (48 bytes)");
+
+} // namespace cs2::shared
+
+#endif // CS2_SHARED_HITBOX_H
+```
+
+### File: `game/shared/math_types.h` (shared)
+```cpp
+#ifndef CS2_SHARED_MATH_TYPES_H
+#define CS2_SHARED_MATH_TYPES_H
+
+#include <cmath>
+#include <cstdint>
+#include <cstring>
+#include <algorithm>
+
+namespace cs2::shared {
+
+// ----------------------------------------------------------------------------
+// Vector2D
+// ----------------------------------------------------------------------------
+struct Vector2D {
+    float x{0.0f}, y{0.0f};
+
+    constexpr Vector2D() = default;
+    constexpr Vector2D(float fx, float fy) : x(fx), y(fy) {}
+
+    [[nodiscard]] constexpr Vector2D operator+(const Vector2D& o) const noexcept { return {x + o.x, y + o.y}; }
+    [[nodiscard]] constexpr Vector2D operator-(const Vector2D& o) const noexcept { return {x - o.x, y - o.y}; }
+    [[nodiscard]] constexpr Vector2D operator*(float s) const noexcept { return {x * s, y * s}; }
+    [[nodiscard]] constexpr Vector2D operator/(float s) const noexcept { return {x / s, y / s}; }
+
+    [[nodiscard]] constexpr float Dot(const Vector2D& o) const noexcept { return x * o.x + y * o.y; }
+    [[nodiscard]] float Length() const noexcept { return std::sqrt(x * x + y * y); }
+};
+static_assert(sizeof(Vector2D) == 8, "Vector2D must be 8 bytes");
+
+// ----------------------------------------------------------------------------
+// Vector3D (12 bytes, matching Source 2 core memory layout)
+// ----------------------------------------------------------------------------
+struct Vector3D {
+    float x{0.0f}, y{0.0f}, z{0.0f};
+
+    constexpr Vector3D() = default;
+    constexpr Vector3D(float fx, float fy, float fz) : x(fx), y(fy), z(fz) {}
+
+    [[nodiscard]] constexpr Vector3D operator+(const Vector3D& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
+    [[nodiscard]] constexpr Vector3D operator-(const Vector3D& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
+    [[nodiscard]] constexpr Vector3D operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
+    [[nodiscard]] constexpr Vector3D operator/(float s) const noexcept { return {x / s, y / s, z / s}; }
+
+    constexpr Vector3D& operator+=(const Vector3D& o) noexcept { x += o.x; y += o.y; z += o.z; return *this; }
+    constexpr Vector3D& operator-=(const Vector3D& o) noexcept { x -= o.x; y -= o.y; z -= o.z; return *this; }
+    constexpr Vector3D& operator*=(float s) noexcept { x *= s; y *= s; z *= s; return *this; }
+
+    [[nodiscard]] constexpr float Dot(const Vector3D& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
+    [[nodiscard]] float Length() const noexcept { return std::sqrt(Dot(*this)); }
+    [[nodiscard]] float LengthSq() const noexcept { return Dot(*this); }
+    [[nodiscard]] float Length2D() const noexcept { return std::sqrt(x * x + y * y); }
+
+    [[nodiscard]] Vector3D Cross(const Vector3D& o) const noexcept {
+        return {
+            y * o.z - z * o.y,
+            z * o.x - x * o.z,
+            x * o.y - y * o.x
+        };
+    }
+
+    [[nodiscard]] Vector3D Normalized() const noexcept {
+        const float len = Length();
+        return (len > 1e-6f) ? (*this / len) : Vector3D{};
+    }
+
+    [[nodiscard]] bool IsZero(float tol = 1e-6f) const noexcept {
+        return std::abs(x) < tol && std::abs(y) < tol && std::abs(z) < tol;
+    }
+};
+static_assert(sizeof(Vector3D) == 12, "Vector3D must be 12 bytes");
+
+// ----------------------------------------------------------------------------
+// Vector4D (16 bytes)
+// ----------------------------------------------------------------------------
+struct alignas(16) Vector4D {
+    float x{0.0f}, y{0.0f}, z{0.0f}, w{0.0f};
+
+    constexpr Vector4D() = default;
+    constexpr Vector4D(float fx, float fy, float fz, float fw = 0.0f) : x(fx), y(fy), z(fz), w(fw) {}
+};
+static_assert(sizeof(Vector4D) == 16, "Vector4D must be 16 bytes");
+
+// ----------------------------------------------------------------------------
+// QAngle (Euler angles in degrees: pitch, yaw, roll)
+// ----------------------------------------------------------------------------
+struct QAngle {
+    float pitch{0.0f}; // X
+    float yaw{0.0f};   // Y
+    float roll{0.0f};  // Z
+
+    constexpr QAngle() = default;
+    constexpr QAngle(float p, float y, float r = 0.0f) : pitch(p), yaw(y), roll(r) {}
+
+    [[nodiscard]] constexpr QAngle operator+(const QAngle& o) const noexcept { return {pitch + o.pitch, yaw + o.yaw, roll + o.roll}; }
+    [[nodiscard]] constexpr QAngle operator-(const QAngle& o) const noexcept { return {pitch - o.pitch, yaw - o.yaw, roll - o.roll}; }
+    [[nodiscard]] constexpr QAngle operator*(float s) const noexcept { return {pitch * s, yaw * s, roll * s}; }
+
+    void Clamp() noexcept {
+        pitch = std::clamp(pitch, -89.0f, 89.0f);
+        while (yaw > 180.0f) yaw -= 360.0f;
+        while (yaw < -180.0f) yaw += 360.0f;
+        roll = 0.0f;
+    }
+
+    [[nodiscard]] Vector3D Forward() const noexcept {
+        const float sp = std::sin(pitch * (3.14159265f / 180.0f));
+        const float cp = std::cos(pitch * (3.14159265f / 180.0f));
+        const float sy = std::sin(yaw * (3.14159265f / 180.0f));
+        const float cy = std::cos(yaw * (3.14159265f / 180.0f));
+        return {cp * cy, cp * sy, -sp};
+    }
+};
+static_assert(sizeof(QAngle) == 12, "QAngle must be 12 bytes");
+
+// ----------------------------------------------------------------------------
+// VMatrix (64 bytes, alignas(16), 4x4 row-major transformation matrix)
+// client.dll active view matrix global @ client.dll + 0x256cfe0
+// ----------------------------------------------------------------------------
+struct alignas(16) VMatrix {
+    float m[4][4]{};
+
+    constexpr VMatrix() = default;
+
+    static VMatrix Identity() noexcept {
+        VMatrix res;
+        res.m[0][0] = 1.0f; res.m[1][1] = 1.0f; res.m[2][2] = 1.0f; res.m[3][3] = 1.0f;
+        return res;
+    }
+
+    [[nodiscard]] const float* operator[](int i) const noexcept { return m[i]; }
+    [[nodiscard]] float* operator[](int i) noexcept { return m[i]; }
+
+    /**
+     * @brief Transforms 3D world coordinate into 2D normalized screen space.
+     * Homogeneous clipping: rejects vertices behind the camera (w < 0.001f).
+     */
+    [[nodiscard]] bool WorldToScreen(const Vector3D& world, Vector2D& screen, int screenWidth, int screenHeight) const noexcept {
+        const float w = m[3][0] * world.x + m[3][1] * world.y + m[3][2] * world.z + m[3][3];
+        if (w < 0.001f) return false;
+
+        const float invW = 1.0f / w;
+        const float ndcX = (m[0][0] * world.x + m[0][1] * world.y + m[0][2] * world.z + m[0][3]) * invW;
+        const float ndcY = (m[1][0] * world.x + m[1][1] * world.y + m[1][2] * world.z + m[1][3]) * invW;
+
+        screen.x = (screenWidth * 0.5f) + (ndcX * screenWidth * 0.5f);
+        screen.y = (screenHeight * 0.5f) - (ndcY * screenHeight * 0.5f);
+        return true;
+    }
+};
+static_assert(sizeof(VMatrix) == 64, "VMatrix must be 64 bytes");
+
+} // namespace cs2::shared
+
+#endif // CS2_SHARED_MATH_TYPES_H
+```
+
+### File: `game/shared/ray_trace.h` (shared)
+```cpp
+#ifndef CS2_SHARED_RAY_TRACE_H
+#define CS2_SHARED_RAY_TRACE_H
+
+#include <cstdint>
+#include <cstddef>
+#include "math_types.h"
+
+namespace cs2::shared {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+namespace Contents {
+    constexpr std::uint32_t EMPTY        = 0x00000000;
+    constexpr std::uint32_t SOLID        = 0x00000001;
+    constexpr std::uint32_t WINDOW       = 0x00000002;
+    constexpr std::uint32_t MOVEABLE     = 0x00004000;
+    constexpr std::uint32_t PLAYERCLIP   = 0x00010000;
+    constexpr std::uint32_t MONSTERCLIP  = 0x00020000;
+    constexpr std::uint32_t OPAQUE       = 0x00000080;
+    constexpr std::uint64_t MASK_SHOT    = 0x46004003;
+    constexpr std::uint64_t MASK_VISIBLE = 0x00000081;
+}
+
+/**
+ * @brief 64-byte Geometric Query Ray & Swept Extent Volume.
+ * Reconstructed from client.dll @ 0x180a1ae30 / vphysics2.dll @ 0x1802544a0.
+ */
+struct alignas(16) Ray_t {
+    Vector3D      m_vStart;         // +0x00: Ray segment trajectory origin (12 bytes)
+    Vector3D      m_vEnd;           // +0x0C: Ray segment trajectory terminus (12 bytes)
+    Vector3D      m_vOffset;        // +0x18: Swept centroid displacement vector (12 bytes)
+    Vector3D      m_vExtent;        // +0x24: Half-extent bounding box dimensions (12 bytes)
+    bool          m_bIsRay;         // +0x30: True if line ray (extent == 0), false if swept volume (1 byte)
+    bool          m_bHasExtents;    // +0x31: True if swept volume possesses non-zero bounds (1 byte)
+    CS2_PAD(0x06, m_pad32);         // +0x32: Alignment padding
+    std::uint64_t m_nMask;          // +0x38: 64-bit spatial collision mask (8 bytes)
+
+    void Init(const Vector3D& start, const Vector3D& end, std::uint64_t mask = Contents::MASK_SHOT) noexcept {
+        m_vStart = start;
+        m_vEnd = end;
+        m_vOffset = Vector3D{0.0f, 0.0f, 0.0f};
+        m_vExtent = Vector3D{0.0f, 0.0f, 0.0f};
+        m_bIsRay = true;
+        m_bHasExtents = false;
+        m_nMask = mask;
+    }
+};
+static_assert(sizeof(Ray_t) == 0x40, "Ray_t must be exactly 64 bytes (0x40)");
+
+/**
+ * @brief 72-byte Spatial Query Filter (CTraceFilter).
+ * Reconstructed from client.dll VTable @ 0x181ad4838.
+ */
+struct CTraceFilter {
+    std::uintptr_t m_pVTable{ 0x181ad4838 };   // +0x00: Virtual method table pointer
+    std::uint64_t  m_nTraceMask{ Contents::MASK_SHOT }; // +0x08: 64-bit spatial filtering bitmask
+    std::uint64_t  m_v1[2]{ 0, 0 };            // +0x10: Internal collision flags
+    std::uint32_t  m_nSkipHandles[2]{ 0xFFFFFFFF, 0xFFFFFFFF }; // +0x20: Entity handle exclusion pair
+    std::uint16_t  m_nCollisions[2]{ 0, 0 };   // +0x28: Collision class indicators
+    std::uint8_t   m_bV3{ 0 };                 // +0x2C: Internal predicate byte
+    CS2_PAD(0x03, m_pad2d);                    // +0x2D
+    std::uint64_t  m_uV4{ 0x7 };               // +0x30: Traversal flags
+    std::uint8_t   m_bV5{ 0 };                 // +0x38: Dynamic pass indicator
+    CS2_PAD(0x07, m_pad39);                    // +0x39
+
+    CTraceFilter() = default;
+    explicit CTraceFilter(std::uint64_t mask, std::uint32_t skipHandle = 0xFFFFFFFF)
+        : m_nTraceMask(mask) {
+        m_nSkipHandles[0] = skipHandle;
+    }
+
+    [[nodiscard]] virtual bool ShouldHitEntity(void* /*pEntity*/, std::uint64_t /*contentsMask*/) const {
+        return true;
+    }
+};
+static_assert(sizeof(CTraceFilter) == 0x48, "CTraceFilter must be exactly 72 bytes (0x48)");
+
+/**
+ * @brief 192-byte Authoritative Ray Intersection & Physics Query Result (GameTrace_t).
+ * Reconstructed from client.dll. Contains the 40-byte internal Rubikon physics sweep buffer.
+ */
+struct alignas(16) GameTrace_t {
+    void*         m_pSurface{ nullptr };       // +0x00: Surface physics descriptor pointer
+    void*         m_pHitEntity{ nullptr };     // +0x08: Hit C_BaseEntity entity pointer
+    void*         m_pHitboxData{ nullptr };    // +0x10: Target hitbox runtime descriptor pointer
+    std::uint64_t m_nContents{ 0 };            // +0x18: Point contents flags at hit position
+    std::uint64_t m_nHitBoxIndex{ 0 };         // +0x20: Hitbox bone index
+    CS2_PAD(0x08, m_pad28);                    // +0x28
+    Vector3D      m_vStartPos{};               // +0x30: Trajectory origin position
+    CS2_PAD(0x04, m_pad3c);                    // +0x3C
+    Vector3D      m_vEndPos{};                 // +0x40: Trajectory terminus position
+    CS2_PAD(0x04, m_pad4c);                    // +0x4C
+    std::uint8_t  m_rubikonBuffer[40]{};       // +0x50: Internal Rubikon sweep buffer (0x28 bytes)
+    Vector3D      m_vRayStart{};               // +0x78: Exact evaluated ray entry vector
+    Vector3D      m_vRayEnd{};                 // +0x84: Exact evaluated ray exit vector
+    CS2_PAD(0x08, m_pad90);                    // +0x90
+    CS2_PAD(0x04, m_pad98);                    // +0x98
+    Vector3D      m_vHitNormal{};              // +0x9C: Surface unit normal vector at intersection
+    std::uint32_t m_nSpatialVolumeIndex{ 0 };  // +0xA8: Rubikon spatial subdivision cell / hitgroup ID
+    float         m_flFraction{ 1.0f };        // +0xAC: Intersection fraction [0.0..1.0] along ray (1.0 = miss)
+    std::uint64_t m_nHitFlags{ 0 };            // +0xB0: Intersection status flags
+    std::uint16_t m_nSurfaceFlags{ 0 };        // +0xB8: Physical material surface descriptor flags
+    std::uint8_t  m_bStartSolid{ 0 };          // +0xBA: True if ray started inside a solid geometry volume
+    CS2_PAD(0x05, m_padbb);                    // +0xBB
+
+    [[nodiscard]] constexpr bool DidHit() const noexcept {
+        return m_flFraction < 1.0f || m_bStartSolid;
+    }
+
+    [[nodiscard]] constexpr bool IsVisible() const noexcept {
+        return m_flFraction > 0.97f && !m_bStartSolid;
+    }
+};
+static_assert(sizeof(GameTrace_t) == 0xC0, "GameTrace_t must be exactly 192 bytes (0xC0)");
+
+#undef CS2_PAD
+
+} // namespace cs2::shared
+
+#endif // CS2_SHARED_RAY_TRACE_H
+```
+
+### File: `game/shared/usercmd.h` (shared)
+```cpp
+#ifndef CS2_SHARED_USERCMD_H
+#define CS2_SHARED_USERCMD_H
+
+#include <cstdint>
+#include <cstddef>
+#include "math_types.h"
+
+namespace cs2::shared {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+/**
+ * @brief Sub-tick input history entry protobuf container (CSgoInputHistoryEntryPB)
+ * Size: 120 bytes (0x78).
+ */
+struct CSgoInputHistoryEntryPB {
+    CS2_PAD(0x18, m_pad0);
+    QAngle        m_viewAngles{};            // +0x18: Sub-tick view angles
+    Vector3D      m_shootPosition{};         // +0x24: Player eye position
+    Vector3D      m_targetHeadPositionCheck{}; // +0x30: Lag compensation verification point
+    float         m_flRenderTickFraction{0.0f}; // +0x3C: Sub-tick fraction within render frame
+    float         m_flPlayerTickFraction{0.0f}; // +0x40: Sub-tick fraction within tick interval [0.0..1.0)
+    CS2_PAD(0x34, m_pad44);
+};
+static_assert(sizeof(CSgoInputHistoryEntryPB) == 0x78, "CSgoInputHistoryEntryPB must be 120 bytes");
+
+/**
+ * @brief Base UserCmd Protobuf container (CBaseUserCmdPB)
+ * Size: 136 bytes (0x88).
+ */
+struct CBaseUserCmdPB {
+    CS2_PAD(0x18, m_pad0);
+    std::uint32_t m_nCommandNumber{0};       // +0x18: Monotonically increasing command sequence
+    std::int32_t  m_nTickCount{0};           // +0x1C: Synchronized server tick
+    CS2_PAD(0x24, m_pad20);
+    QAngle        m_viewAngles{};            // +0x44: Command aim angles
+    float         m_flForwardMove{0.0f};     // +0x50: Analog forward/back motion
+    float         m_flSideMove{0.0f};        // +0x54: Analog left/right motion
+    float         m_flUpMove{0.0f};          // +0x58: Analog vertical motion
+    CS2_PAD(0x2C, m_pad5c);
+};
+static_assert(sizeof(CBaseUserCmdPB) == 0x88, "CBaseUserCmdPB must be 136 bytes");
+
+/**
+ * @brief Reconstructed Source 2 Client User Command (CUserCmd)
+ * Size: 152 bytes (0x98).
+ */
+struct CUserCmd {
+    CS2_PAD(0x40, m_pad0);
+    CBaseUserCmdPB*          m_pBaseCmd{nullptr};                // +0x40: Protobuf base command
+    CS2_PAD(0x20, m_pad48);
+    CSgoInputHistoryEntryPB* m_pInputHistoryEntries{nullptr};     // +0x68: Dynamic array of sub-tick entries
+    std::int32_t             m_nInputHistoryEntriesCount{0};     // +0x70: Sub-tick history count
+    std::int32_t             m_nInputHistoryEntriesAllocated{0}; // +0x74: Allocated capacity
+    std::uint8_t             m_nAttack1StartHistoryIndex{0xFF};  // +0x78: Attack 1 transition index
+    std::uint8_t             m_nAttack2StartHistoryIndex{0xFF};  // +0x79: Attack 2 transition index
+    std::uint8_t             m_nAttack3StartHistoryIndex{0xFF};  // +0x7A: Attack 3 transition index
+    CS2_PAD(0x1D, m_pad7b);
+};
+static_assert(sizeof(CUserCmd) == 0x98, "CUserCmd must be 152 bytes");
+
+#undef CS2_PAD
+
+} // namespace cs2::shared
+
+#endif // CS2_SHARED_USERCMD_H
+```
+
+### File: `game/shared/weapon_vdata.h` (shared)
+```cpp
+#ifndef CS2_SHARED_WEAPON_VDATA_H
+#define CS2_SHARED_WEAPON_VDATA_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::shared {
+
+#define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
+
+enum class CSWeaponType : std::int32_t {
+    Knife          = 0,
+    Pistol         = 1,
+    Submachinegun  = 2,
+    Rifle          = 3,
+    Shotgun        = 4,
+    SniperRifle    = 5,
+    Machinegun     = 6,
+    C4             = 7,
+    Taser          = 8,
+    Grenade        = 9,
+    Equipment      = 10,
+    StackableItem  = 11,
+    Unknown        = 12
+};
+
+/**
+ * @brief Weapon Configuration Metadata (CCSWeaponBaseVData).
+ * Total Struct Size: exactly 2,208 bytes (0x8A0).
+ * Verified against client.dll SchemaSystem class reflection.
+ */
+struct CCSWeaponBaseVData {
+    CS2_PAD(0x520, m_pad0);
+    CSWeaponType m_WeaponType{ CSWeaponType::Unknown }; // +0x0520: Subsystem classification
+    CS2_PAD(0x1FC, m_pad524);
+    const char*  m_szName{ nullptr };                   // +0x0720: Internal technical name (e.g. "weapon_ak47")
+    CS2_PAD(0x10, m_pad728);
+    float        m_flCycleTime{ 0.1f };                 // +0x0738: Time interval between successive rounds
+    CS2_PAD(0x14, m_pad73c);
+    float        m_flSpread{ 0.0f };                    // +0x0750: Intrinsic cone base spread
+    CS2_PAD(0x04, m_pad754);
+    float        m_flInaccuracyCrouch{ 0.0f };          // +0x0758: Inaccuracy penalty while crouching
+    CS2_PAD(0x04, m_pad75c);
+    float        m_flInaccuracyStand{ 0.0f };           // +0x0760: Inaccuracy penalty while standing
+    CS2_PAD(0x04, m_pad764);
+    float        m_flInaccuracyJump{ 0.0f };            // +0x0768: Inaccuracy penalty airborne
+    CS2_PAD(0x1C, m_pad76c);
+    float        m_flInaccuracyMove{ 0.0f };            // +0x0788: Inaccuracy penalty while traversing
+    CS2_PAD(0x94, m_pad78c);
+    std::int32_t m_nDamage{ 0 };                        // +0x0820: Base raw physical kinetic impact damage
+    CS2_PAD(0x04, m_pad824);
+    float        m_flArmorRatio{ 1.0f };                // +0x0828: Kinetic armor penetration scaling coefficient
+    float        m_flPenetration{ 1.0f };               // +0x082C: Material barrier penetration capability
+    float        m_flRange{ 8192.0f };                  // +0x0830: Maximum ballistic raycast range in units
+    float        m_flRangeModifier{ 0.98f };            // +0x0834: Distance attenuation loss factor (500-unit decay)
+    CS2_PAD(0x68, m_pad838);
+};
+static_assert(sizeof(CCSWeaponBaseVData) == 0x8A0, "CCSWeaponBaseVData must be 2,208 bytes (0x8A0)");
+
+#undef CS2_PAD
+
+} // namespace cs2::shared
+
+#endif // CS2_SHARED_WEAPON_VDATA_H
+```
+
+### File: `game/soundsystem/sound_ops.h` (soundsystem.dll)
+```cpp
+#ifndef CS2_SOUNDSYSTEM_SOUND_OPS_H
+#define CS2_SOUNDSYSTEM_SOUND_OPS_H
+
+#include <cstdint>
+#include <string_view>
+#include "../interfaces/sound_system.h"
+#include "../tier0/utl_string_token.h"
+
+namespace cs2::soundsystem {
+
+/**
+ * @brief Sound operator helper & event dispatcher
+ * Reconstructed from soundsystem.dll @ 0x1804ab140 and client.dll + 0xB4FB20
+ */
+class CSoundManager {
+public:
+    static CSoundManager& Get();
+
+    /**
+     * @brief Computes 32-bit MurmurHash2 sound event identifier
+     */
+    static constexpr std::uint32_t HashSoundEvent(std::string_view name) noexcept {
+        return tier0::CUtlStringToken::Hash(name);
+    }
+
+    /**
+     * @brief Formats a 3D sound event parameter packet
+     */
+    static interfaces::StartSoundEventInfo_t CreateSpatialSoundInfo(
+        const shared::Vector3D& origin,
+        float volume = 1.0f,
+        float pitch = 1.0f,
+        shared::CEntityHandle entity = shared::CEntityHandle{}
+    ) noexcept;
+};
+
+} // namespace cs2::soundsystem
+
+#endif // CS2_SOUNDSYSTEM_SOUND_OPS_H
+```
+
+### File: `game/tier0/memalloc.h` (tier0.dll)
+```cpp
+#ifndef CS2_TIER0_MEMALLOC_H
+#define CS2_TIER0_MEMALLOC_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::tier0 {
+
+/**
+ * @brief Valve Memory Allocator Interface (IMemAlloc)
+ * Exported by tier0.dll as 'g_pMemAlloc' (Export RVA: +0x3ac458, VTable RVA: +0x3277d0)
+ * 85 virtual method slots.
+ */
+class IMemAlloc {
+public:
+    virtual ~IMemAlloc() = default;
+
+    // Slot 1: Alloc
+    virtual void* Alloc(std::size_t nSize) = 0;
+
+    // Slot 2: Realloc
+    virtual void* Realloc(void* pMem, std::size_t nSize) = 0;
+
+    // Slot 3: Free
+    virtual void  Free(void* pMem) = 0;
+
+    // Slot 4: Expand
+    virtual void* Expand(void* pMem, std::size_t nSize) = 0;
+
+    // Slot 5: Alloc aligned
+    virtual void* AllocAligned(std::size_t nSize, std::size_t nAlignment) = 0;
+
+    // Slot 6: Realloc aligned
+    virtual void* ReallocAligned(void* pMem, std::size_t nSize, std::size_t nAlignment) = 0;
+
+    // Slot 7: Free aligned
+    virtual void  FreeAligned(void* pMem) = 0;
+
+    // Slot 8: GetSize
+    virtual std::size_t GetSize(void* pMem) = 0;
+};
+
+/**
+ * @brief Retrieves the authoritative global memory allocator instance.
+ */
+IMemAlloc* GetMemAlloc();
+
+} // namespace cs2::tier0
+
+#endif // CS2_TIER0_MEMALLOC_H
+```
+
+### File: `game/tier0/utl_string_token.h` (tier0.dll)
+```cpp
+#ifndef CS2_TIER0_UTL_STRING_TOKEN_H
+#define CS2_TIER0_UTL_STRING_TOKEN_H
+
+#include <cstdint>
+#include <string_view>
+
+namespace cs2::tier0 {
+
+/**
+ * @brief 32-bit MurmurHash2 / FNV-1a Hashed String Identifier (CUtlStringToken)
+ * Used extensively throughout Source 2 (schemasystem.dll, client.dll, server.dll)
+ * to avoid runtime string comparisons.
+ * Size: exactly 4 bytes.
+ */
+class CUtlStringToken {
+public:
+    std::uint32_t m_nHashCode{0};
+
+    constexpr CUtlStringToken() noexcept = default;
+    constexpr explicit CUtlStringToken(std::uint32_t nCode) noexcept : m_nHashCode(nCode) {}
+
+    // Compile-time or runtime string hashing via MurmurHash2
+    constexpr explicit CUtlStringToken(std::string_view str) noexcept
+        : m_nHashCode(Hash(str)) {}
+
+    constexpr explicit CUtlStringToken(const char* pszString) noexcept
+        : m_nHashCode(pszString ? Hash(std::string_view(pszString)) : 0) {}
+
+    [[nodiscard]] constexpr std::uint32_t Get() const noexcept { return m_nHashCode; }
+    [[nodiscard]] constexpr bool IsValid() const noexcept { return m_nHashCode != 0; }
+
+    constexpr bool operator==(const CUtlStringToken& o) const noexcept { return m_nHashCode == o.m_nHashCode; }
+    constexpr bool operator!=(const CUtlStringToken& o) const noexcept { return m_nHashCode != o.m_nHashCode; }
+    constexpr bool operator<(const CUtlStringToken& o) const noexcept { return m_nHashCode < o.m_nHashCode; }
+
+    /**
+     * @brief Source 2 Authoritative MurmurHash2 implementation
+     * Matches schemasystem.dll @ 0x180010380
+     */
+    static constexpr std::uint32_t Hash(std::string_view str) noexcept {
+        const std::uint32_t len = static_cast<std::uint32_t>(str.length());
+        if (len == 0) return 0;
+
+        constexpr std::uint32_t m = 0x5bd1e995;
+        constexpr int r = 24;
+
+        std::uint32_t h = len ^ 0xbaadfeed;
+        const char* data = str.data();
+        std::uint32_t remaining = len;
+
+        while (remaining >= 4) {
+            std::uint32_t k = static_cast<std::uint8_t>(data[0]) |
+                             (static_cast<std::uint8_t>(data[1]) << 8) |
+                             (static_cast<std::uint8_t>(data[2]) << 16) |
+                             (static_cast<std::uint8_t>(data[3]) << 24);
+
+            k *= m;
+            k ^= k >> r;
+            k *= m;
+
+            h *= m;
+            h ^= k;
+
+            data += 4;
+            remaining -= 4;
+        }
+
+        switch (remaining) {
+            case 3: h ^= static_cast<std::uint8_t>(data[2]) << 16; [[fallthrough]];
+            case 2: h ^= static_cast<std::uint8_t>(data[1]) << 8;  [[fallthrough]];
+            case 1: h ^= static_cast<std::uint8_t>(data[0]);
+                    h *= m;
+                    break;
+            default: break;
+        }
+
+        h ^= h >> 13;
+        h *= m;
+        h ^= h >> 15;
+
+        return h;
+    }
+};
+
+static_assert(sizeof(CUtlStringToken) == 4, "CUtlStringToken must be 4 bytes");
+
+} // namespace cs2::tier0
+
+#endif // CS2_TIER0_UTL_STRING_TOKEN_H
+```
+
+### File: `game/tier0/utl_vector.h` (tier0.dll)
+```cpp
+#ifndef CS2_TIER0_UTL_VECTOR_H
+#define CS2_TIER0_UTL_VECTOR_H
+
+#include <cstdint>
+#include <cstddef>
+#include <cassert>
+#include <initializer_list>
+#include "memalloc.h"
+
+namespace cs2::tier0 {
+
+/**
+ * @brief Valve Dynamic Vector Container (CUtlVector<T>)
+ * Standard dynamic array layout across Source 2 engines.
+ * Size: 24 bytes (0x18) on x64 (m_Size + padding + m_pMemory + m_nAllocationCount).
+ */
+template <typename T>
+class CUtlVector {
+public:
+    int   m_Size{0};
+    T*    m_pMemory{nullptr};
+    int   m_nAllocationCount{0};
+    int   m_nGrowSize{0};
+
+    CUtlVector() = default;
+
+    CUtlVector(int nGrowSize, int nInitAllocationCount)
+        : m_nGrowSize(nGrowSize) {
+        Grow(nInitAllocationCount);
+    }
+
+    ~CUtlVector() {
+        Purge();
+    }
+
+    [[nodiscard]] int Count() const noexcept { return m_Size; }
+    [[nodiscard]] int Size() const noexcept { return m_Size; }
+    [[nodiscard]] bool IsEmpty() const noexcept { return m_Size == 0; }
+    [[nodiscard]] int Capacity() const noexcept { return m_nAllocationCount; }
+
+    T& operator[](int i) {
+        assert(i >= 0 && i < m_Size);
+        return m_pMemory[i];
+    }
+
+    const T& operator[](int i) const {
+        assert(i >= 0 && i < m_Size);
+        return m_pMemory[i];
+    }
+
+    T* Base() noexcept { return m_pMemory; }
+    const T* Base() const noexcept { return m_pMemory; }
+
+    int AddToTail(const T& src) {
+        if (m_Size >= m_nAllocationCount) {
+            Grow(m_nGrowSize > 0 ? m_nGrowSize : (m_nAllocationCount ? m_nAllocationCount : 4));
+        }
+        m_pMemory[m_Size] = src;
+        return m_Size++;
+    }
+
+    void Purge() {
+        if (m_pMemory) {
+            GetMemAlloc()->Free(m_pMemory);
+            m_pMemory = nullptr;
+        }
+        m_Size = 0;
+        m_nAllocationCount = 0;
+    }
+
+    void RemoveAll() {
+        m_Size = 0;
+    }
+
+private:
+    void Grow(int nCount) {
+        const int nNewAllocationCount = m_nAllocationCount + nCount;
+        if (m_pMemory) {
+            m_pMemory = static_cast<T*>(GetMemAlloc()->Realloc(m_pMemory, nNewAllocationCount * sizeof(T)));
+        } else {
+            m_pMemory = static_cast<T*>(GetMemAlloc()->Alloc(nNewAllocationCount * sizeof(T)));
+        }
+        m_nAllocationCount = nNewAllocationCount;
+    }
+};
+
+} // namespace cs2::tier0
+
+#endif // CS2_TIER0_UTL_VECTOR_H
 ```
 
 ### File: `game/vphysics2/rubikon_collision.h` (vphysics2.dll)

@@ -1075,7 +1075,25 @@
 
         <!-- SUBTAB 1: MODULAR HEADERS EXPLORER -->
         <div id="sdkSectionHeaders" class="space-y-4">
-          <!-- Header Pills -->
+          <!-- Suite Selection Pills: C++20 sdk/ vs C++17 game/ -->
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-1.5 bg-[#090d16] p-1 rounded-xl border border-cs2-border text-xs font-mono">
+              <button onclick="setSdkSuiteMode('cpp20')" id="sdkSuiteCpp20Btn" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold transition-all shadow-sm cursor-pointer">
+                Master C++20 SDK (sdk/)
+              </button>
+              <button onclick="setSdkSuiteMode('cpp17')" id="sdkSuiteCpp17Btn" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer">
+                Modular C++17 Engine SDK (game/)
+              </button>
+            </div>
+            <div id="sdkModuleSelectorContainer" class="hidden flex items-center gap-2 text-xs font-mono">
+              <span class="text-slate-400">Target Module:</span>
+              <select id="sdkModuleSelect" onchange="onSdkModuleChange(this.value)" class="bg-slate-900 border border-slate-700 text-white text-xs rounded-lg px-2.5 py-1.5 focus:border-blue-500 cursor-pointer">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Header / File Pills -->
           <div class="flex flex-wrap items-center gap-1.5 bg-[#0e1422] p-2 rounded-xl border border-cs2-border" id="sdkHeaderPills">
             <!-- Populated dynamically by JavaScript -->
           </div>
@@ -7233,7 +7251,69 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
     // 8. Reconstructed C++20 SDK Explorer & Struct Matrix
     // ========================================================================
     let activeSdkHeader = 'cs2_sdk.hpp';
+    let activeSdkPath = 'sdk/cs2_sdk.hpp';
     let activeSdkSubtab = 'headers';
+    let activeSdkSuiteMode = 'cpp20'; // 'cpp20' or 'cpp17'
+    let activeSdkModule = 'shared'; // for cpp17 mode
+
+    function setSdkSuiteMode(mode) {
+      activeSdkSuiteMode = mode;
+      const btn20 = document.getElementById('sdkSuiteCpp20Btn');
+      const btn17 = document.getElementById('sdkSuiteCpp17Btn');
+      const modContainer = document.getElementById('sdkModuleSelectorContainer');
+
+      if (mode === 'cpp20') {
+        if (btn20) { btn20.className = 'px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold transition-all shadow-sm cursor-pointer'; }
+        if (btn17) { btn17.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer'; }
+        if (modContainer) modContainer.classList.add('hidden');
+        activeSdkHeader = 'cs2_sdk.hpp';
+        activeSdkPath = 'sdk/cs2_sdk.hpp';
+      } else {
+        if (btn17) { btn17.className = 'px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold transition-all shadow-sm cursor-pointer'; }
+        if (btn20) { btn20.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer'; }
+        if (modContainer) modContainer.classList.remove('hidden');
+        populateSdkModuleDropdown();
+        // Default to first file in active module
+        const mod = getActiveCpp17Module();
+        if (mod && mod.files) {
+          const firstFile = Object.keys(mod.files)[0];
+          activeSdkHeader = firstFile;
+          activeSdkPath = `${mod.directory}/${firstFile}`;
+        }
+      }
+
+      renderSdkHeaderPills();
+      loadSdkHeader(activeSdkHeader, activeSdkPath);
+    }
+
+    function populateSdkModuleDropdown() {
+      const select = document.getElementById('sdkModuleSelect');
+      if (!select || !window.CS2_SDK_DATA) return;
+
+      const cpp17Mods = window.CS2_SDK_DATA.filter(m => m.module !== 'cs2_sdk');
+      select.innerHTML = cpp17Mods.map(m => {
+        const dirName = m.directory.replace(/^game\//, '');
+        return `<option value="${dirName}" ${dirName === activeSdkModule ? 'selected' : ''}>game/${dirName} (${Object.keys(m.files || {}).length} files)</option>`;
+      }).join('');
+    }
+
+    function onSdkModuleChange(modDir) {
+      activeSdkModule = modDir;
+      const mod = getActiveCpp17Module();
+      if (mod && mod.files) {
+        const firstFile = Object.keys(mod.files)[0];
+        activeSdkHeader = firstFile;
+        activeSdkPath = `${mod.directory}/${firstFile}`;
+      }
+      renderSdkHeaderPills();
+      loadSdkHeader(activeSdkHeader, activeSdkPath);
+    }
+
+    function getActiveCpp17Module() {
+      if (!window.CS2_SDK_DATA) return null;
+      return window.CS2_SDK_DATA.find(m => m.directory === `game/${activeSdkModule}`) ||
+             window.CS2_SDK_DATA.find(m => m.module === activeSdkModule || m.module === `${activeSdkModule}.dll`);
+    }
 
     const SDK_STRUCTS_METADATA = [
       { name: 'Ray_t', size: 64, sizeHex: '0x40', align: 16, binary: 'client.dll', offsets: 'm_vStart (+0x00), m_vEnd (+0x0C), m_vOffset (+0x18), m_vExtent (+0x24), m_bIsRay (+0x30), m_nMask (+0x38)', assertStatus: 'PASS' },
@@ -7297,85 +7377,104 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       const container = document.getElementById('sdkHeaderPills');
       if (!container) return;
 
-      const headersList = [
-        { name: 'cs2_sdk.hpp', badge: 'Master Umbrella', desc: 'Singletons & accessors' },
-        { name: 'interfaces_registry.hpp', badge: 'Phase 0', desc: '28 subsystem VTables' },
-        { name: 'schema_system.hpp', badge: 'Phase 1', desc: 'Runtime SchemaSystem' },
-        { name: 'entity_system.hpp', badge: 'Phase 1', desc: '2D Chunk Table' },
-        { name: 'client_classes.hpp', badge: 'Phase 1', desc: 'Strongly-typed entities' },
-        { name: 'render_scene_material.hpp', badge: 'Phase 2', desc: 'Camera, VMatrix, Hitbox' },
-        { name: 'input_usercmd.hpp', badge: 'Phase 3', desc: 'CCSGOInput & Subtick' },
-        { name: 'trace_events_aux.hpp', badge: 'Phase 4', desc: 'Ray tracing & Smoke LOS' }
-      ];
+      if (activeSdkSuiteMode === 'cpp20') {
+        const headersList = [
+          { name: 'cs2_sdk.hpp', badge: 'Master Umbrella', path: 'sdk/cs2_sdk.hpp' },
+          { name: 'interfaces_registry.hpp', badge: 'Phase 0', path: 'sdk/interfaces_registry.hpp' },
+          { name: 'schema_system.hpp', badge: 'Phase 1', path: 'sdk/schema_system.hpp' },
+          { name: 'entity_system.hpp', badge: 'Phase 1', path: 'sdk/entity_system.hpp' },
+          { name: 'client_classes.hpp', badge: 'Phase 1', path: 'sdk/client_classes.hpp' },
+          { name: 'render_scene_material.hpp', badge: 'Phase 2', path: 'sdk/render_scene_material.hpp' },
+          { name: 'input_usercmd.hpp', badge: 'Phase 3', path: 'sdk/input_usercmd.hpp' },
+          { name: 'trace_events_aux.hpp', badge: 'Phase 4', path: 'sdk/trace_events_aux.hpp' }
+        ];
 
-      container.innerHTML = headersList.map(h => {
-        const isActive = (h.name === activeSdkHeader);
-        return `
-          <button onclick="loadSdkHeader('${h.name}')" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 cursor-pointer ${
-            isActive ? 'bg-blue-600 text-white font-bold shadow-sm' : 'bg-slate-900/90 text-slate-400 hover:text-white border border-slate-800'
-          }">
-            <span>${h.name}</span>
-            <span class="text-[10px] px-1.5 py-0.5 rounded ${isActive ? 'bg-blue-800/80 text-blue-200' : 'bg-slate-800 text-slate-500'}">${h.badge}</span>
-          </button>
-        `;
-      }).join('');
+        container.innerHTML = headersList.map(h => {
+          const isActive = (h.name === activeSdkHeader);
+          return `
+            <button onclick="loadSdkHeader('${h.name}', '${h.path}')" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 cursor-pointer ${
+              isActive ? 'bg-blue-600 text-white font-bold shadow-sm' : 'bg-slate-900/90 text-slate-400 hover:text-white border border-slate-800'
+            }">
+              <span>${h.name}</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded ${isActive ? 'bg-blue-800/80 text-blue-200' : 'bg-slate-800 text-slate-500'}">${h.badge}</span>
+            </button>
+          `;
+        }).join('');
+      } else {
+        const mod = getActiveCpp17Module();
+        if (!mod || !mod.files) {
+          container.innerHTML = '<span class="text-xs font-mono text-slate-500">No files found for this module.</span>';
+          return;
+        }
+
+        const files = Object.keys(mod.files);
+        container.innerHTML = files.map(fname => {
+          const fullPath = `${mod.directory}/${fname}`;
+          const isActive = (fname === activeSdkHeader);
+          const isHeader = fname.endsWith('.h') || fname.endsWith('.hpp');
+          return `
+            <button onclick="loadSdkHeader('${fname}', '${fullPath}')" class="px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-2 cursor-pointer ${
+              isActive ? 'bg-blue-600 text-white font-bold shadow-sm' : 'bg-slate-900/90 text-slate-400 hover:text-white border border-slate-800'
+            }">
+              <span>${fname}</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded ${isHeader ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${isHeader ? 'Header' : 'C++ Source'}</span>
+            </button>
+          `;
+        }).join('');
+      }
     }
 
-    function loadSdkHeader(headerName) {
+    function loadSdkHeader(headerName, fullPath) {
       activeSdkHeader = headerName;
+      activeSdkPath = fullPath || (activeSdkSuiteMode === 'cpp20' ? 'sdk/' + headerName : headerName);
       renderSdkHeaderPills();
 
       const nameEl = document.getElementById('sdkActiveHeaderName');
       const metaEl = document.getElementById('sdkActiveHeaderMeta');
       const codeEl = document.getElementById('sdkCodeViewport');
 
-      if (nameEl) nameEl.innerText = 'sdk/' + headerName;
+      if (nameEl) nameEl.innerText = activeSdkPath;
 
       let fileContent = '';
       if (window.CS2_SDK_DATA && Array.isArray(window.CS2_SDK_DATA)) {
-        const masterMod = window.CS2_SDK_DATA.find(m => m.module === 'cs2_sdk');
-        if (masterMod && masterMod.files && masterMod.files[headerName]) {
-          fileContent = masterMod.files[headerName];
+        if (activeSdkSuiteMode === 'cpp20') {
+          const masterMod = window.CS2_SDK_DATA.find(m => m.module === 'cs2_sdk');
+          if (masterMod && masterMod.files && masterMod.files[headerName]) {
+            fileContent = masterMod.files[headerName];
+          }
+        } else {
+          const mod = getActiveCpp17Module();
+          if (mod && mod.files && mod.files[headerName]) {
+            fileContent = mod.files[headerName];
+          }
         }
       }
 
       if (!fileContent) {
-        fileContent = `// sdk/${headerName}
-// Header file available in repository under sdk/${headerName}`;
+        fileContent = `// ${activeSdkPath}\n// File available in repository under ${activeSdkPath}`;
       }
 
+      const stdLabel = activeSdkSuiteMode === 'cpp20' ? 'C++20' : 'C++17';
       const lines = fileContent.split('\n');
-      if (metaEl) metaEl.innerText = `(C++20, ${lines.length} lines, ${(fileContent.length / 1024).toFixed(1)} KB)`;
+      if (metaEl) metaEl.innerText = `(${stdLabel}, ${lines.length} lines, ${(fileContent.length / 1024).toFixed(1)} KB)`;
       if (codeEl) {
         codeEl.innerHTML = `<code>${escapeHtml(fileContent)}</code>`;
       }
     }
 
     function copyActiveSdkHeader() {
-      let fileContent = '';
-      if (window.CS2_SDK_DATA && Array.isArray(window.CS2_SDK_DATA)) {
-        const masterMod = window.CS2_SDK_DATA.find(m => m.module === 'cs2_sdk');
-        if (masterMod && masterMod.files && masterMod.files[activeSdkHeader]) {
-          fileContent = masterMod.files[activeSdkHeader];
-        }
-      }
+      let fileContent = getActiveSdkFileContent();
       if (fileContent) {
-        copyApiText(fileContent, `Copied sdk/${activeSdkHeader} to clipboard!`);
+        copyApiText(fileContent, `Copied ${activeSdkPath} to clipboard!`);
       } else {
-        showToast('Header content unavailable');
+        showToast('File content unavailable');
       }
     }
 
     function downloadActiveSdkHeader() {
-      let fileContent = '';
-      if (window.CS2_SDK_DATA && Array.isArray(window.CS2_SDK_DATA)) {
-        const masterMod = window.CS2_SDK_DATA.find(m => m.module === 'cs2_sdk');
-        if (masterMod && masterMod.files && masterMod.files[activeSdkHeader]) {
-          fileContent = masterMod.files[activeSdkHeader];
-        }
-      }
+      let fileContent = getActiveSdkFileContent();
       if (!fileContent) {
-        showToast('Header content unavailable');
+        showToast('File content unavailable');
         return;
       }
       const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
@@ -7387,8 +7486,26 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast(`Downloaded sdk/${activeSdkHeader}!`);
+      showToast(`Downloaded ${activeSdkHeader}!`);
     }
+
+    function getActiveSdkFileContent() {
+      if (window.CS2_SDK_DATA && Array.isArray(window.CS2_SDK_DATA)) {
+        if (activeSdkSuiteMode === 'cpp20') {
+          const masterMod = window.CS2_SDK_DATA.find(m => m.module === 'cs2_sdk');
+          if (masterMod && masterMod.files && masterMod.files[activeSdkHeader]) {
+            return masterMod.files[activeSdkHeader];
+          }
+        } else {
+          const mod = getActiveCpp17Module();
+          if (mod && mod.files && mod.files[activeSdkHeader]) {
+            return mod.files[activeSdkHeader];
+          }
+        }
+      }
+      return '';
+    }
+
 
     function renderSdkStructsGrid() {
       const container = document.getElementById('sdkStructsGrid');

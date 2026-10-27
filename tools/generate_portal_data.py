@@ -1583,8 +1583,9 @@ def collect_sdk_modules(root):
                     with open(fpath, "r", encoding="utf-8") as f:
                         files_map[fname] = f.read()
             if files_map:
+                mod_label = mod_name if mod_name in ("interfaces", "shared") else f"{mod_name}.dll"
                 sdk_modules.append({
-                    "module": f"{mod_name}.dll",
+                    "module": mod_label,
                     "directory": f"game/{mod_name}",
                     "standard": "C++17",
                     "files": files_map

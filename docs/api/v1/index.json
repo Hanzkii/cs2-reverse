@@ -9,7 +9,7 @@
     "signatures_count": 39,
     "schema_classes_count": 2276,
     "convars_count": 2695,
-    "sdk_modules_count": 11
+    "sdk_modules_count": 17
   },
   "ai_context_files": {
     "llms_txt": "https://hanzkii.github.io/cs2-reverse/docs/llms.txt",
