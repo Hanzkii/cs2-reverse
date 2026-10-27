@@ -1319,6 +1319,14 @@ MODULE_RECONSTRUCTED_DATA = {
                 "title": "Camera, ViewMatrix & Aim Punch",
                 "desc": "Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors, 2.0x recoil punch multiplier, and WorldToScreen projection.",
                 "functions": ["AngleVectors", "WorldToScreen", "ApplyPunchAngle"]
+            },
+            {
+                "name": "bone_setup.cpp",
+                "path": "game/client/bone_setup.cpp",
+                "header": "game/client/bone_setup.h",
+                "title": "Bone Setup & Hierarchy Pipeline",
+                "desc": "Hierarchical forward kinematics bone evaluation, lazy dirty bitmask caching (m_nCalculatedBoneFlags), CBoneMergeCache matrix synchronization, and world-space hitbox bounds projection.",
+                "functions": ["SetupBones", "CalculateWorldBones", "GetBonePosition", "GetHitboxWorldBounds", "MergeBones"]
             }
         ]
     },

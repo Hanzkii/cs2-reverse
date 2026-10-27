@@ -51,7 +51,7 @@ Our reverse-engineering approach is strictly **static binary analysis** and **cl
    - Our automated scanner verifies that every pattern produces exactly 1 match across the baseline binaries and alerts to RVA shifts whenever CS2 updates.
 
 5. **Clean-Room C++ Reconstruction**:
-   - Reconstructed engine algorithms are implemented in pure standard C++17 under `game/` grouped strictly by binary module (`game/client/`, `game/server/`, `game/engine2/`, etc.) with zero third-party runtime dependencies.
+   - Reconstructed engine algorithms are implemented in pure standard C++20 under `game/` grouped strictly by binary module (`game/client/`, `game/server/`, `game/engine2/`, etc.) with zero third-party runtime dependencies.
 
 ---
 

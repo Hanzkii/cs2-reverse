@@ -8,7 +8,7 @@
 //                            CTraceHull (0x1802ea5d0)
 //   - BVH Spatial Tree: RnCompoundTree_t & 48-byte BvhNode_t
 //
-// Zero external dependencies - pure ISO C++17 / MSVC x64.
+// Zero external dependencies - pure ISO C++20 / MSVC x64.
 // =============================================================================
 
 #include <iostream>

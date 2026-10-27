@@ -9,7 +9,7 @@
 // - LineOfSightThroughSmoke & 3D DDA Raymarcher (0x1809b7f50 / 0x1809cd500)
 // - Sparse Delta Bitmask Wire Serialization (0x1809b1bd0)
 //
-// Standalone C++17 Reference Implementation. Zero external dependencies.
+// Standalone C++20 Reference Implementation. Zero external dependencies.
 // ============================================================================
 
 #include <iostream>
@@ -363,7 +363,7 @@ public:
 int main() {
     std::cout << "============================================================\n";
     std::cout << "  CS2 Volumetric Smoke Grenade & Voxel Grid Simulator\n";
-    std::cout << "  Reverse-Engineered from server.dll (MSVC x64 C++17)\n";
+    std::cout << "  Reverse-Engineered from server.dll (MSVC x64 C++20)\n";
     std::cout << "============================================================\n\n";
 
     // 1. Verify 3D Morton Encoding / Decoding

@@ -190,7 +190,7 @@ struct SparseVoxelWordPB {
 
 ## 5. Standalone Verification Simulator
 
-A complete standalone C++17 verification simulator implementing the exact Morton encoding, 32x32x32 voxel grid, bullet carving, HE grenade shockwave displacement, 0.20 density raymarcher, and sparse wire delta serializer is provided in:
+A complete standalone C++20 verification simulator implementing the exact Morton encoding, 32x32x32 voxel grid, bullet carving, HE grenade shockwave displacement, 0.20 density raymarcher, and sparse wire delta serializer is provided in:
 - **Source**: [`../simulators/cs2_volumetric_smoke_sim.cpp`](../simulators/cs2_volumetric_smoke_sim.cpp)
-- **Compilation**: Compiled with MSVC x64 `/O2 /std:c++17 /EHsc` via [`../simulators/build_smoke_sim.bat`](../simulators/build_smoke_sim.bat)
+- **Compilation**: Compiled with MSVC x64 `/O2 /std:c++20 /EHsc` via [`../simulators/build_smoke_sim.bat`](../simulators/build_smoke_sim.bat)
 - **Validation**: All 6 verification assertions pass with zero external dependencies.

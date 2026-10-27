@@ -190,9 +190,9 @@ SchemaSystem registration inside `pulse_system.dll` includes 103 classes, formin
 
 ---
 
-## 6. Standalone C++17 Verification Simulator
+## 6. Standalone C++20 Verification Simulator
 
-To verify 100% architectural parity with `pulse_system.dll`, we implemented a clean-room C++17 simulator in `simulators/cs2_pulse_vm_sim.cpp`.
+To verify 100% architectural parity with `pulse_system.dll`, we implemented a clean-room C++20 simulator in `simulators/cs2_pulse_vm_sim.cpp`.
 
 ### 6.1 Verification Scope & Test Matrix
 1. **Binary Structure Parity:** Asserts `sizeof(PGDInstruction_t) == 56` bytes.

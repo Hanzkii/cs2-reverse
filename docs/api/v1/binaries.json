@@ -246,6 +246,20 @@
             "WorldToScreen",
             "ApplyPunchAngle"
           ]
+        },
+        {
+          "name": "bone_setup.cpp",
+          "path": "game/client/bone_setup.cpp",
+          "header": "game/client/bone_setup.h",
+          "title": "Bone Setup & Hierarchy Pipeline",
+          "desc": "Hierarchical forward kinematics bone evaluation, lazy dirty bitmask caching (m_nCalculatedBoneFlags), CBoneMergeCache matrix synchronization, and world-space hitbox bounds projection.",
+          "functions": [
+            "SetupBones",
+            "CalculateWorldBones",
+            "GetBonePosition",
+            "GetHitboxWorldBounds",
+            "MergeBones"
+          ]
         }
       ]
     },

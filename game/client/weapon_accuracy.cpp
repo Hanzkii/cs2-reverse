@@ -154,7 +154,7 @@ float CWeaponAccuracyPipeline::CalculateStrafingInaccuracy(
 void CWeaponAccuracyPipeline::UpdateTurningInaccuracy(
     WeaponAccuracyState& state,
     const QAngle& eyeAngles,
-    float dt,
+    [[maybe_unused]] float dt,
     const AccuracyConVars& cvars
 ) {
     if (!cvars.sv_turning_inaccuracy_enabled) {

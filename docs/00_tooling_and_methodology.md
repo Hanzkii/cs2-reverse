@@ -5,7 +5,7 @@
 The **cs2-reverse** project is built on a strict, reproducible engineering methodology:
 1. **Static Binary Analysis Only**: Zero live game process hooking, zero DLL injection, zero dynamic memory tampering, and zero anti-cheat circumvention. All research is performed against static PE binaries on disk (`client.dll`, `server.dll`, `engine2.dll`, `networksystem.dll`, `schemasystem.dll`, `tier0.dll`, etc.).
 2. **Autonomous Agentic Analysis (Antigravity + Ghidra MCP)**: Powered by Google DeepMind's Antigravity agent paired directly with NSA Ghidra via a Model Context Protocol (MCP) server. Disassembly, decompilation, symbol tables, and cross-references across all 34 binaries in `CS2.gpr` are queried in real-time to reverse engineer and verify low-level mechanics.
-3. **Ground-Truth Clean-Room Reconstruction**: Reversed algorithms are implemented in pure C++17 under `game/` grouped strictly by binary module, with zero external runtime dependencies.
+3. **Ground-Truth Clean-Room Reconstruction**: Reversed algorithms are implemented in pure C++20 under `game/` grouped strictly by binary module, with zero external runtime dependencies.
 4. **Modular Automation**: Custom Python utilities automate PE inspection, RTTI extraction, schema parsing, and signature diffing across updates.
 
 ---
@@ -119,7 +119,7 @@ To eliminate the friction of reversing stripped Source 2 binaries where decompil
 
 ## 4. Reconstructed SDK (`game/`) & Reference Simulators (`docs/simulators/`)
 
-All clean-room reconstructed SDK headers and C++17 implementations reside in `game/`, strictly grouped by their corresponding Source 2 binary module (`game/client/`, `game/server/`, `game/engine2/`, `game/schemasystem/`, `game/networksystem/`, `game/vphysics2/`, `game/animationsystem/`, `game/particles/`, and `game/pulse_system/`).
+All clean-room reconstructed SDK headers and C++20 implementations reside in `game/`, strictly grouped by their corresponding Source 2 binary module (`game/client/`, `game/server/`, `game/engine2/`, `game/schemasystem/`, `game/networksystem/`, `game/vphysics2/`, `game/animationsystem/`, `game/particles/`, and `game/pulse_system/`).
 
 Standalone mathematical and physics verification runners that back the interactive visualizers reside in `docs/simulators/`:
 
@@ -133,7 +133,7 @@ build_skeleton_anim_sim.bat   :: 09 - Skeleton Bone Hierarchy & Two-Bone IK (cs2
 build_rubikon_sim.bat         :: 10 - Rubikon Physics Engine & BVH Raycasting (cs2_rubikon_physics_sim.cpp)
 build_smoke_sim.bat           :: 11 - Volumetric Smoke & 32x32x32 Morton Voxel Grid (cs2_volumetric_smoke_sim.cpp)
 ```
-Each batch script compiles the corresponding `.cpp` simulator with `/O2 /std:c++17 /EHsc` and executes the resulting binary, verifying all mathematical invariants and deterministic test assertions.
+Each batch script compiles the corresponding `.cpp` simulator with `/O2 /std:c++20 /EHsc` and executes the resulting binary, verifying all mathematical invariants and deterministic test assertions.
 
 ---
 

@@ -318,5 +318,5 @@ The complete lag compensation and backtracking pipeline has been reconstructed u
 - **Header**: [`game/server/lagcompensation.h`](../game/server/lagcompensation.h)
   - Defines `LagRecord_t`, `RestoreSnapshot_t`, `PawnTrackHistory_t`, `Matrix3x4`, and `CLagCompensationServer`.
 - **Implementation**: [`game/server/lagcompensation.cpp`](../game/server/lagcompensation.cpp)
-  - Pure C++17 implementations of `RecordDataIntoTrack`, `StartLagCompensation`, `StartLagCompensationSubTick`, `BacktrackEntity`, `RestoreEntityTo`, `FinishLagCompensation`, and SIMD matrix interpolation.
-  - Zero third-party dependencies; compiled with MSVC x64 `/O2 /std:c++17 /EHsc`.
+  - Pure C++20 implementations of `RecordDataIntoTrack`, `StartLagCompensation`, `StartLagCompensationSubTick`, `BacktrackEntity`, `RestoreEntityTo`, `FinishLagCompensation`, and SIMD matrix interpolation.
+  - Zero third-party dependencies; compiled with MSVC x64 `/O2 /std:c++20 /EHsc`.

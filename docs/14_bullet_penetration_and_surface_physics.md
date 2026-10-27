@@ -196,9 +196,9 @@ The authoritative penetration evaluator `EvaluateBulletPenetration` has been fin
 
 ## 6. Clean-Room Implementation Inventory
 
-The authoritative ballistics pipeline has been reconstructed in standard C++17 under `game/server/`:
+The authoritative ballistics pipeline has been reconstructed in standard C++20 under `game/server/`:
 - **Header**: [`game/server/bullet_penetration.h`](../game/server/bullet_penetration.h)
   - Exports `SurfaceData_t`, `BulletData_t`, `SurfaceHitData_t`, `BulletImpact_t`, `HitPlayerPawn_t`, and `CBulletPenetration`.
 - **Implementation**: [`game/server/bullet_penetration.cpp`](../game/server/bullet_penetration.cpp)
-  - Pure C++17 implementation of `ApplyDistanceFalloff`, `EvaluateSurfacePenetration`, `ClipTraceToPlayers`, and `FireBulletsAuthoritative`.
-  - Zero external dependencies; verified with MSVC x64 `/O2 /std:c++17 /EHsc`.
+  - Pure C++20 implementation of `ApplyDistanceFalloff`, `EvaluateSurfacePenetration`, `ClipTraceToPlayers`, and `FireBulletsAuthoritative`.
+  - Zero external dependencies; verified with MSVC x64 `/O2 /std:c++20 /EHsc`.

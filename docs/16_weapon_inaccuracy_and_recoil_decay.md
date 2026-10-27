@@ -264,7 +264,7 @@ All signatures verified with 100% uniqueness using `python tools/scan_signatures
 
 ## 5. Standalone Reference Simulator
 
-A clean-room C++17 simulator is implemented in [`simulators/cs2_weapon_spread_recoil_sim.cpp`](simulators/cs2_weapon_spread_recoil_sim.cpp) with compilation script [`simulators/build_weapon_spread_sim.bat`](simulators/build_weapon_spread_sim.bat).
+A clean-room C++20 simulator is implemented in [`simulators/cs2_weapon_spread_recoil_sim.cpp`](simulators/cs2_weapon_spread_recoil_sim.cpp) with compilation script [`simulators/build_weapon_spread_sim.bat`](simulators/build_weapon_spread_sim.bat).
 
 The simulator implements five comprehensive verification scenarios:
 1. **AK-47 30-Round Continuous Spray & Exponential Decay**: Tracks tick-by-tick fire penalty accumulation, continuous recoil index, camera aim punch angle velocities, and post-burst exponential decay.

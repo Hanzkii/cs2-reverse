@@ -284,6 +284,6 @@ All signatures are verified against baseline (`2026-10-15_25966348`) and latest 
 
 ## 7. Reconstructed Source Reference
 
-The clean-room C++17 implementation is provided in:
+The clean-room C++20 implementation is provided in:
 - Header: [`game/client/usercmd_wire.h`](../game/client/usercmd_wire.h)
 - Source: [`game/client/usercmd_wire.cpp`](../game/client/usercmd_wire.cpp)

@@ -18,7 +18,7 @@
 //   - GetRecoveryTime (FUN_18080cef0 @ RVA 0x0080cef0)
 //   - CPlayer_AimPunchServices::SimulateAimPunchDecay (FUN_18085dc60 @ RVA 0x0085dc60 / 0x0085ea90)
 //
-// Standards: Pure C++17, Zero third-party dependencies, MSVC x64 compliant.
+// Standards: Pure C++20, Zero third-party dependencies, MSVC x64 compliant.
 // =======================================================================================
 
 namespace CS2Sim {
@@ -52,20 +52,20 @@ struct SpreadVector2D {
     float Length() const { return std::sqrt(x * x + y * y); }
 };
 
-static float ClampFloat(float val, float minVal, float maxVal) {
+[[maybe_unused]] static float ClampFloat(float val, float minVal, float maxVal) {
     if (val < minVal) return minVal;
     if (val > maxVal) return maxVal;
     return val;
 }
 
-static Vector3 NormalizeVector(const Vector3& v) {
+[[maybe_unused]] static Vector3 NormalizeVector(const Vector3& v) {
     float mag = v.Length();
     if (mag < 1e-9f) return {0.0f, 0.0f, 0.0f};
     float inv = 1.0f / mag;
     return {v.x * inv, v.y * inv, v.z * inv};
 }
 
-static void AngleVectors(const QAngle& angles, Vector3* forward, Vector3* right = nullptr, Vector3* up = nullptr) {
+[[maybe_unused]] static void AngleVectors(const QAngle& angles, Vector3* forward, Vector3* right = nullptr, Vector3* up = nullptr) {
     float sp = std::sin(angles.pitch * DEG2RAD);
     float cp = std::cos(angles.pitch * DEG2RAD);
     float sy = std::sin(angles.yaw * DEG2RAD);
@@ -206,7 +206,7 @@ static CCSWeaponVData CreateAK47() {
     return v;
 }
 
-static CCSWeaponVData CreateDesertEagle() {
+[[maybe_unused]] static CCSWeaponVData CreateDesertEagle() {
     CCSWeaponVData v;
     v.name = "Desert Eagle (Pistol)";
     v.itemDefIndex = 1;

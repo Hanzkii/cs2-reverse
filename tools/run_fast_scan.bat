@@ -8,7 +8,7 @@ if %ERRORLEVEL% neq 0 (
         call vcvars64.bat >nul 2>&1
     )
 )
-cl.exe /O2 /std:c++17 /EHsc fast_scan.cpp
+cl.exe /O2 /std:c++20 /EHsc fast_scan.cpp
 if %ERRORLEVEL% equ 0 (
     fast_scan.exe
 )

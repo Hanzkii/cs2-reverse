@@ -1,6 +1,6 @@
 /**
  * @file hit_registration_damage.h
- * @brief Clean-room C++17 reconstruction of CS2 Hit Registration, HitGroup Scaling & Armor Damage Absorption.
+ * @brief Clean-room C++20 reconstruction of CS2 Hit Registration, HitGroup Scaling & Armor Damage Absorption.
  *
  * Reconstructed from server.dll:
  *   - CCSPlayerPawn::IsArmored                    (Baseline RVA: 0x00aca700, Build 26144732 RVA: 0x00ad7ba0)

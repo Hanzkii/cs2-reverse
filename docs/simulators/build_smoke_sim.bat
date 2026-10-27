@@ -10,7 +10,7 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo ========================================================
-echo  Compiling CS2 Volumetric Smoke Grenade Simulator (C++17)
+echo  Compiling CS2 Volumetric Smoke Grenade Simulator (C++20)
 echo ========================================================
 
 cl.exe /O2 /std:c++20 /EHsc /W4 /D_CRT_SECURE_NO_WARNINGS /Fe:cs2_volumetric_smoke_sim.exe cs2_volumetric_smoke_sim.cpp
