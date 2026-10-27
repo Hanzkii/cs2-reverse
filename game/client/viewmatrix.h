@@ -1,12 +1,30 @@
 #ifndef CS2_CLIENT_VIEWMATRIX_H
 #define CS2_CLIENT_VIEWMATRIX_H
 
+#include <cmath>
+
 namespace cs2::client {
 
 struct Vector3 {
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
+
+    constexpr Vector3() noexcept = default;
+    constexpr Vector3(float fx, float fy, float fz) noexcept : x(fx), y(fy), z(fz) {}
+
+    Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
+    Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
+    Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
+    Vector3 operator/(float s) const noexcept { return {x / s, y / s, z / s}; }
+
+    [[nodiscard]] float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
+    [[nodiscard]] float LengthSqr() const noexcept { return Dot(*this); }
+    [[nodiscard]] float Length() const noexcept { return std::sqrt(LengthSqr()); }
+    [[nodiscard]] Vector3 Normalized() const noexcept {
+        float l = Length();
+        return l > 1e-6f ? (*this) * (1.0f / l) : Vector3{0, 0, 0};
+    }
 };
 
 struct QAngle {

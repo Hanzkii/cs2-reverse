@@ -482,3 +482,50 @@ All headers compile cleanly with strict compiler flags under standard MSVC C++20
 cl /std:c++20 /EHsc /W4 /WX /c test_master_sdk.cpp
 ```
 Every struct is backed by compile-time `static_assert(sizeof(...) == ...)` and `static_assert(offsetof(...) == ...)`, guaranteeing 100% byte-accurate alignment and zero undefined behavior.
+
+---
+
+## 9. Seamless SDK (`sdk/`) & Engine Subsystems (`game/`) Integration
+
+The repository integrates two complementary architectural layers:
+1. **Public Reconstructed SDK (`sdk/`)**: Authoritative memory layouts, verified byte sizes, inheritance topologies, virtual method tables (VTables), and engine singleton pointers across `client.dll`, `server.dll`, `engine2.dll`, `schemasystem.dll`, `networksystem.dll`, and `vphysics2.dll`.
+2. **Reconstructed Engine Subsystems (`game/`)**: Clean-room C++20 algorithms and runtime services across 14 engine domains (`game/client/`, `game/server/`, `game/animationsystem/`, `game/vphysics2/`, `game/particles/`, `game/navsystem/`, `game/pulse_system/`, etc.).
+
+### 9.1 The Integration Bridge (`sdk/game_bridge.hpp`)
+Rather than maintaining disconnected parallel implementations, `sdk/game_bridge.hpp` bridges both layers seamlessly:
+- **Zero-Cost Bi-Directional Adapters**: Inlined conversion helpers (`bridge::ToGame`, `bridge::ToSDK`) mapping between SDK coordinate representations (`sdk::Vector3`, `sdk::QAngle`, `sdk::CTransform`, `sdk::VMatrix`, `sdk::CEntityHandle`) and modular subsystem formats (`shared::Vector3D`, `shared::QAngle`, `shared::CTransform`, `shared::VMatrix`, `shared::CEntityHandle`).
+- **Entity Lifecycle Linkage**: `bridge::GetPlayerPawn` directly bridges high-level `CCSPlayerController` entities to active `C_CSPlayerPawn` instances using `CGameEntitySystem`'s 2D chunk page table.
+- **Unified Engine Facade (`sdk::SDK`)**:
+  - `SDK::SolveTwoBoneIK`: Dispatches directly to the Law of Cosines limb solver in `game/animationsystem/`.
+  - `SDK::EvaluateDamage`: Dispatches directly to the Kevlar/Helmet armor absorption evaluator in `game/server/`.
+  - `SDK::WorldToScreen`: Dispatches directly to the frustum clipping and camera pipeline in `game/client/`.
+
+### 9.2 Verification Harness
+The full end-to-end integration is verified via:
+- **Test Runner**: [`docs/simulators/test_sdk_game_integration.cpp`](../simulators/test_sdk_game_integration.cpp)
+- **Build Script**: [`docs/simulators/build_sdk_game_integration.bat`](../simulators/build_sdk_game_integration.bat)
+
+```cmd
+cd docs/simulators
+build_sdk_game_integration.bat
+```
+Output:
+```
+=================================================================
+ VALVE SOURCE 2: Master SDK and Game Subsystem Integration (C++20)
+=================================================================
+[Test 1] Testing Bi-directional Math & Handle Adapters...
+  -> SUCCESS: Vector3, CTransform, and CEntityHandle adapters verified.
+[Test 2] Testing SDK Integration with animationsystem (Two-Bone IK)...
+  -> SUCCESS: Analytical limb kinematics solved via SDK facade.
+[Test 3] Testing SDK Integration with server combat damage engine...
+  -> SUCCESS: Authoritative armor absorption ODE verified.
+[Test 4] Testing SDK Integration with client camera & view projection...
+  -> SUCCESS: Frustum rejection and viewport projection validated.
+[Test 5] Testing SDK Integration with client bone hierarchy & hitboxes...
+  -> SUCCESS: Hierarchical forward kinematics evaluated via SDK bridge.
+
+=================================================================
+ ALL SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!
+=================================================================
+```

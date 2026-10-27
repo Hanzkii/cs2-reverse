@@ -1,6 +1,7 @@
 #ifndef CS2_SERVER_BULLET_PENETRATION_H
 #define CS2_SERVER_BULLET_PENETRATION_H
 
+#include "../client/viewmatrix.h"
 #include <cstdint>
 #include <cmath>
 #include <vector>
@@ -8,6 +9,8 @@
 #include <string>
 
 namespace cs2::server {
+
+using client::Vector3;
 
 // -------------------------------------------------------------------------
 // Source 2 / CS2 Authoritative Material Texture Characters
@@ -37,29 +40,6 @@ constexpr uint16_t CHAR_TEX_SHATTERGLASS = 'Y'; // 0x59 (Shatterglass / Plexigla
 
 // Surface descriptor bitflags (Bit 13 tested via BT reg, 0xd @ 0x180a902eb)
 constexpr uint32_t SURF_FLAG_GRATE_MESH  = (1 << 13); // 0x2000
-
-// -------------------------------------------------------------------------
-// 3D Vector Math for Ballistic Calculations
-// -------------------------------------------------------------------------
-struct Vector3 {
-    float x{0.0f}, y{0.0f}, z{0.0f};
-
-    constexpr Vector3() noexcept = default;
-    constexpr Vector3(float fx, float fy, float fz) noexcept : x(fx), y(fy), z(fz) {}
-
-    Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
-    Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
-    Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
-    Vector3 operator/(float s) const noexcept { return {x / s, y / s, z / s}; }
-
-    [[nodiscard]] float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
-    [[nodiscard]] float LengthSqr() const noexcept { return Dot(*this); }
-    [[nodiscard]] float Length() const noexcept { return std::sqrt(LengthSqr()); }
-    [[nodiscard]] Vector3 Normalized() const noexcept {
-        float l = Length();
-        return l > 1e-6f ? (*this) * (1.0f / l) : Vector3{0, 0, 0};
-    }
-};
 
 // -------------------------------------------------------------------------
 // Reconstructed 32-Byte Rubikon Physics Surface Property Layout

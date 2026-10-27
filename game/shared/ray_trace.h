@@ -9,6 +9,13 @@ namespace cs2::shared {
 
 #define CS2_PAD(bytes, name) private: [[maybe_unused]] std::uint8_t name[bytes]; public:
 
+#ifdef OPAQUE
+#undef OPAQUE
+#endif
+#ifdef TRANSPARENT
+#undef TRANSPARENT
+#endif
+
 namespace Contents {
     constexpr std::uint32_t EMPTY        = 0x00000000;
     constexpr std::uint32_t SOLID        = 0x00000001;

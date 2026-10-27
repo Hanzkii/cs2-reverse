@@ -2,22 +2,13 @@
 #define CS2_CLIENT_SUBTICK_PREDICTION_H
 
 #include "viewmatrix.h"
+#include "movement.h"
 #include <cstdint>
 #include <vector>
 
 namespace cs2::client {
 
-enum InButtonBits : uint64_t {
-    IN_ATTACK       = (1ULL << 0),
-    IN_JUMP         = (1ULL << 1),
-    IN_DUCK         = (1ULL << 2),
-    IN_FORWARD      = (1ULL << 3),
-    IN_BACK         = (1ULL << 4),
-    IN_USE          = (1ULL << 5),
-    IN_MOVELEFT     = (1ULL << 9),
-    IN_MOVERIGHT    = (1ULL << 10),
-    IN_SPEED        = (1ULL << 16),
-};
+using InButtonBits = MoveButtonBits;
 
 struct SubTickMoveStep {
     float when;        // 0.0 to 1.0 (sub-tick fractional offset)

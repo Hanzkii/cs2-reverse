@@ -26,6 +26,7 @@
 #include "render_scene_material.hpp"
 #include "input_usercmd.hpp"
 #include "trace_events_aux.hpp"
+#include "game_bridge.hpp"
 
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
@@ -132,6 +133,47 @@ public:
 #else
         return nullptr;
 #endif
+    }
+
+    // ========================================================================
+    // Game Subsystems & Algorithm Bridge Helpers
+    // ========================================================================
+
+    // Resolve Player Pawn entity from CCSPlayerController
+    [[nodiscard]] static inline C_CSPlayerPawn* GetPlayerPawn(
+        const CCSPlayerController* pController,
+        const CGameEntitySystem* pEntitySystem
+    ) noexcept {
+        return bridge::GetPlayerPawn(pController, pEntitySystem);
+    }
+
+    // Analytical Two-Bone Inverse Kinematics (Law of Cosines)
+    [[nodiscard]] static inline animationsystem::IKSolveResult SolveTwoBoneIK(
+        const Vector3& root,
+        const Vector3& target,
+        const Vector3& pole,
+        float len1,
+        float len2
+    ) noexcept {
+        return bridge::SolveTwoBoneIK(root, target, pole, len1, len2);
+    }
+
+    // Server-Side Combat Damage & Armor Scaling Evaluation
+    [[nodiscard]] static inline server::DamageCalculationResult EvaluateDamage(
+        int victimHealth,
+        int victimArmor,
+        int victimTeam,
+        bool hasHelmet,
+        float baseDamage,
+        float rangeModifier,
+        float distanceUnits,
+        server::HitGroup_t hitGroup,
+        float armorRatio
+    ) noexcept {
+        return bridge::EvaluateDamage(
+            victimHealth, victimArmor, victimTeam, hasHelmet,
+            baseDamage, rangeModifier, distanceUnits, hitGroup, armorRatio
+        );
     }
 };
 

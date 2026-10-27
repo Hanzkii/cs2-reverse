@@ -68,6 +68,44 @@ Our reverse-engineering approach is strictly **static binary analysis** and **cl
 
 ---
 
+## 🧩 Architecture: `sdk/` vs `game/` Integration
+
+The repository implements a two-tier, zero-copy architecture that integrates public headers with modular engine services:
+
+```mermaid
+flowchart LR
+    subgraph PublicSDK ["Public Master SDK (sdk/)"]
+        CS2SDK["cs2_sdk.hpp"]
+        Classes["client_classes.hpp<br/>(C_CSPlayerPawn, Controller)"]
+        EntitySys["entity_system.hpp<br/>(2D Chunk Page Table)"]
+        Interfaces["interfaces_registry.hpp<br/>(VTable Registries)"]
+        Bridge["game_bridge.hpp<br/>(Zero-Cost Adapters & Facades)"]
+    end
+
+    subgraph EngineModules ["Engine Subsystems (game/)"]
+        Shared["game/shared/<br/>(Math, Skeleton, Hitbox, Ray)"]
+        ClientSub["game/client/<br/>(BoneSetup, Movement, Prediction)"]
+        ServerSub["game/server/<br/>(LagCompensation, Wallbangs, Armor)"]
+        AnimSub["game/animationsystem/<br/>(TwoBoneIK, AnimGraph Slerp)"]
+        PhysSub["game/vphysics2/<br/>(Rubikon BVH Raycast)"]
+    end
+
+    CS2SDK --> Bridge
+    Bridge <--> Shared
+    Bridge <--> ClientSub
+    Bridge <--> ServerSub
+    Bridge <--> AnimSub
+    Bridge <--> PhysSub
+    Classes <--> Bridge
+```
+
+- **`sdk/` (Public C++20 SDK Headers)**: Authoritative entity layouts with verified byte offsets, inheritance graphs, Master VTables, and static singleton accessors (`client_classes.hpp`, `entity_system.hpp`, `interfaces_registry.hpp`).
+- **`game/` (Modular Engine Subsystems)**: Clean-room C++20 implementations of reversed Source 2 algorithms (lag compensation backtracking, bullet penetration ODEs, sub-tick prediction, Rubikon collision, and bone matrix setup).
+- **`sdk/game_bridge.hpp` (Integration Bridge)**: Connects both worlds with zero-cost adapters (`ToGame`, `ToSDK`), seamless handle-to-pawn resolution (`SDK::GetPlayerPawn`), and unified engine facades (`SDK::SolveTwoBoneIK`, `SDK::EvaluateDamage`).
+- **Validated Interoperability**: Fully tested end-to-end via [`docs/simulators/test_sdk_game_integration.cpp`](docs/simulators/test_sdk_game_integration.cpp) compiled with MSVC x64 `/std:c++20 /W4 /WX`.
+
+---
+
 ## 📚 External Reference Frameworks & Skills
 
 To accelerate reverse-engineering precision and cross-reference stripped binary VTables:
