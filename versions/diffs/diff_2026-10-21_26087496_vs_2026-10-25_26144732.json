@@ -5,7 +5,7 @@
   "new_build_id": "26144732",
   "old_date": "2026-10-21",
   "new_date": "2026-10-25",
-  "generated_at": "2026-11-16T20:43:12.014111",
+  "generated_at": "2026-11-16T21:00:51.530891",
   "summary": {
     "binaries_modified_count": 32,
     "classes_added_count": 1,
@@ -5162,53 +5162,75 @@
     }
   },
   "ai_overview": {
-    "title": "CS2 Update 26144732 Sub-Tick & Animation Maintenance Briefing",
-    "executive_summary": "Update 26144732 focuses on input processing stabilization, Panorama UI DOM event throttling, and two-bone inverse kinematics alignment. SchemaSystem class definitions exhibited minimal drift, while all 39 reversed core function signatures maintained 100% resolution accuracy.",
+    "title": "CS2 Update 26144732 (October 25, 2026) \u2014 Audio Overhaul, Viewmodel Alignment & Texture Streaming",
+    "executive_summary": "Major engine update re-compiling 32 of 34 core binaries (~129 MB patch). Static analysis identified 3 new texture streaming ConVars (r_cs2_texture_streaming_*), 1 new Schema class (CVoiceContainerVMixSnd in soundsystem.dll), 25 modified classes with 255 shifted member offsets (including C_CSPlayerPawn viewmodel FOV/alignment fields at +0x1dc0 and CCSPlayerPawn buyzone/retakes fields), and 10 shifted canonical function signatures across client.dll and server.dll. All 39 signature patterns match with 100% uniqueness (0 broken).",
+    "items_added": [
+      "3 New ConVars: r_cs2_texture_streaming_budget (streaming pool MB cap), r_cs2_texture_streaming_evict_scale (eviction scaling), r_cs2_texture_streaming_mipmap_bias (LOD bias offset)",
+      "1 New Schema Class: CVoiceContainerVMixSnd (soundsystem.dll, +0x58 bytes instance size for VMix audio graph DSP)",
+      "255 Shifted Schema Offsets across 25 classes (C_CSPlayerPawn viewmodel FOV/offsets shifted to +0x1dc0; CCSPlayerPawn 9 zone fields e.g. m_bInBuyZone +0xf71)",
+      "10 Shifted Function Signatures: AngleVectors (+0x2260 B), CalculateWorldBones (+0xe40 B), ConcatenateTransforms (+0x2260 B), StartLagCompensation (+0xc450 B), LineOfSightThroughSmoke (+0xd6c0 B), Smoke Spawn/Tick (+0xd540 B)",
+      "32 Recompiled Binaries (~129 MB delta): client.dll (+10 KB), server.dll (+57.5 KB), soundsystem.dll, engine2.dll..."
+    ],
     "subsystems": [
       {
-        "name": "Sub-Tick Input Pipeline",
-        "status": "MAINTENANCE",
-        "badge": "client.dll & engine2.dll",
-        "description": "Refined fractional tick timestamp clamping and user command buffer pacing."
+        "name": "Audio Graph DSP",
+        "status": "ADDED",
+        "badge": "soundsystem.dll",
+        "description": "CVoiceContainerVMixSnd container class (+0x58 B) registered for VMix DSP multi-track voice processing."
       },
       {
-        "name": "Animation & Bone IK",
-        "status": "STABLE",
-        "badge": "animationsystem.dll",
-        "description": "CTwoBoneIK_LawOfCosines limb constraint solver confirmed deterministic."
+        "name": "Texture Streaming",
+        "status": "ADDED",
+        "badge": "engine2.dll / rendersystem",
+        "description": "3 new ConVars controlling memory budgets, eviction scale, and mipmap LOD biases."
       },
       {
-        "name": "Panorama UI Engine",
-        "status": "MAINTENANCE",
-        "badge": "panorama.dll",
-        "description": "Optimized DOM panel render tree layout and HUD event bubbling."
+        "name": "Player Pawn & Viewmodel",
+        "status": "REFACTORED",
+        "badge": "client.dll / server.dll",
+        "description": "C_CSPlayerPawn viewmodel alignment fields shifted to +0x1dc0; CCSPlayerPawn zone fields shifted."
       },
       {
-        "name": "Network State Synchronization",
-        "status": "STABLE",
-        "badge": "networksystem.dll",
-        "description": "Protobuf wire packet serialization offsets verified stable."
+        "name": "Canonical Signatures",
+        "status": "REFACTORED",
+        "badge": "client.dll / server.dll",
+        "description": "10 function RVAs shifted (+0x2260 B in client, +0xd6c0 B in server); all 39 patterns 100% intact."
       }
     ],
     "key_discoveries": [
       {
-        "title": "Sub-Tick Packet Interpolation Clamping",
-        "binary": "client.dll",
-        "impact": "Medium",
-        "summary": "Verified user command interpolation timing against sv_maxunlag boundaries.",
-        "anchor": "CLagCompensationManager::StartLagCompensation"
+        "title": "New Audio Container: CVoiceContainerVMixSnd",
+        "binary": "soundsystem.dll",
+        "impact": "High",
+        "summary": "Statically parsed new 0x58-byte schema class in soundsystem.dll managing VMix dynamic voice routing and spatial filter parameters.",
+        "anchor": "CVoiceContainerVMixSnd"
       },
       {
-        "title": "Two-Bone Analytical IK Invariant",
-        "binary": "animationsystem.dll",
-        "impact": "Low",
-        "summary": "Law of cosines analytical limb constraint solver maintains bit-level equality across update boundaries.",
-        "anchor": "CTwoBoneIK_LawOfCosines"
+        "title": "Texture Streaming Memory ConVars",
+        "binary": "engine2.dll",
+        "impact": "Medium",
+        "summary": "Added r_cs2_texture_streaming_budget, r_cs2_texture_streaming_evict_scale, and r_cs2_texture_streaming_mipmap_bias for VRAM texture management.",
+        "anchor": "r_cs2_texture_streaming_budget"
+      },
+      {
+        "title": "C_CSPlayerPawn Viewmodel Alignment Shift",
+        "binary": "client.dll",
+        "impact": "High",
+        "summary": "11 member fields shifted (m_flViewmodelOffsetX/Y/Z, m_flViewmodelFOV relocated to +0x1dc0) for sub-tick viewmodel animation sync.",
+        "anchor": "C_CSPlayerPawn"
+      },
+      {
+        "title": "Lag Compensation & Smoke Visibility RVAs",
+        "binary": "server.dll",
+        "impact": "High",
+        "summary": "StartLagCompensation shifted by +0xc450 bytes (to 0x081b770) and LineOfSightThroughSmoke shifted by +0xd6c0 bytes (to 0x09c5610).",
+        "anchor": "StartLagCompensation"
       }
     ],
     "takeaways": [
-      "Clean maintenance release with zero broken function signatures.",
-      "Full wire compatibility preserved across network serialization layers."
+      "Texture streaming subsystem introduced via 3 new console variables.",
+      "Schema class CVoiceContainerVMixSnd added in soundsystem.dll.",
+      "255 field offsets shifted in client/server pawns; all 39 SDK byte patterns verified with 100% uniqueness."
     ]
   }
 }

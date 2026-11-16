@@ -5,7 +5,7 @@
   "new_build_id": "26087496",
   "old_date": "2026-10-15",
   "new_date": "2026-10-21",
-  "generated_at": "2026-11-16T20:43:11.758218",
+  "generated_at": "2026-11-16T21:00:51.839055",
   "summary": {
     "binaries_modified_count": 2,
     "classes_added_count": 0,
@@ -948,53 +948,52 @@
     }
   },
   "ai_overview": {
-    "title": "CS2 Update 26087496 Recoil Dynamics & Schema Expansion",
-    "executive_summary": "Update 26087496 introduced targeted combat balance adjustments, expanding SchemaSystem classes (+2 classes) and refining weapon recoil recovery curves. Client weapon state tracking and lag compensation timelines were updated with tighter temporal bounds.",
+    "title": "CS2 Update 26087496 (October 21, 2026) \u2014 Client/Server Maintenance & Recoil Aim-Punch Damping",
+    "executive_summary": "Targeted maintenance update recompiling client.dll and server.dll. Tuned weapon_recoil_decay2_exp (8.0f) exponential aim-punch damping in SimulateAimPunchDecay, renewed Authenticode digital signatures, and realigned .rdata string pools. Confirmed 0 SchemaSystem field shifts, 0 new ConVars, and 100% signature stability (39/39 verified unique).",
+    "items_added": [
+      "Recoil Aim-Punch Tuning: weapon_recoil_decay2_exp (8.0f) exponential aim-punch decay damping in SimulateAimPunchDecay",
+      "2 Recompiled Binaries: client.dll & server.dll with renewed Authenticode signatures and realigned .rdata string tables",
+      "0 Schema Shifts & 0 ConVars: Full ABI preservation across all 2,275+ SchemaSystem classes",
+      "39/39 Signatures Intact: 100% pattern stability with zero shifted or broken RVAs"
+    ],
     "subsystems": [
       {
         "name": "Combat & Weapon Dynamics",
         "status": "REFACTORED",
         "badge": "client.dll / server.dll",
-        "description": "Adjusted recoil index accumulation and weapon accuracy penalty decay timers."
+        "description": "Tuned aim-punch recoil recovery damping via weapon_recoil_decay2_exp (8.0f)."
       },
       {
         "name": "SchemaSystem Reflection",
-        "status": "ADDED",
-        "badge": "schemasystem.dll",
-        "description": "Registered 2 new SchemaSystem class definitions with expanded entity attributes."
-      },
-      {
-        "name": "Rubikon Collision Mesh",
         "status": "STABLE",
-        "badge": "vphysics2.dll",
-        "description": "ConvexPolyhedronRaycast and CapsuleSweepIntersection preserved."
+        "badge": "schemasystem.dll",
+        "description": "Zero field shifts or class modifications (clean ABI lock)."
       },
       {
-        "name": "Tier0 Core Utilities",
+        "name": "Canonical Signatures",
+        "status": "STABLE",
+        "badge": "client.dll / server.dll",
+        "description": "All 39 function signatures match at baseline RVAs."
+      },
+      {
+        "name": "Digital Signatures & Strings",
         "status": "MAINTENANCE",
-        "badge": "tier0.dll",
-        "description": "Realigned ConVar caseless hash table bucket indexing routines."
+        "badge": "tier0.dll / client.dll",
+        "description": "Renewed Valve Authenticode certificates and realigned .rdata pools."
       }
     ],
     "key_discoveries": [
       {
-        "title": "Weapon Recoil Decay Curve Recalibration",
+        "title": "Weapon Recoil Decay Curve Calibration",
         "binary": "client.dll",
-        "impact": "High",
-        "summary": "Refactored UpdateAccuracyPenalty logic adjusting recovery rate constants when firing in rapid bursts.",
-        "anchor": "C_CSWeaponBase::UpdateAccuracyPenalty"
-      },
-      {
-        "title": "Schema Class Topology Expansion",
-        "binary": "schemasystem.dll",
         "impact": "Medium",
-        "summary": "Introduced new entity property descriptors and synchronized client/server class hierarchies.",
-        "anchor": "SchemaSystem_001"
+        "summary": "Refactored SimulateAimPunchDecay aim punch recovery using exponential decay exponent 8.0f.",
+        "anchor": "SimulateAimPunchDecay"
       }
     ],
     "takeaways": [
-      "SchemaSystem reflection tables expanded with new client-side attributes.",
-      "Recoil and weapon spread formulas recalibrated for consistency."
+      "Clean maintenance release with zero broken function signatures.",
+      "Recoil aim-punch formulas verified stable."
     ]
   }
 }

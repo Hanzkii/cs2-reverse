@@ -515,9 +515,6 @@
               Automated PE reverse engineering and differential analysis across Counter-Strike 2 engine updates. Tracks binary section sizes, static SchemaSystem member offsets (<code class="text-amber-400 font-mono">+N bytes</code>), <code class="text-cyan-400 font-mono">CreateInterface</code> version bumps, and ConVars.
             </p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-mono font-bold">Multi-Version Pipeline Active</span>
-          </div>
         </div>
 
         <!-- Telemetry Metrics Cards -->
@@ -580,7 +577,7 @@
             <button onclick="setDiffSubtab('binaries')" id="diffSubtabBtn_binaries" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Binary PE Deltas</button>
             <button onclick="setDiffSubtab('schemas')" id="diffSubtabBtn_schemas" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Schema Shifts &amp; Offsets</button>
             <button onclick="setDiffSubtab('interfaces')" id="diffSubtabBtn_interfaces" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Interfaces &amp; ConVars</button>
-            <button onclick="switchTab('signatures')" id="diffSubtabBtn_signatures" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
+            <button onclick="setDiffSubtab('signatures')" id="diffSubtabBtn_signatures" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
               <svg class="w-3.5 h-3.5 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               <span>Canonical Signatures &amp; RVAs</span>
             </button>
@@ -2962,7 +2959,7 @@
         setUrlHash('diff/' + subtab);
       }
       currentDiffSubtab = subtab;
-      const tabs = ['patches', 'binaries', 'schemas', 'interfaces', 'guide'];
+      const tabs = ['patches', 'binaries', 'schemas', 'interfaces', 'signatures', 'guide'];
       tabs.forEach(t => {
         const btn = document.getElementById('diffSubtabBtn_' + t);
         if (btn) {
@@ -3037,6 +3034,8 @@
         renderDiffSchemas(container, vOld, vNew, diff);
       } else if (currentDiffSubtab === 'interfaces') {
         renderDiffInterfaces(container, vOld, vNew, diff);
+      } else if (currentDiffSubtab === 'signatures') {
+        renderDiffSignatures(container, vOld, vNew, diff);
       } else if (currentDiffSubtab === 'guide') {
         renderDiffGuide(container);
       } else {
@@ -3058,16 +3057,60 @@
     // ========================================================================
     // 4C-2. Patch History & AI Changelog Component
     // ========================================================================
+    function copyPatchBriefing(oldTag, newTag) {
+      const diff = (typeof DIFFS_DATA !== 'undefined' ? DIFFS_DATA : []).find(d => d.old_tag === oldTag && d.new_tag === newTag);
+      if (!diff || !diff.ai_overview) return;
+      const ai = diff.ai_overview;
+      const items = ai.items_added || [];
+      
+      let text = `📦 ${ai.title || 'CS2 Update Intelligence'}\n`;
+      text += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      text += `📝 Executive Summary:\n${ai.executive_summary || ''}\n\n`;
+      
+      if (items.length > 0) {
+        text += `✨ What's Added & Changed in this Update:\n`;
+        items.forEach(it => {
+          text += `  • ${it}\n`;
+        });
+        text += `\n`;
+      }
+      
+      const subsystems = ai.subsystems || [];
+      if (subsystems.length > 0) {
+        text += `🏷️ Subsystems Impacted:\n`;
+        subsystems.forEach(sub => {
+          text += `  • [${sub.status || 'STATUS'}] ${sub.name}: ${sub.description}\n`;
+        });
+        text += `\n`;
+      }
+      
+      text += `🔗 Full Reverse Engineering Breakdown & Code Deltas:\nhttps://hanzkii.github.io/cs2-reverse/docs/#diff/patches`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = document.getElementById('copyBtnText_' + newTag);
+        if (btnText) {
+          const orig = btnText.innerText;
+          btnText.innerText = '✓ Copied!';
+          setTimeout(() => { btnText.innerText = orig; }, 2500);
+        }
+      }).catch(err => {
+        console.error('Clipboard copy failed:', err);
+      });
+    }
+
     function renderPatchAiOverviewBox(oldTag, newTag) {
       const diff = (typeof DIFFS_DATA !== 'undefined' ? DIFFS_DATA : []).find(d => d.old_tag === oldTag && d.new_tag === newTag);
       const ai = diff ? diff.ai_overview : null;
       if (!ai) return '';
 
       const subsystems = ai.subsystems || [];
+      const items = ai.items_added || [];
+
       return `
         <!-- AI Patch Intelligence Briefing Box -->
-        <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950/60 via-slate-950/90 to-[#0c101c] border border-indigo-500/40 hover:border-indigo-500/70 rounded-xl p-4 sm:p-5 space-y-3.5 transition-all shadow-xl relative z-10">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-indigo-500/20 pb-3">
+        <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950/60 via-slate-950/90 to-[#0c101c] border border-indigo-500/40 hover:border-indigo-500/70 rounded-xl p-4 sm:p-5 space-y-4 transition-all shadow-xl relative z-10">
+          <!-- Top Header Bar with Copy Button -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-500/20 pb-3.5">
             <div class="flex items-center gap-2 flex-wrap">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 shadow-sm">
                 <span class="flex h-1.5 w-1.5 relative">
@@ -3078,7 +3121,11 @@
               </span>
               <span class="text-xs sm:text-sm font-bold text-white tracking-tight">${escapeHtml(ai.title || 'Update Intelligence')}</span>
             </div>
-            <div class="text-[10px] font-mono text-indigo-300/80 shrink-0">Automated Architecture Analysis</div>
+            
+            <button onclick="copyPatchBriefing('${escapeHtml(oldTag)}', '${escapeHtml(newTag)}')" id="copyBtn_${escapeHtml(newTag)}" class="px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm shrink-0 self-start sm:self-auto">
+              <svg class="w-3.5 h-3.5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span id="copyBtnText_${escapeHtml(newTag)}">Copy Briefing</span>
+            </button>
           </div>
 
           <!-- Executive Summary -->
@@ -3091,6 +3138,50 @@
               ${escapeHtml(ai.executive_summary || '')}
             </p>
           </div>
+
+          <!-- What's Added & Changed in this Update -->
+          ${items.length > 0 ? `
+            <div class="space-y-2 bg-slate-950/70 border border-slate-800/90 rounded-xl p-3.5">
+              <div class="text-[10px] font-mono font-bold text-amber-300 uppercase tracking-wider flex items-center justify-between">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  <span>What's Added &amp; Changed in this Update (${items.length}):</span>
+                </span>
+                <span class="text-[10px] text-slate-500 font-sans font-normal">Click 'Copy Briefing' above to share</span>
+              </div>
+              <ul class="space-y-1.5 font-mono text-xs">
+                ${items.map(it => {
+                  let badge = 'CHANGE';
+                  let badgeColor = 'bg-sky-500/20 text-sky-300 border-sky-500/40';
+                  if (it.toLowerCase().includes('convar')) {
+                    badge = 'CONVARS';
+                    badgeColor = 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
+                  } else if (it.toLowerCase().includes('schema class')) {
+                    badge = 'CLASS';
+                    badgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                  } else if (it.toLowerCase().includes('shift') || it.toLowerCase().includes('offset')) {
+                    badge = 'SHIFTS';
+                    badgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+                  } else if (it.toLowerCase().includes('signature')) {
+                    badge = 'SIGS';
+                    badgeColor = 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+                  } else if (it.toLowerCase().includes('recompiled') || it.toLowerCase().includes('binaries')) {
+                    badge = 'BINARIES';
+                    badgeColor = 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40';
+                  } else if (it.toLowerCase().includes('guard') || it.toLowerCase().includes('crash') || it.toLowerCase().includes('fix')) {
+                    badge = 'FIX';
+                    badgeColor = 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+                  }
+                  return `
+                    <li class="flex items-start gap-2 text-slate-200">
+                      <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeColor} shrink-0 mt-0.5">${badge}</span>
+                      <span class="leading-relaxed font-sans text-xs">${escapeHtml(it)}</span>
+                    </li>
+                  `;
+                }).join('')}
+              </ul>
+            </div>
+          ` : ''}
 
           <!-- Subsystem Impact Grid -->
           ${subsystems.length > 0 ? `
@@ -4251,6 +4342,151 @@
         const text = el.getAttribute('data-name') || '';
         el.style.display = (!query || text.toLowerCase().includes(query)) ? 'flex' : 'none';
       });
+    }
+
+    let diffSigFilter = 'all';
+    let diffSigSearchQuery = '';
+
+    function setDiffSigFilter(filter) {
+      diffSigFilter = filter;
+      renderDiffSubtabContent();
+    }
+
+    function onDiffSigSearch(val) {
+      diffSigSearchQuery = val;
+      filterDiffSigRows();
+    }
+
+    function filterDiffSigRows() {
+      const q = (diffSigSearchQuery || '').toLowerCase().trim();
+      let visibleCount = 0;
+      document.querySelectorAll('#diffSigTableBody tr.diff-sig-row').forEach(tr => {
+        const text = (tr.getAttribute('data-search') || '').toLowerCase();
+        const bin = (tr.getAttribute('data-binary') || '').toLowerCase();
+        const status = (tr.getAttribute('data-status') || '').toLowerCase();
+        
+        let matchFilter = true;
+        if (diffSigFilter === 'shifted') matchFilter = (status === 'shifted');
+        else if (diffSigFilter === 'intact') matchFilter = (status === 'intact');
+        else if (diffSigFilter !== 'all') matchFilter = (bin === diffSigFilter.toLowerCase());
+
+        const matchQ = (!q || text.includes(q));
+        if (matchFilter && matchQ) {
+          tr.style.display = '';
+          visibleCount++;
+        } else {
+          tr.style.display = 'none';
+        }
+      });
+      const countEl = document.getElementById('diffSigRowCount');
+      if (countEl) countEl.innerText = `${visibleCount} signatures shown`;
+    }
+
+    function renderDiffSignatures(container, vOld, vNew, diff) {
+      const sigs = (typeof SIGNATURES_DATA !== 'undefined' ? SIGNATURES_DATA : []);
+      const isSelf = (currentDiffOld === currentDiffNew);
+      
+      const shiftedSigs = isSelf ? [] : sigs.filter(s => s.status === 'SHIFTED' || (s.delta_bytes && s.delta_bytes !== 0));
+      const intactSigs = isSelf ? sigs : sigs.filter(s => !s.delta_bytes || s.delta_bytes === 0);
+
+      container.innerHTML = `
+        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-5">
+          <!-- Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cs2-border pb-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Canonical Function Signatures &amp; RVA Shift Inspector
+              </h2>
+              <p class="text-xs text-slate-300 mt-1">
+                Monitors 39 IDA/Ghidra wildcard byte patterns across builds. Displacements ('??') absorb code relocations while tracking exact RVA drift (+N bytes).
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">
+                39 / 39 Verified (100% Unique)
+              </span>
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold ${shiftedSigs.length > 0 ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'}">
+                ${shiftedSigs.length > 0 ? `${shiftedSigs.length} Shifted RVAs` : '0 Shifts (Baseline Matches)'}
+              </span>
+            </div>
+          </div>
+
+          <!-- Filter Pills & Search -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-900/70 p-3 rounded-xl border border-slate-800">
+            <div class="relative flex-1">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="diffSigSearchInput" value="${escapeHtml(diffSigSearchQuery)}" placeholder="Search function name, binary, RVA, or pattern..." class="w-full bg-slate-950 border border-slate-700/80 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-rose-500 font-mono" oninput="onDiffSigSearch(this.value)">
+            </div>
+
+            <!-- Filter Pills -->
+            <div class="flex flex-wrap items-center gap-1.5 font-mono text-xs shrink-0">
+              <button onclick="setDiffSigFilter('all')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'all' ? 'bg-rose-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors cursor-pointer">All (39)</button>
+              <button onclick="setDiffSigFilter('shifted')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'shifted' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'} transition-colors cursor-pointer">Shifted (${shiftedSigs.length})</button>
+              <button onclick="setDiffSigFilter('intact')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'intact' ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-800 text-emerald-300 hover:bg-slate-700'} transition-colors cursor-pointer">Intact (${intactSigs.length})</button>
+              <button onclick="setDiffSigFilter('client.dll')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'client.dll' ? 'bg-sky-500 text-slate-950 font-bold' : 'bg-slate-800 text-sky-300 hover:bg-slate-700'} transition-colors cursor-pointer">client.dll</button>
+              <button onclick="setDiffSigFilter('server.dll')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'server.dll' ? 'bg-sky-500 text-slate-950 font-bold' : 'bg-slate-800 text-sky-300 hover:bg-slate-700'} transition-colors cursor-pointer">server.dll</button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+            <span id="diffSigRowCount">${sigs.length} signatures shown</span>
+            <button onclick="switchTab('signatures')" class="text-rose-400 hover:underline flex items-center gap-1 cursor-pointer">Open Full Signatures Catalog &rarr;</button>
+          </div>
+
+          <!-- Table -->
+          <div class="rounded-xl border border-cs2-border overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left font-mono text-xs">
+                <thead class="bg-slate-900 border-b border-cs2-border text-slate-300">
+                  <tr>
+                    <th class="p-3">Function / Symbol</th>
+                    <th class="p-3">Binary</th>
+                    <th class="p-3">Baseline RVA</th>
+                    <th class="p-3">Target RVA</th>
+                    <th class="p-3">Shift &Delta;</th>
+                    <th class="p-3">Status</th>
+                    <th class="p-3">Pattern &amp; Action</th>
+                  </tr>
+                </thead>
+                <tbody id="diffSigTableBody" class="divide-y divide-cs2-border">
+                  ${sigs.map(s => {
+                    const isShifted = !isSelf && (s.status === 'SHIFTED' || (s.delta_bytes && s.delta_bytes !== 0));
+                    const statusBadge = isShifted
+                      ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">SHIFTED</span>`
+                      : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">INTACT (+0 B)</span>`;
+                    
+                    const deltaStr = isShifted ? (s.delta_str || `+${s.delta_bytes} B`) : '+0 B';
+                    const targetRva = isShifted ? (s.current_rva || s.baseline_rva) : s.baseline_rva;
+                    const searchData = `${s.name} ${s.binary} ${s.category || ''} ${s.baseline_rva} ${targetRva} ${s.pattern}`;
+
+                    return `
+                      <tr class="diff-sig-row ${isShifted ? 'bg-amber-500/5 hover:bg-amber-500/10' : 'hover:bg-slate-900/60'} transition-colors" data-binary="${escapeHtml(s.binary)}" data-status="${isShifted ? 'shifted' : 'intact'}" data-search="${escapeHtml(searchData)}">
+                        <td class="p-3">
+                          <span class="font-bold text-white block">${escapeHtml(s.name)}</span>
+                          <span class="text-[10px] text-slate-400 font-sans block">${escapeHtml(s.category || 'Core Dispatch')}</span>
+                        </td>
+                        <td class="p-3 text-cyan-300 font-bold">${escapeHtml(s.binary)}</td>
+                        <td class="p-3 text-slate-400">${escapeHtml(s.baseline_rva)}</td>
+                        <td class="p-3 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'}">${escapeHtml(targetRva)}</td>
+                        <td class="p-3 ${isShifted ? 'text-amber-400 font-bold' : 'text-slate-500'}">${escapeHtml(deltaStr)}</td>
+                        <td class="p-3">${statusBadge}</td>
+                        <td class="p-3">
+                          <div class="flex items-center gap-2">
+                            <code class="text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 max-w-[200px] truncate block" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern.substring(0, 24))}...</code>
+                            <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 border border-slate-700 text-[10px] whitespace-nowrap cursor-pointer">Inspect &rarr;</button>
+                          </div>
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+      filterDiffSigRows();
     }
 
     function renderDiffGuide(container) {

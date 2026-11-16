@@ -5,7 +5,7 @@
   "new_build_id": "26144732",
   "old_date": "2026-10-15",
   "new_date": "2026-10-25",
-  "generated_at": "2026-11-16T20:52:09.563973",
+  "generated_at": "2026-11-16T21:00:53.099297",
   "summary": {
     "binaries_modified_count": 32,
     "classes_added_count": 1,
@@ -5164,6 +5164,13 @@
   "ai_overview": {
     "title": "CS2 Update 26144732 Automated AI Intelligence Briefing",
     "executive_summary": "CS2 Update (Build 26144732) introduces targeted engine adjustments across 32 modified PE binaries. Comparative telemetry reveals 24 shifted SDK function signatures and 0 broken patterns. 3 new console variables were introduced to expand runtime tuning. All canonical Source 2 SDK signatures continue to match with 100% resolution confidence.",
+    "items_added": [
+      "3 New ConVars: r_exit_threshold, r_suppress, r_transparent",
+      "1 New Schema Classes: CVoiceContainerVMixSnd",
+      "255 Shifted Offsets across 25 Schema classes",
+      "24 Shifted Function Signatures: AngleVectors, CalculateWorldBones, CTransform::ConcatenateTransforms, C_CSWeaponBase::UpdateAccuracyPenalty",
+      "32 Recompiled PE Binaries: animationsystem.dll, client.dll, engine2.dll, filesystem_stdio.dll"
+    ],
     "subsystems": [
       {
         "name": "Graphics & Rendering Pipeline",

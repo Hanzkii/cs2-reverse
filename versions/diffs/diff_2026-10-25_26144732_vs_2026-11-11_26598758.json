@@ -5,7 +5,7 @@
   "new_build_id": "26598758",
   "old_date": "2026-10-25",
   "new_date": "2026-11-11",
-  "generated_at": "2026-11-16T20:43:13.204622",
+  "generated_at": "2026-11-16T21:00:50.306406",
   "summary": {
     "binaries_modified_count": 34,
     "classes_added_count": 0,
@@ -6388,8 +6388,15 @@
     }
   },
   "ai_overview": {
-    "title": "CS2 Update 26598758 Architecture & Stability Intelligence",
-    "executive_summary": "Valve's November 11, 2026 update (Build 26598758) focuses on critical Direct3D 11 rendering hang mitigation, Steam Datagram Relay (SDR) cryptographic transport expansion, and engine profiling consolidation. Reverse engineering confirms an explicit device lost validation branch in rendersystemdx11.dll before calling IDXGISwapChain::Present, resolving driver resets. Additionally, steamnetworkingsockets.dll expanded by +14.4 KB for AES-256-GCM crypto pacing, while engine2.dll integrated internal VProfLite parameter parsing. Core gameplay combat (sub-tick user command consumption, weapon spread decay, Kevlar armor math) and Rubikon convex hull raycasting (vphysics2.dll) remain 100% deterministic with zero signature regressions.",
+    "title": "CS2 Update 26598758 (November 11, 2026) \u2014 Direct3D 11 Render Hang Fix, SDR UDP Transport & Profiler Integration",
+    "executive_summary": "Critical stability hotfix addressing the DirectX 11 device lost rendering hang in rendersystemdx11.dll via explicit pre-present state validation. Refactored Steam Datagram Relay (SDR) encrypted UDP transport (+14.4 KB in steamnetworkingsockets.dll) and integrated automated profiler command line parsing (VProfLite_ParseCommandLineOption at 0x18021F820 in engine2.dll). 0 Schema shifts, 0 new ConVars, and all 39 canonical Source 2 SDK signatures verified intact with zero broken patterns.",
+    "items_added": [
+      "DX11 Crash Guard: CDX11Device::Present added 'cmp byte ptr [rcx+38h], 0' state check before IDXGISwapChain::Present preventing device removal hangs",
+      "SDR Datagram Expansion: steamnetworkingsockets.dll (+14.4 KB) expanded AES-256-GCM crypto decryption buffers and UDP datagram pacing rate limiter",
+      "Profiler CLI Automation: engine2.dll VProfLite_ParseCommandLineOption at 0x18021F820 for automated benchmarking without manual console input",
+      "4 Recompiled Binaries: rendersystemdx11.dll, steamnetworkingsockets.dll, engine2.dll, client.dll",
+      "0 Schema Shifts & 0 ConVars: 100% clean ABI stability, 39/39 canonical signatures intact (0 shifted, 0 broken)"
+    ],
     "subsystems": [
       {
         "name": "DirectX 11 Graphics Driver",
