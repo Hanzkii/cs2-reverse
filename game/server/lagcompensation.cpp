@@ -6,15 +6,15 @@ namespace cs2::server {
 
 namespace {
 
-// Helper: Normalize angle to [-180, 180] degrees
-float NormalizeDeg(float angle) {
+// Helper: Normalize Euler angle to [-180, 180] degrees
+float NormalizeDeg(float angle) noexcept {
     while (angle > 180.0f)  angle -= 360.0f;
     while (angle < -180.0f) angle += 360.0f;
     return angle;
 }
 
-// Helper: Interpolate Euler angles along shortest arc
-QAngle InterpolateAngles(const QAngle& a, const QAngle& b, float t) {
+// Helper: Interpolate Euler angles along shortest geodesic arc
+QAngle InterpolateAngles(const QAngle& a, const QAngle& b, float t) noexcept {
     QAngle res;
     float deltaPitch = NormalizeDeg(b.pitch - a.pitch);
     float deltaYaw   = NormalizeDeg(b.yaw - a.yaw);
@@ -52,6 +52,23 @@ void CLagCompensationServer::RecordDataIntoTrack(
     const Vector3& mins, const Vector3& maxs,
     const Matrix3x4* bones, size_t boneCount, uint8_t flags)
 {
+    Quaternion orientation = Quaternion::FromEuler(angles.pitch, angles.yaw, angles.roll);
+    RecordDataIntoTrackQuat(pawnIndex, handle, curTime, tick, subTickFraction,
+                            origin, orientation, mins, maxs, bones, boneCount, flags);
+    if (!m_Pawns.empty()) {
+        PawnTrackHistory_t* p = GetOrCreatePawn(pawnIndex, handle);
+        if (p && !p->records.empty()) {
+            p->records.front().eyeAngles = angles;
+        }
+    }
+}
+
+void CLagCompensationServer::RecordDataIntoTrackQuat(
+    uint32_t pawnIndex, EntityHandle handle, float curTime, uint32_t tick,
+    float subTickFraction, const Vector3& origin, const Quaternion& orientation,
+    const Vector3& mins, const Vector3& maxs,
+    const Matrix3x4* bones, size_t boneCount, uint8_t flags)
+{
     PawnTrackHistory_t* pawn = GetOrCreatePawn(pawnIndex, handle);
     if (!pawn) return;
 
@@ -60,12 +77,12 @@ void CLagCompensationServer::RecordDataIntoTrack(
     record.simulationTime = curTime;
     record.subTickFraction = std::clamp(subTickFraction, 0.0f, 1.0f);
     record.origin = origin;
-    record.eyeAngles = angles;
+    record.orientation = orientation;
     record.mins = mins;
     record.maxs = maxs;
     record.flags = flags;
 
-    // Anchor previous origin for teleport breaker check (FUN_180ed3f10)
+    // Anchor previous origin for teleport breaker check (FUN_180ecdb00)
     if (!pawn->records.empty()) {
         record.preTeleportOrigin = pawn->records.front().origin;
     } else {
@@ -77,16 +94,15 @@ void CLagCompensationServer::RecordDataIntoTrack(
     for (size_t i = 0; i < count; ++i) {
         record.boneMatrices[i] = bones[i];
     }
-    // Set identity for uncomputed trailing joints
+    // Fill identity for uncomputed trailing joints
     for (size_t i = count; i < MAX_BONES; ++i) {
         record.boneMatrices[i] = Matrix3x4::Identity();
     }
 
     pawn->records.push_front(record);
 
-    // Prune entries outside authoritative 200ms unlag window (sv_maxunlag)
-    while (!pawn->records.empty() &&
-           (curTime - pawn->records.back().simulationTime) > MAX_BACKTRACK_WINDOW) {
+    // Maintain 64-tick circular buffer capacity (1.000s retention @ 64Hz)
+    while (pawn->records.size() > RING_BUFFER_CAPACITY) {
         pawn->records.pop_back();
     }
 }
@@ -116,25 +132,23 @@ bool CLagCompensationServer::StartLagCompensation(
         }
     }
 
-    // Clamp rewind target time to [latestTime - maxUnlag, latestTime]
+    // Anti-exploitation latency clamp: [latestTime - maxUnlag, latestTime]
     const float minAllowedTime = latestTime - maxUnlag;
     const float clampedTarget = std::clamp(targetTime, minAllowedTime, latestTime);
 
     bool anyBacktracked = false;
 
-    // Iterate all active pawns and backtrack candidate targets (FUN_180ed6f10)
+    // Iterate all active pawns and backtrack candidate targets (VA 0x180ED27D0)
     for (auto& pawn : m_Pawns) {
-        // Skip attacker pawn or pawns without history
         if (pawn.pawnIndex == attackerIndex || pawn.records.empty()) {
             continue;
         }
 
-        // Avoid re-backtracking if already in compensated state
         if (pawn.isBacktracked) {
             continue;
         }
 
-        // Snapshot authoritative current state for restoration in FinishLagCompensation
+        // Snapshot authoritative current state for 100% bit-exact restoration
         pawn.restoreSnapshot.snapshot = pawn.records.front();
         pawn.restoreSnapshot.isBacktracked = true;
         pawn.restoreSnapshot.originModified = true;
@@ -142,9 +156,18 @@ bool CLagCompensationServer::StartLagCompensation(
         pawn.restoreSnapshot.boundsModified = true;
         pawn.restoreSnapshot.bonesModified = true;
 
-        // Compute interpolated backtracked record
+        // Compute sub-tick interpolated backtracked record
         LagRecord_t backtrackedRecord;
         if (BacktrackEntity(pawn, clampedTarget, backtrackedRecord)) {
+            // Apply historical backtracked state to head of record list
+            pawn.records.front().origin = backtrackedRecord.origin;
+            pawn.records.front().orientation = backtrackedRecord.orientation;
+            pawn.records.front().eyeAngles = backtrackedRecord.eyeAngles;
+            pawn.records.front().mins = backtrackedRecord.mins;
+            pawn.records.front().maxs = backtrackedRecord.maxs;
+            pawn.records.front().boneMatrices = backtrackedRecord.boneMatrices;
+            pawn.records.front().boneCount = backtrackedRecord.boneCount;
+
             pawn.isBacktracked = true;
             anyBacktracked = true;
         }
@@ -155,14 +178,14 @@ bool CLagCompensationServer::StartLagCompensation(
 
 bool CLagCompensationServer::StartLagCompensationSubTick(
     uint32_t attackerIndex, uint32_t targetTick,
-    float subTickFraction, float maxUnlag)
+    float subTickFraction, float flInterp, float maxUnlag)
 {
-    const float targetTime = CalculateSubTickSimulationTime(targetTick, subTickFraction);
+    const float targetTime = CalculateSubTickSimulationTime(targetTick, subTickFraction, flInterp);
     return StartLagCompensation(attackerIndex, targetTime, maxUnlag);
 }
 
 void CLagCompensationServer::FinishLagCompensation() {
-    // Reconstructed from CLagCompensationManager::FinishLagCompensation @ 0x180ebf350
+    // Reconstructed from CLagCompensationManager::FinishLagCompensation @ 0x180EB8F40
     for (auto& pawn : m_Pawns) {
         if (pawn.isBacktracked && pawn.restoreSnapshot.isBacktracked) {
             RestoreEntityTo(pawn, pawn.restoreSnapshot.snapshot);
@@ -192,13 +215,12 @@ bool CLagCompensationServer::BacktrackEntity(
 
     const auto& history = pawn.records;
 
-    // Target is newer than newest record
+    // Extrapolation bounds clamping
     if (targetTime >= history.front().simulationTime) {
         outRecord = history.front();
         return true;
     }
 
-    // Target is older than oldest available record
     if (targetTime <= history.back().simulationTime) {
         outRecord = history.back();
         return true;
@@ -222,8 +244,8 @@ bool CLagCompensationServer::BacktrackEntity(
     }
 
     // -------------------------------------------------------------------------
-    // Teleport Distance Squared Breaker ($4096.0 = 64^2 units)
-    // Decompiled from FUN_180ed3f10: If delta squared >= 4096, reject interpolation
+    // Teleport Distance Squared Breaker (4096.0 = 64.0^2 units)
+    // Decompiled from FUN_180ecdb00 / RestoreEntityTo
     // -------------------------------------------------------------------------
     const float dx = newerRecord->origin.x - olderRecord->origin.x;
     const float dy = newerRecord->origin.y - olderRecord->origin.y;
@@ -231,14 +253,14 @@ bool CLagCompensationServer::BacktrackEntity(
     const float distSqr = dx * dx + dy * dy + dz * dz;
 
     if (distSqr >= TELEPORT_DISTANCE_SQR_THRESHOLD) {
-        // Discontinuity detected: clamp to nearest discrete frame to prevent glitching
+        // Discontinuity detected: clamp to nearest discrete frame to prevent visual glitching
         const float timeSpan = newerRecord->simulationTime - olderRecord->simulationTime;
         const float fraction = (timeSpan > 1e-6f) ? (targetTime - olderRecord->simulationTime) / timeSpan : 0.0f;
         outRecord = (fraction >= 0.5f) ? *newerRecord : *olderRecord;
         return true;
     }
 
-    // Continuous fractional interpolation
+    // Continuous fractional interpolation: fraction in [0.0, 1.0]
     const float timeDelta = newerRecord->simulationTime - olderRecord->simulationTime;
     const float fraction = (timeDelta > 1e-6f)
         ? std::clamp((targetTime - olderRecord->simulationTime) / timeDelta, 0.0f, 1.0f)
@@ -250,7 +272,7 @@ bool CLagCompensationServer::BacktrackEntity(
 bool CLagCompensationServer::RestoreEntityTo(
     PawnTrackHistory_t& pawn, const LagRecord_t& record)
 {
-    // Reconstructed from FUN_180ed3f10 @ 0x180ed3f10
+    // Reconstructed from CLagCompensationManager::RestoreEntityTo @ 0x180ECDB00
     if (pawn.records.empty()) {
         return false;
     }
@@ -261,12 +283,13 @@ bool CLagCompensationServer::RestoreEntityTo(
         pawn.records.front().maxs = record.maxs;
     }
 
-    // 2. Restore eye/head orientation (flags & 0x04)
+    // 2. Restore eye/head orientation & quaternion (flags & 0x04)
     if (record.flags & LAG_RECORD_ANGLES_CHANGED) {
         pawn.records.front().eyeAngles = record.eyeAngles;
+        pawn.records.front().orientation = record.orientation;
     }
 
-    // 3. Restore world origin (flags & 0x02) with 4096.0 teleport distance check
+    // 3. Restore world origin (flags & 0x02) with 4096.0 sqr distance check
     if (record.flags & LAG_RECORD_ORIGIN_CHANGED) {
         const float dx = pawn.records.front().origin.x - record.preTeleportOrigin.x;
         const float dy = pawn.records.front().origin.y - record.preTeleportOrigin.y;
@@ -301,10 +324,13 @@ bool CLagCompensationServer::InterpolateRecords(
     outRecord.simulationTime = older.simulationTime + (newer.simulationTime - older.simulationTime) * fraction;
     outRecord.subTickFraction = fraction;
 
-    // Linear origin lerp: P(t) = P0 + (P1 - P0) * t
+    // Linear origin lerp: P(u) = P0 + (P1 - P0) * u
     outRecord.origin.x = older.origin.x + (newer.origin.x - older.origin.x) * fraction;
     outRecord.origin.y = older.origin.y + (newer.origin.y - older.origin.y) * fraction;
     outRecord.origin.z = older.origin.z + (newer.origin.z - older.origin.z) * fraction;
+
+    // Geodesic Shortest-Arc Quaternion SLERP / NLERP
+    outRecord.orientation = Quaternion::Slerp(older.orientation, newer.orientation, fraction);
 
     // Angle interpolation with wrap-around
     outRecord.eyeAngles = InterpolateAngles(older.eyeAngles, newer.eyeAngles, fraction);
@@ -333,12 +359,7 @@ bool CLagCompensationServer::InterpolateBones(
     const size_t count = std::min(boneCount, static_cast<size_t>(MAX_BONES));
 
     for (size_t b = 0; b < count; ++b) {
-        for (int r = 0; r < 3; ++r) {
-            for (int c = 0; c < 4; ++c) {
-                outBones[b].m[r][c] = from.boneMatrices[b].m[r][c] +
-                    (to.boneMatrices[b].m[r][c] - from.boneMatrices[b].m[r][c]) * fraction;
-            }
-        }
+        outBones[b] = LerpMatrix(from.boneMatrices[b], to.boneMatrices[b], fraction);
     }
     for (size_t b = count; b < MAX_BONES; ++b) {
         outBones[b] = Matrix3x4::Identity();

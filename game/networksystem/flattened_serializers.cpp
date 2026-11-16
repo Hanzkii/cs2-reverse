@@ -1,7 +1,55 @@
 #include "flattened_serializers.h"
+#include "entity_delta_codec.h"
 #include <sstream>
 
 namespace cs2::networksystem {
+
+const char* GetFieldPathOpName(FieldPathOp op) {
+    static constexpr const char* s_OpNames[] = {
+        "PlusOne",
+        "PlusTwo",
+        "PlusThree",
+        "PlusFour",
+        "PlusN",
+        "PushOneLeftDeltaZeroRightZero",
+        "PushOneLeftDeltaZeroRightNonZero",
+        "PushOneLeftDeltaOneRightZero",
+        "PushOneLeftDeltaOneRightNonZero",
+        "PushOneLeftDeltaNRightZero",
+        "PushOneLeftDeltaNRightNonZero",
+        "PushOneLeftDeltaNRightNonZeroPack6Bits",
+        "PushOneLeftDeltaNRightNonZeroPack8Bits",
+        "PushTwoLeftDeltaZero",
+        "PushTwoPack5LeftDeltaZero",
+        "PushThreeLeftDeltaZero",
+        "PushThreePack5LeftDeltaZero",
+        "PushTwoLeftDeltaOne",
+        "PushTwoPack5LeftDeltaOne",
+        "PushThreeLeftDeltaOne",
+        "PushThreePack5LeftDeltaOne",
+        "PushTwoLeftDeltaN",
+        "PushTwoPack5LeftDeltaN",
+        "PushThreeLeftDeltaN",
+        "PushThreePack5LeftDeltaN",
+        "PushN",
+        "PushNAndNonTopographical",
+        "PopOnePlusOne",
+        "PopOnePlusN",
+        "PopAllButOnePlusOne",
+        "PopAllButOnePlusN",
+        "PopAllButOnePlusNPack3Bits",
+        "PopAllButOnePlusNPack6Bits",
+        "PopNPlusOne",
+        "PopNPlusN",
+        "PopNAndNonTopographical",
+        "NonTopoComplex",
+        "NonTopoPenultimatePluseOne",
+        "NonTopoComplexPack4Bits",
+        "FieldPathEncodeFinish"
+    };
+    auto idx = static_cast<size_t>(op);
+    return (idx < sizeof(s_OpNames) / sizeof(s_OpNames[0])) ? s_OpNames[idx] : "Unknown";
+}
 
 std::string FieldPath::ToString() const {
     if (path.empty()) return "[]";
@@ -23,81 +71,13 @@ void CFlattenedSerializer::AddField(SerializedFieldInfo field) {
 }
 
 std::vector<FieldPath> CFlattenedSerializer::DecodeFieldPaths(CBitReadStream& stream) {
-    std::vector<FieldPath> result;
-    std::vector<int32_t> currentPath = {-1};
+    FieldPathHuffmanCodec codec;
+    FieldPathStreamEngine engine(codec);
+    BitReader reader(stream.GetData(), stream.GetTotalBits());
+    reader.Seek(stream.GetBitsRead());
 
-    while (!stream.HasOverflowed()) {
-        // Read 4-bit operation code corresponding to the Huffman walk table entry
-        const uint32_t opCode = stream.ReadUBits(4);
-        if (stream.HasOverflowed()) break;
-
-        const auto op = static_cast<FieldPathOp>(opCode);
-        if (op == FieldPathOp::Finish) {
-            break;
-        }
-
-        switch (op) {
-        case FieldPathOp::PlusOne:
-            currentPath.back() += 1;
-            break;
-        case FieldPathOp::PlusTwo:
-            currentPath.back() += 2;
-            break;
-        case FieldPathOp::PlusThree:
-            currentPath.back() += 3;
-            break;
-        case FieldPathOp::PlusFour:
-            currentPath.back() += 4;
-            break;
-        case FieldPathOp::PlusN: {
-            uint32_t delta = stream.ReadUBits(6);
-            currentPath.back() += static_cast<int32_t>(delta);
-            break;
-        }
-        case FieldPathOp::PushOneLeftDeltaZero:
-            currentPath.push_back(0);
-            break;
-        case FieldPathOp::PushOneLeftDeltaOne:
-            currentPath.back() += 1;
-            currentPath.push_back(0);
-            break;
-        case FieldPathOp::PushOneLeftDeltaN: {
-            uint32_t delta = stream.ReadUBits(4);
-            currentPath.back() += static_cast<int32_t>(delta);
-            currentPath.push_back(0);
-            break;
-        }
-        case FieldPathOp::PopOnePlusOne:
-            if (currentPath.size() > 1) {
-                currentPath.pop_back();
-            }
-            currentPath.back() += 1;
-            break;
-        case FieldPathOp::PopNPlusOne: {
-            uint32_t popCount = stream.ReadUBits(3);
-            while (popCount-- > 0 && currentPath.size() > 1) {
-                currentPath.pop_back();
-            }
-            currentPath.back() += 1;
-            break;
-        }
-        case FieldPathOp::PopNPlusN: {
-            uint32_t popCount = stream.ReadUBits(3);
-            while (popCount-- > 0 && currentPath.size() > 1) {
-                currentPath.pop_back();
-            }
-            uint32_t delta = stream.ReadUBits(4);
-            currentPath.back() += static_cast<int32_t>(delta);
-            break;
-        }
-        default:
-            currentPath.back() += 1;
-            break;
-        }
-
-        result.push_back(FieldPath{currentPath});
-    }
-
+    std::vector<FieldPath> result = engine.ReadFieldPaths(reader);
+    stream.SetBitsRead(reader.GetBitPosition());
     return result;
 }
 

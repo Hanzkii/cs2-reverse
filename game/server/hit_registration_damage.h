@@ -30,6 +30,7 @@ enum class HitGroup_t : int32_t {
     HITGROUP_NECK      = 8,
     HITGROUP_GEAR      = 10
 };
+using enum HitGroup_t;
 
 /**
  * @brief Damage type bitflags inside CTakeDamageInfo (+0x4C).

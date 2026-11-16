@@ -20,7 +20,7 @@ bool PropertyValue::operator==(const PropertyValue& o) const noexcept {
     case Type::UInt32: return u32Val == o.u32Val;
     case Type::Int64: return i64Val == o.i64Val;
     case Type::UInt64: return u64Val == o.u64Val;
-    case Type::Float: return std::abs(fVal - o.fVal) < 1e-5f;
+    case Type::Float: return std::abs(fVal - o.fVal) < 1e-4f;
     case Type::Vector: return vecVal == o.vecVal;
     case Type::QAngle: return angVal == o.angVal;
     case Type::String: return strVal == o.strVal;
@@ -58,7 +58,509 @@ std::string PropertyValue::ToString() const {
 }
 
 // ============================================================================
-// 2. CEntityBaselineStorage Implementation
+// 2. 40-Operation FieldPath Huffman Codec Implementation
+// ============================================================================
+
+FieldPathHuffmanCodec::FieldPathHuffmanCodec() {
+    BuildCanonicalTable();
+}
+
+void FieldPathHuffmanCodec::BuildCanonicalTable() {
+    for (size_t i = 0; i < 40; ++i) {
+        m_CodeTable[i] = {0, 0};
+    }
+
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PlusOne)]                          = {0b0, 1};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::FieldPathEncodeFinish)]            = {0b10, 2};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PushOneLeftDeltaZeroRightZero)]    = {0b110, 3};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PopOnePlusOne)]                    = {0b1110, 4};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PlusTwo)]                          = {0b11110, 5};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PlusThree)]                        = {0b111110, 6};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PlusFour)]                         = {0b1111110, 7};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PlusN)]                            = {0b11111110, 8};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PushOneLeftDeltaOneRightZero)]     = {0b111111110, 9};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PushOneLeftDeltaNRightZero)]       = {0b1111111110, 10};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::PopOnePlusN)]                      = {0b11111111110, 11};
+    m_CodeTable[static_cast<size_t>(FieldPathOp::NonTopoComplexPack4Bits)]          = {0b111111111110, 12};
+
+    // Populate remaining ops in canonical prefix space
+    uint32_t prefixBase = 0b111111111111;
+    uint32_t subIndex = 0;
+    for (size_t i = 0; i < 40; ++i) {
+        if (m_CodeTable[i].bitLength == 0) {
+            m_CodeTable[i] = {(prefixBase << 5) | (subIndex & 0x1Fu), 17};
+            ++subIndex;
+        }
+    }
+}
+
+void FieldPathHuffmanCodec::EncodeOp(BitWriter& writer, FieldPathOp op) const {
+    const auto& hc = m_CodeTable[static_cast<size_t>(op)];
+    assert(hc.bitLength > 0);
+    for (int i = static_cast<int>(hc.bitLength) - 1; i >= 0; --i) {
+        writer.WriteBit((hc.code & (1u << i)) != 0);
+    }
+}
+
+FieldPathOp FieldPathHuffmanCodec::DecodeOp(BitReader& reader) const {
+    uint32_t currentBits = 0;
+    uint8_t length = 0;
+
+    while (length < 20 && !reader.HasOverflowed()) {
+        currentBits = (currentBits << 1) | (reader.ReadBit() ? 1u : 0u);
+        ++length;
+
+        for (size_t i = 0; i < 40; ++i) {
+            if (m_CodeTable[i].bitLength == length && m_CodeTable[i].code == currentBits) {
+                return static_cast<FieldPathOp>(i);
+            }
+        }
+    }
+    return FieldPathOp::FieldPathEncodeFinish;
+}
+
+// ============================================================================
+// 3. FieldPathStreamEngine Virtual Machine
+// ============================================================================
+
+void FieldPathStreamEngine::WriteFieldPaths(BitWriter& writer, const std::vector<FieldPath>& paths) const {
+    FieldPath currentPath({-1});
+
+    for (const auto& target : paths) {
+        EncodeTransition(writer, currentPath, target);
+        currentPath = target;
+    }
+
+    m_Codec.EncodeOp(writer, FieldPathOp::FieldPathEncodeFinish);
+}
+
+std::vector<FieldPath> FieldPathStreamEngine::ReadFieldPaths(BitReader& reader) const {
+    std::vector<FieldPath> result;
+    FieldPath currentPath({-1});
+
+    while (!reader.HasOverflowed() && reader.GetRemainingBits() > 0) {
+        FieldPathOp op = m_Codec.DecodeOp(reader);
+        if (op == FieldPathOp::FieldPathEncodeFinish) {
+            break;
+        }
+
+        ExecuteOp(reader, currentPath, op);
+        result.push_back(currentPath);
+    }
+
+    return result;
+}
+
+void FieldPathStreamEngine::EncodeTransition(BitWriter& writer, const FieldPath& curr, const FieldPath& next) const {
+    const size_t currDepth = curr.path.size();
+    const size_t nextDepth = next.path.size();
+
+    if (currDepth == 1 && nextDepth == 1) {
+        int32_t diff = next.path[0] - curr.path[0];
+        if (diff == 1) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PlusOne);
+        } else if (diff == 2) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PlusTwo);
+        } else if (diff == 3) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PlusThree);
+        } else if (diff == 4) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PlusFour);
+        } else {
+            m_Codec.EncodeOp(writer, FieldPathOp::PlusN);
+            writer.WriteVarUInt32(static_cast<uint32_t>(diff));
+        }
+    } else if (currDepth == 1 && nextDepth == 2) {
+        int32_t leftDelta = next.path[0] - curr.path[0];
+        int32_t rightVal = next.path[1];
+        if (leftDelta == 0 && rightVal == 0) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaZeroRightZero);
+        } else if (leftDelta == 1 && rightVal == 0) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaOneRightZero);
+        } else if (rightVal == 0) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaNRightZero);
+            writer.WriteVarUInt32(static_cast<uint32_t>(leftDelta));
+        } else if (leftDelta >= 0 && leftDelta < 16 && rightVal >= 0 && rightVal < 16) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaNRightNonZeroPack8Bits);
+            writer.WriteUBits(static_cast<uint32_t>(leftDelta) & 0x0Fu, 4);
+            writer.WriteUBits(static_cast<uint32_t>(rightVal) & 0x0Fu, 4);
+        } else {
+            m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaNRightNonZero);
+            writer.WriteVarUInt32(static_cast<uint32_t>(leftDelta));
+            writer.WriteVarUInt32(static_cast<uint32_t>(rightVal));
+        }
+    } else if (currDepth == 2 && nextDepth == 2) {
+        if (curr.path[0] == next.path[0]) {
+            int32_t diff = next.path[1] - curr.path[1];
+            if (diff == 1) {
+                m_Codec.EncodeOp(writer, FieldPathOp::PlusOne);
+            } else if (diff == 2) {
+                m_Codec.EncodeOp(writer, FieldPathOp::PlusTwo);
+            } else if (diff == 3) {
+                m_Codec.EncodeOp(writer, FieldPathOp::PlusThree);
+            } else if (diff == 4) {
+                m_Codec.EncodeOp(writer, FieldPathOp::PlusFour);
+            } else {
+                m_Codec.EncodeOp(writer, FieldPathOp::PlusN);
+                writer.WriteVarUInt32(static_cast<uint32_t>(diff));
+            }
+        } else {
+            int32_t parentDelta = next.path[0] - curr.path[0];
+            int32_t childVal = next.path[1];
+            if (parentDelta >= 0 && parentDelta < 16 && childVal >= 0 && childVal < 16) {
+                m_Codec.EncodeOp(writer, FieldPathOp::NonTopoComplexPack4Bits);
+                writer.WriteUBits(static_cast<uint32_t>(parentDelta) & 0x0Fu, 4);
+                writer.WriteUBits(static_cast<uint32_t>(childVal) & 0x0Fu, 4);
+            } else {
+                m_Codec.EncodeOp(writer, FieldPathOp::PopAllButOnePlusN);
+                writer.WriteVarUInt32(static_cast<uint32_t>(parentDelta));
+                m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaZeroRightNonZero);
+                writer.WriteVarUInt32(static_cast<uint32_t>(childVal));
+            }
+        }
+    } else if (currDepth == 2 && nextDepth == 1) {
+        int32_t diff = next.path[0] - curr.path[0];
+        if (diff == 1) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PopOnePlusOne);
+        } else {
+            m_Codec.EncodeOp(writer, FieldPathOp::PopOnePlusN);
+            writer.WriteVarUInt32(static_cast<uint32_t>(diff));
+        }
+    } else {
+        size_t commonPrefix = 0;
+        while (commonPrefix < currDepth && commonPrefix < nextDepth &&
+               curr.path[commonPrefix] == next.path[commonPrefix]) {
+            ++commonPrefix;
+        }
+        size_t pops = currDepth - commonPrefix;
+        if (pops == 1) {
+            if (commonPrefix < nextDepth) {
+                int32_t diff = next.path[commonPrefix] - curr.path[commonPrefix];
+                if (diff == 1) {
+                    m_Codec.EncodeOp(writer, FieldPathOp::PopOnePlusOne);
+                } else {
+                    m_Codec.EncodeOp(writer, FieldPathOp::PopOnePlusN);
+                    writer.WriteVarUInt32(static_cast<uint32_t>(diff));
+                }
+                ++commonPrefix;
+            } else {
+                m_Codec.EncodeOp(writer, FieldPathOp::PopOnePlusOne);
+            }
+        } else if (pops > 1 && commonPrefix == 1) {
+            int32_t diff = (nextDepth > 0) ? (next.path[0] - curr.path[0]) : 0;
+            if (diff == 1) {
+                m_Codec.EncodeOp(writer, FieldPathOp::PopAllButOnePlusOne);
+            } else {
+                m_Codec.EncodeOp(writer, FieldPathOp::PopAllButOnePlusN);
+                writer.WriteVarUInt32(static_cast<uint32_t>(diff));
+            }
+            commonPrefix = 1;
+        } else if (pops > 0) {
+            m_Codec.EncodeOp(writer, FieldPathOp::PopNPlusOne);
+            writer.WriteUBits(static_cast<uint32_t>(pops) & 0x07u, 3);
+        }
+
+        while (commonPrefix < nextDepth) {
+            int32_t val = next.path[commonPrefix];
+            m_Codec.EncodeOp(writer, FieldPathOp::PushOneLeftDeltaZeroRightNonZero);
+            writer.WriteVarUInt32(static_cast<uint32_t>(val));
+            ++commonPrefix;
+        }
+    }
+}
+
+void FieldPathStreamEngine::ExecuteOp(BitReader& reader, FieldPath& path, FieldPathOp op) const {
+    switch (op) {
+    case FieldPathOp::PlusOne:
+        path.path.back() += 1;
+        break;
+    case FieldPathOp::PlusTwo:
+        path.path.back() += 2;
+        break;
+    case FieldPathOp::PlusThree:
+        path.path.back() += 3;
+        break;
+    case FieldPathOp::PlusFour:
+        path.path.back() += 4;
+        break;
+    case FieldPathOp::PlusN: {
+        uint32_t delta = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        break;
+    }
+    case FieldPathOp::PushOneLeftDeltaZeroRightZero:
+        path.path.push_back(0);
+        break;
+    case FieldPathOp::PushOneLeftDeltaZeroRightNonZero: {
+        uint32_t right = reader.ReadVarUInt32();
+        path.path.push_back(static_cast<int32_t>(right));
+        break;
+    }
+    case FieldPathOp::PushOneLeftDeltaOneRightZero:
+        path.path.back() += 1;
+        path.path.push_back(0);
+        break;
+    case FieldPathOp::PushOneLeftDeltaOneRightNonZero: {
+        uint32_t right = reader.ReadVarUInt32();
+        path.path.back() += 1;
+        path.path.push_back(static_cast<int32_t>(right));
+        break;
+    }
+    case FieldPathOp::PushOneLeftDeltaNRightZero: {
+        uint32_t left = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(left);
+        path.path.push_back(0);
+        break;
+    }
+    case FieldPathOp::PushOneLeftDeltaNRightNonZero: {
+        uint32_t left = reader.ReadVarUInt32();
+        uint32_t right = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(left);
+        path.path.push_back(static_cast<int32_t>(right));
+        break;
+    }
+    case FieldPathOp::PushOneLeftDeltaNRightNonZeroPack6Bits: {
+        uint32_t left = reader.ReadUBits(3);
+        uint32_t right = reader.ReadUBits(3);
+        path.path.back() += static_cast<int32_t>(left);
+        path.path.push_back(static_cast<int32_t>(right));
+        break;
+    }
+    case FieldPathOp::PushOneLeftDeltaNRightNonZeroPack8Bits: {
+        uint32_t left = reader.ReadUBits(4);
+        uint32_t right = reader.ReadUBits(4);
+        path.path.back() += static_cast<int32_t>(left);
+        path.path.push_back(static_cast<int32_t>(right));
+        break;
+    }
+    case FieldPathOp::PushTwoLeftDeltaZero: {
+        uint32_t v1 = reader.ReadVarUInt32();
+        uint32_t v2 = reader.ReadVarUInt32();
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        break;
+    }
+    case FieldPathOp::PushTwoPack5LeftDeltaZero: {
+        uint32_t v1 = reader.ReadUBits(5);
+        uint32_t v2 = reader.ReadUBits(5);
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        break;
+    }
+    case FieldPathOp::PushThreeLeftDeltaZero: {
+        uint32_t v1 = reader.ReadVarUInt32();
+        uint32_t v2 = reader.ReadVarUInt32();
+        uint32_t v3 = reader.ReadVarUInt32();
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        path.path.push_back(static_cast<int32_t>(v3));
+        break;
+    }
+    case FieldPathOp::PushThreePack5LeftDeltaZero: {
+        uint32_t v1 = reader.ReadUBits(5);
+        uint32_t v2 = reader.ReadUBits(5);
+        uint32_t v3 = reader.ReadUBits(5);
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        path.path.push_back(static_cast<int32_t>(v3));
+        break;
+    }
+    case FieldPathOp::PushTwoLeftDeltaOne: {
+        uint32_t v1 = reader.ReadVarUInt32();
+        uint32_t v2 = reader.ReadVarUInt32();
+        path.path.back() += 1;
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        break;
+    }
+    case FieldPathOp::PushTwoPack5LeftDeltaOne: {
+        uint32_t v1 = reader.ReadUBits(5);
+        uint32_t v2 = reader.ReadUBits(5);
+        path.path.back() += 1;
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        break;
+    }
+    case FieldPathOp::PushThreeLeftDeltaOne: {
+        uint32_t v1 = reader.ReadVarUInt32();
+        uint32_t v2 = reader.ReadVarUInt32();
+        uint32_t v3 = reader.ReadVarUInt32();
+        path.path.back() += 1;
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        path.path.push_back(static_cast<int32_t>(v3));
+        break;
+    }
+    case FieldPathOp::PushThreePack5LeftDeltaOne: {
+        uint32_t v1 = reader.ReadUBits(5);
+        uint32_t v2 = reader.ReadUBits(5);
+        uint32_t v3 = reader.ReadUBits(5);
+        path.path.back() += 1;
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        path.path.push_back(static_cast<int32_t>(v3));
+        break;
+    }
+    case FieldPathOp::PushTwoLeftDeltaN: {
+        uint32_t delta = reader.ReadVarUInt32();
+        uint32_t v1 = reader.ReadVarUInt32();
+        uint32_t v2 = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        break;
+    }
+    case FieldPathOp::PushTwoPack5LeftDeltaN: {
+        uint32_t delta = reader.ReadUBits(5);
+        uint32_t v1 = reader.ReadUBits(5);
+        uint32_t v2 = reader.ReadUBits(5);
+        path.path.back() += static_cast<int32_t>(delta);
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        break;
+    }
+    case FieldPathOp::PushThreeLeftDeltaN: {
+        uint32_t delta = reader.ReadVarUInt32();
+        uint32_t v1 = reader.ReadVarUInt32();
+        uint32_t v2 = reader.ReadVarUInt32();
+        uint32_t v3 = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        path.path.push_back(static_cast<int32_t>(v3));
+        break;
+    }
+    case FieldPathOp::PushThreePack5LeftDeltaN: {
+        uint32_t delta = reader.ReadUBits(5);
+        uint32_t v1 = reader.ReadUBits(5);
+        uint32_t v2 = reader.ReadUBits(5);
+        uint32_t v3 = reader.ReadUBits(5);
+        path.path.back() += static_cast<int32_t>(delta);
+        path.path.push_back(static_cast<int32_t>(v1));
+        path.path.push_back(static_cast<int32_t>(v2));
+        path.path.push_back(static_cast<int32_t>(v3));
+        break;
+    }
+    case FieldPathOp::PushN: {
+        uint32_t count = reader.ReadVarUInt32();
+        uint32_t delta = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        for (uint32_t i = 0; i < count; ++i) {
+            path.path.push_back(static_cast<int32_t>(reader.ReadVarUInt32()));
+        }
+        break;
+    }
+    case FieldPathOp::PushNAndNonTopographical: {
+        uint32_t count = reader.ReadUBits(3);
+        for (uint32_t i = 0; i < count; ++i) {
+            path.path.push_back(static_cast<int32_t>(reader.ReadVarUInt32()));
+        }
+        break;
+    }
+    case FieldPathOp::PopOnePlusOne:
+        if (path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        path.path.back() += 1;
+        break;
+    case FieldPathOp::PopOnePlusN: {
+        if (path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        uint32_t delta = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        break;
+    }
+    case FieldPathOp::PopAllButOnePlusOne:
+        while (path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        path.path.back() += 1;
+        break;
+    case FieldPathOp::PopAllButOnePlusN: {
+        while (path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        uint32_t delta = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        break;
+    }
+    case FieldPathOp::PopAllButOnePlusNPack3Bits: {
+        while (path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        uint32_t delta = reader.ReadUBits(3);
+        path.path.back() += static_cast<int32_t>(delta);
+        break;
+    }
+    case FieldPathOp::PopAllButOnePlusNPack6Bits: {
+        while (path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        uint32_t delta = reader.ReadUBits(6);
+        path.path.back() += static_cast<int32_t>(delta);
+        break;
+    }
+    case FieldPathOp::PopNPlusOne: {
+        uint32_t count = reader.ReadUBits(3);
+        while (count-- > 0 && path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        path.path.back() += 1;
+        break;
+    }
+    case FieldPathOp::PopNPlusN: {
+        uint32_t count = reader.ReadUBits(3);
+        while (count-- > 0 && path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        uint32_t delta = reader.ReadVarUInt32();
+        path.path.back() += static_cast<int32_t>(delta);
+        break;
+    }
+    case FieldPathOp::PopNAndNonTopographical: {
+        uint32_t count = reader.ReadUBits(3);
+        while (count-- > 0 && path.path.size() > 1) {
+            path.path.pop_back();
+        }
+        for (size_t i = 0; i < path.path.size(); ++i) {
+            if (reader.ReadBit()) {
+                path.path[i] += static_cast<int32_t>(reader.ReadVarUInt32());
+            }
+        }
+        break;
+    }
+    case FieldPathOp::NonTopoComplex: {
+        for (size_t i = 0; i < path.path.size(); ++i) {
+            if (reader.ReadBit()) {
+                path.path[i] += static_cast<int32_t>(reader.ReadVarUInt32());
+            }
+        }
+        break;
+    }
+    case FieldPathOp::NonTopoPenultimatePluseOne:
+        if (path.path.size() >= 2) {
+            path.path[path.path.size() - 2] += 1;
+        }
+        break;
+    case FieldPathOp::NonTopoComplexPack4Bits: {
+        uint32_t parentDelta = reader.ReadUBits(4);
+        uint32_t childVal = reader.ReadUBits(4);
+        if (path.path.size() >= 2) {
+            path.path[0] += static_cast<int32_t>(parentDelta);
+            path.path[1] = static_cast<int32_t>(childVal);
+        }
+        break;
+    }
+    case FieldPathOp::FieldPathEncodeFinish:
+        break;
+    default:
+        path.path.back() += 1;
+        break;
+    }
+}
+
+// ============================================================================
+// 4. CEntityBaselineStorage Implementation
 // ============================================================================
 
 void CEntityBaselineStorage::SetBaseline(uint32_t baselineIndex, uint32_t entityIndex,
@@ -100,7 +602,7 @@ size_t CEntityBaselineStorage::GetEntityCount(uint32_t baselineIndex) const {
 }
 
 // ============================================================================
-// 3. CFieldChangeDispatcher Implementation
+// 5. CFieldChangeDispatcher Implementation
 // ============================================================================
 
 uint32_t CFieldChangeDispatcher::RegisterCallback(const std::string& fieldName, FieldChangeCallbackFn callback) {
@@ -128,7 +630,7 @@ void CFieldChangeDispatcher::Dispatch(uint32_t entityIndex,
 }
 
 // ============================================================================
-// 4. CEntitySnapshot Implementation
+// 6. CEntitySnapshot Implementation
 // ============================================================================
 
 const PropertyValue* CEntitySnapshot::GetProperty(const std::string& name) const {
@@ -145,7 +647,7 @@ bool CEntitySnapshot::HasProperty(const std::string& name) const {
 }
 
 // ============================================================================
-// 5. CEntityDeltaCodec Implementation
+// 7. CEntityDeltaCodec Implementation
 // ============================================================================
 
 void CEntityDeltaCodec::RegisterSerializer(uint32_t classId, CFlattenedSerializer serializer) {
@@ -167,9 +669,6 @@ CEntitySnapshot* CEntityDeltaCodec::GetEntityMutable(uint32_t entityIndex) {
     return (it != m_ActiveEntities.end()) ? &it->second : nullptr;
 }
 
-// Entity index delta reading:
-// Bit 0 == 0: Consecutive (+1)
-// Bit 0 == 1: Tiered jump
 uint32_t CEntityDeltaCodec::ReadEntityIndexDelta(CBitReadStream& stream, uint32_t prevIndex) {
     if (stream.ReadUBits(1) == 0) {
         return prevIndex + 1;
@@ -212,35 +711,30 @@ EntityDeltaHeader CEntityDeltaCodec::ReadEntityHeader(CBitReadStream& stream, ui
     header.entityIndex = ReadEntityIndexDelta(stream, prevIndex);
 
     if (!isDelta) {
-        // Full update / EnterPVS
         header.updateType = EntityUpdateType::EnterPVS;
         header.classId = stream.ReadVarInt32();
         header.serialNumber = stream.ReadUBits(17);
         return header;
     }
 
-    // Delta update mode: 2-bit PVS status flag
     const uint32_t pvsFlag = stream.ReadUBits(2);
     switch (pvsFlag) {
     case 0:
         header.updateType = EntityUpdateType::Preserve;
         break;
     case 1:
-        // Entity leaves PVS
         header.updateType = EntityUpdateType::LeavePVS;
         if (stream.ReadUBits(1) != 0) {
             header.updateType = EntityUpdateType::Delete;
         }
         break;
     case 2:
-        // Entity enters PVS
         header.updateType = EntityUpdateType::EnterPVS;
         header.classId = stream.ReadVarInt32();
         header.serialNumber = stream.ReadUBits(17);
         break;
     case 3:
     default:
-        // Existing entity delta property update
         header.updateType = EntityUpdateType::DeltaUpdate;
         break;
     }
@@ -303,14 +797,10 @@ PropertyValue CEntityDeltaCodec::DecodeFieldValue(CBitReadStream& stream, const 
     }
     if (type == "float32" || type == "float") {
         if (fieldInfo.bitCount > 0 && fieldInfo.bitCount <= 32) {
-            // Source 2 Quantized Float
             const uint32_t rawBits = stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount));
-            const auto maxVal = static_cast<float>((1ULL << fieldInfo.bitCount) - 1);
-            const float norm = (maxVal > 0.0f) ? static_cast<float>(rawBits) / maxVal : 0.0f;
-            const float val = fieldInfo.lowValue + norm * (fieldInfo.highValue - fieldInfo.lowValue);
+            const float val = DequantizeFloat(rawBits, fieldInfo.lowValue, fieldInfo.highValue, static_cast<size_t>(fieldInfo.bitCount));
             return PropertyValue(val);
         }
-        // Standard IEEE 754 32-bit float
         const uint32_t raw = stream.ReadUBits(32);
         float fVal = 0.0f;
         std::memcpy(&fVal, &raw, sizeof(fVal));
@@ -319,11 +809,10 @@ PropertyValue CEntityDeltaCodec::DecodeFieldValue(CBitReadStream& stream, const 
     if (type == "Vector" || type == "Vector3") {
         Vector3_t v{};
         if (fieldInfo.bitCount > 0) {
-            const auto maxVal = static_cast<float>((1ULL << fieldInfo.bitCount) - 1);
-            const float range = fieldInfo.highValue - fieldInfo.lowValue;
-            v.x = fieldInfo.lowValue + (static_cast<float>(stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount))) / maxVal) * range;
-            v.y = fieldInfo.lowValue + (static_cast<float>(stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount))) / maxVal) * range;
-            v.z = fieldInfo.lowValue + (static_cast<float>(stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount))) / maxVal) * range;
+            const auto bits = static_cast<size_t>(fieldInfo.bitCount);
+            v.x = DequantizeFloat(stream.ReadUBits(bits), fieldInfo.lowValue, fieldInfo.highValue, bits);
+            v.y = DequantizeFloat(stream.ReadUBits(bits), fieldInfo.lowValue, fieldInfo.highValue, bits);
+            v.z = DequantizeFloat(stream.ReadUBits(bits), fieldInfo.lowValue, fieldInfo.highValue, bits);
         } else {
             uint32_t rx = stream.ReadUBits(32);
             uint32_t ry = stream.ReadUBits(32);
@@ -337,11 +826,10 @@ PropertyValue CEntityDeltaCodec::DecodeFieldValue(CBitReadStream& stream, const 
     if (type == "QAngle") {
         QAngle_t a{};
         if (fieldInfo.bitCount > 0) {
-            const auto maxVal = static_cast<float>((1ULL << fieldInfo.bitCount) - 1);
-            const float range = fieldInfo.highValue - fieldInfo.lowValue;
-            a.pitch = fieldInfo.lowValue + (static_cast<float>(stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount))) / maxVal) * range;
-            a.yaw   = fieldInfo.lowValue + (static_cast<float>(stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount))) / maxVal) * range;
-            a.roll  = fieldInfo.lowValue + (static_cast<float>(stream.ReadUBits(static_cast<size_t>(fieldInfo.bitCount))) / maxVal) * range;
+            const auto bits = static_cast<size_t>(fieldInfo.bitCount);
+            a.pitch = DequantizeFloat(stream.ReadUBits(bits), fieldInfo.lowValue, fieldInfo.highValue, bits);
+            a.yaw   = DequantizeFloat(stream.ReadUBits(bits), fieldInfo.lowValue, fieldInfo.highValue, bits);
+            a.roll  = DequantizeFloat(stream.ReadUBits(bits), fieldInfo.lowValue, fieldInfo.highValue, bits);
         } else {
             uint32_t rp = stream.ReadUBits(32);
             uint32_t ry = stream.ReadUBits(32);
@@ -364,7 +852,6 @@ PropertyValue CEntityDeltaCodec::DecodeFieldValue(CBitReadStream& stream, const 
         return PropertyValue(std::string{});
     }
 
-    // Default fallback: 32-bit unsigned integer
     return PropertyValue(stream.ReadUBits(32));
 }
 
@@ -394,12 +881,9 @@ void CEntityDeltaCodec::EncodeFieldValue(CBitWriteStream& stream, const Serializ
     }
     if (type == "float32" || type == "float") {
         if (fieldInfo.bitCount > 0 && fieldInfo.bitCount <= 32) {
-            const float clamped = std::clamp(val.fVal, fieldInfo.lowValue, fieldInfo.highValue);
-            const float range = fieldInfo.highValue - fieldInfo.lowValue;
-            const float norm = (range > 0.0f) ? (clamped - fieldInfo.lowValue) / range : 0.0f;
-            const auto maxVal = static_cast<float>((1ULL << fieldInfo.bitCount) - 1);
-            const auto raw = static_cast<uint32_t>(norm * maxVal + 0.5f);
-            stream.WriteUBits(raw, static_cast<size_t>(fieldInfo.bitCount));
+            const auto bits = static_cast<size_t>(fieldInfo.bitCount);
+            const uint32_t raw = QuantizeFloat(val.fVal, fieldInfo.lowValue, fieldInfo.highValue, bits);
+            stream.WriteUBits(raw, bits);
             return;
         }
         uint32_t raw = 0;
@@ -409,16 +893,10 @@ void CEntityDeltaCodec::EncodeFieldValue(CBitWriteStream& stream, const Serializ
     }
     if (type == "Vector" || type == "Vector3") {
         if (fieldInfo.bitCount > 0) {
-            const auto maxVal = static_cast<float>((1ULL << fieldInfo.bitCount) - 1);
-            const float range = fieldInfo.highValue - fieldInfo.lowValue;
-            auto encodeComp = [&](float comp) {
-                const float c = std::clamp(comp, fieldInfo.lowValue, fieldInfo.highValue);
-                const float n = (range > 0.0f) ? (c - fieldInfo.lowValue) / range : 0.0f;
-                return static_cast<uint32_t>(n * maxVal + 0.5f);
-            };
-            stream.WriteUBits(encodeComp(val.vecVal.x), static_cast<size_t>(fieldInfo.bitCount));
-            stream.WriteUBits(encodeComp(val.vecVal.y), static_cast<size_t>(fieldInfo.bitCount));
-            stream.WriteUBits(encodeComp(val.vecVal.z), static_cast<size_t>(fieldInfo.bitCount));
+            const auto bits = static_cast<size_t>(fieldInfo.bitCount);
+            stream.WriteUBits(QuantizeFloat(val.vecVal.x, fieldInfo.lowValue, fieldInfo.highValue, bits), bits);
+            stream.WriteUBits(QuantizeFloat(val.vecVal.y, fieldInfo.lowValue, fieldInfo.highValue, bits), bits);
+            stream.WriteUBits(QuantizeFloat(val.vecVal.z, fieldInfo.lowValue, fieldInfo.highValue, bits), bits);
         } else {
             uint32_t rx = 0, ry = 0, rz = 0;
             std::memcpy(&rx, &val.vecVal.x, sizeof(float));
@@ -432,16 +910,10 @@ void CEntityDeltaCodec::EncodeFieldValue(CBitWriteStream& stream, const Serializ
     }
     if (type == "QAngle") {
         if (fieldInfo.bitCount > 0) {
-            const auto maxVal = static_cast<float>((1ULL << fieldInfo.bitCount) - 1);
-            const float range = fieldInfo.highValue - fieldInfo.lowValue;
-            auto encodeComp = [&](float comp) {
-                const float c = std::clamp(comp, fieldInfo.lowValue, fieldInfo.highValue);
-                const float n = (range > 0.0f) ? (c - fieldInfo.lowValue) / range : 0.0f;
-                return static_cast<uint32_t>(n * maxVal + 0.5f);
-            };
-            stream.WriteUBits(encodeComp(val.angVal.pitch), static_cast<size_t>(fieldInfo.bitCount));
-            stream.WriteUBits(encodeComp(val.angVal.yaw),   static_cast<size_t>(fieldInfo.bitCount));
-            stream.WriteUBits(encodeComp(val.angVal.roll),  static_cast<size_t>(fieldInfo.bitCount));
+            const auto bits = static_cast<size_t>(fieldInfo.bitCount);
+            stream.WriteUBits(QuantizeFloat(val.angVal.pitch, fieldInfo.lowValue, fieldInfo.highValue, bits), bits);
+            stream.WriteUBits(QuantizeFloat(val.angVal.yaw,   fieldInfo.lowValue, fieldInfo.highValue, bits), bits);
+            stream.WriteUBits(QuantizeFloat(val.angVal.roll,  fieldInfo.lowValue, fieldInfo.highValue, bits), bits);
         } else {
             uint32_t rp = 0, ry = 0, rr = 0;
             std::memcpy(&rp, &val.angVal.pitch, sizeof(float));
@@ -484,7 +956,6 @@ bool CEntityDeltaCodec::DecodeSingleEntity(CBitReadStream& stream, const EntityD
         return true;
     }
 
-    // For EnterPVS or DeltaUpdate, resolve serializer
     CEntitySnapshot* pEntity = nullptr;
 
     if (header.updateType == EntityUpdateType::EnterPVS) {
@@ -495,7 +966,6 @@ bool CEntityDeltaCodec::DecodeSingleEntity(CBitReadStream& stream, const EntityD
         ent.m_bActive = true;
         ent.m_bDormant = false;
 
-        // Copy baseline properties if available
         if (baselineIndex >= 0) {
             const auto* pBaseline = m_BaselineStorage.GetBaseline(static_cast<uint32_t>(baselineIndex), header.entityIndex);
             if (pBaseline) {
@@ -506,7 +976,7 @@ bool CEntityDeltaCodec::DecodeSingleEntity(CBitReadStream& stream, const EntityD
     } else {
         auto it = m_ActiveEntities.find(header.entityIndex);
         if (it == m_ActiveEntities.end()) {
-            return false; // Received delta for non-existent entity
+            return false;
         }
         pEntity = &it->second;
         pEntity->m_bDormant = false;
@@ -514,17 +984,16 @@ bool CEntityDeltaCodec::DecodeSingleEntity(CBitReadStream& stream, const EntityD
 
     const auto* pSerializer = GetSerializer(pEntity->m_nClassId);
     if (!pSerializer) {
-        return false; // Missing serializer for class
+        return false;
     }
 
-    // Decode changed field paths from bitstream using 40-op Huffman tree
+    // Decode changed field paths from bitstream using 40-op Huffman VM
     const std::vector<FieldPath> fieldPaths = CFlattenedSerializer::DecodeFieldPaths(stream);
     const auto& serializerFields = pSerializer->GetFields();
 
     for (const auto& fp : fieldPaths) {
         if (fp.path.empty()) continue;
 
-        // In flattened serializers, root path index addresses the flattened field array
         const auto fieldIdx = static_cast<size_t>(fp.path[0]);
         if (fieldIdx >= serializerFields.size()) {
             continue;
@@ -533,7 +1002,6 @@ bool CEntityDeltaCodec::DecodeSingleEntity(CBitReadStream& stream, const EntityD
         const auto& fieldInfo = serializerFields[fieldIdx];
         const PropertyValue newVal = DecodeFieldValue(stream, fieldInfo);
 
-        // Track change & dispatch callbacks
         PropertyValue oldVal;
         auto propIt = pEntity->m_Properties.find(fieldInfo.varName);
         if (propIt != pEntity->m_Properties.end()) {
@@ -578,7 +1046,6 @@ bool CEntityDeltaCodec::DecodePacketEntities(const sdk::CSVCMsg_PacketEntities& 
         entriesRead++;
     }
 
-    // If update_baseline flag is set, synchronize active entities into baseline snapshot
     if (msg.update_baseline && baselineIdx >= 0) {
         for (const auto& [idx, ent] : m_ActiveEntities) {
             m_BaselineStorage.SetBaseline(static_cast<uint32_t>(baselineIdx), idx, ent.m_Properties);
@@ -603,6 +1070,9 @@ bool CEntityDeltaCodec::EncodePacketEntities(const std::vector<uint32_t>& update
 
     uint32_t prevEntityIndex = 0;
 
+    FieldPathHuffmanCodec huffCodec;
+    FieldPathStreamEngine fpEngine(huffCodec);
+
     for (uint32_t entIdx : updatedEntityIndices) {
         auto it = m_ActiveEntities.find(entIdx);
         if (it == m_ActiveEntities.end()) continue;
@@ -622,41 +1092,31 @@ bool CEntityDeltaCodec::EncodePacketEntities(const std::vector<uint32_t>& update
 
         const auto& fields = pSerializer->GetFields();
 
-        // Phase 1: Emit all Huffman FieldPaths
-        std::vector<size_t> changedFieldIndices;
-        int32_t lastFieldPath = -1;
+        // Collect changed field paths
+        std::vector<size_t> changedIndices;
+        std::vector<FieldPath> pathsToEmit;
+
         for (size_t i = 0; i < fields.size(); ++i) {
             if (!ent.m_DirtyBitmask.IsSet(i) && isDelta) continue;
 
             const auto& fInfo = fields[i];
-            auto pIt = ent.m_Properties.find(fInfo.varName);
-            if (pIt == ent.m_Properties.end()) continue;
+            if (!ent.m_Properties.contains(fInfo.varName)) continue;
 
-            changedFieldIndices.push_back(i);
-
-            // Huffman delta: emit PlusN / PlusOne
-            const auto targetPath = static_cast<int32_t>(i);
-            const int32_t delta = targetPath - lastFieldPath;
-            if (delta == 1) {
-                outStream.WriteUBits(static_cast<uint32_t>(FieldPathOp::PlusOne), 4);
-            } else if (delta == 2) {
-                outStream.WriteUBits(static_cast<uint32_t>(FieldPathOp::PlusTwo), 4);
-            } else if (delta == 3) {
-                outStream.WriteUBits(static_cast<uint32_t>(FieldPathOp::PlusThree), 4);
-            } else if (delta == 4) {
-                outStream.WriteUBits(static_cast<uint32_t>(FieldPathOp::PlusFour), 4);
-            } else {
-                outStream.WriteUBits(static_cast<uint32_t>(FieldPathOp::PlusN), 4);
-                outStream.WriteUBits(static_cast<uint32_t>(delta), 6);
-            }
-            lastFieldPath = targetPath;
+            changedIndices.push_back(i);
+            pathsToEmit.push_back(FieldPath{static_cast<int32_t>(i)});
         }
 
-        // Terminal finish token for entity property update
-        outStream.WriteUBits(static_cast<uint32_t>(FieldPathOp::Finish), 4);
+        // Phase 1: Emit all Huffman FieldPaths using the 40-operation VM
+        BitWriter bw;
+        fpEngine.WriteFieldPaths(bw, pathsToEmit);
+
+        for (size_t b = 0; b < bw.GetBitPosition(); ++b) {
+            bool bit = (bw.GetData()[b / 8] >> (b % 8)) & 1;
+            outStream.WriteUBits(bit ? 1 : 0, 1);
+        }
 
         // Phase 2: Encode property values in order of changed field paths
-        for (size_t idx : changedFieldIndices) {
+        for (size_t idx : changedIndices) {
             const auto& fInfo = fields[idx];
             auto pIt = ent.m_Properties.find(fInfo.varName);
             if (pIt != ent.m_Properties.end()) {

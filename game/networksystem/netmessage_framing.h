@@ -27,9 +27,11 @@ public:
     [[nodiscard]] uint32_t ReadVarInt32();
     [[nodiscard]] bool ReadBytes(uint8_t* out, size_t byteCount);
 
+    [[nodiscard]] const uint8_t* GetData() const noexcept { return m_Data; }
     [[nodiscard]] size_t GetBitsRead() const noexcept { return m_BitOffset; }
     [[nodiscard]] size_t GetTotalBits() const noexcept { return m_TotalBits; }
     [[nodiscard]] bool HasOverflowed() const noexcept { return m_Overflow; }
+    void SetBitsRead(size_t bits) noexcept { m_BitOffset = bits; }
 
 private:
     const uint8_t* m_Data;

@@ -63,7 +63,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
 - **client.dll** (`game/client/`): `bone_setup.cpp`, `bone_setup.h`, `entity_system.cpp`, `entity_system.h`, `inventory_schema.cpp`, `inventory_schema.h`, `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
 - **engine2.dll** (`game/engine2/`): `cvar_engine.cpp`, `cvar_engine.h`, `game_events.cpp`, `game_events.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine2)
-- **interfaces** (`game/interfaces/`): `cvar.h`, `engine_client.h`, `game_event_manager.h`, `interfaces.h`, `schema_interface.h`, `sound_system.h`, `trace_manager.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/interfaces)
+- **interfaces** (`game/interfaces/`): `cvar.h`, `engine_client.h`, `file_system.h`, `game_event_manager.h`, `input_system.h`, `interfaces.h`, `memalloc.h`, `network_client_service.h`, `network_server_service.h`, `schema_interface.h`, `sound_system.h`, `source2_client.h`, `source2_server.h`, `trace_manager.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/interfaces)
 - **materialsystem2.dll** (`game/materialsystem2/`): `material_system2.cpp`, `material_system2.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/materialsystem2)
 - **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h`, `pathfinder.cpp`, `pathfinder.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
 - **networksystem.dll** (`game/networksystem/`): `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
@@ -7814,6 +7814,7 @@ private:
 #define CS2_INTERFACES_CVAR_H
 
 #include <cstdint>
+#include <cstddef>
 #include <string_view>
 #include "../tier0/utl_string_token.h"
 
@@ -7848,36 +7849,77 @@ public:
     const char*   m_pszDescription{nullptr}; // +0x10: Descriptive documentation
     std::uint32_t m_nFlags{0};               // +0x18: FCVAR flags bitmask
 
-    // Accessors
     [[nodiscard]] const char* GetName() const noexcept { return m_pszName; }
     [[nodiscard]] const char* GetHelpText() const noexcept { return m_pszDescription; }
     [[nodiscard]] bool HasFlag(std::uint32_t flag) const noexcept { return (m_nFlags & flag) != 0; }
 };
 
 /**
- * @brief Engine ConVar Master Interface (CCvar / ICvar)
+ * @brief Source 2 ConVar & ConCommand Registry Interface (CCvar / IEngineCVar)
  * Token: "VEngineCvar007" in tier0.dll
- * VTable RVA: +0x313208 (48 slots)
+ * VTable: tier0.dll + 0x313208 (46 virtual slots)
  */
-class CCvar {
+class IEngineCVar {
 public:
-    virtual ~CCvar() = default;
+    // Slot 0: Virtual destructor
+    virtual ~IEngineCVar() = default;
 
-    // Slot 12: FindVarByName
-    virtual ConVar* FindVarByName(const char* pszVarName) = 0;
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
 
-    // Slot 13: FindVarByToken
-    virtual ConVar* FindVarByToken(tier0::CUtlStringToken token) = 0;
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
 
-    // Slot 14: FindCommandByName
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Virtual slots 6 to 10 (Internal / Unmapped)
+    virtual void Unk06() = 0; virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0;
+
+    // Slot 11: Finds ConVar by name string
+    virtual ConVar* FindVar(const char* pszVarName) = 0;
+
+    // Slot 12: Finds ConVar by internal hash/registration index
+    virtual ConVar* FindVarByIndex(std::int32_t nIndex) = 0;
+
+    // Slot 13: Finds ConCommand by name string
     virtual void* FindCommandByName(const char* pszCommandName) = 0;
 
-    // Slot 27: GetFirstConVar
-    virtual ConVar* GetFirstConVar() = 0;
+    // Virtual slots 14 to 40 (Internal / Unmapped)
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0; virtual void Unk21() = 0;
+    virtual void Unk22() = 0; virtual void Unk23() = 0; virtual void Unk24() = 0; virtual void Unk25() = 0;
+    virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0; virtual void Unk29() = 0;
+    virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0; virtual void Unk33() = 0;
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0; virtual void Unk40() = 0;
 
-    // Slot 28: GetNextConVar
-    virtual ConVar* GetNextConVar(ConVar* pPrev) = 0;
+    // Slot 41: Returns first ConVar iterator handle
+    virtual std::uint64_t GetFirstCVarArrayValue() = 0;
+
+    // Slot 42: Returns next ConVar iterator handle
+    virtual std::uint64_t GetNextCVarArrayValue() = 0;
+
+    virtual void Unk43() = 0; // Slot 43
+    virtual void Unk44() = 0; // Slot 44
+    virtual void Unk45() = 0; // Slot 45
+
+
+    // Convenience Accessors
+    [[nodiscard]] ConVar* FindVarByName(const char* pszVarName) { return FindVar(pszVarName); }
+    [[nodiscard]] ConVar* FindVarByToken(tier0::CUtlStringToken token) { return FindVarByIndex(static_cast<std::int32_t>(token.m_nHashCode)); }
+
 };
+static_assert(sizeof(IEngineCVar) == 0x08, "IEngineCVar interface pointer must be 8 bytes");
+
+using CCvar = IEngineCVar;
 
 } // namespace cs2::interfaces
 
@@ -7979,6 +8021,125 @@ public:
 #endif // CS2_INTERFACES_ENGINE_CLIENT_H
 ```
 
+### File: `game/interfaces/file_system.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_FILE_SYSTEM_H
+#define CS2_INTERFACES_FILE_SYSTEM_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 VPK & OS Virtual File System Interface (IFileSystem / CFileSystem_Stdio)
+ * Token: "VFileSystem017" in filesystem_stdio.dll
+ * VTable: filesystem_stdio.dll + 0x1b0ca0 (128 virtual slots)
+ */
+class IFileSystem {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~IFileSystem() = default;
+
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Virtual slots 6 to 10 (Internal / Unmapped)
+    virtual void Unk06() = 0; virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0;
+
+    // Slot 11: Reads raw bytes from open file handle
+    virtual std::int32_t Read(void* pOutput, std::int32_t size, void* file) = 0;
+
+    // Slot 12: Writes raw bytes to open file handle
+    virtual std::int32_t Write(const void* pInput, std::int32_t size, void* file) = 0;
+
+    // Slot 13: Opens file handle with access mode and pathID
+    virtual void* Open(const char* pFileName, const char* pOptions, const char* pathID = nullptr) = 0;
+
+    // Slot 14: Closes file handle
+    virtual void Close(void* file) = 0;
+
+    // Slot 15: Sets file stream read/write pointer
+    virtual void Seek(void* file, std::int32_t pos, std::int32_t seekType) = 0;
+
+    // Slot 16: Returns current file stream position
+    virtual std::uint32_t Tell(void* file) = 0;
+
+    // Slot 17: Returns open file length in bytes
+    virtual std::uint32_t Size(void* file) = 0;
+
+    // Slot 18: Returns file size by relative path
+    virtual std::uint32_t SizeByName(const char* pFileName, const char* pPathID = nullptr) = 0;
+
+    virtual void Unk19() = 0; // Slot 19
+    virtual void Unk20() = 0; // Slot 20
+    virtual void Unk21() = 0; // Slot 21
+
+    // Slot 22: Tests file existence across search paths
+    virtual bool FileExists(const char* pFileName, const char* pPathID = nullptr) = 0;
+
+    // Slot 23: Tests directory path existence
+    virtual bool IsDirectory(const char* pFileName, const char* pPathID = nullptr) = 0;
+
+    // Virtual slots 24 to 31 (Internal / Unmapped)
+    virtual void Unk24() = 0; virtual void Unk25() = 0; virtual void Unk26() = 0; virtual void Unk27() = 0;
+    virtual void Unk28() = 0; virtual void Unk29() = 0; virtual void Unk30() = 0; virtual void Unk31() = 0;
+
+    // Slot 32: Mounts directory or VPK archive into pathID
+    virtual void AddSearchPath(const char* pPath, const char* pathID, int addType = 0) = 0;
+
+    // Slot 33: Unmounts directory or archive from search paths
+    virtual bool RemoveSearchPath(const char* pPath, const char* pathID) = 0;
+
+    // Virtual slots 34 to 127 (Internal / Unmapped)
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0; virtual void Unk40() = 0; virtual void Unk41() = 0;
+    virtual void Unk42() = 0; virtual void Unk43() = 0; virtual void Unk44() = 0; virtual void Unk45() = 0;
+    virtual void Unk46() = 0; virtual void Unk47() = 0; virtual void Unk48() = 0; virtual void Unk49() = 0;
+    virtual void Unk50() = 0; virtual void Unk51() = 0; virtual void Unk52() = 0; virtual void Unk53() = 0;
+    virtual void Unk54() = 0; virtual void Unk55() = 0; virtual void Unk56() = 0; virtual void Unk57() = 0;
+    virtual void Unk58() = 0; virtual void Unk59() = 0; virtual void Unk60() = 0; virtual void Unk61() = 0;
+    virtual void Unk62() = 0; virtual void Unk63() = 0; virtual void Unk64() = 0; virtual void Unk65() = 0;
+    virtual void Unk66() = 0; virtual void Unk67() = 0; virtual void Unk68() = 0; virtual void Unk69() = 0;
+    virtual void Unk70() = 0; virtual void Unk71() = 0; virtual void Unk72() = 0; virtual void Unk73() = 0;
+    virtual void Unk74() = 0; virtual void Unk75() = 0; virtual void Unk76() = 0; virtual void Unk77() = 0;
+    virtual void Unk78() = 0; virtual void Unk79() = 0; virtual void Unk80() = 0; virtual void Unk81() = 0;
+    virtual void Unk82() = 0; virtual void Unk83() = 0; virtual void Unk84() = 0; virtual void Unk85() = 0;
+    virtual void Unk86() = 0; virtual void Unk87() = 0; virtual void Unk88() = 0; virtual void Unk89() = 0;
+    virtual void Unk90() = 0; virtual void Unk91() = 0; virtual void Unk92() = 0; virtual void Unk93() = 0;
+    virtual void Unk94() = 0; virtual void Unk95() = 0; virtual void Unk96() = 0; virtual void Unk97() = 0;
+    virtual void Unk98() = 0; virtual void Unk99() = 0; virtual void Unk100() = 0; virtual void Unk101() = 0;
+    virtual void Unk102() = 0; virtual void Unk103() = 0; virtual void Unk104() = 0; virtual void Unk105() = 0;
+    virtual void Unk106() = 0; virtual void Unk107() = 0; virtual void Unk108() = 0; virtual void Unk109() = 0;
+    virtual void Unk110() = 0; virtual void Unk111() = 0; virtual void Unk112() = 0; virtual void Unk113() = 0;
+    virtual void Unk114() = 0; virtual void Unk115() = 0; virtual void Unk116() = 0; virtual void Unk117() = 0;
+    virtual void Unk118() = 0; virtual void Unk119() = 0; virtual void Unk120() = 0; virtual void Unk121() = 0;
+    virtual void Unk122() = 0; virtual void Unk123() = 0; virtual void Unk124() = 0; virtual void Unk125() = 0;
+    virtual void Unk126() = 0; virtual void Unk127() = 0;
+
+};
+static_assert(sizeof(IFileSystem) == 0x08, "IFileSystem interface pointer must be 8 bytes");
+
+using CFileSystem_Stdio = IFileSystem;
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_FILE_SYSTEM_H
+```
+
 ### File: `game/interfaces/game_event_manager.h` (interfaces)
 ```cpp
 #ifndef CS2_INTERFACES_GAME_EVENT_MANAGER_H
@@ -8076,6 +8237,89 @@ public:
 #endif // CS2_INTERFACES_GAME_EVENT_MANAGER_H
 ```
 
+### File: `game/interfaces/input_system.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_INPUT_SYSTEM_H
+#define CS2_INTERFACES_INPUT_SYSTEM_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Hardware Input Processing & Button State Polling Interface
+ * Token: "InputSystemVersion001" in inputsystem.dll
+ * VTable: inputsystem.dll + 0x393e0 (106 virtual slots)
+ */
+class IInputSystem {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~IInputSystem() = default;
+
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Virtual slots 6 to 18 (Internal / Unmapped)
+    virtual void Unk06() = 0; virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0; virtual void Unk13() = 0;
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0;
+
+    // Slot 19: Polls instantaneous key/button state
+    virtual bool IsButtonDown(std::int32_t nButtonCode) = 0;
+
+    // Slot 20: Returns tick when button was pressed
+    virtual std::uint32_t GetButtonPressedTick(std::int32_t nButtonCode) = 0;
+
+    // Slot 21: Returns true if button was released in active frame
+    virtual bool IsButtonReleased(std::int32_t nButtonCode) = 0;
+
+    // Virtual slots 22 to 105 (Internal / Unmapped)
+    virtual void Unk22() = 0; virtual void Unk23() = 0; virtual void Unk24() = 0; virtual void Unk25() = 0;
+    virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0; virtual void Unk29() = 0;
+    virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0; virtual void Unk33() = 0;
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0; virtual void Unk40() = 0; virtual void Unk41() = 0;
+    virtual void Unk42() = 0; virtual void Unk43() = 0; virtual void Unk44() = 0; virtual void Unk45() = 0;
+    virtual void Unk46() = 0; virtual void Unk47() = 0; virtual void Unk48() = 0; virtual void Unk49() = 0;
+    virtual void Unk50() = 0; virtual void Unk51() = 0; virtual void Unk52() = 0; virtual void Unk53() = 0;
+    virtual void Unk54() = 0; virtual void Unk55() = 0; virtual void Unk56() = 0; virtual void Unk57() = 0;
+    virtual void Unk58() = 0; virtual void Unk59() = 0; virtual void Unk60() = 0; virtual void Unk61() = 0;
+    virtual void Unk62() = 0; virtual void Unk63() = 0; virtual void Unk64() = 0; virtual void Unk65() = 0;
+    virtual void Unk66() = 0; virtual void Unk67() = 0; virtual void Unk68() = 0; virtual void Unk69() = 0;
+    virtual void Unk70() = 0; virtual void Unk71() = 0; virtual void Unk72() = 0; virtual void Unk73() = 0;
+    virtual void Unk74() = 0; virtual void Unk75() = 0; virtual void Unk76() = 0; virtual void Unk77() = 0;
+    virtual void Unk78() = 0; virtual void Unk79() = 0; virtual void Unk80() = 0; virtual void Unk81() = 0;
+    virtual void Unk82() = 0; virtual void Unk83() = 0; virtual void Unk84() = 0; virtual void Unk85() = 0;
+    virtual void Unk86() = 0; virtual void Unk87() = 0; virtual void Unk88() = 0; virtual void Unk89() = 0;
+    virtual void Unk90() = 0; virtual void Unk91() = 0; virtual void Unk92() = 0; virtual void Unk93() = 0;
+    virtual void Unk94() = 0; virtual void Unk95() = 0; virtual void Unk96() = 0; virtual void Unk97() = 0;
+    virtual void Unk98() = 0; virtual void Unk99() = 0; virtual void Unk100() = 0; virtual void Unk101() = 0;
+    virtual void Unk102() = 0; virtual void Unk103() = 0; virtual void Unk104() = 0; virtual void Unk105() = 0;
+
+};
+static_assert(sizeof(IInputSystem) == 0x08, "IInputSystem interface pointer must be 8 bytes");
+
+using CInputSystem = IInputSystem;
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_INPUT_SYSTEM_H
+```
+
 ### File: `game/interfaces/interfaces.h` (interfaces)
 ```cpp
 #ifndef CS2_INTERFACES_INTERFACES_H
@@ -8083,6 +8327,21 @@ public:
 
 #include <cstdint>
 #include <cstring>
+#include <type_traits>
+
+#include "engine_client.h"
+#include "game_event_manager.h"
+#include "sound_system.h"
+#include "network_server_service.h"
+#include "network_client_service.h"
+#include "source2_server.h"
+#include "source2_client.h"
+#include "cvar.h"
+#include "schema_interface.h"
+#include "memalloc.h"
+#include "input_system.h"
+#include "file_system.h"
+#include "trace_manager.h"
 
 namespace cs2::interfaces {
 
@@ -8115,9 +8374,225 @@ inline void* CaptureInterface(InterfaceReg* pHead, const char* pInterfaceName) n
     return nullptr;
 }
 
+/**
+ * @brief Type-safe template wrapper for capturing interfaces from an InterfaceReg head.
+ */
+template <typename T>
+inline T* GetInterface(InterfaceReg* pHead, const char* pInterfaceName) noexcept {
+    return static_cast<T*>(CaptureInterface(pHead, pInterfaceName));
+}
+
 } // namespace cs2::interfaces
 
 #endif // CS2_INTERFACES_INTERFACES_H
+```
+
+### File: `game/interfaces/memalloc.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_MEMALLOC_H
+#define CS2_INTERFACES_MEMALLOC_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Tier0 Heap Allocator Interface (IMemAlloc)
+ * Token: "g_pMemAlloc" in tier0.dll
+ * VTable: tier0.dll + 0x3277c0 (40 virtual slots)
+ */
+class IMemAlloc {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~IMemAlloc() = default;
+
+    // Slot 1: Allocates raw memory block of nSize bytes
+    virtual void* Alloc(std::size_t nSize) = 0;
+
+    // Slot 2: Reallocates memory block to new size
+    virtual void* Realloc(void* pMem, std::size_t nSize) = 0;
+
+    // Slot 3: Frees previously allocated memory block
+    virtual void Free(void* pMem) = 0;
+
+    // Slot 4: Expands memory block in-place
+    virtual void* Expand(void* pMem, std::size_t nSize) = 0;
+
+    // Slot 5: Allocates aligned memory block
+    virtual void* AllocAligned(std::size_t nSize, std::size_t nAlignment) = 0;
+
+    // Slot 6: Reallocates aligned memory block
+    virtual void* ReallocAligned(void* pMem, std::size_t nSize, std::size_t nAlignment) = 0;
+
+    // Slot 7: Frees aligned memory block
+    virtual void FreeAligned(void* pMem) = 0;
+
+    // Slot 8: Returns usable allocation byte size
+    virtual std::size_t GetSize(void* pMem) = 0;
+
+    // Virtual slots 9 to 20 (Internal / Unmapped)
+    virtual void Unk09() = 0; virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0;
+    virtual void Unk13() = 0; virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0;
+    virtual void Unk17() = 0; virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0;
+
+    // Slot 21: Returns detailed buffer allocation capacity
+    virtual std::size_t GetSizeDetailed(void* pMem) = 0;
+
+    // Virtual slots 22 to 39 (Internal / Unmapped)
+    virtual void Unk22() = 0; virtual void Unk23() = 0; virtual void Unk24() = 0; virtual void Unk25() = 0;
+    virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0; virtual void Unk29() = 0;
+    virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0; virtual void Unk33() = 0;
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0;
+
+};
+static_assert(sizeof(IMemAlloc) == 0x08, "IMemAlloc interface pointer must be 8 bytes");
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_MEMALLOC_H
+```
+
+### File: `game/interfaces/network_client_service.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_NETWORK_CLIENT_SERVICE_H
+#define CS2_INTERFACES_NETWORK_CLIENT_SERVICE_H
+
+#include <cstdint>
+#include <cstddef>
+
+class CNetworkGameClient;
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Network Client Loop & Pacing Service Interface
+ * Token: "NetworkClientService_001" in engine2.dll
+ * VTable: engine2.dll + 0x60e978 (64 virtual slots)
+ */
+class INetworkClientService {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~INetworkClientService() = default;
+
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Virtual slots 6 to 20 (Internal / Unmapped)
+    virtual void Unk06() = 0; virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0; virtual void Unk13() = 0;
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0;
+
+    // Slot 21: Returns client INetChannel instance
+    virtual void* GetNetworkChannel() = 0;
+
+    // Slot 22: Returns current ESignonState enum value
+    virtual int GetSignonState() = 0;
+
+    // Slot 23: Returns active CNetworkGameClient manager
+    virtual CNetworkGameClient* GetNetworkGameClient() = 0;
+
+    // Virtual slots 24 to 63 (Internal / Unmapped)
+    virtual void Unk24() = 0; virtual void Unk25() = 0; virtual void Unk26() = 0; virtual void Unk27() = 0;
+    virtual void Unk28() = 0; virtual void Unk29() = 0; virtual void Unk30() = 0; virtual void Unk31() = 0;
+    virtual void Unk32() = 0; virtual void Unk33() = 0; virtual void Unk34() = 0; virtual void Unk35() = 0;
+    virtual void Unk36() = 0; virtual void Unk37() = 0; virtual void Unk38() = 0; virtual void Unk39() = 0;
+    virtual void Unk40() = 0; virtual void Unk41() = 0; virtual void Unk42() = 0; virtual void Unk43() = 0;
+    virtual void Unk44() = 0; virtual void Unk45() = 0; virtual void Unk46() = 0; virtual void Unk47() = 0;
+    virtual void Unk48() = 0; virtual void Unk49() = 0; virtual void Unk50() = 0; virtual void Unk51() = 0;
+    virtual void Unk52() = 0; virtual void Unk53() = 0; virtual void Unk54() = 0; virtual void Unk55() = 0;
+    virtual void Unk56() = 0; virtual void Unk57() = 0; virtual void Unk58() = 0; virtual void Unk59() = 0;
+    virtual void Unk60() = 0; virtual void Unk61() = 0; virtual void Unk62() = 0; virtual void Unk63() = 0;
+
+};
+static_assert(sizeof(INetworkClientService) == 0x08, "INetworkClientService interface pointer must be 8 bytes");
+
+using CNetworkClientService = INetworkClientService;
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_NETWORK_CLIENT_SERVICE_H
+```
+
+### File: `game/interfaces/network_server_service.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_NETWORK_SERVER_SERVICE_H
+#define CS2_INTERFACES_NETWORK_SERVER_SERVICE_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Network Server Loop & Hosting Service Interface
+ * Token: "NetworkServerService_001" in engine2.dll
+ * VTable: engine2.dll + 0x60fa40 (51 virtual slots)
+ */
+class INetworkServerService {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~INetworkServerService() = default;
+
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Virtual slots 6 to 22 (Internal / Unmapped)
+    virtual void Unk06() = 0; virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0; virtual void Unk13() = 0;
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0; virtual void Unk21() = 0;
+    virtual void Unk22() = 0;
+
+    // Slot 23: Returns active IGameServer instance
+    virtual void* GetIGameServer() = 0;
+
+    // Slot 24: Returns active INetChannel for client slot
+    virtual void* GetNetworkChannel(int nSlot = 0) = 0;
+
+    // Virtual slots 25 to 50 (Internal / Unmapped)
+    virtual void Unk25() = 0; virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0;
+    virtual void Unk29() = 0; virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0;
+    virtual void Unk33() = 0; virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0;
+    virtual void Unk37() = 0; virtual void Unk38() = 0; virtual void Unk39() = 0; virtual void Unk40() = 0;
+    virtual void Unk41() = 0; virtual void Unk42() = 0; virtual void Unk43() = 0; virtual void Unk44() = 0;
+    virtual void Unk45() = 0; virtual void Unk46() = 0; virtual void Unk47() = 0; virtual void Unk48() = 0;
+    virtual void Unk49() = 0; virtual void Unk50() = 0;
+
+};
+static_assert(sizeof(INetworkServerService) == 0x08, "INetworkServerService interface pointer must be 8 bytes");
+
+using CNetworkServerService = INetworkServerService;
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_NETWORK_SERVER_SERVICE_H
 ```
 
 ### File: `game/interfaces/schema_interface.h` (interfaces)
@@ -8154,26 +8629,88 @@ struct CSchemaClassInfo {
 };
 static_assert(sizeof(CSchemaClassInfo) == 0x68, "CSchemaClassInfo must be 104 bytes (0x68)");
 
+/**
+ * @brief SchemaSystem Module Scope Class (CSchemaSystemTypeScope)
+ * VTable: schemasystem.dll + 0x586f0 (35 slots)
+ */
 class CSchemaSystemTypeScope {
 public:
-    virtual ~CSchemaSystemTypeScope() = default;
+    virtual ~CSchemaSystemTypeScope() = default;                                                 // Slot 0
+    virtual const char* GetScopeName() const = 0;                                               // Slot 1
+    virtual CSchemaClassInfo* FindDeclaredClass(const char* pszClassName) = 0;                  // Slot 2
+    virtual void* FindDeclaredEnum(const char* pszEnumName) = 0;                                // Slot 3
 
-    // Slot 2: FindDeclaredClass (RVA: +0x00010380)
-    virtual CSchemaClassInfo* FindDeclaredClass(const char* pszClassName) = 0;
+    // Virtual slots 4 to 23
+    virtual void Unk04() = 0; virtual void Unk05() = 0; virtual void Unk06() = 0; virtual void Unk07() = 0;
+    virtual void Unk08() = 0; virtual void Unk09() = 0; virtual void Unk10() = 0; virtual void Unk11() = 0;
+    virtual void Unk12() = 0; virtual void Unk13() = 0; virtual void Unk14() = 0; virtual void Unk15() = 0;
+    virtual void Unk16() = 0; virtual void Unk17() = 0; virtual void Unk18() = 0; virtual void Unk19() = 0;
+    virtual void Unk20() = 0; virtual void Unk21() = 0; virtual void Unk22() = 0; virtual void Unk23() = 0;
+
+    virtual CSchemaClassInfo* FindDeclaredClassByToken(std::uint32_t nToken) = 0;               // Slot 24
+    virtual CSchemaClassInfo* FindDeclaredClassByName(const char* pszClassName) = 0;            // Slot 25
+    virtual void* FindDeclaredEnumByToken(std::uint32_t nToken) = 0;                            // Slot 26
+    virtual void* FindDeclaredEnumByName(const char* pszEnumName) = 0;                          // Slot 27
+
+    // Virtual slots 28 to 34
+    virtual void Unk28() = 0; virtual void Unk29() = 0; virtual void Unk30() = 0; virtual void Unk31() = 0;
+    virtual void Unk32() = 0; virtual void Unk33() = 0; virtual void Unk34() = 0;
 };
+static_assert(sizeof(CSchemaSystemTypeScope) == 0x08, "CSchemaSystemTypeScope pointer must be 8 bytes");
 
 /**
- * @brief SchemaSystem Master Interface (CSchemaSystem)
+ * @brief Source 2 Runtime Reflection SchemaSystem Subsystem
  * Token: "SchemaSystem_001" in schemasystem.dll
- * VTable: 0x180058598 (222 slots)
+ * VTable: schemasystem.dll + 0x58598 (40 virtual slots)
  */
-class CSchemaSystem {
+class ISchemaSystem {
 public:
-    virtual ~CSchemaSystem() = default;
+    // Slot 0: Virtual destructor
+    virtual ~ISchemaSystem() = default;
 
-    // Slot 13: FindTypeScopeForModule (RVA: +0x00013b80)
-    virtual CSchemaSystemTypeScope* FindTypeScopeForModule(const char* pszModuleName) = 0;
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Virtual slots 6 to 12 (Internal / Unmapped)
+    virtual void Unk06() = 0; virtual void Unk07() = 0; virtual void Unk08() = 0; virtual void Unk09() = 0;
+    virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0;
+
+    // Slot 13: Resolves module scope by name (e.g. 'client.dll')
+    virtual CSchemaSystemTypeScope* FindTypeScopeForModule(const char* pszModuleName, void* pBindingContext = nullptr) = 0;
+
+    // Slot 14: Resolves module scope by MurmurHash2 token
+    virtual CSchemaSystemTypeScope* FindTypeScopeForModuleByToken(std::uint32_t nScopeHash) = 0;
+
+    // Virtual slots 15 to 24 (Internal / Unmapped)
+    virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0; virtual void Unk18() = 0;
+    virtual void Unk19() = 0; virtual void Unk20() = 0; virtual void Unk21() = 0; virtual void Unk22() = 0;
+    virtual void Unk23() = 0; virtual void Unk24() = 0;
+
+    // Slot 25: Returns root global type scope
+    virtual CSchemaSystemTypeScope* GlobalTypeScope() = 0;
+
+    // Virtual slots 26 to 39 (Internal / Unmapped)
+    virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0; virtual void Unk29() = 0;
+    virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0; virtual void Unk33() = 0;
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0;
+
 };
+static_assert(sizeof(ISchemaSystem) == 0x08, "ISchemaSystem interface pointer must be 8 bytes");
+
+using CSchemaSystem = ISchemaSystem;
 
 #undef CS2_PAD
 
@@ -8251,6 +8788,210 @@ public:
 #endif // CS2_INTERFACES_SOUND_SYSTEM_H
 ```
 
+### File: `game/interfaces/source2_client.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_SOURCE2_CLIENT_H
+#define CS2_INTERFACES_SOURCE2_CLIENT_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Game Client Subsystem & Presentation Dispatcher Interface
+ * Token: "Source2Client002" in client.dll
+ * VTable: client.dll + 0x1c5aa90 (211 virtual slots)
+ */
+class ISource2Client {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~ISource2Client() = default;
+
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Slot 6: Client post-initialization hook
+    virtual void PostInit() = 0;
+
+    // Slot 7: Client pre-shutdown notification
+    virtual void PreShutdown() = 0;
+
+    // Slot 8: Client game startup
+    virtual void GameInit() = 0;
+
+    // Slot 9: Client game termination
+    virtual void GameShutdown() = 0;
+
+    // Slot 10: Map load prior to entity spawn
+    virtual void LevelInitPreEntity(const char* pszMapName) = 0;
+
+    // Slot 11: Map load following entity spawn
+    virtual void LevelInitPostEntity() = 0;
+
+    // Slot 12: Map purge prior to entity destruction
+    virtual void LevelShutdownPreEntity() = 0;
+
+    // Slot 13: Map purge following entity destruction
+    virtual void LevelShutdownPostEntity() = 0;
+
+    // Virtual slots 14 to 210 (Internal / Unmapped)
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0; virtual void Unk21() = 0;
+    virtual void Unk22() = 0; virtual void Unk23() = 0; virtual void Unk24() = 0; virtual void Unk25() = 0;
+    virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0; virtual void Unk29() = 0;
+    virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0; virtual void Unk33() = 0;
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0; virtual void Unk40() = 0; virtual void Unk41() = 0;
+    virtual void Unk42() = 0; virtual void Unk43() = 0; virtual void Unk44() = 0; virtual void Unk45() = 0;
+    virtual void Unk46() = 0; virtual void Unk47() = 0; virtual void Unk48() = 0; virtual void Unk49() = 0;
+    virtual void Unk50() = 0; virtual void Unk51() = 0; virtual void Unk52() = 0; virtual void Unk53() = 0;
+    virtual void Unk54() = 0; virtual void Unk55() = 0; virtual void Unk56() = 0; virtual void Unk57() = 0;
+    virtual void Unk58() = 0; virtual void Unk59() = 0; virtual void Unk60() = 0; virtual void Unk61() = 0;
+    virtual void Unk62() = 0; virtual void Unk63() = 0; virtual void Unk64() = 0; virtual void Unk65() = 0;
+    virtual void Unk66() = 0; virtual void Unk67() = 0; virtual void Unk68() = 0; virtual void Unk69() = 0;
+    virtual void Unk70() = 0; virtual void Unk71() = 0; virtual void Unk72() = 0; virtual void Unk73() = 0;
+    virtual void Unk74() = 0; virtual void Unk75() = 0; virtual void Unk76() = 0; virtual void Unk77() = 0;
+    virtual void Unk78() = 0; virtual void Unk79() = 0; virtual void Unk80() = 0; virtual void Unk81() = 0;
+    virtual void Unk82() = 0; virtual void Unk83() = 0; virtual void Unk84() = 0; virtual void Unk85() = 0;
+    virtual void Unk86() = 0; virtual void Unk87() = 0; virtual void Unk88() = 0; virtual void Unk89() = 0;
+    virtual void Unk90() = 0; virtual void Unk91() = 0; virtual void Unk92() = 0; virtual void Unk93() = 0;
+    virtual void Unk94() = 0; virtual void Unk95() = 0; virtual void Unk96() = 0; virtual void Unk97() = 0;
+    virtual void Unk98() = 0; virtual void Unk99() = 0; virtual void Unk100() = 0; virtual void Unk101() = 0;
+    virtual void Unk102() = 0; virtual void Unk103() = 0; virtual void Unk104() = 0; virtual void Unk105() = 0;
+    virtual void Unk106() = 0; virtual void Unk107() = 0; virtual void Unk108() = 0; virtual void Unk109() = 0;
+    virtual void Unk110() = 0; virtual void Unk111() = 0; virtual void Unk112() = 0; virtual void Unk113() = 0;
+    virtual void Unk114() = 0; virtual void Unk115() = 0; virtual void Unk116() = 0; virtual void Unk117() = 0;
+    virtual void Unk118() = 0; virtual void Unk119() = 0; virtual void Unk120() = 0; virtual void Unk121() = 0;
+    virtual void Unk122() = 0; virtual void Unk123() = 0; virtual void Unk124() = 0; virtual void Unk125() = 0;
+    virtual void Unk126() = 0; virtual void Unk127() = 0; virtual void Unk128() = 0; virtual void Unk129() = 0;
+    virtual void Unk130() = 0; virtual void Unk131() = 0; virtual void Unk132() = 0; virtual void Unk133() = 0;
+    virtual void Unk134() = 0; virtual void Unk135() = 0; virtual void Unk136() = 0; virtual void Unk137() = 0;
+    virtual void Unk138() = 0; virtual void Unk139() = 0; virtual void Unk140() = 0; virtual void Unk141() = 0;
+    virtual void Unk142() = 0; virtual void Unk143() = 0; virtual void Unk144() = 0; virtual void Unk145() = 0;
+    virtual void Unk146() = 0; virtual void Unk147() = 0; virtual void Unk148() = 0; virtual void Unk149() = 0;
+    virtual void Unk150() = 0; virtual void Unk151() = 0; virtual void Unk152() = 0; virtual void Unk153() = 0;
+    virtual void Unk154() = 0; virtual void Unk155() = 0; virtual void Unk156() = 0; virtual void Unk157() = 0;
+    virtual void Unk158() = 0; virtual void Unk159() = 0; virtual void Unk160() = 0; virtual void Unk161() = 0;
+    virtual void Unk162() = 0; virtual void Unk163() = 0; virtual void Unk164() = 0; virtual void Unk165() = 0;
+    virtual void Unk166() = 0; virtual void Unk167() = 0; virtual void Unk168() = 0; virtual void Unk169() = 0;
+    virtual void Unk170() = 0; virtual void Unk171() = 0; virtual void Unk172() = 0; virtual void Unk173() = 0;
+    virtual void Unk174() = 0; virtual void Unk175() = 0; virtual void Unk176() = 0; virtual void Unk177() = 0;
+    virtual void Unk178() = 0; virtual void Unk179() = 0; virtual void Unk180() = 0; virtual void Unk181() = 0;
+    virtual void Unk182() = 0; virtual void Unk183() = 0; virtual void Unk184() = 0; virtual void Unk185() = 0;
+    virtual void Unk186() = 0; virtual void Unk187() = 0; virtual void Unk188() = 0; virtual void Unk189() = 0;
+    virtual void Unk190() = 0; virtual void Unk191() = 0; virtual void Unk192() = 0; virtual void Unk193() = 0;
+    virtual void Unk194() = 0; virtual void Unk195() = 0; virtual void Unk196() = 0; virtual void Unk197() = 0;
+    virtual void Unk198() = 0; virtual void Unk199() = 0; virtual void Unk200() = 0; virtual void Unk201() = 0;
+    virtual void Unk202() = 0; virtual void Unk203() = 0; virtual void Unk204() = 0; virtual void Unk205() = 0;
+    virtual void Unk206() = 0; virtual void Unk207() = 0; virtual void Unk208() = 0; virtual void Unk209() = 0;
+    virtual void Unk210() = 0;
+
+};
+static_assert(sizeof(ISource2Client) == 0x08, "ISource2Client interface pointer must be 8 bytes");
+
+using CSource2Client = ISource2Client;
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_SOURCE2_CLIENT_H
+```
+
+### File: `game/interfaces/source2_server.h` (interfaces)
+```cpp
+#ifndef CS2_INTERFACES_SOURCE2_SERVER_H
+#define CS2_INTERFACES_SOURCE2_SERVER_H
+
+#include <cstdint>
+#include <cstddef>
+
+namespace cs2::interfaces {
+
+/**
+ * @brief Source 2 Dedicated / Listen Game Server Interface
+ * Token: "Source2Server001" in server.dll
+ * VTable: server.dll + 0x197e1d0 (103 virtual slots)
+ */
+class ISource2Server {
+public:
+    // Slot 0: Virtual destructor
+    virtual ~ISource2Server() = default;
+
+    // Slot 1: IAppSystem::Connect
+    virtual bool Connect(void* pFactory) = 0;
+
+    // Slot 2: IAppSystem::Disconnect
+    virtual void Disconnect() = 0;
+
+    // Slot 3: IAppSystem::QueryInterface
+    virtual void* QueryInterface(const char* pInterfaceName) = 0;
+
+    // Slot 4: IAppSystem::Init
+    virtual int Init() = 0;
+
+    // Slot 5: IAppSystem::Shutdown
+    virtual void Shutdown() = 0;
+
+    // Slot 6: Initializes game directory and subsystems
+    virtual bool InitServer(const char* pszGameDir) = 0;
+
+    // Slot 7: Shuts down server game systems
+    virtual void ShutdownServer() = 0;
+
+    // Slot 8: Game loop initialization
+    virtual void GameInit() = 0;
+
+    // Slot 9: Game loop teardown
+    virtual void GameShutdown() = 0;
+
+    // Virtual slots 10 to 102 (Internal / Unmapped)
+    virtual void Unk10() = 0; virtual void Unk11() = 0; virtual void Unk12() = 0; virtual void Unk13() = 0;
+    virtual void Unk14() = 0; virtual void Unk15() = 0; virtual void Unk16() = 0; virtual void Unk17() = 0;
+    virtual void Unk18() = 0; virtual void Unk19() = 0; virtual void Unk20() = 0; virtual void Unk21() = 0;
+    virtual void Unk22() = 0; virtual void Unk23() = 0; virtual void Unk24() = 0; virtual void Unk25() = 0;
+    virtual void Unk26() = 0; virtual void Unk27() = 0; virtual void Unk28() = 0; virtual void Unk29() = 0;
+    virtual void Unk30() = 0; virtual void Unk31() = 0; virtual void Unk32() = 0; virtual void Unk33() = 0;
+    virtual void Unk34() = 0; virtual void Unk35() = 0; virtual void Unk36() = 0; virtual void Unk37() = 0;
+    virtual void Unk38() = 0; virtual void Unk39() = 0; virtual void Unk40() = 0; virtual void Unk41() = 0;
+    virtual void Unk42() = 0; virtual void Unk43() = 0; virtual void Unk44() = 0; virtual void Unk45() = 0;
+    virtual void Unk46() = 0; virtual void Unk47() = 0; virtual void Unk48() = 0; virtual void Unk49() = 0;
+    virtual void Unk50() = 0; virtual void Unk51() = 0; virtual void Unk52() = 0; virtual void Unk53() = 0;
+    virtual void Unk54() = 0; virtual void Unk55() = 0; virtual void Unk56() = 0; virtual void Unk57() = 0;
+    virtual void Unk58() = 0; virtual void Unk59() = 0; virtual void Unk60() = 0; virtual void Unk61() = 0;
+    virtual void Unk62() = 0; virtual void Unk63() = 0; virtual void Unk64() = 0; virtual void Unk65() = 0;
+    virtual void Unk66() = 0; virtual void Unk67() = 0; virtual void Unk68() = 0; virtual void Unk69() = 0;
+    virtual void Unk70() = 0; virtual void Unk71() = 0; virtual void Unk72() = 0; virtual void Unk73() = 0;
+    virtual void Unk74() = 0; virtual void Unk75() = 0; virtual void Unk76() = 0; virtual void Unk77() = 0;
+    virtual void Unk78() = 0; virtual void Unk79() = 0; virtual void Unk80() = 0; virtual void Unk81() = 0;
+    virtual void Unk82() = 0; virtual void Unk83() = 0; virtual void Unk84() = 0; virtual void Unk85() = 0;
+    virtual void Unk86() = 0; virtual void Unk87() = 0; virtual void Unk88() = 0; virtual void Unk89() = 0;
+    virtual void Unk90() = 0; virtual void Unk91() = 0; virtual void Unk92() = 0; virtual void Unk93() = 0;
+    virtual void Unk94() = 0; virtual void Unk95() = 0; virtual void Unk96() = 0; virtual void Unk97() = 0;
+    virtual void Unk98() = 0; virtual void Unk99() = 0; virtual void Unk100() = 0; virtual void Unk101() = 0;
+    virtual void Unk102() = 0;
+
+};
+static_assert(sizeof(ISource2Server) == 0x08, "ISource2Server interface pointer must be 8 bytes");
+
+using CSource2Server = ISource2Server;
+
+} // namespace cs2::interfaces
+
+#endif // CS2_INTERFACES_SOURCE2_SERVER_H
+```
+
 ### File: `game/interfaces/trace_manager.h` (interfaces)
 ```cpp
 #ifndef CS2_INTERFACES_TRACE_MANAGER_H
@@ -8262,29 +9003,34 @@ public:
 namespace cs2::interfaces {
 
 /**
- * @brief Spatial Query Master Interface (CGameTraceManager / IEngineTrace)
- * Global Instance in client.dll: +0x02229020 (VA: 0x182229020)
- * Static BSS Instance in client.dll: +0x0254cf30 (VA: 0x18254cf30)
+ * @brief Source 2 Spatial Query & Ray-Tracing Subsystem Interface (ITraceManager / CGameTraceManager)
+ * Token: "CGameTraceManager" in server.dll
+ * VTable: server.dll + 0x19d2ba8 (6 virtual slots)
  */
-class CGameTraceManager {
+class ITraceManager {
 public:
-    virtual ~CGameTraceManager() = default;
+    // Slot 0: Virtual destructor
+    virtual ~ITraceManager() = default;
 
-    // Slot 1: ClipRayToEntity (RVA: +0x00a1b8a0, VA: 0x180a1b8a0)
+    // Slot 1: Clips ray trajectory against specific entity
     virtual bool ClipRayToEntity(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, void* pEntity, shared::GameTrace_t* pTrace) = 0;
 
-    // Slot 2: ClipRayToCollideable
+    // Slot 2: Clips ray against collideable physics proxy
     virtual bool ClipRayToCollideable(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, void* pCollide, shared::GameTrace_t* pTrace) = 0;
 
-    // Slot 3: TraceRay
+    // Slot 3: Performs broadphase & narrowphase scene raycast
     virtual void TraceRay(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, shared::GameTrace_t* pTrace) = 0;
 
-    // Slot 4: SetupTraceShape
+    // Slot 4: Initializes bounding volume shape for sweep test
     virtual void SetupTraceShape(void* pShape, const shared::Ray_t* pRay) = 0;
 
-    // Slot 5: TraceShape (RVA: +0x00a1ae30, VA: 0x180a1ae30)
+    // Slot 5: Executes swept shape query against world physics
     virtual bool TraceShape(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, shared::GameTrace_t* pTrace) = 0;
+
 };
+static_assert(sizeof(ITraceManager) == 0x08, "ITraceManager interface pointer must be 8 bytes");
+
+using CGameTraceManager = ITraceManager;
 
 } // namespace cs2::interfaces
 
@@ -8854,6 +9600,9 @@ private:
 #include <optional>
 #include <memory>
 #include <variant>
+#include <cmath>
+#include <algorithm>
+#include <cassert>
 
 #include "sdk/netmessages.hpp"
 #include "game/networksystem/netmessage_framing.h"
@@ -8976,7 +9725,269 @@ struct PropertyValue {
 };
 
 // ============================================================================
-// 2. Entity Update Types & Stream Framing
+// 2. Little-Endian Bitstream Reader & Writer (BitWriter / BitReader)
+// ============================================================================
+
+/**
+ * @brief Little-endian bitstream writer conforming to Source 2 wire serialization.
+ * Extracted from docs/simulators/cs2_network_delta_sim.cpp and networksystem.dll.
+ */
+class BitWriter {
+public:
+    BitWriter() {
+        m_Buffer.reserve(256);
+    }
+
+    void WriteBit(bool bit) {
+        size_t byteIndex = m_BitPosition / 8;
+        size_t bitOffset = m_BitPosition % 8;
+
+        if (byteIndex >= m_Buffer.size()) {
+            m_Buffer.push_back(0);
+        }
+
+        if (bit) {
+            m_Buffer[byteIndex] |= static_cast<uint8_t>(1u << bitOffset);
+        } else {
+            m_Buffer[byteIndex] &= static_cast<uint8_t>(~(1u << bitOffset));
+        }
+
+        ++m_BitPosition;
+    }
+
+    void WriteBits(uint64_t value, size_t numBits) {
+        assert(numBits <= 64);
+        for (size_t i = 0; i < numBits; ++i) {
+            WriteBit((value & (1ULL << i)) != 0);
+        }
+    }
+
+    void WriteUBits(uint32_t value, size_t numBits) {
+        assert(numBits <= 32);
+        for (size_t i = 0; i < numBits; ++i) {
+            WriteBit((value & (1u << i)) != 0);
+        }
+    }
+
+    void WriteVarUInt32(uint32_t val) {
+        while (val >= 0x80) {
+            WriteUBits((val & 0x7Fu) | 0x80u, 8);
+            val >>= 7;
+        }
+        WriteUBits(val, 8);
+    }
+
+    void WriteVarInt32(int32_t val) {
+        // ZigZag encoding for signed LEB128
+        auto encoded = static_cast<uint32_t>((val << 1) ^ (val >> 31));
+        WriteVarUInt32(encoded);
+    }
+
+    void WriteQuantizedFloat(float value, float minVal, float maxVal, size_t bitCount) {
+        assert(bitCount >= 1 && bitCount <= 32);
+        float clamped = std::clamp(value, minVal, maxVal);
+        float range = maxVal - minVal;
+        if (range <= 1e-7f) {
+            WriteUBits(0, bitCount);
+            return;
+        }
+
+        float normalized = (clamped - minVal) / range;
+        uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+        uint32_t quantized = static_cast<uint32_t>(std::round(normalized * static_cast<float>(maxSteps)));
+        WriteUBits(quantized, bitCount);
+    }
+
+    void WriteBytes(const uint8_t* data, size_t byteCount) {
+        for (size_t i = 0; i < byteCount; ++i) {
+            WriteUBits(data[i], 8);
+        }
+    }
+
+    [[nodiscard]] size_t GetBitPosition() const noexcept { return m_BitPosition; }
+    [[nodiscard]] size_t GetByteSize() const noexcept { return (m_BitPosition + 7) / 8; }
+    [[nodiscard]] const std::vector<uint8_t>& GetData() const noexcept { return m_Buffer; }
+
+private:
+    std::vector<uint8_t> m_Buffer;
+    size_t m_BitPosition{0};
+};
+
+/**
+ * @brief Little-endian bitstream reader conforming to Source 2 wire serialization.
+ * Extracted from docs/simulators/cs2_network_delta_sim.cpp and networksystem.dll.
+ */
+class BitReader {
+public:
+    BitReader(const uint8_t* data, size_t numBits)
+        : m_Data(data), m_TotalBits(numBits), m_BitPosition(0), m_Overflow(false) {}
+
+    explicit BitReader(const BitWriter& writer)
+        : m_Data(writer.GetData().data()), m_TotalBits(writer.GetBitPosition()), m_BitPosition(0), m_Overflow(false) {}
+
+    explicit BitReader(CBitReadStream& stream)
+        : m_Data(stream.GetData()), m_TotalBits(stream.GetTotalBits()), m_BitPosition(stream.GetBitsRead()), m_Overflow(stream.HasOverflowed()) {}
+
+    bool ReadBit() {
+        if (m_BitPosition >= m_TotalBits) {
+            m_Overflow = true;
+            return false;
+        }
+
+        size_t byteIndex = m_BitPosition / 8;
+        size_t bitOffset = m_BitPosition % 8;
+        ++m_BitPosition;
+
+        return (m_Data[byteIndex] & (1u << bitOffset)) != 0;
+    }
+
+    uint64_t ReadBits(size_t numBits) {
+        assert(numBits <= 64);
+        uint64_t value = 0;
+        for (size_t i = 0; i < numBits; ++i) {
+            if (ReadBit()) {
+                value |= (1ULL << i);
+            }
+        }
+        return value;
+    }
+
+    uint32_t ReadUBits(size_t numBits) {
+        assert(numBits <= 32);
+        uint32_t value = 0;
+        for (size_t i = 0; i < numBits; ++i) {
+            if (ReadBit()) {
+                value |= (1u << i);
+            }
+        }
+        return value;
+    }
+
+    uint32_t ReadVarUInt32() {
+        uint32_t result = 0;
+        size_t shift = 0;
+        while (shift < 35) {
+            uint32_t byteVal = ReadUBits(8);
+            result |= (byteVal & 0x7Fu) << shift;
+            if (!(byteVal & 0x80u)) {
+                return result;
+            }
+            shift += 7;
+        }
+        return result;
+    }
+
+    int32_t ReadVarInt32() {
+        uint32_t raw = ReadVarUInt32();
+        return static_cast<int32_t>((raw >> 1) ^ (-(static_cast<int32_t>(raw & 1))));
+    }
+
+    float ReadQuantizedFloat(float minVal, float maxVal, size_t bitCount) {
+        assert(bitCount >= 1 && bitCount <= 32);
+        uint32_t quantized = ReadUBits(bitCount);
+        uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+        float range = maxVal - minVal;
+        if (maxSteps == 0) return minVal;
+        float factor = static_cast<float>(quantized) / static_cast<float>(maxSteps);
+        return minVal + factor * range;
+    }
+
+    bool ReadBytes(uint8_t* out, size_t byteCount) {
+        if (m_BitPosition + (byteCount * 8) > m_TotalBits) {
+            m_Overflow = true;
+            return false;
+        }
+        for (size_t i = 0; i < byteCount; ++i) {
+            out[i] = static_cast<uint8_t>(ReadUBits(8));
+        }
+        return true;
+    }
+
+    [[nodiscard]] size_t GetBitPosition() const noexcept { return m_BitPosition; }
+    [[nodiscard]] size_t GetTotalBits() const noexcept { return m_TotalBits; }
+    [[nodiscard]] size_t GetRemainingBits() const noexcept {
+        return (m_BitPosition < m_TotalBits) ? (m_TotalBits - m_BitPosition) : 0;
+    }
+    [[nodiscard]] bool HasOverflowed() const noexcept { return m_Overflow; }
+
+    void Seek(size_t bitPos) noexcept {
+        m_BitPosition = std::min(bitPos, m_TotalBits);
+    }
+
+private:
+    const uint8_t* m_Data{nullptr};
+    size_t m_TotalBits{0};
+    size_t m_BitPosition{0};
+    bool m_Overflow{false};
+};
+
+// ============================================================================
+// 3. Floating-Point Quantization Functions
+// ============================================================================
+
+[[nodiscard]] constexpr inline uint32_t QuantizeFloat(float value, float minVal, float maxVal, size_t bitCount) noexcept {
+    float clamped = std::clamp(value, minVal, maxVal);
+    float range = maxVal - minVal;
+    if (range <= 1e-7f || bitCount == 0 || bitCount > 32) return 0;
+    float normalized = (clamped - minVal) / range;
+    uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+    return static_cast<uint32_t>(normalized * static_cast<float>(maxSteps) + 0.5f);
+}
+
+[[nodiscard]] constexpr inline float DequantizeFloat(uint32_t rawBits, float minVal, float maxVal, size_t bitCount) noexcept {
+    if (bitCount == 0 || bitCount > 32) return minVal;
+    uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+    if (maxSteps == 0) return minVal;
+    float factor = static_cast<float>(rawBits) / static_cast<float>(maxSteps);
+    return minVal + factor * (maxVal - minVal);
+}
+
+// ============================================================================
+// 4. Complete 40-Operation FieldPath Huffman Codec & Virtual Machine
+// ============================================================================
+
+struct HuffmanCode {
+    uint32_t code{0};
+    uint8_t bitLength{0};
+};
+
+class FieldPathHuffmanCodec {
+public:
+    FieldPathHuffmanCodec();
+
+    void EncodeOp(BitWriter& writer, FieldPathOp op) const;
+    FieldPathOp DecodeOp(BitReader& reader) const;
+
+    [[nodiscard]] const HuffmanCode& GetCode(FieldPathOp op) const noexcept {
+        return m_CodeTable[static_cast<size_t>(op)];
+    }
+
+private:
+    void BuildCanonicalTable();
+    HuffmanCode m_CodeTable[40];
+};
+
+/**
+ * @brief Source 2 FieldPath Encoder / Decoder State Machine.
+ * Supports all 40 operations from networksystem.dll.
+ */
+class FieldPathStreamEngine {
+public:
+    explicit FieldPathStreamEngine(const FieldPathHuffmanCodec& codec)
+        : m_Codec(codec) {}
+
+    void WriteFieldPaths(BitWriter& writer, const std::vector<FieldPath>& paths) const;
+    std::vector<FieldPath> ReadFieldPaths(BitReader& reader) const;
+
+    void EncodeTransition(BitWriter& writer, const FieldPath& curr, const FieldPath& next) const;
+    void ExecuteOp(BitReader& reader, FieldPath& path, FieldPathOp op) const;
+
+private:
+    const FieldPathHuffmanCodec& m_Codec;
+};
+
+// ============================================================================
+// 5. Entity Update Types & Stream Framing
 // ============================================================================
 
 enum class EntityUpdateType : uint8_t {
@@ -8995,13 +10006,9 @@ struct EntityDeltaHeader {
 };
 
 // ============================================================================
-// 3. Entity Baseline Snapshot Storage
+// 6. Entity Baseline Snapshot Storage
 // ============================================================================
 
-/**
- * @brief Thread-safe baseline snapshot storage cache.
- * Source 2 maintains baseline slots (0 = default, 1 = alternate, etc.) for entity templates.
- */
 class CEntityBaselineStorage {
 public:
     static constexpr uint32_t MAX_BASELINES = 64;
@@ -9021,12 +10028,11 @@ public:
     [[nodiscard]] size_t GetEntityCount(uint32_t baselineIndex) const;
 
 private:
-    // baselineIndex -> (entityIndex -> property map)
     std::unordered_map<uint32_t, std::unordered_map<uint32_t, std::unordered_map<std::string, PropertyValue>>> m_Baselines;
 };
 
 // ============================================================================
-// 4. Field Change Callback Dispatcher
+// 7. Field Change Callback Dispatcher
 // ============================================================================
 
 using FieldChangeCallbackFn = std::function<void(
@@ -9036,9 +10042,6 @@ using FieldChangeCallbackFn = std::function<void(
     const PropertyValue& oldValue,
     const PropertyValue& newValue)>;
 
-/**
- * @brief Dispatches property change notifications to registered client subsystems.
- */
 class CFieldChangeDispatcher {
 public:
     CFieldChangeDispatcher() = default;
@@ -9066,7 +10069,7 @@ private:
 };
 
 // ============================================================================
-// 5. Active Entity State Snapshot
+// 8. Active Entity State Snapshot
 // ============================================================================
 
 class CEntitySnapshot {
@@ -9086,43 +10089,37 @@ public:
 };
 
 // ============================================================================
-// 6. Source 2 Entity Delta Codec (Clean-Room Engine)
+// 9. Source 2 Entity Delta Codec (Clean-Room Engine)
 // ============================================================================
 
-/**
- * @brief Complete reconstructed Source 2 entity delta decompression and serialization engine.
- */
 class CEntityDeltaCodec {
 public:
     CEntityDeltaCodec() = default;
 
-    // Serializer registration
     void RegisterSerializer(uint32_t classId, CFlattenedSerializer serializer);
     [[nodiscard]] const CFlattenedSerializer* GetSerializer(uint32_t classId) const;
 
-    // Baseline storage access
     [[nodiscard]] CEntityBaselineStorage& GetBaselineStorage() noexcept { return m_BaselineStorage; }
     [[nodiscard]] const CEntityBaselineStorage& GetBaselineStorage() const noexcept { return m_BaselineStorage; }
 
-    // Dispatcher access
     [[nodiscard]] CFieldChangeDispatcher& GetDispatcher() noexcept { return m_Dispatcher; }
     [[nodiscard]] const CFieldChangeDispatcher& GetDispatcher() const noexcept { return m_Dispatcher; }
 
-    // Active entity snapshot lookup
     [[nodiscard]] const CEntitySnapshot* GetEntity(uint32_t entityIndex) const;
     [[nodiscard]] CEntitySnapshot* GetEntityMutable(uint32_t entityIndex);
+    CEntitySnapshot& CreateEntity(uint32_t entityIndex, uint32_t classId = 0) {
+        auto& ent = m_ActiveEntities[entityIndex];
+        ent.m_nEntityIndex = entityIndex;
+        ent.m_nClassId = classId;
+        ent.m_bActive = true;
+        return ent;
+    }
     [[nodiscard]] const std::unordered_map<uint32_t, CEntitySnapshot>& GetAllEntities() const noexcept { return m_ActiveEntities; }
 
-    /**
-     * @brief Decodes a full CSVCMsg_PacketEntities message with bitstream payload.
-     */
     bool DecodePacketEntities(const sdk::CSVCMsg_PacketEntities& msg,
                              const uint8_t* pPayloadData,
                              size_t nPayloadBytes);
 
-    /**
-     * @brief Encodes an entity delta snapshot into a CSVCMsg_PacketEntities message and bitstream.
-     */
     bool EncodePacketEntities(const std::vector<uint32_t>& updatedEntityIndices,
                              bool isDelta,
                              int32_t deltaFrom,
@@ -9130,15 +10127,12 @@ public:
                              sdk::CSVCMsg_PacketEntities& outMsg,
                              CBitWriteStream& outStream);
 
-    // Bitstream low-level wire serialization helpers
     static PropertyValue DecodeFieldValue(CBitReadStream& stream, const SerializedFieldInfo& fieldInfo);
     static void EncodeFieldValue(CBitWriteStream& stream, const SerializedFieldInfo& fieldInfo, const PropertyValue& val);
 
-    // Entity index delta bitstream reading
     static uint32_t ReadEntityIndexDelta(CBitReadStream& stream, uint32_t prevIndex);
     static void WriteEntityIndexDelta(CBitWriteStream& stream, uint32_t currentIndex, uint32_t prevIndex);
 
-    // Entity delta header reading
     static EntityDeltaHeader ReadEntityHeader(CBitReadStream& stream, uint32_t prevIndex, bool isDelta);
     static void WriteEntityHeader(CBitWriteStream& stream, const EntityDeltaHeader& header, uint32_t prevIndex, bool isDelta);
 
@@ -9168,35 +10162,71 @@ private:
 #include <string>
 #include <vector>
 #include <optional>
+#include <initializer_list>
 #include "netmessage_framing.h"
 
 namespace cs2::networksystem {
 
 /**
- * @brief Field path operations in Source 2 entity state serialization.
- * Reconstructed from networksystem.dll (40-operation Huffman decoder @ 0x180272420).
+ * @brief Complete 40-operation FieldPath instruction set in Source 2 entity state serialization.
+ * Reconstructed from networksystem.dll (40-operation Huffman decoder @ 0x180272420 / 0x18026D420).
  */
 enum class FieldPathOp : uint8_t {
-    PlusOne = 0,
-    PlusTwo = 1,
-    PlusThree = 2,
-    PlusFour = 3,
-    PlusN = 4,
-    PushOneLeftDeltaZero = 5,
-    PushOneLeftDeltaOne = 6,
-    PushOneLeftDeltaN = 7,
-    PushThreePackets = 8,
-    PopAllButOneWalk = 9,
-    PopOnePlusOne = 10,
-    PopNPlusOne = 11,
-    PopNPlusN = 12,
-    Finish = 13
+    PlusOne                                = 0,
+    PlusTwo                                = 1,
+    PlusThree                              = 2,
+    PlusFour                               = 3,
+    PlusN                                  = 4,
+    PushOneLeftDeltaZeroRightZero          = 5,
+    PushOneLeftDeltaZeroRightNonZero       = 6,
+    PushOneLeftDeltaOneRightZero           = 7,
+    PushOneLeftDeltaOneRightNonZero        = 8,
+    PushOneLeftDeltaNRightZero             = 9,
+    PushOneLeftDeltaNRightNonZero          = 10,
+    PushOneLeftDeltaNRightNonZeroPack6Bits = 11,
+    PushOneLeftDeltaNRightNonZeroPack8Bits = 12,
+    PushTwoLeftDeltaZero                   = 13,
+    PushTwoPack5LeftDeltaZero              = 14,
+    PushThreeLeftDeltaZero                 = 15,
+    PushThreePack5LeftDeltaZero            = 16,
+    PushTwoLeftDeltaOne                    = 17,
+    PushTwoPack5LeftDeltaOne               = 18,
+    PushThreeLeftDeltaOne                  = 19,
+    PushThreePack5LeftDeltaOne             = 20,
+    PushTwoLeftDeltaN                      = 21,
+    PushTwoPack5LeftDeltaN                 = 22,
+    PushThreeLeftDeltaN                    = 23,
+    PushThreePack5LeftDeltaN               = 24,
+    PushN                                  = 25,
+    PushNAndNonTopographical               = 26,
+    PopOnePlusOne                          = 27,
+    PopOnePlusN                            = 28,
+    PopAllButOnePlusOne                    = 29,
+    PopAllButOnePlusN                      = 30,
+    PopAllButOnePlusNPack3Bits             = 31,
+    PopAllButOnePlusNPack6Bits             = 32,
+    PopNPlusOne                            = 33,
+    PopNPlusN                              = 34,
+    PopNAndNonTopographical                = 35,
+    NonTopoComplex                         = 36,
+    NonTopoPenultimatePluseOne             = 37,
+    NonTopoComplexPack4Bits                = 38,
+    FieldPathEncodeFinish                  = 39
 };
+
+const char* GetFieldPathOpName(FieldPathOp op);
 
 struct FieldPath {
     std::vector<int32_t> path;
 
+    FieldPath() = default;
+    FieldPath(std::vector<int32_t> p) : path(std::move(p)) {}
+    FieldPath(std::initializer_list<int32_t> init) : path(init) {}
+
     [[nodiscard]] std::string ToString() const;
+
+    bool operator==(const FieldPath& o) const noexcept { return path == o.path; }
+    bool operator<(const FieldPath& o) const noexcept { return path < o.path; }
 };
 
 struct SerializedFieldInfo {
@@ -9221,7 +10251,7 @@ public:
     [[nodiscard]] uint32_t GetVersion() const noexcept { return m_Version; }
 
     /**
-     * @brief Decodes field paths from the wire bitstream.
+     * @brief Decodes field paths from the wire bitstream using 40-op Huffman VM.
      */
     static std::vector<FieldPath> DecodeFieldPaths(CBitReadStream& stream);
 
@@ -9267,9 +10297,11 @@ public:
     [[nodiscard]] uint32_t ReadVarInt32();
     [[nodiscard]] bool ReadBytes(uint8_t* out, size_t byteCount);
 
+    [[nodiscard]] const uint8_t* GetData() const noexcept { return m_Data; }
     [[nodiscard]] size_t GetBitsRead() const noexcept { return m_BitOffset; }
     [[nodiscard]] size_t GetTotalBits() const noexcept { return m_TotalBits; }
     [[nodiscard]] bool HasOverflowed() const noexcept { return m_Overflow; }
+    void SetBitsRead(size_t bits) noexcept { m_BitOffset = bits; }
 
 private:
     const uint8_t* m_Data;
@@ -9469,78 +10501,199 @@ private:
 
 ### File: `game/particles/smoke_voxels.h` (particles.dll)
 ```cpp
-#ifndef CS2_SMOKE_VOXELS_H
-#define CS2_SMOKE_VOXELS_H
+#ifndef CS2_PARTICLES_SMOKE_VOXELS_H
+#define CS2_PARTICLES_SMOKE_VOXELS_H
 
 #include <cstdint>
 #include <vector>
 #include <cmath>
+#include <cstring>
+#include <algorithm>
 
 namespace cs2::particles {
 
+// ----------------------------------------------------------------------------
+// Authoritative Engine Constants & Virtual Offsets (server.dll @ Build 26598758)
+// ----------------------------------------------------------------------------
+constexpr uintptr_t VA_SMOKE_SPAWN              = 0x1809cba30; // RVA: 0x009cba30
+constexpr uintptr_t VA_SMOKE_TICK_UPDATE        = 0x1809cec20; // RVA: 0x009cec20
+constexpr uintptr_t VA_VOXEL_EXPAND_CARVE       = 0x1809c9070; // RVA: 0x009c9070
+constexpr uintptr_t VA_LINE_OF_SIGHT_THROUGH_SMOKE = 0x1809b82f0; // RVA: 0x009b82f0
+constexpr uintptr_t VA_VOXEL_RAYMARCH           = 0x1809cd690; // RVA: 0x009cd690
+constexpr uintptr_t VA_SERIALIZE_SPARSE_DELTA   = 0x1809b2230; // RVA: 0x009b2230
+
+constexpr float SMOKE_MAX_EXTENT               = 640.0f;  // Total diameter (units)
+constexpr float SMOKE_HALF_EXTENT              = 320.0f;  // Bounding radius (units)
+constexpr float VOXEL_SIZE                     = 20.0f;   // Size of each voxel cube (units)
+constexpr float VOXEL_INV_SIZE                 = 0.05f;   // 1.0f / VOXEL_SIZE
+constexpr int   GRID_DIM                       = 32;      // 32 voxels per axis (320 / 20 * 2)
+constexpr int   GRID_TOTAL_VOXELS              = 32768;   // 32^3 = 32,768 voxels (0x8000)
+constexpr int   BITMASK_WORDS                  = 512;     // 32768 / 64 = 512 uint64 words (0x200)
+constexpr float GRID_CENTER_VOXEL              = 16.0f;   // Voxel index origin
+constexpr float FULL_OCCLUSION_DENSITY         = 0.20f;   // server.dll: 0x1809b82f0 optical density threshold
+constexpr float SHOCKWAVE_DISPLACEMENT_UNITS   = 30.0f;   // HE grenade displacement outward (+30.0 units)
+constexpr int32_t SHOCKWAVE_COOLDOWN_TICKS     = 29;      // 29-tick hold cooldown for shockwave dissipation
+
+// ----------------------------------------------------------------------------
+// 3D Geometric Vector
+// ----------------------------------------------------------------------------
 struct Vector3 {
     float x{0.0f}, y{0.0f}, z{0.0f};
 
-    Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
-    Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
-    Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
-    [[nodiscard]] float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
-    [[nodiscard]] float Length() const noexcept { return std::sqrt(Dot(*this)); }
+    constexpr Vector3() noexcept = default;
+    constexpr Vector3(float _x, float _y, float _z) noexcept : x(_x), y(_y), z(_z) {}
+
+    [[nodiscard]] constexpr Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
+    [[nodiscard]] constexpr Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
+    [[nodiscard]] constexpr Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
+    [[nodiscard]] constexpr Vector3 operator/(float s) const noexcept { return {x / s, y / s, z / s}; }
+
+    [[nodiscard]] constexpr float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
+    [[nodiscard]] float LengthSqr() const noexcept { return Dot(*this); }
+    [[nodiscard]] float Length() const noexcept { return std::sqrt(LengthSqr()); }
+
+    [[nodiscard]] Vector3 Normalized() const noexcept {
+        const float len = Length();
+        return (len > 1e-6f) ? (*this / len) : Vector3{0, 0, 0};
+    }
 };
 
+// ----------------------------------------------------------------------------
+// 10-Byte Sparse Wire Serialization Record (Protobuf / Net-Channel Delta)
+// server.dll FUN_1809b1bd0 / VA 0x1809b2230
+// [uint16_t word_index (0..511)] + [uint64_t mask (64 occupancy bits)]
+// ----------------------------------------------------------------------------
+#pragma pack(push, 1)
+struct SparseVoxelWord_t {
+    uint16_t word_index; // 2 bytes (0..511)
+    uint64_t mask;       // 8 bytes (64-bit occupancy mask)
+};
+#pragma pack(pop)
+
+static_assert(sizeof(SparseVoxelWord_t) == 10, "SparseVoxelWord_t must be exactly 10 bytes");
+using SparseVoxelWordPB = SparseVoxelWord_t;
+
 /**
- * @brief Reconstructed Volumetric Smoke Grid from particles.dll.
- * Analyzed in FUN_1809b7f50 (LineOfSightThroughSmoke).
+ * @brief Authoritative Volumetric Smoke Voxel Grid Reconstructed from server.dll
+ * Build 26598758:
+ * - 32x32x32 = 32,768 voxel bounding box centered at m_vSmokeDetonationPos.
+ * - 3D Morton space-filling curve bit interleaving (Morton3D / Part1By2).
+ * - Double-buffered 512-word uint64 bitmask array (512 * 64 = 32,768 bits).
+ * - Authoritative Line-of-Sight DDA raymarching with 0.20f optical density occlusion threshold.
+ * - Cylindrical bullet tunnel carve-out & spherical HE shockwave displacement (+30.0 units, 29-tick cooldown).
+ * - 10-byte sparse wire protocol delta packing.
  */
 class CSmokeVoxelGrid {
 public:
-    static constexpr int kGridDim = 32;
-    static constexpr int kTotalVoxels = kGridDim * kGridDim * kGridDim; // 32,768
+    static constexpr int kGridDim = GRID_DIM;
+    static constexpr int kTotalVoxels = GRID_TOTAL_VOXELS;
+    static constexpr int kBitmaskWords = BITMASK_WORDS;
 
-    CSmokeVoxelGrid(const Vector3& origin, float voxelSize);
+    CSmokeVoxelGrid(const Vector3& origin = {}, float voxelSize = VOXEL_SIZE);
 
     /**
-     * @brief Encodes 3D integer coordinates into Morton Z-order index.
+     * @brief Encodes 3D coordinates into Morton Z-order index (0..32767).
+     * server.dll: Part1By2 bit interleaving.
      */
+    static uint32_t Part1By2(uint32_t x) noexcept;
     static uint32_t Morton3D(uint32_t x, uint32_t y, uint32_t z) noexcept;
+    static void MortonDecode3D(uint32_t code, uint32_t& x, uint32_t& y, uint32_t& z) noexcept;
 
     /**
-     * @brief Initializes a spherical smoke plume of radius R.
+     * @brief Initializes a volumetric smoke cloud at world origin.
      */
+    void Detonate(const Vector3& origin, int32_t tick = 0);
     void InitializeSphere(float radius, uint8_t density = 255);
+    void ExpandInitialVolume(float radiusUnits = 80.0f);
 
     /**
-     * @brief Performs 3D DDA raymarch to check if line of sight is obstructed by smoke.
-     * Reconstructed from particles.dll @ FUN_1809b7f50.
-     * @return true if visible (not blocked), false if smoke blocks vision.
+     * @brief Simulation tick update managing shockwave cooldown and dissipation.
      */
-    [[nodiscard]] bool LineOfSight(const Vector3& start, const Vector3& end, float maxAccumulatedDensity = 120.0f) const;
+    void OnTick(int32_t currentTick);
+
+    // Coordinate conversions
+    [[nodiscard]] bool WorldToVoxel(const Vector3& worldPos, int& vx, int& vy, int& vz) const noexcept;
+    [[nodiscard]] Vector3 VoxelToWorld(int vx, int vy, int vz) const noexcept;
+
+    // Voxel bitmask & density state
+    [[nodiscard]] bool IsVoxelActive(int vx, int vy, int vz) const noexcept;
+    void SetVoxelActive(int vx, int vy, int vz, float density = 1.0f);
+    void ClearVoxel(int vx, int vy, int vz);
 
     /**
-     * @brief Carves a cylindrical or conical bullet tunnel through the smoke voxels.
+     * @brief Authoritative Line-of-Sight DDA Raymarching
+     * Reconstructed from LineOfSightThroughSmoke @ RVA 0x009b82f0 / VA 0x1809b82f0.
+     * Evaluates optical density along ray; returns true if visible, false if obstructed.
+     * Occlusion occurs when accumulated optical density >= 0.20f.
      */
-    void CarveBulletTunnel(const Vector3& start, const Vector3& end, float tunnelRadius);
+    [[nodiscard]] bool LineOfSight(const Vector3& start, const Vector3& end,
+                                  float occlusionThreshold = FULL_OCCLUSION_DENSITY) const;
 
     /**
-     * @brief Carves a spherical cavity produced by an HE grenade detonation.
+     * @brief Detailed raymarch returning normalized opacity in range [0.0, 1.0].
      */
+    [[nodiscard]] float LineOfSightRaymarch(const Vector3& start, const Vector3& end) const;
+
+    /**
+     * @brief Cylindrical bullet tunnel carve-out algorithm.
+     * Carves a cylinder of radius tunnelRadius along bullet travel segment.
+     */
+    int CarveBulletTunnel(const Vector3& start, const Vector3& end, float tunnelRadius = 30.0f);
+
+    /**
+     * @brief HE Grenade Explosion Shockwave Carve & Displacement
+     * Clears spherical core and pushes adjacent voxels outward (+30.0 units) with 29-tick cooldown.
+     */
+    int CarveExplosionShockwave(const Vector3& explosionCenter,
+                                float clearRadius = 180.0f,
+                                float pushRadius = 260.0f,
+                                int32_t cooldownTicks = SHOCKWAVE_COOLDOWN_TICKS);
+
+    // Legacy overload
     void DetonateHE(const Vector3& center, float blastRadius);
 
+    /**
+     * @brief 10-Byte Sparse Wire Protocol Serialization
+     * Reconstructed from SerializeSparseDelta @ RVA 0x009b2230 / VA 0x1809b2230.
+     */
+    [[nodiscard]] std::vector<SparseVoxelWord_t> SerializeSparseDelta() const;
+    void DeserializeSparseDelta(const std::vector<SparseVoxelWord_t>& packet);
+
+    // Double-buffering helpers
+    void SwapBuffer() noexcept { m_nActiveBuffer ^= 1; }
+    [[nodiscard]] int GetActiveBufferIndex() const noexcept { return m_nActiveBuffer; }
+
+    // Legacy accessors
     [[nodiscard]] uint8_t GetVoxel(int x, int y, int z) const;
     void SetVoxel(int x, int y, int z, uint8_t val);
 
-    [[nodiscard]] const Vector3& GetOrigin() const noexcept { return m_Origin; }
+    [[nodiscard]] const Vector3& GetOrigin() const noexcept { return m_vSmokeDetonationPos; }
     [[nodiscard]] float GetVoxelSize() const noexcept { return m_VoxelSize; }
+    [[nodiscard]] bool IsActive() const noexcept { return m_bActive; }
+    [[nodiscard]] int32_t GetShockwaveCooldown() const noexcept { return m_nShockwaveCooldownTicks; }
 
 private:
-    Vector3 m_Origin;
-    float m_VoxelSize;
-    std::vector<uint8_t> m_Voxels;
+    Vector3 m_vSmokeDetonationPos{0.0f, 0.0f, 0.0f};
+    float   m_VoxelSize{VOXEL_SIZE};
+    int32_t m_nStartTick{0};
+    int32_t m_nCurrentTick{0};
+    bool    m_bActive{false};
+
+    // Double-buffered 512-word uint64 bitmask array (512 * 64 = 32,768 bits)
+    uint64_t m_OccupancyMask[2][BITMASK_WORDS]{};
+    int      m_nActiveBuffer{0};
+
+    // Dense floating-point optical densities for local physics simulation
+    float    m_VoxelDensities[GRID_TOTAL_VOXELS]{};
+
+    // State tracking
+    int32_t  m_nVoxelUpdateCounter{0};
+    int32_t  m_nShockwaveCooldownTicks{0};
 };
 
 } // namespace cs2::particles
 
-#endif // CS2_SMOKE_VOXELS_H
+#endif // CS2_PARTICLES_SMOKE_VOXELS_H
 ```
 
 ### File: `game/pulse_system/pulse_interpreter.h` (pulse_system.dll)
@@ -9786,6 +10939,7 @@ private:
 #define CS2_SERVER_BULLET_PENETRATION_H
 
 #include "../client/viewmatrix.h"
+#include "hit_registration_damage.h"
 #include <cstdint>
 #include <cmath>
 #include <vector>
@@ -9795,6 +10949,17 @@ private:
 namespace cs2::server {
 
 using client::Vector3;
+
+// -------------------------------------------------------------------------
+// Authoritative Engine Constants & Virtual Offsets (server.dll @ Build 26598758)
+// -------------------------------------------------------------------------
+constexpr uintptr_t VA_EVALUATE_BULLET_PENETRATION     = 0x180a90280; // RVA: 0x00a90280
+constexpr uintptr_t VA_APPLY_ARMOR_DAMAGE_CALCULATION = 0x180a81610; // RVA: 0x00a81610
+constexpr uintptr_t VA_IS_ARMORED                     = 0x180acaca0; // RVA: 0x00acaca0
+
+constexpr float RAY_STEP_SIZE              = 4.0f;    // 4-unit discrete ray interval stepping
+constexpr float MAX_PENETRATION_DISTANCE  = 3000.0f; // Maximum travel distance gate for penetration
+constexpr float MIN_PENETRATION_MODIFIER  = 0.10f;   // Minimum material penetration modifier gate
 
 // -------------------------------------------------------------------------
 // Source 2 / CS2 Authoritative Material Texture Characters
@@ -9811,13 +10976,13 @@ constexpr uint16_t CHAR_TEX_GLASS        = 'G'; // 0x47 (Glass)
 constexpr uint16_t CHAR_TEX_ALIENFLESH   = 'H'; // 0x48
 constexpr uint16_t CHAR_TEX_CLIP         = 'I'; // 0x49
 constexpr uint16_t CHAR_TEX_PLASTIC      = 'L'; // 0x4C (Light metal / sheet metal / plastic)
-constexpr uint16_t CHAR_TEX_METAL        = 'M'; // 0x4D (Solid Metal)
+constexpr uint16_t CHAR_TEX_METAL        = 'M'; // 0x4D (Solid Metal / Steel)
 constexpr uint16_t CHAR_TEX_SAND         = 'N'; // 0x4E
 constexpr uint16_t CHAR_TEX_FOLIAGE      = 'O'; // 0x4F
 constexpr uint16_t CHAR_TEX_COMPUTER     = 'P'; // 0x50
 constexpr uint16_t CHAR_TEX_SLOSH        = 'S'; // 0x53
 constexpr uint16_t CHAR_TEX_TILE         = 'T'; // 0x54
-constexpr uint16_t CHAR_TEX_CARDBOARD    = 'U'; // 0x55 (Cardboard / thin panel)
+constexpr uint16_t CHAR_TEX_CARDBOARD    = 'U'; // 0x55 (Cardboard / Drywall)
 constexpr uint16_t CHAR_TEX_VENT         = 'V'; // 0x56
 constexpr uint16_t CHAR_TEX_WOOD         = 'W'; // 0x57 (Wood)
 constexpr uint16_t CHAR_TEX_SHATTERGLASS = 'Y'; // 0x59 (Shatterglass / Plexiglass)
@@ -9825,14 +10990,15 @@ constexpr uint16_t CHAR_TEX_SHATTERGLASS = 'Y'; // 0x59 (Shatterglass / Plexigla
 // Surface descriptor bitflags (Bit 13 tested via BT reg, 0xd @ 0x180a902eb)
 constexpr uint32_t SURF_FLAG_GRATE_MESH  = (1 << 13); // 0x2000
 
+
+
 // -------------------------------------------------------------------------
 // Reconstructed 32-Byte Rubikon Physics Surface Property Layout
-// Reversed from FUN_180be1120 in server.dll (surfaceproperties_game.txt)
 // -------------------------------------------------------------------------
 struct SurfaceData_t {
     float maxSpeedFactor{1.0f};                    // +0x00
     float jumpFactor{1.0f};                        // +0x04
-    float bulletPenetrationDistanceModifier{1.0f}; // +0x08 (flPenetrationDistance)
+    float bulletPenetrationDistanceModifier{1.0f}; // +0x08 (flPenetrationDistance / flPenetrationModifier)
     float bulletPenetrationDamageModifier{0.16f};  // +0x0C (flDamageModifier, default 0.16)
     uint32_t stringToken{0};                       // +0x10 (MurmurHash2 / FNV-1a token)
     uint16_t materialChar{CHAR_TEX_CONCRETE};      // +0x14 (e.g. 'C', 'W', 'M', 'G', 'F', 'Y')
@@ -9849,7 +11015,6 @@ struct SurfaceData_t {
 
 // -------------------------------------------------------------------------
 // In-Flight Bullet Parameter Block
-// Corresponds to param_2 array in FUN_180a8fca0
 // -------------------------------------------------------------------------
 struct BulletData_t {
     float currentDamage{0.0f};      // param_2[0]: Current accumulated damage
@@ -9861,8 +11026,56 @@ struct BulletData_t {
 };
 
 // -------------------------------------------------------------------------
+// Weapon Ballistics Profile
+// -------------------------------------------------------------------------
+struct WeaponBallistics_t {
+    const char* m_pName{"AK-47"};
+    float       m_flDamage{36.0f};          // Base damage at 0 range
+    float       m_flRangeModifier{0.98f};   // Falloff coefficient per 500 units
+    float       m_flPenetrationPower{2.0f}; // Penetration power multiplier
+    float       m_flArmorRatio{1.55f};      // Weapon Armor Penetration Ratio (e.g. 1.55f = 77.5%)
+    float       m_flMaxRange{8192.0f};      // Maximum ballistic range
+    int         m_nMaxPenetrations{4};      // Maximum material surfaces
+};
+
+// -------------------------------------------------------------------------
+// Player Defense State (Vitality & Defensive Armor)
+// -------------------------------------------------------------------------
+struct PlayerPawnState_t {
+    int32_t m_iHealth{100};
+    int32_t m_ArmorValue{100};
+    bool    m_bHasHelmet{true};
+    bool    m_bHasHeavyArmor{false};
+};
+
+// -------------------------------------------------------------------------
+// Armor Mitigation Calculation Output
+// -------------------------------------------------------------------------
+struct ArmorMitigationResult_t {
+    float   m_flHealthDamage{0.0f};
+    int32_t m_iArmorAbsorbed{0};
+    int32_t m_iRemainingArmor{0};
+    int32_t m_iRemainingHealth{0};
+    bool    m_bArmoredCovered{false};
+};
+
+// -------------------------------------------------------------------------
+// Penetration Step Diagnostic Record
+// -------------------------------------------------------------------------
+struct PenetrationStep_t {
+    int         m_nStepIndex{0};
+    std::string m_sMaterialName;
+    float       m_flEntryDistance{0.0f};
+    float       m_flThickness{0.0f};
+    float       m_flDamageBefore{0.0f};
+    float       m_flDamageAfter{0.0f};
+    float       m_flDamageLost{0.0f};
+    bool        m_bPenetrated{false};
+    std::string m_sFailReason;
+};
+
+// -------------------------------------------------------------------------
 // Surface Hit & Ray Interval Descriptor
-// Corresponds to param_3 interval record in FUN_180a6ca20 / FUN_180a8fca0
 // -------------------------------------------------------------------------
 struct SurfaceHitData_t {
     float tEnter{0.0f};             // Entry fraction along ray [0.0, 1.0]
@@ -9883,7 +11096,6 @@ struct SurfaceHitData_t {
 
 // -------------------------------------------------------------------------
 // Authoritative Bullet Impact Event Data
-// Emitted as "bullet_impact" event in FUN_180a70240 @ 0x180a70a61
 // -------------------------------------------------------------------------
 struct BulletImpact_t {
     Vector3 position;
@@ -9900,10 +11112,10 @@ struct BulletImpact_t {
 // -------------------------------------------------------------------------
 struct PlayerHitbox_t {
     int hitboxId{0};
-    int hitGroup{0}; // 1 = Head, 2 = Chest, 3 = Stomach, 4 = Left Arm, 5 = Right Arm, 6 = Left Leg, 7 = Right Leg
+    int hitGroup{0};
     Vector3 mins;
     Vector3 maxs;
-    float radius{0.0f}; // If radius > 0, treated as capsule; otherwise OBB/AABB
+    float radius{0.0f};
 };
 
 struct HitPlayerPawn_t {
@@ -9914,10 +11126,11 @@ struct HitPlayerPawn_t {
     Vector3 mins{-16.0f, -16.0f, 0.0f};
     Vector3 maxs{16.0f, 16.0f, 72.0f};
     std::vector<PlayerHitbox_t> hitboxes;
+    PlayerPawnState_t pawnState{};
 };
 
 // -------------------------------------------------------------------------
-// Weapon Fire Parameters (CCSPlayerPawn::FireBullet @ FUN_1802975d0)
+// Weapon Fire Parameters
 // -------------------------------------------------------------------------
 struct FireBulletParams_t {
     Vector3 vStart;
@@ -9925,6 +11138,7 @@ struct FireBulletParams_t {
     float baseDamage{30.0f};
     float flRangeModifier{0.98f};
     float flPenetrationPower{2.0f};
+    float flArmorRatio{1.55f};
     float flMaxRange{8192.0f};
     int iPenetrationCount{4};
     int numPellets{1};
@@ -9936,42 +11150,69 @@ struct FireBulletParams_t {
 
 // -------------------------------------------------------------------------
 // Authoritative Bullet Penetration & Surface Physics Pipeline
-// Reconstructed clean-room from server.dll
+// Reconstructed from server.dll Build 26598758
 // -------------------------------------------------------------------------
 class CBulletPenetration {
 public:
     /**
-     * @brief Authoritative damage distance falloff formula:
-     * flDamage = baseDamage * pow(flRangeModifier, distance / 500.0f)
-     * Reverse engineered from FUN_180a8fca0 @ 0x180a8fd0a
+     * @brief Air Travel Distance Attenuation ODE:
+     * D_rem = D_base * pow(flRangeModifier, distance / 500.0f)
+     * server.dll @ 0x180a90280 / VA 0x180a902ea
      */
-    static float ApplyDistanceFalloff(float baseDamage, float rangeModifier, float distance);
+    static float ApplyDistanceFalloff(float baseDamage, float rangeModifier, float distance) noexcept;
 
     /**
-     * @brief Authoritative surface penetration evaluation loop.
-     * Reverse engineered from FUN_180a8fca0 in server.dll.
-     * Computes material absorption, penetration power reduction, and damage loss.
-     * 
-     * @param bullet In-flight bullet tracking state (damage, power, count, stopped)
-     * @param hit Surface interval information (thickness, materials, normals)
-     * @param ffBulletPenetration Value of ConVar ff_damage_bullet_penetration (default false)
-     * @return true if bullet penetrates through surface; false if stopped
+     * @brief Authoritative Solid Surface Absorption ODE.
+     * Evaluates material absorption, penetration power reduction, and damage loss.
+     * Reconstructed from EvaluateBulletPenetration @ RVA 0x00a90280 / VA 0x180a90280.
      */
     static bool EvaluateSurfacePenetration(BulletData_t& bullet,
                                           const SurfaceHitData_t& hit,
                                           bool ffBulletPenetration = false);
 
     /**
+     * @brief Detailed evaluation overload logging diagnostic step.
+     */
+    static bool EvaluateSurfacePenetrationDetailed(
+        const WeaponBallistics_t& weapon,
+        const SurfaceData_t& enterSurf,
+        const SurfaceData_t& exitSurf,
+        float thickness,
+        float currentDistance,
+        float& currentDamage,
+        int& remainingPenetrations,
+        PenetrationStep_t& stepOut);
+
+    /**
+     * @brief Authoritative 8-Way HitGroup Armor Coverage Check
+     * Reconstructed from CCSPlayerPawn::IsArmored @ RVA 0x00acaca0 / VA 0x180acaca0.
+     */
+    static bool IsArmored(const PlayerPawnState_t& pawn, HitGroup_t hitGroup) noexcept;
+
+    /**
+     * @brief Authoritative Armor Mitigation & Durability Depletion
+     * Reconstructed from CCSPlayerPawn::ApplyArmorDamageCalculation @ RVA 0x00a81610 / VA 0x180a81610.
+     */
+    static ArmorMitigationResult_t ApplyArmorDamageCalculation(
+        PlayerPawnState_t& pawn,
+        float incomingDamage,
+        float weaponArmorRatio,
+        HitGroup_t hitGroup,
+        bool isHeavyArmorMode = false) noexcept;
+
+    /**
+     * @brief 4-Unit Discrete Ray Interval Stepping Helper
+     * Steps forward along ray by 4.0 units (RAY_STEP_SIZE) to sample solid bounds.
+     */
+    static bool TraceToExit(
+        const Vector3& vStart,
+        const Vector3& vDirection,
+        float maxDistance,
+        Vector3& outExitPoint,
+        float stepSize = RAY_STEP_SIZE);
+
+    /**
      * @brief Ray vs Player Bounding Capsule / Studio Hitbox Clipping
-     * Reverse engineered from ClipTraceToPlayers (FUN_180181cd0 in server.dll).
-     * Tests candidate players within a 40-unit skin expansion margin.
-     * 
-     * @param vStart Ray origin
-     * @param vEnd Ray termination
-     * @param players Candidate active player pawns
-     * @param attackerHandle Handle of shooter to prevent self-collision
-     * @param outHit Output hit information if a player was intercepted
-     * @return true if a player was hit, false otherwise
      */
     static bool ClipTraceToPlayers(const Vector3& vStart,
                                   const Vector3& vEnd,
@@ -9981,20 +11222,26 @@ public:
 
     /**
      * @brief Authoritative Bullet Hitscan Pipeline
-     * Reverse engineered from CCSPlayerPawn::FireBullet (FUN_1802975d0) and FUN_180a70240.
-     * Traces rays through world geometry and player hitboxes, evaluating penetration
-     * across sequential intervals and collecting authoritative impacts.
      */
     static std::vector<BulletImpact_t> FireBulletsAuthoritative(
         const FireBulletParams_t& params,
         const std::vector<SurfaceHitData_t>& worldGeometry,
-        const std::vector<HitPlayerPawn_t>& players,
+        std::vector<HitPlayerPawn_t>& players,
         bool ffBulletPenetration = false);
 
     /**
-     * @brief Standard surface property lookup table generator for common CS2 materials.
+     * @brief Standard surface property lookup table for CS2 materials.
      */
     static SurfaceData_t GetSurfaceProperties(uint16_t materialChar);
+
+    // Material convenience helpers matching simulator
+    static SurfaceData_t GetSurfaceWood();
+    static SurfaceData_t GetSurfaceConcrete();
+    static SurfaceData_t GetSurfaceMetal();
+    static SurfaceData_t GetSurfaceFlesh();
+    static SurfaceData_t GetSurfaceCardboard();
+    static SurfaceData_t GetSurfaceGlass();
+    static SurfaceData_t GetSurfacePlastic();
 };
 
 } // namespace cs2::server
@@ -10100,6 +11347,7 @@ enum class HitGroup_t : int32_t {
     HITGROUP_NECK      = 8,
     HITGROUP_GEAR      = 10
 };
+using enum HitGroup_t;
 
 /**
  * @brief Damage type bitflags inside CTakeDamageInfo (+0x4C).
@@ -10224,6 +11472,7 @@ public:
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 
 namespace cs2::server {
 
@@ -10231,15 +11480,24 @@ using client::Vector3;
 using client::QAngle;
 
 // -------------------------------------------------------------------------
-// Authoritative Engine Constants (server.dll @ build 26144732)
+// Authoritative Engine Constants & Virtual Offsets (server.dll @ Build 26598758)
 // -------------------------------------------------------------------------
+constexpr uintptr_t VTABLE_LAGCOMPENSATION_MANAGER = 0x1819c7650;
+constexpr uintptr_t VA_START_LAG_COMPENSATION      = 0x180ED27D0; // RVA: 0x00ED27D0
+constexpr uintptr_t VA_FINISH_LAG_COMPENSATION     = 0x180EB8F40; // RVA: 0x00EB8F40
+constexpr uintptr_t VA_RESTORE_ENTITY_TO           = 0x180ECDB00; // RVA: 0x00ECDB00
+constexpr uintptr_t VA_BACKTRACK_PLAYER            = 0x180EC8950; // RVA: 0x00EC8950
+
 constexpr int MAX_BONES = 128;
-constexpr float MAX_BACKTRACK_WINDOW = 0.200f;              // sv_maxunlag: 200ms (0.200s)
-constexpr float TICK_INTERVAL_64 = 0.015625f;               // 1.0f / 64.0f (64 tick simulation)
-constexpr float TELEPORT_DISTANCE_SQR_THRESHOLD = 4096.0f;  // 64.0f^2 units: Discontinuity breaker
+constexpr size_t RING_BUFFER_CAPACITY = 64;                  // 64-tick circular buffer (1.000s @ 64Hz)
+constexpr float TICK_RATE = 64.0f;                           // Authoritative 64Hz simulation
+constexpr float TICK_INTERVAL_64 = 1.0f / TICK_RATE;         // 0.015625s (1.0f / 64.0f)
+constexpr float MAX_BACKTRACK_WINDOW = 0.200f;               // sv_maxunlag: 200ms (0.200s)
+constexpr float TELEPORT_DISTANCE_SQR_THRESHOLD = 4096.0f;   // 64.0f^2 units: Discontinuity breaker
+constexpr float SLERP_EPSILON = 0.9995f;                     // NLERP threshold for near-parallel quaternions
 
 // -------------------------------------------------------------------------
-// Lag Record Bitflags (Reversed from FUN_180ed3f10 @ 0x180ed3f10)
+// Lag Record Bitflags (Reconstructed from FUN_180ecdb00 / RestoreEntityTo)
 // -------------------------------------------------------------------------
 constexpr uint8_t LAG_RECORD_RESTORED        = 0x01; // Bit 0: Record applied / active
 constexpr uint8_t LAG_RECORD_ORIGIN_CHANGED  = 0x02; // Bit 1: World origin offset modified
@@ -10247,32 +11505,249 @@ constexpr uint8_t LAG_RECORD_ANGLES_CHANGED  = 0x04; // Bit 2: Eye angles / rota
 constexpr uint8_t LAG_RECORD_BOUNDS_CHANGED  = 0x08; // Bit 3: Collision mins/maxs modified
 constexpr uint8_t LAG_RECORD_BONES_CHANGED   = 0x10; // Bit 4: Skeletal bone matrices cached
 
-struct Matrix3x4 {
-    float m[3][4];
+// -------------------------------------------------------------------------
+// Hypercomplex Unit Quaternion (Rotation Representation)
+// -------------------------------------------------------------------------
+struct Quaternion {
+    float w = 1.0f;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
 
-    static Matrix3x4 Identity() noexcept {
-        Matrix3x4 out{};
-        out.m[0][0] = 1.0f; out.m[1][1] = 1.0f; out.m[2][2] = 1.0f;
-        return out;
+    constexpr Quaternion() noexcept = default;
+    constexpr Quaternion(float inW, float inX, float inY, float inZ) noexcept
+        : w(inW), x(inX), y(inY), z(inZ) {}
+
+    static Quaternion FromAxisAngle(const Vector3& axis, float angleRadians) noexcept {
+        const float half = angleRadians * 0.5f;
+        const float s = std::sin(half);
+        const float len = std::sqrt(axis.x * axis.x + axis.y * axis.y + axis.z * axis.z);
+        if (len <= 1e-7f) return { 1.0f, 0.0f, 0.0f, 0.0f };
+        const float invLen = 1.0f / len;
+        return { std::cos(half), axis.x * invLen * s, axis.y * invLen * s, axis.z * invLen * s };
     }
+
+    static Quaternion FromEuler(float pitchDeg, float yawDeg, float rollDeg) noexcept {
+        constexpr float degToRad = std::numbers::pi_v<float> / 180.0f;
+        const float p = pitchDeg * degToRad * 0.5f;
+        const float y = yawDeg * degToRad * 0.5f;
+        const float r = rollDeg * degToRad * 0.5f;
+
+        const float sp = std::sin(p), cp = std::cos(p);
+        const float sy = std::sin(y), cy = std::cos(y);
+        const float sr = std::sin(r), cr = std::cos(r);
+
+        return {
+            cr * cp * cy + sr * sp * sy,
+            sr * cp * cy - cr * sp * sy,
+            cr * sp * cy + sr * cp * sy,
+            cr * cp * sy - sr * sp * cy
+        };
+    }
+
+    [[nodiscard]] constexpr float Dot(const Quaternion& o) const noexcept {
+        return w * o.w + x * o.x + y * o.y + z * o.z;
+    }
+
+    [[nodiscard]] float Norm() const noexcept {
+        return std::sqrt(w * w + x * x + y * y + z * z);
+    }
+
+    [[nodiscard]] Quaternion Normalized() const noexcept {
+        const float n = Norm();
+        if (n <= 1e-7f) return { 1.0f, 0.0f, 0.0f, 0.0f };
+        const float inv = 1.0f / n;
+        return { w * inv, x * inv, y * inv, z * inv };
+    }
+
+    [[nodiscard]] constexpr Quaternion Conjugate() const noexcept {
+        return { w, -x, -y, -z };
+    }
+
+    [[nodiscard]] constexpr Quaternion operator*(const Quaternion& r) const noexcept {
+        return {
+            w * r.w - x * r.x - y * r.y - z * r.z,
+            w * r.x + x * r.w + y * r.z - z * r.y,
+            w * r.y - x * r.z + y * r.w + z * r.x,
+            w * r.z + x * r.y - y * r.x + z * r.w
+        };
+    }
+
+    [[nodiscard]] Vector3 RotateVector(const Vector3& v) const noexcept {
+        const Quaternion qv(0.0f, v.x, v.y, v.z);
+        const Quaternion res = (*this) * qv * Conjugate();
+        return { res.x, res.y, res.z };
+    }
+
+    /**
+     * @brief Geodesic Shortest-Arc Spherical Linear Interpolation (SLERP) / NLERP
+     * server.dll: shortest arc quaternion interpolation.
+     */
+    [[nodiscard]] static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t) noexcept {
+        float cosTheta = q0.Dot(q1);
+        Quaternion target = q1;
+
+        // Take shortest geodesic arc path across 4D hypersphere
+        if (cosTheta < 0.0f) {
+            cosTheta = -cosTheta;
+            target = { -q1.w, -q1.x, -q1.y, -q1.z };
+        }
+
+        // Small-angle threshold: use NLERP to prevent division by zero
+        if (cosTheta > SLERP_EPSILON) {
+            const float invT = 1.0f - t;
+            Quaternion nlerp(
+                invT * q0.w + t * target.w,
+                invT * q0.x + t * target.x,
+                invT * q0.y + t * target.y,
+                invT * q0.z + t * target.z
+            );
+            return nlerp.Normalized();
+        }
+
+        const float theta = std::acos(std::clamp(cosTheta, -1.0f, 1.0f));
+        const float sinTheta = std::sin(theta);
+        const float w0 = std::sin((1.0f - t) * theta) / sinTheta;
+        const float w1 = std::sin(t * theta) / sinTheta;
+
+        return {
+            w0 * q0.w + w1 * target.w,
+            w0 * q0.x + w1 * target.x,
+            w0 * q0.y + w1 * target.y,
+            w0 * q0.z + w1 * target.z
+        };
+    }
+
+    [[nodiscard]] bool BitwiseEqual(const Quaternion& o) const noexcept {
+        return w == o.w && x == o.x && y == o.y && z == o.z;
+    }
+};
+
+// -------------------------------------------------------------------------
+// Linear Algebra: 3x4 Affine Transformation Matrix (Row-Major)
+// -------------------------------------------------------------------------
+struct Matrix3x4 {
+    float m[3][4]{};
+
+    static constexpr Matrix3x4 Identity() noexcept {
+        Matrix3x4 mat{};
+        mat.m[0][0] = 1.0f;
+        mat.m[1][1] = 1.0f;
+        mat.m[2][2] = 1.0f;
+        return mat;
+    }
+
+    static Matrix3x4 FromQuaternionTranslation(const Quaternion& q, const Vector3& pos) noexcept {
+        Matrix3x4 mat{};
+        const float xx = q.x * q.x;
+        const float yy = q.y * q.y;
+        const float zz = q.z * q.z;
+        const float xy = q.x * q.y;
+        const float xz = q.x * q.z;
+        const float yz = q.y * q.z;
+        const float wx = q.w * q.x;
+        const float wy = q.w * q.y;
+        const float wz = q.w * q.z;
+
+        mat.m[0][0] = 1.0f - 2.0f * (yy + zz);
+        mat.m[0][1] = 2.0f * (xy - wz);
+        mat.m[0][2] = 2.0f * (xz + wy);
+        mat.m[0][3] = pos.x;
+
+        mat.m[1][0] = 2.0f * (xy + wz);
+        mat.m[1][1] = 1.0f - 2.0f * (xx + zz);
+        mat.m[1][2] = 2.0f * (yz - wx);
+        mat.m[1][3] = pos.y;
+
+        mat.m[2][0] = 2.0f * (xz - wy);
+        mat.m[2][1] = 2.0f * (yz + wx);
+        mat.m[2][2] = 1.0f - 2.0f * (xx + yy);
+        mat.m[2][3] = pos.z;
+
+        return mat;
+    }
+
+    [[nodiscard]] Vector3 TransformPoint(const Vector3& p) const noexcept {
+        return {
+            m[0][0] * p.x + m[0][1] * p.y + m[0][2] * p.z + m[0][3],
+            m[1][0] * p.x + m[1][1] * p.y + m[1][2] * p.z + m[1][3],
+            m[2][0] * p.x + m[2][1] * p.y + m[2][2] * p.z + m[2][3]
+        };
+    }
+
+    [[nodiscard]] Vector3 RotatePoint(const Vector3& p) const noexcept {
+        return {
+            m[0][0] * p.x + m[0][1] * p.y + m[0][2] * p.z,
+            m[1][0] * p.x + m[1][1] * p.y + m[1][2] * p.z,
+            m[2][0] * p.x + m[2][1] * p.y + m[2][2] * p.z
+        };
+    }
+
+    [[nodiscard]] Vector3 GetOrigin() const noexcept {
+        return { m[0][3], m[1][3], m[2][3] };
+    }
+
+    [[nodiscard]] bool BitwiseEqual(const Matrix3x4& o) const noexcept {
+        for (int r = 0; r < 3; ++r) {
+            for (int c = 0; c < 4; ++c) {
+                if (m[r][c] != o.m[r][c]) return false;
+            }
+        }
+        return true;
+    }
+};
+
+[[nodiscard]] constexpr Matrix3x4 LerpMatrix(const Matrix3x4& a, const Matrix3x4& b, float t) noexcept {
+    Matrix3x4 out{};
+    for (int r = 0; r < 3; ++r) {
+        for (int c = 0; c < 4; ++c) {
+            out.m[r][c] = a.m[r][c] + (b.m[r][c] - a.m[r][c]) * t;
+        }
+    }
+    return out;
+}
+
+// -------------------------------------------------------------------------
+// Axis-Aligned Bounding Box (AABB)
+// -------------------------------------------------------------------------
+struct AABB {
+    Vector3 mins{-16.0f, -16.0f, 0.0f};
+    Vector3 maxs{16.0f, 16.0f, 72.0f};
 };
 
 /**
  * @brief Authoritative Lag Compensation History Record (LagRecord_t)
- * Reconstructed from server.dll player_lagcompensation.cpp & FUN_180eced70
+ * Reconstructed from server.dll Build 26598758 (CLagCompensationManager)
  */
 struct LagRecord_t {
     uint32_t tickCount = 0;                                  // Server simulation tick index
     float simulationTime = 0.0f;                             // Authoritative simulation timestamp (seconds)
     float subTickFraction = 0.0f;                            // Continuous analog sub-tick offset [0.0, 1.0)
+    uint8_t flags = 0;                                       // Bitmask of modified transforms
     Vector3 origin{};                                        // World-space pawn origin coordinates
-    QAngle eyeAngles{};                                      // Eye/head orientation angles
+    QAngle eyeAngles{};                                      // Eye/head orientation Euler angles
+    Quaternion orientation{};                                // Unit quaternion rotation
     Vector3 mins{-16.0f, -16.0f, 0.0f};                      // Axis-aligned bounding box minimum
     Vector3 maxs{16.0f, 16.0f, 72.0f};                       // Axis-aligned bounding box maximum
     std::array<Matrix3x4, MAX_BONES> boneMatrices{};         // Resolved world-space bone transform cache
     size_t boneCount = 0;                                    // Active bone count (typically <= 128)
-    uint8_t flags = 0;                                       // Bitmask of modified transforms
     Vector3 preTeleportOrigin{};                             // Spatial anchor for 4096.0 sqr distance check
+
+    [[nodiscard]] bool BitwiseEqual(const LagRecord_t& o) const noexcept {
+        if (tickCount != o.tickCount || simulationTime != o.simulationTime ||
+            subTickFraction != o.subTickFraction || flags != o.flags ||
+            boneCount != o.boneCount) return false;
+
+        if (origin.x != o.origin.x || origin.y != o.origin.y || origin.z != o.origin.z) return false;
+        if (!orientation.BitwiseEqual(o.orientation)) return false;
+        if (mins.x != o.mins.x || mins.y != o.mins.y || mins.z != o.mins.z) return false;
+        if (maxs.x != o.maxs.x || maxs.y != o.maxs.y || maxs.z != o.maxs.z) return false;
+
+        for (size_t b = 0; b < boneCount; ++b) {
+            if (!boneMatrices[b].BitwiseEqual(o.boneMatrices[b])) return false;
+        }
+        return true;
+    }
 };
 
 using LagRecord = LagRecord_t;
@@ -10290,12 +11765,13 @@ struct RestoreSnapshot_t {
 };
 
 /**
- * @brief Ring buffer tracking history for a single player pawn
+ * @brief 64-Tick Ring Buffer Tracking History for a Single Player Pawn
+ * 1.000s retention at 64Hz (Build 26598758).
  */
 struct PawnTrackHistory_t {
     uint32_t pawnIndex = 0;                                  // Pawn entity index in entity list
     EntityHandle handle{};                                   // 32-bit CEntityHandle (Index + Serial)
-    std::deque<LagRecord_t> records;                         // Circular history buffer (<= 200ms)
+    std::deque<LagRecord_t> records;                         // Circular history buffer (64 ticks capacity)
     RestoreSnapshot_t restoreSnapshot;                       // Original state prior to rewind
     bool isBacktracked = false;                              // True if currently rewound for trace
 };
@@ -10303,24 +11779,31 @@ struct PawnTrackHistory_t {
 using PawnHistory = PawnTrackHistory_t;
 
 /**
- * @brief Reconstructed Server-Side Lag Compensation Engine from server.dll
+ * @brief Reconstructed Server-Side Lag Compensation Engine from server.dll (Build 26598758)
  * Reverse-engineered from CLagCompensationManager:
- * - StartLagCompensation (0x180ed8c00 / 0x180ed6f10)
- * - FinishLagCompensation (0x180ebf350)
- * - BacktrackPlayer / BacktrackEntity (0x180eced70)
- * - RestoreEntityTo (0x180ed3f10)
+ * - VTable @ 0x1819c7650
+ * - StartLagCompensation (0x180ED27D0, RVA 0x00ED27D0)
+ * - FinishLagCompensation (0x180EB8F40, RVA 0x00EB8F40)
+ * - RestoreEntityTo (0x180ECDB00, RVA 0x00ECDB00)
+ * - BacktrackPlayer / BacktrackEntity (0x180EC8950, RVA 0x00EC8950)
  */
 class CLagCompensationServer {
 public:
     static CLagCompensationServer& Get();
 
     /**
-     * @brief Records authoritative pawn state into ring buffer track.
+     * @brief Records authoritative pawn state into 64-tick ring buffer track.
      */
     void RecordDataIntoTrack(uint32_t pawnIndex, EntityHandle handle, float curTime, uint32_t tick,
                              float subTickFraction, const Vector3& origin, const QAngle& angles,
                              const Vector3& mins, const Vector3& maxs,
                              const Matrix3x4* bones, size_t boneCount, uint8_t flags = 0x1E);
+
+    // Overload taking explicit Quaternion orientation
+    void RecordDataIntoTrackQuat(uint32_t pawnIndex, EntityHandle handle, float curTime, uint32_t tick,
+                                 float subTickFraction, const Vector3& origin, const Quaternion& orientation,
+                                 const Vector3& mins, const Vector3& maxs,
+                                 const Matrix3x4* bones, size_t boneCount, uint8_t flags = 0x1E);
 
     // Legacy compatibility overload
     void RecordPawn(uint32_t pawnIndex, float curTime, uint32_t tick,
@@ -10330,39 +11813,52 @@ public:
 
     /**
      * @brief Rewinds all active target pawns to the client's continuous target timestamp.
-     * Clamped to [currentTime - maxUnlag, currentTime].
+     * Clamped to [latestTime - maxUnlag, latestTime] (sv_maxunlag: 200ms).
+     * Reconstructed from CLagCompensationManager::StartLagCompensation @ 0x180ED27D0.
      */
     bool StartLagCompensation(uint32_t attackerIndex, float targetTime,
                               float maxUnlag = MAX_BACKTRACK_WINDOW);
 
     /**
-     * @brief Sub-tick aware StartLagCompensation converting tick + subTickFraction into continuous time.
+     * @brief Sub-tick aware StartLagCompensation converting tick + w into continuous time:
+     * t_target = (tick + w) * dt - t_interp.
      */
     bool StartLagCompensationSubTick(uint32_t attackerIndex, uint32_t targetTick,
-                                     float subTickFraction, float maxUnlag = MAX_BACKTRACK_WINDOW);
+                                     float subTickFraction, float flInterp = 0.0f,
+                                     float maxUnlag = MAX_BACKTRACK_WINDOW);
 
     /**
      * @brief Restores all backtracked pawns back to their authoritative present states.
-     * Reconstructed from CLagCompensationManager::FinishLagCompensation @ 0x180ebf350.
+     * Reconstructed from CLagCompensationManager::FinishLagCompensation @ 0x180EB8F40.
      */
     void FinishLagCompensation();
 
-    // Legacy overload for single pawn index
+    // Overload for single pawn index
     void FinishLagCompensation(uint32_t pawnIndex);
 
     /**
      * @brief Backtracks an individual entity by sampling/interpolating records.
-     * Enforces the 4096.0 unit^2 teleportation breaker check (FUN_180ed3f10).
+     * Enforces the 4096.0 unit^2 (64.0 units) teleportation breaker check.
+     * Reconstructed from CLagCompensationManager::BacktrackPlayer @ 0x180EC8950.
      */
     bool BacktrackEntity(PawnTrackHistory_t& pawn, float targetTime, LagRecord_t& outRecord);
 
     /**
-     * @brief Restores an entity's physical state from snapshot (FUN_180ed3f10).
+     * @brief Direct alias matching VA 0x180EC8950.
+     */
+    bool BacktrackPlayer(PawnTrackHistory_t& pawn, float targetTime, LagRecord_t& outRecord) {
+        return BacktrackEntity(pawn, targetTime, outRecord);
+    }
+
+    /**
+     * @brief Restores an entity's physical state from snapshot.
+     * Reconstructed from CLagCompensationManager::RestoreEntityTo @ 0x180ECDB00.
      */
     bool RestoreEntityTo(PawnTrackHistory_t& pawn, const LagRecord_t& record);
 
     /**
      * @brief Interpolates between two history records at continuous fraction [0.0, 1.0].
+     * Uses geodesic Quaternion SLERP/NLERP and 3x4 affine bone matrix blending.
      */
     static bool InterpolateRecords(const LagRecord_t& older, const LagRecord_t& newer,
                                    float fraction, LagRecord_t& outRecord);
@@ -10375,11 +11871,13 @@ public:
                                  size_t boneCount = MAX_BONES);
 
     /**
-     * @brief Converts discrete tick base and analog sub-tick fraction into seconds.
+     * @brief Converts discrete tick base and analog sub-tick fraction into seconds:
+     * t_target = (tick + w) * dt - t_interp.
      */
     [[nodiscard]] static constexpr float CalculateSubTickSimulationTime(
-        uint32_t tick, float subTickFraction, float tickInterval = TICK_INTERVAL_64) noexcept {
-        return (static_cast<float>(tick) + std::clamp(subTickFraction, 0.0f, 1.0f)) * tickInterval;
+        uint32_t tick, float subTickFraction, float flInterp = 0.0f,
+        float tickInterval = TICK_INTERVAL_64) noexcept {
+        return (static_cast<float>(tick) + std::clamp(subTickFraction, 0.0f, 1.0f)) * tickInterval - flInterp;
     }
 
     [[nodiscard]] const std::vector<PawnTrackHistory_t>& GetPawns() const noexcept { return m_Pawns; }

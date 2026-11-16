@@ -3,6 +3,21 @@
 
 #include <cstdint>
 #include <cstring>
+#include <type_traits>
+
+#include "engine_client.h"
+#include "game_event_manager.h"
+#include "sound_system.h"
+#include "network_server_service.h"
+#include "network_client_service.h"
+#include "source2_server.h"
+#include "source2_client.h"
+#include "cvar.h"
+#include "schema_interface.h"
+#include "memalloc.h"
+#include "input_system.h"
+#include "file_system.h"
+#include "trace_manager.h"
 
 namespace cs2::interfaces {
 
@@ -33,6 +48,14 @@ inline void* CaptureInterface(InterfaceReg* pHead, const char* pInterfaceName) n
         }
     }
     return nullptr;
+}
+
+/**
+ * @brief Type-safe template wrapper for capturing interfaces from an InterfaceReg head.
+ */
+template <typename T>
+inline T* GetInterface(InterfaceReg* pHead, const char* pInterfaceName) noexcept {
+    return static_cast<T*>(CaptureInterface(pHead, pInterfaceName));
 }
 
 } // namespace cs2::interfaces

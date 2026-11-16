@@ -11,6 +11,9 @@
 #include <optional>
 #include <memory>
 #include <variant>
+#include <cmath>
+#include <algorithm>
+#include <cassert>
 
 #include "sdk/netmessages.hpp"
 #include "game/networksystem/netmessage_framing.h"
@@ -133,7 +136,269 @@ struct PropertyValue {
 };
 
 // ============================================================================
-// 2. Entity Update Types & Stream Framing
+// 2. Little-Endian Bitstream Reader & Writer (BitWriter / BitReader)
+// ============================================================================
+
+/**
+ * @brief Little-endian bitstream writer conforming to Source 2 wire serialization.
+ * Extracted from docs/simulators/cs2_network_delta_sim.cpp and networksystem.dll.
+ */
+class BitWriter {
+public:
+    BitWriter() {
+        m_Buffer.reserve(256);
+    }
+
+    void WriteBit(bool bit) {
+        size_t byteIndex = m_BitPosition / 8;
+        size_t bitOffset = m_BitPosition % 8;
+
+        if (byteIndex >= m_Buffer.size()) {
+            m_Buffer.push_back(0);
+        }
+
+        if (bit) {
+            m_Buffer[byteIndex] |= static_cast<uint8_t>(1u << bitOffset);
+        } else {
+            m_Buffer[byteIndex] &= static_cast<uint8_t>(~(1u << bitOffset));
+        }
+
+        ++m_BitPosition;
+    }
+
+    void WriteBits(uint64_t value, size_t numBits) {
+        assert(numBits <= 64);
+        for (size_t i = 0; i < numBits; ++i) {
+            WriteBit((value & (1ULL << i)) != 0);
+        }
+    }
+
+    void WriteUBits(uint32_t value, size_t numBits) {
+        assert(numBits <= 32);
+        for (size_t i = 0; i < numBits; ++i) {
+            WriteBit((value & (1u << i)) != 0);
+        }
+    }
+
+    void WriteVarUInt32(uint32_t val) {
+        while (val >= 0x80) {
+            WriteUBits((val & 0x7Fu) | 0x80u, 8);
+            val >>= 7;
+        }
+        WriteUBits(val, 8);
+    }
+
+    void WriteVarInt32(int32_t val) {
+        // ZigZag encoding for signed LEB128
+        auto encoded = static_cast<uint32_t>((val << 1) ^ (val >> 31));
+        WriteVarUInt32(encoded);
+    }
+
+    void WriteQuantizedFloat(float value, float minVal, float maxVal, size_t bitCount) {
+        assert(bitCount >= 1 && bitCount <= 32);
+        float clamped = std::clamp(value, minVal, maxVal);
+        float range = maxVal - minVal;
+        if (range <= 1e-7f) {
+            WriteUBits(0, bitCount);
+            return;
+        }
+
+        float normalized = (clamped - minVal) / range;
+        uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+        uint32_t quantized = static_cast<uint32_t>(std::round(normalized * static_cast<float>(maxSteps)));
+        WriteUBits(quantized, bitCount);
+    }
+
+    void WriteBytes(const uint8_t* data, size_t byteCount) {
+        for (size_t i = 0; i < byteCount; ++i) {
+            WriteUBits(data[i], 8);
+        }
+    }
+
+    [[nodiscard]] size_t GetBitPosition() const noexcept { return m_BitPosition; }
+    [[nodiscard]] size_t GetByteSize() const noexcept { return (m_BitPosition + 7) / 8; }
+    [[nodiscard]] const std::vector<uint8_t>& GetData() const noexcept { return m_Buffer; }
+
+private:
+    std::vector<uint8_t> m_Buffer;
+    size_t m_BitPosition{0};
+};
+
+/**
+ * @brief Little-endian bitstream reader conforming to Source 2 wire serialization.
+ * Extracted from docs/simulators/cs2_network_delta_sim.cpp and networksystem.dll.
+ */
+class BitReader {
+public:
+    BitReader(const uint8_t* data, size_t numBits)
+        : m_Data(data), m_TotalBits(numBits), m_BitPosition(0), m_Overflow(false) {}
+
+    explicit BitReader(const BitWriter& writer)
+        : m_Data(writer.GetData().data()), m_TotalBits(writer.GetBitPosition()), m_BitPosition(0), m_Overflow(false) {}
+
+    explicit BitReader(CBitReadStream& stream)
+        : m_Data(stream.GetData()), m_TotalBits(stream.GetTotalBits()), m_BitPosition(stream.GetBitsRead()), m_Overflow(stream.HasOverflowed()) {}
+
+    bool ReadBit() {
+        if (m_BitPosition >= m_TotalBits) {
+            m_Overflow = true;
+            return false;
+        }
+
+        size_t byteIndex = m_BitPosition / 8;
+        size_t bitOffset = m_BitPosition % 8;
+        ++m_BitPosition;
+
+        return (m_Data[byteIndex] & (1u << bitOffset)) != 0;
+    }
+
+    uint64_t ReadBits(size_t numBits) {
+        assert(numBits <= 64);
+        uint64_t value = 0;
+        for (size_t i = 0; i < numBits; ++i) {
+            if (ReadBit()) {
+                value |= (1ULL << i);
+            }
+        }
+        return value;
+    }
+
+    uint32_t ReadUBits(size_t numBits) {
+        assert(numBits <= 32);
+        uint32_t value = 0;
+        for (size_t i = 0; i < numBits; ++i) {
+            if (ReadBit()) {
+                value |= (1u << i);
+            }
+        }
+        return value;
+    }
+
+    uint32_t ReadVarUInt32() {
+        uint32_t result = 0;
+        size_t shift = 0;
+        while (shift < 35) {
+            uint32_t byteVal = ReadUBits(8);
+            result |= (byteVal & 0x7Fu) << shift;
+            if (!(byteVal & 0x80u)) {
+                return result;
+            }
+            shift += 7;
+        }
+        return result;
+    }
+
+    int32_t ReadVarInt32() {
+        uint32_t raw = ReadVarUInt32();
+        return static_cast<int32_t>((raw >> 1) ^ (-(static_cast<int32_t>(raw & 1))));
+    }
+
+    float ReadQuantizedFloat(float minVal, float maxVal, size_t bitCount) {
+        assert(bitCount >= 1 && bitCount <= 32);
+        uint32_t quantized = ReadUBits(bitCount);
+        uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+        float range = maxVal - minVal;
+        if (maxSteps == 0) return minVal;
+        float factor = static_cast<float>(quantized) / static_cast<float>(maxSteps);
+        return minVal + factor * range;
+    }
+
+    bool ReadBytes(uint8_t* out, size_t byteCount) {
+        if (m_BitPosition + (byteCount * 8) > m_TotalBits) {
+            m_Overflow = true;
+            return false;
+        }
+        for (size_t i = 0; i < byteCount; ++i) {
+            out[i] = static_cast<uint8_t>(ReadUBits(8));
+        }
+        return true;
+    }
+
+    [[nodiscard]] size_t GetBitPosition() const noexcept { return m_BitPosition; }
+    [[nodiscard]] size_t GetTotalBits() const noexcept { return m_TotalBits; }
+    [[nodiscard]] size_t GetRemainingBits() const noexcept {
+        return (m_BitPosition < m_TotalBits) ? (m_TotalBits - m_BitPosition) : 0;
+    }
+    [[nodiscard]] bool HasOverflowed() const noexcept { return m_Overflow; }
+
+    void Seek(size_t bitPos) noexcept {
+        m_BitPosition = std::min(bitPos, m_TotalBits);
+    }
+
+private:
+    const uint8_t* m_Data{nullptr};
+    size_t m_TotalBits{0};
+    size_t m_BitPosition{0};
+    bool m_Overflow{false};
+};
+
+// ============================================================================
+// 3. Floating-Point Quantization Functions
+// ============================================================================
+
+[[nodiscard]] constexpr inline uint32_t QuantizeFloat(float value, float minVal, float maxVal, size_t bitCount) noexcept {
+    float clamped = std::clamp(value, minVal, maxVal);
+    float range = maxVal - minVal;
+    if (range <= 1e-7f || bitCount == 0 || bitCount > 32) return 0;
+    float normalized = (clamped - minVal) / range;
+    uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+    return static_cast<uint32_t>(normalized * static_cast<float>(maxSteps) + 0.5f);
+}
+
+[[nodiscard]] constexpr inline float DequantizeFloat(uint32_t rawBits, float minVal, float maxVal, size_t bitCount) noexcept {
+    if (bitCount == 0 || bitCount > 32) return minVal;
+    uint64_t maxSteps = (1ULL << bitCount) - 1ULL;
+    if (maxSteps == 0) return minVal;
+    float factor = static_cast<float>(rawBits) / static_cast<float>(maxSteps);
+    return minVal + factor * (maxVal - minVal);
+}
+
+// ============================================================================
+// 4. Complete 40-Operation FieldPath Huffman Codec & Virtual Machine
+// ============================================================================
+
+struct HuffmanCode {
+    uint32_t code{0};
+    uint8_t bitLength{0};
+};
+
+class FieldPathHuffmanCodec {
+public:
+    FieldPathHuffmanCodec();
+
+    void EncodeOp(BitWriter& writer, FieldPathOp op) const;
+    FieldPathOp DecodeOp(BitReader& reader) const;
+
+    [[nodiscard]] const HuffmanCode& GetCode(FieldPathOp op) const noexcept {
+        return m_CodeTable[static_cast<size_t>(op)];
+    }
+
+private:
+    void BuildCanonicalTable();
+    HuffmanCode m_CodeTable[40];
+};
+
+/**
+ * @brief Source 2 FieldPath Encoder / Decoder State Machine.
+ * Supports all 40 operations from networksystem.dll.
+ */
+class FieldPathStreamEngine {
+public:
+    explicit FieldPathStreamEngine(const FieldPathHuffmanCodec& codec)
+        : m_Codec(codec) {}
+
+    void WriteFieldPaths(BitWriter& writer, const std::vector<FieldPath>& paths) const;
+    std::vector<FieldPath> ReadFieldPaths(BitReader& reader) const;
+
+    void EncodeTransition(BitWriter& writer, const FieldPath& curr, const FieldPath& next) const;
+    void ExecuteOp(BitReader& reader, FieldPath& path, FieldPathOp op) const;
+
+private:
+    const FieldPathHuffmanCodec& m_Codec;
+};
+
+// ============================================================================
+// 5. Entity Update Types & Stream Framing
 // ============================================================================
 
 enum class EntityUpdateType : uint8_t {
@@ -152,13 +417,9 @@ struct EntityDeltaHeader {
 };
 
 // ============================================================================
-// 3. Entity Baseline Snapshot Storage
+// 6. Entity Baseline Snapshot Storage
 // ============================================================================
 
-/**
- * @brief Thread-safe baseline snapshot storage cache.
- * Source 2 maintains baseline slots (0 = default, 1 = alternate, etc.) for entity templates.
- */
 class CEntityBaselineStorage {
 public:
     static constexpr uint32_t MAX_BASELINES = 64;
@@ -178,12 +439,11 @@ public:
     [[nodiscard]] size_t GetEntityCount(uint32_t baselineIndex) const;
 
 private:
-    // baselineIndex -> (entityIndex -> property map)
     std::unordered_map<uint32_t, std::unordered_map<uint32_t, std::unordered_map<std::string, PropertyValue>>> m_Baselines;
 };
 
 // ============================================================================
-// 4. Field Change Callback Dispatcher
+// 7. Field Change Callback Dispatcher
 // ============================================================================
 
 using FieldChangeCallbackFn = std::function<void(
@@ -193,9 +453,6 @@ using FieldChangeCallbackFn = std::function<void(
     const PropertyValue& oldValue,
     const PropertyValue& newValue)>;
 
-/**
- * @brief Dispatches property change notifications to registered client subsystems.
- */
 class CFieldChangeDispatcher {
 public:
     CFieldChangeDispatcher() = default;
@@ -223,7 +480,7 @@ private:
 };
 
 // ============================================================================
-// 5. Active Entity State Snapshot
+// 8. Active Entity State Snapshot
 // ============================================================================
 
 class CEntitySnapshot {
@@ -243,43 +500,37 @@ public:
 };
 
 // ============================================================================
-// 6. Source 2 Entity Delta Codec (Clean-Room Engine)
+// 9. Source 2 Entity Delta Codec (Clean-Room Engine)
 // ============================================================================
 
-/**
- * @brief Complete reconstructed Source 2 entity delta decompression and serialization engine.
- */
 class CEntityDeltaCodec {
 public:
     CEntityDeltaCodec() = default;
 
-    // Serializer registration
     void RegisterSerializer(uint32_t classId, CFlattenedSerializer serializer);
     [[nodiscard]] const CFlattenedSerializer* GetSerializer(uint32_t classId) const;
 
-    // Baseline storage access
     [[nodiscard]] CEntityBaselineStorage& GetBaselineStorage() noexcept { return m_BaselineStorage; }
     [[nodiscard]] const CEntityBaselineStorage& GetBaselineStorage() const noexcept { return m_BaselineStorage; }
 
-    // Dispatcher access
     [[nodiscard]] CFieldChangeDispatcher& GetDispatcher() noexcept { return m_Dispatcher; }
     [[nodiscard]] const CFieldChangeDispatcher& GetDispatcher() const noexcept { return m_Dispatcher; }
 
-    // Active entity snapshot lookup
     [[nodiscard]] const CEntitySnapshot* GetEntity(uint32_t entityIndex) const;
     [[nodiscard]] CEntitySnapshot* GetEntityMutable(uint32_t entityIndex);
+    CEntitySnapshot& CreateEntity(uint32_t entityIndex, uint32_t classId = 0) {
+        auto& ent = m_ActiveEntities[entityIndex];
+        ent.m_nEntityIndex = entityIndex;
+        ent.m_nClassId = classId;
+        ent.m_bActive = true;
+        return ent;
+    }
     [[nodiscard]] const std::unordered_map<uint32_t, CEntitySnapshot>& GetAllEntities() const noexcept { return m_ActiveEntities; }
 
-    /**
-     * @brief Decodes a full CSVCMsg_PacketEntities message with bitstream payload.
-     */
     bool DecodePacketEntities(const sdk::CSVCMsg_PacketEntities& msg,
                              const uint8_t* pPayloadData,
                              size_t nPayloadBytes);
 
-    /**
-     * @brief Encodes an entity delta snapshot into a CSVCMsg_PacketEntities message and bitstream.
-     */
     bool EncodePacketEntities(const std::vector<uint32_t>& updatedEntityIndices,
                              bool isDelta,
                              int32_t deltaFrom,
@@ -287,15 +538,12 @@ public:
                              sdk::CSVCMsg_PacketEntities& outMsg,
                              CBitWriteStream& outStream);
 
-    // Bitstream low-level wire serialization helpers
     static PropertyValue DecodeFieldValue(CBitReadStream& stream, const SerializedFieldInfo& fieldInfo);
     static void EncodeFieldValue(CBitWriteStream& stream, const SerializedFieldInfo& fieldInfo, const PropertyValue& val);
 
-    // Entity index delta bitstream reading
     static uint32_t ReadEntityIndexDelta(CBitReadStream& stream, uint32_t prevIndex);
     static void WriteEntityIndexDelta(CBitWriteStream& stream, uint32_t currentIndex, uint32_t prevIndex);
 
-    // Entity delta header reading
     static EntityDeltaHeader ReadEntityHeader(CBitReadStream& stream, uint32_t prevIndex, bool isDelta);
     static void WriteEntityHeader(CBitWriteStream& stream, const EntityDeltaHeader& header, uint32_t prevIndex, bool isDelta);
 

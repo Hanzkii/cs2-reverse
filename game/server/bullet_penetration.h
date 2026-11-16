@@ -2,6 +2,7 @@
 #define CS2_SERVER_BULLET_PENETRATION_H
 
 #include "../client/viewmatrix.h"
+#include "hit_registration_damage.h"
 #include <cstdint>
 #include <cmath>
 #include <vector>
@@ -11,6 +12,17 @@
 namespace cs2::server {
 
 using client::Vector3;
+
+// -------------------------------------------------------------------------
+// Authoritative Engine Constants & Virtual Offsets (server.dll @ Build 26598758)
+// -------------------------------------------------------------------------
+constexpr uintptr_t VA_EVALUATE_BULLET_PENETRATION     = 0x180a90280; // RVA: 0x00a90280
+constexpr uintptr_t VA_APPLY_ARMOR_DAMAGE_CALCULATION = 0x180a81610; // RVA: 0x00a81610
+constexpr uintptr_t VA_IS_ARMORED                     = 0x180acaca0; // RVA: 0x00acaca0
+
+constexpr float RAY_STEP_SIZE              = 4.0f;    // 4-unit discrete ray interval stepping
+constexpr float MAX_PENETRATION_DISTANCE  = 3000.0f; // Maximum travel distance gate for penetration
+constexpr float MIN_PENETRATION_MODIFIER  = 0.10f;   // Minimum material penetration modifier gate
 
 // -------------------------------------------------------------------------
 // Source 2 / CS2 Authoritative Material Texture Characters
@@ -27,13 +39,13 @@ constexpr uint16_t CHAR_TEX_GLASS        = 'G'; // 0x47 (Glass)
 constexpr uint16_t CHAR_TEX_ALIENFLESH   = 'H'; // 0x48
 constexpr uint16_t CHAR_TEX_CLIP         = 'I'; // 0x49
 constexpr uint16_t CHAR_TEX_PLASTIC      = 'L'; // 0x4C (Light metal / sheet metal / plastic)
-constexpr uint16_t CHAR_TEX_METAL        = 'M'; // 0x4D (Solid Metal)
+constexpr uint16_t CHAR_TEX_METAL        = 'M'; // 0x4D (Solid Metal / Steel)
 constexpr uint16_t CHAR_TEX_SAND         = 'N'; // 0x4E
 constexpr uint16_t CHAR_TEX_FOLIAGE      = 'O'; // 0x4F
 constexpr uint16_t CHAR_TEX_COMPUTER     = 'P'; // 0x50
 constexpr uint16_t CHAR_TEX_SLOSH        = 'S'; // 0x53
 constexpr uint16_t CHAR_TEX_TILE         = 'T'; // 0x54
-constexpr uint16_t CHAR_TEX_CARDBOARD    = 'U'; // 0x55 (Cardboard / thin panel)
+constexpr uint16_t CHAR_TEX_CARDBOARD    = 'U'; // 0x55 (Cardboard / Drywall)
 constexpr uint16_t CHAR_TEX_VENT         = 'V'; // 0x56
 constexpr uint16_t CHAR_TEX_WOOD         = 'W'; // 0x57 (Wood)
 constexpr uint16_t CHAR_TEX_SHATTERGLASS = 'Y'; // 0x59 (Shatterglass / Plexiglass)
@@ -41,14 +53,15 @@ constexpr uint16_t CHAR_TEX_SHATTERGLASS = 'Y'; // 0x59 (Shatterglass / Plexigla
 // Surface descriptor bitflags (Bit 13 tested via BT reg, 0xd @ 0x180a902eb)
 constexpr uint32_t SURF_FLAG_GRATE_MESH  = (1 << 13); // 0x2000
 
+
+
 // -------------------------------------------------------------------------
 // Reconstructed 32-Byte Rubikon Physics Surface Property Layout
-// Reversed from FUN_180be1120 in server.dll (surfaceproperties_game.txt)
 // -------------------------------------------------------------------------
 struct SurfaceData_t {
     float maxSpeedFactor{1.0f};                    // +0x00
     float jumpFactor{1.0f};                        // +0x04
-    float bulletPenetrationDistanceModifier{1.0f}; // +0x08 (flPenetrationDistance)
+    float bulletPenetrationDistanceModifier{1.0f}; // +0x08 (flPenetrationDistance / flPenetrationModifier)
     float bulletPenetrationDamageModifier{0.16f};  // +0x0C (flDamageModifier, default 0.16)
     uint32_t stringToken{0};                       // +0x10 (MurmurHash2 / FNV-1a token)
     uint16_t materialChar{CHAR_TEX_CONCRETE};      // +0x14 (e.g. 'C', 'W', 'M', 'G', 'F', 'Y')
@@ -65,7 +78,6 @@ struct SurfaceData_t {
 
 // -------------------------------------------------------------------------
 // In-Flight Bullet Parameter Block
-// Corresponds to param_2 array in FUN_180a8fca0
 // -------------------------------------------------------------------------
 struct BulletData_t {
     float currentDamage{0.0f};      // param_2[0]: Current accumulated damage
@@ -77,8 +89,56 @@ struct BulletData_t {
 };
 
 // -------------------------------------------------------------------------
+// Weapon Ballistics Profile
+// -------------------------------------------------------------------------
+struct WeaponBallistics_t {
+    const char* m_pName{"AK-47"};
+    float       m_flDamage{36.0f};          // Base damage at 0 range
+    float       m_flRangeModifier{0.98f};   // Falloff coefficient per 500 units
+    float       m_flPenetrationPower{2.0f}; // Penetration power multiplier
+    float       m_flArmorRatio{1.55f};      // Weapon Armor Penetration Ratio (e.g. 1.55f = 77.5%)
+    float       m_flMaxRange{8192.0f};      // Maximum ballistic range
+    int         m_nMaxPenetrations{4};      // Maximum material surfaces
+};
+
+// -------------------------------------------------------------------------
+// Player Defense State (Vitality & Defensive Armor)
+// -------------------------------------------------------------------------
+struct PlayerPawnState_t {
+    int32_t m_iHealth{100};
+    int32_t m_ArmorValue{100};
+    bool    m_bHasHelmet{true};
+    bool    m_bHasHeavyArmor{false};
+};
+
+// -------------------------------------------------------------------------
+// Armor Mitigation Calculation Output
+// -------------------------------------------------------------------------
+struct ArmorMitigationResult_t {
+    float   m_flHealthDamage{0.0f};
+    int32_t m_iArmorAbsorbed{0};
+    int32_t m_iRemainingArmor{0};
+    int32_t m_iRemainingHealth{0};
+    bool    m_bArmoredCovered{false};
+};
+
+// -------------------------------------------------------------------------
+// Penetration Step Diagnostic Record
+// -------------------------------------------------------------------------
+struct PenetrationStep_t {
+    int         m_nStepIndex{0};
+    std::string m_sMaterialName;
+    float       m_flEntryDistance{0.0f};
+    float       m_flThickness{0.0f};
+    float       m_flDamageBefore{0.0f};
+    float       m_flDamageAfter{0.0f};
+    float       m_flDamageLost{0.0f};
+    bool        m_bPenetrated{false};
+    std::string m_sFailReason;
+};
+
+// -------------------------------------------------------------------------
 // Surface Hit & Ray Interval Descriptor
-// Corresponds to param_3 interval record in FUN_180a6ca20 / FUN_180a8fca0
 // -------------------------------------------------------------------------
 struct SurfaceHitData_t {
     float tEnter{0.0f};             // Entry fraction along ray [0.0, 1.0]
@@ -99,7 +159,6 @@ struct SurfaceHitData_t {
 
 // -------------------------------------------------------------------------
 // Authoritative Bullet Impact Event Data
-// Emitted as "bullet_impact" event in FUN_180a70240 @ 0x180a70a61
 // -------------------------------------------------------------------------
 struct BulletImpact_t {
     Vector3 position;
@@ -116,10 +175,10 @@ struct BulletImpact_t {
 // -------------------------------------------------------------------------
 struct PlayerHitbox_t {
     int hitboxId{0};
-    int hitGroup{0}; // 1 = Head, 2 = Chest, 3 = Stomach, 4 = Left Arm, 5 = Right Arm, 6 = Left Leg, 7 = Right Leg
+    int hitGroup{0};
     Vector3 mins;
     Vector3 maxs;
-    float radius{0.0f}; // If radius > 0, treated as capsule; otherwise OBB/AABB
+    float radius{0.0f};
 };
 
 struct HitPlayerPawn_t {
@@ -130,10 +189,11 @@ struct HitPlayerPawn_t {
     Vector3 mins{-16.0f, -16.0f, 0.0f};
     Vector3 maxs{16.0f, 16.0f, 72.0f};
     std::vector<PlayerHitbox_t> hitboxes;
+    PlayerPawnState_t pawnState{};
 };
 
 // -------------------------------------------------------------------------
-// Weapon Fire Parameters (CCSPlayerPawn::FireBullet @ FUN_1802975d0)
+// Weapon Fire Parameters
 // -------------------------------------------------------------------------
 struct FireBulletParams_t {
     Vector3 vStart;
@@ -141,6 +201,7 @@ struct FireBulletParams_t {
     float baseDamage{30.0f};
     float flRangeModifier{0.98f};
     float flPenetrationPower{2.0f};
+    float flArmorRatio{1.55f};
     float flMaxRange{8192.0f};
     int iPenetrationCount{4};
     int numPellets{1};
@@ -152,42 +213,69 @@ struct FireBulletParams_t {
 
 // -------------------------------------------------------------------------
 // Authoritative Bullet Penetration & Surface Physics Pipeline
-// Reconstructed clean-room from server.dll
+// Reconstructed from server.dll Build 26598758
 // -------------------------------------------------------------------------
 class CBulletPenetration {
 public:
     /**
-     * @brief Authoritative damage distance falloff formula:
-     * flDamage = baseDamage * pow(flRangeModifier, distance / 500.0f)
-     * Reverse engineered from FUN_180a8fca0 @ 0x180a8fd0a
+     * @brief Air Travel Distance Attenuation ODE:
+     * D_rem = D_base * pow(flRangeModifier, distance / 500.0f)
+     * server.dll @ 0x180a90280 / VA 0x180a902ea
      */
-    static float ApplyDistanceFalloff(float baseDamage, float rangeModifier, float distance);
+    static float ApplyDistanceFalloff(float baseDamage, float rangeModifier, float distance) noexcept;
 
     /**
-     * @brief Authoritative surface penetration evaluation loop.
-     * Reverse engineered from FUN_180a8fca0 in server.dll.
-     * Computes material absorption, penetration power reduction, and damage loss.
-     * 
-     * @param bullet In-flight bullet tracking state (damage, power, count, stopped)
-     * @param hit Surface interval information (thickness, materials, normals)
-     * @param ffBulletPenetration Value of ConVar ff_damage_bullet_penetration (default false)
-     * @return true if bullet penetrates through surface; false if stopped
+     * @brief Authoritative Solid Surface Absorption ODE.
+     * Evaluates material absorption, penetration power reduction, and damage loss.
+     * Reconstructed from EvaluateBulletPenetration @ RVA 0x00a90280 / VA 0x180a90280.
      */
     static bool EvaluateSurfacePenetration(BulletData_t& bullet,
                                           const SurfaceHitData_t& hit,
                                           bool ffBulletPenetration = false);
 
     /**
+     * @brief Detailed evaluation overload logging diagnostic step.
+     */
+    static bool EvaluateSurfacePenetrationDetailed(
+        const WeaponBallistics_t& weapon,
+        const SurfaceData_t& enterSurf,
+        const SurfaceData_t& exitSurf,
+        float thickness,
+        float currentDistance,
+        float& currentDamage,
+        int& remainingPenetrations,
+        PenetrationStep_t& stepOut);
+
+    /**
+     * @brief Authoritative 8-Way HitGroup Armor Coverage Check
+     * Reconstructed from CCSPlayerPawn::IsArmored @ RVA 0x00acaca0 / VA 0x180acaca0.
+     */
+    static bool IsArmored(const PlayerPawnState_t& pawn, HitGroup_t hitGroup) noexcept;
+
+    /**
+     * @brief Authoritative Armor Mitigation & Durability Depletion
+     * Reconstructed from CCSPlayerPawn::ApplyArmorDamageCalculation @ RVA 0x00a81610 / VA 0x180a81610.
+     */
+    static ArmorMitigationResult_t ApplyArmorDamageCalculation(
+        PlayerPawnState_t& pawn,
+        float incomingDamage,
+        float weaponArmorRatio,
+        HitGroup_t hitGroup,
+        bool isHeavyArmorMode = false) noexcept;
+
+    /**
+     * @brief 4-Unit Discrete Ray Interval Stepping Helper
+     * Steps forward along ray by 4.0 units (RAY_STEP_SIZE) to sample solid bounds.
+     */
+    static bool TraceToExit(
+        const Vector3& vStart,
+        const Vector3& vDirection,
+        float maxDistance,
+        Vector3& outExitPoint,
+        float stepSize = RAY_STEP_SIZE);
+
+    /**
      * @brief Ray vs Player Bounding Capsule / Studio Hitbox Clipping
-     * Reverse engineered from ClipTraceToPlayers (FUN_180181cd0 in server.dll).
-     * Tests candidate players within a 40-unit skin expansion margin.
-     * 
-     * @param vStart Ray origin
-     * @param vEnd Ray termination
-     * @param players Candidate active player pawns
-     * @param attackerHandle Handle of shooter to prevent self-collision
-     * @param outHit Output hit information if a player was intercepted
-     * @return true if a player was hit, false otherwise
      */
     static bool ClipTraceToPlayers(const Vector3& vStart,
                                   const Vector3& vEnd,
@@ -197,20 +285,26 @@ public:
 
     /**
      * @brief Authoritative Bullet Hitscan Pipeline
-     * Reverse engineered from CCSPlayerPawn::FireBullet (FUN_1802975d0) and FUN_180a70240.
-     * Traces rays through world geometry and player hitboxes, evaluating penetration
-     * across sequential intervals and collecting authoritative impacts.
      */
     static std::vector<BulletImpact_t> FireBulletsAuthoritative(
         const FireBulletParams_t& params,
         const std::vector<SurfaceHitData_t>& worldGeometry,
-        const std::vector<HitPlayerPawn_t>& players,
+        std::vector<HitPlayerPawn_t>& players,
         bool ffBulletPenetration = false);
 
     /**
-     * @brief Standard surface property lookup table generator for common CS2 materials.
+     * @brief Standard surface property lookup table for CS2 materials.
      */
     static SurfaceData_t GetSurfaceProperties(uint16_t materialChar);
+
+    // Material convenience helpers matching simulator
+    static SurfaceData_t GetSurfaceWood();
+    static SurfaceData_t GetSurfaceConcrete();
+    static SurfaceData_t GetSurfaceMetal();
+    static SurfaceData_t GetSurfaceFlesh();
+    static SurfaceData_t GetSurfaceCardboard();
+    static SurfaceData_t GetSurfaceGlass();
+    static SurfaceData_t GetSurfacePlastic();
 };
 
 } // namespace cs2::server

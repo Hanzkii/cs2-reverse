@@ -7,29 +7,34 @@
 namespace cs2::interfaces {
 
 /**
- * @brief Spatial Query Master Interface (CGameTraceManager / IEngineTrace)
- * Global Instance in client.dll: +0x02229020 (VA: 0x182229020)
- * Static BSS Instance in client.dll: +0x0254cf30 (VA: 0x18254cf30)
+ * @brief Source 2 Spatial Query & Ray-Tracing Subsystem Interface (ITraceManager / CGameTraceManager)
+ * Token: "CGameTraceManager" in server.dll
+ * VTable: server.dll + 0x19d2ba8 (6 virtual slots)
  */
-class CGameTraceManager {
+class ITraceManager {
 public:
-    virtual ~CGameTraceManager() = default;
+    // Slot 0: Virtual destructor
+    virtual ~ITraceManager() = default;
 
-    // Slot 1: ClipRayToEntity (RVA: +0x00a1b8a0, VA: 0x180a1b8a0)
+    // Slot 1: Clips ray trajectory against specific entity
     virtual bool ClipRayToEntity(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, void* pEntity, shared::GameTrace_t* pTrace) = 0;
 
-    // Slot 2: ClipRayToCollideable
+    // Slot 2: Clips ray against collideable physics proxy
     virtual bool ClipRayToCollideable(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, void* pCollide, shared::GameTrace_t* pTrace) = 0;
 
-    // Slot 3: TraceRay
+    // Slot 3: Performs broadphase & narrowphase scene raycast
     virtual void TraceRay(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, shared::GameTrace_t* pTrace) = 0;
 
-    // Slot 4: SetupTraceShape
+    // Slot 4: Initializes bounding volume shape for sweep test
     virtual void SetupTraceShape(void* pShape, const shared::Ray_t* pRay) = 0;
 
-    // Slot 5: TraceShape (RVA: +0x00a1ae30, VA: 0x180a1ae30)
+    // Slot 5: Executes swept shape query against world physics
     virtual bool TraceShape(const shared::Ray_t* pRay, const shared::CTraceFilter* pFilter, shared::GameTrace_t* pTrace) = 0;
+
 };
+static_assert(sizeof(ITraceManager) == 0x08, "ITraceManager interface pointer must be 8 bytes");
+
+using CGameTraceManager = ITraceManager;
 
 } // namespace cs2::interfaces
 
