@@ -3085,40 +3085,236 @@
       if (!diff || !diff.ai_overview) return;
       const ai = diff.ai_overview;
       const items = ai.items_added || [];
-      
-      let text = `📦 ${ai.title || 'CS2 Update Intelligence'}\n`;
-      text += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-      text += `📝 Executive Summary:\n${ai.executive_summary || ''}\n\n`;
-      
-      if (items.length > 0) {
-        text += `✨ What's Added & Changed in this Update:\n`;
-        items.forEach(it => {
-          text += `  • ${it}\n`;
+      const buildId = diff.new_build_id || newTag;
+
+      // Strictly budgeted for Discord non-Nitro limit (2,000 characters) - target <= 1,750 chars
+      let text = `🎮 **CS2 Update Briefing** • Build \`${buildId}\`\n`;
+      text += `> **${ai.title || 'CS2 Update Intelligence'}**\n\n`;
+
+      if (ai.executive_summary) {
+        text += `📝 **TL;DR:** ${ai.executive_summary}\n\n`;
+      }
+
+      // Partition hidden updates from core updates
+      const hidden = items.filter(it => it.toLowerCase().includes('hidden') || it.toLowerCase().includes('convar'));
+      const core = items.filter(it => !it.toLowerCase().includes('hidden') && !it.toLowerCase().includes('convar'));
+
+      if (hidden.length > 0) {
+        text += `🕵️ **Hidden Engine Updates & ConVars:**\n`;
+        hidden.forEach(it => {
+          text += `• ${it}\n`;
         });
         text += `\n`;
       }
-      
-      const subsystems = ai.subsystems || [];
-      if (subsystems.length > 0) {
-        text += `🏷️ Subsystems Impacted:\n`;
-        subsystems.forEach(sub => {
-          text += `  • [${sub.status || 'STATUS'}] ${sub.name}: ${sub.description}\n`;
+
+      if (core.length > 0) {
+        text += `✨ **Core Changes & Fixes:**\n`;
+        core.forEach(it => {
+          text += `• ${it}\n`;
         });
         text += `\n`;
       }
-      
-      text += `🔗 Full Reverse Engineering Breakdown & Code Deltas:\nhttps://hanzkii.github.io/cs2-reverse/docs/#diff/patches`;
+
+      const footer = `🔗 **Interactive Diffs & Disassembly:**\nhttps://hanzkii.github.io/cs2-reverse/docs/#diff/patches`;
+
+      // Enforce strict Discord 2000 character limit
+      if ((text + footer).length > 1900) {
+        const allowed = 1900 - footer.length - 20;
+        text = text.substring(0, allowed) + '...\n\n';
+      }
+      text += footer;
 
       navigator.clipboard.writeText(text).then(() => {
         const btnText = document.getElementById('copyBtnText_' + newTag);
         if (btnText) {
           const orig = btnText.innerText;
-          btnText.innerText = '✓ Copied!';
+          btnText.innerText = '✓ Copied for Discord!';
           setTimeout(() => { btnText.innerText = orig; }, 2500);
         }
       }).catch(err => {
         console.error('Clipboard copy failed:', err);
       });
+    }
+
+    function copyPatchImage(oldTag, newTag) {
+      const diff = (typeof DIFFS_DATA !== 'undefined' ? DIFFS_DATA : []).find(d => d.old_tag === oldTag && d.new_tag === newTag);
+      if (!diff || !diff.ai_overview) return;
+      const ai = diff.ai_overview;
+      const buildId = diff.new_build_id || newTag;
+      const btnText = document.getElementById('copyImgBtnText_' + newTag);
+      if (btnText) btnText.innerText = 'Rendering...';
+
+      const canvas = document.createElement('canvas');
+      const scale = 2; // High-DPI retina sharpness
+      canvas.width = 1100 * scale;
+      canvas.height = 640 * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      // Background
+      ctx.fillStyle = '#0B0F19';
+      ctx.fillRect(0, 0, 1100, 640);
+
+      // Top cyan bar
+      ctx.fillStyle = '#06B6D4';
+      ctx.fillRect(0, 0, 1100, 5);
+
+      function drawRoundRect(x, y, w, h, r, fill, stroke, fillStyle, strokeStyle) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+        if (fill) { ctx.fillStyle = fillStyle; ctx.fill(); }
+        if (stroke) { ctx.strokeStyle = strokeStyle; ctx.stroke(); }
+      }
+
+      function drawWrapped(text, x, y, maxW, lineH, maxLines) {
+        const words = (text || '').split(' ');
+        let line = '';
+        let lineCount = 0;
+        for (let n = 0; n < words.length; n++) {
+          const testLine = line + words[n] + ' ';
+          const metrics = ctx.measureText(testLine);
+          if (metrics.width > maxW && n > 0) {
+            ctx.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineH;
+            lineCount++;
+            if (maxLines && lineCount >= maxLines - 1 && n < words.length - 1) {
+              line += '...';
+              break;
+            }
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x, y);
+      }
+
+      // Outer Card Box
+      drawRoundRect(25, 20, 1050, 600, 12, true, true, '#0F172A', '#1E293B');
+
+      // Header Tag Pill
+      drawRoundRect(45, 40, 175, 26, 6, true, true, 'rgba(6, 182, 212, 0.15)', 'rgba(6, 182, 212, 0.4)');
+      ctx.fillStyle = '#38BDF8';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText('CS2 UPDATE BRIEFING', 55, 57);
+
+      // Build Pill
+      drawRoundRect(230, 40, 140, 26, 6, true, true, 'rgba(51, 65, 85, 0.6)', 'rgba(71, 85, 105, 0.8)');
+      ctx.fillStyle = '#E2E8F0';
+      ctx.fillText(`BUILD ${buildId}`, 242, 57);
+
+      // Title
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 19px sans-serif';
+      let titleStr = ai.title || `CS2 Update ${buildId}`;
+      if (ctx.measureText(titleStr).width > 980) {
+        titleStr = titleStr.substring(0, 75) + '...';
+      }
+      ctx.fillText(titleStr, 45, 95);
+
+      // Executive Summary Box
+      drawRoundRect(45, 115, 1010, 78, 8, true, true, 'rgba(30, 41, 59, 0.7)', 'rgba(99, 102, 241, 0.4)');
+      ctx.fillStyle = '#A5B4FC';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText('EXECUTIVE TL;DR', 58, 133);
+      ctx.fillStyle = '#CBD5E1';
+      ctx.font = '13px sans-serif';
+      drawWrapped(ai.executive_summary || '', 58, 153, 980, 18, 3);
+
+      // Items Section
+      const items = ai.items_added || [];
+      const hidden = items.filter(it => it.toLowerCase().includes('hidden') || it.toLowerCase().includes('convar'));
+      const core = items.filter(it => !it.toLowerCase().includes('hidden') && !it.toLowerCase().includes('convar'));
+
+      // Left Box: Hidden Updates & ConVars
+      drawRoundRect(45, 210, 495, 340, 8, true, true, 'rgba(15, 23, 42, 0.8)', 'rgba(16, 185, 129, 0.4)');
+      ctx.fillStyle = '#34D399';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText('🕵️ HIDDEN UPDATES & UNANNOUNCED CONVARS', 58, 235);
+
+      let itemY = 262;
+      const displayHidden = hidden.length > 0 ? hidden : items.slice(0, 4);
+      displayHidden.slice(0, 4).forEach(it => {
+        ctx.fillStyle = '#10B981';
+        ctx.beginPath();
+        ctx.arc(60, itemY - 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#E2E8F0';
+        ctx.font = '12px sans-serif';
+        drawWrapped(it, 72, itemY, 455, 16, 2);
+        itemY += 42;
+      });
+
+      // Right Box: Core Engineering Changes
+      drawRoundRect(560, 210, 495, 340, 8, true, true, 'rgba(15, 23, 42, 0.8)', 'rgba(56, 189, 248, 0.4)');
+      ctx.fillStyle = '#38BDF8';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText('✨ CORE ARCHITECTURE & SYSTEM FIXES', 573, 235);
+
+      itemY = 262;
+      const displayCore = core.length > 0 ? core : items.slice(4, 8);
+      displayCore.slice(0, 4).forEach(it => {
+        ctx.fillStyle = '#38BDF8';
+        ctx.beginPath();
+        ctx.arc(575, itemY - 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#E2E8F0';
+        ctx.font = '12px sans-serif';
+        drawWrapped(it, 587, itemY, 455, 16, 2);
+        itemY += 42;
+      });
+
+      // Footer
+      ctx.fillStyle = '#64748B';
+      ctx.font = '11px monospace';
+      ctx.fillText('cs2-reverse • Source 2 Binary Reverse Engineering & Telemetry', 45, 595);
+      ctx.fillStyle = '#38BDF8';
+      ctx.fillText('https://hanzkii.github.io/cs2-reverse', 790, 595);
+
+      // Copy or Download
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        if (navigator.clipboard && window.ClipboardItem) {
+          navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+            .then(() => {
+              if (btnText) {
+                btnText.innerText = '✓ Image Copied!';
+                setTimeout(() => { btnText.innerText = 'Share Image'; }, 2500);
+              }
+            })
+            .catch(() => {
+              triggerDownload(blob, `CS2_Update_${buildId}_Briefing.png`);
+              if (btnText) {
+                btnText.innerText = '✓ Saved PNG!';
+                setTimeout(() => { btnText.innerText = 'Share Image'; }, 2500);
+              }
+            });
+        } else {
+          triggerDownload(blob, `CS2_Update_${buildId}_Briefing.png`);
+          if (btnText) {
+            btnText.innerText = '✓ Saved PNG!';
+            setTimeout(() => { btnText.innerText = 'Share Image'; }, 2500);
+          }
+        }
+      }, 'image/png');
+
+      function triggerDownload(b, filename) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(b);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
 
     function renderPatchAiOverviewBox(oldTag, newTag) {
@@ -3132,7 +3328,7 @@
       return `
         <!-- AI Patch Intelligence Briefing Box -->
         <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950/60 via-slate-950/90 to-[#0c101c] border border-indigo-500/40 hover:border-indigo-500/70 rounded-xl p-4 sm:p-5 space-y-4 transition-all shadow-xl relative z-10">
-          <!-- Top Header Bar with Copy Button -->
+          <!-- Top Header Bar with Copy & Share Image Buttons -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-500/20 pb-3.5">
             <div class="flex items-center gap-2 flex-wrap">
               <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 shadow-sm">
@@ -3145,10 +3341,16 @@
               <span class="text-xs sm:text-sm font-bold text-white tracking-tight">${escapeHtml(ai.title || 'Update Intelligence')}</span>
             </div>
             
-            <button onclick="copyPatchBriefing('${escapeHtml(oldTag)}', '${escapeHtml(newTag)}')" id="copyBtn_${escapeHtml(newTag)}" class="px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm shrink-0 self-start sm:self-auto">
-              <svg class="w-3.5 h-3.5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-              <span id="copyBtnText_${escapeHtml(newTag)}">Copy Briefing</span>
-            </button>
+            <div class="flex items-center gap-2 flex-wrap shrink-0 self-start sm:self-auto">
+              <button onclick="copyPatchBriefing('${escapeHtml(oldTag)}', '${escapeHtml(newTag)}')" id="copyBtn_${escapeHtml(newTag)}" class="px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-200 hover:text-white border border-indigo-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
+                <svg class="w-3.5 h-3.5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <span id="copyBtnText_${escapeHtml(newTag)}">Copy for Discord</span>
+              </button>
+              <button onclick="copyPatchImage('${escapeHtml(oldTag)}', '${escapeHtml(newTag)}')" id="copyImgBtn_${escapeHtml(newTag)}" class="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-200 hover:text-white border border-cyan-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
+                <svg class="w-3.5 h-3.5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span id="copyImgBtnText_${escapeHtml(newTag)}">Share Image</span>
+              </button>
+            </div>
           </div>
 
           <!-- Executive Summary -->
@@ -3176,7 +3378,10 @@
                 ${items.map(it => {
                   let badge = 'CHANGE';
                   let badgeColor = 'bg-sky-500/20 text-sky-300 border-sky-500/40';
-                  if (it.toLowerCase().includes('convar')) {
+                  if (it.toLowerCase().includes('hidden')) {
+                    badge = 'HIDDEN';
+                    badgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold';
+                  } else if (it.toLowerCase().includes('convar')) {
                     badge = 'CONVARS';
                     badgeColor = 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
                   } else if (it.toLowerCase().includes('schema class')) {
@@ -3214,6 +3419,7 @@
                 ${subsystems.map(sub => {
                   const status = sub.status || 'STABLE';
                   const badgeClass = status === 'CRITICAL_FIX' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
+                                     status === 'NEW_CVARS' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 font-bold' :
                                      status === 'REFACTORED' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
                                      status === 'MAINTENANCE' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' :
                                      status === 'ADDED' ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' :

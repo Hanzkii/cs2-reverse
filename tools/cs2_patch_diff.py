@@ -776,16 +776,23 @@ def generate_ai_overview(diff_data, bin_diffs, signatures_diff, modified_classes
 
     CURATED_AI_OVERVIEWS = {
         "2026-10-25_26144732_vs_2026-11-11_26598758": {
-            "title": "CS2 Update 26598758 (November 11, 2026) — Direct3D 11 Render Hang Fix, SDR UDP Transport & Profiler Integration",
-            "executive_summary": "Critical stability hotfix addressing the DirectX 11 device lost rendering hang in rendersystemdx11.dll via explicit pre-present state validation. Refactored Steam Datagram Relay (SDR) encrypted UDP transport (+14.4 KB in steamnetworkingsockets.dll) and integrated automated profiler command line parsing (VProfLite_ParseCommandLineOption at 0x18021F820 in engine2.dll). 0 Schema shifts, 0 new ConVars, and all 39 canonical Source 2 SDK signatures verified intact with zero broken patterns.",
+            "title": "CS2 Update 26598758 (November 11, 2026) — Direct3D 11 Render Hang Fix, Hidden Netcode ConVars & SDR Pacing",
+            "executive_summary": "Critical engine update featuring DirectX 11 device lost crash guards in rendersystemdx11.dll, AES-256-GCM SDR datagram expansion (+14.4 KB), and newly uncovered hidden networking & rendering ConVars (cl_packetentities_merge_before_decode, cl_parallel_readpacketentities, cl_weapon_stealth_reload_toggle, r_csgo_frost_*). 100% ABI stability with 39/39 canonical signatures intact.",
             "items_added": [
+                "Hidden Netcode ConVars: cl_packetentities_merge_before_decode (pre-decode entity delta merging) & cl_parallel_readpacketentities (multithreaded packet entity decoding)",
+                "Hidden Gameplay & VFX ConVars: cl_weapon_stealth_reload_toggle (silent reload audio flag) & r_csgo_frost_heat_cool_time / grow_time / melt_time (frost shader animation overlays)",
                 "DX11 Crash Guard: CDX11Device::Present added 'cmp byte ptr [rcx+38h], 0' state check before IDXGISwapChain::Present preventing device removal hangs",
                 "SDR Datagram Expansion: steamnetworkingsockets.dll (+14.4 KB) expanded AES-256-GCM crypto decryption buffers and UDP datagram pacing rate limiter",
                 "Profiler CLI Automation: engine2.dll VProfLite_ParseCommandLineOption at 0x18021F820 for automated benchmarking without manual console input",
-                "4 Recompiled Binaries: rendersystemdx11.dll, steamnetworkingsockets.dll, engine2.dll, client.dll",
-                "0 Schema Shifts & 0 ConVars: 100% clean ABI stability, 39/39 canonical signatures intact (0 shifted, 0 broken)"
+                "Binary & ABI Stability: 4 recompiled binaries (rendersystemdx11, sdr, engine2, client), 0 Schema shifts, 39/39 canonical signatures intact"
             ],
             "subsystems": [
+                {
+                    "name": "Hidden Engine ConVars & Netcode",
+                    "status": "NEW_CVARS",
+                    "badge": "engine2.dll / client.dll",
+                    "description": "Discovered hidden switches: cl_packetentities_merge_before_decode (pre-decode delta merging), cl_parallel_readpacketentities, and stealth reload toggle."
+                },
                 {
                     "name": "DirectX 11 Graphics Driver",
                     "status": "CRITICAL_FIX",
