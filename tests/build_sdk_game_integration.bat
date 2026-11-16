@@ -19,7 +19,7 @@ if %ERRORLEVEL% neq 0 (
     )
 )
 
-cl.exe /nologo /std:c++20 /EHsc /W4 /WX /O2 /I..\.. test_sdk_game_integration.cpp ..\..\game\animationsystem\two_bone_ik.cpp ..\..\game\server\hit_registration_damage.cpp ..\..\game\client\bone_setup.cpp ..\..\game\client\inventory_schema.cpp ..\..\game\navsystem\pathfinder.cpp ..\..\game\networksystem\entity_delta_codec.cpp ..\..\game\networksystem\flattened_serializers.cpp ..\..\game\networksystem\netmessage_framing.cpp ..\..\game\panorama\panorama_engine.cpp /Fe:test_sdk_game_integration.exe
+cl.exe /nologo /std:c++20 /EHsc /W4 /WX /O2 /I.. test_sdk_game_integration.cpp ..\game\animationsystem\two_bone_ik.cpp ..\game\server\hit_registration_damage.cpp ..\game\client\bone_setup.cpp ..\game\client\inventory_schema.cpp ..\game\navsystem\pathfinder.cpp ..\game\networksystem\entity_delta_codec.cpp ..\game\networksystem\flattened_serializers.cpp ..\game\networksystem\netmessage_framing.cpp ..\game\panorama\panorama_engine.cpp /Fe:test_sdk_game_integration.exe
 if %ERRORLEVEL% equ 0 (
     echo [OK] Compilation successful. Running integration verification test...
     echo -----------------------------------------------------------------

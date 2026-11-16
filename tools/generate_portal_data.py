@@ -1733,7 +1733,7 @@ def main():
     if os.path.exists(sim_dir):
         next_auto_id = 20
         for fname in sorted(os.listdir(sim_dir)):
-            if fname.endswith(".cpp") and fname not in known_sim_files:
+            if fname.endswith("_sim.cpp") and fname not in known_sim_files:
                 cpp_path = os.path.join(sim_dir, fname)
                 with open(cpp_path, "r", encoding="utf-8") as f_sim:
                     code_str = f_sim.read()
