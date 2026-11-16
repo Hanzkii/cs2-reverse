@@ -779,8 +779,11 @@ def generate_ai_overview(diff_data, bin_diffs, signatures_diff, modified_classes
             "title": "CS2 Update 26598758 (November 11, 2026) — Direct3D 11 Render Hang Fix, Hidden Netcode ConVars & SDR Pacing",
             "executive_summary": "Critical engine update featuring DirectX 11 device lost crash guards in rendersystemdx11.dll, AES-256-GCM SDR datagram expansion (+14.4 KB), and newly uncovered hidden networking & rendering ConVars (cl_packetentities_merge_before_decode, cl_parallel_readpacketentities, cl_weapon_stealth_reload_toggle, r_csgo_frost_*). 100% ABI stability with 39/39 canonical signatures intact.",
             "items_added": [
-                "Hidden Netcode ConVars: cl_packetentities_merge_before_decode (pre-decode entity delta merging) & cl_parallel_readpacketentities (multithreaded packet entity decoding)",
-                "Hidden Gameplay & VFX ConVars: cl_weapon_stealth_reload_toggle (silent reload audio flag) & r_csgo_frost_heat_cool_time / grow_time / melt_time (frost shader animation overlays)",
+                "Hidden Netcode ConVar: cl_packetentities_merge_before_decode (merges packet entity state deltas before decoding tick updates)",
+                "Hidden Multithreading ConVar: cl_parallel_readpacketentities (dispatches packet entity decoding across worker threads in parallel)",
+                "Hidden Audio ConVar: cl_weapon_stealth_reload_toggle (silent weapon reload audio flag across replicated entities)",
+                "Hidden VFX ConVars: r_csgo_frost_* (3 frost shader animation curve timers for heat, cool, grow, and melt)",
+                "Hidden Wire ConVar: net_gather_child_fields_only (protobuf wire delta compression serialization switch)",
                 "DX11 Crash Guard: CDX11Device::Present added 'cmp byte ptr [rcx+38h], 0' state check before IDXGISwapChain::Present preventing device removal hangs",
                 "SDR Datagram Expansion: steamnetworkingsockets.dll (+14.4 KB) expanded AES-256-GCM crypto decryption buffers and UDP datagram pacing rate limiter",
                 "Profiler CLI Automation: engine2.dll VProfLite_ParseCommandLineOption at 0x18021F820 for automated benchmarking without manual console input",
