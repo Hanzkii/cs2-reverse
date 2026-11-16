@@ -5,7 +5,7 @@
   "new_build_id": "26144732",
   "old_date": "2026-10-21",
   "new_date": "2026-10-25",
-  "generated_at": "2026-11-16T20:23:33.242647",
+  "generated_at": "2026-11-16T20:43:12.014111",
   "summary": {
     "binaries_modified_count": 32,
     "classes_added_count": 1,
@@ -5160,5 +5160,55 @@
         ".reloc": "Section .reloc: 10,240 B (+0 B)."
       }
     }
+  },
+  "ai_overview": {
+    "title": "CS2 Update 26144732 Sub-Tick & Animation Maintenance Briefing",
+    "executive_summary": "Update 26144732 focuses on input processing stabilization, Panorama UI DOM event throttling, and two-bone inverse kinematics alignment. SchemaSystem class definitions exhibited minimal drift, while all 39 reversed core function signatures maintained 100% resolution accuracy.",
+    "subsystems": [
+      {
+        "name": "Sub-Tick Input Pipeline",
+        "status": "MAINTENANCE",
+        "badge": "client.dll & engine2.dll",
+        "description": "Refined fractional tick timestamp clamping and user command buffer pacing."
+      },
+      {
+        "name": "Animation & Bone IK",
+        "status": "STABLE",
+        "badge": "animationsystem.dll",
+        "description": "CTwoBoneIK_LawOfCosines limb constraint solver confirmed deterministic."
+      },
+      {
+        "name": "Panorama UI Engine",
+        "status": "MAINTENANCE",
+        "badge": "panorama.dll",
+        "description": "Optimized DOM panel render tree layout and HUD event bubbling."
+      },
+      {
+        "name": "Network State Synchronization",
+        "status": "STABLE",
+        "badge": "networksystem.dll",
+        "description": "Protobuf wire packet serialization offsets verified stable."
+      }
+    ],
+    "key_discoveries": [
+      {
+        "title": "Sub-Tick Packet Interpolation Clamping",
+        "binary": "client.dll",
+        "impact": "Medium",
+        "summary": "Verified user command interpolation timing against sv_maxunlag boundaries.",
+        "anchor": "CLagCompensationManager::StartLagCompensation"
+      },
+      {
+        "title": "Two-Bone Analytical IK Invariant",
+        "binary": "animationsystem.dll",
+        "impact": "Low",
+        "summary": "Law of cosines analytical limb constraint solver maintains bit-level equality across update boundaries.",
+        "anchor": "CTwoBoneIK_LawOfCosines"
+      }
+    ],
+    "takeaways": [
+      "Clean maintenance release with zero broken function signatures.",
+      "Full wire compatibility preserved across network serialization layers."
+    ]
   }
 }

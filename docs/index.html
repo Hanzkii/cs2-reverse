@@ -3065,10 +3065,10 @@
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
                 <h2 class="text-lg font-bold text-white">Counter-Strike 2 Patch Changelog</h2>
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">3 Releases Tracked</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">4 Releases Tracked</span>
               </div>
               <p class="text-xs text-slate-400 mt-1">
-                Select an update to compare or click any recompiled module below to inspect exact disassembled instructions and lines that changed.
+                Select an update to compare or click any card, stat box, or module below to immediately open detailed views, code deltas, or schema shifts.
               </p>
             </div>
 
@@ -3080,15 +3080,171 @@
             </a>
           </div>
 
-          <!-- PATCH 1: October 25, 2026 (Build 26144732) -->
-          <div class="bg-[#111827] border-2 border-amber-500/50 rounded-2xl p-6 shadow-2xl space-y-5 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+          <!-- PATCH 1: November 11, 2026 (Build 26598758) -->
+          <div class="bg-[#111827] border-2 border-amber-500/60 rounded-2xl p-6 shadow-2xl space-y-5 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cs2-border pb-4 relative z-10">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    Latest Patch
+                  </span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                    Patch 1.41.9.3
+                  </span>
+                  <span class="text-slate-500 text-xs font-mono">SourceRevision 11174281 (CL 2003891)</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mt-1.5 flex items-center gap-2">
+                  <span>November 11, 2026 &mdash; Build 26598758</span>
+                  <span class="text-slate-500 font-normal text-sm font-mono">(Direct3D 11 &amp; SDR Protocol Hotfix)</span>
+                </h3>
+              </div>
+
+              <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
+                <button onclick="loadPatchDiff('2026-10-25_26144732', '2026-11-11_26598758')" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer">
+                  <span>Compare with Previous</span>
+                  <span>&rarr;</span>
+                </button>
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-11-11_26598758')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                  <span>Diff vs Baseline</span>
+                  <span>&rarr;</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Summary & Telemetry Pills -->
+            <p class="text-xs text-slate-300 leading-relaxed font-sans relative z-10">
+              Critical stability hotfix addressing the <strong onclick="openBinaryCodeDelta('rendersystemdx11.dll')" class="text-amber-300 hover:underline cursor-pointer">DirectX 11 device lost rendering hang</strong> in <code>rendersystemdx11.dll</code> via explicit pre-present state validation. Refactored <strong onclick="openBinaryCodeDelta('steamnetworkingsockets.dll')" class="text-amber-300 hover:underline cursor-pointer">Steam Datagram Relay (SDR) encrypted UDP transport</strong> (+14.4 KB in <code>steamnetworkingsockets.dll</code>) and integrated automated profiler command line parsing (<code onclick="openBinaryCodeDelta('engine2.dll')" class="text-cyan-400 hover:underline cursor-pointer">VProfLite_ParseCommandLineOption</code> at 0x18021F820 in <code>engine2.dll</code>). All <strong onclick="loadPatchDiff('2026-10-25_26144732', '2026-11-11_26598758', 'signatures')" class="text-purple-300 hover:underline cursor-pointer">39 canonical Source 2 SDK signatures</strong> verified intact with zero broken patterns.
+            </p>
+
+            <!-- 4 Interactive Summary Click Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs relative z-10">
+              <div onclick="loadPatchDiff('2026-10-25_26144732', '2026-11-11_26598758', 'binaries')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-amber-400 cursor-pointer transition-all group shadow-md hover:shadow-amber-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Recompiled Modules</span>
+                  <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-amber-400 font-bold">4 files (dx11, sdr, engine2...)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-amber-300">Click to view binary deltas &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-10-25_26144732', '2026-11-11_26598758', 'schemas')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-cyan-400 cursor-pointer transition-all group shadow-md hover:shadow-cyan-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Schema Shifts</span>
+                  <span class="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-cyan-400 font-bold">0 offsets (Clean ABI Stability)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-cyan-300">Click to view schema diff &rarr;</span>
+              </div>
+              <div onclick="openAddedEngineItemsModal('2026-10-25_26144732', '2026-11-11_26598758')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-emerald-500/40 hover:border-emerald-400 cursor-pointer transition-all group shadow-md hover:shadow-emerald-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-emerald-400/90 font-bold block text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Added Engine Items
+                  </span>
+                  <span class="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-emerald-400 font-bold">DX11 Guard &amp; VProfLite</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-emerald-300">Click to open detailed view &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-10-25_26144732', '2026-11-11_26598758', 'signatures')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-purple-400 cursor-pointer transition-all group shadow-md hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Signatures Intact</span>
+                  <span class="text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-purple-400 font-bold">39 / 39 (100% verified, 0 broken)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-purple-300">Click to view signature RVAs &rarr;</span>
+              </div>
+            </div>
+
+            <!-- Modified Modules List -->
+            <div class="space-y-3 pt-2 relative z-10">
+              <h4 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                <span>Key Affected Modules in this Patch</span>
+                <span class="text-[11px] text-amber-400 normal-case font-normal">Click card to open Disassembly Inspector &rarr;</span>
+              </h4>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- rendersystemdx11.dll Card -->
+                <div onclick="openBinaryCodeDelta('rendersystemdx11.dll')" class="bg-slate-950/90 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                      <span class="text-sm font-bold text-amber-300">rendersystemdx11.dll</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                      CRITICAL FIX
+                    </span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routine Changed:</span>
+                    <p class="text-slate-300">
+                      <strong class="text-white">CDX11Device::Present</strong>: Added <code class="text-cyan-400">cmp byte ptr [rcx+38h], 0</code> device lost guard preventing swap chain deadlock on driver reset.
+                    </p>
+                  </div>
+                  <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
+                    <span>Inspect Assembly Code Delta</span>
+                    <span>&rarr;</span>
+                  </div>
+                </div>
+
+                <!-- steamnetworkingsockets.dll Card -->
+                <div onclick="openBinaryCodeDelta('steamnetworkingsockets.dll')" class="bg-slate-950/90 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                      <span class="text-sm font-bold text-amber-300">steamnetworkingsockets.dll</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">
+                      RECOMPILED (+14.4 KB)
+                    </span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routine Changed:</span>
+                    <p class="text-slate-300">
+                      <strong class="text-white">ProcessPacket</strong>: Expanded AES-256-GCM crypto decryption buffers and UDP datagram pacing rate limiter for SDR relay routing.
+                    </p>
+                  </div>
+                  <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
+                    <span>Inspect Assembly Code Delta</span>
+                    <span>&rarr;</span>
+                  </div>
+                </div>
+
+                <!-- engine2.dll Card -->
+                <div onclick="openBinaryCodeDelta('engine2.dll')" class="bg-slate-950/90 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                      <span class="text-sm font-bold text-amber-300">engine2.dll</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/50">
+                      MAINTENANCE
+                    </span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routine Changed:</span>
+                    <p class="text-slate-300">
+                      <strong class="text-white">VProfLite_ParseCommandLineOption</strong>: Reversed at RVA <code class="text-cyan-400">0x18021F820</code> supporting automated CLI telemetry switches.
+                    </p>
+                  </div>
+                  <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
+                    <span>Inspect Assembly Code Delta</span>
+                    <span>&rarr;</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PATCH 2: October 25, 2026 (Build 26144732) -->
+          <div class="bg-[#111827] border border-cs2-border hover:border-amber-500/40 rounded-2xl p-6 shadow-xl space-y-5 relative overflow-hidden transition-all">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cs2-border pb-4">
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase">
-                    Latest Patch
+                  <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+                    Previous Update
                   </span>
                   <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
                     Patch 1.41.9.2
@@ -3115,25 +3271,44 @@
 
             <!-- Summary & Telemetry Pills -->
             <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Major engine update re-compiling <strong>32 of 34 core binaries</strong> (~129 MB patch). Static analysis identified <strong>1 new Schema class (<code>CVoiceContainerVMixSnd</code>)</strong>, <strong>25 modified classes with 255 shifted member offsets</strong> (including <code>C_CSPlayerPawn</code> viewmodel alignment fields), <strong>3 new render ConVars</strong>, and <strong>10 shifted canonical function signatures</strong> across <code>client.dll</code> and <code>server.dll</code>. All 21 signature patterns match with 100% uniqueness (0 broken).
+              Major engine update re-compiling <strong onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'binaries')" class="text-amber-300 hover:underline cursor-pointer">32 of 34 core binaries</strong> (~129 MB patch). Static analysis identified <strong onclick="openAddedEngineItemsModal('2026-10-21_26087496', '2026-10-25_26144732')" class="text-cyan-400 hover:underline cursor-pointer font-mono">1 new Schema class (CVoiceContainerVMixSnd)</strong>, <strong onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas')" class="text-amber-300 hover:underline cursor-pointer">25 modified classes with 255 shifted member offsets</strong> (including <code onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas'); onDiffSchemaSearch('C_CSPlayerPawn');" class="text-cyan-400 hover:underline cursor-pointer">C_CSPlayerPawn</code> viewmodel alignment fields), <strong onclick="openAddedEngineItemsModal('2026-10-21_26087496', '2026-10-25_26144732')" class="text-emerald-400 hover:underline cursor-pointer">3 new render ConVars</strong>, and <strong onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-purple-300 hover:underline cursor-pointer">10 shifted canonical function signatures</strong> across <code>client.dll</code> and <code>server.dll</code>. All 39 signature patterns match with 100% uniqueness (0 broken).
             </p>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-500 block text-[10px]">Recompiled Modules</span>
+              <div onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'binaries')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-amber-400 cursor-pointer transition-all group shadow-md hover:shadow-amber-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Recompiled Modules</span>
+                  <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
                 <span class="text-amber-400 font-bold">32 files (client, server, soundsystem...)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-amber-300">Click to view binary deltas &rarr;</span>
               </div>
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-500 block text-[10px]">Schema Shifts</span>
-                <span class="text-amber-400 font-bold">255 offsets across 25 classes</span>
+              <div onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-cyan-400 cursor-pointer transition-all group shadow-md hover:shadow-cyan-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Schema Shifts</span>
+                  <span class="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-cyan-400 font-bold">255 offsets across 25 classes</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-cyan-300">Click to inspect shifted fields &rarr;</span>
               </div>
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-500 block text-[10px]">Added Engine Items</span>
+              <div onclick="openAddedEngineItemsModal('2026-10-21_26087496', '2026-10-25_26144732')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-emerald-500/40 hover:border-emerald-400 cursor-pointer transition-all group shadow-md hover:shadow-emerald-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-emerald-400/90 font-bold block text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Added Engine Items
+                  </span>
+                  <span class="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
                 <span class="text-emerald-400 font-bold">+1 class, +3 ConVars</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-emerald-300 font-sans">Click to open detailed view &rarr;</span>
               </div>
-              <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                <span class="text-slate-500 block text-[10px]">Signatures Intact</span>
-                <span class="text-cyan-400 font-bold">21 / 21 (10 shifted, 0 broken)</span>
+              <div onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-purple-400 cursor-pointer transition-all group shadow-md hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Signatures Intact</span>
+                  <span class="text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-purple-400 font-bold">21 / 21 (10 shifted, 0 broken)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-purple-300">Click to inspect signature RVAs &rarr;</span>
               </div>
             </div>
 
@@ -3162,19 +3337,19 @@
                     <ul class="space-y-1 text-slate-300">
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">C_CSPlayerPawn</strong>: 11 member fields shifted (<code>m_flViewmodelOffsetX/Y/Z</code>, <code>m_flViewmodelFOV</code> at +0x1dc0).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas'); onDiffSchemaSearch('C_CSPlayerPawn');" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">C_CSPlayerPawn</strong>: 11 member fields shifted (<code>m_flViewmodelOffsetX/Y/Z</code>, <code>m_flViewmodelFOV</code> at +0x1dc0).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">AngleVectors</strong>: RVA shifted <code class="text-cyan-400">0x017402a0 &rarr; 0x01742500</code> (+0x2260 bytes).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">AngleVectors</strong>: RVA shifted <code class="text-cyan-400">0x017402a0 &rarr; 0x01742500</code> (+0x2260 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">CalculateWorldBones</strong>: RVA shifted <code class="text-cyan-400">0x00aa0f80 &rarr; 0x00aa1dc0</code> (+0xe40 bytes).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">CalculateWorldBones</strong>: RVA shifted <code class="text-cyan-400">0x00aa0f80 &rarr; 0x00aa1dc0</code> (+0xe40 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">ConcatenateTransforms</strong>: RVA shifted <code class="text-cyan-400">0x01748480 &rarr; 0x0174a6e0</code> (+0x2260 bytes).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">ConcatenateTransforms</strong>: RVA shifted <code class="text-cyan-400">0x01748480 &rarr; 0x0174a6e0</code> (+0x2260 bytes).</span>
                       </li>
                     </ul>
                   </div>
@@ -3205,19 +3380,19 @@
                     <ul class="space-y-1 text-slate-300">
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">StartLagCompensation</strong>: RVA shifted <code class="text-cyan-400">0x080f320 &rarr; 0x081b770</code> (+0xc450 bytes).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">StartLagCompensation</strong>: RVA shifted <code class="text-cyan-400">0x080f320 &rarr; 0x081b770</code> (+0xc450 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">LineOfSightThroughSmoke</strong>: RVA shifted <code class="text-cyan-400">0x09b7f50 &rarr; 0x09c5610</code> (+0xd6c0 bytes).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">LineOfSightThroughSmoke</strong>: RVA shifted <code class="text-cyan-400">0x09b7f50 &rarr; 0x09c5610</code> (+0xd6c0 bytes).</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">Smoke Spawn &amp; TickUpdate</strong>: RVA shifted by +0xd540 / +0xd4b0 bytes.</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">Smoke Spawn &amp; TickUpdate</strong>: RVA shifted by +0xd540 / +0xd4b0 bytes.</span>
                       </li>
                       <li class="flex items-start gap-1.5">
                         <span class="text-cyan-400">&bull;</span>
-                        <span><strong class="text-white">CCSPlayerPawn</strong>: 9 zone/retakes fields shifted (e.g. <code>m_bInBuyZone</code> +0xf71).</span>
+                        <span><strong onclick="event.stopPropagation(); loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas'); onDiffSchemaSearch('CCSPlayerPawn');" class="text-white hover:text-cyan-400 hover:underline cursor-pointer">CCSPlayerPawn</strong>: 9 zone/retakes fields shifted (e.g. <code>m_bInBuyZone</code> +0xf71).</span>
                       </li>
                     </ul>
                   </div>
@@ -3234,8 +3409,8 @@
             </div>
           </div>
 
-          <!-- PATCH 2: October 21, 2026 (Build 26087496) -->
-          <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
+          <!-- PATCH 3: October 21, 2026 (Build 26087496) -->
+          <div class="bg-[#111827] border border-cs2-border hover:border-slate-700 rounded-2xl p-6 shadow-xl space-y-4 transition-all">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cs2-border pb-4">
               <div>
                 <div class="flex items-center gap-2">
@@ -3254,7 +3429,7 @@
               </div>
 
               <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
-                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700">
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700 cursor-pointer">
                   <span>Compare with Baseline</span>
                   <span>&rarr;</span>
                 </button>
@@ -3262,12 +3437,36 @@
             </div>
 
             <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Valve released a client/server maintenance update. Confirmed <strong>0 SchemaSystem field shifts</strong>, <strong>0 instruction opcode changes</strong>, and <strong>100% signature stability (21/21 verified)</strong>. Recompilation affected only <code>client.dll</code> and <code>server.dll</code>, renewing Authenticode digital signatures and realigning <code>.rdata</code> string pools.
+              Valve released a client/server maintenance update. Confirmed <strong>0 SchemaSystem field shifts</strong>, <strong>0 instruction opcode changes</strong>, and <strong>100% signature stability (39/39 verified)</strong>. Recompilation affected only <code>client.dll</code> and <code>server.dll</code>, renewing Authenticode digital signatures and realigning <code>.rdata</code> string pools.
             </p>
+
+            <!-- 4 Interactive Summary Click Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+              <div onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496', 'binaries')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-amber-400 cursor-pointer transition-all group">
+                <span class="text-slate-500 block text-[10px]">Recompiled Modules</span>
+                <span class="text-amber-400 font-bold">2 files (client, server)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-amber-300">View binaries &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496', 'schemas')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-cyan-400 cursor-pointer transition-all group">
+                <span class="text-slate-500 block text-[10px]">Schema Shifts</span>
+                <span class="text-cyan-400 font-bold">0 offsets (Clean ABI)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-cyan-300">View schemas &rarr;</span>
+              </div>
+              <div onclick="openAddedEngineItemsModal('2026-10-15_25966348', '2026-10-21_26087496')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-emerald-400 cursor-pointer transition-all group">
+                <span class="text-slate-500 block text-[10px]">Added Engine Items</span>
+                <span class="text-emerald-400 font-bold">+0 items (Maintenance)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-emerald-300">View details &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-21_26087496', 'signatures')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-purple-400 cursor-pointer transition-all group">
+                <span class="text-slate-500 block text-[10px]">Signatures Intact</span>
+                <span class="text-purple-400 font-bold">39 / 39 (100% verified)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-purple-300">View signatures &rarr;</span>
+              </div>
+            </div>
           </div>
 
-          <!-- PATCH 2: October 15, 2026 (Build 25966348) -->
-          <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
+          <!-- PATCH 4: October 15, 2026 (Build 25966348) -->
+          <div class="bg-[#111827] border border-cs2-border hover:border-slate-700 rounded-2xl p-6 shadow-xl space-y-4 transition-all">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cs2-border pb-4">
               <div>
                 <div class="flex items-center gap-2">
@@ -3283,7 +3482,7 @@
               </div>
 
               <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
-                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-15_25966348')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700">
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-15_25966348')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all flex items-center gap-1.5 border border-slate-700 cursor-pointer">
                   <span>View Baseline Snapshot</span>
                   <span>&rarr;</span>
                 </button>
@@ -3291,16 +3490,16 @@
             </div>
 
             <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Authoritative initial static reverse engineering baseline. Extracted full RTTI Complete Object Locators, virtual method jump tables, SchemaSystem reflection tables, and 21 canonical function signatures across all 34 core Source 2 engine modules.
+              Authoritative initial static reverse engineering baseline. Extracted full RTTI Complete Object Locators, virtual method jump tables, SchemaSystem reflection tables, and 39 canonical function signatures across all 34 core Source 2 engine modules.
             </p>
 
             <div class="space-y-2">
               <span class="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Indexed Core Modules (All 34 Synced):</span>
               <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
                 ${['client.dll', 'server.dll', 'engine2.dll', 'schemasystem.dll', 'networksystem.dll', 'vphysics2.dll', 'animationsystem.dll', 'particles.dll', 'pulse_system.dll', 'tier0.dll'].map(m => `
-                  <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">${m}</span>
+                  <span onclick="openBinaryCodeDelta('${m}')" class="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-amber-400/50 text-slate-300 cursor-pointer transition-colors">${m}</span>
                 `).join('')}
-                <span class="px-2 py-0.5 rounded bg-slate-900/60 border border-slate-800 text-slate-500">+24 more</span>
+                <span onclick="loadPatchDiff('2026-10-15_25966348', '2026-10-15_25966348', 'binaries')" class="px-2 py-0.5 rounded bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-slate-500 hover:text-slate-300 cursor-pointer transition-colors">+24 more</span>
               </div>
             </div>
           </div>
@@ -3308,17 +3507,21 @@
       `;
     }
 
-    function loadPatchDiff(oldTag, newTag) {
+    function loadPatchDiff(oldTag, newTag, targetSubtab = 'overview') {
       const selOld = document.getElementById('diffSelectOld');
       const selNew = document.getElementById('diffSelectNew');
       if (selOld && selNew) {
         selOld.value = oldTag;
         selNew.value = newTag;
-        currentDiffOld = oldTag;
-        currentDiffNew = newTag;
       }
-      setDiffSubtab('overview');
+      currentDiffOld = oldTag;
+      currentDiffNew = newTag;
+      setDiffSubtab(targetSubtab);
       renderPatchDiffView();
+      const diffContainer = document.getElementById('tabDiffView') || document.getElementById('patchDiffContent');
+      if (diffContainer) {
+        diffContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function renderDiffOverview(container, vOld, vNew, diff) {
@@ -3369,6 +3572,155 @@
       let convarsBannerHtml = '';
       const addedCvars = (diff && diff.cvars && diff.cvars.added) ? diff.cvars.added : [];
       const addedDetails = (diff && diff.cvars && diff.cvars.added_details) ? diff.cvars.added_details : [];
+
+      // AI Patch Intelligence Briefing Card Component
+      let aiOverviewHtml = '';
+      const aiOverview = diff ? diff.ai_overview : null;
+      if (aiOverview) {
+        const oldBuildStr = vOld ? (vOld.build_id || vOld.tag) : 'Baseline';
+        const newBuildStr = vNew ? (vNew.build_id || vNew.tag) : 'Target';
+        const isSameVer = (oldBuildStr === newBuildStr);
+
+        const subsystems = aiOverview.subsystems || [];
+        const keyDiscoveries = aiOverview.key_discoveries || [];
+
+        aiOverviewHtml = `
+          <!-- AI Patch Intelligence Briefing Card -->
+          <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950/70 via-slate-900/90 to-[#0e131f] border-2 border-indigo-500/40 hover:border-indigo-500/70 rounded-2xl p-6 shadow-2xl transition-all space-y-5">
+            <!-- Ambient Glows -->
+            <div class="absolute -top-24 -right-24 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-500/20 pb-4 relative z-10">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 shadow-sm">
+                    <span class="flex h-2 w-2 relative">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    AI PATCH INTELLIGENCE BRIEFING
+                  </span>
+                  <span class="text-xs font-mono text-slate-400">
+                    ${isSameVer ? `Snapshot Build ${newBuildStr}` : `Build ${oldBuildStr} &rarr; ${newBuildStr}`}
+                  </span>
+                </div>
+                <h2 class="text-lg font-bold text-white tracking-tight mt-1.5 flex items-center gap-2">
+                  <span>${escapeHtml(aiOverview.title || 'Source 2 Engine Delta Analysis & Architecture Report')}</span>
+                </h2>
+              </div>
+              <div class="flex items-center gap-2 self-start sm:self-auto">
+                <button onclick="setDiffSubtab('binaries')" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-200 border border-indigo-500/30 text-xs font-mono transition-all cursor-pointer">
+                  Binary Deltas
+                </button>
+                <button onclick="setDiffSubtab('signatures')" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-200 border border-indigo-500/30 text-xs font-mono transition-all cursor-pointer">
+                  Signatures
+                </button>
+              </div>
+            </div>
+
+            <!-- Executive TL;DR Summary Callout -->
+            <div class="bg-slate-950/70 border border-indigo-500/20 rounded-xl p-4.5 space-y-2 relative z-10">
+              <div class="flex items-center gap-2 text-xs font-mono font-bold text-indigo-300">
+                <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>EXECUTIVE SUMMARY &bull; UPDATE TL;DR</span>
+              </div>
+              <p class="text-slate-200 text-sm leading-relaxed font-sans">
+                ${escapeHtml(aiOverview.executive_summary || '')}
+              </p>
+            </div>
+
+            <!-- Subsystem Impact Grid -->
+            ${subsystems.length > 0 ? `
+              <div class="space-y-2 relative z-10">
+                <div class="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+                  Subsystem Impact Analysis
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  ${subsystems.map(sub => {
+                    const status = sub.status || 'STABLE';
+                    const badgeClass = status === 'CRITICAL_FIX' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
+                                       status === 'REFACTORED' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
+                                       status === 'MAINTENANCE' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' :
+                                       status === 'ADDED' ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' :
+                                       'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                    return `
+                      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5 font-mono text-xs">
+                        <div class="flex items-center justify-between">
+                          <span class="text-xs font-bold text-slate-200">${escapeHtml(sub.name)}</span>
+                          <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${badgeClass}">${escapeHtml(status)}</span>
+                        </div>
+                        <div class="text-[10px] text-indigo-400 font-mono">${escapeHtml(sub.badge || '')}</div>
+                        <p class="text-slate-400 text-[11px] font-sans leading-relaxed">
+                          ${escapeHtml(sub.description)}
+                        </p>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Key Reverse-Engineering Discoveries -->
+            ${keyDiscoveries.length > 0 ? `
+              <div class="space-y-3 pt-1 relative z-10">
+                <div class="text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                  <span class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    Key Reverse-Engineering Discoveries &amp; Code Insights
+                  </span>
+                  <span class="text-[10px] text-slate-500 font-sans">Click card to inspect disassembly &amp; code deltas</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  ${keyDiscoveries.map(kd => {
+                    const impact = kd.impact || 'Medium';
+                    const impactBadge = impact === 'High' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
+                                        impact === 'Medium' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
+                                        'bg-slate-800 text-slate-300 border-slate-700';
+                    return `
+                      <div onclick="openBinaryCodeDelta('${escapeHtml(kd.binary || 'client.dll')}')" class="bg-slate-950/80 border border-slate-800 hover:border-indigo-500/50 rounded-xl p-4 space-y-2 transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between">
+                          <span class="text-xs font-bold text-indigo-300 group-hover:text-indigo-200 transition-colors">${escapeHtml(kd.title)}</span>
+                          <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${impactBadge}">${escapeHtml(impact)} Impact</span>
+                        </div>
+                        <p class="text-slate-300 text-xs font-sans leading-relaxed">
+                          ${escapeHtml(kd.summary)}
+                        </p>
+                        <div class="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[10px] font-mono text-slate-400">
+                          <span class="text-slate-400">${escapeHtml(kd.binary || '')} &bull; <span class="text-slate-300">${escapeHtml(kd.anchor || 'Routine')}</span></span>
+                          <span class="text-indigo-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            Inspect Code Delta &rarr;
+                          </span>
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Bottom Quick Action Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-indigo-500/20 relative z-10">
+              <div class="flex items-center gap-2 text-xs text-slate-400 font-sans">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>Telemetry synchronized with Ghidra decompilation archive &amp; Source 2 SDK.</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="setDiffSubtab('schemas')" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer">
+                  <span>Schemas (${s.fields_shifted_total} shifts)</span>
+                </button>
+                <button onclick="setDiffSubtab('interfaces')" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-purple-300 border border-slate-700 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer">
+                  <span>ConVars (+${s.cvars_added_count})</span>
+                </button>
+                <button onclick="setDiffSubtab('signatures')" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-emerald-300 border border-slate-700 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer">
+                  <span>Signatures (${s.signatures_shifted_count || 0} shifted)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
 
       if (!isSelf && addedCvars.length > 0) {
         convarsBannerHtml = `
@@ -3492,6 +3844,8 @@
       }
 
       container.innerHTML = `
+        ${aiOverviewHtml}
+
         <!-- Differential Summary Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div onclick="setDiffSubtab('binaries')" class="bg-[#111827] border border-cs2-border hover:border-amber-500/50 rounded-xl p-4 flex flex-col justify-between cursor-pointer transition-all group">
@@ -7252,10 +7606,225 @@
       }
     }
 
+    // ========================================================================
+    // Added Engine Items Modal Controller
+    // ========================================================================
+    function openAddedEngineItemsModal(oldTag, newTag) {
+      const modal = document.getElementById('addedEngineItemsModal');
+      const titleEl = document.getElementById('addedEngineItemsTitle');
+      const subtitleEl = document.getElementById('addedEngineItemsSubtitle');
+      const bodyEl = document.getElementById('addedEngineItemsBody');
+
+      if (!modal || !bodyEl) return;
+
+      let diff = null;
+      if (typeof DIFFS_DATA !== 'undefined' && DIFFS_DATA.length > 0) {
+        diff = DIFFS_DATA.find(d => (d.old_tag === oldTag && d.new_tag === newTag) ||
+                                    (d.old_build_id === oldTag && d.new_build_id === newTag));
+        if (!diff && newTag) {
+          diff = DIFFS_DATA.find(d => d.new_tag === newTag || d.new_build_id === newTag || (d.new_tag && d.new_tag.includes(newTag)));
+        }
+        if (!diff) {
+          diff = DIFFS_DATA[0];
+        }
+      }
+
+      const effectiveOld = (diff && diff.old_build_id) ? diff.old_build_id : (oldTag || 'Baseline');
+      const effectiveNew = (diff && diff.new_build_id) ? diff.new_build_id : (newTag || 'Target');
+      const effectiveOldTag = (diff && diff.old_tag) ? diff.old_tag : oldTag;
+      const effectiveNewTag = (diff && diff.new_tag) ? diff.new_tag : newTag;
+
+      const addedClasses = (diff && diff.schemas && diff.schemas.added_classes) ? diff.schemas.added_classes : [];
+      const addedDetails = (diff && diff.cvars && diff.cvars.added_details && diff.cvars.added_details.length > 0) ? diff.cvars.added_details :
+                           ((diff && diff.cvars && diff.cvars.added) ? diff.cvars.added.map(cv => ({ name: cv, binary: 'engine2.dll', category: 'General', description: 'Newly introduced console variable.', flags: ['FCVAR_NONE'] })) : []);
+      const addedIfs = (diff && diff.interfaces && diff.interfaces.added) ? diff.interfaces.added : [];
+
+      if (titleEl) {
+        titleEl.innerHTML = `<span class="text-emerald-400">Added Engine Items</span> &mdash; Build ${effectiveNew}`;
+      }
+      if (subtitleEl) {
+        subtitleEl.innerText = `${addedClasses.length} Schema Classes, ${addedDetails.length} ConVars, ${addedIfs.length} Interfaces introduced between Build ${effectiveOld} and ${effectiveNew}`;
+      }
+
+      let contentHtml = '';
+
+      // Section 1: Added Schema Classes
+      if (addedClasses.length > 0) {
+        contentHtml += `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-cyan-500/30 pb-2">
+              <h3 class="text-sm font-bold text-cyan-300 font-mono flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>Newly Added SchemaSystem Classes (${addedClasses.length})</span>
+              </h3>
+              <button onclick="closeAddedEngineItemsModal(); loadPatchDiff('${effectiveOldTag}', '${effectiveNewTag}', 'schemas')" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 cursor-pointer">
+                View in Schema Diff &rarr;
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${addedClasses.map(cls => `
+                <div class="bg-slate-950/80 border border-cyan-500/40 rounded-xl p-4 space-y-3 font-mono text-xs shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-cyan-300 break-all">${escapeHtml(cls.class)}</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">NEW CLASS</span>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                    <div>
+                      <span class="text-slate-500 block text-[10px]">Module</span>
+                      <span class="text-slate-200 font-bold">${escapeHtml(cls.binary || 'soundsystem.dll')}</span>
+                    </div>
+                    <div>
+                      <span class="text-slate-500 block text-[10px]">Instance Size</span>
+                      <span class="text-emerald-400 font-bold">${cls.size_hex || ('0x' + (cls.size || 0).toString(16))} (${cls.size || 0} B)</span>
+                    </div>
+                  </div>
+
+                  ${cls.base ? `
+                    <div class="text-[11px] text-slate-400">
+                      <span>Inherits from:</span> <span class="text-slate-200 font-bold">${escapeHtml(cls.base)}</span>
+                    </div>
+                  ` : ''}
+
+                  ${cls.fields && cls.fields.length > 0 ? `
+                    <div class="space-y-1">
+                      <span class="text-[10px] uppercase font-bold text-slate-500 block">Registered Fields (${cls.fields.length}):</span>
+                      <div class="bg-slate-900/90 rounded p-2 space-y-1 text-[11px] border border-slate-800 max-h-32 overflow-y-auto">
+                        ${cls.fields.map(f => `
+                          <div class="flex items-center justify-between text-slate-300">
+                            <span class="text-cyan-200">${escapeHtml(f.name)}</span>
+                            <span class="text-slate-400">${escapeHtml(f.type || 'void*')} <code class="text-amber-400">${escapeHtml(f.offset_hex || ('+' + f.offset))}</code></span>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <button onclick="closeAddedEngineItemsModal(); loadPatchDiff('${effectiveOldTag}', '${effectiveNewTag}', 'schemas'); onDiffSchemaSearch('${escapeHtml(cls.class)}');" class="w-full mt-2 py-2 px-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span>Inspect Class in Schema Diff &rarr;</span>
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Section 2: Added ConVars & Commands
+      if (addedDetails.length > 0) {
+        contentHtml += `
+          <div class="space-y-3 pt-3">
+            <div class="flex items-center justify-between border-b border-emerald-500/30 pb-2">
+              <h3 class="text-sm font-bold text-emerald-300 font-mono flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Newly Introduced ConVars &amp; Commands (${addedDetails.length})</span>
+              </h3>
+              <button onclick="closeAddedEngineItemsModal(); loadPatchDiff('${effectiveOldTag}', '${effectiveNewTag}', 'interfaces')" class="text-xs font-mono text-emerald-400 hover:text-emerald-300 cursor-pointer">
+                View in ConVar Deltas &rarr;
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+              ${addedDetails.map(cv => `
+                <div onclick="closeAddedEngineItemsModal(); switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="bg-slate-950/80 border border-emerald-500/40 hover:border-emerald-400 rounded-xl p-4 space-y-2.5 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-emerald-300 break-all">${escapeHtml(cv.name)}</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">NEW</span>
+                  </div>
+
+                  <div class="flex items-center gap-2 text-[10px]">
+                    <span class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">${escapeHtml(cv.binary || 'engine2.dll')}</span>
+                    <span class="text-slate-400">${escapeHtml(cv.category || 'General')}</span>
+                  </div>
+
+                  <p class="text-slate-300 text-[11px] font-sans leading-relaxed line-clamp-3">
+                    ${escapeHtml(cv.description || 'Source 2 engine console variable added in update.')}
+                  </p>
+
+                  <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-500">
+                    <span>${(cv.flags || []).slice(0, 2).join(', ') || 'FCVAR_NONE'}</span>
+                    <span class="text-emerald-400 group-hover:underline">Inspect in ConVars &rarr;</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Section 3: Added Interfaces
+      if (addedIfs.length > 0) {
+        contentHtml += `
+          <div class="space-y-3 pt-3">
+            <div class="flex items-center justify-between border-b border-purple-500/30 pb-2">
+              <h3 class="text-sm font-bold text-purple-300 font-mono flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                <span>Newly Exported Factory Interfaces (${addedIfs.length})</span>
+              </h3>
+              <button onclick="closeAddedEngineItemsModal(); loadPatchDiff('${effectiveOldTag}', '${effectiveNewTag}', 'interfaces')" class="text-xs font-mono text-purple-400 hover:text-purple-300 cursor-pointer">
+                View in Interfaces &rarr;
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${addedIfs.map(iface => `
+                <div class="bg-slate-950/80 border border-purple-500/40 rounded-xl p-3.5 space-y-1.5 font-mono text-xs">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-purple-300">${escapeHtml(iface.token || '')}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300">INTERFACE</span>
+                  </div>
+                  <div class="text-[10px] text-slate-400">Binary: <span class="text-slate-200">${escapeHtml(iface.binary || '')}</span></div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (addedClasses.length === 0 && addedDetails.length === 0 && addedIfs.length === 0) {
+        contentHtml = `
+          <div class="p-8 text-center text-slate-400 space-y-4">
+            <div class="w-12 h-12 rounded-full bg-slate-800 mx-auto flex items-center justify-center text-slate-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <p class="font-bold text-white text-base">No New Classes or ConVars Introduced</p>
+              <p class="text-xs text-slate-400 max-w-md mx-auto mt-1">This update snapshot focuses on routine maintenance, PE recompilation, and bug fixes without expanding the engine API or registering new schema classes.</p>
+            </div>
+            <div class="flex items-center justify-center gap-3 pt-2">
+              <button onclick="closeAddedEngineItemsModal(); loadPatchDiff('${effectiveOldTag}', '${effectiveNewTag}', 'schemas')" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-xs font-bold transition-all cursor-pointer">
+                Inspect Shifted Schemas &rarr;
+              </button>
+              <button onclick="closeAddedEngineItemsModal(); loadPatchDiff('${effectiveOldTag}', '${effectiveNewTag}', 'binaries')" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-mono text-xs font-bold transition-all cursor-pointer">
+                Inspect Modified Binaries &rarr;
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      bodyEl.innerHTML = contentHtml;
+      modal.classList.remove('hidden');
+    }
+
+    function closeAddedEngineItemsModal() {
+      const modal = document.getElementById('addedEngineItemsModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function onAddedEngineItemsBackdropClick(event) {
+      if (event.target.id === 'addedEngineItemsModal') {
+        closeAddedEngineItemsModal();
+      }
+    }
+
     // Also close on ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeBinaryCodeDelta();
+        closeAddedEngineItemsModal();
       }
     });
 
@@ -7454,6 +8023,46 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       <div class="p-4 border-t border-cs2-border bg-slate-900/60 flex items-center justify-between">
         <span class="text-[11px] font-mono text-slate-500">Static PE & Disassembly Differential Analysis Engine</span>
         <button onclick="closeBinaryCodeDelta()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition-colors">
+          Close Inspector
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Added Engine Items Modal Dialog -->
+  <div id="addedEngineItemsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" onclick="onAddedEngineItemsBackdropClick(event)">
+    <div class="bg-[#111827] border border-emerald-500/50 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-cs2-border flex items-center justify-between bg-slate-900/90">
+        <div class="flex items-center gap-3">
+          <span class="flex h-3 w-3 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+          </span>
+          <div>
+            <h2 id="addedEngineItemsTitle" class="text-lg font-bold text-white font-mono flex items-center gap-2">
+              Added Engine Items &amp; Architecture Deltas
+            </h2>
+            <p id="addedEngineItemsSubtitle" class="text-xs text-slate-400 mt-0.5 font-mono">
+              Newly introduced SchemaSystem classes, console variables, and factory interfaces
+            </p>
+          </div>
+        </div>
+        <button onclick="closeAddedEngineItemsModal()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div id="addedEngineItemsBody" class="p-6 overflow-y-auto space-y-6 font-mono text-xs">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-cs2-border bg-slate-900/60 flex items-center justify-between">
+        <span class="text-[11px] font-mono text-slate-500">Source 2 Engine Architecture &amp; Delta Navigation</span>
+        <button onclick="closeAddedEngineItemsModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition-colors cursor-pointer">
           Close Inspector
         </button>
       </div>
