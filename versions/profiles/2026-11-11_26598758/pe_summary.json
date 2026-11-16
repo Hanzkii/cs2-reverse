@@ -1,0 +1,1622 @@
+{
+  "animationsystem.dll": {
+    "size": 9328792,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 6543136,
+        "rva": 4096,
+        "rsize": 6543360,
+        "roff": 1024,
+        "sha256_short": "156a064e4f3b4360"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 1660578,
+        "rva": 6549504,
+        "rsize": 1660928,
+        "roff": 6544384,
+        "sha256_short": "00b48604026f2f8b"
+      },
+      {
+        "name": ".data",
+        "vsize": 3790976,
+        "rva": 8212480,
+        "rsize": 623616,
+        "roff": 8205312,
+        "sha256_short": "029188193d1b0424"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 379524,
+        "rva": 12005376,
+        "rsize": 379904,
+        "roff": 8828928,
+        "sha256_short": "833f96373ab5bbb8"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 108040,
+        "rva": 12386304,
+        "rsize": 108544,
+        "roff": 9208832,
+        "sha256_short": "45eb3bc1205a81e6"
+      }
+    ]
+  },
+  "client.dll": {
+    "size": 39120536,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 27934992,
+        "rva": 4096,
+        "rsize": 27935232,
+        "roff": 1024,
+        "sha256_short": "17e1bef53db72aaf"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 7378274,
+        "rva": 27942912,
+        "rsize": 7378432,
+        "roff": 27936256,
+        "sha256_short": "3f14115e91630a69"
+      },
+      {
+        "name": ".data",
+        "vsize": 6164748,
+        "rva": 35323904,
+        "rsize": 1732608,
+        "roff": 35314688,
+        "sha256_short": "269d9accde8e592e"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 1533492,
+        "rva": 41492480,
+        "rsize": 1533952,
+        "roff": 37047296,
+        "sha256_short": "a8ebef3d7706e3d2"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 527872,
+        "rva": 43028480,
+        "rsize": 527872,
+        "roff": 38581248,
+        "sha256_short": "e12a6f2cfe6d8f73"
+      }
+    ]
+  },
+  "cs2.exe": {
+    "size": 2968216,
+    "image_base": "0x140000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 169509,
+        "rva": 4096,
+        "rsize": 169984,
+        "roff": 1024,
+        "sha256_short": "4f6dd0fff10621fe"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 73522,
+        "rva": 176128,
+        "rsize": 73728,
+        "roff": 171008,
+        "sha256_short": "96f37a69959836a4"
+      },
+      {
+        "name": ".data",
+        "vsize": 1953440,
+        "rva": 249856,
+        "rsize": 524288,
+        "roff": 244736,
+        "sha256_short": "528beb2a85b670e4"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 8568,
+        "rva": 2203648,
+        "rsize": 8704,
+        "roff": 769024,
+        "sha256_short": "d1137893000dccaa"
+      },
+      {
+        "name": ".rsrc",
+        "vsize": 2176592,
+        "rva": 2215936,
+        "rsize": 2177024,
+        "roff": 777728,
+        "sha256_short": "4f4b44f3c127ebeb"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 1736,
+        "rva": 4395008,
+        "rsize": 2048,
+        "roff": 2954752,
+        "sha256_short": "ad168e4df3dcff8b"
+      }
+    ]
+  },
+  "engine2.dll": {
+    "size": 7455384,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 5293546,
+        "rva": 4096,
+        "rsize": 5293568,
+        "roff": 1024,
+        "sha256_short": "714e0522ed2e0174"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 1679692,
+        "rva": 5300224,
+        "rsize": 1679872,
+        "roff": 5294592,
+        "sha256_short": "3be5abc9617a3a97"
+      },
+      {
+        "name": ".data",
+        "vsize": 3225316,
+        "rva": 6983680,
+        "rsize": 159744,
+        "roff": 6974464,
+        "sha256_short": "d50cc5248ad140bb"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 264516,
+        "rva": 10211328,
+        "rsize": 264704,
+        "roff": 7134208,
+        "sha256_short": "16cedc0d08981562"
+      },
+      {
+        "name": "_RDATA",
+        "vsize": 48,
+        "rva": 10477568,
+        "rsize": 512,
+        "roff": 7398912,
+        "sha256_short": "463b156b15235f34"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 44388,
+        "rva": 10481664,
+        "rsize": 44544,
+        "roff": 7399424,
+        "sha256_short": "5de3889e528c33f2"
+      }
+    ]
+  },
+  "filesystem_stdio.dll": {
+    "size": 2260120,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1392062,
+        "rva": 4096,
+        "rsize": 1392128,
+        "roff": 1024,
+        "sha256_short": "1da2136811bad4a8"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 476072,
+        "rva": 1396736,
+        "rsize": 476160,
+        "roff": 1393152,
+        "sha256_short": "99a9e72e4b39934b"
+      },
+      {
+        "name": ".data",
+        "vsize": 305324,
+        "rva": 1875968,
+        "rsize": 287744,
+        "roff": 1869312,
+        "sha256_short": "6eff447ceb0ff4fd"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 67920,
+        "rva": 2183168,
+        "rsize": 68096,
+        "roff": 2157056,
+        "sha256_short": "4fb938a568cf53b7"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 23044,
+        "rva": 2252800,
+        "rsize": 23552,
+        "roff": 2225152,
+        "sha256_short": "8b5a47b7c19c3607"
+      }
+    ]
+  },
+  "host.dll": {
+    "size": 1388184,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1020752,
+        "rva": 4096,
+        "rsize": 1020928,
+        "roff": 1024,
+        "sha256_short": "05edf736e8b0af8b"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 263614,
+        "rva": 1028096,
+        "rsize": 263680,
+        "roff": 1021952,
+        "sha256_short": "dae0c8bede32012b"
+      },
+      {
+        "name": ".data",
+        "vsize": 82036,
+        "rva": 1294336,
+        "rsize": 32768,
+        "roff": 1285632,
+        "sha256_short": "60d0802182e9cfe7"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 48924,
+        "rva": 1380352,
+        "rsize": 49152,
+        "roff": 1318400,
+        "sha256_short": "153d36fc5ea588e1"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 9164,
+        "rva": 1429504,
+        "rsize": 9216,
+        "roff": 1367552,
+        "sha256_short": "1e01947f0a82799b"
+      }
+    ]
+  },
+  "inputsystem.dll": {
+    "size": 302232,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 182766,
+        "rva": 4096,
+        "rsize": 182784,
+        "roff": 1024,
+        "sha256_short": "181b7e63cf9b4ae3"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 82312,
+        "rva": 188416,
+        "rsize": 82432,
+        "roff": 183808,
+        "sha256_short": "d02e8affeebc64e0"
+      },
+      {
+        "name": ".data",
+        "vsize": 44196,
+        "rva": 274432,
+        "rsize": 9216,
+        "roff": 266240,
+        "sha256_short": "33e4fd00a2e82586"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 10188,
+        "rva": 319488,
+        "rsize": 10240,
+        "roff": 275456,
+        "sha256_short": "0702ec4e4fcf6519"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 4620,
+        "rva": 331776,
+        "rsize": 5120,
+        "roff": 285696,
+        "sha256_short": "3e60c60161e3d498"
+      }
+    ]
+  },
+  "localize.dll": {
+    "size": 382104,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 253790,
+        "rva": 4096,
+        "rsize": 253952,
+        "roff": 1024,
+        "sha256_short": "561d70627bca55db"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 90766,
+        "rva": 258048,
+        "rsize": 91136,
+        "roff": 254976,
+        "sha256_short": "8a8e79eff4f5be84"
+      },
+      {
+        "name": ".data",
+        "vsize": 13884,
+        "rva": 352256,
+        "rsize": 6656,
+        "roff": 346112,
+        "sha256_short": "838dc530493ff453"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 14004,
+        "rva": 368640,
+        "rsize": 14336,
+        "roff": 352768,
+        "sha256_short": "b16b9cc4ccd55b87"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 3340,
+        "rva": 385024,
+        "rsize": 3584,
+        "roff": 367104,
+        "sha256_short": "e4c29ab3d3d142ae"
+      }
+    ]
+  },
+  "matchmaking.dll": {
+    "size": 1888920,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1379835,
+        "rva": 4096,
+        "rsize": 1379840,
+        "roff": 1024,
+        "sha256_short": "6f7ab2eb414efb82"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 360432,
+        "rva": 1384448,
+        "rsize": 360448,
+        "roff": 1380864,
+        "sha256_short": "f40e99952425dc1a"
+      },
+      {
+        "name": ".data",
+        "vsize": 223664,
+        "rva": 1744896,
+        "rsize": 46080,
+        "roff": 1741312,
+        "sha256_short": "f643fc783cb60995"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 75564,
+        "rva": 1970176,
+        "rsize": 75776,
+        "roff": 1787392,
+        "sha256_short": "5bc75a6410af2184"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 13836,
+        "rva": 2048000,
+        "rsize": 14336,
+        "roff": 1863168,
+        "sha256_short": "83f358528b9db282"
+      }
+    ]
+  },
+  "materialsystem2.dll": {
+    "size": 1429144,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1000300,
+        "rva": 4096,
+        "rsize": 1000448,
+        "roff": 1024,
+        "sha256_short": "2e4b47a5e89bf058"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 329346,
+        "rva": 1007616,
+        "rsize": 329728,
+        "roff": 1001472,
+        "sha256_short": "d1646671bc20d4d6"
+      },
+      {
+        "name": ".data",
+        "vsize": 192668,
+        "rva": 1339392,
+        "rsize": 30720,
+        "roff": 1331200,
+        "sha256_short": "bd8eb4ebe88ea86c"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 49464,
+        "rva": 1536000,
+        "rsize": 49664,
+        "roff": 1361920,
+        "sha256_short": "4c5458bd9e57f47a"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 6100,
+        "rva": 1589248,
+        "rsize": 6144,
+        "roff": 1411584,
+        "sha256_short": "de03aa823a87b37c"
+      }
+    ]
+  },
+  "meshsystem.dll": {
+    "size": 1664664,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1262720,
+        "rva": 4096,
+        "rsize": 1263104,
+        "roff": 1024,
+        "sha256_short": "cb1675c9e32fde82"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 249932,
+        "rva": 1269760,
+        "rsize": 250368,
+        "roff": 1264128,
+        "sha256_short": "40259355d6caaed8"
+      },
+      {
+        "name": ".data",
+        "vsize": 604968,
+        "rva": 1523712,
+        "rsize": 60928,
+        "roff": 1514496,
+        "sha256_short": "b569f6410215dc3e"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 66996,
+        "rva": 2129920,
+        "rsize": 67072,
+        "roff": 1575424,
+        "sha256_short": "fbe44baed0f796a7"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 10464,
+        "rva": 2199552,
+        "rsize": 10752,
+        "roff": 1642496,
+        "sha256_short": "62d7396ca5e8cf86"
+      }
+    ]
+  },
+  "navsystem.dll": {
+    "size": 1314968,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1020656,
+        "rva": 4096,
+        "rsize": 1020928,
+        "roff": 1024,
+        "sha256_short": "2e5507e302f62b9b"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 184812,
+        "rva": 1028096,
+        "rsize": 184832,
+        "roff": 1021952,
+        "sha256_short": "8f8e03f453ff6b6c"
+      },
+      {
+        "name": ".data",
+        "vsize": 108208,
+        "rva": 1216512,
+        "rsize": 47616,
+        "roff": 1206784,
+        "sha256_short": "6b68898511bbe9e5"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 43128,
+        "rva": 1327104,
+        "rsize": 43520,
+        "roff": 1254400,
+        "sha256_short": "8f84ae89a21bce3a"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 5448,
+        "rva": 1372160,
+        "rsize": 5632,
+        "roff": 1297920,
+        "sha256_short": "11c15828213f473d"
+      }
+    ]
+  },
+  "networksystem.dll": {
+    "size": 2818712,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 2091244,
+        "rva": 4096,
+        "rsize": 2091520,
+        "roff": 1024,
+        "sha256_short": "336bc3461c8b3544"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 437676,
+        "rva": 2097152,
+        "rsize": 437760,
+        "roff": 2092544,
+        "sha256_short": "0ee781df6a07874e"
+      },
+      {
+        "name": ".data",
+        "vsize": 221896,
+        "rva": 2535424,
+        "rsize": 158720,
+        "roff": 2530304,
+        "sha256_short": "2cc18f44ce2a7c8c"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 101544,
+        "rva": 2760704,
+        "rsize": 101888,
+        "roff": 2689024,
+        "sha256_short": "68692effbb37d58c"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 16220,
+        "rva": 2863104,
+        "rsize": 16384,
+        "roff": 2790912,
+        "sha256_short": "4db382ce5ad00509"
+      }
+    ]
+  },
+  "panorama.dll": {
+    "size": 6108312,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 4469164,
+        "rva": 4096,
+        "rsize": 4469248,
+        "roff": 1024,
+        "sha256_short": "5770c4890eed8f08"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 1022258,
+        "rva": 4476928,
+        "rsize": 1022464,
+        "roff": 4470272,
+        "sha256_short": "05a05f902604ca4c"
+      },
+      {
+        "name": ".data",
+        "vsize": 729996,
+        "rva": 5500928,
+        "rsize": 355328,
+        "roff": 5492736,
+        "sha256_short": "c27da35ce34be7ca"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 208188,
+        "rva": 6234112,
+        "rsize": 208384,
+        "roff": 5848064,
+        "sha256_short": "aabcc55fc0993139"
+      },
+      {
+        "name": ".rsrc",
+        "vsize": 1032,
+        "rva": 6443008,
+        "rsize": 1536,
+        "roff": 6056448,
+        "sha256_short": "46e039aac4b32ef4"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 38712,
+        "rva": 6447104,
+        "rsize": 38912,
+        "roff": 6057984,
+        "sha256_short": "da4252227a53efbf"
+      }
+    ]
+  },
+  "panorama_text_pango.dll": {
+    "size": 2997912,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1993172,
+        "rva": 4096,
+        "rsize": 1993216,
+        "roff": 1024,
+        "sha256_short": "4e4280dcbb5abe50"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 577048,
+        "rva": 1998848,
+        "rsize": 577536,
+        "roff": 1994240,
+        "sha256_short": "b55805adedf8c988"
+      },
+      {
+        "name": ".data",
+        "vsize": 314460,
+        "rva": 2576384,
+        "rsize": 295936,
+        "roff": 2571776,
+        "sha256_short": "3ba76a64684d9499"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 93060,
+        "rva": 2891776,
+        "rsize": 93184,
+        "roff": 2867712,
+        "sha256_short": "18a0a856e9c08614"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 25472,
+        "rva": 2985984,
+        "rsize": 25600,
+        "roff": 2960896,
+        "sha256_short": "e643d311dbf0b147"
+      }
+    ]
+  },
+  "panoramauiclient.dll": {
+    "size": 2746520,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 2021248,
+        "rva": 4096,
+        "rsize": 2021376,
+        "roff": 1024,
+        "sha256_short": "2e767108be7716e9"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 504440,
+        "rva": 2027520,
+        "rsize": 504832,
+        "roff": 2022400,
+        "sha256_short": "c3fa8971cf62d573"
+      },
+      {
+        "name": ".data",
+        "vsize": 154472,
+        "rva": 2535424,
+        "rsize": 54272,
+        "roff": 2527232,
+        "sha256_short": "69ce66c4ac3bace0"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 122796,
+        "rva": 2691072,
+        "rsize": 122880,
+        "roff": 2581504,
+        "sha256_short": "9476ecf1fc0d8e56"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 30320,
+        "rva": 2813952,
+        "rsize": 30720,
+        "roff": 2704384,
+        "sha256_short": "f42526ddd799b462"
+      }
+    ]
+  },
+  "particles.dll": {
+    "size": 6459544,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 4610928,
+        "rva": 4096,
+        "rsize": 4611072,
+        "roff": 1024,
+        "sha256_short": "2db5d42b666b8640"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 1185572,
+        "rva": 4616192,
+        "rsize": 1185792,
+        "roff": 4612096,
+        "sha256_short": "2b69cf66ea6234d9"
+      },
+      {
+        "name": ".data",
+        "vsize": 2807180,
+        "rva": 5804032,
+        "rsize": 373760,
+        "roff": 5797888,
+        "sha256_short": "58bb3144190ae208"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 171876,
+        "rva": 8613888,
+        "rsize": 172032,
+        "roff": 6171648,
+        "sha256_short": "769302188cdbe614"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 104336,
+        "rva": 8785920,
+        "rsize": 104448,
+        "roff": 6343680,
+        "sha256_short": "06efb7383e21671e"
+      }
+    ]
+  },
+  "pulse_system.dll": {
+    "size": 2032792,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1284378,
+        "rva": 4096,
+        "rsize": 1284608,
+        "roff": 1024,
+        "sha256_short": "84e49462b22a2bdb"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 533082,
+        "rva": 1290240,
+        "rsize": 533504,
+        "roff": 1285632,
+        "sha256_short": "b16c319eb73e1d80"
+      },
+      {
+        "name": ".data",
+        "vsize": 659980,
+        "rva": 1826816,
+        "rsize": 106496,
+        "roff": 1819136,
+        "sha256_short": "42a1abbe6825d66e"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 76248,
+        "rva": 2490368,
+        "rsize": 76288,
+        "roff": 1925632,
+        "sha256_short": "a63e0871258a0eb9"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 19388,
+        "rva": 2568192,
+        "rsize": 19456,
+        "roff": 2001920,
+        "sha256_short": "38c3e68607b26fad"
+      }
+    ]
+  },
+  "rendersystemdx11.dll": {
+    "size": 4546200,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 2001824,
+        "rva": 4096,
+        "rsize": 2001920,
+        "roff": 1024,
+        "sha256_short": "430417092c089c56"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 2358340,
+        "rva": 2007040,
+        "rsize": 2358784,
+        "roff": 2002944,
+        "sha256_short": "20af8dddd0a389de"
+      },
+      {
+        "name": ".data",
+        "vsize": 453260,
+        "rva": 4366336,
+        "rsize": 66560,
+        "roff": 4361728,
+        "sha256_short": "f3ef1ff89b3129e9"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 87948,
+        "rva": 4820992,
+        "rsize": 88064,
+        "roff": 4428288,
+        "sha256_short": "f667cfb73f6c48a6"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 17980,
+        "rva": 4911104,
+        "rsize": 18432,
+        "roff": 4516352,
+        "sha256_short": "9dbb7eaf2e9dcf59"
+      }
+    ]
+  },
+  "rendersystemvulkan.dll": {
+    "size": 6249624,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 2974256,
+        "rva": 4096,
+        "rsize": 2974720,
+        "roff": 1024,
+        "sha256_short": "ecca65bfc1c871b9"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 3028784,
+        "rva": 2981888,
+        "rsize": 3028992,
+        "roff": 2975744,
+        "sha256_short": "c12fe244bbbd344f"
+      },
+      {
+        "name": ".data",
+        "vsize": 477868,
+        "rva": 6012928,
+        "rsize": 88064,
+        "roff": 6004736,
+        "sha256_short": "cbefd1b22aae7856"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 125460,
+        "rva": 6492160,
+        "rsize": 125952,
+        "roff": 6092800,
+        "sha256_short": "384c0843a96e6251"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 19296,
+        "rva": 6619136,
+        "rsize": 19456,
+        "roff": 6218752,
+        "sha256_short": "b5fee322e22d097f"
+      }
+    ]
+  },
+  "resourcesystem.dll": {
+    "size": 532632,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 348506,
+        "rva": 4096,
+        "rsize": 348672,
+        "roff": 1024,
+        "sha256_short": "0a5c0333c7ea4e30"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 122216,
+        "rva": 356352,
+        "rsize": 122368,
+        "roff": 349696,
+        "sha256_short": "f6e2a572e6fc863c"
+      },
+      {
+        "name": ".data",
+        "vsize": 99796,
+        "rva": 479232,
+        "rsize": 21504,
+        "roff": 472064,
+        "sha256_short": "5bd55709a558f21d"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 22368,
+        "rva": 581632,
+        "rsize": 22528,
+        "roff": 493568,
+        "sha256_short": "acd62cb22f4cd802"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 5072,
+        "rva": 606208,
+        "rsize": 5120,
+        "roff": 516096,
+        "sha256_short": "fb3d760e4e8e2643"
+      }
+    ]
+  },
+  "scenefilecache.dll": {
+    "size": 1297048,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 818304,
+        "rva": 4096,
+        "rsize": 818688,
+        "roff": 1024,
+        "sha256_short": "d5a41b731956d2fd"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 325212,
+        "rva": 823296,
+        "rsize": 325632,
+        "roff": 819712,
+        "sha256_short": "f282b9c35907d8c2"
+      },
+      {
+        "name": ".data",
+        "vsize": 207180,
+        "rva": 1150976,
+        "rsize": 66048,
+        "roff": 1145344,
+        "sha256_short": "52bf8a3c808261af"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 44304,
+        "rva": 1359872,
+        "rsize": 44544,
+        "roff": 1211392,
+        "sha256_short": "7e24621bf7f998f6"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 29540,
+        "rva": 1404928,
+        "rsize": 29696,
+        "roff": 1255936,
+        "sha256_short": "bfbe66b76cd02ae3"
+      }
+    ]
+  },
+  "scenesystem.dll": {
+    "size": 7094936,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 5718192,
+        "rva": 4096,
+        "rsize": 5718528,
+        "roff": 1024,
+        "sha256_short": "567817637eb1ea4d"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 977048,
+        "rva": 5726208,
+        "rsize": 977408,
+        "roff": 5719552,
+        "sha256_short": "999e38fd4a4f0849"
+      },
+      {
+        "name": ".data",
+        "vsize": 2950804,
+        "rva": 6705152,
+        "rsize": 120320,
+        "roff": 6696960,
+        "sha256_short": "b282ddc2e89a7c9d"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 242784,
+        "rva": 9658368,
+        "rsize": 243200,
+        "roff": 6817280,
+        "sha256_short": "c6ef206756c3ac11"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 22872,
+        "rva": 9904128,
+        "rsize": 23040,
+        "roff": 7060480,
+        "sha256_short": "3c1fbef4e7a32c54"
+      }
+    ]
+  },
+  "schemasystem.dll": {
+    "size": 445592,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 295658,
+        "rva": 4096,
+        "rsize": 295936,
+        "roff": 1024,
+        "sha256_short": "4e8b30097fd422f9"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 101558,
+        "rva": 303104,
+        "rsize": 101888,
+        "roff": 296960,
+        "sha256_short": "aa12cb5e8c9834bf"
+      },
+      {
+        "name": ".data",
+        "vsize": 81920,
+        "rva": 405504,
+        "rsize": 12800,
+        "roff": 398848,
+        "sha256_short": "c47bbdbb1ec4eb01"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 16764,
+        "rva": 487424,
+        "rsize": 16896,
+        "roff": 411648,
+        "sha256_short": "67aa534b3c39525e"
+      },
+      {
+        "name": ".rsrc",
+        "vsize": 968,
+        "rva": 507904,
+        "rsize": 1024,
+        "roff": 428544,
+        "sha256_short": "b15e4f9494dc4ef6"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 4176,
+        "rva": 512000,
+        "rsize": 4608,
+        "roff": 429568,
+        "sha256_short": "44cdba66ba30f246"
+      }
+    ]
+  },
+  "server.dll": {
+    "size": 34539672,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 24480096,
+        "rva": 4096,
+        "rsize": 24480256,
+        "roff": 1024,
+        "sha256_short": "049fafa9375b4946"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 6459310,
+        "rva": 24485888,
+        "rsize": 6459392,
+        "roff": 24481280,
+        "sha256_short": "738e3583a9fe25d5"
+      },
+      {
+        "name": ".data",
+        "vsize": 6356884,
+        "rva": 30945280,
+        "rsize": 1723904,
+        "roff": 30940672,
+        "sha256_short": "4920b9c68d027863"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 1299576,
+        "rva": 37302272,
+        "rsize": 1299968,
+        "roff": 32664576,
+        "sha256_short": "b2be7934cf1ba4df"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 563532,
+        "rva": 38604800,
+        "rsize": 563712,
+        "roff": 33964544,
+        "sha256_short": "d660094216944933"
+      }
+    ]
+  },
+  "soundsystem.dll": {
+    "size": 5837464,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 4158596,
+        "rva": 4096,
+        "rsize": 4158976,
+        "roff": 1024,
+        "sha256_short": "2b0192d149764280"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 1162118,
+        "rva": 4165632,
+        "rsize": 1162240,
+        "roff": 4160000,
+        "sha256_short": "9adbd14c1cafdc87"
+      },
+      {
+        "name": ".data",
+        "vsize": 1457180,
+        "rva": 5328896,
+        "rsize": 245760,
+        "roff": 5322240,
+        "sha256_short": "faeda6266d9acba4"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 186780,
+        "rva": 6787072,
+        "rsize": 186880,
+        "roff": 5568000,
+        "sha256_short": "7c7d91567ed6a2a0"
+      },
+      {
+        "name": "_RDATA",
+        "vsize": 48,
+        "rva": 6975488,
+        "rsize": 512,
+        "roff": 5754880,
+        "sha256_short": "463b156b15235f34"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 70272,
+        "rva": 6979584,
+        "rsize": 70656,
+        "roff": 5755392,
+        "sha256_short": "ab986c1307fa85f5"
+      }
+    ]
+  },
+  "steamaudio.dll": {
+    "size": 3545752,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 2219018,
+        "rva": 4096,
+        "rsize": 2219520,
+        "roff": 1024,
+        "sha256_short": "afbf0e5cc0993e47"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 784874,
+        "rva": 2224128,
+        "rsize": 784896,
+        "roff": 2220544,
+        "sha256_short": "fd938eef423fd61d"
+      },
+      {
+        "name": ".data",
+        "vsize": 595588,
+        "rva": 3010560,
+        "rsize": 359424,
+        "roff": 3005440,
+        "sha256_short": "20d63e1636c40351"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 107004,
+        "rva": 3608576,
+        "rsize": 107008,
+        "roff": 3364864,
+        "sha256_short": "d9ad292d358a2e4d"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 62396,
+        "rva": 3719168,
+        "rsize": 62464,
+        "roff": 3471872,
+        "sha256_short": "cb23bcfd775ed34c"
+      }
+    ]
+  },
+  "steamnetworkingsockets.dll": {
+    "size": 4304536,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 3135108,
+        "rva": 4096,
+        "rsize": 3135488,
+        "roff": 1024,
+        "sha256_short": "2ad171b31ed20c74"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 922512,
+        "rva": 3141632,
+        "rsize": 922624,
+        "roff": 3136512,
+        "sha256_short": "c40d68e5a83a26c4"
+      },
+      {
+        "name": ".data",
+        "vsize": 91476,
+        "rva": 4067328,
+        "rsize": 62464,
+        "roff": 4059136,
+        "sha256_short": "5188d56651e4e8d4"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 138768,
+        "rva": 4161536,
+        "rsize": 139264,
+        "roff": 4121600,
+        "sha256_short": "4d739318a5fc5410"
+      },
+      {
+        "name": ".fptable",
+        "vsize": 256,
+        "rva": 4300800,
+        "rsize": 512,
+        "roff": 4260864,
+        "sha256_short": "076a27c79e5ace2a"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 31320,
+        "rva": 4304896,
+        "rsize": 31744,
+        "roff": 4261376,
+        "sha256_short": "563ba27f511c116b"
+      }
+    ]
+  },
+  "tier0.dll": {
+    "size": 3979416,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 3069396,
+        "rva": 4096,
+        "rsize": 3069440,
+        "roff": 1024,
+        "sha256_short": "0b60ab1d113ce855"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 677872,
+        "rva": 3076096,
+        "rsize": 677888,
+        "roff": 3070464,
+        "sha256_short": "b27ed3e034a1f795"
+      },
+      {
+        "name": ".data",
+        "vsize": 277916,
+        "rva": 3756032,
+        "rsize": 60416,
+        "roff": 3748352,
+        "sha256_short": "ebd0accd024b0848"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 129696,
+        "rva": 4034560,
+        "rsize": 130048,
+        "roff": 3808768,
+        "sha256_short": "f225dc8f531136f1"
+      },
+      {
+        "name": ".rsrc",
+        "vsize": 16296,
+        "rva": 4165632,
+        "rsize": 16384,
+        "roff": 3938816,
+        "sha256_short": "26beb9fcc2661ec6"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 12668,
+        "rva": 4182016,
+        "rsize": 12800,
+        "roff": 3955200,
+        "sha256_short": "23e409e0ca8f50f9"
+      }
+    ]
+  },
+  "v8system.dll": {
+    "size": 233624,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 135934,
+        "rva": 4096,
+        "rsize": 136192,
+        "roff": 1024,
+        "sha256_short": "56dfe36165287e34"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 65394,
+        "rva": 143360,
+        "rsize": 65536,
+        "roff": 137216,
+        "sha256_short": "6f3ba406a7607427"
+      },
+      {
+        "name": ".data",
+        "vsize": 13604,
+        "rva": 208896,
+        "rsize": 7168,
+        "roff": 202752,
+        "sha256_short": "e12ee24f859017aa"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 8844,
+        "rva": 225280,
+        "rsize": 9216,
+        "roff": 209920,
+        "sha256_short": "b7c618ce947ea44b"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 2980,
+        "rva": 237568,
+        "rsize": 3072,
+        "roff": 219136,
+        "sha256_short": "4636107d1ee61f22"
+      }
+    ]
+  },
+  "vconcomm.dll": {
+    "size": 259736,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 154062,
+        "rva": 4096,
+        "rsize": 154112,
+        "roff": 1024,
+        "sha256_short": "990f6224d1de407b"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 70830,
+        "rva": 159744,
+        "rsize": 71168,
+        "roff": 155136,
+        "sha256_short": "15e624aa322d8bc8"
+      },
+      {
+        "name": ".data",
+        "vsize": 15716,
+        "rva": 233472,
+        "rsize": 8192,
+        "roff": 226304,
+        "sha256_short": "2a95c8e87a60b78a"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 10752,
+        "rva": 249856,
+        "rsize": 10752,
+        "roff": 234496,
+        "sha256_short": "01213cc48273e5d3"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 2864,
+        "rva": 262144,
+        "rsize": 3072,
+        "roff": 245248,
+        "sha256_short": "6b55039af85d8498"
+      }
+    ]
+  },
+  "vphysics2.dll": {
+    "size": 4829848,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 3985792,
+        "rva": 4096,
+        "rsize": 3985920,
+        "roff": 1024,
+        "sha256_short": "340b850b56d5e159"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 497408,
+        "rva": 3993600,
+        "rsize": 497664,
+        "roff": 3986944,
+        "sha256_short": "5455d9345986c3b6"
+      },
+      {
+        "name": ".data",
+        "vsize": 1156788,
+        "rva": 4493312,
+        "rsize": 134144,
+        "roff": 4484608,
+        "sha256_short": "54a20cc2ac2979cb"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 177768,
+        "rva": 5652480,
+        "rsize": 178176,
+        "roff": 4618752,
+        "sha256_short": "a4836a68d76ba25b"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 21408,
+        "rva": 5832704,
+        "rsize": 21504,
+        "roff": 4796928,
+        "sha256_short": "55d48e608958d3c3"
+      }
+    ]
+  },
+  "vscript.dll": {
+    "size": 1352856,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1029758,
+        "rva": 4096,
+        "rsize": 1030144,
+        "roff": 1024,
+        "sha256_short": "3dc735b69b81bbf0"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 254242,
+        "rva": 1036288,
+        "rsize": 254464,
+        "roff": 1031168,
+        "sha256_short": "c3f321ae4cca126f"
+      },
+      {
+        "name": ".data",
+        "vsize": 44100,
+        "rva": 1294336,
+        "rsize": 10752,
+        "roff": 1285632,
+        "sha256_short": "70732cfad8640c05"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 39396,
+        "rva": 1339392,
+        "rsize": 39424,
+        "roff": 1296384,
+        "sha256_short": "349a2101e6fa0e4d"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 5196,
+        "rva": 1380352,
+        "rsize": 5632,
+        "roff": 1335808,
+        "sha256_short": "381ed6a2b2ca80d8"
+      }
+    ]
+  },
+  "worldrenderer.dll": {
+    "size": 2029720,
+    "image_base": "0x180000000",
+    "sections": [
+      {
+        "name": ".text",
+        "vsize": 1313098,
+        "rva": 4096,
+        "rsize": 1313280,
+        "roff": 1024,
+        "sha256_short": "3114ec1120bbc85a"
+      },
+      {
+        "name": ".rdata",
+        "vsize": 559224,
+        "rva": 1318912,
+        "rsize": 559616,
+        "roff": 1314304,
+        "sha256_short": "3ed7f470d17afafc"
+      },
+      {
+        "name": ".data",
+        "vsize": 569092,
+        "rva": 1880064,
+        "rsize": 61440,
+        "roff": 1873920,
+        "sha256_short": "3a9d41d250915fec"
+      },
+      {
+        "name": ".pdata",
+        "vsize": 72396,
+        "rva": 2449408,
+        "rsize": 72704,
+        "roff": 1935360,
+        "sha256_short": "9391e738b294375f"
+      },
+      {
+        "name": ".reloc",
+        "vsize": 9984,
+        "rva": 2523136,
+        "rsize": 10240,
+        "roff": 2008064,
+        "sha256_short": "ea685cca46fe72ca"
+      }
+    ]
+  }
+}

@@ -27,7 +27,7 @@ flowchart TD
         SNAP["Take Pre-Rewind RestoreSnapshot"]
         BTP["BacktrackPlayer / BacktrackEntity (0x180eced70)"]
         RING["PawnTrackHistory Ring Buffer Lookup"]
-        TPCHECK{"Teleport Breaker: dist^2 >= 4096.0?"}
+        TPCHECK{"Teleport Breaker: Distance >= 64 units?"}
         LERP["Sub-Tick Fractional Bone/Origin Lerp"]
         DISCRETE["Nearest Frame Discrete Snap"]
         APPLY["Apply Backtracked Hitbox Transforms"]
@@ -44,8 +44,8 @@ flowchart TD
     SNAP --> BTP
     BTP --> RING
     RING --> TPCHECK
-    TPCHECK -->|No (Continuous)| LERP
-    TPCHECK -->|Yes (Teleported)| DISCRETE
+    TPCHECK -->|"No (Continuous)"| LERP
+    TPCHECK -->|"Yes (Teleported)"| DISCRETE
     LERP --> APPLY
     DISCRETE --> APPLY
     APPLY --> HITSCAN

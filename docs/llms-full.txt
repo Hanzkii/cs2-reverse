@@ -1,6 +1,6 @@
 # CS2 (Source 2) Reverse Engineering & Modding Reference
 
-> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26144732).
+> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26598758).
 
 ## Quick AI & Modding Context Links
 - [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 39 function signatures, C++20 SDK headers, key Schema offsets, and architecture docs.
@@ -78,48 +78,48 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
 - **vphysics2.dll** (`game/vphysics2/`): `rubikon_collision.cpp`, `rubikon_collision.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/vphysics2)
 
-## Verified Function Signatures Summary (Latest Build 26144732)
+## Verified Function Signatures Summary (Latest Build 26598758)
 | Binary | Symbol / Routine | Current RVA | Current VA | Category |
 | :--- | :--- | :--- | :--- | :--- |
-| `client.dll` | `AngleVectors` | `0x01742500` | `0x181742500` | Rendering & Math |
-| `client.dll` | `CalculateWorldBones` | `0x00aa1dc0` | `0x180aa1dc0` | Animation & Hitboxes |
-| `client.dll` | `CTransform::ConcatenateTransforms` | `0x0174a6e0` | `0x18174a6e0` | Animation & Hitboxes |
-| `server.dll` | `LineOfSightThroughSmoke` | `0x009c5610` | `0x1809c5610` | Volumetric & Smoke |
-| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009d8d50` | `0x1809d8d50` | Volumetric & Smoke |
-| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009dbf40` | `0x1809dbf40` | Volumetric & Smoke |
-| `server.dll` | `VoxelGrid_Raymarch` | `0x009da9b0` | `0x1809da9b0` | Volumetric & Smoke |
-| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009d6390` | `0x1809d6390` | Volumetric & Smoke |
-| `server.dll` | `SerializeSparseDelta` | `0x009bf550` | `0x1809bf550` | Volumetric & Smoke |
-| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x0081b770` | `0x18081b770` | Gameplay & Physics |
-| `pulse_system.dll` | `PulseInstructionDispatchLoop` | `0x0008f810` | `0x18008f810` | Scripting & VM |
-| `tier0.dll` | `CCvar::FindVar` | `0x0006c6b0` | `0x18006c6b0` | Engine Core |
-| `tier0.dll` | `HashStringCaseless` | `0x0006c8c0` | `0x18006c8c0` | Engine Core |
-| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001bf5c0` | `0x1801bf5c0` | Networking |
-| `networksystem.dll` | `SerializeNetMessage` | `0x000e23d0` | `0x1800e23d0` | Networking |
-| `networksystem.dll` | `WriteVarInt32` | `0x001c0760` | `0x1801c0760` | Networking |
-| `networksystem.dll` | `ReadVarInt32` | `0x001bf770` | `0x1801bf770` | Networking |
-| `networksystem.dll` | `DecodeFieldPaths` | `0x000835f8` | `0x1800835f8` | Delta Compression |
+| `client.dll` | `AngleVectors` | `0x01739120` | `0x181739120` | Rendering & Math |
+| `client.dll` | `CalculateWorldBones` | `0x00a955f0` | `0x180a955f0` | Animation & Hitboxes |
+| `client.dll` | `CTransform::ConcatenateTransforms` | `0x01741300` | `0x181741300` | Animation & Hitboxes |
+| `server.dll` | `LineOfSightThroughSmoke` | `0x009b82f0` | `0x1809b82f0` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009cba30` | `0x1809cba30` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009cec20` | `0x1809cec20` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_Raymarch` | `0x009cd690` | `0x1809cd690` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009c9070` | `0x1809c9070` | Volumetric & Smoke |
+| `server.dll` | `SerializeSparseDelta` | `0x009b2230` | `0x1809b2230` | Volumetric & Smoke |
+| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x008007d0` | `0x1808007d0` | Gameplay & Physics |
+| `pulse_system.dll` | `PulseInstructionDispatchLoop` | `0x0008f930` | `0x18008f930` | Scripting & VM |
+| `tier0.dll` | `CCvar::FindVar` | `0x0006c740` | `0x18006c740` | Engine Core |
+| `tier0.dll` | `HashStringCaseless` | `0x0006c950` | `0x18006c950` | Engine Core |
+| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001c4ef0` | `0x1801c4ef0` | Networking |
+| `networksystem.dll` | `SerializeNetMessage` | `0x000e6fd0` | `0x1800e6fd0` | Networking |
+| `networksystem.dll` | `WriteVarInt32` | `0x001c5fb0` | `0x1801c5fb0` | Networking |
+| `networksystem.dll` | `ReadVarInt32` | `0x001c5020` | `0x1801c5020` | Networking |
+| `networksystem.dll` | `DecodeFieldPaths` | `0x0007c813` | `0x18007c813` | Delta Compression |
 | `vphysics2.dll` | `ConvexPolyhedronRaycast` | `0x002544a0` | `0x1802544a0` | Physics & Collision |
 | `vphysics2.dll` | `CapsuleSweepIntersection` | `0x0016caf0` | `0x18016caf0` | Physics & Collision |
-| `animationsystem.dll` | `CTwoBoneIK_LawOfCosines` | `0x002f9750` | `0x1802f9750` | Animation & Hitboxes |
-| `server.dll` | `EvaluateBulletPenetration` | `0x00a9d150` | `0x180a9d150` | Weapon & Penetration |
+| `animationsystem.dll` | `CTwoBoneIK_LawOfCosines` | `0x002f96f0` | `0x1802f96f0` | Animation & Hitboxes |
+| `server.dll` | `EvaluateBulletPenetration` | `0x00a90280` | `0x180a90280` | Weapon & Penetration |
 | `navsystem.dll` | `NavAreaBuildPath` | `0x0003bdf0` | `0x18003bdf0` | Navigation & Pathfinding |
-| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x00828a10` | `0x180828a10` | Weapons & Ballistics |
-| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x0085ea90` | `0x18085ea90` | Weapons & Ballistics |
-| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008ea1b0` | `0x1808ea1b0` | Movement & Physics |
-| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008c0860` | `0x1808c0860` | Movement & Physics |
-| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f5640` | `0x1804f5640` | Sub-Tick & UserCmd |
-| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f70e0` | `0x1804f70e0` | Sub-Tick & UserCmd |
-| `client.dll` | `CSGOInput::CreateMove` | `0x00cfbd10` | `0x180cfbd10` | Sub-Tick & UserCmd |
-| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x0080cfd0` | `0x18080cfd0` | Weapons & Ballistics |
-| `client.dll` | `FX_CalculateSpread` | `0x00d25630` | `0x180d25630` | Weapons & Ballistics |
-| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00ecc690` | `0x180ecc690` | Gameplay & Physics |
-| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ee1250` | `0x180ee1250` | Gameplay & Physics |
-| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a8e500` | `0x180a8e500` | Weapons & Ballistics |
-| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00ad7ba0` | `0x180ad7ba0` | Weapons & Ballistics |
-| `animationsystem.dll` | `CBlendUpdateNode_ComputeWeights` | `0x002d7a80` | `0x1802d7a80` | Animation & Hitboxes |
-| `animationsystem.dll` | `CStateMachineUpdateNode_EvaluateTransitions` | `0x002c82c0` | `0x1802c82c0` | Animation & Hitboxes |
-| `animationsystem.dll` | `Quaternion_FromAngleAxis` | `0x0038dcc0` | `0x18038dcc0` | Animation & Hitboxes |
+| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x008230d0` | `0x1808230d0` | Weapons & Ballistics |
+| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x008594e0` | `0x1808594e0` | Weapons & Ballistics |
+| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008e4c10` | `0x1808e4c10` | Movement & Physics |
+| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008bb2b0` | `0x1808bb2b0` | Movement & Physics |
+| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f33f0` | `0x1804f33f0` | Sub-Tick & UserCmd |
+| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f4e90` | `0x1804f4e90` | Sub-Tick & UserCmd |
+| `client.dll` | `CSGOInput::CreateMove` | `0x00cf2250` | `0x180cf2250` | Sub-Tick & UserCmd |
+| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x008074a0` | `0x1808074a0` | Weapons & Ballistics |
+| `client.dll` | `FX_CalculateSpread` | `0x00d1bc20` | `0x180d1bc20` | Weapons & Ballistics |
+| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00eb8f40` | `0x180eb8f40` | Gameplay & Physics |
+| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ecdb00` | `0x180ecdb00` | Gameplay & Physics |
+| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a81610` | `0x180a81610` | Weapons & Ballistics |
+| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00acaca0` | `0x180acaca0` | Weapons & Ballistics |
+| `animationsystem.dll` | `CBlendUpdateNode_ComputeWeights` | `0x002d7a20` | `0x1802d7a20` | Animation & Hitboxes |
+| `animationsystem.dll` | `CStateMachineUpdateNode_EvaluateTransitions` | `0x002c8260` | `0x1802c8260` | Animation & Hitboxes |
+| `animationsystem.dll` | `Quaternion_FromAngleAxis` | `0x0038dc60` | `0x18038dc60` | Animation & Hitboxes |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -150,128 +150,128 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### AngleVectors (client.dll)
 - **ID**: `client_angle_vectors`
-- **Current RVA**: `0x01742500` (Baseline: `0x017402a0`, Delta: `+0x2260`)
-- **Current VA**: `0x181742500`
+- **Current RVA**: `0x01739120` (Baseline: `0x017402a0`, Delta: `-0x7180`)
+- **Current VA**: `0x181739120`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 08 55 48 8D 68 B8 48 81 EC 40 01 00 00 F3 0F 10 02`
 - **Description**: Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors.
 
 ### CalculateWorldBones (client.dll)
 - **ID**: `client_calc_world_bones`
-- **Current RVA**: `0x00aa1dc0` (Baseline: `0x00aa0f80`, Delta: `+0xe40`)
-- **Current VA**: `0x180aa1dc0`
+- **Current RVA**: `0x00a955f0` (Baseline: `0x00aa0f80`, Delta: `-0xb990`)
+- **Current VA**: `0x180a955f0`
 - **IDA / Ghidra Pattern**: `48 89 4C 24 08 55 53 56 57 41 54 41 55 41 56 41 57 B8 98 42 00 00`
 - **Description**: Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes.
 
 ### CTransform::ConcatenateTransforms (client.dll)
 - **ID**: `client_concatenate_transforms`
-- **Current RVA**: `0x0174a6e0` (Baseline: `0x01748480`, Delta: `+0x2260`)
-- **Current VA**: `0x18174a6e0`
+- **Current RVA**: `0x01741300` (Baseline: `0x01748480`, Delta: `-0x7180`)
+- **Current VA**: `0x181741300`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 83 EC 68 0F 29 70 E8 0F 28 E9 0F 28 F0`
 - **Description**: SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies.
 
 ### LineOfSightThroughSmoke (server.dll)
 - **ID**: `server_los_smoke`
-- **Current RVA**: `0x009c5610` (Baseline: `0x009b7f50`, Delta: `+0xd6c0`)
-- **Current VA**: `0x1809c5610`
+- **Current RVA**: `0x009b82f0` (Baseline: `0x009b7f50`, Delta: `+0x3a0`)
+- **Current VA**: `0x1809b82f0`
 - **IDA / Ghidra Pattern**: `48 8B C4 55 53 56 41 55 41 57 48 8D 68 A8 48 81 EC 30 01 00 00`
 - **Description**: Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold.
 
 ### CSmokeGrenadeProjectile::Spawn (server.dll)
 - **ID**: `server_smoke_spawn`
-- **Current RVA**: `0x009d8d50` (Baseline: `0x009cb810`, Delta: `+0xd540`)
-- **Current VA**: `0x1809d8d50`
+- **Current RVA**: `0x009cba30` (Baseline: `0x009cb810`, Delta: `+0x220`)
+- **Current VA**: `0x1809cba30`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 20 48 8D B9 90 0B 00 00`
 - **Description**: Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask.
 
 ### CSmokeGrenadeProjectile::TickUpdate (server.dll)
 - **ID**: `server_smoke_tick_update`
-- **Current RVA**: `0x009dbf40` (Baseline: `0x009cea90`, Delta: `+0xd4b0`)
-- **Current VA**: `0x1809dbf40`
+- **Current RVA**: `0x009cec20` (Baseline: `0x009cea90`, Delta: `+0x190`)
+- **Current VA**: `0x1809cec20`
 - **IDA / Ghidra Pattern**: `40 53 41 55 48 83 EC 58 80 B9 6C 0B 00 00 00 4C`
 - **Description**: Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization.
 
 ### VoxelGrid_Raymarch (server.dll)
 - **ID**: `server_voxel_raymarch`
-- **Current RVA**: `0x009da9b0` (Baseline: `0x009cd500`, Delta: `+0xd4b0`)
-- **Current VA**: `0x1809da9b0`
+- **Current RVA**: `0x009cd690` (Baseline: `0x009cd500`, Delta: `+0x190`)
+- **Current VA**: `0x1809cd690`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 18 48 89 78 20 55 41 56 41 57 48 8D A8 28 FF FF FF`
 - **Description**: 3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks.
 
 ### VoxelGrid_ExpandAndCarve (server.dll)
 - **ID**: `server_voxel_expand_carve`
-- **Current RVA**: `0x009d6390` (Baseline: `0x009c8e50`, Delta: `+0xd540`)
-- **Current VA**: `0x1809d6390`
+- **Current RVA**: `0x009c9070` (Baseline: `0x009c8e50`, Delta: `+0x220`)
+- **Current VA**: `0x1809c9070`
 - **IDA / Ghidra Pattern**: `40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 C8 48 81 EC 38 01 00 00 80 79 08 00`
 - **Description**: 3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units).
 
 ### SerializeSparseDelta (server.dll)
 - **ID**: `server_serialize_sparse_delta`
-- **Current RVA**: `0x009bf550` (Baseline: `0x009b1bd0`, Delta: `+0xd980`)
-- **Current VA**: `0x1809bf550`
+- **Current RVA**: `0x009b2230` (Baseline: `0x009b1bd0`, Delta: `+0x660`)
+- **Current VA**: `0x1809b2230`
 - **IDA / Ghidra Pattern**: `40 53 55 56 57 41 54 41 55 41 56 41 57 48 83 EC 58 48 63 2A 4C 8D B1 D0 00 00 00`
 - **Description**: Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire.
 
 ### CLagCompensationManager::StartLagCompensation (server.dll)
 - **ID**: `server_lag_compensation`
-- **Current RVA**: `0x0081b770` (Baseline: `0x0080f320`, Delta: `+0xc450`)
-- **Current VA**: `0x18081b770`
+- **Current RVA**: `0x008007d0` (Baseline: `0x0080f320`, Delta: `-0xeb50`)
+- **Current VA**: `0x1808007d0`
 - **IDA / Ghidra Pattern**: `CC FD FF FF 80 38 22 74 CE E9 C2 FD FF FF 40 80`
 - **Description**: Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps.
 
 ### PulseInstructionDispatchLoop (pulse_system.dll)
 - **ID**: `pulse_instruction_dispatch`
-- **Current RVA**: `0x0008f810` (Baseline: `0x0008f810`, Delta: `+0x0`)
-- **Current VA**: `0x18008f810`
+- **Current RVA**: `0x0008f930` (Baseline: `0x0008f810`, Delta: `+0x120`)
+- **Current VA**: `0x18008f930`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 20 56 48 83 EC 60 48 83 BA 40 01 00 00 00 48 8B DA`
 - **Description**: Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets.
 
 ### CCvar::FindVar (tier0.dll)
 - **ID**: `tier0_cvar_findvar`
-- **Current RVA**: `0x0006c6b0` (Baseline: `0x0006c6b0`, Delta: `+0x0`)
-- **Current VA**: `0x18006c6b0`
+- **Current RVA**: `0x0006c740` (Baseline: `0x0006c6b0`, Delta: `+0x90`)
+- **Current VA**: `0x18006c740`
 - **IDA / Ghidra Pattern**: `40 53 56 57 41 54 41 56 48 83 EC 30 33 DB 45 8B`
 - **Description**: Look up ConVar / ConCommand by hash or caseless name in tier0 CCvar registry (VEngineCvar007).
 
 ### HashStringCaseless (tier0.dll)
 - **ID**: `tier0_hash_string_caseless`
-- **Current RVA**: `0x0006c8c0` (Baseline: `0x0006c8c0`, Delta: `+0x0`)
-- **Current VA**: `0x18006c8c0`
+- **Current RVA**: `0x0006c950` (Baseline: `0x0006c8c0`, Delta: `+0x90`)
+- **Current VA**: `0x18006c950`
 - **IDA / Ghidra Pattern**: `48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 30 48 8B F2 48 8D B9 54 01 00 00`
 - **Description**: Caseless Murmur/FNV string hash algorithm utilizing seed 0x31415926 for ConVar bucket indexing.
 
 ### ReadVariableBitMessageId (networksystem.dll)
 - **ID**: `network_read_varbit_msg_id`
-- **Current RVA**: `0x001bf5c0` (Baseline: `0x001bf5c0`, Delta: `+0x0`)
-- **Current VA**: `0x1801bf5c0`
-- **IDA / Ghidra Pattern**: `40 53 56 41 57 44 8B 59 10 44 8B C2 41 C1 F8 04`
+- **Current RVA**: `0x001c4ef0` (Baseline: `0x001bf5c0`, Delta: `+0x5930`)
+- **Current VA**: `0x1801c4ef0`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 10 48 89 6C 24 18 56 44 8B 51 10 44 8B C2 41 C1 F8 04`
 - **Description**: Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens.
 
 ### SerializeNetMessage (networksystem.dll)
 - **ID**: `network_serialize_net_message`
-- **Current RVA**: `0x000e23d0` (Baseline: `0x000e23d0`, Delta: `+0x0`)
-- **Current VA**: `0x1800e23d0`
-- **IDA / Ghidra Pattern**: `48 89 74 24 20 57 41 54 41 57 48 83 EC 20 C6 81`
+- **Current RVA**: `0x000e6fd0` (Baseline: `0x000e23d0`, Delta: `+0x4c00`)
+- **Current VA**: `0x1800e6fd0`
+- **IDA / Ghidra Pattern**: `48 89 74 24 20 57 41 ? 41 57 48 83 EC 20 C6 81 ? ? ? ? 00 4C 8B`
 - **Description**: Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment.
 
 ### WriteVarInt32 (networksystem.dll)
 - **ID**: `network_write_varint32`
-- **Current RVA**: `0x001c0760` (Baseline: `0x001c0760`, Delta: `+0x0`)
-- **Current VA**: `0x1801c0760`
+- **Current RVA**: `0x001c5fb0` (Baseline: `0x001c0760`, Delta: `+0x5850`)
+- **Current VA**: `0x1801c5fb0`
 - **IDA / Ghidra Pattern**: `40 55 48 83 EC 10 4C 63 41 10 8B EA 8B 51 0C 48`
 - **Description**: LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths.
 
 ### ReadVarInt32 (networksystem.dll)
 - **ID**: `network_read_varint32`
-- **Current RVA**: `0x001bf770` (Baseline: `0x001bf770`, Delta: `+0x0`)
-- **Current VA**: `0x1801bf770`
-- **IDA / Ghidra Pattern**: `48 89 5C 24 10 57 33 FF 48 89 74 24 10 8B DF 48`
+- **Current RVA**: `0x001c5020` (Baseline: `0x001bf770`, Delta: `+0x58b0`)
+- **Current VA**: `0x1801c5020`
+- **IDA / Ghidra Pattern**: `45 33 D2 48 8B C1 45 8B DA ? ? ? ? ? ? ? 41 83 FB 23 74 ? 8B 48 10`
 - **Description**: LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths.
 
 ### DecodeFieldPaths (networksystem.dll)
 - **ID**: `network_decode_fieldpaths`
-- **Current RVA**: `0x000835f8` (Baseline: `0x000835f8`, Delta: `+0x0`)
-- **Current VA**: `0x1800835f8`
-- **IDA / Ghidra Pattern**: `4C 89 B4 24 38 0C 00 00 41 8B F3 44 89 5C 24 50`
+- **Current RVA**: `0x0007c813` (Baseline: `0x00083608`, Delta: `-0x6df5`)
+- **Current VA**: `0x18007c813`
+- **IDA / Ghidra Pattern**: `BA FF 7F 00 00 4C 8D 15`
 - **Description**: Walks entity delta bitstreams using 40-operation Huffman bit-trees to update flattened serializer properties.
 
 ### ConvexPolyhedronRaycast (vphysics2.dll)
@@ -290,15 +290,15 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### CTwoBoneIK_LawOfCosines (animationsystem.dll)
 - **ID**: `animationsystem_twobone_ik`
-- **Current RVA**: `0x002f9750` (Baseline: `0x002f9750`, Delta: `+0x0`)
-- **Current VA**: `0x1802f9750`
+- **Current RVA**: `0x002f96f0` (Baseline: `0x002f9750`, Delta: `-0x60`)
+- **Current VA**: `0x1802f96f0`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 08 55 56 57 48 8D A8 58 FE FF`
 - **Description**: Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d).
 
 ### EvaluateBulletPenetration (server.dll)
 - **ID**: `server_bullet_penetration`
-- **Current RVA**: `0x00a9d150` (Baseline: `0x00a8fca0`, Delta: `+0xd4b0`)
-- **Current VA**: `0x180a9d150`
+- **Current RVA**: `0x00a90280` (Baseline: `0x00a8fca0`, Delta: `+0x5e0`)
+- **Current VA**: `0x180a90280`
 - **IDA / Ghidra Pattern**: `48 8B C4 44 89 48 20 48 89 50 10 48 89 48 08 55 57 41 57 48 8D A8 78 FE FF FF 48 81 EC 70 02 00 00`
 - **Description**: Authoritative surface penetration evaluator computing material absorption, penetration power reduction, and distance damage falloff.
 
@@ -311,113 +311,113 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### C_CSWeaponBase::UpdateAccuracyPenalty (client.dll)
 - **ID**: `client_weapon_update_accuracy_penalty`
-- **Current RVA**: `0x00828a10` (Baseline: `0x00827be0`, Delta: `+0xe30`)
-- **Current VA**: `0x180828a10`
-- **IDA / Ghidra Pattern**: `40 57 41 56 48 83 EC 68 48 8B F9 E8 ? ? ? ? 4C 8B F0 48 85 C0 0F 84 ? ? ? ? 44 0F 29 44 24 30`
+- **Current RVA**: `0x008230d0` (Baseline: `0x00828a10`, Delta: `-0x5940`)
+- **Current VA**: `0x1808230d0`
+- **IDA / Ghidra Pattern**: `40 57 41 56 48 83 EC ? 48 8B F9 E8 ? ? ? ? 4C 8B F0 48 85 C0 0F 84`
 - **Description**: Per-tick weapon inaccuracy penalty evaluator calculating recovery time decay, stances, jumping, and recoil index decay.
 
 ### CPlayer_AimPunchServices::SimulateAimPunchDecay (client.dll)
 - **ID**: `client_aim_punch_decay`
-- **Current RVA**: `0x0085ea90` (Baseline: `0x0085dc60`, Delta: `+0xe30`)
-- **Current VA**: `0x18085ea90`
+- **Current RVA**: `0x008594e0` (Baseline: `0x0085dc60`, Delta: `-0x4780`)
+- **Current VA**: `0x1808594e0`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 18 48 89 70 20 55 57 41 54 41 56 41 57 48 8D 68 A1 48 81 EC D0 00 00 00`
 - **Description**: Integrates damped spring recoil aim punch angles and velocities per tick.
 
 ### CCSPlayer_MovementServices::WalkMove (client.dll)
 - **ID**: `client_walk_move`
-- **Current RVA**: `0x008ea1b0` (Baseline: `0x008e9380`, Delta: `+0xe30`)
-- **Current VA**: `0x1808ea1b0`
+- **Current RVA**: `0x008e4c10` (Baseline: `0x008e9380`, Delta: `-0x4770`)
+- **Current VA**: `0x1808e4c10`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 50 0F 29 7C 24 30 0F 28 FA 48 8B FA`
 - **Description**: Ground walking physics dispatcher executing friction, directional acceleration, obstacle stepping, and ground snapping.
 
 ### CCSPlayer_MovementServices::AirAccelerate (client.dll)
 - **ID**: `client_air_accelerate`
-- **Current RVA**: `0x008c0860` (Baseline: `0x008bfa30`, Delta: `+0xe30`)
-- **Current VA**: `0x1808c0860`
+- **Current RVA**: `0x008bb2b0` (Baseline: `0x008bfa30`, Delta: `-0x4780`)
+- **Current VA**: `0x1808bb2b0`
 - **IDA / Ghidra Pattern**: `F3 0F 11 5C 24 20 53 56 57 48 83 EC 60 48 83 79 38 00 49 8B F0 0F 29 7C 24 40 48 8B DA`
 - **Description**: Airborne strafe acceleration routine enforcing sv_air_max_wishspeed (30.0f) clamp and surface friction integration.
 
 ### CSubtickMoveStep::_InternalParse (client.dll)
 - **ID**: `client_subtick_move_step_parse`
-- **Current RVA**: `0x004f5640` (Baseline: `0x004f4950`, Delta: `+0xcf0`)
-- **Current VA**: `0x1804f5640`
+- **Current RVA**: `0x004f33f0` (Baseline: `0x004f4950`, Delta: `-0x1560`)
+- **Current VA**: `0x1804f33f0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 48 89 6C 24 20 56 41 56 41 57 48 83 EC 60 49 8B F0 48 89 BC 24 88 00 00 00 48 8B DA 4C 8D 3D ? ? ? ? 48 8B E9 45 33 F6 66 90 48 3B 1E 72 32 8B C3 2B 46 08 3B 46 1C 0F 84 3D 02 00 00`
 - **Description**: Protobuf wire unmarshaling routine decoding CSubtickMoveStep fields (VarInt button, bool pressed, fixed32 when, analog deltas).
 
 ### CBaseUserCmdPB::_InternalSerialize (client.dll)
 - **ID**: `client_base_usercmd_pb_serialize`
-- **Current RVA**: `0x004f70e0` (Baseline: `0x004f63f0`, Delta: `+0xcf0`)
-- **Current VA**: `0x1804f70e0`
+- **Current RVA**: `0x004f4e90` (Baseline: `0x004f63f0`, Delta: `-0x1560`)
+- **Current VA**: `0x1804f4e90`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 10 48 89 6C 24 18 56 57 41 56 48 83 EC 30 8B 71 10 45 33 F6 49 8B D8 4C 8B CA 48 8B F9 40 F6 C6 10 74 61 49 3B 10 72 0B`
 - **Description**: Protobuf wire serialization for CBaseUserCmdPB, formatting repeated field 18 subtick_moves with 2-byte tag 0x92 0x01.
 
 ### CSGOInput::CreateMove (client.dll)
 - **ID**: `client_csgo_input_create_move`
-- **Current RVA**: `0x00cfbd10` (Baseline: `0x00cfa6b0`, Delta: `+0x1660`)
-- **Current VA**: `0x180cfbd10`
+- **Current RVA**: `0x00cf2250` (Baseline: `0x00cfa6b0`, Delta: `-0x8460`)
+- **Current VA**: `0x180cf2250`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 55 57 41 56 48 8D 6C 24 C9 48 81 EC B0 00 00 00 8B 01 48 8B F9 81 4A 10 00 02 00 00`
 - **Description**: High-level input sampling routine calculating sub-tick fractional time w in [0, 1] and assembling CSGOUserCmdPB.
 
 ### C_CSWeaponBase::GetInaccuracy (client.dll)
 - **ID**: `client_weapon_get_inaccuracy`
-- **Current RVA**: `0x0080cfd0` (Baseline: `0x0080c1a0`, Delta: `+0xe30`)
-- **Current VA**: `0x18080cfd0`
+- **Current RVA**: `0x008074a0` (Baseline: `0x0080c1a0`, Delta: `-0x4d00`)
+- **Current VA**: `0x1808074a0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 10 55 56 57 48 81 EC B0 00 00 00 44 0F 29 84 24 80 00 00 00 49 8B F0 48 8B EA 48 8B F9`
 - **Description**: Composite weapon inaccuracy evaluator synthesizing base penalty, posture, 2D movement speed power curve, airborne apex, strafing, and turning.
 
 ### FX_CalculateSpread (client.dll)
 - **ID**: `client_fx_calculate_spread`
-- **Current RVA**: `0x00d25630` (Baseline: `0x00d23fe0`, Delta: `+0x1650`)
-- **Current VA**: `0x180d25630`
+- **Current RVA**: `0x00d1bc20` (Baseline: `0x00d23fe0`, Delta: `-0x83c0`)
+- **Current VA**: `0x180d1bc20`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 18 48 89 68 20 89 50 10 56 57 41 54 41 56 41 57 48 81 EC E0 00 00 00 44 8B 15 ? ? ? ? 41 8B F9 0F 29 78 B8 41 8B E8`
 - **Description**: Calculates 2D bullet/pellet spread deflection vector using dual uniform disk sampling (inaccuracy and intrinsic spread disks) and weapon distributions.
 
 ### CLagCompensationManager::FinishLagCompensation (server.dll)
 - **ID**: `server_lag_compensation_finish`
-- **Current RVA**: `0x00ecc690` (Baseline: `0x00ebf350`, Delta: `+0xd340`)
-- **Current VA**: `0x180ecc690`
+- **Current RVA**: `0x00eb8f40` (Baseline: `0x00ebf350`, Delta: `-0x6410`)
+- **Current VA**: `0x180eb8f40`
 - **IDA / Ghidra Pattern**: `40 53 57 41 57 48 83 EC 60 48 8D 05 ? ? ? ? 48 C7 44 24 28 59 06 00 00 48 8B F9 48 89 44 24 20`
 - **Description**: Restores all backtracked player pawns to authoritative current states after lag-compensated traces.
 
 ### CLagCompensationManager::RestoreEntityTo (server.dll)
 - **ID**: `server_lag_compensation_restore`
-- **Current RVA**: `0x00ee1250` (Baseline: `0x00ed3f10`, Delta: `+0xd340`)
-- **Current VA**: `0x180ee1250`
+- **Current RVA**: `0x00ecdb00` (Baseline: `0x00ed3f10`, Delta: `-0x6410`)
+- **Current VA**: `0x180ecdb00`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 57 41 56 41 57 48 83 EC 40 45 33 F6 45 33 FF 49 8B D8 48 8B FA 45 38 70 01`
 - **Description**: Restores entity origin, angles, bounds, and bone matrix cache with 4096.0 sqr teleport distance breaker.
 
 ### CCSPlayerPawn::ApplyArmorDamageCalculation (server.dll)
 - **ID**: `server_apply_armor_damage`
-- **Current RVA**: `0x00a8e500` (Baseline: `0x00a81050`, Delta: `+0xd4b0`)
-- **Current VA**: `0x180a8e500`
+- **Current RVA**: `0x00a81610` (Baseline: `0x00a81050`, Delta: `+0x5c0`)
+- **Current VA**: `0x180a81610`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 20 55 56 57 41 56 41 57 48 83 EC 50 48 83 79 38 00 48 8B DA 48 8B F9 75 05 E8 ? ? ? ? 8B 4B 4C 4C 8B 77`
 - **Description**: Evaluates Kevlar and Helmet armor absorption, durability exhaustion overflow, and post-mitigation health loss.
 
 ### CCSPlayerPawn::IsArmored (server.dll)
 - **ID**: `server_pawn_is_armored`
-- **Current RVA**: `0x00ad7ba0` (Baseline: `0x00aca700`, Delta: `+0xd4a0`)
-- **Current VA**: `0x180ad7ba0`
+- **Current RVA**: `0x00acaca0` (Baseline: `0x00aca700`, Delta: `+0x5a0`)
+- **Current VA**: `0x180acaca0`
 - **IDA / Ghidra Pattern**: `45 32 C0 83 B9 ? ? 00 00 00 7E 3C 83 FA 08 77 37 48 63 C2 4C 8D 0D ? ? ? ? 41 8B 94 81 ? ? ? ? 49 03 D1 FF E2`
 - **Description**: 8-way HitGroup_t jump table verifying Kevlar vest coverage on torso/arms and m_bHasHelmet on head/neck.
 
 ### CBlendUpdateNode_ComputeWeights (animationsystem.dll)
 - **ID**: `animationsystem_blend_update_node_weights`
-- **Current RVA**: `0x002d7a80` (Baseline: `0x002d7a80`, Delta: `+0x0`)
-- **Current VA**: `0x1802d7a80`
+- **Current RVA**: `0x002d7a20` (Baseline: `0x002d7a80`, Delta: `-0x60`)
+- **Current VA**: `0x1802d7a20`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 10 57 48 81 EC 80 00 00 00 0F 29 70 E8 41 8B F8 48 89 70 08 0F 57 F6`
 - **Description**: Evaluates parameter blend values and calculates normalized interpolation weights between adjacent child animation nodes in CBlendUpdateNode.
 
 ### CStateMachineUpdateNode_EvaluateTransitions (animationsystem.dll)
 - **ID**: `animationsystem_statemachine_evaluate_transitions`
-- **Current RVA**: `0x002c82c0` (Baseline: `0x002c82c0`, Delta: `+0x0`)
-- **Current VA**: `0x1802c82c0`
+- **Current RVA**: `0x002c8260` (Baseline: `0x002c82c0`, Delta: `-0x60`)
+- **Current VA**: `0x1802c8260`
 - **IDA / Ghidra Pattern**: `40 56 57 41 54 48 81 EC 80 00 00 00 48 8B F1 48 8B FA 48 83 C1 70 E8 ? ? ? ? 85 C0`
 - **Description**: Evaluates active animation state machine transitions, computes elapsed transition cross-fade weights, and drives state switching in CStateMachineUpdateNode.
 
 ### Quaternion_FromAngleAxis (animationsystem.dll)
 - **ID**: `animationsystem_quaternion_angleaxis`
-- **Current RVA**: `0x0038dcc0` (Baseline: `0x0038dcc0`, Delta: `+0x0`)
-- **Current VA**: `0x18038dcc0`
+- **Current RVA**: `0x0038dc60` (Baseline: `0x0038dcc0`, Delta: `-0x60`)
+- **Current VA**: `0x18038dc60`
 - **IDA / Ghidra Pattern**: `40 53 48 83 EC 30 F3 0F 10 5A 08 48 8B D9 0F 29 74 24 20 0F 57 E4 F2 0F 10 32`
 - **Description**: Converts a 3D unit axis and radian angle into a 4D unit quaternion (axis * sin(theta/2), cos(theta/2)).
 
@@ -11615,7 +11615,7 @@ public:
 ```
 
 ================================================================================
-# SECTION 3: KEY SCHEMA CLASS MEMBER OFFSETS (Build 26144732)
+# SECTION 3: KEY SCHEMA CLASS MEMBER OFFSETS (Build 26598758)
 ================================================================================
 
 ### `C_BaseEntity` (`client.dll`, Size: `0x600` / 1536 bytes, Base: `CEntityInstance`)
@@ -11866,7 +11866,7 @@ public:
 - `+0x0904` (2308): `void* m_iPawnArmor`
 - ... (33 additional fields in `/docs/api/v1/schemas.json`)
 
-### `C_CSPlayerPawn` (`client.dll`, Size: `0x3720` / 14112 bytes, Base: `C_CSPlayerPawnBase`)
+### `C_CSPlayerPawn` (`client.dll`, Size: `0x3750` / 14160 bytes, Base: `C_CSPlayerPawnBase`)
 - `+0x1570` (5488): `void* m_pBulletServices`
 - `+0x1578` (5496): `void* m_pHostageServices`
 - `+0x1580` (5504): `void* m_pBuyServices`
@@ -11895,38 +11895,38 @@ public:
 - `+0x15ea` (5610): `void* m_bIsBuyMenuOpen`
 - `+0x15ec` (5612): `void* m_flTimeOfLastInjury`
 - `+0x15f0` (5616): `void* m_flNextSprayDecalTime`
-- `+0x1758` (5976): `void* m_iRetakesOffering`
-- `+0x175c` (5980): `void* m_iRetakesOfferingCard`
-- `+0x1760` (5984): `void* m_bRetakesHasDefuseKit`
-- `+0x1761` (5985): `void* m_bRetakesMVPLastRound`
-- `+0x1764` (5988): `void* m_iRetakesMVPBoostItem`
-- `+0x1768` (5992): `void* m_RetakesMVPBoostExtraUtility`
-- `+0x176d` (5997): `void* m_bNeedToReApplyGloves`
-- `+0x1770` (6000): `void* m_EconGloves`
-- `+0x1d20` (7456): `void* m_nEconGlovesChanged`
-- `+0x1d21` (7457): `void* m_bMustSyncRagdollState`
-- `+0x1d24` (7460): `void* m_nRagdollDamageBone`
-- `+0x1d28` (7464): `void* m_vRagdollDamageForce`
-- `+0x1d34` (7476): `void* m_szRagdollDamageWeaponName`
-- `+0x1d74` (7540): `void* m_bRagdollDamageHeadshot`
-- `+0x1d78` (7544): `void* m_vRagdollServerOrigin`
-- `+0x1d84` (7556): `void* m_lastLandTime`
-- `+0x1d88` (7560): `void* m_bOnGroundLastTick`
-- `+0x1da8` (7592): `void* m_hHudModelArms`
-- `+0x1dac` (7596): `void* m_qDeathEyeAngles`
-- `+0x1db8` (7608): `void* m_bLeftHanded`
-- `+0x1dbc` (7612): `void* m_fSwitchedHandednessTime`
-- `+0x1dc0` (7616): `void* m_flViewmodelOffsetX`
-- `+0x1dc4` (7620): `void* m_flViewmodelOffsetY`
-- `+0x1dc8` (7624): `void* m_flViewmodelOffsetZ`
-- `+0x1dcc` (7628): `void* m_flViewmodelFOV`
-- `+0x1dd0` (7632): `void* m_vecPlayerPatchEconIndices`
-- `+0x1e18` (7704): `void* m_GunGameImmunityColor`
-- `+0x1e68` (7784): `void* m_vecBulletHitModels`
-- `+0x1e80` (7808): `void* m_bIsWalking`
-- `+0x1e88` (7816): `void* m_entitySpottedState`
-- `+0x1ea0` (7840): `void* m_bIsScoped`
-- `+0x1ea1` (7841): `void* m_bResumeZoom`
+- `+0x1788` (6024): `void* m_iRetakesOffering`
+- `+0x178c` (6028): `void* m_iRetakesOfferingCard`
+- `+0x1790` (6032): `void* m_bRetakesHasDefuseKit`
+- `+0x1791` (6033): `void* m_bRetakesMVPLastRound`
+- `+0x1794` (6036): `void* m_iRetakesMVPBoostItem`
+- `+0x1798` (6040): `void* m_RetakesMVPBoostExtraUtility`
+- `+0x179d` (6045): `void* m_bNeedToReApplyGloves`
+- `+0x17a0` (6048): `void* m_EconGloves`
+- `+0x1d50` (7504): `void* m_nEconGlovesChanged`
+- `+0x1d51` (7505): `void* m_bMustSyncRagdollState`
+- `+0x1d54` (7508): `void* m_nRagdollDamageBone`
+- `+0x1d58` (7512): `void* m_vRagdollDamageForce`
+- `+0x1d64` (7524): `void* m_szRagdollDamageWeaponName`
+- `+0x1da4` (7588): `void* m_bRagdollDamageHeadshot`
+- `+0x1da8` (7592): `void* m_vRagdollServerOrigin`
+- `+0x1db4` (7604): `void* m_lastLandTime`
+- `+0x1db8` (7608): `void* m_bOnGroundLastTick`
+- `+0x1dd8` (7640): `void* m_hHudModelArms`
+- `+0x1ddc` (7644): `void* m_qDeathEyeAngles`
+- `+0x1de8` (7656): `void* m_bLeftHanded`
+- `+0x1dec` (7660): `void* m_fSwitchedHandednessTime`
+- `+0x1df0` (7664): `void* m_flViewmodelOffsetX`
+- `+0x1df4` (7668): `void* m_flViewmodelOffsetY`
+- `+0x1df8` (7672): `void* m_flViewmodelOffsetZ`
+- `+0x1dfc` (7676): `void* m_flViewmodelFOV`
+- `+0x1e00` (7680): `void* m_vecPlayerPatchEconIndices`
+- `+0x1e48` (7752): `void* m_GunGameImmunityColor`
+- `+0x1e98` (7832): `void* m_vecBulletHitModels`
+- `+0x1eb0` (7856): `void* m_bIsWalking`
+- `+0x1eb8` (7864): `void* m_entitySpottedState`
+- `+0x1ed0` (7888): `void* m_bIsScoped`
+- `+0x1ed1` (7889): `void* m_bResumeZoom`
 - ... (45 additional fields in `/docs/api/v1/schemas.json`)
 
 ### `CCSPlayerPawn` (`server.dll`, Size: `0x15d0` / 5584 bytes, Base: `CCSPlayerPawnBase`)
@@ -12139,64 +12139,64 @@ public:
 - `+0x0190` (400): `void* m_hTriggerFogList`
 - `+0x01a8` (424): `void* m_hLastFogTrigger`
 
-### `C_CSWeaponBase` (`client.dll`, Size: `0x1f20` / 7968 bytes, Base: `C_BasePlayerWeapon`)
-- `+0x19a8` (6568): `void* m_iWeaponGameplayAnimState`
-- `+0x19ac` (6572): `void* m_flWeaponGameplayAnimStateTimestamp`
-- `+0x19b0` (6576): `void* m_flInspectCancelCompleteTime`
-- `+0x19b4` (6580): `void* m_bInspectPending`
-- `+0x19b5` (6581): `void* m_bInspectShouldLoop`
-- `+0x19e0` (6624): `void* m_nLastEmptySoundCmdNum`
-- `+0x19e4` (6628): `void* m_bFireOnEmpty`
-- `+0x19e8` (6632): `void* m_OnPlayerPickup`
-- `+0x1a00` (6656): `void* m_weaponMode`
-- `+0x1a04` (6660): `void* m_flTurningInaccuracyDelta`
-- `+0x1a08` (6664): `void* m_vecTurningInaccuracyEyeDirLast`
-- `+0x1a14` (6676): `void* m_flTurningInaccuracy`
-- `+0x1a18` (6680): `void* m_fAccuracyPenalty`
-- `+0x1a1c` (6684): `void* m_flLastAccuracyUpdateTime`
-- `+0x1a20` (6688): `void* m_fAccuracySmoothedForZoom`
-- `+0x1a24` (6692): `void* m_iRecoilIndex`
-- `+0x1a28` (6696): `void* m_flRecoilIndex`
-- `+0x1a2c` (6700): `void* m_bBurstMode`
-- `+0x1a30` (6704): `void* m_flLastBurstModeChangeTime`
-- `+0x1a34` (6708): `void* m_nPostponeFireReadyTicks`
-- `+0x1a38` (6712): `void* m_flPostponeFireReadyFrac`
-- `+0x1a3c` (6716): `void* m_bInReload`
-- `+0x1a40` (6720): `void* m_nDeployTick`
-- `+0x1a44` (6724): `void* m_flAttackHoldStartTime`
-- `+0x1a48` (6728): `void* m_flDroppedAtTime`
-- `+0x1a50` (6736): `void* m_bIsHauledBack`
-- `+0x1a51` (6737): `void* m_bSilencerOn`
-- `+0x1a54` (6740): `void* m_flTimeSilencerSwitchComplete`
-- `+0x1a58` (6744): `void* m_bStealthy`
-- `+0x1a59` (6745): `void* m_bInSilentReloadSection`
-- `+0x1a5c` (6748): `void* m_flStealthHoldStartTime`
-- `+0x1a60` (6752): `void* m_bReloadHeldSinceStart`
-- `+0x1a64` (6756): `void* m_flWeaponActionPlaybackRate`
-- `+0x1a68` (6760): `void* m_iOriginalTeamNumber`
-- `+0x1a6c` (6764): `void* m_iMostRecentTeamNumber`
-- `+0x1a70` (6768): `void* m_bDroppedNearBuyZone`
-- `+0x1a74` (6772): `void* m_flNextAttackRenderTimeOffset`
-- `+0x1b20` (6944): `void* m_bClearWeaponIdentifyingUGC`
-- `+0x1b21` (6945): `void* m_bVisualsDataSet`
-- `+0x1b22` (6946): `void* m_bUIWeapon`
-- `+0x1b24` (6948): `void* m_nCustomEconReloadEventId`
-- `+0x1b30` (6960): `void* m_bCanBePickedUp`
-- `+0x1b34` (6964): `void* m_nextPrevOwnerUseTime`
-- `+0x1b38` (6968): `void* m_hPrevOwner`
-- `+0x1b3c` (6972): `void* m_nDropTick`
-- `+0x1b40` (6976): `void* m_bWasActiveWeaponWhenDropped`
-- `+0x1b64` (7012): `void* m_donated`
-- `+0x1b68` (7016): `void* m_fLastShotTime`
-- `+0x1b6c` (7020): `void* m_bWasOwnedByCT`
-- `+0x1b6d` (7021): `void* m_bWasOwnedByTerrorist`
-- `+0x1b70` (7024): `void* m_flNextClientFireBulletTime`
-- `+0x1b74` (7028): `void* m_flNextClientFireBulletTime_Repredict`
-- `+0x1bd0` (7120): `void* m_IronSightController`
-- `+0x1c80` (7296): `void* m_iIronSightMode`
-- `+0x1cf8` (7416): `void* m_flLastLOSTraceFailureTime`
-- `+0x1d58` (7512): `void* m_flWatTickOffset`
-- `+0x1d6c` (7532): `void* m_flLastShakeTime`
+### `C_CSWeaponBase` (`client.dll`, Size: `0x1f60` / 8032 bytes, Base: `C_BasePlayerWeapon`)
+- `+0x19e8` (6632): `void* m_iWeaponGameplayAnimState`
+- `+0x19ec` (6636): `void* m_flWeaponGameplayAnimStateTimestamp`
+- `+0x19f0` (6640): `void* m_flInspectCancelCompleteTime`
+- `+0x19f4` (6644): `void* m_bInspectPending`
+- `+0x19f5` (6645): `void* m_bInspectShouldLoop`
+- `+0x1a20` (6688): `void* m_nLastEmptySoundCmdNum`
+- `+0x1a24` (6692): `void* m_bFireOnEmpty`
+- `+0x1a28` (6696): `void* m_OnPlayerPickup`
+- `+0x1a40` (6720): `void* m_weaponMode`
+- `+0x1a44` (6724): `void* m_flTurningInaccuracyDelta`
+- `+0x1a48` (6728): `void* m_vecTurningInaccuracyEyeDirLast`
+- `+0x1a54` (6740): `void* m_flTurningInaccuracy`
+- `+0x1a58` (6744): `void* m_fAccuracyPenalty`
+- `+0x1a5c` (6748): `void* m_flLastAccuracyUpdateTime`
+- `+0x1a60` (6752): `void* m_fAccuracySmoothedForZoom`
+- `+0x1a64` (6756): `void* m_iRecoilIndex`
+- `+0x1a68` (6760): `void* m_flRecoilIndex`
+- `+0x1a6c` (6764): `void* m_bBurstMode`
+- `+0x1a70` (6768): `void* m_flLastBurstModeChangeTime`
+- `+0x1a74` (6772): `void* m_nPostponeFireReadyTicks`
+- `+0x1a78` (6776): `void* m_flPostponeFireReadyFrac`
+- `+0x1a7c` (6780): `void* m_bInReload`
+- `+0x1a80` (6784): `void* m_nDeployTick`
+- `+0x1a84` (6788): `void* m_flAttackHoldStartTime`
+- `+0x1a88` (6792): `void* m_flDroppedAtTime`
+- `+0x1a90` (6800): `void* m_bIsHauledBack`
+- `+0x1a91` (6801): `void* m_bSilencerOn`
+- `+0x1a94` (6804): `void* m_flTimeSilencerSwitchComplete`
+- `+0x1a98` (6808): `void* m_bIsInStealthReload`
+- `+0x1a99` (6809): `void* m_bInSilentReloadSection`
+- `+0x1a9c` (6812): `void* m_flStealthReloadHoldStartTime`
+- `+0x1aa0` (6816): `void* m_bReloadHeldSinceStart`
+- `+0x1aa4` (6820): `void* m_flWeaponActionPlaybackRate`
+- `+0x1aa8` (6824): `void* m_iOriginalTeamNumber`
+- `+0x1aac` (6828): `void* m_iMostRecentTeamNumber`
+- `+0x1ab0` (6832): `void* m_bDroppedNearBuyZone`
+- `+0x1ab4` (6836): `void* m_flNextAttackRenderTimeOffset`
+- `+0x1b60` (7008): `void* m_bClearWeaponIdentifyingUGC`
+- `+0x1b61` (7009): `void* m_bVisualsDataSet`
+- `+0x1b62` (7010): `void* m_bUIWeapon`
+- `+0x1b64` (7012): `void* m_nCustomEconReloadEventId`
+- `+0x1b70` (7024): `void* m_bCanBePickedUp`
+- `+0x1b74` (7028): `void* m_nextPrevOwnerUseTime`
+- `+0x1b78` (7032): `void* m_hPrevOwner`
+- `+0x1b7c` (7036): `void* m_nDropTick`
+- `+0x1b80` (7040): `void* m_bWasActiveWeaponWhenDropped`
+- `+0x1ba4` (7076): `void* m_donated`
+- `+0x1ba8` (7080): `void* m_fLastShotTime`
+- `+0x1bac` (7084): `void* m_bWasOwnedByCT`
+- `+0x1bad` (7085): `void* m_bWasOwnedByTerrorist`
+- `+0x1bb0` (7088): `void* m_flNextClientFireBulletTime`
+- `+0x1bb4` (7092): `void* m_flNextClientFireBulletTime_Repredict`
+- `+0x1c10` (7184): `void* m_IronSightController`
+- `+0x1cc0` (7360): `void* m_iIronSightMode`
+- `+0x1d38` (7480): `void* m_flLastLOSTraceFailureTime`
+- `+0x1d98` (7576): `void* m_flWatTickOffset`
+- `+0x1dac` (7596): `void* m_flLastShakeTime`
 
 ### `CCSWeaponBase` (`server.dll`, Size: `0x1280` / 4736 bytes, Base: `CBasePlayerWeapon`)
 - `+0x0ef8` (3832): `void* m_bRemoveable`
@@ -12229,11 +12229,10 @@ public:
 - `+0x0fbc` (4028): `void* m_bIsHauledBack`
 - `+0x0fbd` (4029): `void* m_bSilencerOn`
 - `+0x0fc0` (4032): `void* m_flTimeSilencerSwitchComplete`
-- `+0x0fc4` (4036): `void* m_bStealthy`
+- `+0x0fc4` (4036): `void* m_bIsInStealthReload`
 - `+0x0fc5` (4037): `void* m_bInSilentReloadSection`
-- `+0x0fc6` (4038): `void* m_bSilentReloadStatCounted`
-- `+0x0fc7` (4039): `void* m_bSilentReloadStatPending`
-- `+0x0fc8` (4040): `void* m_flStealthHoldStartTime`
+- `+0x0fc6` (4038): `void* m_bSilentReloadStatPending`
+- `+0x0fc8` (4040): `void* m_flStealthReloadHoldStartTime`
 - `+0x0fcc` (4044): `void* m_bReloadHeldSinceStart`
 - `+0x0fd0` (4048): `void* m_flWeaponActionPlaybackRate`
 - `+0x0fd4` (4052): `void* m_iOriginalTeamNumber`
@@ -16635,7 +16634,7 @@ flowchart TD
         SNAP["Take Pre-Rewind RestoreSnapshot"]
         BTP["BacktrackPlayer / BacktrackEntity (0x180eced70)"]
         RING["PawnTrackHistory Ring Buffer Lookup"]
-        TPCHECK{"Teleport Breaker: dist^2 >= 4096.0?"}
+        TPCHECK{"Teleport Breaker: Distance >= 64 units?"}
         LERP["Sub-Tick Fractional Bone/Origin Lerp"]
         DISCRETE["Nearest Frame Discrete Snap"]
         APPLY["Apply Backtracked Hitbox Transforms"]
@@ -16652,8 +16651,8 @@ flowchart TD
     SNAP --> BTP
     BTP --> RING
     RING --> TPCHECK
-    TPCHECK -->|No (Continuous)| LERP
-    TPCHECK -->|Yes (Teleported)| DISCRETE
+    TPCHECK -->|"No (Continuous)"| LERP
+    TPCHECK -->|"Yes (Teleported)"| DISCRETE
     LERP --> APPLY
     DISCRETE --> APPLY
     APPLY --> HITSCAN
@@ -16967,12 +16966,12 @@ flowchart TD
     A["Bullet Ray Hits Lag-Compensated Hitbox Capsule"] --> B["Distance Decay: D_dist = D_base * (RangeMod ^ (d / 500.0))"]
     B --> C["HitGroup Scaling: D_scaled = D_dist * HitGroupMult * TeamScale"]
     C --> D{"CCSPlayerPawn::IsArmored(hitGroup)<br/>(RVA 0x00aca700)"}
-    D -- "False (Legs or Unhelmeted Head)" --> H["Final Health Loss = int(D_scaled)"]
-    D -- "True (Kevlar / Helmet Covers Zone)" --> E["Mitigated Damage:<br/>D_new = D_scaled * (m_flArmorRatio * 0.5)"]
+    D -->|"False (Legs or Unhelmeted Head)"| H["Final Health Loss = int(D_scaled)"]
+    D -->|"True (Kevlar / Helmet Covers Zone)"| E["Mitigated Damage:<br/>D_new = D_scaled * (m_flArmorRatio * 0.5)"]
     E --> F["Armor Durability Cost:<br/>D_armor = max(1.0, (D_scaled - D_new) * 0.5)"]
     F --> G{"D_armor > m_ArmorValue?"}
-    G -- "Yes (Armor Breaks)" --> G1["D_armor = m_ArmorValue<br/>D_new = D_scaled - (D_armor / 0.5)"]
-    G -- "No" --> G2["Deduct int(D_armor) from m_ArmorValue"]
+    G -->|"Yes (Armor Breaks)"| G1["D_armor = m_ArmorValue<br/>D_new = D_scaled - (D_armor / 0.5)"]
+    G -->|"No"| G2["Deduct int(D_armor) from m_ArmorValue"]
     G1 --> H
     G2 --> H
     H --> I["m_iHealth = max(0, m_iHealth - int(D_new))"]
@@ -17043,7 +17042,9 @@ Inside `CCSPlayerPawn::ApplyArmorDamageCalculation` (`RVA 0x00a81050`, shifted t
 
 3. **Depletion Overflow Condition**:
    If $D_{\text{armor}} > \text{m\_ArmorValue}$ (e.g., player only has 3 armor points remaining), the remaining armor is consumed and the unabsorbed remainder spills directly into health:
+
    $$D_{\text{new}} = D_{\text{scaled}} - \frac{\text{m\_ArmorValue}}{0.5}$$
+
    $$\text{m\_ArmorValue} \leftarrow 0$$
 
 ---

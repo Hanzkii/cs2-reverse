@@ -33,12 +33,12 @@ flowchart TD
     A["Bullet Ray Hits Lag-Compensated Hitbox Capsule"] --> B["Distance Decay: D_dist = D_base * (RangeMod ^ (d / 500.0))"]
     B --> C["HitGroup Scaling: D_scaled = D_dist * HitGroupMult * TeamScale"]
     C --> D{"CCSPlayerPawn::IsArmored(hitGroup)<br/>(RVA 0x00aca700)"}
-    D -- "False (Legs or Unhelmeted Head)" --> H["Final Health Loss = int(D_scaled)"]
-    D -- "True (Kevlar / Helmet Covers Zone)" --> E["Mitigated Damage:<br/>D_new = D_scaled * (m_flArmorRatio * 0.5)"]
+    D -->|"False (Legs or Unhelmeted Head)"| H["Final Health Loss = int(D_scaled)"]
+    D -->|"True (Kevlar / Helmet Covers Zone)"| E["Mitigated Damage:<br/>D_new = D_scaled * (m_flArmorRatio * 0.5)"]
     E --> F["Armor Durability Cost:<br/>D_armor = max(1.0, (D_scaled - D_new) * 0.5)"]
     F --> G{"D_armor > m_ArmorValue?"}
-    G -- "Yes (Armor Breaks)" --> G1["D_armor = m_ArmorValue<br/>D_new = D_scaled - (D_armor / 0.5)"]
-    G -- "No" --> G2["Deduct int(D_armor) from m_ArmorValue"]
+    G -->|"Yes (Armor Breaks)"| G1["D_armor = m_ArmorValue<br/>D_new = D_scaled - (D_armor / 0.5)"]
+    G -->|"No"| G2["Deduct int(D_armor) from m_ArmorValue"]
     G1 --> H
     G2 --> H
     H --> I["m_iHealth = max(0, m_iHealth - int(D_new))"]
@@ -109,7 +109,9 @@ Inside `CCSPlayerPawn::ApplyArmorDamageCalculation` (`RVA 0x00a81050`, shifted t
 
 3. **Depletion Overflow Condition**:
    If $D_{\text{armor}} > \text{m\_ArmorValue}$ (e.g., player only has 3 armor points remaining), the remaining armor is consumed and the unabsorbed remainder spills directly into health:
+
    $$D_{\text{new}} = D_{\text{scaled}} - \frac{\text{m\_ArmorValue}}{0.5}$$
+
    $$\text{m\_ArmorValue} \leftarrow 0$$
 
 ---

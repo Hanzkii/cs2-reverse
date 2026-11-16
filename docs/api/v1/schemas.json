@@ -1,6 +1,6 @@
 {
-  "build_id": "26144732",
-  "tag": "2026-10-25_26144732",
+  "build_id": "26598758",
+  "tag": "2026-11-11_26598758",
   "total_classes_in_profile": 2276,
   "curated_modding_classes_count": 23,
   "classes": {
@@ -1945,8 +1945,8 @@
     "C_CSPlayerPawn": {
       "class": "C_CSPlayerPawn",
       "binary": "client.dll",
-      "size": 14112,
-      "size_hex": "0x3720",
+      "size": 14160,
+      "size_hex": "0x3750",
       "base": "C_CSPlayerPawnBase",
       "fields_count": 105,
       "fields": [
@@ -2121,464 +2121,464 @@
         {
           "name": "m_iRetakesOffering",
           "type": "void*",
-          "offset": 5976,
-          "offset_hex": "+0x1758"
+          "offset": 6024,
+          "offset_hex": "+0x1788"
         },
         {
           "name": "m_iRetakesOfferingCard",
           "type": "void*",
-          "offset": 5980,
-          "offset_hex": "+0x175c"
+          "offset": 6028,
+          "offset_hex": "+0x178c"
         },
         {
           "name": "m_bRetakesHasDefuseKit",
           "type": "void*",
-          "offset": 5984,
-          "offset_hex": "+0x1760"
+          "offset": 6032,
+          "offset_hex": "+0x1790"
         },
         {
           "name": "m_bRetakesMVPLastRound",
           "type": "void*",
-          "offset": 5985,
-          "offset_hex": "+0x1761"
+          "offset": 6033,
+          "offset_hex": "+0x1791"
         },
         {
           "name": "m_iRetakesMVPBoostItem",
           "type": "void*",
-          "offset": 5988,
-          "offset_hex": "+0x1764"
+          "offset": 6036,
+          "offset_hex": "+0x1794"
         },
         {
           "name": "m_RetakesMVPBoostExtraUtility",
           "type": "void*",
-          "offset": 5992,
-          "offset_hex": "+0x1768"
+          "offset": 6040,
+          "offset_hex": "+0x1798"
         },
         {
           "name": "m_bNeedToReApplyGloves",
           "type": "void*",
-          "offset": 5997,
-          "offset_hex": "+0x176d"
+          "offset": 6045,
+          "offset_hex": "+0x179d"
         },
         {
           "name": "m_EconGloves",
           "type": "void*",
-          "offset": 6000,
-          "offset_hex": "+0x1770"
+          "offset": 6048,
+          "offset_hex": "+0x17a0"
         },
         {
           "name": "m_nEconGlovesChanged",
           "type": "void*",
-          "offset": 7456,
-          "offset_hex": "+0x1d20"
+          "offset": 7504,
+          "offset_hex": "+0x1d50"
         },
         {
           "name": "m_bMustSyncRagdollState",
           "type": "void*",
-          "offset": 7457,
-          "offset_hex": "+0x1d21"
+          "offset": 7505,
+          "offset_hex": "+0x1d51"
         },
         {
           "name": "m_nRagdollDamageBone",
           "type": "void*",
-          "offset": 7460,
-          "offset_hex": "+0x1d24"
+          "offset": 7508,
+          "offset_hex": "+0x1d54"
         },
         {
           "name": "m_vRagdollDamageForce",
           "type": "void*",
-          "offset": 7464,
-          "offset_hex": "+0x1d28"
+          "offset": 7512,
+          "offset_hex": "+0x1d58"
         },
         {
           "name": "m_szRagdollDamageWeaponName",
           "type": "void*",
-          "offset": 7476,
-          "offset_hex": "+0x1d34"
+          "offset": 7524,
+          "offset_hex": "+0x1d64"
         },
         {
           "name": "m_bRagdollDamageHeadshot",
           "type": "void*",
-          "offset": 7540,
-          "offset_hex": "+0x1d74"
+          "offset": 7588,
+          "offset_hex": "+0x1da4"
         },
         {
           "name": "m_vRagdollServerOrigin",
-          "type": "void*",
-          "offset": 7544,
-          "offset_hex": "+0x1d78"
-        },
-        {
-          "name": "m_lastLandTime",
-          "type": "void*",
-          "offset": 7556,
-          "offset_hex": "+0x1d84"
-        },
-        {
-          "name": "m_bOnGroundLastTick",
-          "type": "void*",
-          "offset": 7560,
-          "offset_hex": "+0x1d88"
-        },
-        {
-          "name": "m_hHudModelArms",
           "type": "void*",
           "offset": 7592,
           "offset_hex": "+0x1da8"
         },
         {
-          "name": "m_qDeathEyeAngles",
+          "name": "m_lastLandTime",
           "type": "void*",
-          "offset": 7596,
-          "offset_hex": "+0x1dac"
+          "offset": 7604,
+          "offset_hex": "+0x1db4"
         },
         {
-          "name": "m_bLeftHanded",
+          "name": "m_bOnGroundLastTick",
           "type": "void*",
           "offset": 7608,
           "offset_hex": "+0x1db8"
         },
         {
+          "name": "m_hHudModelArms",
+          "type": "void*",
+          "offset": 7640,
+          "offset_hex": "+0x1dd8"
+        },
+        {
+          "name": "m_qDeathEyeAngles",
+          "type": "void*",
+          "offset": 7644,
+          "offset_hex": "+0x1ddc"
+        },
+        {
+          "name": "m_bLeftHanded",
+          "type": "void*",
+          "offset": 7656,
+          "offset_hex": "+0x1de8"
+        },
+        {
           "name": "m_fSwitchedHandednessTime",
           "type": "void*",
-          "offset": 7612,
-          "offset_hex": "+0x1dbc"
+          "offset": 7660,
+          "offset_hex": "+0x1dec"
         },
         {
           "name": "m_flViewmodelOffsetX",
           "type": "void*",
-          "offset": 7616,
-          "offset_hex": "+0x1dc0"
+          "offset": 7664,
+          "offset_hex": "+0x1df0"
         },
         {
           "name": "m_flViewmodelOffsetY",
           "type": "void*",
-          "offset": 7620,
-          "offset_hex": "+0x1dc4"
+          "offset": 7668,
+          "offset_hex": "+0x1df4"
         },
         {
           "name": "m_flViewmodelOffsetZ",
           "type": "void*",
-          "offset": 7624,
-          "offset_hex": "+0x1dc8"
+          "offset": 7672,
+          "offset_hex": "+0x1df8"
         },
         {
           "name": "m_flViewmodelFOV",
           "type": "void*",
-          "offset": 7628,
-          "offset_hex": "+0x1dcc"
+          "offset": 7676,
+          "offset_hex": "+0x1dfc"
         },
         {
           "name": "m_vecPlayerPatchEconIndices",
           "type": "void*",
-          "offset": 7632,
-          "offset_hex": "+0x1dd0"
+          "offset": 7680,
+          "offset_hex": "+0x1e00"
         },
         {
           "name": "m_GunGameImmunityColor",
           "type": "void*",
-          "offset": 7704,
-          "offset_hex": "+0x1e18"
+          "offset": 7752,
+          "offset_hex": "+0x1e48"
         },
         {
           "name": "m_vecBulletHitModels",
           "type": "void*",
-          "offset": 7784,
-          "offset_hex": "+0x1e68"
+          "offset": 7832,
+          "offset_hex": "+0x1e98"
         },
         {
           "name": "m_bIsWalking",
-          "type": "void*",
-          "offset": 7808,
-          "offset_hex": "+0x1e80"
-        },
-        {
-          "name": "m_entitySpottedState",
-          "type": "void*",
-          "offset": 7816,
-          "offset_hex": "+0x1e88"
-        },
-        {
-          "name": "m_bIsScoped",
-          "type": "void*",
-          "offset": 7840,
-          "offset_hex": "+0x1ea0"
-        },
-        {
-          "name": "m_bResumeZoom",
-          "type": "void*",
-          "offset": 7841,
-          "offset_hex": "+0x1ea1"
-        },
-        {
-          "name": "m_bIsDefusing",
-          "type": "void*",
-          "offset": 7842,
-          "offset_hex": "+0x1ea2"
-        },
-        {
-          "name": "m_bIsGrabbingHostage",
-          "type": "void*",
-          "offset": 7843,
-          "offset_hex": "+0x1ea3"
-        },
-        {
-          "name": "m_iBlockingUseActionInProgress",
-          "type": "void*",
-          "offset": 7844,
-          "offset_hex": "+0x1ea4"
-        },
-        {
-          "name": "m_flEmitSoundTime",
-          "type": "void*",
-          "offset": 7848,
-          "offset_hex": "+0x1ea8"
-        },
-        {
-          "name": "m_flEmitSoundTime_Client",
-          "type": "void*",
-          "offset": 7852,
-          "offset_hex": "+0x1eac"
-        },
-        {
-          "name": "m_bInNoDefuseArea",
           "type": "void*",
           "offset": 7856,
           "offset_hex": "+0x1eb0"
         },
         {
-          "name": "m_nWhichBombZone",
-          "type": "void*",
-          "offset": 7860,
-          "offset_hex": "+0x1eb4"
-        },
-        {
-          "name": "m_iShotsFired",
+          "name": "m_entitySpottedState",
           "type": "void*",
           "offset": 7864,
           "offset_hex": "+0x1eb8"
         },
         {
-          "name": "m_flFlinchStack",
-          "type": "void*",
-          "offset": 7868,
-          "offset_hex": "+0x1ebc"
-        },
-        {
-          "name": "m_flVelocityModifier",
-          "type": "void*",
-          "offset": 7872,
-          "offset_hex": "+0x1ec0"
-        },
-        {
-          "name": "m_bWaitForNoAttack",
-          "type": "void*",
-          "offset": 7876,
-          "offset_hex": "+0x1ec4"
-        },
-        {
-          "name": "m_ignoreLadderJumpTime",
-          "type": "void*",
-          "offset": 7880,
-          "offset_hex": "+0x1ec8"
-        },
-        {
-          "name": "m_bKilledByHeadshot",
-          "type": "void*",
-          "offset": 7885,
-          "offset_hex": "+0x1ecd"
-        },
-        {
-          "name": "m_ArmorValue",
+          "name": "m_bIsScoped",
           "type": "void*",
           "offset": 7888,
           "offset_hex": "+0x1ed0"
         },
         {
-          "name": "m_unCurrentEquipmentValue",
+          "name": "m_bResumeZoom",
+          "type": "void*",
+          "offset": 7889,
+          "offset_hex": "+0x1ed1"
+        },
+        {
+          "name": "m_bIsDefusing",
+          "type": "void*",
+          "offset": 7890,
+          "offset_hex": "+0x1ed2"
+        },
+        {
+          "name": "m_bIsGrabbingHostage",
+          "type": "void*",
+          "offset": 7891,
+          "offset_hex": "+0x1ed3"
+        },
+        {
+          "name": "m_iBlockingUseActionInProgress",
           "type": "void*",
           "offset": 7892,
           "offset_hex": "+0x1ed4"
         },
         {
-          "name": "m_unRoundStartEquipmentValue",
-          "type": "void*",
-          "offset": 7894,
-          "offset_hex": "+0x1ed6"
-        },
-        {
-          "name": "m_unFreezetimeEndEquipmentValue",
+          "name": "m_flEmitSoundTime",
           "type": "void*",
           "offset": 7896,
           "offset_hex": "+0x1ed8"
         },
         {
-          "name": "m_nLastKillerIndex",
+          "name": "m_flEmitSoundTime_Client",
           "type": "void*",
           "offset": 7900,
           "offset_hex": "+0x1edc"
         },
         {
-          "name": "m_bOldIsScoped",
+          "name": "m_bInNoDefuseArea",
           "type": "void*",
           "offset": 7904,
           "offset_hex": "+0x1ee0"
         },
         {
-          "name": "m_bHasDeathInfo",
-          "type": "void*",
-          "offset": 7905,
-          "offset_hex": "+0x1ee1"
-        },
-        {
-          "name": "m_flDeathInfoTime",
+          "name": "m_nWhichBombZone",
           "type": "void*",
           "offset": 7908,
           "offset_hex": "+0x1ee4"
         },
         {
-          "name": "m_vecDeathInfoOrigin",
+          "name": "m_iShotsFired",
           "type": "void*",
           "offset": 7912,
           "offset_hex": "+0x1ee8"
         },
         {
+          "name": "m_flFlinchStack",
+          "type": "void*",
+          "offset": 7916,
+          "offset_hex": "+0x1eec"
+        },
+        {
+          "name": "m_flVelocityModifier",
+          "type": "void*",
+          "offset": 7920,
+          "offset_hex": "+0x1ef0"
+        },
+        {
+          "name": "m_bWaitForNoAttack",
+          "type": "void*",
+          "offset": 7924,
+          "offset_hex": "+0x1ef4"
+        },
+        {
+          "name": "m_ignoreLadderJumpTime",
+          "type": "void*",
+          "offset": 7928,
+          "offset_hex": "+0x1ef8"
+        },
+        {
+          "name": "m_bKilledByHeadshot",
+          "type": "void*",
+          "offset": 7933,
+          "offset_hex": "+0x1efd"
+        },
+        {
+          "name": "m_ArmorValue",
+          "type": "void*",
+          "offset": 7936,
+          "offset_hex": "+0x1f00"
+        },
+        {
+          "name": "m_unCurrentEquipmentValue",
+          "type": "void*",
+          "offset": 7940,
+          "offset_hex": "+0x1f04"
+        },
+        {
+          "name": "m_unRoundStartEquipmentValue",
+          "type": "void*",
+          "offset": 7942,
+          "offset_hex": "+0x1f06"
+        },
+        {
+          "name": "m_unFreezetimeEndEquipmentValue",
+          "type": "void*",
+          "offset": 7944,
+          "offset_hex": "+0x1f08"
+        },
+        {
+          "name": "m_nLastKillerIndex",
+          "type": "void*",
+          "offset": 7948,
+          "offset_hex": "+0x1f0c"
+        },
+        {
+          "name": "m_bOldIsScoped",
+          "type": "void*",
+          "offset": 7952,
+          "offset_hex": "+0x1f10"
+        },
+        {
+          "name": "m_bHasDeathInfo",
+          "type": "void*",
+          "offset": 7953,
+          "offset_hex": "+0x1f11"
+        },
+        {
+          "name": "m_flDeathInfoTime",
+          "type": "void*",
+          "offset": 7956,
+          "offset_hex": "+0x1f14"
+        },
+        {
+          "name": "m_vecDeathInfoOrigin",
+          "type": "void*",
+          "offset": 7960,
+          "offset_hex": "+0x1f18"
+        },
+        {
           "name": "m_grenadeParameterStashTime",
           "type": "void*",
-          "offset": 7968,
-          "offset_hex": "+0x1f20"
+          "offset": 8016,
+          "offset_hex": "+0x1f50"
         },
         {
           "name": "m_bGrenadeParametersStashed",
           "type": "void*",
-          "offset": 7972,
-          "offset_hex": "+0x1f24"
+          "offset": 8020,
+          "offset_hex": "+0x1f54"
         },
         {
           "name": "m_angStashedShootAngles",
-          "type": "void*",
-          "offset": 7976,
-          "offset_hex": "+0x1f28"
-        },
-        {
-          "name": "m_vecStashedGrenadeThrowPosition",
-          "type": "void*",
-          "offset": 7988,
-          "offset_hex": "+0x1f34"
-        },
-        {
-          "name": "m_vecStashedGrenadeThrowPawnCenter",
-          "type": "void*",
-          "offset": 8000,
-          "offset_hex": "+0x1f40"
-        },
-        {
-          "name": "m_vecStashedVelocity",
-          "type": "void*",
-          "offset": 8012,
-          "offset_hex": "+0x1f4c"
-        },
-        {
-          "name": "m_flInterpolatedInaccuracy",
           "type": "void*",
           "offset": 8024,
           "offset_hex": "+0x1f58"
         },
         {
+          "name": "m_vecStashedGrenadeThrowPosition",
+          "type": "void*",
+          "offset": 8036,
+          "offset_hex": "+0x1f64"
+        },
+        {
+          "name": "m_vecStashedGrenadeThrowPawnCenter",
+          "type": "void*",
+          "offset": 8048,
+          "offset_hex": "+0x1f70"
+        },
+        {
+          "name": "m_vecStashedVelocity",
+          "type": "void*",
+          "offset": 8060,
+          "offset_hex": "+0x1f7c"
+        },
+        {
+          "name": "m_flInterpolatedInaccuracy",
+          "type": "void*",
+          "offset": 8072,
+          "offset_hex": "+0x1f88"
+        },
+        {
           "name": "m_bShouldAutobuyDMWeapons",
           "type": "void*",
-          "offset": 13568,
-          "offset_hex": "+0x3500"
+          "offset": 13616,
+          "offset_hex": "+0x3530"
         },
         {
           "name": "m_fImmuneToGunGameDamageTime",
           "type": "void*",
-          "offset": 13572,
-          "offset_hex": "+0x3504"
+          "offset": 13620,
+          "offset_hex": "+0x3534"
         },
         {
           "name": "m_bGunGameImmunity",
           "type": "void*",
-          "offset": 13576,
-          "offset_hex": "+0x3508"
+          "offset": 13624,
+          "offset_hex": "+0x3538"
         },
         {
           "name": "m_fImmuneToGunGameDamageTimeLast",
           "type": "void*",
-          "offset": 13580,
-          "offset_hex": "+0x350c"
+          "offset": 13628,
+          "offset_hex": "+0x353c"
         },
         {
-          "name": "m_flModifier0",
+          "name": "m_flBigHeadScale",
           "type": "void*",
-          "offset": 13584,
-          "offset_hex": "+0x3510"
+          "offset": 13632,
+          "offset_hex": "+0x3540"
         },
         {
           "name": "m_fMolotovDamageTime",
           "type": "void*",
-          "offset": 13588,
-          "offset_hex": "+0x3514"
+          "offset": 13636,
+          "offset_hex": "+0x3544"
         },
         {
           "name": "m_nPlayerInfernoBodyFx",
           "type": "void*",
-          "offset": 13704,
-          "offset_hex": "+0x3588"
+          "offset": 13752,
+          "offset_hex": "+0x35b8"
         },
         {
           "name": "m_angEyeAngles",
           "type": "void*",
-          "offset": 13824,
-          "offset_hex": "+0x3600"
+          "offset": 13872,
+          "offset_hex": "+0x3630"
         },
         {
           "name": "m_arrOldEyeAnglesTimes",
           "type": "void*",
-          "offset": 13968,
-          "offset_hex": "+0x3690"
+          "offset": 14016,
+          "offset_hex": "+0x36c0"
         },
         {
           "name": "m_arrOldEyeAngles",
-          "type": "void*",
-          "offset": 13984,
-          "offset_hex": "+0x36a0"
-        },
-        {
-          "name": "m_angEyeAnglesVelocity",
           "type": "void*",
           "offset": 14032,
           "offset_hex": "+0x36d0"
         },
         {
+          "name": "m_angEyeAnglesVelocity",
+          "type": "void*",
+          "offset": 14080,
+          "offset_hex": "+0x3700"
+        },
+        {
           "name": "m_iIDEntIndex",
           "type": "void*",
-          "offset": 14044,
-          "offset_hex": "+0x36dc"
+          "offset": 14092,
+          "offset_hex": "+0x370c"
         },
         {
           "name": "m_delayTargetIDTimer",
           "type": "void*",
-          "offset": 14048,
-          "offset_hex": "+0x36e0"
+          "offset": 14096,
+          "offset_hex": "+0x3710"
         },
         {
           "name": "m_iTargetItemEntIdx",
           "type": "void*",
-          "offset": 14072,
-          "offset_hex": "+0x36f8"
+          "offset": 14120,
+          "offset_hex": "+0x3728"
         },
         {
           "name": "m_iOldIDEntIndex",
           "type": "void*",
-          "offset": 14076,
-          "offset_hex": "+0x36fc"
+          "offset": 14124,
+          "offset_hex": "+0x372c"
         },
         {
           "name": "m_holdTargetIDTimer",
           "type": "void*",
-          "offset": 14080,
-          "offset_hex": "+0x3700"
+          "offset": 14128,
+          "offset_hex": "+0x3730"
         }
       ]
     },
@@ -3209,7 +3209,7 @@
           "offset_hex": "+0x15a8"
         },
         {
-          "name": "m_flModifier0",
+          "name": "m_flBigHeadScale",
           "type": "void*",
           "offset": 5548,
           "offset_hex": "+0x15ac"
@@ -4099,352 +4099,352 @@
     "C_CSWeaponBase": {
       "class": "C_CSWeaponBase",
       "binary": "client.dll",
-      "size": 7968,
-      "size_hex": "0x1f20",
+      "size": 8032,
+      "size_hex": "0x1f60",
       "base": "C_BasePlayerWeapon",
       "fields_count": 57,
       "fields": [
         {
           "name": "m_iWeaponGameplayAnimState",
           "type": "void*",
-          "offset": 6568,
-          "offset_hex": "+0x19a8"
-        },
-        {
-          "name": "m_flWeaponGameplayAnimStateTimestamp",
-          "type": "void*",
-          "offset": 6572,
-          "offset_hex": "+0x19ac"
-        },
-        {
-          "name": "m_flInspectCancelCompleteTime",
-          "type": "void*",
-          "offset": 6576,
-          "offset_hex": "+0x19b0"
-        },
-        {
-          "name": "m_bInspectPending",
-          "type": "void*",
-          "offset": 6580,
-          "offset_hex": "+0x19b4"
-        },
-        {
-          "name": "m_bInspectShouldLoop",
-          "type": "void*",
-          "offset": 6581,
-          "offset_hex": "+0x19b5"
-        },
-        {
-          "name": "m_nLastEmptySoundCmdNum",
-          "type": "void*",
-          "offset": 6624,
-          "offset_hex": "+0x19e0"
-        },
-        {
-          "name": "m_bFireOnEmpty",
-          "type": "void*",
-          "offset": 6628,
-          "offset_hex": "+0x19e4"
-        },
-        {
-          "name": "m_OnPlayerPickup",
-          "type": "void*",
           "offset": 6632,
           "offset_hex": "+0x19e8"
         },
         {
-          "name": "m_weaponMode",
+          "name": "m_flWeaponGameplayAnimStateTimestamp",
           "type": "void*",
-          "offset": 6656,
-          "offset_hex": "+0x1a00"
+          "offset": 6636,
+          "offset_hex": "+0x19ec"
         },
         {
-          "name": "m_flTurningInaccuracyDelta",
+          "name": "m_flInspectCancelCompleteTime",
           "type": "void*",
-          "offset": 6660,
-          "offset_hex": "+0x1a04"
+          "offset": 6640,
+          "offset_hex": "+0x19f0"
         },
         {
-          "name": "m_vecTurningInaccuracyEyeDirLast",
+          "name": "m_bInspectPending",
           "type": "void*",
-          "offset": 6664,
-          "offset_hex": "+0x1a08"
+          "offset": 6644,
+          "offset_hex": "+0x19f4"
         },
         {
-          "name": "m_flTurningInaccuracy",
+          "name": "m_bInspectShouldLoop",
           "type": "void*",
-          "offset": 6676,
-          "offset_hex": "+0x1a14"
+          "offset": 6645,
+          "offset_hex": "+0x19f5"
         },
         {
-          "name": "m_fAccuracyPenalty",
-          "type": "void*",
-          "offset": 6680,
-          "offset_hex": "+0x1a18"
-        },
-        {
-          "name": "m_flLastAccuracyUpdateTime",
-          "type": "void*",
-          "offset": 6684,
-          "offset_hex": "+0x1a1c"
-        },
-        {
-          "name": "m_fAccuracySmoothedForZoom",
+          "name": "m_nLastEmptySoundCmdNum",
           "type": "void*",
           "offset": 6688,
           "offset_hex": "+0x1a20"
         },
         {
-          "name": "m_iRecoilIndex",
+          "name": "m_bFireOnEmpty",
           "type": "void*",
           "offset": 6692,
           "offset_hex": "+0x1a24"
         },
         {
-          "name": "m_flRecoilIndex",
+          "name": "m_OnPlayerPickup",
           "type": "void*",
           "offset": 6696,
           "offset_hex": "+0x1a28"
         },
         {
-          "name": "m_bBurstMode",
-          "type": "void*",
-          "offset": 6700,
-          "offset_hex": "+0x1a2c"
-        },
-        {
-          "name": "m_flLastBurstModeChangeTime",
-          "type": "void*",
-          "offset": 6704,
-          "offset_hex": "+0x1a30"
-        },
-        {
-          "name": "m_nPostponeFireReadyTicks",
-          "type": "void*",
-          "offset": 6708,
-          "offset_hex": "+0x1a34"
-        },
-        {
-          "name": "m_flPostponeFireReadyFrac",
-          "type": "void*",
-          "offset": 6712,
-          "offset_hex": "+0x1a38"
-        },
-        {
-          "name": "m_bInReload",
-          "type": "void*",
-          "offset": 6716,
-          "offset_hex": "+0x1a3c"
-        },
-        {
-          "name": "m_nDeployTick",
+          "name": "m_weaponMode",
           "type": "void*",
           "offset": 6720,
           "offset_hex": "+0x1a40"
         },
         {
-          "name": "m_flAttackHoldStartTime",
+          "name": "m_flTurningInaccuracyDelta",
           "type": "void*",
           "offset": 6724,
           "offset_hex": "+0x1a44"
         },
         {
-          "name": "m_flDroppedAtTime",
+          "name": "m_vecTurningInaccuracyEyeDirLast",
           "type": "void*",
           "offset": 6728,
           "offset_hex": "+0x1a48"
         },
         {
-          "name": "m_bIsHauledBack",
-          "type": "void*",
-          "offset": 6736,
-          "offset_hex": "+0x1a50"
-        },
-        {
-          "name": "m_bSilencerOn",
-          "type": "void*",
-          "offset": 6737,
-          "offset_hex": "+0x1a51"
-        },
-        {
-          "name": "m_flTimeSilencerSwitchComplete",
+          "name": "m_flTurningInaccuracy",
           "type": "void*",
           "offset": 6740,
           "offset_hex": "+0x1a54"
         },
         {
-          "name": "m_bStealthy",
+          "name": "m_fAccuracyPenalty",
           "type": "void*",
           "offset": 6744,
           "offset_hex": "+0x1a58"
         },
         {
-          "name": "m_bInSilentReloadSection",
-          "type": "void*",
-          "offset": 6745,
-          "offset_hex": "+0x1a59"
-        },
-        {
-          "name": "m_flStealthHoldStartTime",
+          "name": "m_flLastAccuracyUpdateTime",
           "type": "void*",
           "offset": 6748,
           "offset_hex": "+0x1a5c"
         },
         {
-          "name": "m_bReloadHeldSinceStart",
+          "name": "m_fAccuracySmoothedForZoom",
           "type": "void*",
           "offset": 6752,
           "offset_hex": "+0x1a60"
         },
         {
-          "name": "m_flWeaponActionPlaybackRate",
+          "name": "m_iRecoilIndex",
           "type": "void*",
           "offset": 6756,
           "offset_hex": "+0x1a64"
         },
         {
-          "name": "m_iOriginalTeamNumber",
+          "name": "m_flRecoilIndex",
           "type": "void*",
           "offset": 6760,
           "offset_hex": "+0x1a68"
         },
         {
-          "name": "m_iMostRecentTeamNumber",
+          "name": "m_bBurstMode",
           "type": "void*",
           "offset": 6764,
           "offset_hex": "+0x1a6c"
         },
         {
-          "name": "m_bDroppedNearBuyZone",
+          "name": "m_flLastBurstModeChangeTime",
           "type": "void*",
           "offset": 6768,
           "offset_hex": "+0x1a70"
         },
         {
-          "name": "m_flNextAttackRenderTimeOffset",
+          "name": "m_nPostponeFireReadyTicks",
           "type": "void*",
           "offset": 6772,
           "offset_hex": "+0x1a74"
         },
         {
+          "name": "m_flPostponeFireReadyFrac",
+          "type": "void*",
+          "offset": 6776,
+          "offset_hex": "+0x1a78"
+        },
+        {
+          "name": "m_bInReload",
+          "type": "void*",
+          "offset": 6780,
+          "offset_hex": "+0x1a7c"
+        },
+        {
+          "name": "m_nDeployTick",
+          "type": "void*",
+          "offset": 6784,
+          "offset_hex": "+0x1a80"
+        },
+        {
+          "name": "m_flAttackHoldStartTime",
+          "type": "void*",
+          "offset": 6788,
+          "offset_hex": "+0x1a84"
+        },
+        {
+          "name": "m_flDroppedAtTime",
+          "type": "void*",
+          "offset": 6792,
+          "offset_hex": "+0x1a88"
+        },
+        {
+          "name": "m_bIsHauledBack",
+          "type": "void*",
+          "offset": 6800,
+          "offset_hex": "+0x1a90"
+        },
+        {
+          "name": "m_bSilencerOn",
+          "type": "void*",
+          "offset": 6801,
+          "offset_hex": "+0x1a91"
+        },
+        {
+          "name": "m_flTimeSilencerSwitchComplete",
+          "type": "void*",
+          "offset": 6804,
+          "offset_hex": "+0x1a94"
+        },
+        {
+          "name": "m_bIsInStealthReload",
+          "type": "void*",
+          "offset": 6808,
+          "offset_hex": "+0x1a98"
+        },
+        {
+          "name": "m_bInSilentReloadSection",
+          "type": "void*",
+          "offset": 6809,
+          "offset_hex": "+0x1a99"
+        },
+        {
+          "name": "m_flStealthReloadHoldStartTime",
+          "type": "void*",
+          "offset": 6812,
+          "offset_hex": "+0x1a9c"
+        },
+        {
+          "name": "m_bReloadHeldSinceStart",
+          "type": "void*",
+          "offset": 6816,
+          "offset_hex": "+0x1aa0"
+        },
+        {
+          "name": "m_flWeaponActionPlaybackRate",
+          "type": "void*",
+          "offset": 6820,
+          "offset_hex": "+0x1aa4"
+        },
+        {
+          "name": "m_iOriginalTeamNumber",
+          "type": "void*",
+          "offset": 6824,
+          "offset_hex": "+0x1aa8"
+        },
+        {
+          "name": "m_iMostRecentTeamNumber",
+          "type": "void*",
+          "offset": 6828,
+          "offset_hex": "+0x1aac"
+        },
+        {
+          "name": "m_bDroppedNearBuyZone",
+          "type": "void*",
+          "offset": 6832,
+          "offset_hex": "+0x1ab0"
+        },
+        {
+          "name": "m_flNextAttackRenderTimeOffset",
+          "type": "void*",
+          "offset": 6836,
+          "offset_hex": "+0x1ab4"
+        },
+        {
           "name": "m_bClearWeaponIdentifyingUGC",
           "type": "void*",
-          "offset": 6944,
-          "offset_hex": "+0x1b20"
+          "offset": 7008,
+          "offset_hex": "+0x1b60"
         },
         {
           "name": "m_bVisualsDataSet",
           "type": "void*",
-          "offset": 6945,
-          "offset_hex": "+0x1b21"
+          "offset": 7009,
+          "offset_hex": "+0x1b61"
         },
         {
           "name": "m_bUIWeapon",
           "type": "void*",
-          "offset": 6946,
-          "offset_hex": "+0x1b22"
+          "offset": 7010,
+          "offset_hex": "+0x1b62"
         },
         {
           "name": "m_nCustomEconReloadEventId",
-          "type": "void*",
-          "offset": 6948,
-          "offset_hex": "+0x1b24"
-        },
-        {
-          "name": "m_bCanBePickedUp",
-          "type": "void*",
-          "offset": 6960,
-          "offset_hex": "+0x1b30"
-        },
-        {
-          "name": "m_nextPrevOwnerUseTime",
-          "type": "void*",
-          "offset": 6964,
-          "offset_hex": "+0x1b34"
-        },
-        {
-          "name": "m_hPrevOwner",
-          "type": "void*",
-          "offset": 6968,
-          "offset_hex": "+0x1b38"
-        },
-        {
-          "name": "m_nDropTick",
-          "type": "void*",
-          "offset": 6972,
-          "offset_hex": "+0x1b3c"
-        },
-        {
-          "name": "m_bWasActiveWeaponWhenDropped",
-          "type": "void*",
-          "offset": 6976,
-          "offset_hex": "+0x1b40"
-        },
-        {
-          "name": "m_donated",
           "type": "void*",
           "offset": 7012,
           "offset_hex": "+0x1b64"
         },
         {
-          "name": "m_fLastShotTime",
-          "type": "void*",
-          "offset": 7016,
-          "offset_hex": "+0x1b68"
-        },
-        {
-          "name": "m_bWasOwnedByCT",
-          "type": "void*",
-          "offset": 7020,
-          "offset_hex": "+0x1b6c"
-        },
-        {
-          "name": "m_bWasOwnedByTerrorist",
-          "type": "void*",
-          "offset": 7021,
-          "offset_hex": "+0x1b6d"
-        },
-        {
-          "name": "m_flNextClientFireBulletTime",
+          "name": "m_bCanBePickedUp",
           "type": "void*",
           "offset": 7024,
           "offset_hex": "+0x1b70"
         },
         {
-          "name": "m_flNextClientFireBulletTime_Repredict",
+          "name": "m_nextPrevOwnerUseTime",
           "type": "void*",
           "offset": 7028,
           "offset_hex": "+0x1b74"
         },
         {
+          "name": "m_hPrevOwner",
+          "type": "void*",
+          "offset": 7032,
+          "offset_hex": "+0x1b78"
+        },
+        {
+          "name": "m_nDropTick",
+          "type": "void*",
+          "offset": 7036,
+          "offset_hex": "+0x1b7c"
+        },
+        {
+          "name": "m_bWasActiveWeaponWhenDropped",
+          "type": "void*",
+          "offset": 7040,
+          "offset_hex": "+0x1b80"
+        },
+        {
+          "name": "m_donated",
+          "type": "void*",
+          "offset": 7076,
+          "offset_hex": "+0x1ba4"
+        },
+        {
+          "name": "m_fLastShotTime",
+          "type": "void*",
+          "offset": 7080,
+          "offset_hex": "+0x1ba8"
+        },
+        {
+          "name": "m_bWasOwnedByCT",
+          "type": "void*",
+          "offset": 7084,
+          "offset_hex": "+0x1bac"
+        },
+        {
+          "name": "m_bWasOwnedByTerrorist",
+          "type": "void*",
+          "offset": 7085,
+          "offset_hex": "+0x1bad"
+        },
+        {
+          "name": "m_flNextClientFireBulletTime",
+          "type": "void*",
+          "offset": 7088,
+          "offset_hex": "+0x1bb0"
+        },
+        {
+          "name": "m_flNextClientFireBulletTime_Repredict",
+          "type": "void*",
+          "offset": 7092,
+          "offset_hex": "+0x1bb4"
+        },
+        {
           "name": "m_IronSightController",
           "type": "void*",
-          "offset": 7120,
-          "offset_hex": "+0x1bd0"
+          "offset": 7184,
+          "offset_hex": "+0x1c10"
         },
         {
           "name": "m_iIronSightMode",
           "type": "void*",
-          "offset": 7296,
-          "offset_hex": "+0x1c80"
+          "offset": 7360,
+          "offset_hex": "+0x1cc0"
         },
         {
           "name": "m_flLastLOSTraceFailureTime",
           "type": "void*",
-          "offset": 7416,
-          "offset_hex": "+0x1cf8"
+          "offset": 7480,
+          "offset_hex": "+0x1d38"
         },
         {
           "name": "m_flWatTickOffset",
           "type": "void*",
-          "offset": 7512,
-          "offset_hex": "+0x1d58"
+          "offset": 7576,
+          "offset_hex": "+0x1d98"
         },
         {
           "name": "m_flLastShakeTime",
           "type": "void*",
-          "offset": 7532,
-          "offset_hex": "+0x1d6c"
+          "offset": 7596,
+          "offset_hex": "+0x1dac"
         }
       ]
     },
@@ -4454,7 +4454,7 @@
       "size": 4736,
       "size_hex": "0x1280",
       "base": "CBasePlayerWeapon",
-      "fields_count": 59,
+      "fields_count": 58,
       "fields": [
         {
           "name": "m_bRemoveable",
@@ -4637,7 +4637,7 @@
           "offset_hex": "+0x0fc0"
         },
         {
-          "name": "m_bStealthy",
+          "name": "m_bIsInStealthReload",
           "type": "void*",
           "offset": 4036,
           "offset_hex": "+0x0fc4"
@@ -4649,19 +4649,13 @@
           "offset_hex": "+0x0fc5"
         },
         {
-          "name": "m_bSilentReloadStatCounted",
+          "name": "m_bSilentReloadStatPending",
           "type": "void*",
           "offset": 4038,
           "offset_hex": "+0x0fc6"
         },
         {
-          "name": "m_bSilentReloadStatPending",
-          "type": "void*",
-          "offset": 4039,
-          "offset_hex": "+0x0fc7"
-        },
-        {
-          "name": "m_flStealthHoldStartTime",
+          "name": "m_flStealthReloadHoldStartTime",
           "type": "void*",
           "offset": 4040,
           "offset_hex": "+0x0fc8"

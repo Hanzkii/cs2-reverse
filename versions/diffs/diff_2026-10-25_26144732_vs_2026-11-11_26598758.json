@@ -1,0 +1,4975 @@
+{
+  "old_tag": "2026-10-25_26144732",
+  "new_tag": "2026-11-11_26598758",
+  "old_build_id": "26144732",
+  "new_build_id": "26598758",
+  "old_date": "2026-10-25",
+  "new_date": "2026-11-11",
+  "generated_at": "2026-11-16T20:04:37.850009",
+  "summary": {
+    "binaries_modified_count": 34,
+    "classes_added_count": 0,
+    "classes_removed_count": 0,
+    "classes_modified_count": 19,
+    "fields_shifted_total": 343,
+    "interfaces_added_count": 0,
+    "interfaces_removed_count": 0,
+    "cvars_added_count": 28,
+    "cvars_removed_count": 3,
+    "signatures_total_count": 39,
+    "signatures_shifted_count": 36,
+    "signatures_unchanged_count": 3,
+    "signatures_broken_count": 0,
+    "signatures_restored_count": 0
+  },
+  "binary_diffs": [
+    {
+      "binary": "animationsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 9329816,
+      "new_size": 9328792,
+      "delta": -1024,
+      "delta_kb": -1.0
+    },
+    {
+      "binary": "client.dll",
+      "status": "MODIFIED",
+      "old_size": 39215768,
+      "new_size": 39120536,
+      "delta": -95232,
+      "delta_kb": -93.0
+    },
+    {
+      "binary": "cs2.exe",
+      "status": "MODIFIED",
+      "old_size": 2967704,
+      "new_size": 2968216,
+      "delta": 512,
+      "delta_kb": 0.5
+    },
+    {
+      "binary": "engine2.dll",
+      "status": "MODIFIED",
+      "old_size": 7497880,
+      "new_size": 7455384,
+      "delta": -42496,
+      "delta_kb": -41.5
+    },
+    {
+      "binary": "filesystem_stdio.dll",
+      "status": "MODIFIED",
+      "old_size": 2260120,
+      "new_size": 2260120,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "host.dll",
+      "status": "MODIFIED",
+      "old_size": 1389208,
+      "new_size": 1388184,
+      "delta": -1024,
+      "delta_kb": -1.0
+    },
+    {
+      "binary": "inputsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 302232,
+      "new_size": 302232,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "localize.dll",
+      "status": "MODIFIED",
+      "old_size": 382104,
+      "new_size": 382104,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "matchmaking.dll",
+      "status": "MODIFIED",
+      "old_size": 1890968,
+      "new_size": 1888920,
+      "delta": -2048,
+      "delta_kb": -2.0
+    },
+    {
+      "binary": "materialsystem2.dll",
+      "status": "MODIFIED",
+      "old_size": 1428632,
+      "new_size": 1429144,
+      "delta": 512,
+      "delta_kb": 0.5
+    },
+    {
+      "binary": "meshsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 1664664,
+      "new_size": 1664664,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "navsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 1314968,
+      "new_size": 1314968,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "networksystem.dll",
+      "status": "MODIFIED",
+      "old_size": 2841752,
+      "new_size": 2818712,
+      "delta": -23040,
+      "delta_kb": -22.5
+    },
+    {
+      "binary": "panorama.dll",
+      "status": "MODIFIED",
+      "old_size": 6108312,
+      "new_size": 6108312,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "panorama_text_pango.dll",
+      "status": "MODIFIED",
+      "old_size": 2997912,
+      "new_size": 2997912,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "panoramauiclient.dll",
+      "status": "MODIFIED",
+      "old_size": 2748056,
+      "new_size": 2746520,
+      "delta": -1536,
+      "delta_kb": -1.5
+    },
+    {
+      "binary": "particles.dll",
+      "status": "MODIFIED",
+      "old_size": 6460568,
+      "new_size": 6459544,
+      "delta": -1024,
+      "delta_kb": -1.0
+    },
+    {
+      "binary": "pulse_system.dll",
+      "status": "MODIFIED",
+      "old_size": 2031768,
+      "new_size": 2032792,
+      "delta": 1024,
+      "delta_kb": 1.0
+    },
+    {
+      "binary": "rendersystemdx11.dll",
+      "status": "MODIFIED",
+      "old_size": 4545688,
+      "new_size": 4546200,
+      "delta": 512,
+      "delta_kb": 0.5
+    },
+    {
+      "binary": "rendersystemvulkan.dll",
+      "status": "MODIFIED",
+      "old_size": 6248600,
+      "new_size": 6249624,
+      "delta": 1024,
+      "delta_kb": 1.0
+    },
+    {
+      "binary": "resourcesystem.dll",
+      "status": "MODIFIED",
+      "old_size": 532632,
+      "new_size": 532632,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "scenefilecache.dll",
+      "status": "MODIFIED",
+      "old_size": 1297048,
+      "new_size": 1297048,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "scenesystem.dll",
+      "status": "MODIFIED",
+      "old_size": 7094936,
+      "new_size": 7094936,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "schemasystem.dll",
+      "status": "MODIFIED",
+      "old_size": 445592,
+      "new_size": 445592,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "server.dll",
+      "status": "MODIFIED",
+      "old_size": 34687128,
+      "new_size": 34539672,
+      "delta": -147456,
+      "delta_kb": -144.0
+    },
+    {
+      "binary": "soundsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 5837464,
+      "new_size": 5837464,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "steamaudio.dll",
+      "status": "MODIFIED",
+      "old_size": 3547288,
+      "new_size": 3545752,
+      "delta": -1536,
+      "delta_kb": -1.5
+    },
+    {
+      "binary": "steamnetworkingsockets.dll",
+      "status": "MODIFIED",
+      "old_size": 4290200,
+      "new_size": 4304536,
+      "delta": 14336,
+      "delta_kb": 14.0
+    },
+    {
+      "binary": "tier0.dll",
+      "status": "MODIFIED",
+      "old_size": 3979928,
+      "new_size": 3979416,
+      "delta": -512,
+      "delta_kb": -0.5
+    },
+    {
+      "binary": "v8system.dll",
+      "status": "MODIFIED",
+      "old_size": 233624,
+      "new_size": 233624,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "vconcomm.dll",
+      "status": "MODIFIED",
+      "old_size": 259736,
+      "new_size": 259736,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "vphysics2.dll",
+      "status": "MODIFIED",
+      "old_size": 4829848,
+      "new_size": 4829848,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "vscript.dll",
+      "status": "MODIFIED",
+      "old_size": 1352856,
+      "new_size": 1352856,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "worldrenderer.dll",
+      "status": "MODIFIED",
+      "old_size": 2029720,
+      "new_size": 2029720,
+      "delta": 0,
+      "delta_kb": 0.0
+    }
+  ],
+  "schemas": {
+    "added_classes": [],
+    "removed_classes": [],
+    "modified_classes": [
+      {
+        "class": "EventClientPollNetworking_t",
+        "binary": "soundsystem.dll",
+        "size_delta": 4,
+        "old_size": 4,
+        "new_size": 8,
+        "added_fields": [
+          {
+            "name": "m_nTotalTicks",
+            "type": "void*",
+            "offset": 4,
+            "offset_hex": "+0x0004"
+          }
+        ],
+        "removed_fields": [],
+        "shifted_fields": [],
+        "type_changed_fields": []
+      },
+      {
+        "class": "CNmAimCSNode::CDefinition",
+        "binary": "server.dll",
+        "size_delta": 0,
+        "old_size": 56,
+        "new_size": 56,
+        "added_fields": [
+          {
+            "name": "m_flTransitionBlendTimeSeconds",
+            "type": "void*",
+            "offset": 52,
+            "offset_hex": "+0x0034"
+          }
+        ],
+        "removed_fields": [],
+        "shifted_fields": [],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_CSGameRules",
+        "binary": "client.dll",
+        "size_delta": 8,
+        "old_size": 20320,
+        "new_size": 20328,
+        "added_fields": [
+          {
+            "name": "m_nActiveMutators",
+            "type": "void*",
+            "offset": 2976,
+            "offset_hex": "+0x0ba0"
+          }
+        ],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_flNextRespawnWave",
+            "type": "void*",
+            "old_offset": 2976,
+            "new_offset": 2980,
+            "old_hex": "+0x0ba0",
+            "new_hex": "+0x0ba4",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_vMinimapMins",
+            "type": "void*",
+            "old_offset": 3104,
+            "new_offset": 3108,
+            "old_hex": "+0x0c20",
+            "new_hex": "+0x0c24",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_vMinimapMaxs",
+            "type": "void*",
+            "old_offset": 3116,
+            "new_offset": 3120,
+            "old_hex": "+0x0c2c",
+            "new_hex": "+0x0c30",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_MinimapVerticalSectionHeights",
+            "type": "void*",
+            "old_offset": 3128,
+            "new_offset": 3132,
+            "old_hex": "+0x0c38",
+            "new_hex": "+0x0c3c",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_ullLocalMatchID",
+            "type": "void*",
+            "old_offset": 3160,
+            "new_offset": 3168,
+            "old_hex": "+0x0c58",
+            "new_hex": "+0x0c60",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchMapGroupVoteTypes",
+            "type": "void*",
+            "old_offset": 3168,
+            "new_offset": 3176,
+            "old_hex": "+0x0c60",
+            "new_hex": "+0x0c68",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchMapGroupVoteOptions",
+            "type": "void*",
+            "old_offset": 3208,
+            "new_offset": 3216,
+            "old_hex": "+0x0c88",
+            "new_hex": "+0x0c90",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchMapVoteWinner",
+            "type": "void*",
+            "old_offset": 3248,
+            "new_offset": 3256,
+            "old_hex": "+0x0cb0",
+            "new_hex": "+0x0cb8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumConsecutiveCTLoses",
+            "type": "void*",
+            "old_offset": 3252,
+            "new_offset": 3260,
+            "old_hex": "+0x0cb4",
+            "new_hex": "+0x0cbc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumConsecutiveTerroristLoses",
+            "type": "void*",
+            "old_offset": 3256,
+            "new_offset": 3264,
+            "old_hex": "+0x0cb8",
+            "new_hex": "+0x0cc0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nMatchAbortedEarlyReason",
+            "type": "void*",
+            "old_offset": 3448,
+            "new_offset": 3456,
+            "old_hex": "+0x0d78",
+            "new_hex": "+0x0d80",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bHasTriggeredRoundStartMusic",
+            "type": "void*",
+            "old_offset": 3452,
+            "new_offset": 3460,
+            "old_hex": "+0x0d7c",
+            "new_hex": "+0x0d84",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bSwitchingTeamsAtRoundReset",
+            "type": "void*",
+            "old_offset": 3453,
+            "new_offset": 3461,
+            "old_hex": "+0x0d7d",
+            "new_hex": "+0x0d85",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_pGameModeRules",
+            "type": "void*",
+            "old_offset": 3480,
+            "new_offset": 3488,
+            "old_hex": "+0x0d98",
+            "new_hex": "+0x0da0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_RetakeRules",
+            "type": "void*",
+            "old_offset": 3488,
+            "new_offset": 3496,
+            "old_hex": "+0x0da0",
+            "new_hex": "+0x0da8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nMatchEndCount",
+            "type": "void*",
+            "old_offset": 3832,
+            "new_offset": 3840,
+            "old_hex": "+0x0ef8",
+            "new_hex": "+0x0f00",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nTTeamIntroVariant",
+            "type": "void*",
+            "old_offset": 3836,
+            "new_offset": 3844,
+            "old_hex": "+0x0efc",
+            "new_hex": "+0x0f04",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nCTTeamIntroVariant",
+            "type": "void*",
+            "old_offset": 3840,
+            "new_offset": 3848,
+            "old_hex": "+0x0f00",
+            "new_hex": "+0x0f08",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bTeamIntroPeriod",
+            "type": "void*",
+            "old_offset": 3844,
+            "new_offset": 3852,
+            "old_hex": "+0x0f04",
+            "new_hex": "+0x0f0c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndWinnerTeam",
+            "type": "void*",
+            "old_offset": 3848,
+            "new_offset": 3856,
+            "old_hex": "+0x0f08",
+            "new_hex": "+0x0f10",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_eRoundEndReason",
+            "type": "void*",
+            "old_offset": 3852,
+            "new_offset": 3860,
+            "old_hex": "+0x0f0c",
+            "new_hex": "+0x0f14",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bRoundEndShowTimerDefend",
+            "type": "void*",
+            "old_offset": 3856,
+            "new_offset": 3864,
+            "old_hex": "+0x0f10",
+            "new_hex": "+0x0f18",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndTimerTime",
+            "type": "void*",
+            "old_offset": 3860,
+            "new_offset": 3868,
+            "old_hex": "+0x0f14",
+            "new_hex": "+0x0f1c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_sRoundEndFunFactToken",
+            "type": "void*",
+            "old_offset": 3864,
+            "new_offset": 3872,
+            "old_hex": "+0x0f18",
+            "new_hex": "+0x0f20",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactPlayerSlot",
+            "type": "void*",
+            "old_offset": 3872,
+            "new_offset": 3880,
+            "old_hex": "+0x0f20",
+            "new_hex": "+0x0f28",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactData1",
+            "type": "void*",
+            "old_offset": 3876,
+            "new_offset": 3884,
+            "old_hex": "+0x0f24",
+            "new_hex": "+0x0f2c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactData2",
+            "type": "void*",
+            "old_offset": 3880,
+            "new_offset": 3888,
+            "old_hex": "+0x0f28",
+            "new_hex": "+0x0f30",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactData3",
+            "type": "void*",
+            "old_offset": 3884,
+            "new_offset": 3892,
+            "old_hex": "+0x0f2c",
+            "new_hex": "+0x0f34",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_sRoundEndMessage",
+            "type": "void*",
+            "old_offset": 3888,
+            "new_offset": 3896,
+            "old_hex": "+0x0f30",
+            "new_hex": "+0x0f38",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndPlayerCount",
+            "type": "void*",
+            "old_offset": 3896,
+            "new_offset": 3904,
+            "old_hex": "+0x0f38",
+            "new_hex": "+0x0f40",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bRoundEndNoMusic",
+            "type": "void*",
+            "old_offset": 3900,
+            "new_offset": 3908,
+            "old_hex": "+0x0f3c",
+            "new_hex": "+0x0f44",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndLegacy",
+            "type": "void*",
+            "old_offset": 3904,
+            "new_offset": 3912,
+            "old_hex": "+0x0f40",
+            "new_hex": "+0x0f48",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nRoundEndCount",
+            "type": "void*",
+            "old_offset": 3908,
+            "new_offset": 3916,
+            "old_hex": "+0x0f44",
+            "new_hex": "+0x0f4c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundStartRoundNumber",
+            "type": "void*",
+            "old_offset": 3912,
+            "new_offset": 3920,
+            "old_hex": "+0x0f48",
+            "new_hex": "+0x0f50",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nRoundStartCount",
+            "type": "void*",
+            "old_offset": 3916,
+            "new_offset": 3924,
+            "old_hex": "+0x0f4c",
+            "new_hex": "+0x0f54",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flLastPerfSampleTime",
+            "type": "void*",
+            "old_offset": 20312,
+            "new_offset": 20320,
+            "old_hex": "+0x4f58",
+            "new_hex": "+0x4f60",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_BaseCSGrenade",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 8160,
+        "new_size": 8224,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_bClientPredictDelete",
+            "type": "void*",
+            "old_offset": 7968,
+            "new_offset": 8032,
+            "old_hex": "+0x1f20",
+            "new_hex": "+0x1f60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bRedraw",
+            "type": "void*",
+            "old_offset": 7969,
+            "new_offset": 8033,
+            "old_hex": "+0x1f21",
+            "new_hex": "+0x1f61",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bIsHeldByPlayer",
+            "type": "void*",
+            "old_offset": 7970,
+            "new_offset": 8034,
+            "old_hex": "+0x1f22",
+            "new_hex": "+0x1f62",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bPinPulled",
+            "type": "void*",
+            "old_offset": 7971,
+            "new_offset": 8035,
+            "old_hex": "+0x1f23",
+            "new_hex": "+0x1f63",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bJumpThrow",
+            "type": "void*",
+            "old_offset": 7972,
+            "new_offset": 8036,
+            "old_hex": "+0x1f24",
+            "new_hex": "+0x1f64",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bThrowAnimating",
+            "type": "void*",
+            "old_offset": 7973,
+            "new_offset": 8037,
+            "old_hex": "+0x1f25",
+            "new_hex": "+0x1f65",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fThrowTime",
+            "type": "void*",
+            "old_offset": 7976,
+            "new_offset": 8040,
+            "old_hex": "+0x1f28",
+            "new_hex": "+0x1f68",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flThrowStrength",
+            "type": "void*",
+            "old_offset": 7984,
+            "new_offset": 8048,
+            "old_hex": "+0x1f30",
+            "new_hex": "+0x1f70",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fDropTime",
+            "type": "void*",
+            "old_offset": 8104,
+            "new_offset": 8168,
+            "old_hex": "+0x1fa8",
+            "new_hex": "+0x1fe8",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fPinPullTime",
+            "type": "void*",
+            "old_offset": 8108,
+            "new_offset": 8172,
+            "old_hex": "+0x1fac",
+            "new_hex": "+0x1fec",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bJustPulledPin",
+            "type": "void*",
+            "old_offset": 8112,
+            "new_offset": 8176,
+            "old_hex": "+0x1fb0",
+            "new_hex": "+0x1ff0",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nNextHoldTick",
+            "type": "void*",
+            "old_offset": 8116,
+            "new_offset": 8180,
+            "old_hex": "+0x1fb4",
+            "new_hex": "+0x1ff4",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flNextHoldFrac",
+            "type": "void*",
+            "old_offset": 8120,
+            "new_offset": 8184,
+            "old_hex": "+0x1fb8",
+            "new_hex": "+0x1ff8",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_hSwitchToWeaponAfterThrow",
+            "type": "void*",
+            "old_offset": 8124,
+            "new_offset": 8188,
+            "old_hex": "+0x1fbc",
+            "new_hex": "+0x1ffc",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_CSWeaponBase",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 7968,
+        "new_size": 8032,
+        "added_fields": [
+          {
+            "name": "m_bIsInStealthReload",
+            "type": "void*",
+            "offset": 6808,
+            "offset_hex": "+0x1a98"
+          },
+          {
+            "name": "m_flStealthReloadHoldStartTime",
+            "type": "void*",
+            "offset": 6812,
+            "offset_hex": "+0x1a9c"
+          }
+        ],
+        "removed_fields": [
+          {
+            "name": "m_bStealthy",
+            "type": "void*",
+            "offset": 6744,
+            "offset_hex": "+0x1a58"
+          },
+          {
+            "name": "m_flStealthHoldStartTime",
+            "type": "void*",
+            "offset": 6748,
+            "offset_hex": "+0x1a5c"
+          }
+        ],
+        "shifted_fields": [
+          {
+            "field": "m_iWeaponGameplayAnimState",
+            "type": "void*",
+            "old_offset": 6568,
+            "new_offset": 6632,
+            "old_hex": "+0x19a8",
+            "new_hex": "+0x19e8",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flWeaponGameplayAnimStateTimestamp",
+            "type": "void*",
+            "old_offset": 6572,
+            "new_offset": 6636,
+            "old_hex": "+0x19ac",
+            "new_hex": "+0x19ec",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flInspectCancelCompleteTime",
+            "type": "void*",
+            "old_offset": 6576,
+            "new_offset": 6640,
+            "old_hex": "+0x19b0",
+            "new_hex": "+0x19f0",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bInspectPending",
+            "type": "void*",
+            "old_offset": 6580,
+            "new_offset": 6644,
+            "old_hex": "+0x19b4",
+            "new_hex": "+0x19f4",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bInspectShouldLoop",
+            "type": "void*",
+            "old_offset": 6581,
+            "new_offset": 6645,
+            "old_hex": "+0x19b5",
+            "new_hex": "+0x19f5",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nLastEmptySoundCmdNum",
+            "type": "void*",
+            "old_offset": 6624,
+            "new_offset": 6688,
+            "old_hex": "+0x19e0",
+            "new_hex": "+0x1a20",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bFireOnEmpty",
+            "type": "void*",
+            "old_offset": 6628,
+            "new_offset": 6692,
+            "old_hex": "+0x19e4",
+            "new_hex": "+0x1a24",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_OnPlayerPickup",
+            "type": "void*",
+            "old_offset": 6632,
+            "new_offset": 6696,
+            "old_hex": "+0x19e8",
+            "new_hex": "+0x1a28",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_weaponMode",
+            "type": "void*",
+            "old_offset": 6656,
+            "new_offset": 6720,
+            "old_hex": "+0x1a00",
+            "new_hex": "+0x1a40",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flTurningInaccuracyDelta",
+            "type": "void*",
+            "old_offset": 6660,
+            "new_offset": 6724,
+            "old_hex": "+0x1a04",
+            "new_hex": "+0x1a44",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_vecTurningInaccuracyEyeDirLast",
+            "type": "void*",
+            "old_offset": 6664,
+            "new_offset": 6728,
+            "old_hex": "+0x1a08",
+            "new_hex": "+0x1a48",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flTurningInaccuracy",
+            "type": "void*",
+            "old_offset": 6676,
+            "new_offset": 6740,
+            "old_hex": "+0x1a14",
+            "new_hex": "+0x1a54",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fAccuracyPenalty",
+            "type": "void*",
+            "old_offset": 6680,
+            "new_offset": 6744,
+            "old_hex": "+0x1a18",
+            "new_hex": "+0x1a58",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flLastAccuracyUpdateTime",
+            "type": "void*",
+            "old_offset": 6684,
+            "new_offset": 6748,
+            "old_hex": "+0x1a1c",
+            "new_hex": "+0x1a5c",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fAccuracySmoothedForZoom",
+            "type": "void*",
+            "old_offset": 6688,
+            "new_offset": 6752,
+            "old_hex": "+0x1a20",
+            "new_hex": "+0x1a60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_iRecoilIndex",
+            "type": "void*",
+            "old_offset": 6692,
+            "new_offset": 6756,
+            "old_hex": "+0x1a24",
+            "new_hex": "+0x1a64",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flRecoilIndex",
+            "type": "void*",
+            "old_offset": 6696,
+            "new_offset": 6760,
+            "old_hex": "+0x1a28",
+            "new_hex": "+0x1a68",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bBurstMode",
+            "type": "void*",
+            "old_offset": 6700,
+            "new_offset": 6764,
+            "old_hex": "+0x1a2c",
+            "new_hex": "+0x1a6c",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flLastBurstModeChangeTime",
+            "type": "void*",
+            "old_offset": 6704,
+            "new_offset": 6768,
+            "old_hex": "+0x1a30",
+            "new_hex": "+0x1a70",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nPostponeFireReadyTicks",
+            "type": "void*",
+            "old_offset": 6708,
+            "new_offset": 6772,
+            "old_hex": "+0x1a34",
+            "new_hex": "+0x1a74",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flPostponeFireReadyFrac",
+            "type": "void*",
+            "old_offset": 6712,
+            "new_offset": 6776,
+            "old_hex": "+0x1a38",
+            "new_hex": "+0x1a78",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bInReload",
+            "type": "void*",
+            "old_offset": 6716,
+            "new_offset": 6780,
+            "old_hex": "+0x1a3c",
+            "new_hex": "+0x1a7c",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nDeployTick",
+            "type": "void*",
+            "old_offset": 6720,
+            "new_offset": 6784,
+            "old_hex": "+0x1a40",
+            "new_hex": "+0x1a80",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flAttackHoldStartTime",
+            "type": "void*",
+            "old_offset": 6724,
+            "new_offset": 6788,
+            "old_hex": "+0x1a44",
+            "new_hex": "+0x1a84",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flDroppedAtTime",
+            "type": "void*",
+            "old_offset": 6728,
+            "new_offset": 6792,
+            "old_hex": "+0x1a48",
+            "new_hex": "+0x1a88",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bIsHauledBack",
+            "type": "void*",
+            "old_offset": 6736,
+            "new_offset": 6800,
+            "old_hex": "+0x1a50",
+            "new_hex": "+0x1a90",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bSilencerOn",
+            "type": "void*",
+            "old_offset": 6737,
+            "new_offset": 6801,
+            "old_hex": "+0x1a51",
+            "new_hex": "+0x1a91",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flTimeSilencerSwitchComplete",
+            "type": "void*",
+            "old_offset": 6740,
+            "new_offset": 6804,
+            "old_hex": "+0x1a54",
+            "new_hex": "+0x1a94",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bInSilentReloadSection",
+            "type": "void*",
+            "old_offset": 6745,
+            "new_offset": 6809,
+            "old_hex": "+0x1a59",
+            "new_hex": "+0x1a99",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bReloadHeldSinceStart",
+            "type": "void*",
+            "old_offset": 6752,
+            "new_offset": 6816,
+            "old_hex": "+0x1a60",
+            "new_hex": "+0x1aa0",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flWeaponActionPlaybackRate",
+            "type": "void*",
+            "old_offset": 6756,
+            "new_offset": 6820,
+            "old_hex": "+0x1a64",
+            "new_hex": "+0x1aa4",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_iOriginalTeamNumber",
+            "type": "void*",
+            "old_offset": 6760,
+            "new_offset": 6824,
+            "old_hex": "+0x1a68",
+            "new_hex": "+0x1aa8",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_iMostRecentTeamNumber",
+            "type": "void*",
+            "old_offset": 6764,
+            "new_offset": 6828,
+            "old_hex": "+0x1a6c",
+            "new_hex": "+0x1aac",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bDroppedNearBuyZone",
+            "type": "void*",
+            "old_offset": 6768,
+            "new_offset": 6832,
+            "old_hex": "+0x1a70",
+            "new_hex": "+0x1ab0",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flNextAttackRenderTimeOffset",
+            "type": "void*",
+            "old_offset": 6772,
+            "new_offset": 6836,
+            "old_hex": "+0x1a74",
+            "new_hex": "+0x1ab4",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bClearWeaponIdentifyingUGC",
+            "type": "void*",
+            "old_offset": 6944,
+            "new_offset": 7008,
+            "old_hex": "+0x1b20",
+            "new_hex": "+0x1b60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bVisualsDataSet",
+            "type": "void*",
+            "old_offset": 6945,
+            "new_offset": 7009,
+            "old_hex": "+0x1b21",
+            "new_hex": "+0x1b61",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bUIWeapon",
+            "type": "void*",
+            "old_offset": 6946,
+            "new_offset": 7010,
+            "old_hex": "+0x1b22",
+            "new_hex": "+0x1b62",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nCustomEconReloadEventId",
+            "type": "void*",
+            "old_offset": 6948,
+            "new_offset": 7012,
+            "old_hex": "+0x1b24",
+            "new_hex": "+0x1b64",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bCanBePickedUp",
+            "type": "void*",
+            "old_offset": 6960,
+            "new_offset": 7024,
+            "old_hex": "+0x1b30",
+            "new_hex": "+0x1b70",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nextPrevOwnerUseTime",
+            "type": "void*",
+            "old_offset": 6964,
+            "new_offset": 7028,
+            "old_hex": "+0x1b34",
+            "new_hex": "+0x1b74",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_hPrevOwner",
+            "type": "void*",
+            "old_offset": 6968,
+            "new_offset": 7032,
+            "old_hex": "+0x1b38",
+            "new_hex": "+0x1b78",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nDropTick",
+            "type": "void*",
+            "old_offset": 6972,
+            "new_offset": 7036,
+            "old_hex": "+0x1b3c",
+            "new_hex": "+0x1b7c",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bWasActiveWeaponWhenDropped",
+            "type": "void*",
+            "old_offset": 6976,
+            "new_offset": 7040,
+            "old_hex": "+0x1b40",
+            "new_hex": "+0x1b80",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_donated",
+            "type": "void*",
+            "old_offset": 7012,
+            "new_offset": 7076,
+            "old_hex": "+0x1b64",
+            "new_hex": "+0x1ba4",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fLastShotTime",
+            "type": "void*",
+            "old_offset": 7016,
+            "new_offset": 7080,
+            "old_hex": "+0x1b68",
+            "new_hex": "+0x1ba8",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bWasOwnedByCT",
+            "type": "void*",
+            "old_offset": 7020,
+            "new_offset": 7084,
+            "old_hex": "+0x1b6c",
+            "new_hex": "+0x1bac",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bWasOwnedByTerrorist",
+            "type": "void*",
+            "old_offset": 7021,
+            "new_offset": 7085,
+            "old_hex": "+0x1b6d",
+            "new_hex": "+0x1bad",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flNextClientFireBulletTime",
+            "type": "void*",
+            "old_offset": 7024,
+            "new_offset": 7088,
+            "old_hex": "+0x1b70",
+            "new_hex": "+0x1bb0",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flNextClientFireBulletTime_Repredict",
+            "type": "void*",
+            "old_offset": 7028,
+            "new_offset": 7092,
+            "old_hex": "+0x1b74",
+            "new_hex": "+0x1bb4",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_IronSightController",
+            "type": "void*",
+            "old_offset": 7120,
+            "new_offset": 7184,
+            "old_hex": "+0x1bd0",
+            "new_hex": "+0x1c10",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_iIronSightMode",
+            "type": "void*",
+            "old_offset": 7296,
+            "new_offset": 7360,
+            "old_hex": "+0x1c80",
+            "new_hex": "+0x1cc0",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flLastLOSTraceFailureTime",
+            "type": "void*",
+            "old_offset": 7416,
+            "new_offset": 7480,
+            "old_hex": "+0x1cf8",
+            "new_hex": "+0x1d38",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flWatTickOffset",
+            "type": "void*",
+            "old_offset": 7512,
+            "new_offset": 7576,
+            "old_hex": "+0x1d58",
+            "new_hex": "+0x1d98",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_flLastShakeTime",
+            "type": "void*",
+            "old_offset": 7532,
+            "new_offset": 7596,
+            "old_hex": "+0x1d6c",
+            "new_hex": "+0x1dac",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_WeaponBaseItem",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 7984,
+        "new_size": 8048,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_bSequenceInProgress",
+            "type": "void*",
+            "old_offset": 7968,
+            "new_offset": 8032,
+            "old_hex": "+0x1f20",
+            "new_hex": "+0x1f60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bRedraw",
+            "type": "void*",
+            "old_offset": 7969,
+            "new_offset": 8033,
+            "old_hex": "+0x1f21",
+            "new_hex": "+0x1f61",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_C4",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 8032,
+        "new_size": 8096,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_activeLightParticleIndex",
+            "type": "void*",
+            "old_offset": 7968,
+            "new_offset": 8032,
+            "old_hex": "+0x1f20",
+            "new_hex": "+0x1f60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_eActiveLightEffect",
+            "type": "void*",
+            "old_offset": 7972,
+            "new_offset": 8036,
+            "old_hex": "+0x1f24",
+            "new_hex": "+0x1f64",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bStartedArming",
+            "type": "void*",
+            "old_offset": 7976,
+            "new_offset": 8040,
+            "old_hex": "+0x1f28",
+            "new_hex": "+0x1f68",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_fArmedTime",
+            "type": "void*",
+            "old_offset": 7980,
+            "new_offset": 8044,
+            "old_hex": "+0x1f2c",
+            "new_hex": "+0x1f6c",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bBombPlacedAnimation",
+            "type": "void*",
+            "old_offset": 7984,
+            "new_offset": 8048,
+            "old_hex": "+0x1f30",
+            "new_hex": "+0x1f70",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bIsPlantingViaUse",
+            "type": "void*",
+            "old_offset": 7985,
+            "new_offset": 8049,
+            "old_hex": "+0x1f31",
+            "new_hex": "+0x1f71",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_entitySpottedState",
+            "type": "void*",
+            "old_offset": 7992,
+            "new_offset": 8056,
+            "old_hex": "+0x1f38",
+            "new_hex": "+0x1f78",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nSpotRules",
+            "type": "void*",
+            "old_offset": 8016,
+            "new_offset": 8080,
+            "old_hex": "+0x1f50",
+            "new_hex": "+0x1f90",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bPlayedArmingBeeps",
+            "type": "void*",
+            "old_offset": 8020,
+            "new_offset": 8084,
+            "old_hex": "+0x1f54",
+            "new_hex": "+0x1f94",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bBombPlanted",
+            "type": "void*",
+            "old_offset": 8027,
+            "new_offset": 8091,
+            "old_hex": "+0x1f5b",
+            "new_hex": "+0x1f9b",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_CSWeaponBaseGun",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 8016,
+        "new_size": 8080,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_zoomLevel",
+            "type": "void*",
+            "old_offset": 7968,
+            "new_offset": 8032,
+            "old_hex": "+0x1f20",
+            "new_hex": "+0x1f60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_iBurstShotsRemaining",
+            "type": "void*",
+            "old_offset": 7972,
+            "new_offset": 8036,
+            "old_hex": "+0x1f24",
+            "new_hex": "+0x1f64",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_iSilencerBodygroup",
+            "type": "void*",
+            "old_offset": 7976,
+            "new_offset": 8040,
+            "old_hex": "+0x1f28",
+            "new_hex": "+0x1f68",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_silencedModelIndex",
+            "type": "void*",
+            "old_offset": 7992,
+            "new_offset": 8056,
+            "old_hex": "+0x1f38",
+            "new_hex": "+0x1f78",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_inPrecache",
+            "type": "void*",
+            "old_offset": 7996,
+            "new_offset": 8060,
+            "old_hex": "+0x1f3c",
+            "new_hex": "+0x1f7c",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_bNeedsBoltAction",
+            "type": "void*",
+            "old_offset": 7997,
+            "new_offset": 8061,
+            "old_hex": "+0x1f3d",
+            "new_hex": "+0x1f7d",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nRevolverCylinderIdx",
+            "type": "void*",
+            "old_offset": 8000,
+            "new_offset": 8064,
+            "old_hex": "+0x1f40",
+            "new_hex": "+0x1f80",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_WeaponCZ75a",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 8032,
+        "new_size": 8096,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_bMagazineRemoved",
+            "type": "void*",
+            "old_offset": 8016,
+            "new_offset": 8080,
+            "old_hex": "+0x1f50",
+            "new_hex": "+0x1f90",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_Knife",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 7984,
+        "new_size": 8048,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_bFirstAttack",
+            "type": "void*",
+            "old_offset": 7968,
+            "new_offset": 8032,
+            "old_hex": "+0x1f20",
+            "new_hex": "+0x1f60",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_WeaponTaser",
+        "binary": "client.dll",
+        "size_delta": 64,
+        "old_size": 8032,
+        "new_size": 8096,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_fFireTime",
+            "type": "void*",
+            "old_offset": 8016,
+            "new_offset": 8080,
+            "old_hex": "+0x1f50",
+            "new_hex": "+0x1f90",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          },
+          {
+            "field": "m_nLastAttackTick",
+            "type": "void*",
+            "old_offset": 8020,
+            "new_offset": 8084,
+            "old_hex": "+0x1f54",
+            "new_hex": "+0x1f94",
+            "shift": 64,
+            "shift_str": "+64 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_Hostage",
+        "binary": "client.dll",
+        "size_delta": -8,
+        "old_size": 5056,
+        "new_size": 5048,
+        "added_fields": [],
+        "removed_fields": [
+          {
+            "name": "m_flDeadOrRescuedTime",
+            "type": "void*",
+            "offset": 4960,
+            "offset_hex": "+0x1360"
+          }
+        ],
+        "shifted_fields": [
+          {
+            "field": "m_blinkTimer",
+            "type": "void*",
+            "old_offset": 4968,
+            "new_offset": 4960,
+            "old_hex": "+0x1368",
+            "new_hex": "+0x1360",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_lookAt",
+            "type": "void*",
+            "old_offset": 4992,
+            "new_offset": 4984,
+            "old_hex": "+0x1380",
+            "new_hex": "+0x1378",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_lookAroundTimer",
+            "type": "void*",
+            "old_offset": 5008,
+            "new_offset": 5000,
+            "old_hex": "+0x1390",
+            "new_hex": "+0x1388",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_isInit",
+            "type": "void*",
+            "old_offset": 5032,
+            "new_offset": 5024,
+            "old_hex": "+0x13a8",
+            "new_hex": "+0x13a0",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_eyeAttachment",
+            "type": "void*",
+            "old_offset": 5033,
+            "new_offset": 5025,
+            "old_hex": "+0x13a9",
+            "new_hex": "+0x13a1",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_chestAttachment",
+            "type": "void*",
+            "old_offset": 5034,
+            "new_offset": 5026,
+            "old_hex": "+0x13aa",
+            "new_hex": "+0x13a2",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_pPredictionOwner",
+            "type": "void*",
+            "old_offset": 5040,
+            "new_offset": 5032,
+            "old_hex": "+0x13b0",
+            "new_hex": "+0x13a8",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          },
+          {
+            "field": "m_fNewestAlphaThinkTime",
+            "type": "void*",
+            "old_offset": 5048,
+            "new_offset": 5040,
+            "old_hex": "+0x13b8",
+            "new_hex": "+0x13b0",
+            "shift": -8,
+            "shift_str": "-8 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_CSPlayerPawn",
+        "binary": "client.dll",
+        "size_delta": 48,
+        "old_size": 14112,
+        "new_size": 14160,
+        "added_fields": [
+          {
+            "name": "m_flBigHeadScale",
+            "type": "void*",
+            "offset": 13632,
+            "offset_hex": "+0x3540"
+          }
+        ],
+        "removed_fields": [
+          {
+            "name": "m_flModifier0",
+            "type": "void*",
+            "offset": 13584,
+            "offset_hex": "+0x3510"
+          }
+        ],
+        "shifted_fields": [
+          {
+            "field": "m_iRetakesOffering",
+            "type": "void*",
+            "old_offset": 5976,
+            "new_offset": 6024,
+            "old_hex": "+0x1758",
+            "new_hex": "+0x1788",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iRetakesOfferingCard",
+            "type": "void*",
+            "old_offset": 5980,
+            "new_offset": 6028,
+            "old_hex": "+0x175c",
+            "new_hex": "+0x178c",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bRetakesHasDefuseKit",
+            "type": "void*",
+            "old_offset": 5984,
+            "new_offset": 6032,
+            "old_hex": "+0x1760",
+            "new_hex": "+0x1790",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bRetakesMVPLastRound",
+            "type": "void*",
+            "old_offset": 5985,
+            "new_offset": 6033,
+            "old_hex": "+0x1761",
+            "new_hex": "+0x1791",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iRetakesMVPBoostItem",
+            "type": "void*",
+            "old_offset": 5988,
+            "new_offset": 6036,
+            "old_hex": "+0x1764",
+            "new_hex": "+0x1794",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_RetakesMVPBoostExtraUtility",
+            "type": "void*",
+            "old_offset": 5992,
+            "new_offset": 6040,
+            "old_hex": "+0x1768",
+            "new_hex": "+0x1798",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bNeedToReApplyGloves",
+            "type": "void*",
+            "old_offset": 5997,
+            "new_offset": 6045,
+            "old_hex": "+0x176d",
+            "new_hex": "+0x179d",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_EconGloves",
+            "type": "void*",
+            "old_offset": 6000,
+            "new_offset": 6048,
+            "old_hex": "+0x1770",
+            "new_hex": "+0x17a0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_nEconGlovesChanged",
+            "type": "void*",
+            "old_offset": 7456,
+            "new_offset": 7504,
+            "old_hex": "+0x1d20",
+            "new_hex": "+0x1d50",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bMustSyncRagdollState",
+            "type": "void*",
+            "old_offset": 7457,
+            "new_offset": 7505,
+            "old_hex": "+0x1d21",
+            "new_hex": "+0x1d51",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_nRagdollDamageBone",
+            "type": "void*",
+            "old_offset": 7460,
+            "new_offset": 7508,
+            "old_hex": "+0x1d24",
+            "new_hex": "+0x1d54",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vRagdollDamageForce",
+            "type": "void*",
+            "old_offset": 7464,
+            "new_offset": 7512,
+            "old_hex": "+0x1d28",
+            "new_hex": "+0x1d58",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_szRagdollDamageWeaponName",
+            "type": "void*",
+            "old_offset": 7476,
+            "new_offset": 7524,
+            "old_hex": "+0x1d34",
+            "new_hex": "+0x1d64",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bRagdollDamageHeadshot",
+            "type": "void*",
+            "old_offset": 7540,
+            "new_offset": 7588,
+            "old_hex": "+0x1d74",
+            "new_hex": "+0x1da4",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vRagdollServerOrigin",
+            "type": "void*",
+            "old_offset": 7544,
+            "new_offset": 7592,
+            "old_hex": "+0x1d78",
+            "new_hex": "+0x1da8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_lastLandTime",
+            "type": "void*",
+            "old_offset": 7556,
+            "new_offset": 7604,
+            "old_hex": "+0x1d84",
+            "new_hex": "+0x1db4",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bOnGroundLastTick",
+            "type": "void*",
+            "old_offset": 7560,
+            "new_offset": 7608,
+            "old_hex": "+0x1d88",
+            "new_hex": "+0x1db8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_hHudModelArms",
+            "type": "void*",
+            "old_offset": 7592,
+            "new_offset": 7640,
+            "old_hex": "+0x1da8",
+            "new_hex": "+0x1dd8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_qDeathEyeAngles",
+            "type": "void*",
+            "old_offset": 7596,
+            "new_offset": 7644,
+            "old_hex": "+0x1dac",
+            "new_hex": "+0x1ddc",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bLeftHanded",
+            "type": "void*",
+            "old_offset": 7608,
+            "new_offset": 7656,
+            "old_hex": "+0x1db8",
+            "new_hex": "+0x1de8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_fSwitchedHandednessTime",
+            "type": "void*",
+            "old_offset": 7612,
+            "new_offset": 7660,
+            "old_hex": "+0x1dbc",
+            "new_hex": "+0x1dec",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flViewmodelOffsetX",
+            "type": "void*",
+            "old_offset": 7616,
+            "new_offset": 7664,
+            "old_hex": "+0x1dc0",
+            "new_hex": "+0x1df0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flViewmodelOffsetY",
+            "type": "void*",
+            "old_offset": 7620,
+            "new_offset": 7668,
+            "old_hex": "+0x1dc4",
+            "new_hex": "+0x1df4",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flViewmodelOffsetZ",
+            "type": "void*",
+            "old_offset": 7624,
+            "new_offset": 7672,
+            "old_hex": "+0x1dc8",
+            "new_hex": "+0x1df8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flViewmodelFOV",
+            "type": "void*",
+            "old_offset": 7628,
+            "new_offset": 7676,
+            "old_hex": "+0x1dcc",
+            "new_hex": "+0x1dfc",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vecPlayerPatchEconIndices",
+            "type": "void*",
+            "old_offset": 7632,
+            "new_offset": 7680,
+            "old_hex": "+0x1dd0",
+            "new_hex": "+0x1e00",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_GunGameImmunityColor",
+            "type": "void*",
+            "old_offset": 7704,
+            "new_offset": 7752,
+            "old_hex": "+0x1e18",
+            "new_hex": "+0x1e48",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vecBulletHitModels",
+            "type": "void*",
+            "old_offset": 7784,
+            "new_offset": 7832,
+            "old_hex": "+0x1e68",
+            "new_hex": "+0x1e98",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bIsWalking",
+            "type": "void*",
+            "old_offset": 7808,
+            "new_offset": 7856,
+            "old_hex": "+0x1e80",
+            "new_hex": "+0x1eb0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_entitySpottedState",
+            "type": "void*",
+            "old_offset": 7816,
+            "new_offset": 7864,
+            "old_hex": "+0x1e88",
+            "new_hex": "+0x1eb8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bIsScoped",
+            "type": "void*",
+            "old_offset": 7840,
+            "new_offset": 7888,
+            "old_hex": "+0x1ea0",
+            "new_hex": "+0x1ed0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bResumeZoom",
+            "type": "void*",
+            "old_offset": 7841,
+            "new_offset": 7889,
+            "old_hex": "+0x1ea1",
+            "new_hex": "+0x1ed1",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bIsDefusing",
+            "type": "void*",
+            "old_offset": 7842,
+            "new_offset": 7890,
+            "old_hex": "+0x1ea2",
+            "new_hex": "+0x1ed2",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bIsGrabbingHostage",
+            "type": "void*",
+            "old_offset": 7843,
+            "new_offset": 7891,
+            "old_hex": "+0x1ea3",
+            "new_hex": "+0x1ed3",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iBlockingUseActionInProgress",
+            "type": "void*",
+            "old_offset": 7844,
+            "new_offset": 7892,
+            "old_hex": "+0x1ea4",
+            "new_hex": "+0x1ed4",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flEmitSoundTime",
+            "type": "void*",
+            "old_offset": 7848,
+            "new_offset": 7896,
+            "old_hex": "+0x1ea8",
+            "new_hex": "+0x1ed8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flEmitSoundTime_Client",
+            "type": "void*",
+            "old_offset": 7852,
+            "new_offset": 7900,
+            "old_hex": "+0x1eac",
+            "new_hex": "+0x1edc",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bInNoDefuseArea",
+            "type": "void*",
+            "old_offset": 7856,
+            "new_offset": 7904,
+            "old_hex": "+0x1eb0",
+            "new_hex": "+0x1ee0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_nWhichBombZone",
+            "type": "void*",
+            "old_offset": 7860,
+            "new_offset": 7908,
+            "old_hex": "+0x1eb4",
+            "new_hex": "+0x1ee4",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iShotsFired",
+            "type": "void*",
+            "old_offset": 7864,
+            "new_offset": 7912,
+            "old_hex": "+0x1eb8",
+            "new_hex": "+0x1ee8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flFlinchStack",
+            "type": "void*",
+            "old_offset": 7868,
+            "new_offset": 7916,
+            "old_hex": "+0x1ebc",
+            "new_hex": "+0x1eec",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flVelocityModifier",
+            "type": "void*",
+            "old_offset": 7872,
+            "new_offset": 7920,
+            "old_hex": "+0x1ec0",
+            "new_hex": "+0x1ef0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bWaitForNoAttack",
+            "type": "void*",
+            "old_offset": 7876,
+            "new_offset": 7924,
+            "old_hex": "+0x1ec4",
+            "new_hex": "+0x1ef4",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_ignoreLadderJumpTime",
+            "type": "void*",
+            "old_offset": 7880,
+            "new_offset": 7928,
+            "old_hex": "+0x1ec8",
+            "new_hex": "+0x1ef8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bKilledByHeadshot",
+            "type": "void*",
+            "old_offset": 7885,
+            "new_offset": 7933,
+            "old_hex": "+0x1ecd",
+            "new_hex": "+0x1efd",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_ArmorValue",
+            "type": "void*",
+            "old_offset": 7888,
+            "new_offset": 7936,
+            "old_hex": "+0x1ed0",
+            "new_hex": "+0x1f00",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_unCurrentEquipmentValue",
+            "type": "void*",
+            "old_offset": 7892,
+            "new_offset": 7940,
+            "old_hex": "+0x1ed4",
+            "new_hex": "+0x1f04",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_unRoundStartEquipmentValue",
+            "type": "void*",
+            "old_offset": 7894,
+            "new_offset": 7942,
+            "old_hex": "+0x1ed6",
+            "new_hex": "+0x1f06",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_unFreezetimeEndEquipmentValue",
+            "type": "void*",
+            "old_offset": 7896,
+            "new_offset": 7944,
+            "old_hex": "+0x1ed8",
+            "new_hex": "+0x1f08",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_nLastKillerIndex",
+            "type": "void*",
+            "old_offset": 7900,
+            "new_offset": 7948,
+            "old_hex": "+0x1edc",
+            "new_hex": "+0x1f0c",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bOldIsScoped",
+            "type": "void*",
+            "old_offset": 7904,
+            "new_offset": 7952,
+            "old_hex": "+0x1ee0",
+            "new_hex": "+0x1f10",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bHasDeathInfo",
+            "type": "void*",
+            "old_offset": 7905,
+            "new_offset": 7953,
+            "old_hex": "+0x1ee1",
+            "new_hex": "+0x1f11",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flDeathInfoTime",
+            "type": "void*",
+            "old_offset": 7908,
+            "new_offset": 7956,
+            "old_hex": "+0x1ee4",
+            "new_hex": "+0x1f14",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vecDeathInfoOrigin",
+            "type": "void*",
+            "old_offset": 7912,
+            "new_offset": 7960,
+            "old_hex": "+0x1ee8",
+            "new_hex": "+0x1f18",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_grenadeParameterStashTime",
+            "type": "void*",
+            "old_offset": 7968,
+            "new_offset": 8016,
+            "old_hex": "+0x1f20",
+            "new_hex": "+0x1f50",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bGrenadeParametersStashed",
+            "type": "void*",
+            "old_offset": 7972,
+            "new_offset": 8020,
+            "old_hex": "+0x1f24",
+            "new_hex": "+0x1f54",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_angStashedShootAngles",
+            "type": "void*",
+            "old_offset": 7976,
+            "new_offset": 8024,
+            "old_hex": "+0x1f28",
+            "new_hex": "+0x1f58",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vecStashedGrenadeThrowPosition",
+            "type": "void*",
+            "old_offset": 7988,
+            "new_offset": 8036,
+            "old_hex": "+0x1f34",
+            "new_hex": "+0x1f64",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vecStashedGrenadeThrowPawnCenter",
+            "type": "void*",
+            "old_offset": 8000,
+            "new_offset": 8048,
+            "old_hex": "+0x1f40",
+            "new_hex": "+0x1f70",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_vecStashedVelocity",
+            "type": "void*",
+            "old_offset": 8012,
+            "new_offset": 8060,
+            "old_hex": "+0x1f4c",
+            "new_hex": "+0x1f7c",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flInterpolatedInaccuracy",
+            "type": "void*",
+            "old_offset": 8024,
+            "new_offset": 8072,
+            "old_hex": "+0x1f58",
+            "new_hex": "+0x1f88",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bShouldAutobuyDMWeapons",
+            "type": "void*",
+            "old_offset": 13568,
+            "new_offset": 13616,
+            "old_hex": "+0x3500",
+            "new_hex": "+0x3530",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_fImmuneToGunGameDamageTime",
+            "type": "void*",
+            "old_offset": 13572,
+            "new_offset": 13620,
+            "old_hex": "+0x3504",
+            "new_hex": "+0x3534",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_bGunGameImmunity",
+            "type": "void*",
+            "old_offset": 13576,
+            "new_offset": 13624,
+            "old_hex": "+0x3508",
+            "new_hex": "+0x3538",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_fImmuneToGunGameDamageTimeLast",
+            "type": "void*",
+            "old_offset": 13580,
+            "new_offset": 13628,
+            "old_hex": "+0x350c",
+            "new_hex": "+0x353c",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_fMolotovDamageTime",
+            "type": "void*",
+            "old_offset": 13588,
+            "new_offset": 13636,
+            "old_hex": "+0x3514",
+            "new_hex": "+0x3544",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_nPlayerInfernoBodyFx",
+            "type": "void*",
+            "old_offset": 13704,
+            "new_offset": 13752,
+            "old_hex": "+0x3588",
+            "new_hex": "+0x35b8",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_angEyeAngles",
+            "type": "void*",
+            "old_offset": 13824,
+            "new_offset": 13872,
+            "old_hex": "+0x3600",
+            "new_hex": "+0x3630",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_arrOldEyeAnglesTimes",
+            "type": "void*",
+            "old_offset": 13968,
+            "new_offset": 14016,
+            "old_hex": "+0x3690",
+            "new_hex": "+0x36c0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_arrOldEyeAngles",
+            "type": "void*",
+            "old_offset": 13984,
+            "new_offset": 14032,
+            "old_hex": "+0x36a0",
+            "new_hex": "+0x36d0",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_angEyeAnglesVelocity",
+            "type": "void*",
+            "old_offset": 14032,
+            "new_offset": 14080,
+            "old_hex": "+0x36d0",
+            "new_hex": "+0x3700",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iIDEntIndex",
+            "type": "void*",
+            "old_offset": 14044,
+            "new_offset": 14092,
+            "old_hex": "+0x36dc",
+            "new_hex": "+0x370c",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_delayTargetIDTimer",
+            "type": "void*",
+            "old_offset": 14048,
+            "new_offset": 14096,
+            "old_hex": "+0x36e0",
+            "new_hex": "+0x3710",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iTargetItemEntIdx",
+            "type": "void*",
+            "old_offset": 14072,
+            "new_offset": 14120,
+            "old_hex": "+0x36f8",
+            "new_hex": "+0x3728",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_iOldIDEntIndex",
+            "type": "void*",
+            "old_offset": 14076,
+            "new_offset": 14124,
+            "old_hex": "+0x36fc",
+            "new_hex": "+0x372c",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_holdTargetIDTimer",
+            "type": "void*",
+            "old_offset": 14080,
+            "new_offset": 14128,
+            "old_hex": "+0x3700",
+            "new_hex": "+0x3730",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_CSGO_PreviewPlayer",
+        "binary": "client.dll",
+        "size_delta": 48,
+        "old_size": 14288,
+        "new_size": 14336,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_animgraphCharacterModeString",
+            "type": "void*",
+            "old_offset": 14112,
+            "new_offset": 14160,
+            "old_hex": "+0x3720",
+            "new_hex": "+0x3750",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          },
+          {
+            "field": "m_flInitialModelScale",
+            "type": "void*",
+            "old_offset": 14120,
+            "new_offset": 14168,
+            "old_hex": "+0x3728",
+            "new_hex": "+0x3758",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "CMapInfo",
+        "binary": "server.dll",
+        "size_delta": 8,
+        "old_size": 1240,
+        "new_size": 1248,
+        "added_fields": [
+          {
+            "name": "m_bFrostEnabled",
+            "type": "void*",
+            "offset": 1240,
+            "offset_hex": "+0x04d8"
+          }
+        ],
+        "removed_fields": [],
+        "shifted_fields": [],
+        "type_changed_fields": []
+      },
+      {
+        "class": "C_Chicken",
+        "binary": "client.dll",
+        "size_delta": 48,
+        "old_size": 7072,
+        "new_size": 7120,
+        "added_fields": [],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_bSpawnDyingParticles",
+            "type": "void*",
+            "old_offset": 7016,
+            "new_offset": 7064,
+            "old_hex": "+0x1b68",
+            "new_hex": "+0x1b98",
+            "shift": 48,
+            "shift_str": "+48 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "CCSPlayerPawn",
+        "binary": "server.dll",
+        "size_delta": 0,
+        "old_size": 5584,
+        "new_size": 5584,
+        "added_fields": [
+          {
+            "name": "m_flBigHeadScale",
+            "type": "void*",
+            "offset": 5548,
+            "offset_hex": "+0x15ac"
+          }
+        ],
+        "removed_fields": [
+          {
+            "name": "m_flModifier0",
+            "type": "void*",
+            "offset": 5548,
+            "offset_hex": "+0x15ac"
+          }
+        ],
+        "shifted_fields": [],
+        "type_changed_fields": []
+      },
+      {
+        "class": "CCSGameRules",
+        "binary": "server.dll",
+        "size_delta": 8,
+        "old_size": 70728,
+        "new_size": 70736,
+        "added_fields": [
+          {
+            "name": "m_nActiveMutators",
+            "type": "void*",
+            "offset": 3128,
+            "offset_hex": "+0x0c38"
+          },
+          {
+            "name": "m_bQueuedMatchmakingReportedRoundStatsPendingSend",
+            "type": "void*",
+            "offset": 3608,
+            "offset_hex": "+0x0e18"
+          }
+        ],
+        "removed_fields": [],
+        "shifted_fields": [
+          {
+            "field": "m_flNextRespawnWave",
+            "type": "void*",
+            "old_offset": 3128,
+            "new_offset": 3132,
+            "old_hex": "+0x0c38",
+            "new_hex": "+0x0c3c",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_vMinimapMins",
+            "type": "void*",
+            "old_offset": 3256,
+            "new_offset": 3260,
+            "old_hex": "+0x0cb8",
+            "new_hex": "+0x0cbc",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_vMinimapMaxs",
+            "type": "void*",
+            "old_offset": 3268,
+            "new_offset": 3272,
+            "old_hex": "+0x0cc4",
+            "new_hex": "+0x0cc8",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_MinimapVerticalSectionHeights",
+            "type": "void*",
+            "old_offset": 3280,
+            "new_offset": 3284,
+            "old_hex": "+0x0cd0",
+            "new_hex": "+0x0cd4",
+            "shift": 4,
+            "shift_str": "+4 bytes"
+          },
+          {
+            "field": "m_ullLocalMatchID",
+            "type": "void*",
+            "old_offset": 3312,
+            "new_offset": 3320,
+            "old_hex": "+0x0cf0",
+            "new_hex": "+0x0cf8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchMapGroupVoteTypes",
+            "type": "void*",
+            "old_offset": 3320,
+            "new_offset": 3328,
+            "old_hex": "+0x0cf8",
+            "new_hex": "+0x0d00",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchMapGroupVoteOptions",
+            "type": "void*",
+            "old_offset": 3360,
+            "new_offset": 3368,
+            "old_hex": "+0x0d20",
+            "new_hex": "+0x0d28",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchMapVoteWinner",
+            "type": "void*",
+            "old_offset": 3400,
+            "new_offset": 3408,
+            "old_hex": "+0x0d48",
+            "new_hex": "+0x0d50",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumConsecutiveCTLoses",
+            "type": "void*",
+            "old_offset": 3404,
+            "new_offset": 3412,
+            "old_hex": "+0x0d4c",
+            "new_hex": "+0x0d54",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumConsecutiveTerroristLoses",
+            "type": "void*",
+            "old_offset": 3408,
+            "new_offset": 3416,
+            "old_hex": "+0x0d50",
+            "new_hex": "+0x0d58",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bHasHostageBeenTouched",
+            "type": "void*",
+            "old_offset": 3440,
+            "new_offset": 3448,
+            "old_hex": "+0x0d70",
+            "new_hex": "+0x0d78",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flIntermissionStartTime",
+            "type": "void*",
+            "old_offset": 3444,
+            "new_offset": 3452,
+            "old_hex": "+0x0d74",
+            "new_hex": "+0x0d7c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flIntermissionEndTime",
+            "type": "void*",
+            "old_offset": 3448,
+            "new_offset": 3456,
+            "old_hex": "+0x0d78",
+            "new_hex": "+0x0d80",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bLevelInitialized",
+            "type": "void*",
+            "old_offset": 3452,
+            "new_offset": 3460,
+            "old_hex": "+0x0d7c",
+            "new_hex": "+0x0d84",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iTotalRoundsPlayed",
+            "type": "void*",
+            "old_offset": 3456,
+            "new_offset": 3464,
+            "old_hex": "+0x0d80",
+            "new_hex": "+0x0d88",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iUnBalancedRounds",
+            "type": "void*",
+            "old_offset": 3460,
+            "new_offset": 3468,
+            "old_hex": "+0x0d84",
+            "new_hex": "+0x0d8c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_endMatchOnRoundReset",
+            "type": "void*",
+            "old_offset": 3464,
+            "new_offset": 3472,
+            "old_hex": "+0x0d88",
+            "new_hex": "+0x0d90",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_endMatchOnThink",
+            "type": "void*",
+            "old_offset": 3465,
+            "new_offset": 3473,
+            "old_hex": "+0x0d89",
+            "new_hex": "+0x0d91",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumTerrorist",
+            "type": "void*",
+            "old_offset": 3468,
+            "new_offset": 3476,
+            "old_hex": "+0x0d8c",
+            "new_hex": "+0x0d94",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumCT",
+            "type": "void*",
+            "old_offset": 3472,
+            "new_offset": 3480,
+            "old_hex": "+0x0d90",
+            "new_hex": "+0x0d98",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumSpawnableTerrorist",
+            "type": "void*",
+            "old_offset": 3476,
+            "new_offset": 3484,
+            "old_hex": "+0x0d94",
+            "new_hex": "+0x0d9c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNumSpawnableCT",
+            "type": "void*",
+            "old_offset": 3480,
+            "new_offset": 3488,
+            "old_hex": "+0x0d98",
+            "new_hex": "+0x0da0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_arrSelectedHostageSpawnIndices",
+            "type": "void*",
+            "old_offset": 3488,
+            "new_offset": 3496,
+            "old_hex": "+0x0da0",
+            "new_hex": "+0x0da8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nSpawnPointsRandomSeed",
+            "type": "void*",
+            "old_offset": 3512,
+            "new_offset": 3520,
+            "old_hex": "+0x0db8",
+            "new_hex": "+0x0dc0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bFirstConnected",
+            "type": "void*",
+            "old_offset": 3516,
+            "new_offset": 3524,
+            "old_hex": "+0x0dbc",
+            "new_hex": "+0x0dc4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bCompleteReset",
+            "type": "void*",
+            "old_offset": 3517,
+            "new_offset": 3525,
+            "old_hex": "+0x0dbd",
+            "new_hex": "+0x0dc5",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bPickNewTeamsOnReset",
+            "type": "void*",
+            "old_offset": 3518,
+            "new_offset": 3526,
+            "old_hex": "+0x0dbe",
+            "new_hex": "+0x0dc6",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bScrambleTeamsOnRestart",
+            "type": "void*",
+            "old_offset": 3519,
+            "new_offset": 3527,
+            "old_hex": "+0x0dbf",
+            "new_hex": "+0x0dc7",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bSwapTeamsOnRestart",
+            "type": "void*",
+            "old_offset": 3520,
+            "new_offset": 3528,
+            "old_hex": "+0x0dc0",
+            "new_hex": "+0x0dc8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nEndMatchTiedVotes",
+            "type": "void*",
+            "old_offset": 3528,
+            "new_offset": 3536,
+            "old_hex": "+0x0dc8",
+            "new_hex": "+0x0dd0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bNeedToAskPlayersForContinueVote",
+            "type": "void*",
+            "old_offset": 3556,
+            "new_offset": 3564,
+            "old_hex": "+0x0de4",
+            "new_hex": "+0x0dec",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_numQueuedMatchmakingAccounts",
+            "type": "void*",
+            "old_offset": 3560,
+            "new_offset": 3568,
+            "old_hex": "+0x0de8",
+            "new_hex": "+0x0df0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_fAvgPlayerRank",
+            "type": "void*",
+            "old_offset": 3564,
+            "new_offset": 3572,
+            "old_hex": "+0x0dec",
+            "new_hex": "+0x0df4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_pQueuedMatchmakingReservationString",
+            "type": "void*",
+            "old_offset": 3568,
+            "new_offset": 3576,
+            "old_hex": "+0x0df0",
+            "new_hex": "+0x0df8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_numTotalTournamentDrops",
+            "type": "void*",
+            "old_offset": 3576,
+            "new_offset": 3584,
+            "old_hex": "+0x0df8",
+            "new_hex": "+0x0e00",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_numSpectatorsCountMax",
+            "type": "void*",
+            "old_offset": 3580,
+            "new_offset": 3588,
+            "old_hex": "+0x0dfc",
+            "new_hex": "+0x0e04",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_numSpectatorsCountMaxTV",
+            "type": "void*",
+            "old_offset": 3584,
+            "new_offset": 3592,
+            "old_hex": "+0x0e00",
+            "new_hex": "+0x0e08",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_numSpectatorsCountMaxLnk",
+            "type": "void*",
+            "old_offset": 3588,
+            "new_offset": 3596,
+            "old_hex": "+0x0e04",
+            "new_hex": "+0x0e0c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nCTsAliveAtFreezetimeEnd",
+            "type": "void*",
+            "old_offset": 3600,
+            "new_offset": 3612,
+            "old_hex": "+0x0e10",
+            "new_hex": "+0x0e1c",
+            "shift": 12,
+            "shift_str": "+12 bytes"
+          },
+          {
+            "field": "m_nTerroristsAliveAtFreezetimeEnd",
+            "type": "void*",
+            "old_offset": 3604,
+            "new_offset": 3616,
+            "old_hex": "+0x0e14",
+            "new_hex": "+0x0e20",
+            "shift": 12,
+            "shift_str": "+12 bytes"
+          },
+          {
+            "field": "m_bForceTeamChangeSilent",
+            "type": "void*",
+            "old_offset": 3608,
+            "new_offset": 3620,
+            "old_hex": "+0x0e18",
+            "new_hex": "+0x0e24",
+            "shift": 12,
+            "shift_str": "+12 bytes"
+          },
+          {
+            "field": "m_bLoadingRoundBackupData",
+            "type": "void*",
+            "old_offset": 3609,
+            "new_offset": 3621,
+            "old_hex": "+0x0e19",
+            "new_hex": "+0x0e25",
+            "shift": 12,
+            "shift_str": "+12 bytes"
+          },
+          {
+            "field": "m_nMatchInfoShowType",
+            "type": "void*",
+            "old_offset": 3664,
+            "new_offset": 3672,
+            "old_hex": "+0x0e50",
+            "new_hex": "+0x0e58",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flMatchInfoDecidedTime",
+            "type": "void*",
+            "old_offset": 3668,
+            "new_offset": 3676,
+            "old_hex": "+0x0e54",
+            "new_hex": "+0x0e5c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "mTeamDMLastWinningTeamNumber",
+            "type": "void*",
+            "old_offset": 3696,
+            "new_offset": 3704,
+            "old_hex": "+0x0e70",
+            "new_hex": "+0x0e78",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "mTeamDMLastThinkTime",
+            "type": "void*",
+            "old_offset": 3700,
+            "new_offset": 3708,
+            "old_hex": "+0x0e74",
+            "new_hex": "+0x0e7c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flTeamDMLastAnnouncementTime",
+            "type": "void*",
+            "old_offset": 3704,
+            "new_offset": 3712,
+            "old_hex": "+0x0e78",
+            "new_hex": "+0x0e80",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iAccountTerrorist",
+            "type": "void*",
+            "old_offset": 3708,
+            "new_offset": 3716,
+            "old_hex": "+0x0e7c",
+            "new_hex": "+0x0e84",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iAccountCT",
+            "type": "void*",
+            "old_offset": 3712,
+            "new_offset": 3720,
+            "old_hex": "+0x0e80",
+            "new_hex": "+0x0e88",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iSpawnPointCount_Terrorist",
+            "type": "void*",
+            "old_offset": 3716,
+            "new_offset": 3724,
+            "old_hex": "+0x0e84",
+            "new_hex": "+0x0e8c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iSpawnPointCount_CT",
+            "type": "void*",
+            "old_offset": 3720,
+            "new_offset": 3728,
+            "old_hex": "+0x0e88",
+            "new_hex": "+0x0e90",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iMaxNumTerrorists",
+            "type": "void*",
+            "old_offset": 3724,
+            "new_offset": 3732,
+            "old_hex": "+0x0e8c",
+            "new_hex": "+0x0e94",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iMaxNumCTs",
+            "type": "void*",
+            "old_offset": 3728,
+            "new_offset": 3736,
+            "old_hex": "+0x0e90",
+            "new_hex": "+0x0e98",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iLoserBonusMostRecentTeam",
+            "type": "void*",
+            "old_offset": 3732,
+            "new_offset": 3740,
+            "old_hex": "+0x0e94",
+            "new_hex": "+0x0e9c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_tmNextPeriodicThink",
+            "type": "void*",
+            "old_offset": 3736,
+            "new_offset": 3744,
+            "old_hex": "+0x0e98",
+            "new_hex": "+0x0ea0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bVoiceWonMatchBragFired",
+            "type": "void*",
+            "old_offset": 3740,
+            "new_offset": 3748,
+            "old_hex": "+0x0e9c",
+            "new_hex": "+0x0ea4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_fWarmupNextChatNoticeTime",
+            "type": "void*",
+            "old_offset": 3744,
+            "new_offset": 3752,
+            "old_hex": "+0x0ea0",
+            "new_hex": "+0x0ea8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iHostagesRescued",
+            "type": "void*",
+            "old_offset": 3752,
+            "new_offset": 3760,
+            "old_hex": "+0x0ea8",
+            "new_hex": "+0x0eb0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iHostagesTouched",
+            "type": "void*",
+            "old_offset": 3756,
+            "new_offset": 3764,
+            "old_hex": "+0x0eac",
+            "new_hex": "+0x0eb4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flNextHostageAnnouncement",
+            "type": "void*",
+            "old_offset": 3760,
+            "new_offset": 3768,
+            "old_hex": "+0x0eb0",
+            "new_hex": "+0x0eb8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bNoTerroristsKilled",
+            "type": "void*",
+            "old_offset": 3764,
+            "new_offset": 3772,
+            "old_hex": "+0x0eb4",
+            "new_hex": "+0x0ebc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bNoCTsKilled",
+            "type": "void*",
+            "old_offset": 3765,
+            "new_offset": 3773,
+            "old_hex": "+0x0eb5",
+            "new_hex": "+0x0ebd",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bNoEnemiesKilled",
+            "type": "void*",
+            "old_offset": 3766,
+            "new_offset": 3774,
+            "old_hex": "+0x0eb6",
+            "new_hex": "+0x0ebe",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bCanDonateWeapons",
+            "type": "void*",
+            "old_offset": 3767,
+            "new_offset": 3775,
+            "old_hex": "+0x0eb7",
+            "new_hex": "+0x0ebf",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_firstKillTime",
+            "type": "void*",
+            "old_offset": 3772,
+            "new_offset": 3780,
+            "old_hex": "+0x0ebc",
+            "new_hex": "+0x0ec4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_firstBloodTime",
+            "type": "void*",
+            "old_offset": 3780,
+            "new_offset": 3788,
+            "old_hex": "+0x0ec4",
+            "new_hex": "+0x0ecc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_hostageWasInjured",
+            "type": "void*",
+            "old_offset": 3808,
+            "new_offset": 3816,
+            "old_hex": "+0x0ee0",
+            "new_hex": "+0x0ee8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_hostageWasKilled",
+            "type": "void*",
+            "old_offset": 3809,
+            "new_offset": 3817,
+            "old_hex": "+0x0ee1",
+            "new_hex": "+0x0ee9",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bVoteCalled",
+            "type": "void*",
+            "old_offset": 3824,
+            "new_offset": 3832,
+            "old_hex": "+0x0ef0",
+            "new_hex": "+0x0ef8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bServerVoteOnReset",
+            "type": "void*",
+            "old_offset": 3825,
+            "new_offset": 3833,
+            "old_hex": "+0x0ef1",
+            "new_hex": "+0x0ef9",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flVoteCheckThrottle",
+            "type": "void*",
+            "old_offset": 3828,
+            "new_offset": 3836,
+            "old_hex": "+0x0ef4",
+            "new_hex": "+0x0efc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bBuyTimeEnded",
+            "type": "void*",
+            "old_offset": 3832,
+            "new_offset": 3840,
+            "old_hex": "+0x0ef8",
+            "new_hex": "+0x0f00",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nLastFreezeEndBeep",
+            "type": "void*",
+            "old_offset": 3836,
+            "new_offset": 3844,
+            "old_hex": "+0x0efc",
+            "new_hex": "+0x0f04",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bTargetBombed",
+            "type": "void*",
+            "old_offset": 3840,
+            "new_offset": 3848,
+            "old_hex": "+0x0f00",
+            "new_hex": "+0x0f08",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bBombDefused",
+            "type": "void*",
+            "old_offset": 3841,
+            "new_offset": 3849,
+            "old_hex": "+0x0f01",
+            "new_hex": "+0x0f09",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bMapHasBombZone",
+            "type": "void*",
+            "old_offset": 3842,
+            "new_offset": 3850,
+            "old_hex": "+0x0f02",
+            "new_hex": "+0x0f0a",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_vecMainCTSpawnPos",
+            "type": "void*",
+            "old_offset": 3920,
+            "new_offset": 3928,
+            "old_hex": "+0x0f50",
+            "new_hex": "+0x0f58",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_CTSpawnPointsMasterList",
+            "type": "void*",
+            "old_offset": 3936,
+            "new_offset": 3944,
+            "old_hex": "+0x0f60",
+            "new_hex": "+0x0f68",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_TerroristSpawnPointsMasterList",
+            "type": "void*",
+            "old_offset": 3960,
+            "new_offset": 3968,
+            "old_hex": "+0x0f78",
+            "new_hex": "+0x0f80",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bRespawningAllRespawnablePlayers",
+            "type": "void*",
+            "old_offset": 3984,
+            "new_offset": 3992,
+            "old_hex": "+0x0f90",
+            "new_hex": "+0x0f98",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNextCTSpawnPoint",
+            "type": "void*",
+            "old_offset": 3988,
+            "new_offset": 3996,
+            "old_hex": "+0x0f94",
+            "new_hex": "+0x0f9c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flCTSpawnPointUsedTime",
+            "type": "void*",
+            "old_offset": 3992,
+            "new_offset": 4000,
+            "old_hex": "+0x0f98",
+            "new_hex": "+0x0fa0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iNextTerroristSpawnPoint",
+            "type": "void*",
+            "old_offset": 3996,
+            "new_offset": 4004,
+            "old_hex": "+0x0f9c",
+            "new_hex": "+0x0fa4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flTerroristSpawnPointUsedTime",
+            "type": "void*",
+            "old_offset": 4000,
+            "new_offset": 4008,
+            "old_hex": "+0x0fa0",
+            "new_hex": "+0x0fa8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_CTSpawnPoints",
+            "type": "void*",
+            "old_offset": 4008,
+            "new_offset": 4016,
+            "old_hex": "+0x0fa8",
+            "new_hex": "+0x0fb0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_TerroristSpawnPoints",
+            "type": "void*",
+            "old_offset": 4032,
+            "new_offset": 4040,
+            "old_hex": "+0x0fc0",
+            "new_hex": "+0x0fc8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bIsUnreservedGameServer",
+            "type": "void*",
+            "old_offset": 4056,
+            "new_offset": 4064,
+            "old_hex": "+0x0fd8",
+            "new_hex": "+0x0fe0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_fAutobalanceDisplayTime",
+            "type": "void*",
+            "old_offset": 4060,
+            "new_offset": 4068,
+            "old_hex": "+0x0fdc",
+            "new_hex": "+0x0fe4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bAllowWeaponSwitch",
+            "type": "void*",
+            "old_offset": 4120,
+            "new_offset": 4128,
+            "old_hex": "+0x1018",
+            "new_hex": "+0x1020",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bRoundTimeWarningTriggered",
+            "type": "void*",
+            "old_offset": 4121,
+            "new_offset": 4129,
+            "old_hex": "+0x1019",
+            "new_hex": "+0x1021",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_phaseChangeAnnouncementTime",
+            "type": "void*",
+            "old_offset": 4124,
+            "new_offset": 4132,
+            "old_hex": "+0x101c",
+            "new_hex": "+0x1024",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_fNextUpdateTeamClanNamesTime",
+            "type": "void*",
+            "old_offset": 4128,
+            "new_offset": 4136,
+            "old_hex": "+0x1020",
+            "new_hex": "+0x1028",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flLastThinkTime",
+            "type": "void*",
+            "old_offset": 4132,
+            "new_offset": 4140,
+            "old_hex": "+0x1024",
+            "new_hex": "+0x102c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_fAccumulatedRoundOffDamage",
+            "type": "void*",
+            "old_offset": 4136,
+            "new_offset": 4144,
+            "old_hex": "+0x1028",
+            "new_hex": "+0x1030",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nShorthandedBonusLastEvalRound",
+            "type": "void*",
+            "old_offset": 4140,
+            "new_offset": 4148,
+            "old_hex": "+0x102c",
+            "new_hex": "+0x1034",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nMatchAbortedEarlyReason",
+            "type": "void*",
+            "old_offset": 4216,
+            "new_offset": 4224,
+            "old_hex": "+0x1078",
+            "new_hex": "+0x1080",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bHasTriggeredRoundStartMusic",
+            "type": "void*",
+            "old_offset": 4220,
+            "new_offset": 4228,
+            "old_hex": "+0x107c",
+            "new_hex": "+0x1084",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bSwitchingTeamsAtRoundReset",
+            "type": "void*",
+            "old_offset": 4221,
+            "new_offset": 4229,
+            "old_hex": "+0x107d",
+            "new_hex": "+0x1085",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_pGameModeRules",
+            "type": "void*",
+            "old_offset": 4248,
+            "new_offset": 4256,
+            "old_hex": "+0x1098",
+            "new_hex": "+0x10a0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_BtGlobalBlackboard",
+            "type": "void*",
+            "old_offset": 4256,
+            "new_offset": 4264,
+            "old_hex": "+0x10a0",
+            "new_hex": "+0x10a8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_hPlayerResource",
+            "type": "void*",
+            "old_offset": 4408,
+            "new_offset": 4416,
+            "old_hex": "+0x1138",
+            "new_hex": "+0x1140",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_RetakeRules",
+            "type": "void*",
+            "old_offset": 4416,
+            "new_offset": 4424,
+            "old_hex": "+0x1140",
+            "new_hex": "+0x1148",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_arrTeamUniqueKillWeaponsMatch",
+            "type": "void*",
+            "old_offset": 4912,
+            "new_offset": 4920,
+            "old_hex": "+0x1330",
+            "new_hex": "+0x1338",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bTeamLastKillUsedUniqueWeaponMatch",
+            "type": "void*",
+            "old_offset": 5008,
+            "new_offset": 5016,
+            "old_hex": "+0x1390",
+            "new_hex": "+0x1398",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nMatchEndCount",
+            "type": "void*",
+            "old_offset": 5048,
+            "new_offset": 5056,
+            "old_hex": "+0x13b8",
+            "new_hex": "+0x13c0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nTTeamIntroVariant",
+            "type": "void*",
+            "old_offset": 5052,
+            "new_offset": 5060,
+            "old_hex": "+0x13bc",
+            "new_hex": "+0x13c4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nCTTeamIntroVariant",
+            "type": "void*",
+            "old_offset": 5056,
+            "new_offset": 5064,
+            "old_hex": "+0x13c0",
+            "new_hex": "+0x13c8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bTeamIntroPeriod",
+            "type": "void*",
+            "old_offset": 5060,
+            "new_offset": 5068,
+            "old_hex": "+0x13c4",
+            "new_hex": "+0x13cc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_fTeamIntroPeriodEnd",
+            "type": "void*",
+            "old_offset": 5064,
+            "new_offset": 5072,
+            "old_hex": "+0x13c8",
+            "new_hex": "+0x13d0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bPlayedTeamIntroVO",
+            "type": "void*",
+            "old_offset": 5068,
+            "new_offset": 5076,
+            "old_hex": "+0x13cc",
+            "new_hex": "+0x13d4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndWinnerTeam",
+            "type": "void*",
+            "old_offset": 5072,
+            "new_offset": 5080,
+            "old_hex": "+0x13d0",
+            "new_hex": "+0x13d8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_eRoundEndReason",
+            "type": "void*",
+            "old_offset": 5076,
+            "new_offset": 5084,
+            "old_hex": "+0x13d4",
+            "new_hex": "+0x13dc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bRoundEndShowTimerDefend",
+            "type": "void*",
+            "old_offset": 5080,
+            "new_offset": 5088,
+            "old_hex": "+0x13d8",
+            "new_hex": "+0x13e0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndTimerTime",
+            "type": "void*",
+            "old_offset": 5084,
+            "new_offset": 5092,
+            "old_hex": "+0x13dc",
+            "new_hex": "+0x13e4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_sRoundEndFunFactToken",
+            "type": "void*",
+            "old_offset": 5088,
+            "new_offset": 5096,
+            "old_hex": "+0x13e0",
+            "new_hex": "+0x13e8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactPlayerSlot",
+            "type": "void*",
+            "old_offset": 5096,
+            "new_offset": 5104,
+            "old_hex": "+0x13e8",
+            "new_hex": "+0x13f0",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactData1",
+            "type": "void*",
+            "old_offset": 5100,
+            "new_offset": 5108,
+            "old_hex": "+0x13ec",
+            "new_hex": "+0x13f4",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactData2",
+            "type": "void*",
+            "old_offset": 5104,
+            "new_offset": 5112,
+            "old_hex": "+0x13f0",
+            "new_hex": "+0x13f8",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndFunFactData3",
+            "type": "void*",
+            "old_offset": 5108,
+            "new_offset": 5116,
+            "old_hex": "+0x13f4",
+            "new_hex": "+0x13fc",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_sRoundEndMessage",
+            "type": "void*",
+            "old_offset": 5112,
+            "new_offset": 5120,
+            "old_hex": "+0x13f8",
+            "new_hex": "+0x1400",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndPlayerCount",
+            "type": "void*",
+            "old_offset": 5120,
+            "new_offset": 5128,
+            "old_hex": "+0x1400",
+            "new_hex": "+0x1408",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_bRoundEndNoMusic",
+            "type": "void*",
+            "old_offset": 5124,
+            "new_offset": 5132,
+            "old_hex": "+0x1404",
+            "new_hex": "+0x140c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundEndLegacy",
+            "type": "void*",
+            "old_offset": 5128,
+            "new_offset": 5136,
+            "old_hex": "+0x1408",
+            "new_hex": "+0x1410",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nRoundEndCount",
+            "type": "void*",
+            "old_offset": 5132,
+            "new_offset": 5140,
+            "old_hex": "+0x140c",
+            "new_hex": "+0x1414",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_iRoundStartRoundNumber",
+            "type": "void*",
+            "old_offset": 5136,
+            "new_offset": 5144,
+            "old_hex": "+0x1410",
+            "new_hex": "+0x1418",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_nRoundStartCount",
+            "type": "void*",
+            "old_offset": 5140,
+            "new_offset": 5148,
+            "old_hex": "+0x1414",
+            "new_hex": "+0x141c",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          },
+          {
+            "field": "m_flLastPerfSampleTime",
+            "type": "void*",
+            "old_offset": 21536,
+            "new_offset": 21544,
+            "old_hex": "+0x5420",
+            "new_hex": "+0x5428",
+            "shift": 8,
+            "shift_str": "+8 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      },
+      {
+        "class": "CCSWeaponBase",
+        "binary": "server.dll",
+        "size_delta": 0,
+        "old_size": 4736,
+        "new_size": 4736,
+        "added_fields": [
+          {
+            "name": "m_bIsInStealthReload",
+            "type": "void*",
+            "offset": 4036,
+            "offset_hex": "+0x0fc4"
+          },
+          {
+            "name": "m_flStealthReloadHoldStartTime",
+            "type": "void*",
+            "offset": 4040,
+            "offset_hex": "+0x0fc8"
+          }
+        ],
+        "removed_fields": [
+          {
+            "name": "m_bStealthy",
+            "type": "void*",
+            "offset": 4036,
+            "offset_hex": "+0x0fc4"
+          },
+          {
+            "name": "m_bSilentReloadStatCounted",
+            "type": "void*",
+            "offset": 4038,
+            "offset_hex": "+0x0fc6"
+          },
+          {
+            "name": "m_flStealthHoldStartTime",
+            "type": "void*",
+            "offset": 4040,
+            "offset_hex": "+0x0fc8"
+          }
+        ],
+        "shifted_fields": [
+          {
+            "field": "m_bSilentReloadStatPending",
+            "type": "void*",
+            "old_offset": 4039,
+            "new_offset": 4038,
+            "old_hex": "+0x0fc7",
+            "new_hex": "+0x0fc6",
+            "shift": -1,
+            "shift_str": "-1 bytes"
+          }
+        ],
+        "type_changed_fields": []
+      }
+    ]
+  },
+  "interfaces": {
+    "added": [],
+    "removed": []
+  },
+  "cvars": {
+    "added": [
+      "cl_clockdrift_max_secs",
+      "cl_packetentities_merge_before_decode",
+      "cl_weapon_stealth_reload_toggle",
+      "net_decode_callback_queue_stats_clear",
+      "net_decode_callback_queue_stats_dump",
+      "net_gather_child_fields_only",
+      "net_limit_sv_listen_max_message_size_kb",
+      "net_limit_sv_listen_recvbuffer_kb",
+      "net_limit_sv_listen_recvbuffer_msg",
+      "net_limit_sv_recv_chan_buffer_messages",
+      "net_limit_sv_recv_chan_msgs_per_frame",
+      "net_limit_sv_recv_max_frame_size_kb",
+      "r_BigHead",
+      "r_csgo_frost_dry_time",
+      "r_csgo_frost_force",
+      "r_csgo_frost_grow_time",
+      "r_csgo_frost_heat_barrel_position",
+      "r_csgo_frost_heat_cool_time",
+      "r_csgo_frost_heat_light_delay",
+      "r_csgo_frost_heat_light_time",
+      "r_csgo_frost_heat_per_shot",
+      "r_csgo_frost_indoor_distance",
+      "r_csgo_frost_melt_time",
+      "r_csgo_parallax",
+      "r_sec",
+      "r_untrusted_addons",
+      "sv_message_process_time_ms_drop_burst",
+      "sv_message_process_time_ms_warn_burst"
+    ],
+    "added_details": [
+      {
+        "name": "cl_clockdrift_max_secs",
+        "binary": "engine2.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "cl_packetentities_merge_before_decode",
+        "binary": "engine2.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "cl_weapon_stealth_reload_toggle",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_decode_callback_queue_stats_clear",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_decode_callback_queue_stats_dump",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_gather_child_fields_only",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_limit_sv_listen_max_message_size_kb",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_limit_sv_listen_recvbuffer_kb",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_limit_sv_listen_recvbuffer_msg",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_limit_sv_recv_chan_buffer_messages",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_limit_sv_recv_chan_msgs_per_frame",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "net_limit_sv_recv_max_frame_size_kb",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_BigHead",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_dry_time",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_force",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_grow_time",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_heat_barrel_position",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_heat_cool_time",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_heat_light_delay",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_heat_light_time",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_heat_per_shot",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_indoor_distance",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_frost_melt_time",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_csgo_parallax",
+        "binary": "client.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_sec",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "r_untrusted_addons",
+        "binary": "pulse_system.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "sv_message_process_time_ms_drop_burst",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      },
+      {
+        "name": "sv_message_process_time_ms_warn_burst",
+        "binary": "networksystem.dll",
+        "category": "General Engine",
+        "description": "Source 2 engine console variable added in update.",
+        "flags": [
+          "FCVAR_NONE"
+        ]
+      }
+    ],
+    "removed": [
+      "cl_clockdrift_max_ticks",
+      "net_limit_sv_recv_max_message_size_kb",
+      "sv_recvbuf_messages"
+    ]
+  },
+  "signatures": [
+    {
+      "id": "client_angle_vectors",
+      "name": "AngleVectors",
+      "binary": "client.dll",
+      "category": "Rendering & Math",
+      "status": "SHIFTED",
+      "baseline_rva": "0x017402a0",
+      "old_rva": "0x01742500",
+      "new_rva": "0x01739120",
+      "old_va": "0x181742500",
+      "new_va": "0x181739120",
+      "delta_bytes": -37856,
+      "delta_str": "-0x93e0",
+      "description": "Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors."
+    },
+    {
+      "id": "client_calc_world_bones",
+      "name": "CalculateWorldBones",
+      "binary": "client.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00aa0f80",
+      "old_rva": "0x00aa1dc0",
+      "new_rva": "0x00a955f0",
+      "old_va": "0x180aa1dc0",
+      "new_va": "0x180a955f0",
+      "delta_bytes": -51152,
+      "delta_str": "-0xc7d0",
+      "description": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes."
+    },
+    {
+      "id": "client_concatenate_transforms",
+      "name": "CTransform::ConcatenateTransforms",
+      "binary": "client.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x01748480",
+      "old_rva": "0x0174a6e0",
+      "new_rva": "0x01741300",
+      "old_va": "0x18174a6e0",
+      "new_va": "0x181741300",
+      "delta_bytes": -37856,
+      "delta_str": "-0x93e0",
+      "description": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies."
+    },
+    {
+      "id": "client_weapon_update_accuracy_penalty",
+      "name": "C_CSWeaponBase::UpdateAccuracyPenalty",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00827be0",
+      "old_rva": "0x00828a10",
+      "new_rva": "0x008230d0",
+      "old_va": "0x180828a10",
+      "new_va": "0x1808230d0",
+      "delta_bytes": -22848,
+      "delta_str": "-0x5940",
+      "description": "Per-tick weapon inaccuracy penalty evaluator calculating recovery time decay, stances, jumping, and recoil index decay."
+    },
+    {
+      "id": "client_aim_punch_decay",
+      "name": "CPlayer_AimPunchServices::SimulateAimPunchDecay",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0085dc60",
+      "old_rva": "0x0085ea90",
+      "new_rva": "0x008594e0",
+      "old_va": "0x18085ea90",
+      "new_va": "0x1808594e0",
+      "delta_bytes": -21936,
+      "delta_str": "-0x55b0",
+      "description": "Integrates damped spring recoil aim punch angles and velocities per tick."
+    },
+    {
+      "id": "client_walk_move",
+      "name": "CCSPlayer_MovementServices::WalkMove",
+      "binary": "client.dll",
+      "category": "Movement & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x008e9380",
+      "old_rva": "0x008ea1b0",
+      "new_rva": "0x008e4c10",
+      "old_va": "0x1808ea1b0",
+      "new_va": "0x1808e4c10",
+      "delta_bytes": -21920,
+      "delta_str": "-0x55a0",
+      "description": "Ground walking physics dispatcher executing friction, directional acceleration, obstacle stepping, and ground snapping."
+    },
+    {
+      "id": "client_air_accelerate",
+      "name": "CCSPlayer_MovementServices::AirAccelerate",
+      "binary": "client.dll",
+      "category": "Movement & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x008bfa30",
+      "old_rva": "0x008c0860",
+      "new_rva": "0x008bb2b0",
+      "old_va": "0x1808c0860",
+      "new_va": "0x1808bb2b0",
+      "delta_bytes": -21936,
+      "delta_str": "-0x55b0",
+      "description": "Airborne strafe acceleration routine enforcing sv_air_max_wishspeed (30.0f) clamp and surface friction integration."
+    },
+    {
+      "id": "client_subtick_move_step_parse",
+      "name": "CSubtickMoveStep::_InternalParse",
+      "binary": "client.dll",
+      "category": "Sub-Tick & UserCmd",
+      "status": "SHIFTED",
+      "baseline_rva": "0x004f4950",
+      "old_rva": "0x004f5640",
+      "new_rva": "0x004f33f0",
+      "old_va": "0x1804f5640",
+      "new_va": "0x1804f33f0",
+      "delta_bytes": -8784,
+      "delta_str": "-0x2250",
+      "description": "Protobuf wire unmarshaling routine decoding CSubtickMoveStep fields (VarInt button, bool pressed, fixed32 when, analog deltas)."
+    },
+    {
+      "id": "client_base_usercmd_pb_serialize",
+      "name": "CBaseUserCmdPB::_InternalSerialize",
+      "binary": "client.dll",
+      "category": "Sub-Tick & UserCmd",
+      "status": "SHIFTED",
+      "baseline_rva": "0x004f63f0",
+      "old_rva": "0x004f70e0",
+      "new_rva": "0x004f4e90",
+      "old_va": "0x1804f70e0",
+      "new_va": "0x1804f4e90",
+      "delta_bytes": -8784,
+      "delta_str": "-0x2250",
+      "description": "Protobuf wire serialization for CBaseUserCmdPB, formatting repeated field 18 subtick_moves with 2-byte tag 0x92 0x01."
+    },
+    {
+      "id": "client_csgo_input_create_move",
+      "name": "CSGOInput::CreateMove",
+      "binary": "client.dll",
+      "category": "Sub-Tick & UserCmd",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00cfa6b0",
+      "old_rva": "0x00cfbd10",
+      "new_rva": "0x00cf2250",
+      "old_va": "0x180cfbd10",
+      "new_va": "0x180cf2250",
+      "delta_bytes": -39616,
+      "delta_str": "-0x9ac0",
+      "description": "High-level input sampling routine calculating sub-tick fractional time w in [0, 1] and assembling CSGOUserCmdPB."
+    },
+    {
+      "id": "client_weapon_get_inaccuracy",
+      "name": "C_CSWeaponBase::GetInaccuracy",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0080c1a0",
+      "old_rva": "0x0080cfd0",
+      "new_rva": "0x008074a0",
+      "old_va": "0x18080cfd0",
+      "new_va": "0x1808074a0",
+      "delta_bytes": -23344,
+      "delta_str": "-0x5b30",
+      "description": "Composite weapon inaccuracy evaluator synthesizing base penalty, posture, 2D movement speed power curve, airborne apex, strafing, and turning."
+    },
+    {
+      "id": "client_fx_calculate_spread",
+      "name": "FX_CalculateSpread",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00d23fe0",
+      "old_rva": "0x00d25630",
+      "new_rva": "0x00d1bc20",
+      "old_va": "0x180d25630",
+      "new_va": "0x180d1bc20",
+      "delta_bytes": -39440,
+      "delta_str": "-0x9a10",
+      "description": "Calculates 2D bullet/pellet spread deflection vector using dual uniform disk sampling (inaccuracy and intrinsic spread disks) and weapon distributions."
+    },
+    {
+      "id": "server_los_smoke",
+      "name": "LineOfSightThroughSmoke",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009b7f50",
+      "old_rva": "0x009c5610",
+      "new_rva": "0x009b82f0",
+      "old_va": "0x1809c5610",
+      "new_va": "0x1809b82f0",
+      "delta_bytes": -54048,
+      "delta_str": "-0xd320",
+      "description": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold."
+    },
+    {
+      "id": "server_smoke_spawn",
+      "name": "CSmokeGrenadeProjectile::Spawn",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009cb810",
+      "old_rva": "0x009d8d50",
+      "new_rva": "0x009cba30",
+      "old_va": "0x1809d8d50",
+      "new_va": "0x1809cba30",
+      "delta_bytes": -54048,
+      "delta_str": "-0xd320",
+      "description": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask."
+    },
+    {
+      "id": "server_smoke_tick_update",
+      "name": "CSmokeGrenadeProjectile::TickUpdate",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009cea90",
+      "old_rva": "0x009dbf40",
+      "new_rva": "0x009cec20",
+      "old_va": "0x1809dbf40",
+      "new_va": "0x1809cec20",
+      "delta_bytes": -54048,
+      "delta_str": "-0xd320",
+      "description": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization."
+    },
+    {
+      "id": "server_voxel_raymarch",
+      "name": "VoxelGrid_Raymarch",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009cd500",
+      "old_rva": "0x009da9b0",
+      "new_rva": "0x009cd690",
+      "old_va": "0x1809da9b0",
+      "new_va": "0x1809cd690",
+      "delta_bytes": -54048,
+      "delta_str": "-0xd320",
+      "description": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks."
+    },
+    {
+      "id": "server_voxel_expand_carve",
+      "name": "VoxelGrid_ExpandAndCarve",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009c8e50",
+      "old_rva": "0x009d6390",
+      "new_rva": "0x009c9070",
+      "old_va": "0x1809d6390",
+      "new_va": "0x1809c9070",
+      "delta_bytes": -54048,
+      "delta_str": "-0xd320",
+      "description": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units)."
+    },
+    {
+      "id": "server_serialize_sparse_delta",
+      "name": "SerializeSparseDelta",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009b1bd0",
+      "old_rva": "0x009bf550",
+      "new_rva": "0x009b2230",
+      "old_va": "0x1809bf550",
+      "new_va": "0x1809b2230",
+      "delta_bytes": -54048,
+      "delta_str": "-0xd320",
+      "description": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire."
+    },
+    {
+      "id": "server_lag_compensation",
+      "name": "CLagCompensationManager::StartLagCompensation",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0080f320",
+      "old_rva": "0x0081b770",
+      "new_rva": "0x008007d0",
+      "old_va": "0x18081b770",
+      "new_va": "0x1808007d0",
+      "delta_bytes": -110496,
+      "delta_str": "-0x1afa0",
+      "description": "Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps."
+    },
+    {
+      "id": "server_bullet_penetration",
+      "name": "EvaluateBulletPenetration",
+      "binary": "server.dll",
+      "category": "Weapon & Penetration",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00a8fca0",
+      "old_rva": "0x00a9d150",
+      "new_rva": "0x00a90280",
+      "old_va": "0x180a9d150",
+      "new_va": "0x180a90280",
+      "delta_bytes": -52944,
+      "delta_str": "-0xced0",
+      "description": "Authoritative surface penetration evaluator computing material absorption, penetration power reduction, and distance damage falloff."
+    },
+    {
+      "id": "server_lag_compensation_finish",
+      "name": "CLagCompensationManager::FinishLagCompensation",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00ebf350",
+      "old_rva": "0x00ecc690",
+      "new_rva": "0x00eb8f40",
+      "old_va": "0x180ecc690",
+      "new_va": "0x180eb8f40",
+      "delta_bytes": -79696,
+      "delta_str": "-0x13750",
+      "description": "Restores all backtracked player pawns to authoritative current states after lag-compensated traces."
+    },
+    {
+      "id": "server_lag_compensation_restore",
+      "name": "CLagCompensationManager::RestoreEntityTo",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00ed3f10",
+      "old_rva": "0x00ee1250",
+      "new_rva": "0x00ecdb00",
+      "old_va": "0x180ee1250",
+      "new_va": "0x180ecdb00",
+      "delta_bytes": -79696,
+      "delta_str": "-0x13750",
+      "description": "Restores entity origin, angles, bounds, and bone matrix cache with 4096.0 sqr teleport distance breaker."
+    },
+    {
+      "id": "server_apply_armor_damage",
+      "name": "CCSPlayerPawn::ApplyArmorDamageCalculation",
+      "binary": "server.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00a81050",
+      "old_rva": "0x00a8e500",
+      "new_rva": "0x00a81610",
+      "old_va": "0x180a8e500",
+      "new_va": "0x180a81610",
+      "delta_bytes": -52976,
+      "delta_str": "-0xcef0",
+      "description": "Evaluates Kevlar and Helmet armor absorption, durability exhaustion overflow, and post-mitigation health loss."
+    },
+    {
+      "id": "server_pawn_is_armored",
+      "name": "CCSPlayerPawn::IsArmored",
+      "binary": "server.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00aca700",
+      "old_rva": "0x00ad7ba0",
+      "new_rva": "0x00acaca0",
+      "old_va": "0x180ad7ba0",
+      "new_va": "0x180acaca0",
+      "delta_bytes": -52992,
+      "delta_str": "-0xcf00",
+      "description": "8-way HitGroup_t jump table verifying Kevlar vest coverage on torso/arms and m_bHasHelmet on head/neck."
+    },
+    {
+      "id": "pulse_instruction_dispatch",
+      "name": "PulseInstructionDispatchLoop",
+      "binary": "pulse_system.dll",
+      "category": "Scripting & VM",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0008f810",
+      "old_rva": "0x0008f810",
+      "new_rva": "0x0008f930",
+      "old_va": "0x18008f810",
+      "new_va": "0x18008f930",
+      "delta_bytes": 288,
+      "delta_str": "+0x120",
+      "description": "Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets."
+    },
+    {
+      "id": "tier0_cvar_findvar",
+      "name": "CCvar::FindVar",
+      "binary": "tier0.dll",
+      "category": "Engine Core",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0006c6b0",
+      "old_rva": "0x0006c6b0",
+      "new_rva": "0x0006c740",
+      "old_va": "0x18006c6b0",
+      "new_va": "0x18006c740",
+      "delta_bytes": 144,
+      "delta_str": "+0x90",
+      "description": "Look up ConVar / ConCommand by hash or caseless name in tier0 CCvar registry (VEngineCvar007)."
+    },
+    {
+      "id": "tier0_hash_string_caseless",
+      "name": "HashStringCaseless",
+      "binary": "tier0.dll",
+      "category": "Engine Core",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0006c8c0",
+      "old_rva": "0x0006c8c0",
+      "new_rva": "0x0006c950",
+      "old_va": "0x18006c8c0",
+      "new_va": "0x18006c950",
+      "delta_bytes": 144,
+      "delta_str": "+0x90",
+      "description": "Caseless Murmur/FNV string hash algorithm utilizing seed 0x31415926 for ConVar bucket indexing."
+    },
+    {
+      "id": "network_read_varbit_msg_id",
+      "name": "ReadVariableBitMessageId",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x001bf5c0",
+      "old_rva": "0x001bf5c0",
+      "new_rva": "0x001c4ef0",
+      "old_va": "0x1801bf5c0",
+      "new_va": "0x1801c4ef0",
+      "delta_bytes": 22832,
+      "delta_str": "+0x5930",
+      "description": "Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens."
+    },
+    {
+      "id": "network_serialize_net_message",
+      "name": "SerializeNetMessage",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x000e23d0",
+      "old_rva": "0x000e23d0",
+      "new_rva": "0x000e6fd0",
+      "old_va": "0x1800e23d0",
+      "new_va": "0x1800e6fd0",
+      "delta_bytes": 19456,
+      "delta_str": "+0x4c00",
+      "description": "Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment."
+    },
+    {
+      "id": "network_write_varint32",
+      "name": "WriteVarInt32",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x001c0760",
+      "old_rva": "0x001c0760",
+      "new_rva": "0x001c5fb0",
+      "old_va": "0x1801c0760",
+      "new_va": "0x1801c5fb0",
+      "delta_bytes": 22608,
+      "delta_str": "+0x5850",
+      "description": "LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths."
+    },
+    {
+      "id": "network_read_varint32",
+      "name": "ReadVarInt32",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x001bf770",
+      "old_rva": "0x001bf770",
+      "new_rva": "0x001c5020",
+      "old_va": "0x1801bf770",
+      "new_va": "0x1801c5020",
+      "delta_bytes": 22704,
+      "delta_str": "+0x58b0",
+      "description": "LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths."
+    },
+    {
+      "id": "network_decode_fieldpaths",
+      "name": "DecodeFieldPaths",
+      "binary": "networksystem.dll",
+      "category": "Delta Compression",
+      "status": "SHIFTED",
+      "baseline_rva": "0x000835f8",
+      "old_rva": "0x000835f8",
+      "new_rva": "0x0007c813",
+      "old_va": "0x1800835f8",
+      "new_va": "0x18007c813",
+      "delta_bytes": -28133,
+      "delta_str": "-0x6de5",
+      "description": "Walks entity delta bitstreams using 40-operation Huffman bit-trees to update flattened serializer properties."
+    },
+    {
+      "id": "vphysics2_convex_raycast",
+      "name": "ConvexPolyhedronRaycast",
+      "binary": "vphysics2.dll",
+      "category": "Physics & Collision",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x002544a0",
+      "old_rva": "0x002544a0",
+      "new_rva": "0x002544a0",
+      "old_va": "0x1802544a0",
+      "new_va": "0x1802544a0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Clips ray segment against Rubikon polyhedral half-spaces (RnHull_t) with 0.03125 unit skin tolerance."
+    },
+    {
+      "id": "vphysics2_capsule_sweep",
+      "name": "CapsuleSweepIntersection",
+      "binary": "vphysics2.dll",
+      "category": "Physics & Collision",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0016caf0",
+      "old_rva": "0x0016caf0",
+      "new_rva": "0x0016caf0",
+      "old_va": "0x18016caf0",
+      "new_va": "0x18016caf0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Analytical finite cylinder and hemispherical endcap sweep intersection solver for player hitboxes."
+    },
+    {
+      "id": "animationsystem_twobone_ik",
+      "name": "CTwoBoneIK_LawOfCosines",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x002f9750",
+      "old_rva": "0x002f9750",
+      "new_rva": "0x002f96f0",
+      "old_va": "0x1802f9750",
+      "new_va": "0x1802f96f0",
+      "delta_bytes": -96,
+      "delta_str": "-0x60",
+      "description": "Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d)."
+    },
+    {
+      "id": "animationsystem_blend_update_node_weights",
+      "name": "CBlendUpdateNode_ComputeWeights",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x002d7a80",
+      "old_rva": "0x002d7a80",
+      "new_rva": "0x002d7a20",
+      "old_va": "0x1802d7a80",
+      "new_va": "0x1802d7a20",
+      "delta_bytes": -96,
+      "delta_str": "-0x60",
+      "description": "Evaluates parameter blend values and calculates normalized interpolation weights between adjacent child animation nodes in CBlendUpdateNode."
+    },
+    {
+      "id": "animationsystem_statemachine_evaluate_transitions",
+      "name": "CStateMachineUpdateNode_EvaluateTransitions",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x002c82c0",
+      "old_rva": "0x002c82c0",
+      "new_rva": "0x002c8260",
+      "old_va": "0x1802c82c0",
+      "new_va": "0x1802c8260",
+      "delta_bytes": -96,
+      "delta_str": "-0x60",
+      "description": "Evaluates active animation state machine transitions, computes elapsed transition cross-fade weights, and drives state switching in CStateMachineUpdateNode."
+    },
+    {
+      "id": "animationsystem_quaternion_angleaxis",
+      "name": "Quaternion_FromAngleAxis",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0038dcc0",
+      "old_rva": "0x0038dcc0",
+      "new_rva": "0x0038dc60",
+      "old_va": "0x18038dcc0",
+      "new_va": "0x18038dc60",
+      "delta_bytes": -96,
+      "delta_str": "-0x60",
+      "description": "Converts a 3D unit axis and radian angle into a 4D unit quaternion (axis * sin(theta/2), cos(theta/2))."
+    },
+    {
+      "id": "navsystem_pathfind_build_path",
+      "name": "NavAreaBuildPath",
+      "binary": "navsystem.dll",
+      "category": "Navigation & Pathfinding",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0003bdf0",
+      "old_rva": "0x0003bdf0",
+      "new_rva": "0x0003bdf0",
+      "old_va": "0x18003bdf0",
+      "new_va": "0x18003bdf0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Core Source 2 A* pathfinding search heuristic traversing CNavArea nodes with vertical elevation cost weighting."
+    }
+  ]
+}

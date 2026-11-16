@@ -1417,7 +1417,39 @@
       document.getElementById('docFilename').innerText = doc.filename;
 
       const renderArea = document.getElementById('markdownRenderArea');
-      renderArea.innerHTML = marked.parse(doc.markdown);
+
+      // Preprocess Markdown to shield math formulas from Marked.js underscore/HTML mangling
+      const mathBlocks = [];
+      const codeBlocks = [];
+
+      let preprocessedMd = doc.markdown.replace(/(```[\s\S]*?```|`[^`\n]+`)/g, (match) => {
+        const id = codeBlocks.length;
+        codeBlocks.push(match);
+        return `%%CODE_BLOCK_${id}%%`;
+      });
+
+      preprocessedMd = preprocessedMd.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {
+        const id = mathBlocks.length;
+        mathBlocks.push({ formula: formula.trim(), display: true });
+        return `%%MATH_BLOCK_${id}%%`;
+      });
+
+      preprocessedMd = preprocessedMd.replace(/(?<!\$)\$(?!\$)([^\n$]+?)(?<!\$)\$(?!\$)/g, (match, formula) => {
+        const id = mathBlocks.length;
+        mathBlocks.push({ formula: formula.trim(), display: false });
+        return `%%MATH_BLOCK_${id}%%`;
+      });
+
+      preprocessedMd = preprocessedMd.replace(/%%CODE_BLOCK_(\d+)%%/g, (match, id) => codeBlocks[parseInt(id, 10)]);
+
+      let parsedHtml = marked.parse(preprocessedMd);
+
+      parsedHtml = parsedHtml.replace(/%%MATH_BLOCK_(\d+)%%/g, (match, id) => {
+        const item = mathBlocks[parseInt(id, 10)];
+        return item.display ? `\n<div class="katex-display-wrapper my-4 overflow-x-auto text-center">$$${item.formula}$$</div>\n` : ` $${item.formula}$ `;
+      });
+
+      renderArea.innerHTML = parsedHtml;
 
       // Highlight code blocks
       renderArea.querySelectorAll('pre code').forEach((block) => {
