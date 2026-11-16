@@ -1,12 +1,8 @@
 @echo off
 setlocal
-where cl.exe >nul 2>&1
-if %ERRORLEVEL% neq 0 (
-    if defined VCVARS64 (
-        call "%VCVARS64%" >nul 2>&1
-    ) else (
-        call vcvars64.bat >nul 2>&1
-    )
+call "C:\Program Files\Microsoft Visual Studio\18\Insiders\VC\Auxiliary\Build\vcvars64.bat" >nul 2>&1
+if errorlevel 1 (
+    call "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul 2>&1
 )
 
 echo ========================================================

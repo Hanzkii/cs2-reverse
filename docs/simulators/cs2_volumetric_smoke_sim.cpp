@@ -1,13 +1,13 @@
 // ============================================================================
 // Counter-Strike 2 (Source 2) Volumetric Smoke Grenade & Voxel Grid Simulator
 // 
-// Reverse-engineered from server.dll & client.dll:
-// - CSmokeGrenadeProjectile::Spawn (0x1809cb810)
-// - CSmokeGrenadeProjectile::Detonate / Initialize (0x1809ac120)
-// - CSmokeGrenadeProjectile::TickUpdate (0x1809cea90)
-// - Voxel Grid Expansion & Morton Z-Order Packing (0x1809c8e50)
-// - LineOfSightThroughSmoke & 3D DDA Raymarcher (0x1809b7f50 / 0x1809cd500)
-// - Sparse Delta Bitmask Wire Serialization (0x1809b1bd0)
+// Reverse-engineered from server.dll & client.dll (Build 26598758):
+// - CSmokeGrenadeProjectile::Spawn (0x1809cba30, baseline 0x1809cb810)
+// - CSmokeGrenadeProjectile::TickUpdate (0x1809cec20, baseline 0x1809cea90)
+// - VoxelGrid_ExpandAndCarve (0x1809c9070, baseline 0x1809c8e50)
+// - LineOfSightThroughSmoke (0x1809b82f0, baseline 0x1809b7f50)
+// - VoxelGrid_Raymarch (0x1809cd690, baseline 0x1809cd500)
+// - Sparse Delta Bitmask Wire Serialization (0x1809b2230, baseline 0x1809b1bd0)
 //
 // Standalone C++20 Reference Implementation. Zero external dependencies.
 // ============================================================================

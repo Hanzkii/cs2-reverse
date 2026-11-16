@@ -6,7 +6,7 @@ Through static reverse engineering of `server.dll` and `client.dll` using **Ghid
 1. **32x32x32 Voxel Volume Matrix**: Every smoke grenade allocates a continuous bounding volume of $640 \times 640 \times 640 \text{ Source units}$ centered at `m_vSmokeDetonationPos`. The bounding box is divided into $32 \times 32 \times 32 = 32,768$ cubic voxels ($20.0 \times 20.0 \times 20.0 \text{ units}$ per voxel).
 2. **3D Morton Space-Filling Curve (Z-Order Curve)**: Voxel coordinates $(X, Y, Z)$ are bit-interleaved into a 15-bit Morton index (`Part1By2`). This optimizes CPU cache spatial locality during 3D raymarching and radial physics queries.
 3. **Double-Buffered 512-Word Bitmask**: Voxel occupancy is tracked using a 512-element array of 64-bit integers ($512 \times 64 = 32,768 \text{ bits}$) that toggles active buffers (`1 - m_nActiveBuffer`) to avoid race conditions.
-4. **Authoritative Line-of-Sight Raymarching (`FUN_1809b7f50` / `FUN_1809cd500`)**: Line-of-sight tests traverse active smoke clouds with a 3D Digital Differential Analyzer (DDA). The engine asserts an exact **`0.20f`** density occlusion threshold: once accumulated optical depth reaches $0.20$, the ray returns `1.0f` (completely blind).
+4. **Authoritative Line-of-Sight Raymarching (`FUN_1809b82f0` / `FUN_1809cd690`)**: Line-of-sight tests traverse active smoke clouds with a 3D Digital Differential Analyzer (DDA). The engine asserts an exact **`0.20f`** density occlusion threshold: once accumulated optical depth reaches $0.20$, the ray returns `1.0f` (completely blind). Baseline RVA was `0x009b7f50` / `0x009cd500`, updated in Build 26598758 to `0x009b82f0` / `0x009cd690`.
 5. **Dynamic Environmental Interaction**:
    - **Bullet Carve-Out**: Projectile rays carve cylindrical voids along bullet trajectories, instantly lowering optical depth and restoring line-of-sight.
    - **HE Grenade Shockwave**: Explosive blasts clear a spherical core of voxels and displace adjacent smoke voxels radially outwards by $+30.0 \text{ units}$ while applying a dispersion cooldown timer (29 ticks / $0.45\text{s}$).
@@ -94,7 +94,7 @@ Extracted via SchemaSystem runtime introspection and Ghidra disassembly (`0x181e
 
 ## 3. Disassembly Analysis: Key Engine Functions
 
-### 3.1 Voxel Allocation & Spawn (`FUN_1809cb810` / `0x1809cb810`)
+### 3.1 Voxel Allocation & Spawn (`FUN_1809cba30` / `0x1809cba30`, baseline `0x1809cb810`)
 Occupies Slot 9 in `CSmokeGrenadeProjectile`'s primary VTable (`0x1818e0e08`):
 ```c
 void CSmokeGrenadeProjectile::Spawn(CSmokeGrenadeProjectile* this) {
@@ -111,7 +111,7 @@ void CSmokeGrenadeProjectile::Spawn(CSmokeGrenadeProjectile* this) {
 }
 ```
 
-### 3.2 Authoritative Line of Sight (`FUN_1809b7f50` / `0x1809b7f50`)
+### 3.2 Authoritative Line of Sight (`FUN_1809b82f0` / `0x1809b82f0`, baseline `0x1809b7f50`)
 Evaluates whether a player or bot can see between two world points `start` and `end`:
 ```c
 float LineOfSightThroughSmoke(Vector* start, Vector* end, Vector* hitPoint) {
