@@ -5112,18 +5112,6 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "cl_ShowBoneSetupEnts",
-    "binary": "client.dll",
-    "category": "Interface & HUD",
-    "description": "Show which entities are having their bones setup each frame.",
-    "flags": [
-      "FCVAR_CLIENTDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
     "name": "cl_access_all_missions",
     "binary": "client.dll",
     "category": "Interface & HUD",
@@ -5154,6 +5142,17 @@ window.CS2_CONVARS_DATA = [
     "description": "Automatically start AG2 recording when an entity with this name (wildcard) or id is created.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_aggregate_particles",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -5261,6 +5260,17 @@ window.CS2_CONVARS_DATA = [
     "binary": "engine2.dll",
     "category": "Interface & HUD",
     "description": "Min size of the recv margin queue when async usercmd send is disabled",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_auto_cursor_scale",
+    "binary": "inputsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in inputsystem.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -5717,6 +5727,17 @@ window.CS2_CONVARS_DATA = [
     ],
     "is_new": false,
     "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_clockdrift_max_secs",
+    "binary": "engine2.dll",
+    "category": "Server & Host",
+    "description": "Source 2 console variable in engine2.dll for server & host tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
   },
   {
     "name": "cl_clockdrift_max_ticks",
@@ -6252,6 +6273,17 @@ window.CS2_CONVARS_DATA = [
     "description": "Controls cl csgo shoot trim input frames parameter within the Interface & HUD subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_cursor_scale",
+    "binary": "inputsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in inputsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -8634,6 +8666,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_input_enable_raw_keyboard",
+    "binary": "inputsystem.dll",
+    "category": "Server & Host",
+    "description": "Source 2 console variable in inputsystem.dll for server & host tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "cl_instant_death_anim",
     "binary": "client.dll",
     "category": "Interface & HUD",
@@ -8972,6 +9015,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_joystick_enabled",
+    "binary": "inputsystem.dll",
+    "category": "Server & Host",
+    "description": "Source 2 console variable in inputsystem.dll for server & host tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "cl_lagcompensation_test_auto_target",
     "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
@@ -9188,6 +9242,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_max_particle_pvs_aabb_edge_length",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "cl_min_china_movie_time",
     "binary": "client.dll",
     "category": "Interface & HUD",
@@ -9243,6 +9308,18 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_names_debug",
+    "binary": "matchmaking.dll",
+    "category": "Debug & Cheats",
+    "description": "Source 2 console variable in matchmaking.dll for debug & cheats tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -9369,6 +9446,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_packetentities_merge_before_decode",
+    "binary": "engine2.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Merges incoming packet entity state deltas before decoding tick updates to optimize memory bandwidth and reduce framing latency.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
     "name": "cl_paintkit_override",
     "binary": "client.dll",
     "category": "Interface & HUD",
@@ -9416,7 +9504,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particle_batch_mode",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle batch mode parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9428,7 +9516,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particle_fallback_base",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle fallback base parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9440,7 +9528,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particle_fallback_multiplier",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle fallback multiplier parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9451,8 +9539,19 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_particle_log_creates",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "cl_particle_max_count",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle max count parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9463,8 +9562,19 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_particle_newinit",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "cl_particle_retire_cost",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle retire cost parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9488,7 +9598,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particle_sim_fallback_threshold_ms",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle sim fallback threshold ms parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9500,7 +9610,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particle_simulate",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls cl particle simulate parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -9524,7 +9634,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particles_dumplist",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Dump all new particles, optional name substring.",
     "flags": [
@@ -9536,7 +9646,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "cl_particles_dumpsimlist",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Dump all simulating particles, optional name substring.",
     "flags": [
@@ -11843,6 +11953,30 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_show_team_equipment",
+    "binary": "client.dll",
+    "category": "Debug & Cheats",
+    "description": "Source 2 console variable in client.dll for debug & cheats tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_ShowBoneSetupEnts",
+    "binary": "client.dll",
+    "category": "Interface & HUD",
+    "description": "Show which entities are having their bones setup each frame.",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "cl_showdemooverlay",
     "binary": "engine2.dll",
     "category": "Interface & HUD",
@@ -12238,6 +12372,28 @@ window.CS2_CONVARS_DATA = [
     "description": "Smooth client's view after prediction error over this many seconds",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_snd_cast_clear",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cl_snd_cast_retrigger",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -13261,6 +13417,18 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "cl_weapon_stealth_reload_toggle",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Client prediction toggle for quiet weapon reload sound suppression and magazine seating telemetry.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
     "name": "cl_workshop_map_download_timeout",
     "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
@@ -13292,42 +13460,6 @@ window.CS2_CONVARS_DATA = [
     "description": "Controls cs  parameter within the Server & Host subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "cs_AssistDamageThreshold",
-    "binary": "server.dll",
-    "category": "Weapons & Combat",
-    "description": "cs_AssistDamageThreshold defines the amount of damage needed to score an assist",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE",
-      "FCVAR_REPLICATED"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "cs_CZ",
-    "binary": "engine2.dll",
-    "category": "Server & Host",
-    "description": "Controls cs CZ parameter within the Server & Host subsystem.",
-    "flags": [
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "cs_ShowStateTransitions",
-    "binary": "server.dll",
-    "category": "Server & Host",
-    "description": "Controls cs ShowStateTransitions parameter within the Server & Host subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -13377,6 +13509,19 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cs_AssistDamageThreshold",
+    "binary": "server.dll",
+    "category": "Weapons & Combat",
+    "description": "cs_AssistDamageThreshold defines the amount of damage needed to score an assist",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -13460,6 +13605,17 @@ window.CS2_CONVARS_DATA = [
     "description": "Controls cs cruise parameter within the Server & Host subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cs_CZ",
+    "binary": "engine2.dll",
+    "category": "Server & Host",
+    "description": "Controls cs CZ parameter within the Server & Host subsystem.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -13857,6 +14013,18 @@ window.CS2_CONVARS_DATA = [
     "binary": "server.dll",
     "category": "Server & Host",
     "description": "Controls cs shelter parameter within the Server & Host subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "cs_ShowStateTransitions",
+    "binary": "server.dll",
+    "category": "Server & Host",
+    "description": "Controls cs ShowStateTransitions parameter within the Server & Host subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE"
@@ -14330,7 +14498,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "fps_max",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Frame rate limiter cap applied during active 3D gameplay. 0 = uncapped, standard values: 240, 360, 400.",
     "flags": [
@@ -14354,11 +14522,22 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "fps_max_ui",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Frame rate limiter cap applied in main menus and UI overlay dialogs to save power and GPU utilization. Default: 120.",
     "flags": [
       "FCVAR_ARCHIVE",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "fps_scale",
+    "binary": "panorama.dll",
+    "category": "Interface & HUD",
+    "description": "Source 2 console variable in panorama.dll for interface & hud tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -14383,6 +14562,17 @@ window.CS2_CONVARS_DATA = [
     "description": "Controls host caller parameter within the Server & Host subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "host_elapsed_time",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -14423,6 +14613,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "host_operations",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "host_readconfig_ignore_userconfig",
     "binary": "engine2.dll",
     "category": "Server & Host",
@@ -14435,7 +14636,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "host_timescale",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Simulation time acceleration scalar: 1.0 = standard real-time, <1.0 = slow-motion, >1.0 = fast-forward.",
     "flags": [
@@ -14492,7 +14693,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "host_writeconfig",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Removes a splitscreen user.",
     "flags": [
@@ -14712,7 +14913,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_afterroundmoney",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "amount of money awared to every player after each round",
     "flags": [
@@ -14724,8 +14925,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_allowspectators",
+    "name": "mp_all",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_allowspectators",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "toggles whether the server allows spectator mode or not",
     "flags": [
@@ -14738,13 +14951,24 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_anyone_can_pickup_c4",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "If set, everyone can pick up the c4, not just Ts.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_audio_input",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -14867,6 +15091,40 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_baseline_string_table_buffer_size",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_binding",
+    "binary": "schemasystem.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in schemasystem.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_bio",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_bot_ai_bt",
     "binary": "server.dll",
     "category": "Bots & Navigation",
@@ -14894,7 +15152,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_buy_allow_grenades",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Whether players can purchase grenades from the buy menu or not.",
     "flags": [
@@ -14907,7 +15165,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_buy_allow_guns",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Whether players can purchase guns: pistols (1), SMGs (2), rifles (4), shotguns (8), sniper rifles (16), heavy MGs (32).",
     "flags": [
@@ -14920,7 +15178,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_buy_anywhere",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Shows player spawn points (red=invalid). Optionally pass in the duration.",
     "flags": [
@@ -14933,7 +15191,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_buy_during_immunity",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Rewards gameplay time is always accumulated for players, but drops at the end of the match can be prevented",
     "flags": [
@@ -14946,7 +15204,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_buytime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Time window in seconds from round start during which players are permitted to purchase weapons and gear.",
     "flags": [
@@ -14959,7 +15217,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_c4_cannot_be_defused",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "If set, the planted c4 cannot be defused.",
     "flags": [
@@ -14972,7 +15230,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_c4timer",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Time countdown in seconds between C4 explosive arming and final detonation. Default: 40.",
     "flags": [
@@ -14984,14 +15242,59 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_cch",
+    "binary": "tier0.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in tier0.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_chattime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "amount of time players can chat after the game is over",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_cloud_contents",
+    "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_comment",
+    "binary": "engine2.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in engine2.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_comp_layer_min_dimension",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15010,8 +15313,19 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_connection_min_overlap_ratio",
+    "binary": "navsystem.dll",
+    "category": "Bots & Navigation",
+    "description": "Source 2 console variable in navsystem.dll for bots & navigation tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_consecutive_loss_aversion",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Hard limit on maximum number of rounds (per half) that annotations can be seen in a live match",
     "flags": [
@@ -15024,13 +15338,25 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_consecutive_loss_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines what the initial loss streak is.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_convert_info",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15044,6 +15370,28 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_counters",
+    "binary": "engine2.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in engine2.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_CreateDecoder",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15063,7 +15411,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_ct_default_melee",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Remember to set mp_weapons_allow_zeus to 1 if you want to give a taser!",
     "flags": [
@@ -15076,7 +15424,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_ct_default_primary",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The default primary (rifle) weapon that the CTs will spawn with",
     "flags": [
@@ -15089,7 +15437,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_ct_default_secondary",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The default secondary (pistol) weapon that the CTs will spawn with",
     "flags": [
@@ -15101,8 +15449,32 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_curve",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_damage",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_damage_headshot_only",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Enforces headshot-only damage rules: bullets hitting chest, stomach, or limbs deal 0 damage.",
     "flags": [
@@ -15115,7 +15487,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_damage_scale_ct_body",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Scales the damage a CT player takes by this much when they take damage in the body. (1 == 100%, 0.5 == 50%)",
     "flags": [
@@ -15128,7 +15500,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_damage_scale_ct_head",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Scales the damage a CT player takes by this much when they take damage in the head (1 == 100%, 0.5 == 50%).  REMEMBER! headshots do 4x the damage of the body before this scaler is applied.",
     "flags": [
@@ -15141,7 +15513,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_damage_scale_t_body",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Scales the damage a T player takes by this much when they take damage in the body. (1 == 100%, 0.5 == 50%)",
     "flags": [
@@ -15154,7 +15526,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_damage_scale_t_head",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "REMEMBER! headshots do 4x the damage of the body before this scaler is applied.",
     "flags": [
@@ -15180,7 +15552,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_death_drop_c4",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Whether c4 is droppable",
     "flags": [
@@ -15193,7 +15565,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_death_drop_defuser",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Drop defuser on player death",
     "flags": [
@@ -15206,7 +15578,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_death_drop_grenade",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Which grenade to drop on player death: 0=none, 1=best, 2=current or best, 3=all grenades",
     "flags": [
@@ -15219,7 +15591,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_death_drop_gun",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Which gun to drop on player death: 0=none, 1=best, 2=current or best, 3=both",
     "flags": [
@@ -15232,7 +15604,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_death_drop_healthshot",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Drop healthshot on player death",
     "flags": [
@@ -15245,7 +15617,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_death_drop_taser",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Drop taser on player death",
     "flags": [
@@ -15285,7 +15657,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_default_team_winner_no_objective",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "If the map doesn't define an objective (bomb, hostage, etc), the value of this convar will declare the winner when the time runs out in the round.",
     "flags": [
@@ -15298,13 +15670,48 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_defuser_allocation",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "How to allocate defusers to CTs at start or round: 0=none, 1=random, 2=everyone",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_Depth",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_DestroyDecoder",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_disable",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15349,7 +15756,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_display_kill_assists",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Whether to display and score player assists",
     "flags": [
@@ -15362,7 +15769,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_bonus_length_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Maximum time the bonus time will last (in seconds)",
     "flags": [
@@ -15375,7 +15782,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_bonus_length_min",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Minimum time the bonus time will last (in seconds)",
     "flags": [
@@ -15388,7 +15795,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_bonus_percent",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Percent of points additionally awarded when someone gets a kill with the bonus weapon during the bonus period.",
     "flags": [
@@ -15401,7 +15808,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_bonusweapon_dogtags",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Additional dogtags to drop when making a kill with the bonus weapon",
     "flags": [
@@ -15414,7 +15821,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_dogtag_score",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Points to award for picking up a dogtag in deathmatch.",
     "flags": [
@@ -15427,7 +15834,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_healthshot_killcount",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Grant healthshots in deathmatch after n kills",
     "flags": [
@@ -15440,7 +15847,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_kill_base_score",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of base points to award for a kill in deathmatch.  Cheaper weapons award 1 or 2 additional points.",
     "flags": [
@@ -15453,7 +15860,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_taser_bonus_streak_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Maximum times to multiply the score for getting a streak of taser kills in a single life.",
     "flags": [
@@ -15466,7 +15873,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_teammode",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "In deathmatch, enables team DM visuals & scoring (0: personal, 1: team mode, 2: use team contribution score)",
     "flags": [
@@ -15479,7 +15886,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_teammode_bonus_score",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Team deathmatch victory points to award for kill with bonus weapon",
     "flags": [
@@ -15492,7 +15899,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_teammode_dogtag_score",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Team deathmatch victory points to award for collecting enemy dogtags",
     "flags": [
@@ -15505,7 +15912,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_teammode_kill_score",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Team deathmatch victory points to award for enemy kill",
     "flags": [
@@ -15518,7 +15925,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_time_between_bonus_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Maximum time a bonus time will start after the round start or after the last bonus (in seconds)",
     "flags": [
@@ -15531,7 +15938,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dm_time_between_bonus_min",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Minimum time a bonus time will start after the round start or after the last bonus (in seconds)",
     "flags": [
@@ -15570,7 +15977,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_dogtag_pickup_rule",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Who is eligible to pick up a dogtag (0 = killer only, 1 = killer's team, 2 = victim's team, 3 = killer & victim's team, 4 = anyone)",
     "flags": [
@@ -15582,8 +15989,32 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_down",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_down_previous",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_drop_grenade_enable",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Allows players to drop grenades.",
     "flags": [
@@ -15596,7 +16027,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_drop_knife_enable",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Allows players to drop knives.",
     "flags": [
@@ -15622,13 +16053,25 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_economy_reset_rounds",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Reset all player money every N rounds (0 for never)",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_enable",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15713,7 +16156,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_endwarmup_player_count",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Number of players required to be connected to end warmup early. 0 to require maximum players for mode.",
     "flags": [
@@ -15725,8 +16168,44 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_equipment_reset_rounds",
+    "name": "mp_entity",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_entity_report",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_ents",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_equipment_reset_rounds",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Reset all player equipment every N rounds (0 for never)",
     "flags": [
@@ -15739,7 +16218,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_fadetoblack",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "fade a player's screen to black when he dies",
     "flags": [
@@ -15751,14 +16230,47 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_fast",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_fast_NegativeForUnequal",
+    "binary": "tier0.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in tier0.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_flinch_punch_scale",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Scalar for first person view punch when getting hit.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_float",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15778,7 +16290,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_force_pick_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The amount of time a player has on the team screen to make a selection before being auto-teamed",
     "flags": [
@@ -15791,7 +16303,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_forcecamera",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Restricts spectator modes for dead players",
     "flags": [
@@ -15830,7 +16342,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_free_armor",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines whether kevlar (1+) and/or helmet (2+) are given automatically.",
     "flags": [
@@ -15856,7 +16368,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_friendlyfire",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Enables teammate damage from friendly bullets, grenades, and knife attacks. 0 = off, 1 = on.",
     "flags": [
@@ -15869,8 +16381,130 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_GenerateJSON",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetActiveShadersInfo",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetActiveShadersInfoCount",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetBaseInfo",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetDescription",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetDescriptionSize",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetDeviceInfo",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetEventMarkersInfo",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetEventMarkersInfoCount",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetJSON",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_GetPageFaultInfo",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_give_player_c4",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Whether this map should spawn a c4 bomb for a player or not.",
     "flags": [
@@ -15890,6 +16524,18 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_globals",
+    "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15922,7 +16568,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_halftime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Enables team side swapping and intermission period halfway through regulation rounds. 0 = off, 1 = on.",
     "flags": [
@@ -15935,7 +16581,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_halftime_duration",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Target number of seconds that halftime lasts; shortened if team intros are active",
     "flags": [
@@ -15948,7 +16594,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_halftime_pausematch",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Set to 1 to pause match after halftime countdown elapses. Match must be resumed by vote or admin.",
     "flags": [
@@ -15961,13 +16607,24 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_halftime_pausetimer",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Set to 1 to stay in halftime indefinitely. Set to 0 to resume the timer.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_heap_snapshot",
+    "binary": "v8system.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in v8system.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -15987,7 +16644,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_hostages_rescuetime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Additional time added to round time if a hostage is reached by a CT.",
     "flags": [
@@ -16000,7 +16657,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_hostages_rescuetowin",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "0 == all alive, any other number is the number the CT's need to rescue to win the round.",
     "flags": [
@@ -16078,7 +16735,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_hostages_takedamage",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Whether or not hostages can be hurt.",
     "flags": [
@@ -16116,8 +16773,32 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_items_prohibited",
+    "name": "mp_images",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_intersection_controller",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_items_prohibited",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Set this convar to a comma-delimited list of definition indices of weapons that should be prohibited from use.",
     "flags": [
@@ -16130,13 +16811,46 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_join_grace_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of seconds after round start to allow a player to join a game",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_layer",
+    "binary": "panorama.dll",
+    "category": "Interface & HUD",
+    "description": "Source 2 console variable in panorama.dll for interface & hud tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_layer_cache_cost",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_layer_lru_lifetime",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -16150,6 +16864,85 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_link_detour_threshold",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_links",
+    "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_list",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_lists",
+    "binary": "scenesystem.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in scenesystem.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_loaded_worlds",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_loc_token",
+    "binary": "localize.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in localize.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_localization_files",
+    "binary": "localize.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in localize.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -16194,8 +16987,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_match_can_clinch",
+    "name": "mp_main_world",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_match_can_clinch",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Can a team clinch and end the match by being so far ahead that the other team has no way to catching up?",
     "flags": [
@@ -16208,7 +17013,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_match_end_changelevel",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How to allocate defusers to CTs at start or round: 0=none, 1=random, 2=everyone",
     "flags": [
@@ -16221,7 +17026,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_match_end_restart",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Maximum number of maps to include in endmatch voting during War Games",
     "flags": [
@@ -16234,7 +17039,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_match_restart_delay",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Time (in seconds) until a match restarts.",
     "flags": [
@@ -16247,7 +17052,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_max_armor",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines the highest level of armor allowed to be purchased. (0) None, (1) Kevlar, (2) Helmet",
     "flags": [
@@ -16260,7 +17065,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_maxmoney",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Maximum money bank balance cap a player can accumulate. Default: 16000.",
     "flags": [
@@ -16273,7 +17078,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_maxrounds",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Maximum number of rounds played in a regulation match before victory or overtime is declared. Default: 24 (MR12).",
     "flags": [
@@ -16285,8 +17090,31 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_min_halftime_duration",
+    "name": "mp_memory",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_min_db",
+    "binary": "engine2.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in engine2.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_min_halftime_duration",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Minimum number of seconds that halftime lasts even if team intros are active",
     "flags": [
@@ -16311,8 +17139,32 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_new",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_NoCharactersDepth",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_only_cts_rescue_hostages",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "extra requirements to earn contribution score for a kill",
     "flags": [
@@ -16324,8 +17176,19 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_open_duplicate_times",
+    "binary": "filesystem_stdio.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in filesystem_stdio.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_overtime_enable",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Enables sudden death overtime rounds if regulation ends in a tie. 0 = disabled, 1 = enabled.",
     "flags": [
@@ -16338,7 +17201,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_overtime_halftime_pausetimer",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "If set to 1 will set mp_halftime_pausetimer to 1 before every half of overtime. Set mp_halftime_pausetimer to 0 to resume the timer.",
     "flags": [
@@ -16351,7 +17214,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_overtime_limit",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "When overtime is enabled, only so many overtimes can be played",
     "flags": [
@@ -16364,7 +17227,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_overtime_maxrounds",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of rounds played in each overtime set (e.g. 6 rounds for 3 rounds per side).",
     "flags": [
@@ -16377,13 +17240,46 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_overtime_startmoney",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Money assigned to all players at start of every overtime half",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_panorama_css_properties",
+    "binary": "panorama.dll",
+    "category": "Interface & HUD",
+    "description": "Source 2 console variable in panorama.dll for interface & hud tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_panorama_events",
+    "binary": "panorama.dll",
+    "category": "Interface & HUD",
+    "description": "Source 2 console variable in panorama.dll for interface & hud tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_panorama_render_command_stats",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -16402,8 +17298,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_plane_distance",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_plant_c4_anywhere",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls mp plant c4 anywhere parameter within the Matchmaking & Game Rules subsystem.",
     "flags": [
@@ -16416,7 +17324,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_playercashawards",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Players can earn money by performing in-game actions",
     "flags": [
@@ -16429,7 +17337,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_playerid",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls what information player see in the status bar: 0 all names; 1 team names; 2 no names",
     "flags": [
@@ -16442,7 +17350,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_playerid_delay",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of seconds to delay showing information in the status bar",
     "flags": [
@@ -16455,7 +17363,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_playerid_hold",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of seconds to keep showing old information in the status bar",
     "flags": [
@@ -16467,8 +17375,21 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_promoted_item_enabled",
+    "name": "mp_process_debug",
     "binary": "server.dll",
+    "category": "Debug & Cheats",
+    "description": "Source 2 console variable in server.dll for debug & cheats tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_promoted_item_enabled",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Allow the purchasing of the promoted item.",
     "flags": [
@@ -16481,7 +17402,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_randomspawn",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines whether players are to spawn. 0 = default; 1 = both teams; 2 = Terrorists; 3 = CTs.",
     "flags": [
@@ -16494,7 +17415,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_randomspawn_dist",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "If using mp_randomspawn, determines whether to test distance when selecting this spot.",
     "flags": [
@@ -16507,13 +17428,48 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_randomspawn_los",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "If using mp_randomspawn, determines whether to test Line of Sight when spawning.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_range",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_ranking",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_recently_pressed",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -16533,7 +17489,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_respawn_immunitytime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How many seconds after respawn immunity lasts. Set to negative value to disable warmup immunity.",
     "flags": [
@@ -16546,7 +17502,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_respawn_on_death_ct",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "When set to 1, counter-terrorists will respawn after dying.",
     "flags": [
@@ -16559,7 +17515,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_respawn_on_death_t",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "When set to 1, terrorists will respawn after dying.",
     "flags": [
@@ -16572,7 +17528,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_respawnwavetime_ct",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Time between respawn waves for CTs.",
     "flags": [
@@ -16585,13 +17541,25 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_respawnwavetime_t",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Time between respawn waves for Terrorists.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_response_symbols",
+    "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -16625,7 +17593,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_ct_loadout_bonus_card",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "CT enemy card for full buy round when playing bomb site retake.",
     "flags": [
@@ -16664,7 +17632,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_ct_loadout_enemy_card",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "T Loadouts for default pistol round when playing bomb site retake.",
     "flags": [
@@ -16677,7 +17645,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_ct_loadout_full_buy_round",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "CT bonus card availability pattern for full buy round when playing bomb site retake.",
     "flags": [
@@ -16690,7 +17658,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_ct_loadout_light_buy_round",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "CT Loadouts for full buy round when playing bomb site retake.",
     "flags": [
@@ -16742,7 +17710,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_t_loadout_bonus_card",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "T bonus card for full buy round when playing bomb site retake.",
     "flags": [
@@ -16781,7 +17749,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_t_loadout_enemy_card",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Limit the number of consecutive rounds targeting the same site.",
     "flags": [
@@ -16794,7 +17762,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_t_loadout_full_buy_round",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "T bonus card availability pattern for full buy round when playing bomb site retake.",
     "flags": [
@@ -16807,7 +17775,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_retake_t_loadout_light_buy_round",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "T Loadouts for full buy round when playing bomb site retake.",
     "flags": [
@@ -16833,7 +17801,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_round_restart_delay",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of seconds to delay before restarting a round after a win",
     "flags": [
@@ -16897,8 +17865,44 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_shoot_dropped_grenades",
+    "name": "mp_secondary_scene_worlds",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_segments",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_shadowmapsize",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_shoot_dropped_grenades",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Dropped grenades detonate when shot.",
     "flags": [
@@ -16911,7 +17915,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_shorthanded_cash_bonus_ignore_kicked",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines whether kicked players are included in the assessment for short-handedness",
     "flags": [
@@ -16924,7 +17928,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_shorthanded_cash_bonus_round_delay",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "number of previous rounds that a team needs to have been shorthanded before they are eligible for the short-handed bonus",
     "flags": [
@@ -16937,7 +17941,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_solid_enemies",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How solid are enemies: 0 = transparent; 1 = fully solid",
     "flags": [
@@ -16950,7 +17954,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_solid_teammates",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How solid are teammates: 0 = transparent; 1 = fully solid; 2 = can stand on top of heads",
     "flags": [
@@ -16976,7 +17980,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_spectators_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How many spectators are allowed in a match.",
     "flags": [
@@ -16988,8 +17992,19 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_spew",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_starting_losses",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines what the initial loss streak is.",
     "flags": [
@@ -17002,13 +18017,24 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_startmoney",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Starting money amount allocated to each player upon connecting to the server or at match reset. Default: 800.",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_stats",
+    "binary": "resourcesystem.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in resourcesystem.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -17040,8 +18066,19 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_symbols",
+    "binary": "panorama.dll",
+    "category": "Interface & HUD",
+    "description": "Source 2 console variable in panorama.dll for interface & hud tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_t_default_grenades",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Number of seconds after round start to allow a player to join a game",
     "flags": [
@@ -17054,7 +18091,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_t_default_melee",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The default melee weapon that the Ts will spawn with",
     "flags": [
@@ -17067,7 +18104,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_t_default_primary",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The default primary (rifle) weapon that the Ts will spawn with",
     "flags": [
@@ -17080,7 +18117,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_t_default_secondary",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The default secondary (pistol) weapon that the Ts will spawn with",
     "flags": [
@@ -17093,7 +18130,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_tagging_scale",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Scalar for player tagging modifier when hit. Lower values for greater tagging.",
     "flags": [
@@ -17106,7 +18143,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_taser_recharge_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Determines recharge time for taser. -1 = disabled.",
     "flags": [
@@ -17171,7 +18208,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_team_intro_type",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "none, normal, wingman, rush, or auto (implies normal if mp_halftime is set, none otherwise)",
     "flags": [
@@ -17184,7 +18221,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_team_timeout_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Number of timeouts each team gets per match.",
     "flags": [
@@ -17197,7 +18234,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_team_timeout_ot_add_each",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Number of timeouts to add for each team when match goes to 2nd and each next overtime.",
     "flags": [
@@ -17210,7 +18247,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_team_timeout_ot_add_once",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Number of timeouts to add for each team when regulation time ends and match goes to overtime.",
     "flags": [
@@ -17223,7 +18260,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_team_timeout_ot_max",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Max number of timeouts each team can have per OT after all OT timeouts got added.",
     "flags": [
@@ -17236,7 +18273,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_team_timeout_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Duration of each timeout.",
     "flags": [
@@ -17249,7 +18286,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_teamcashawards",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Teams can earn money by performing in-game actions",
     "flags": [
@@ -17379,7 +18416,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_teammates_are_enemies",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How loss streak is affected with round win: 0 = win fully resets loss bonus, 1 = first win steps down loss bonus, 2 = first win holds loss bonus and step down starting with second win",
     "flags": [
@@ -17496,7 +18533,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_technical_timeout_duration_s",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "How many seconds is a full technical timeout?",
     "flags": [
@@ -17509,7 +18546,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_technical_timeout_per_team",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "How many technical timeouts are there per team?",
     "flags": [
@@ -17521,8 +18558,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_timelimit",
+    "name": "mp_time",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_timelimit",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Absolute match duration time limit in minutes before the server forces a map change.",
     "flags": [
@@ -17548,7 +18597,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_tournament",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Duration of each timeout.",
     "flags": [
@@ -17573,6 +18622,30 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_type",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_Unknown",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_unpause_match",
     "binary": "server.dll",
     "category": "Matchmaking & Game Rules",
@@ -17586,8 +18659,31 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "mp_use_respawn_waves",
+    "name": "mp_unserialization_member__",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_update_list",
     "binary": "server.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in server.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_use_respawn_waves",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "When set to 1, and that player's team is set to respawn, they will respawn in waves. If set to 2, teams will respawn when the whole team is dead.",
     "flags": [
@@ -17599,8 +18695,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "mp_var_banks",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "mp_verbose_changelevel_spew",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "How long the warmup period lasts. Changing this value resets warmup.",
     "flags": [
@@ -17626,7 +18734,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmup_items_drop_policy",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Which items can drop during warmup (bitfield, 1=gun, 2=c4, 4=nade, 8=defuser, 16=taser, 32=healthshot)",
     "flags": [
@@ -17639,7 +18747,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmup_items_nocost",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines whether weapons are free to buy during warmup.",
     "flags": [
@@ -17652,7 +18760,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmup_items_nocount_policy",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Which items are unlimited during warmup (bitfield, 1=gun, 2=c4, 4=nade, 8=defuser/kevlar, 16=taser, 32=healthshot)",
     "flags": [
@@ -17678,7 +18786,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmup_offline_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Whether or not to do a warmup period at the start of a match in an offline (bot) match.",
     "flags": [
@@ -17691,7 +18799,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmup_online_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Whether or not to do a warmup period at the start of an online match.",
     "flags": [
@@ -17704,7 +18812,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmup_pausetimer",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Set to 1 to stay in warmup indefinitely. Set to 0 to resume the timer.",
     "flags": [
@@ -17730,7 +18838,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmuptime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Duration of pre-match warmup period in seconds allowing players to connect and warm up.",
     "flags": [
@@ -17743,7 +18851,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmuptime_all_players_connected",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Warmup time to use when all players have connected. 0 to disable.",
     "flags": [
@@ -17756,7 +18864,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_warmuptime_match_cancelled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Warmup time to use when the match will be cancelled (eg. due to a live VAC ban).",
     "flags": [
@@ -17782,7 +18890,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapon_prev_owner_touch_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls mp weapon prev owner touch time parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -17808,7 +18916,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_heavy",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines which team, if any, can purchase Heavy guns. -1 = any; 0 = non; 2 = Ts; 3 = CTs.",
     "flags": [
@@ -17821,7 +18929,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_map_placed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "If this convar is set, when a match starts, the game will not delete weapons placed in the map.",
     "flags": [
@@ -17834,7 +18942,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_pistols",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines which team, if any, can purchase Pistols. -1 = any; 0 = non; 2 = Ts; 3 = CTs.",
     "flags": [
@@ -17847,7 +18955,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_rifles",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines which team, if any, can purchase Rifles. -1 = any; 0 = non; 2 = Ts; 3 = CTs.",
     "flags": [
@@ -17860,7 +18968,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_smgs",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines which team, if any, can purchase SMGs. -1 = any; 0 = non; 2 = Ts; 3 = CTs.",
     "flags": [
@@ -17873,7 +18981,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_typecount",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines how many purchases of each weapon type allowed per player per round (0 to disallow purchasing, -1 to have no limit).",
     "flags": [
@@ -17886,7 +18994,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_weapons_allow_zeus",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Determines how many Zeus purchases a player can make per round (0 to disallow, -1 to have no limit).",
     "flags": [
@@ -17925,7 +19033,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_win_panel_display_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "The amount of time to show the win panel between matches / halfs",
     "flags": [
@@ -17938,13 +19046,25 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "mp_winlimit",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Max score one team can reach before server changes maps",
     "flags": [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "mp_wins",
+    "binary": "client.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in client.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -21709,166 +22829,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "net_DebugOverlay",
-    "binary": "server.dll",
-    "category": "Debug & Cheats",
-    "description": "Controls net DebugOverlay parameter within the Debug & Cheats subsystem.",
-    "flags": [
-      "FCVAR_CHEAT",
-      "FCVAR_DEVELOPMENTONLY",
-      "FCVAR_GAMEDLL",
-      "FCVAR_HIDDEN"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_Disconnect_Legacy",
+    "name": "net_API",
     "binary": "server.dll",
     "category": "Netcode & Sub-Tick",
-    "description": "Controls net Disconnect Legacy parameter within the Netcode & Sub-Tick subsystem.",
+    "description": "Source 2 console variable in server.dll for netcode & sub-tick tuning.",
     "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_NOP",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net NOP parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SetConVar",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SetConVar parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SignonState",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SignonState parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SpawnGroup_Load",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SpawnGroup Load parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SpawnGroup_LoadCompleted",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SpawnGroup LoadCompleted parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SpawnGroup_ManifestUpdate",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SpawnGroup ManifestUpdate parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SpawnGroup_SetCreationTick",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SpawnGroup SetCreationTick parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SpawnGroup_Unload",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SpawnGroup Unload parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_SplitScreenUser",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net SplitScreenUser parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_StringCmd",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net StringCmd parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "net_Tick",
-    "binary": "server.dll",
-    "category": "Netcode & Sub-Tick",
-    "description": "Controls net Tick parameter within the Netcode & Sub-Tick subsystem.",
-    "flags": [
-      "FCVAR_GAMEDLL",
-      "FCVAR_RELEASE"
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
   },
   {
     "name": "net_array",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "utl_vector,",
     "flags": [
@@ -21889,6 +22863,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "net_async_job_random_sleep",
+    "binary": "tier0.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in tier0.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "net_basic_ping",
     "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
@@ -21901,12 +22886,67 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "net_captureculldata",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_channels",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "net_client_steamdatagram_enable_override",
     "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "0: Use connect method requested by GC.  >0: Always use SDR if possible.  <0: Always use direct UDP if possible",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_compresspackets_minsize",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_connections_stats",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_culloptimization",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -21927,6 +22967,53 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "net_DebugOverlay",
+    "binary": "client.dll",
+    "category": "Debug & Cheats",
+    "description": "Controls net DebugOverlay parameter within the Debug & Cheats subsystem.",
+    "flags": [
+      "FCVAR_CHEAT",
+      "FCVAR_DEVELOPMENTONLY",
+      "FCVAR_GAMEDLL",
+      "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_decode_callback_queue_stats_clear",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_decode_callback_queue_stats_dump",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Dumps diagnostic statistics for queued network message decode callbacks and dispatch queues.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_detailed_canpacket_log",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "net_detailed_ping",
     "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
@@ -21939,12 +23026,336 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "net_Disconnect_Legacy",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net Disconnect Legacy parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_fakeclear",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_fakejitter",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_fakelag",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_fakeloss",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_fakestatus",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_filelogging",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "net_flow",
     "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Controls net flow parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_fs_showindirections",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_gather_child_fields_only",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Network serializer optimization restricting delta gathering to modified child property descriptors.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_listen_max_message_size_kb",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_listen_recvbuffer_kb",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_listen_recvbuffer_msg",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_recv_chan_buffer_messages",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Caps maximum queued incoming channel buffer messages to prevent server receive buffer exhaustion.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_recv_chan_msgs_per_frame",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_recv_max_frame_size_kb",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Enforces maximum allowable packet frame size in kilobytes on inbound network streams.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "net_limit_sv_recv_segments_per_packet",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_limit_sv_recvbuffer_kb",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_limit_sv_recvbuffer_msg",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_listallmessages",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_log_processing",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_longlog",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_max_message_process_count",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_max_message_queue_size",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_max_polymorphic_spew",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_message_size_enforce",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_messageinfo",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_misdelivery_in",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_misdelivery_out",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_NOP",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net NOP parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -21969,6 +23380,83 @@ window.CS2_CONVARS_DATA = [
     "description": "Controls net numbers detailed parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_option",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_p2p_listen_dedicated",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_permutation_info",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_print_sdr_ping_times",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_public_adr",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_qosinterval_spew",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_qospacketloss_percentage_threshold",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -22035,6 +23523,62 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "net_restrict_showmsg_socket",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_serializedentitymemory",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_serializedentitymetadatainfo",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SetConVar",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SetConVar parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_showdrop",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "net_showeventlisteners",
     "binary": "server.dll",
     "category": "Netcode & Sub-Tick",
@@ -22059,11 +23603,217 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "net_showmsg",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_showoob",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_showpeaks",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_showreliable",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_showudp",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_showudp_remoteonly",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SignonState",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SignonState parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_skip_redundant_change_callbacks",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SpawnGroup_Load",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SpawnGroup Load parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SpawnGroup_LoadCompleted",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SpawnGroup LoadCompleted parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SpawnGroup_ManifestUpdate",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SpawnGroup ManifestUpdate parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SpawnGroup_SetCreationTick",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SpawnGroup SetCreationTick parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SpawnGroup_Unload",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SpawnGroup Unload parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_spewcounts",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_spewserializer",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_SplitScreenUser",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net SplitScreenUser parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "net_stats_json",
     "binary": "engine2.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Controls net stats json parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_status",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_StringCmd",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net StringCmd parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -22077,6 +23827,840 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_Tick",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Controls net Tick parameter within the Netcode & Sub-Tick subsystem.",
+    "flags": [
+      "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_use_packet_compression",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_validatemessages",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "net_why_field_excluded",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_001",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_16bit_storage",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_32_12_16_init_key",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_3shot_a",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_3shot_b",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_3shot_c",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_4shot_a",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_4shot_b",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_4shot_c",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_4shot_d",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__1Kill",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__2Kills",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__3Kills",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__4Kills",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__5Kills",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__active",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__Avatar",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__Bg",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__Bg__adr_container",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__CoolDown",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__defuse",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__Invisible",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__MoreKills",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__Round",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__SpectateTarget",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r__Square",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aabb",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AbandonedCooldown_Days",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AbandonedCooldown_Hrs",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AbandonedCooldown_Min",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_abort",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_absorption_coefficient",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_accel",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_accesses_heuristic",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_account_cdkey",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_accumulator",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_across_teleport",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_action",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_action_jump",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_action_land",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_action_start_fall",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ActionTrackingServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activate",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_attribute_int",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_class",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_context",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_mass_greater",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_model",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_name",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_activator_team",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_active_weapon_detect",
+    "binary": "server.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in server.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_actor_name",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ActorSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_fill_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_finish_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_flush_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_glyphs_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_mask_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_paint_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_stroke_callback",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_add_views_in_pre_output",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Controls r add views in pre output parameter within the Graphics & Rendering subsystem.",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_adjust_adjacent",
+    "binary": "navsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in navsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_adjustment",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AimPunchServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_air_transition_mesh_part",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_air_transition_with_ladder",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_air_transition_with_ladder_mesh_part",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -22118,72 +24702,140 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "r_JeepViewDampenDamp",
+    "name": "r_airborne",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
-    "description": "Controls r JeepViewDampenDamp parameter within the Graphics & Rendering subsystem.",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
     "flags": [
-      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_alarm",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Albatross",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_alias",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_alias_info",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_align_z_to_v",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_all",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_allocate",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
   },
   {
-    "name": "r_JeepViewDampenFreq",
-    "binary": "client.dll",
+    "name": "r_allow_low_gpu_memory_mode",
+    "binary": "rendersystemvulkan.dll",
     "category": "Graphics & Rendering",
-    "description": "Controls r JeepViewDampenFreq parameter within the Graphics & Rendering subsystem.",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
     "flags": [
-      "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
   },
   {
-    "name": "r_JeepViewZHeight",
-    "binary": "client.dll",
+    "name": "r_allow_onesweep_gpusort",
+    "binary": "scenesystem.dll",
     "category": "Graphics & Rendering",
-    "description": "Controls r JeepViewZHeight parameter within the Graphics & Rendering subsystem.",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
     "flags": [
-      "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
   },
   {
-    "name": "r_RainAllowInSplitScreen",
+    "name": "r_Alpha",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
-    "description": "Allows rain in splitscreen",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
     "flags": [
-      "FCVAR_CLIENTDLL",
-      "FCVAR_RELEASE"
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
   },
   {
-    "name": "r_RainParticleDensity",
-    "binary": "client.dll",
-    "category": "Graphics & Rendering",
-    "description": "Density of Particle Rain 0-1",
+    "name": "r_alt",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
     "flags": [
-      "FCVAR_CLIENTDLL",
-      "FCVAR_RELEASE"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
-    "name": "r_add_views_in_pre_output",
-    "binary": "client.dll",
-    "category": "Graphics & Rendering",
-    "description": "Controls r add views in pre output parameter within the Graphics & Rendering subsystem.",
-    "flags": [
-      "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -22194,6 +24846,323 @@ window.CS2_CONVARS_DATA = [
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Always force all engine & tools to render",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AlwaysSpewCallStack_Enable",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AlwaysSpewCallStack_Length",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_amount",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Amount_0",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Amount_1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Amount_2",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Amount_3",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Amount_4",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Amount_NA",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_amounts",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Anchor",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_and_data",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_and_receiver",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_and_serial",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_and_tools",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_angle",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_angle_yaw",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_angle_yaw_backwards",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_angles",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_animatable_mesh_shaders",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_animation",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_animation_extension",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AnimationHeader",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_animclip",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AnimGraphParametersSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Any",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_cull_dist",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -22214,12 +25183,112 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_aoproxy_default_ambient_strength",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_default_light_cone_angles",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_default_light_cone_strengths",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_default_light_position_0",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_default_light_position_1",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_default_light_position_2",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_default_light_position_3",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_aoproxy_enable",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r aoproxy enable parameter within the Graphics & Rendering subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_min_dist",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_aoproxy_min_dist_box",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -22238,10 +25307,859 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_API",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_application_mode",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_apply",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_approach_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_arc_segments",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_arg_field",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_args",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_arm",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_aspectratio",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "--- System Information ---",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_async",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_async_movable_navmesh_updates",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_at_end",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_at_startup",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attach",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Attachment",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_0",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_10",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_11",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_12",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_13",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_14",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_15",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_2",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_3",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_4",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_5",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_6",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_7",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_8",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_9",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_fallback",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attachment_preferred",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attack",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attr_name",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attribute",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_attributes",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Attributes",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AttributesHeader",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_authoritative_state",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Auto",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_AutoaimServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_autosave",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_avenged_teammate",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_awp_ace_a",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_awp_ace_b",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_awp_ace_c",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_awp_ace_d",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_awp_ace_e",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_awp_ace_gun",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_axis_name",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_back_buffer",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_backface",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_baggage",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Balanced",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_baloney",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Banjo",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_barycentric",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_base",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_baselocaleventwithramp",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_BaseMoodSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_batch_threshold",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_batch_threshold_fullsort",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Bell",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Beta",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_BigHead",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_black",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Blackbird",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_BlacklistServer_DEPRECATED",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_blast_server",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_blind",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bloat_msecs_max",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_blocker",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -22261,12 +26179,1735 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_blue",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_blurry",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bodygroups",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_blast01",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_blast02",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_blast03",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_blast_toss",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_defusal_ver1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_defusal_ver2",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_defused",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_plant",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_planted",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bomb_reset",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bombs",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bombzone",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Bone",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_boneflags",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bonus",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Bonus",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bonus_consecutive_rounds",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Bonus_Neg",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bot_service",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_botdifflast_s",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Bought_Helmet",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bounce",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bounds_debug",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_bounds_to_include_cloth",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_break",
+    "binary": "meshsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in meshsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_break_on_unknown_cause",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_break_type",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_brush",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_budget",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_buffered_log",
+    "binary": "vconcomm.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in vconcomm.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Bulldog",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_BulletServices",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_buoyancy",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_buy_service",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_BuyServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_buyzone",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_by_game_attribute",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cables",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cache",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cache_pool_allocations",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cached_layers",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Calf",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_callback",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_callbacks",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_camera",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cameraman",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_camerapos",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Prints out the current camera position + orientation to the console",
     "flags": [
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_CameraServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_can_create_instance",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_can_execute",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Canary",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cannot_select",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cant_query",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_canvas_item_spec",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_caption",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_caption_catchup_interval",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_caption_speed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_capture_limit",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_carry_type",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_case",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Bomb_Defused",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Bomb_Planted",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Damage_Hostage",
+    "binary": "server.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in server.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_ExplainSuicide_Spectators",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_ExplainSuicide_YouGotCash",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Get_Killed",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Interact_Hostage",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Kill_Hostage",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Kill_Teammate",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Killed_Enemy",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Killed_Enemy_Generic",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Rescued_Hostage",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cash_Award_Respawn",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cat",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cat",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_category",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cb_updates",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_celebrate01",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_celebrate02",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_celebrate03",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cert",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cert_subjects_to_stack",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_certificate",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cfg_loaded",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_changed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_changelevel",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ChangeMode",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_changename",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_character_decal_monitor_draw_frustum",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_character_decal_monitor_emissive",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_character_decal_monitor_render_res",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_character_decal_renderdoc_capture",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_character_decal_resolution",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_charge",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_chat",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_chest",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_child",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_class",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_class_bodygroups",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_clear",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_client",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_client_tick",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_clock",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_close",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_close_lesson",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_closed",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cloud_save",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cmd_queue",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cmd_recv_margin",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_code",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_color_mode",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_color_rgb",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_color_rgba",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_commands",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_commit",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_commit_delay",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_compile",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_compile_notify_frequency",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_component",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_composite_materials",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cone",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_config",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Connect",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_connect",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_connect_full",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_container",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_content_paint",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_content_paint_tint",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_context",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_controller",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_controller_and_pawn",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_controller_team",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_convars",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_copies_per_layer",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_copy",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_correction",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_correction_volume",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_count",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_count_to_run_in_job",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_counterterrorist",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_crash",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Crashed",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Create",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_create",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_crisp",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -22744,6 +28385,126 @@ window.CS2_CONVARS_DATA = [
     ],
     "is_new": false,
     "added_in_build": "25966348"
+  },
+  {
+    "name": "r_csgo_frost_dry_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_force",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_grow_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Growth timeline in seconds for environmental frost condensation and frost shader accumulation.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_heat_barrel_position",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_heat_cool_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Cooldown duration in seconds for surface thermal dissipation and frost overlay effects.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_heat_light_delay",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_heat_light_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_heat_per_shot",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_indoor_distance",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_csgo_frost_melt_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Melting transition duration in seconds for ambient temperature frost dispersion.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
   },
   {
     "name": "r_csgo_fsr_enable_mip_bias",
@@ -23238,6 +28999,18 @@ window.CS2_CONVARS_DATA = [
     ],
     "is_new": false,
     "added_in_build": "25966348"
+  },
+  {
+    "name": "r_csgo_parallax",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
   },
   {
     "name": "r_csgo_player_occlusion_query",
@@ -23869,6 +29642,40 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_ctl",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ctm_",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ctrl",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_cubemap_debug_colors",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -23877,6 +29684,286 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Curl_Index",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Curl_Middle",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Curl_Pinky",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Curl_Ring",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Curl_Thumb",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_current_event",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cursors",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_curve_2d",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cvar",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_cycle",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Cyclone",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_d_adr",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Daisy",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Dalmatian",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_damage_hostage",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_damage_type",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DamageReactServices",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DamageServices",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dampen",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_damping_ratio",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_damping_ratio_x",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_damping_ratio_y",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_damping_ratio_z",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Dart",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -23894,6 +29981,197 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_data",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_data_downloaded",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_data_rebuild",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_datamap",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dead_enemy",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_deadzone",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Death",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_death",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Death_Description",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Death_Description_Plural",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_death_seek_lead_up_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Death_Title",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_deathmatch",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DEBUG_1",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_all",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_debug_depth_holes",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -23902,6 +30180,71 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_flags_on_death",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_follower",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_off_nav",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_overlays",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_parallel",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -23928,6 +30271,146 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_print_damage",
+    "binary": "server.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in server.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_showtext",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_ui",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debug_verbose",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debugclassname",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debugresponseconcept",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debugresponses",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_debugrule",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DebugSnapshotData_t",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dec_global_counter",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_decal",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -24041,6 +30524,18 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_decals_on_translucent",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_decals_overide_fadestarttime_params",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24077,6 +30572,157 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_DecimalPoint",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_default",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DefaultKeys_Impl",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_defeat",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_defeat_anim_enabled",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_defend",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Delta",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_density_full_size",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_density_none_size",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dependencies",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DEPRECATED",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_depth",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_depth_map",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_depth_of_field",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24089,12 +30735,393 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_depth_pyramid",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_depth_test",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_deriv",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_derivatives",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_desity_override",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_destroy",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_detach",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_detail",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_details",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_detect_bullet_fire",
+    "binary": "server.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in server.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_detect_explosion",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_detection",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_deviation_limit",
+    "binary": "navsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in navsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_device_address",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DialogVariablesHeader",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Diamond",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dilated_motion_vectors",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dilated_reactive_masks",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dilatedDepth",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_directional_lightmaps",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_directlighting",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "0=Off, 1=Surface Wireframe, 2=Transparent Wireframe",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_directly",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_disable_movement",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Disabled",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_disconnect",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dismiss",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dismount",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_display",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_display_case",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dist",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_distance",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_distances",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dizzy",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dlss_preset",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -24191,6 +31218,104 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_done",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Donkey",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dopixelvisibility",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Double_Kill_Title",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DownloadFailed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_drag_volume_max",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_drag_volume_min",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_draw",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_draw3dskybox",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24198,6 +31323,42 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_draw_first_tri_only",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_draw_instances",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_draw_particle_children_with_parents",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -24273,6 +31434,30 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_drawparticles",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_drawpixelvisibility",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_drawropes",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24333,6 +31518,384 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_drawworld",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_drop_on_death",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_drop_on_death_stack_value",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dropped",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Duck",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dump_open_lessons",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dump_requeue",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dump_rules",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dump_run_lesson_counts",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dumpparams",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dumpresponses",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_duration",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dx11_debug_clean",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dx11_report_live_objects",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dx11_software_cmd_lists",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dynamic_splitalpha_innermod",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_dynamic_splitalpha_outermod",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DynamicPreview_Disabled",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_DynamicPreview_Enabled",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_each_texture_deallocation",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ecc_cert_and_alg",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Eclipse",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_edge_merge_tan",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_effect",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_effect_name",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_elapsed",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_element",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_elements",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_empty_sound",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Emu",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_enable",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_enable_debug_all",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_enable_rigid_animation",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24345,10 +31908,303 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_enabled",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_enabled_override",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_end",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_enemies",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_enemy",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_EntIndex",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entities",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entities_as_info_targets",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entities_for_tools",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entity",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entity_id",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entity_index",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entity_spawner",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_entity_spawner_debug",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_entpos",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Moves the camera position + orientation to the named entity",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_epsilon",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_equal",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_equip",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_equip_gloves_from_loadout",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_even",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_even_bounce",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_event",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_EventName",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_events",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_exec",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_exists",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -24379,6 +32235,111 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_explicit_arithmetic_types",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_expr",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Expresser",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ExpressionGroupSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ExpressionNameSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ExternalGraphControlSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ExternalGraphSlotIDSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_extra_data_1",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_extra_data_2",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_extra_render_frames",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24391,6 +32352,191 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_extract",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ExtractionFailed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_faceisland_merge_disp",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_faceisland_merge_tan",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_facing_point",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_factor",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_factor_receding",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_factory",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fade_region_rescale",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Failed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fallback_texture_lod_scale",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_falldamage",
+    "binary": "server.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in server.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_family_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fan",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fan_debug",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fan_player_windblock_debug",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_farz",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24398,6 +32544,373 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fast",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fast_path",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_FavoriteServer_DEPRECATED",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_bool",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_decibel",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_decibel_level",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_distance",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_entity_index",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_event_type",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_float_atten",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_float_positive",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_int",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_none",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_token",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_field_display_vsnd",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_file",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_FilesAccess",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fill",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fill_elapsed",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_filter",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_find_errors",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_find_utility_strat",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_FindConnectDS",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_finished_len",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fire",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fire_only",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_first",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_first_frame",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_flame_spawn_duration",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Flamingo",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -24595,6 +33108,18 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_FlashlightServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_flashlightshadowatten",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24643,6 +33168,342 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_flatten_into_parent_row",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_float16_int8",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_flow_map_texture",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Flute",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fog",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fog_max_end",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fog_max_start",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fog_min_end",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fog_min_start",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_follow",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_followup_maxdist",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_create",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_get_init_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_get_render_glyph_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_get_text_to_glyphs_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_get_unicode_to_glyph_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_set_init_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_set_render_glyph_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_set_text_to_glyphs_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_face_set_unicode_to_glyph_func",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_font_size",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_footstep",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_for_dismiss",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_for_player",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_for_player_avatars",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_for_precache",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_for_precache_client",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_force",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_force_engine_render_frame",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
@@ -24654,10 +33515,192 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_force_no_present",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_force_readonly",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_force_render_frame_count",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r force render frame count parameter within the Graphics & Rendering subsystem.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_force_thick_hair",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_force_transition_start_direction",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_forceconcept",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_forward",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_forward_offset",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_found",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fragmentation_print",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frame",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frame_averaging",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frame_sync_enable",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_framerate",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_framerate_stddev",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frames_on_device_restore",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_free",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -24678,11 +33721,81 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "r_freezeparticles",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r freezeparticles parameter within the Graphics & Rendering subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frequency",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frequency_x",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frequency_y",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_frequency_z",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Frog",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_front",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -24701,6 +33814,685 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_fullscreen_quad_single_triangle",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_fully_connected",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_game",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_game_event",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_game_system",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_game_time",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_generated",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_gesture",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GestureNameSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_baseline",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_bool",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_current_dsp_effect",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_dsp_mixgroup_modifier",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_dsp_preset",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_element_float8",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_float12",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_float3",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_float8",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_index",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_info",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_killed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_line_extents",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_line_readonly",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_mixgroup",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_mixlayer_amount",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_nb_frames",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_nb_samples",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_random_array_index",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_run_extents",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_run_readonly",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_size",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_sndevt",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_source_dsp_preset",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_speed_override",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_string",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_vsnd",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_get_vsnd_is_valid",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetD",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetD3d11Resource",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetD3d12Resource",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_getf",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetF",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetFakeIPType",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetHSteamPipe",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetHSteamUser",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetI",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetSharedGlobalInstance",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetUI",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetULL",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GetVoidPointer",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_given_c4",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_glass",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_global_client",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_GlowServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_glyphs_elapsed",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_go_around",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_go_around_max_length",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Goose",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_gpu_debug_draw_freeze",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24709,6 +34501,833 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_gpu_mem_stats",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_allow_flattening",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_alpha_test",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_density_mode",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_end_fade",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_max_brightness_change",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_quality",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_start_fade",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_grass_vertex_lighting",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_gravity",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_green",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_group",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_group_box_maxs",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_group_box_mins",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_group_size",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Grouping",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_ao",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_debug_guides",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_indirect_transmittance",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_meshshader",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_shadowtile",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_voxels",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_global_scale",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_min_noise_speed",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_motion_scale",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_noise",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_noise_occlusion",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_noise_size",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hair_wind_occlusion",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_haircull_percent",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hairsort",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_half",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hand",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hand_left",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hand_right",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_haptics",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hard_threshold",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_has_specificity",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hash",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hatchet",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_head",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_headroom",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_health",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_heavyassaultsuit",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_height",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_height_above_ground",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_height_offset",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_held",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hello",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_helmet",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Helmet",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_helper",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Heron",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hiding_spot_service",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_highlight_charm",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hint",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hltv",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_home",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hostage_reset",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_HostageServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hour_Minute_12",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hour_Minute_24",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hour_Minute_Second",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hour_Minute_Second_12",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hour_Minute_Second_24",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hour_Minute_Second_GMT",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hurricane",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Hurt",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_hurt",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Husky",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Iceberg",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_icon",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -24848,6 +35467,111 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_icon_use_kv3_camera",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_id_v1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_id_whitelist",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Iguana",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_image",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_image_load_formatted",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_imgMips",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_imgui_log_count",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_impact",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_impact_ricochet_chance",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -24896,12 +35620,948 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_inactivity_threshold_seconds",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_increment_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_index",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Index",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_IndicateActivity",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_indices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_indirectlighting",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Render sun lighting",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_infinite_loop_detection_threshold",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_InfinityShort",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Info",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_info",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_information",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_InGameMoneyServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_init",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Init",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Init_V2",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Initialize",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_InitSteam_InternalV1",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_inner",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_color_jittered",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_depth",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_exposure",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_motion_vectors",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_opaque_only",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_prev_color_post_alpha",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_input_prev_color_pre_alpha",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_int",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_integer_dot_product",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_interact_with_hostage",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Internal_DumpStatsToFile",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_internal_upscaled_color",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_interp",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_interpolation_fraction",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_interval",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_interval_max",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_interval_min",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_intro_01",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_INVALID",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_inventory_images",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_InventoryServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_invert",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_invisible_parents",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_InviteConsumed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_InviteReceived",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_is_external",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_is_underwater",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_item",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_itemid",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_items_on_waves",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ItemServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_iterator_destroy",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_iterator_get",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_iterator_next",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_iterator_range",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_JeepViewDampenDamp",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Controls r JeepViewDampenDamp parameter within the Graphics & Rendering subsystem.",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_JeepViewDampenFreq",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Controls r JeepViewDampenFreq parameter within the Graphics & Rendering subsystem.",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_JeepViewZHeight",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Controls r JeepViewZHeight parameter within the Graphics & Rendering subsystem.",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_job",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_joined_loc_token",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_joints",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_jump",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_keepalive_override",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Key",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_key_exchange",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_keys",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_keys_default",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Kicked",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_kill",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Kill",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Kill_Title",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_killed_enemy_default",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_killed_enemy_factor",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_killed_hostage",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Killed_Self_Title",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_killed_teammate",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Killing_Teammates",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Kite",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_kits",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Kiwi",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Label",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Lamb",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lanczos_lut",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -24920,12 +36580,277 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_Launcher",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_layer",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_layout",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LayoutFileLink",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LayoutFileLink_Code",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Left",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_left",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_left_game",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_left_loc_token",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_leg",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_legacy_vsync",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lerp_object",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lessons",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_letter_spacing_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_level_locator",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_levelup",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_light_flickering_enabled",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Toggles dynamic light source intensity flickering and pulsing effects across environment props.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_light_probe_volume_debug_colors",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_light_probe_volume_debug_grid",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_light_probe_volume_debug_grid_albedo",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_light_probe_volume_debug_grid_bbox",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_light_probe_volume_debug_grid_prim",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lightmap_set",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -24944,13 +36869,374 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "r_limit_particle_job_duration",
+    "name": "r_lightmap_size_directional_irradiance",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Lily",
     "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_limit",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_limit_particle_job_duration",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r limit particle job duration parameter within the Graphics & Rendering subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LinkLoggedInElsewhere",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list_active",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list_change",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list_get_iterator",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list_insert",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_list_unref",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_listen_server",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lists",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_loader",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_loader_int",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_loadsaved",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LocalPlayerForHireAdvertisingChanged",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_location_",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Lock",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lock_input_luma",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lock_status",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LockMmQueue",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LockMmSearch",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_locomotion_stop",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LogFiles",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_logo",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_look",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lookat",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LookSpeedSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_LookTypeSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_los",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -24968,12 +37254,547 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_low_latency_trigger_flash",
+    "binary": "rendersystemdx11.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in rendersystemdx11.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_luma_history",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_lunacy",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Macaw",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_major",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_manager",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_manager_search_dist",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Manatee",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_map",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_mapextents",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Set the max dimension for the map.  This determines the far clipping plane",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Maple",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Mask",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mask_elapsed",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_match",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_match_chat",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_match_stats_v1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_material",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_material_nodrips",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_material_preview_wear",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_materials",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_max",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_max_per_enemy",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_max_texture_pool_size",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_maxs",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_maybe",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Measurements",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_memory",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_memory_aliasing",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mesh_shader",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_message_explain_pure",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_message_explain_unsigned",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_message_explain_vac",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_meter",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_metric",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mightfail",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Migrate",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_min",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_MinimumGroupingDigits",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mins",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Minute_12",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Minute_24",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Minute_Second_12",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Minute_Second_24",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mipgen_compute_shader",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Misc",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_missing_probes",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mix",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25004,6 +37825,171 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_mod_curve_2d_4knot",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mod_LFO",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mode",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mode_reset",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_model",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_models",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ModelSpace",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_modtextures",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_monastery",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_money",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_money_current",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_money_spent",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_money_spent_this_round",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_money_start",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_monitor_3dskybox",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -25011,6 +37997,300 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_morph_weight",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_morphing_enabled",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_motion_x",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_motion_y",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_motion_z",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mouth",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_movement",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_MovementServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_MovementServices_Humanoid",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_constraint",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_constraint_priority",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_coupler_range",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_distance",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_entity",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_ratio",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mover_spring_strength",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_moving",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_mul_ladder",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_multi",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Multi_Kill_Title",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_multigpu_num_gpus_found",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_multigpu_num_gpus_used",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_multikill",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_multiple",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_multiplier",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25040,12 +38320,1436 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_name",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_names",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Nautilus",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_navmesh",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_nearz",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Override the near clipping plane. -1 means use the default.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_neck",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_need_healing",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_negative",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_NegativeSign",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_nesting",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_network_lag_avg",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_network_lag_max",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_network_loss_avg",
+    "binary": "engine2.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in engine2.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_network_loss_max",
+    "binary": "engine2.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in engine2.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_neutral",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_nevershow_communityservermessage",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_new",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_next_line",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_next_run",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_nextPosition",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_nodraw",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_non_semantic_info",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_none",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_nopixelsnap",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_not",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_not_required",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_NotAvailable",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_NoteChanged",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Numeric",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_obb",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_observer_scale",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ObserverServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Octopus",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_of_mass",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_off",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_OffBeforeFinished",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_offset",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_offset_x",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_offset_y",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_offset_z",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_OffWhenFinished",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_on_change",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_on_damage_point",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_on_error",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_on_finish",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_on_parent_bone",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_once",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_only",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_only_frames",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_only_tools",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_OnWhileCurrent",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Opacity",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_opaque",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_open",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_open_duplicate_times",
+    "binary": "filesystem_stdio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in filesystem_stdio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_optimization",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_options",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Opvar",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_or_npc",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_or_npc_or_physicsprop",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_order_8",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_order_switching",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_origin",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_origin_entity",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Ostrich",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_other",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_out",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_out_of_date",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_out_of_date_label",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_out_range",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_outch",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_outdoor_level",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_outer",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_outer_radius",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_outnumbered_threshold",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_overlap_pct_threshold",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_override",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_override_duration",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_overwrite_value_comparisons",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_overwrite_warnings",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_paint_elapsed",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_panel_type",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_PanelSize",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_parachute_airborne_time_total",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_parallel_concave_expectfail",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_parallel_mightfail",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_params",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ParseString",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_allowprerender",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_batch_collections",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_batch_in_fullsort",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_cast_shadows",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_culling",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_culling_bounds_scale",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_dynamic_roundness",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_render",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_render_meshlets",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_cables_visualize_roundness",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_filter",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_force_simulation",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_randomseeds",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_show_attribute",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_show_control_points",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_show_rope_segments",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_debug_show_sort_position",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_enable_fastpath",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_explicit_fetch",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_fixedrandomseeds",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_gpu_implicit",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_gpu_implicit_cull_columns",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_gpu_implicit_debug_bricks",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_gpu_implicit_debug_stats",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_gpu_implicit_lds_cache",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_max_detail_level",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_max_draw_distance",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_max_size_cull",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_max_texture_layers",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_min_timestep",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_mixed_resolution_viewstart",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_model_new",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_model_new8",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_model_per_thread_count",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_multiplier",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_newinput",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_render_test",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25124,13 +39828,610 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_particle_skip_postsim",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_testbuffers",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_particle_timescale",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r particle timescale parameter within the Graphics & Rendering subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particle_warn_threshold_ms",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_particles_memset_at_init",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pass",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_patches",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_path",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pause",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pawn",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pawn_base",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pawn_changed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Pelican",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_per_chain",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_per_class",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_per_step",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_per_step_viewmodel",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_period",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_PermanentCooldown",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_phase_interpolation",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_physics",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_physics_debug",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_physics_particle_op_spawn_scale",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_blocked_by_smoke",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_dedup",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_grenade_type",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_max_score",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_nearby",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_random_by_distance",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_reaction_time",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_visible",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_picker_weight_as_distance",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pickup",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pickup_piece",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pid",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ping",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ping_stop",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ping_token_cooldown",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_PingServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pipeline_stats_command_flush",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pipeline_stats_flush_before_sleeping",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pipeline_stats_present_flush",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pipeline_stats_use_flush_api",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pistol3shot",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pistol4shot",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pitch",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pitch_sensitivity",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pixel",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pixelvisibility_partial",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pixelvisibility_spew",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_plane_depth_bias",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_player",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25155,6 +40456,30 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_player_name",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_player_simulation_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25196,6 +40521,287 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_playercount_instead_of_avatars",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Players",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_players",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_playerslot",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_PlayVOLine",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_point",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Assist_Enemy",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Assist_Enemy_Plural",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Killed_Enemy",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Killed_Enemy_NoWeapon",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Killed_Enemy_Plural",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Picked_Up_Dogtag",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Point_Award_Picked_Up_Dogtag_Plural",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_points",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pool_day",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_port",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_port_offset",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pos",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_position",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_position_v1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_positive",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_PositiveSign",
+    "binary": "localize.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in localize.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_post",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_post_alpha",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_post_bloom_debug",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -25204,6 +40810,269 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pre",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pre_alpha",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pre_shutdown",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_precompute",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_prefer_loop_unrolling",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_prepared_input_color",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_prereq",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_preview_lighting",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_previewmodel",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_previous_dilated_motion_vectors",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_print",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_print_buffers",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_print_texture_stats",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_PrivateQueuesUpdate",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Probability",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_profiling",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ProOrgs_AndSomeMore",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ProOrgsPatches",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ProOrgsStickers",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Properties",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_properties",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ProPlayerSignatures",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ProPlayerSignatures_AndSomeMore",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25221,10 +41090,600 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_protocol_v1",
+    "binary": "vscript.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in vscript.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_proximity",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_proxy",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_pSession",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Puffin",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_push",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Pyramid",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_quality",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_query_info",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_radio",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_RadioServices",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_radius",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_radius_factor",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_RainAllowInSplitScreen",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Allows rain in splitscreen",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_RainParticleDensity",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Density of Particle Rain 0-1",
+    "flags": [
+      "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ramp",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_random_approach_point",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_random_int",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Range",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ranker_dist",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rarity_color",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Rattle",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rcas_input",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reactive_mask",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reconnecting_players_kick_prior",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reconstructed_previous_nearest_depth",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rectangle",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_RecursionDepth",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Recv",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Recv_Avg",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Recv_Max",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Recv_Pct",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_red",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_red_timer",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_refract_color_resolve",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_refract_depth_resolve",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_refraction_resolve",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Refresh",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_refreshes_sleep_timer",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_regenerates_health",
+    "binary": "server.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in server.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_region_commit",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_relative",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_relative_analog_inputs",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ReleaseSharedGlobalInstance",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reload_lessons",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_remap_max",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_remap_min",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_remove",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_remove_key",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_removed",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_render_coordination_state",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Prints out the current render coordination state.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_render_hair",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -25257,12 +41716,113 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_renderdoc_auto_shader_pdbs",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_renderdoc_capture_frame",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_renderdoc_capture_window_dx11",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_renderdoc_capture_window_vulkan",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_renderdoc_open_captures",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_renderdoc_show_overlay",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rendering",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_rendersun",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Render sun lighting",
     "flags": [
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rentals",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_repeat",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25280,6 +41840,231 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_requeue_messages",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rescue_music_distance",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rescue_zone",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rescued_hostage",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rescuing",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reset_character_decals",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reset_counts",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reset_vote",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_resolve_rt",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_resource__",
+    "binary": "resourcesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in resourcesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_respawn_amount",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_respawned",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_retake_loadout",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_reward",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Rifle",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_right",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ring",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rnd",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Robin",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_ropetranslucent",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -25287,6 +42072,254 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Rose",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rotating",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rotating_base",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rotating_physics",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_rounds",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_route_service",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_router",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_router_name",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_run_once",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_run_parallel",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_RunCallbacks",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Salmon",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sample_curve",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Saved",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Savior",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_scale",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_scene",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_scope",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_score_type",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_score_types",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_scrape_mode",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25304,10 +42337,767 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_Seal",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_search_count",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_search_lan_ping_duration",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_search_lan_ping_interval",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_search_requests_limit",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_search_update_interval",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_season",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_season5",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_season_coin",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sec",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "r_second",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_secret",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_segments",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_selected_set",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_selection",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Send",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Send_Avg",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Send_Max",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Send_Pct",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_send_pkey",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sensor",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_seq_change",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_seq_change_instantly",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sequence",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SequenceNameSuggestions",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sequences",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_serial",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_server",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_server_hint_create",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_server_hint_stop",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_serverragdoll",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_array_index",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_barrier",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_dome_cluster_steps_per_think",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_float3",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_mixlayer",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_mixlayer_amount",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_param_number",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_param_vector",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_reaction_time",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_string",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_trigger",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_visible",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_vmix",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_set_vsnd",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetD",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetD3d11Resource",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetD3d12Resource",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetDisplayImageRGBA",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_setf",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetF",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetFilenamePrefix",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetI",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetMainThreadWindow",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetOptions",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_setpos",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Moves the camera position + orientation to the specified position",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetPreHandlerCallback",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetUI",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetULL",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SetVoidPointer",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shader",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shader_use",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shadow_bias",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shadow_bias_scale",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shadow_rays",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shadowcasters",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -25327,12 +43117,186 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_shadowtile_waveops",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shape_fov",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shape_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shape_sphere",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Shark",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Sheep",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shoot",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shoots",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shoots_night",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_should_play",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_should_play_child",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_show_all_players_when_spectating",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_show_build_info",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Build information. Leave this enabled when submitting bug screenshots and videos, please!",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_show_gpu_memory_visualizer",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_show_position",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_show_text",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25376,6 +43340,77 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_Shutdown",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_shutdown",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_side",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sigalg",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sigalgs",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_size",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_size_cull_threshold",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
@@ -25410,6 +43445,50 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_size_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_size_new_absolute",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_skeleton_show_bone_names",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_skinning_enabled",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_skip_precache_validation_check",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
@@ -25421,12 +43500,532 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_slot",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_slot_position",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_slot_t",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_smooth_approach_float",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_smooth_connections",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_smooth_morph_normals",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Snake",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_snd_cast",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_snd_pos",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_snd_sos_opvar",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Sonar",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sort_specs_only",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sound",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sounds",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_soundscape",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_get_acquire",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_get_callback_data",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_get_copy",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_get_finish",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_get_snapshot",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_set_acquire",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_set_callback_data",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_set_copy",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_set_finish",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_source_pattern_set_snapshot",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Sparrow",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spawn",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spawned",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spawner_name",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_speak",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_speaking_delay_threshold",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spec",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Spectator",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_spectator_flashbang_opacity",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Spectator flash opacity",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spectators",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_speed",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_splasher",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Splay_IndexMiddle",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Splay_MiddleRing",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Splay_RingPinky",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Splay_ThumbIndex",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_split",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spray_decal",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_spread_scale",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_sprites_issue_vizquery",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25493,6 +44092,273 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_start",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_start_lesson",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_start_sound_cooldown",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_start_teleport_destination",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_starve_dot",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_state",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_state_v1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stats_updated",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SteamServersDisconnected",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_step_movement",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Step_NextNode",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stereo_scale",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stomach",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stop_count",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stop_rgb",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stop_rgba",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_storage_class",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_strategy",
+    "binary": "server.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in server.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stretch_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_strikethrough_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_string",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_String",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_strings",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_strip_invisible_during_sceneobject_update",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -25500,6 +44366,228 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_stroke_elapsed",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Stump",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_style",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_style0",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_style1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_style2",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_style_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_StyleFileLink",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_styles",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_subdirectory",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_subgroup_basic",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_subgroup_quad",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_subrect",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_substrings",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_succeed",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Success",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Summary",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SupportedAnnotationFormat",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SupportedImageFormats",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25517,12 +44605,627 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "26144732"
   },
   {
+    "name": "r_surface",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_surface_",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_surface_connections",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_surface_index",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SurfaceAngle",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SurfaceProperties",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_survival_playarea",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_SwitchTeam",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_table_print",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tag",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tag_entity",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tag_threshold",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tags",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_target",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_target_cache",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_target_cache_max_size",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_target_entity",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_task_clips_label",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_task_file",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_task_fps",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_task_generate_clips",
+    "binary": "client.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in client.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_teach_lesson",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_team",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Team_Award_Picked_Up_Dogtag",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Team_Award_Picked_Up_Dogtag_Friendly",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Team_Award_Picked_Up_Dogtag_Plural",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_teamplayedlast",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_teleport",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_TERRORIST",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_terrorist",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_test",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_test1_maximum_wait_ms",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r test1 maximum wait ms parameter within the Graphics & Rendering subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_test_computespheresilhouette",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_test_computesumsilhouette",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_text",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Text",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_based_animatable",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_budget_dynamic",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_budget_threshold",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_budget_update_period",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_eager_eviction",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_hookup_uses_threadpool",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_lod_scale",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_nonstreaming_load",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_pool_increase_rate",
+    "binary": "rendersystemdx11.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in rendersystemdx11.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_pool_reduce_rate",
+    "binary": "rendersystemdx11.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in rendersystemdx11.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_pool_size",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_stream_max_resolution",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_stream_mip_bias",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_stream_resolution_bias_min",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_stream_throttle_amount",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_stream_throttle_count",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_streaming_timesliced",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_texture_streamout_unthrottle_ms",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25541,6 +45244,18 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_textures",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_textures_evict_all",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -25553,8 +45268,77 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "r_threaded_particle_creation",
+    "name": "r_than",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_than_or_equal",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_that",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_theme",
     "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_thenany_score_slop",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_thread",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_threaded_particle_creation",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r threaded particle creation parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -25566,7 +45350,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "r_threaded_particles",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r threaded particles parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -25589,6 +45373,320 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_threshold",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26144732"
+  },
+  {
+    "name": "r_throttle_data",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_thrown",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tick",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tick_with_calcdelta",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ticket",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_time",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Time",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_timeout",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_timestamp_query_multiplier",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tint",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_title",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Title",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_TK_Start",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tm_",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_cubemap_begin_mixing_roughness",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_device",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_device_distance",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_entity",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_human_goals",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_human_items",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_integer",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_md",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_texture",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_world_far",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_to_world_far_offset",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Toaster",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_toggleviewportsize",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
@@ -25600,10 +45698,279 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_token_mapname",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_token_service",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tonemap",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_too_early",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_too_narrow",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_TooEarly",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_tools",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ToolsOnlyBlockingResourceLoad",
+    "binary": "scenefilecache.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenefilecache.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_topdown_style",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_topleft",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_topright",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Torus",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_ToString",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Toucan",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_track",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_training",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_transform_stateless",
+    "binary": "vphysics2.dll",
+    "category": "Movement & Physics",
+    "description": "Source 2 console variable in vphysics2.dll for movement & physics tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_transformed",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_transition",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_transition_connections",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_transition_with_ladder_space_part",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_translucent",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Enable rendering of translucent geometry",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_translucent_after_depth_of_field",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_transparency_and_composition_mask",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
     "flags": [
       "FCVAR_RELEASE"
     ],
@@ -25623,6 +45990,63 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "26144732"
   },
   {
+    "name": "r_tree",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_try_lock",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_two",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_type",
+    "binary": "panorama.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_type_register",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_ui_update_parallel_with_server",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
@@ -25635,12 +46059,229 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_ultrawide_near_z",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_unchanged_entities",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_underline_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_untrusted_addons",
+    "binary": "pulse_system.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in pulse_system.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
     "name": "r_update_particles_on_render_only_frames",
     "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls r update particles on render only frames parameter within the Graphics & Rendering subsystem.",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_updates",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_use",
+    "binary": "materialsystem2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in materialsystem2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_use_collision_hulls",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_use_memory_budget_model",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_use_radius",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_use_rr",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_user",
+    "binary": "tier0.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in tier0.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_userid",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_UseServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_validate_path_internal",
+    "binary": "steamnetworkingsockets.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamnetworkingsockets.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_validate_texture_streaming",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_value",
+    "binary": "matchmaking.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in matchmaking.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_values",
+    "binary": "engine2.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in engine2.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_valve",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_variables",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25658,12 +46299,940 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "r_velocity",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_velocity_cp",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_verbose",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_verbose_lesson",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_version",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vertical_offset",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vest_only",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_viewmodel",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "r_viewport",
     "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Slams viewport size to a specified value.",
     "flags": [
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_visibility",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_visibility_data_color_rt",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_visibility_post_players_rt",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_visibility_stencil_bloat_amount",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_visibility_stencil_proxy_min_dist",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_VisSize_Round",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_VisSize_Square",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_visualization",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vma_defrag_algorithm",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vma_defrag_enabled",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vma_defrag_moves_per_frame",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vma_defrag_threshold_mb",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_volume",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_volume_map",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_volumes",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Vortex",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vote",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vr_hint",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vulkan_accurate_renderarea",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vulkan_force_sync1",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vulkan_sw_cmd_lists",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vulkan_validation_filter_in",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_vulkan_validation_filter_out",
+    "binary": "rendersystemvulkan.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemvulkan.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Vulture",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Wagon",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_wait_on_present",
+    "binary": "rendersystemdx11.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in rendersystemdx11.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_wait_success",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_wake",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Wants_Restart",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warning",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warning_dont_show_again",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warp0_blend_to_full",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warp0_influence",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warp0_texture",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warp1_blend_to_full",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warp1_influence",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_warp1_texture",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_watches",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_water",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_WaterServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_weapon",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_weapon_per_match",
+    "binary": "client.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in client.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_weapons_v1",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_WeaponServices",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_week",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_weight",
+    "binary": "scenesystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in scenesystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_weight_new",
+    "binary": "panorama_text_pango.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in panorama_text_pango.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Whale",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_when_outside_distance",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_when_within_distance",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_white",
+    "binary": "particles.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in particles.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_wide_enough",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_width",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_windblock",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Woodpecker",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_frame_load_threshold_ms",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_wind_dir",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_wind_frequency_grass",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_wind_frequency_trees",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_wind_offset_speed",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_wind_smooth_time",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_world_wind_strength",
+    "binary": "worldrenderer.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in worldrenderer.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_WorldSpace",
+    "binary": "animationsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in animationsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_yaw_sensitivity",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_you",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_You_Are_Now_Dominating",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_You_Are_Still_Dominating",
+    "binary": "server.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in server.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_GAMEDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_YouGotNewCommendation",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Zebra",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_Zigzag",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "r_zoomed",
+    "binary": "client.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -25707,6 +47276,215 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd__beatpattern_stop_track",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_async_flush",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_async_showmem",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_async_showmem_music",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_async_showmem_summary",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_async_spew_blocking",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_autodetect_latency",
+    "binary": "soundsystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in soundsystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_flush",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_print_activetracks",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_print_patterns",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_set_track_bpm",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_set_track_transpose",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_show_bpm",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_show_events",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_show_quantize_queue",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_stop_all_tracks",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_beatpattern_use_lookahead",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_boxverb_simd",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_boxverb_simd_svf",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_break_on_start_soundevent",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -25720,6 +47498,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_cast",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_chicken_obscured_fade_time",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -25727,6 +47516,28 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_compare_KV_convert",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_compare_soundevents",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -25811,6 +47622,72 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_defeats_restart",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_delay_sound_ms_max",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_delay_sound_ms_shift",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_diffusor_simd",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_disable_mixer_duck",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_disable_mixer_solo",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_disable_radar_visualize",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -25819,6 +47696,129 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_dsp_distance_max",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_dsp_distance_min",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_duckerattacktime",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_duckerreleasetime",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_duckerthreshold",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_ducktovolume",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_duration",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_enable_imgui",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_enable_subgraph_corenull_passthrough",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_enable_subgraph_log",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_envelope_rate",
+    "binary": "soundsystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in soundsystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -26086,6 +48086,29 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_files",
+    "binary": "client.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in client.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_filter",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_foliage_db_loss",
     "binary": "server.dll",
     "category": "Audio & Voice",
@@ -26093,6 +48116,198 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_front_headphone_position",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_front_stereo_speaker_position",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_front_surround_speaker_position",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gain",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gain_convar",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gain_max",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gain_min",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gamesound_convar",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gamevoice_convar",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gamevoicevolume",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_gamevolume",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_get_physics_surface_properties",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_granulator_imgui",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_group_cluster_debug",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_group_occlusion_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_group_priority_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_group_priority_max_tolerance",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -26119,6 +48334,94 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_headphone_pan_exponent",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_headphone_pan_radial_weight",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_hrtf_distance_behind",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_info",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_list",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_list_deferred_soundevents",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_list_soundevents",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_list_soundevents_by_stack",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -26320,6 +48623,39 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_mergemethod",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_min_latency",
+    "binary": "soundsystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in soundsystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_mix_async",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_mixahead",
     "binary": "server.dll",
     "category": "Audio & Voice",
@@ -26327,6 +48663,28 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_mixer_master_dsp",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_mixer_master_level",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -26341,6 +48699,30 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_ARCHIVE",
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_move_scale_x",
+    "binary": "client.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in client.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_move_scale_y",
+    "binary": "client.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in client.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -26380,6 +48762,18 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_musicvolume_convar",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -26475,6 +48869,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_name",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_new_visualize",
     "binary": "server.dll",
     "category": "Audio & Voice",
@@ -26482,6 +48887,17 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_bounces",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -26497,6 +48913,118 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_debug_listener_pos",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_indirect_max",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_indirect_min",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_indirect_radius",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_min_wall_thickness",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_override",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_rays",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_report",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_occlusion_visualize",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_op_test_convar",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -26725,6 +49253,127 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_pause_with_game",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_print_current_mixer_mixgroup",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_print_samplers",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_print_soundevent",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_purge_vsnd_table",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_rear_headphone_position",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_rear_stereo_scale",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_rear_stereo_speaker_position",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_rear_surround_speaker_position",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_refdb",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_refdist",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_refresh_ui_audio_state",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -26738,6 +49387,39 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_remove_all_soundevents",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_remove_soundevent",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_report_audio_nan",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_report_c4_sounds",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -26745,6 +49427,17 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_report_verbose_error",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -26946,6 +49639,164 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_samplers_play_note",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_samplers_stop_note",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_select_ang_0",
+    "binary": "client.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in client.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_select_dist_0",
+    "binary": "client.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in client.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_select_dist_1",
+    "binary": "client.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in client.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CLIENTDLL"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_set_physics_surface_properties",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_setmixer",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_setmixlayer",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_showclassname",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_showstart",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_side_surround_speaker_position",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_block_global_stack",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_block_stop_global_stack",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_calc_angle_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_sos_cl_soundevent_pause_last",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -26998,6 +49849,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_sos_compare_operator_stacks",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_sos_debug_trigger_opvar",
     "binary": "server.dll",
     "category": "Audio & Voice",
@@ -27012,6 +49874,84 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_sos_enable_nan_check",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_flush_operators",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_get_operator_field_info",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_ingame_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_limit_self",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_list_operator_updates",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_max_event_base_depth",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_sos_opvar_debug",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -27021,6 +49961,624 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_CLIENTDLL",
       "FCVAR_DEVELOPMENTONLY",
       "FCVAR_HIDDEN"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_pause_soundevent",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_pause_system",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_addfield_dupes",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_class_sizes",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_field_name_strings",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_field_references",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_fps",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_frametime",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_full_field_info",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_groups",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_operator_stack",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_operator_stack_operator",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_operator_stacks",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_operators",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_stack_exec_list",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_strings",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_table_arrays",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_print_tool_properties",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_report_entity_deleted",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_resolve_execute_operator",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_set_operator_field",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_set_operator_field_by_guid",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_block_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_entry_match_free",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_mixgroup_path_errors",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_event_and_stack",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_event_filter",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_field_filter",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_init",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_not_executing",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_operator_filter",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_pause_entry",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_shutdown",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_stop_entry",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_operator_updates",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_opfield_cache_updates",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_opvar_updates",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_opvar_updates_filter",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_queuetotrack",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_soundevent_overwrites",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_soundevent_param_overwrite",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_soundevent_start",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_track_list",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_show_voice_elapsed_time",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_soundevent_constellation_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_soundevent_filter",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_soundevent_max_deferred_time",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_soundevent_profile",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_soundevent_show_deferral_warning",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_start_soundevent",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_start_soundevent_at_pos",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_start_stack",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_stop_all_soundevents",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_stop_soundevent_guid",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_stop_soundevent_index",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_stop_track",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -27085,6 +50643,41 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_test_soundmessage",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_tools_detailed_debugging",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_sos_unpause_soundevent",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -27158,6 +50751,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_soundevent_clear_deferred",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_soundmixer",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -27165,6 +50769,95 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_flush",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_list_mix_groups",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_list_mix_layers",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_list_mixers",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_set_trigger_factor",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_setmixlayer_amount",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_update_maximum_frame_rate",
+    "binary": "soundsystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in soundsystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_soundmixer_version",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -27210,6 +50903,17 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_spatialize_lerp",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_stack_save",
     "binary": "server.dll",
     "category": "Audio & Voice",
@@ -27223,6 +50927,73 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "snd_steamaudio_active_hrtf",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_baked_data_stats",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_baked_occlusion_mode",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_default_hrtf_volume_gain",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_dimensions_max_ray_length",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_display_probes",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "snd_steamaudio_dynamicpathing_max_samples",
     "binary": "client.dll",
     "category": "Audio & Voice",
@@ -27230,6 +51001,292 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_custom_hrtf",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_editor_profiling",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_occlusion_caching",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_pathing",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_reverb",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_reverb_caching",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_enable_spatial_blend_fix",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_halton_sequence",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_hybrid_reverb_overlap",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_invalid_path_length",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_ir_duration",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_load_dimensions_data",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_load_materials_data",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_load_occlusion_data",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_load_pathing_data",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_load_reverb_data",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_max_ambisonics_order",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_max_convolution_sources",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_max_occlusion_samples",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_max_probes_customdata",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_max_probes_pathing",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_max_probes_reverb",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_num_bounces",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_num_diffuse_samples",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_num_rays",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_num_threads",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -27256,6 +51313,107 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_pathing_order",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_pathing_order_rendering",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_reverb_level_db",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_reverb_order",
+    "binary": "steamaudio.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in steamaudio.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_reverb_order_rendering",
+    "binary": "steamaudio.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in steamaudio.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_reverb_update_rate",
+    "binary": "steamaudio.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in steamaudio.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_steamaudio_source_pathing_debug",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_CHEAT"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_stereo_speaker_pan_exponent",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_stereo_speaker_pan_radial_weight",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -27295,6 +51453,28 @@ window.CS2_CONVARS_DATA = [
     "flags": [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_surround_speaker_pan_exponent",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_surround_speaker_pan_radial_weight",
+    "binary": "soundsystem.dll",
+    "category": "Graphics & Rendering",
+    "description": "Source 2 console variable in soundsystem.dll for graphics & rendering tuning.",
+    "flags": [
       "FCVAR_RELEASE"
     ],
     "is_new": false,
@@ -27361,6 +51541,74 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_ARCHIVE",
       "FCVAR_CLIENTDLL",
       "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_toolvolume",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_ui_positional",
+    "binary": "panorama.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in panorama.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_ui_spatialization_spread",
+    "binary": "panorama.dll",
+    "category": "Weapons & Combat",
+    "description": "Source 2 console variable in panorama.dll for weapons & combat tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_use_baked_occlusion",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_vmix_override_mix_decay_time",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "snd_voipvolume",
+    "binary": "soundsystem.dll",
+    "category": "Audio & Voice",
+    "description": "Source 2 console variable in soundsystem.dll for audio & voice tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_ARCHIVE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -27457,20 +51705,8 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
-    "name": "sv_SE",
-    "binary": "engine2.dll",
-    "category": "Server & Host",
-    "description": "Controls sv SE parameter within the Server & Host subsystem.",
-    "flags": [
-      "FCVAR_RELEASE",
-      "FCVAR_REPLICATED"
-    ],
-    "is_new": false,
-    "added_in_build": "25966348"
-  },
-  {
     "name": "sv_accelerate",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Linear ground acceleration factor applied to ground movement when player inputs directional commands. Default: 5.5.",
     "flags": [
@@ -27484,7 +51720,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_accelerate_debug_speed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Enable this to visualize collisions between player and geometry.",
     "flags": [
@@ -27499,7 +51735,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_accelerate_use_weapon_speed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv accelerate use weapon speed parameter within the Movement subsystem.",
     "flags": [
@@ -27526,7 +51762,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_air_max_wishspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Decay factor exponent for view punch",
     "flags": [
@@ -27539,7 +51775,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_airaccelerate",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Air acceleration rate controlling player directional steering and strafe turning mid-air. Default: 12.",
     "flags": [
@@ -27566,7 +51802,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_allow_annotations_access_level",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "0:off | 1: view-only | 2: edit.",
     "flags": [
@@ -27579,7 +51815,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_allow_approximate_spawns",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Test spawn points for occupancy. Fall back to placing players in the nearest empty space instead of overlapping.",
     "flags": [
@@ -27592,7 +51828,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_allow_ground_weapon_pickup",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv allow ground weapon pickup parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -27605,7 +51841,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_allow_switching_weapon_handedness",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv allow switching weapon handedness parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -27813,7 +52049,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_autobunnyhopping",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Enables automatic jump repetition when holding the jump key across successive landings. 0 = disabled, 1 = enabled.",
     "flags": [
@@ -27827,7 +52063,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_autobuyammo",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Enable automatic ammo purchase when inside buy zones during buy periods",
     "flags": [
@@ -27866,7 +52102,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_backspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "How much to slow down backwards motion",
     "flags": [
@@ -27891,7 +52127,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_bhop_time_window",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "sv_legacy_jump disabled only: The time window (in seconds) around landing where a jump press is considered a bhop attempt.",
     "flags": [
@@ -28021,7 +52257,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_bounce",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Set Spin Down Time",
     "flags": [
@@ -28034,7 +52270,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_buy_status_override",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "sv_reliableavatardata: adding player avatar for %s",
     "flags": [
@@ -28099,7 +52335,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_chat_proximity",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv chat proximity parameter within the Server & Host subsystem.",
     "flags": [
@@ -28112,7 +52348,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_cheats",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "Allows cheat, inspection, and developer debugging commands to be executed on the server. Values: 0 = disabled (competitive standard), 1 = enabled.",
     "flags": [
@@ -28151,7 +52387,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_clantags_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Show players' clan tags in their names.",
     "flags": [
@@ -28164,7 +52400,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_client_max_interp_ratio",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "This can be used to limit the value of cl_interp_ratio for connected clients (only while they are connected).",
     "flags": [
@@ -28177,7 +52413,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_client_min_interp_ratio",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "This can be used to limit the value of cl_interp_ratio for connected clients (only while they are connected).",
     "flags": [
@@ -28203,7 +52439,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_clip_penetration_traces_to_players",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv clip penetration traces to players parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -28266,7 +52502,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_coaching_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Allows spectating and communicating with a team ( 'coach t' or 'coach ct' )",
     "flags": [
@@ -28279,7 +52515,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_competitive_minspec",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Enable to force certain client convars to minimum/maximum values to help prevent competitive advantages.",
     "flags": [
@@ -28331,7 +52567,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_cq_min_queue",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Server & Host",
     "description": "Used by the client to inform the server of their desired queue length.  Derived from cl_tickpacket_recvmargin_desired and cl_tickpacket_desired_queuelength",
     "flags": [
@@ -28409,7 +52645,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_cs_player_speed_has_hostage",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv cs player speed has hostage parameter within the Movement subsystem.",
     "flags": [
@@ -28422,7 +52658,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_gpu_culling_skybox",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv csgo gpu culling skybox parameter within the Server & Host subsystem.",
     "flags": [
@@ -28448,7 +52684,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_force_full_interp",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Controls sv csgo shoot force full interp parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
@@ -28474,7 +52710,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_lagcompensation_max_error",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Warn if lag compensated head hitbox position doesn't match that on client.",
     "flags": [
@@ -28487,7 +52723,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_log",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv csgo shoot log parameter within the Server & Host subsystem.",
     "flags": [
@@ -28500,7 +52736,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_log_attack_cmds_only",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv csgo shoot log attack cmds only parameter within the Server & Host subsystem.",
     "flags": [
@@ -28513,7 +52749,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_use_full_interp",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Controls sv csgo shoot use full interp parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
@@ -28526,7 +52762,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_verify",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv csgo shoot verify parameter within the Server & Host subsystem.",
     "flags": [
@@ -28539,7 +52775,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_csgo_shoot_verify_on_attack_only",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Only run lag compensation error check when primary attack goes down.",
     "flags": [
@@ -28552,7 +52788,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_damage_prediction_allowed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Controls sv damage prediction allowed parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
@@ -28570,6 +52806,18 @@ window.CS2_CONVARS_DATA = [
     "description": "Dead players can speak (voice, text) to the living",
     "flags": [
       "FCVAR_CLIENTDLL",
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "sv_deadzone",
+    "binary": "engine2.dll",
+    "category": "Server & Host",
+    "description": "Source 2 console variable in engine2.dll for server & host tuning.",
+    "flags": [
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
     ],
@@ -28605,7 +52853,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_debug_overlays_broadcast",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "%s: Mass: %.2f kg / %.2f lb (%s)",
     "flags": [
@@ -28619,7 +52867,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_debug_player_use",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Visualizes +use logic. Green cross=trace success, Red cross=trace too far, Green box=radius success",
     "flags": [
@@ -28671,7 +52919,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_dev_damage_use_netvars",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Whether we should use network vars (true) or legacy messages (false).",
     "flags": [
@@ -28751,7 +52999,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_disable_networkable_loadouts",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv disable networkable loadouts parameter within the Server & Host subsystem.",
     "flags": [
@@ -28777,7 +53025,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_disable_querycache",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "debug - disable trace query cache",
     "flags": [
@@ -28828,7 +53076,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_disconnected_player_data_hold_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Duration, in seconds, to hold onto the data of disconnected players, for scoreboard display.",
     "flags": [
@@ -28903,7 +53151,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_enablebunnyhopping",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Bypasses the 1.1x speed clamping restriction on successive bunnyhops, allowing uncapped velocity gains.",
     "flags": [
@@ -29032,7 +53280,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_extract_ammo_from_dropped_weapons",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "List of additional weapons to refill ammo on waves.",
     "flags": [
@@ -29045,7 +53293,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_extreme_strafe_accuracy_fishtail",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Number of degrees of aim 'fishtail' when making an extreme strafe direction change",
     "flags": [
@@ -29058,7 +53306,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_fade_player_visibility_farz",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls sv fade player visibility farz parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -29071,7 +53319,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_falldamage_scale",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv falldamage scale parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -29135,7 +53383,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_footsteps",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Play footstep sound for players",
     "flags": [
@@ -29224,7 +53472,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_freeze_camera_angles",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls sv freeze camera angles parameter within the Matchmaking & Game Rules subsystem.",
     "flags": [
@@ -29237,7 +53485,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_freeze_camera_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls sv freeze camera enabled parameter within the Matchmaking & Game Rules subsystem.",
     "flags": [
@@ -29250,7 +53498,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_freeze_camera_min_remaining",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls sv freeze camera min remaining parameter within the Matchmaking & Game Rules subsystem.",
     "flags": [
@@ -29263,7 +53511,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_freeze_camera_position",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls sv freeze camera position parameter within the Matchmaking & Game Rules subsystem.",
     "flags": [
@@ -29276,7 +53524,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_friction",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "World surface friction factor slowing horizontal player velocity when touching the ground. Default: 5.2.",
     "flags": [
@@ -29340,7 +53588,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_gameinstructor_disable",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Force all clients to disable their game instructors.",
     "flags": [
@@ -29379,7 +53627,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_gravity",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "World gravitational acceleration applied to player entities and physics objects in units per second squared. Default: 800.",
     "flags": [
@@ -29393,7 +53641,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_grenade_collision_sphere",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv grenade collision sphere parameter within the Server & Host subsystem.",
     "flags": [
@@ -29406,7 +53654,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_grenade_collision_sphere_radius",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv grenade collision sphere radius parameter within the Server & Host subsystem.",
     "flags": [
@@ -29419,7 +53667,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_grenade_trajectory_prac_pipreview",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Shows grenade trajectory practice picture-in-picture preview.",
     "flags": [
@@ -29432,7 +53680,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_grenade_trajectory_prac_trailtime",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Shows grenade trajectory practice visualization for this number of seconds.",
     "flags": [
@@ -29445,7 +53693,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_grenade_trajectory_time_spectator",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Length of time grenade trajectory remains visible as a spectator.",
     "flags": [
@@ -29549,7 +53797,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_hegrenade_damage_multiplier",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv hegrenade damage multiplier parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -29562,7 +53810,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_hegrenade_radius_multiplier",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "throw HEgrenade with parmas.",
     "flags": [
@@ -29612,7 +53860,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_hide_roundtime_until_seconds",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Controls sv hide roundtime until seconds parameter within the Matchmaking & Game Rules subsystem.",
     "flags": [
@@ -29625,7 +53873,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_highlight_distance",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls sv highlight distance parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -29702,7 +53950,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_human_autojoin_team",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Force human players on to a team. 0 to disable.",
     "flags": [
@@ -29728,7 +53976,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_infinite_ammo",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Ammo consumption mode: 0 = normal reload/spend, 1 = infinite clip ammo, 2 = infinite reserve ammo.",
     "flags": [
@@ -29766,7 +54014,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_jump_impulse",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Instantaneous vertical velocity boost applied upon jump command dispatch. Default: 301.993 units/sec.",
     "flags": [
@@ -29779,7 +54027,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_jump_precision_enable",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Enable jump precision. Some game modes benefit from being able to turn this off.",
     "flags": [
@@ -29792,7 +54040,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_jump_spam_penalty_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "For subtick jumps, if this much time or less has elapsed since the last time the user has pressed the jump key, pretend they hadn't. Lowering this makes bunnyhopping easier.",
     "flags": [
@@ -29857,7 +54105,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_ladder_angle",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Cos of angle of incidence to ladder perpendicular for applying ladder_dampen",
     "flags": [
@@ -29870,7 +54118,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_ladder_dampen",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Amount to dampen perpendicular movement on a ladder",
     "flags": [
@@ -29883,7 +54131,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_ladder_scale_speed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Scalar velocity multiplier applied when moving up and down vertical ladder entities. Default: 0.78.",
     "flags": [
@@ -29960,7 +54208,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_legacy_jump",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Whether or not to use the pre-2026 jump code.",
     "flags": [
@@ -29999,6 +54247,18 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "sv_listen_directudp",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "sv_load_forced_client_names_file",
     "binary": "server.dll",
     "category": "Debug & Cheats",
@@ -30020,6 +54280,17 @@ window.CS2_CONVARS_DATA = [
       "FCVAR_GAMEDLL",
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "sv_load_test",
+    "binary": "matchmaking.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in matchmaking.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE"
     ],
     "is_new": false,
     "added_in_build": "25966348"
@@ -30200,7 +54471,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_matchpause_auto_5v5",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "When enabled will automatically pause the match at next freeze time if less than 5 players are connected on each team.",
     "flags": [
@@ -30239,7 +54510,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_max_distance_transmit_footsteps",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Maximum distance to transmit footstep sound effects.",
     "flags": [
@@ -30325,7 +54596,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_maxreplay",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Server & Host",
     "description": "Force full sendtable sending path.",
     "flags": [
@@ -30338,7 +54609,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_maxspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Maximum absolute velocity cap for players under standard ground movement. Default: 320 units/sec.",
     "flags": [
@@ -30351,7 +54622,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_maxunlag",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Maximum lag compensation in seconds",
     "flags": [
@@ -30390,7 +54661,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_maxvelocity",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Maximum speed any ballistically moving object is allowed to attain per axis.",
     "flags": [
@@ -30426,6 +54697,30 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "sv_message_process_time_ms_drop_burst",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
+    "name": "sv_message_process_time_ms_warn_burst",
+    "binary": "networksystem.dll",
+    "category": "Netcode & Sub-Tick",
+    "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": true,
+    "added_in_build": "26598758"
+  },
+  {
     "name": "sv_metaduplication",
     "binary": "engine2.dll",
     "category": "Server & Host",
@@ -30439,7 +54734,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_min_jump_landing_sound",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv min jump landing sound parameter within the Movement subsystem.",
     "flags": [
@@ -30478,7 +54773,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_mmqueue_reservation",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Server & Host",
     "description": "Time in seconds before mmqueue reservation expires.",
     "flags": [
@@ -30491,7 +54786,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_mmqueue_reservation_extended_timeout",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Controls sv mmqueue reservation extended timeout parameter within the Netcode & Sub-Tick subsystem.",
     "flags": [
@@ -30528,7 +54823,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_mover_maxslope",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "The maximum slope the player can overcome [-]",
     "flags": [
@@ -30541,7 +54836,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_mover_pogodampingratio",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "The capsule pogo stick damping ratio [-]",
     "flags": [
@@ -30554,7 +54849,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_mover_pogofrequency",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "The capsule pogo stick frequency [hz].",
     "flags": [
@@ -30605,7 +54900,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_networkvar_perfieldtracking",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Graphics & Rendering",
     "description": "Allow alternate baseline system, set to 2 for debugging spew.",
     "flags": [
@@ -30631,7 +54926,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_noclipaccelerate",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Spring damping ratio for length constraint",
     "flags": [
@@ -30645,7 +54940,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_noclipduringpause",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "If cheats are enabled, then you can noclip with the game paused (for doing screenshots, etc.).",
     "flags": [
@@ -30658,7 +54953,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_noclipfriction",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Friction during noclip move.",
     "flags": [
@@ -30671,7 +54966,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_noclipspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv noclipspeed parameter within the Movement subsystem.",
     "flags": [
@@ -30684,7 +54979,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_noclipspeedscaleonshift",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Friction during noclip move.",
     "flags": [
@@ -30723,7 +55018,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_nowinpanel",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv nowinpanel parameter within the Server & Host subsystem.",
     "flags": [
@@ -30736,7 +55031,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_optimizedmovement",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Show lag compensated hitboxes for the specified player index whenever a player fires.",
     "flags": [
@@ -30848,7 +55143,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_party_mode",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "number of previous rounds that a team needs to have been shorthanded before they are eligible for the short-handed bonus",
     "flags": [
@@ -31040,7 +55335,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_player_search_range",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls sv player search range parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -31092,7 +55387,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_clientside",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Clientside physics push away (0=off, 1=only localplayer, 1=all players)",
     "flags": [
@@ -31105,7 +55400,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_clientside_size",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Minimum size of pushback objects",
     "flags": [
@@ -31118,7 +55413,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_force",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "How hard physics objects are pushed away from the players on the server.",
     "flags": [
@@ -31144,7 +55439,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_max_force",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Maximum amount of force applied to physics objects by players.",
     "flags": [
@@ -31170,7 +55465,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_max_player_force",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Maximum of how hard the player is pushed away from physics objects.",
     "flags": [
@@ -31183,7 +55478,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_min_player_speed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "If a player is moving slower than this, don't push away physics objects (enables ducking behind things).",
     "flags": [
@@ -31196,7 +55491,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pushaway_player_force",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "How hard the player is pushed away from physics objects (falls off with inverse square of distance).",
     "flags": [
@@ -31235,7 +55530,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_pvs_max_distance",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Server & Host",
     "description": "Sets a maximum distance boundary cap for Potentially Visible Set (PVS) network occlusion filtering.",
     "flags": [
@@ -31274,7 +55569,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_quantize_movement_input",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "Quantize movement input values. Enabling this restricts players from using analog input to move at fractional speeds normally impossible with digital button input.",
     "flags": [
@@ -31450,8 +55745,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "sv_relative",
+    "binary": "engine2.dll",
+    "category": "Server & Host",
+    "description": "Source 2 console variable in engine2.dll for server & host tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "sv_reliableavatardata",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Use server overrides for steam avatars",
     "flags": [
@@ -31464,7 +55771,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_remapper_loopsoundfix",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Audio & Voice",
     "description": "Controls sv remapper loopsoundfix parameter within the Audio & Voice subsystem.",
     "flags": [
@@ -31477,7 +55784,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_remapper_range_multiplier",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls sv remapper range multiplier parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -31552,7 +55859,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_rollangle",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Max view roll angle",
     "flags": [
@@ -31565,7 +55872,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_rollspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Max view roll angle",
     "flags": [
@@ -31591,11 +55898,23 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_script_think_interval",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv script think interval parameter within the Server & Host subsystem.",
     "flags": [
       "FCVAR_GAMEDLL",
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
+    "name": "sv_SE",
+    "binary": "engine2.dll",
+    "category": "Server & Host",
+    "description": "Controls sv SE parameter within the Server & Host subsystem.",
+    "flags": [
       "FCVAR_RELEASE",
       "FCVAR_REPLICATED"
     ],
@@ -31615,8 +55934,20 @@ window.CS2_CONVARS_DATA = [
     "added_in_build": "25966348"
   },
   {
+    "name": "sv_search_team_key",
+    "binary": "matchmaking.dll",
+    "category": "Matchmaking & Game Rules",
+    "description": "Source 2 console variable in matchmaking.dll for matchmaking & game rules tuning.",
+    "flags": [
+      "FCVAR_RELEASE",
+      "FCVAR_REPLICATED"
+    ],
+    "is_new": false,
+    "added_in_build": "25966348"
+  },
+  {
     "name": "sv_sellback_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Determines whether players can undo purchases in the buy menu",
     "flags": [
@@ -31760,7 +56091,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_show_move_collisions",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "Enable this to visualize collisions between player and geometry.",
     "flags": [
@@ -31812,7 +56143,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_show_voip_indicator_for_enemies",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Controls sv show voip indicator for enemies parameter within the Graphics & Rendering subsystem.",
     "flags": [
@@ -31825,7 +56156,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_showbullethits",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "1=show hits and near misses, 2=show hits only",
     "flags": [
@@ -31838,7 +56169,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_showhitregistration",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Display lag_compensated hitboxes. 0 = off, 1 = server only, 2 = client only, 3 = both server and client",
     "flags": [
@@ -31851,7 +56182,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_showimpacts",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Shows client (red) and server (blue) bullet impact point (1=both, 2=client-only, 3=server-only)",
     "flags": [
@@ -31864,7 +56195,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_showimpacts_penetration",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "BShows extra data when bullets penetrate. (use sv_showimpacts_time to increase time shown)",
     "flags": [
@@ -31877,7 +56208,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_showimpacts_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Duration bullet impact indicators remain before disappearing",
     "flags": [
@@ -31916,7 +56247,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_showplayerhitboxes",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Show lag compensated hitboxes for the specified player index whenever a player fires.",
     "flags": [
@@ -31978,7 +56309,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_skel_constraints_enable",
-    "binary": "client.dll",
+    "binary": "animationsystem.dll",
     "category": "Server & Host",
     "description": "Model used on the ground or held by an entity",
     "flags": [
@@ -32004,7 +56335,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_skirmish_id",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Dedicated server skirmish id to run",
     "flags": [
@@ -32017,7 +56348,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_skyname",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "How much to slow down backwards motion",
     "flags": [
@@ -32069,7 +56400,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_sniper_tracer_innacuracy",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "How inaccurate a sniper shot can be before we trip sv_sniper_tracer_mode behavior.",
     "flags": [
@@ -32082,7 +56413,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_sniper_tracer_innacuracy_length",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "How far should the tracer draw if we trip sv_sniper_tracer_mode behavior.",
     "flags": [
@@ -32095,7 +56426,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_sniper_tracer_mode",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Mode for sniper tracers. 0: legacy, 1: hide when more than sv_sniper_tracer_innacuracy inaccurate.",
     "flags": [
@@ -32135,7 +56466,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_spawn_random_nudge_offset",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Max distance in X and Y to randomly offset a player from their spawn position, for procedural spawn variation. 0 to disable.",
     "flags": [
@@ -32148,7 +56479,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_spec_hear",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "how long from when the C4 is armed until it blows",
     "flags": [
@@ -32174,7 +56505,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_specaccelerate",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv specaccelerate parameter within the Movement subsystem.",
     "flags": [
@@ -32188,7 +56519,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_specnoclip",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Debug & Cheats",
     "description": "Controls sv specnoclip parameter within the Debug & Cheats subsystem.",
     "flags": [
@@ -32201,7 +56532,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_specspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv specspeed parameter within the Movement subsystem.",
     "flags": [
@@ -32238,7 +56569,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_staminajumpcost",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "sv_legacy_jump only: Stamina penalty for jumping",
     "flags": [
@@ -32251,7 +56582,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_staminalandcost",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "sv_legacy_jump only: Stamina penalty for landing",
     "flags": [
@@ -32264,7 +56595,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_staminamax",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Maximum stamina penalty accumulation cap slowing player movement after consecutive jumps or crouches. Default: 80.",
     "flags": [
@@ -32277,7 +56608,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_staminarecoveryrate",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Rate at which movement stamina recovers back to baseline 0 per second. Default: 60.",
     "flags": [
@@ -32291,7 +56622,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_standable_normal",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Minimum upward surface normal Z component required for a surface to be considered standable terrain. Default: 0.7.",
     "flags": [
@@ -32376,7 +56707,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_step_move_vel_min",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Min velocity for step move.",
     "flags": [
@@ -32389,7 +56720,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_stepsize",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Maximum height in units that a player can automatically step over without jumping. Default: 18.",
     "flags": [
@@ -32402,7 +56733,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_stopspeed",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Minimum velocity threshold below which player ground deceleration stops abruptly to prevent drifting. Default: 80.",
     "flags": [
@@ -32415,7 +56746,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_strafing_inaccuracy_bias",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv strafing inaccuracy bias parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -32428,7 +56759,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_strafing_inaccuracy_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv strafing inaccuracy enabled parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -32441,7 +56772,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_strafing_inaccuracy_scale",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv strafing inaccuracy scale parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -32479,7 +56810,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_subtick_movement_view_angles",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Netcode & Sub-Tick",
     "description": "Whether or not subtick view angles are taken into account during movement.",
     "flags": [
@@ -32505,7 +56836,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_suppress_viewpunch",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Selects the picked entity as the view entity",
     "flags": [
@@ -32518,7 +56849,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_surf_sounds",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Audio & Voice",
     "description": "Should we try to play sounds for surf?",
     "flags": [
@@ -32711,7 +57042,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_tick_parallel_with_client",
-    "binary": "engine2.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Controls sv tick parallel with client parameter within the Server & Host subsystem.",
     "flags": [
@@ -32723,7 +57054,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_timebetweenducks",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Minimum time before recognizing consecutive duck key",
     "flags": [
@@ -32748,7 +57079,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_turbophysics",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Turns on turbo physics",
     "flags": [
@@ -32761,7 +57092,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_turning_inaccuracy_angle_min",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv turning inaccuracy angle min parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -32774,7 +57105,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_turning_inaccuracy_decay",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv turning inaccuracy decay parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -32787,7 +57118,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_turning_inaccuracy_enabled",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Weapons & Combat",
     "description": "Controls sv turning inaccuracy enabled parameter within the Weapons & Combat subsystem.",
     "flags": [
@@ -32841,7 +57172,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_unlockedchapters",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Server & Host",
     "description": "Highest unlocked game chapter.",
     "flags": [
@@ -32866,7 +57197,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_use_hi_pri_context_switch_time",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "+use search behaves as though high priority items are usable for this long after they become unusable to avoid players accidentally performing a different action.",
     "flags": [
@@ -32879,7 +57210,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_use_playercache",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Cache off player bounds for traces.",
     "flags": [
@@ -32905,7 +57236,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_usenetworkvars",
-    "binary": "server.dll",
+    "binary": "engine2.dll",
     "category": "Server & Host",
     "description": "Use networkvar system.",
     "flags": [
@@ -33409,7 +57740,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_walkable_normal",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv walkable normal parameter within the Movement subsystem.",
     "flags": [
@@ -33422,7 +57753,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_warmup_to_freezetime_delay",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Matchmaking & Game Rules",
     "description": "Delay between end of warmup and start of match.",
     "flags": [
@@ -33435,7 +57766,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_water_slow_amount",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "Enable jump precision. Some game modes benefit from being able to turn this off.",
     "flags": [
@@ -33448,7 +57779,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_wateraccelerate",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Controls sv wateraccelerate parameter within the Movement subsystem.",
     "flags": [
@@ -33462,7 +57793,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_waterdist",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Server & Host",
     "description": "Vertical view fixup when eyes are near water plane.",
     "flags": [
@@ -33475,7 +57806,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_waterfriction",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Movement & Physics",
     "description": "Play footstep sound for players",
     "flags": [
@@ -33501,7 +57832,7 @@ window.CS2_CONVARS_DATA = [
   },
   {
     "name": "sv_weapon_swap_difficulty_near_hi_pri",
-    "binary": "server.dll",
+    "binary": "client.dll",
     "category": "Graphics & Rendering",
     "description": "0 = Cone searches easily reach past high priority items to swap weapons. 1 = Cone searches are narrowed and require that the weapon is strictly closer. 2 = cone searches are disabled near high priority items",
     "flags": [

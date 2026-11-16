@@ -8,7 +8,7 @@
 - [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
 - [Reconstructed C++20 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 9 Source 2 binaries.
 - [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.
-- [ConVars & Commands Database (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json): 2,695 categorized Source 2 console variables with FCVAR flags and descriptions.
+- [ConVars & Commands Database (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json): 4,802 categorized Source 2 console variables with FCVAR flags and descriptions.
 - [Latest Patch Diff Telemetry (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.
 
 ## Post-Patch Self-Recovery Protocol (If CS2 Updates Before GitHub Is Updated)
@@ -43,7 +43,7 @@ def resolve_new_rva(dll_path: str, ida_pattern: str):
   4. Clean-room C++20 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).
 
 ### 3. Full Local Repository Resync (~30 Seconds, Zero Ghidra Required)
-If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, 2,695+ ConVars, and local API files:
+If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, 4,802+ ConVars, and local API files:
 ```bash
 # 1. Rescan all 39 byte patterns against local Steam CS2 binaries and update data/function_signatures.json:
 python tools/scan_signatures.py --bin-dir "<STEAM_LIBRARY>/Counter-Strike Global Offensive" --update-db

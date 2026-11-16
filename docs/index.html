@@ -912,11 +912,11 @@
               Source 2 ConVars &amp; Console Commands Catalog
             </h1>
             <p class="text-slate-400 text-sm mt-1">
-              Reverse-engineered database of 2,695 console variables and commands across Source 2 binaries. Includes runtime FCVAR security flags, subsystem classifications, and functional impact explanations.
+              Reverse-engineered database of 4,800+ console variables and commands across Source 2 binaries. Includes runtime FCVAR security flags, subsystem classifications, and functional impact explanations.
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-bold" id="convarsTotalBadge">2,695 ConVars Cataloged</span>
+            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-bold" id="convarsTotalBadge">4,800+ ConVars Cataloged</span>
             <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono">Static PE &amp; Ghidra Analysis</span>
           </div>
         </div>
@@ -925,8 +925,8 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-cyan-500/50 transition-all" onclick="resetConvarFilters()">
             <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Total ConVars</div>
-            <div class="text-2xl font-extrabold text-white mt-1" id="kpiConvarsTotal">2,695</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">Across 3 Core DLLs</div>
+            <div class="text-2xl font-extrabold text-white mt-1" id="kpiConvarsTotal">4,800+</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">Across All Source 2 Modules</div>
           </div>
           <div class="bg-[#111827] border border-cs2-border rounded-xl p-4 cursor-pointer hover:border-purple-500/50 transition-all" onclick="resetConvarFilters()">
             <div class="text-[11px] font-mono text-purple-400 uppercase tracking-wider">Subsystems</div>
@@ -2637,6 +2637,26 @@
 
       const totalBadge = document.getElementById('convarsTotalBadge');
       if (totalBadge) totalBadge.innerText = `${total.toLocaleString()} ConVars Cataloged`;
+
+      // Dynamically populate binary selector with all present binaries
+      const binSel = document.getElementById('convarBinarySelect');
+      if (binSel && binSel.options.length <= 4) {
+        const binCounts = {};
+        CONVARS_DATA.forEach(c => {
+          const b = c.binary || 'engine';
+          binCounts[b] = (binCounts[b] || 0) + 1;
+        });
+        const sortedBins = Object.keys(binCounts).sort((a,b) => binCounts[b] - binCounts[a]);
+        const prevVal = binSel.value;
+        binSel.innerHTML = '<option value="all">All Binaries</option>';
+        sortedBins.forEach(b => {
+          const opt = document.createElement('option');
+          opt.value = b;
+          opt.innerText = `${b} (${binCounts[b]})`;
+          binSel.appendChild(opt);
+        });
+        if (prevVal) binSel.value = prevVal;
+      }
     }
 
     function renderConvarCategoryPills() {
@@ -2686,8 +2706,10 @@
           const matchDesc = (c.description || '').toLowerCase().includes(q);
           const matchCat = (c.category || '').toLowerCase().includes(q);
           const matchBin = (c.binary || '').toLowerCase().includes(q);
+          const matchBuild = (c.added_in_build || '').toLowerCase().includes(q);
+          const matchNew = (c.is_new && 'new'.includes(q));
           const matchFlags = (c.flags || []).some(f => f.toLowerCase().includes(q));
-          if (!matchName && !matchDesc && !matchCat && !matchBin && !matchFlags) return false;
+          if (!matchName && !matchDesc && !matchCat && !matchBin && !matchBuild && !matchNew && !matchFlags) return false;
         }
 
         return true;
@@ -2765,6 +2787,7 @@
             <div class="space-y-1.5 flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="text-base font-bold font-mono text-white tracking-tight break-all">${escapeHtml(c.name)}</span>
+                ${c.is_new ? `<span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/15 text-emerald-300 border border-emerald-500/40 font-bold inline-flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>NEW${c.added_in_build ? ` (${escapeHtml(c.added_in_build)})` : ''}</span>` : ''}
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono border ${binBadge}">${escapeHtml(c.binary || 'engine')}</span>
                 <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400 border border-slate-700/80">${escapeHtml(c.category || 'General')}</span>
               </div>
