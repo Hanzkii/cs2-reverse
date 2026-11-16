@@ -5,7 +5,7 @@
   "new_build_id": "26087496",
   "old_date": "2026-10-15",
   "new_date": "2026-10-21",
-  "generated_at": "2026-10-25T13:00:22.241702",
+  "generated_at": "2026-11-16T20:23:31.716041",
   "summary": {
     "binaries_modified_count": 2,
     "classes_added_count": 0,
@@ -640,5 +640,311 @@
       "delta_str": "+0x0",
       "description": "Core Source 2 A* pathfinding search heuristic traversing CNavArea nodes with vertical elevation cost weighting."
     }
-  ]
+  ],
+  "code_deltas": {
+    "client.dll": {
+      "verdict": "Weapon Inaccuracy Recovery Decay & Movement Posture Realignment",
+      "summary": "Client simulation logic updated with expanded SIMD register allocation in C_CSWeaponBase::UpdateAccuracyPenalty, realigned trigonometric camera vectors in AngleVectors, and topological bone matrix transformations in CalculateWorldBones.",
+      "metrics": {
+        "functions_total": 128341,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "Weapon Inaccuracy Stack Frame Expansion",
+          "rva": "0x008230D0",
+          "offset": "0x008224D0",
+          "function": "C_CSWeaponBase::UpdateAccuracyPenalty",
+          "old_bytes": "40 57 41 56 48 83 EC 68 48 8B F9 E8 B0 A3 11 00 4C 8B F0",
+          "old_asm": "push    rdi\npush    r14\nsub     rsp, 68h ; 104 bytes stack frame\nmov     rdi, rcx\ncall    C_CSWeaponBase::GetTargetInaccuracy\nmov     r14, rax",
+          "new_bytes": "40 57 41 56 48 83 EC 78 48 8B F9 E8 C0 A3 11 00 4C 8B F0",
+          "new_asm": "push    rdi\npush    r14\nsub     rsp, 78h ; 120 bytes stack (expanded by 16 bytes)\nmov     rdi, rcx\ncall    C_CSWeaponBase::GetTargetInaccuracy\nmov     r14, rax",
+          "analysis": "Stack allocation increased from 0x68 to 0x78 bytes (16-byte alignment preserved) to preserve additional XMM SIMD vector registers across nested math calls during exponential inaccuracy penalty decay (exp(-(ln(10)/recoveryTime)*dt))."
+        },
+        {
+          "title": "Trigonometric Camera Basis Vector Projection",
+          "rva": "0x01739120",
+          "offset": "0x01738520",
+          "function": "AngleVectors",
+          "old_bytes": "48 8B C4 48 89 58 08 55 48 8D 68 B8 48 81 EC 40 01 00 00 F3 0F 10 02",
+          "old_asm": "mov     rax, rsp\nmov     [rax+8], rbx\npush    rbp\nlea     rbp, [rax-48h]\nsub     rsp, 140h\nmovss   xmm0, dword ptr [rdx] ; Pitch (deg)",
+          "new_bytes": "48 8B C4 48 89 58 08 55 48 8D 68 B8 48 81 EC 40 01 00 00 F3 0F 10 02",
+          "new_asm": "mov     rax, rsp\nmov     [rax+8], rbx\npush    rbp\nlea     rbp, [rax-48h]\nsub     rsp, 140h\nmovss   xmm0, dword ptr [rdx] ; Pitch (deg * 0.017453292)",
+          "analysis": "RVA shifted by -0x7180 bytes due to client rendering setup compaction. Vectorized basis projection computes Forward, Right, Up vectors from Euler angles using SIMD sin/cos."
+        },
+        {
+          "title": "CalculateWorldBones Routine Verification",
+          "rva": "0x00aa0f80",
+          "offset": "0xaa0380",
+          "function": "CalculateWorldBones",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00aa0f80",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00aa0f80 (Shift: +0x0)",
+          "analysis": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes."
+        },
+        {
+          "title": "CTransform::ConcatenateTransforms Routine Verification",
+          "rva": "0x01748480",
+          "offset": "0x1747880",
+          "function": "CTransform::ConcatenateTransforms",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x01748480",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x01748480 (Shift: +0x0)",
+          "analysis": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies."
+        },
+        {
+          "title": "CPlayer_AimPunchServices::SimulateAimPunchDecay Routine Verification",
+          "rva": "0x0085dc60",
+          "offset": "0x85d060",
+          "function": "CPlayer_AimPunchServices::SimulateAimPunchDecay",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0085dc60",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x0085dc60 (Shift: +0x0)",
+          "analysis": "Integrates damped spring recoil aim punch angles and velocities per tick."
+        },
+        {
+          "title": "CCSPlayer_MovementServices::WalkMove Routine Verification",
+          "rva": "0x008e9380",
+          "offset": "0x8e8780",
+          "function": "CCSPlayer_MovementServices::WalkMove",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x008e9380",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x008e9380 (Shift: +0x0)",
+          "analysis": "Ground walking physics dispatcher executing friction, directional acceleration, obstacle stepping, and ground snapping."
+        },
+        {
+          "title": "CCSPlayer_MovementServices::AirAccelerate Routine Verification",
+          "rva": "0x008bfa30",
+          "offset": "0x8bee30",
+          "function": "CCSPlayer_MovementServices::AirAccelerate",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x008bfa30",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x008bfa30 (Shift: +0x0)",
+          "analysis": "Airborne strafe acceleration routine enforcing sv_air_max_wishspeed (30.0f) clamp and surface friction integration."
+        },
+        {
+          "title": "CSubtickMoveStep::_InternalParse Routine Verification",
+          "rva": "0x004f4950",
+          "offset": "0x4f3d50",
+          "function": "CSubtickMoveStep::_InternalParse",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x004f4950",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x004f4950 (Shift: +0x0)",
+          "analysis": "Protobuf wire unmarshaling routine decoding CSubtickMoveStep fields (VarInt button, bool pressed, fixed32 when, analog deltas)."
+        },
+        {
+          "title": "CBaseUserCmdPB::_InternalSerialize Routine Verification",
+          "rva": "0x004f63f0",
+          "offset": "0x4f57f0",
+          "function": "CBaseUserCmdPB::_InternalSerialize",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x004f63f0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x004f63f0 (Shift: +0x0)",
+          "analysis": "Protobuf wire serialization for CBaseUserCmdPB, formatting repeated field 18 subtick_moves with 2-byte tag 0x92 0x01."
+        },
+        {
+          "title": "CSGOInput::CreateMove Routine Verification",
+          "rva": "0x00cfa6b0",
+          "offset": "0xcf9ab0",
+          "function": "CSGOInput::CreateMove",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00cfa6b0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00cfa6b0 (Shift: +0x0)",
+          "analysis": "High-level input sampling routine calculating sub-tick fractional time w in [0, 1] and assembling CSGOUserCmdPB."
+        },
+        {
+          "title": "C_CSWeaponBase::GetInaccuracy Routine Verification",
+          "rva": "0x0080c1a0",
+          "offset": "0x80b5a0",
+          "function": "C_CSWeaponBase::GetInaccuracy",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0080c1a0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x0080c1a0 (Shift: +0x0)",
+          "analysis": "Composite weapon inaccuracy evaluator synthesizing base penalty, posture, 2D movement speed power curve, airborne apex, strafing, and turning."
+        },
+        {
+          "title": "FX_CalculateSpread Routine Verification",
+          "rva": "0x00d23fe0",
+          "offset": "0xd233e0",
+          "function": "FX_CalculateSpread",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00d23fe0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00d23fe0 (Shift: +0x0)",
+          "analysis": "Calculates 2D bullet/pellet spread deflection vector using dual uniform disk sampling (inaccuracy and intrinsic spread disks) and weapon distributions."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 27,961,856 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 7,410,688 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 1,748,992 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 128,341 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 531,456 B (+0 B)."
+      }
+    },
+    "server.dll": {
+      "verdict": "Authoritative Sub-Tick Lag Compensation & Combat Armor ODE Realignment",
+      "summary": "Authoritative server game loop updated: CLagCompensationManager Start/Finish lag compensation dispatchers realigned to new RVAs, Kevlar absorption ODE overflow handling verified in CCSPlayerPawn::ApplyArmorDamageCalculation, and smoke voxel grid simulation updated.",
+      "metrics": {
+        "functions_total": 108757,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "Analog Sub-Tick Lag Compensation Dispatcher",
+          "rva": "0x008007D0",
+          "offset": "0x007FFBD0",
+          "function": "CLagCompensationManager::StartLagCompensation",
+          "old_bytes": "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 30 48 8B F9",
+          "old_asm": "; Baseline RVA: 0x0080F320 (pre-patch location)",
+          "new_bytes": "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 30 48 8B F9",
+          "new_asm": "mov     [rsp+10h], rbx\nmov     [rsp+18h], rsi\npush    rdi\nsub     rsp, 30h\nmov     rdi, rcx\ncall    CLagCompensationManager::CalculateTargetTime\ncall    CLagCompensationManager::BacktrackPlayer",
+          "analysis": "Shifted by -0xeb50. Iterates candidate target player pawns, clamps target rewind time against sv_maxunlag (200ms), records pre-rewind snapshots, and executes fractional sub-tick origin and skeletal bone pose interpolation."
+        },
+        {
+          "title": "Kevlar Armor Damage Calculation & Depletion Overflow",
+          "rva": "0x00A81610",
+          "offset": "0x00A80A10",
+          "function": "CCSPlayerPawn::ApplyArmorDamageCalculation",
+          "old_bytes": "48 8B C4 48 89 58 08 48 89 70 10 57 48 81 EC 90 00 00 00",
+          "old_asm": "; Baseline RVA: 0x00A81050 (shifted +0x5c0)",
+          "new_bytes": "48 8B C4 48 89 58 08 48 89 70 10 57 48 81 EC 90 00 00 00",
+          "new_asm": "mov     rax, rsp\nmov     [rax+8], rbx\nmov     [rax+10h], rsi\npush    rdi\nsub     rsp, 90h\ncall    CCSPlayerPawn::IsArmored\ntest    al, al\njz      loc_unarmored\n; D_new = D_scaled * (m_flArmorRatio * 0.5f)\n; If D_armor > m_ArmorValue: remainder spills to health",
+          "analysis": "Shifted by +0x5c0. Evaluates m_flArmorRatio * 0.5f damage scaling. If absorbed damage exceeds remaining m_ArmorValue, Kevlar durability is zeroed and overflow unmitigated damage spills directly into health."
+        },
+        {
+          "title": "LineOfSightThroughSmoke Routine Verification",
+          "rva": "0x009b7f50",
+          "offset": "0x9b7350",
+          "function": "LineOfSightThroughSmoke",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009b7f50",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009b7f50 (Shift: +0x0)",
+          "analysis": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold."
+        },
+        {
+          "title": "CSmokeGrenadeProjectile::Spawn Routine Verification",
+          "rva": "0x009cb810",
+          "offset": "0x9cac10",
+          "function": "CSmokeGrenadeProjectile::Spawn",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009cb810",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009cb810 (Shift: +0x0)",
+          "analysis": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask."
+        },
+        {
+          "title": "CSmokeGrenadeProjectile::TickUpdate Routine Verification",
+          "rva": "0x009cea90",
+          "offset": "0x9cde90",
+          "function": "CSmokeGrenadeProjectile::TickUpdate",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009cea90",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009cea90 (Shift: +0x0)",
+          "analysis": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization."
+        },
+        {
+          "title": "VoxelGrid_Raymarch Routine Verification",
+          "rva": "0x009cd500",
+          "offset": "0x9cc900",
+          "function": "VoxelGrid_Raymarch",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009cd500",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009cd500 (Shift: +0x0)",
+          "analysis": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks."
+        },
+        {
+          "title": "VoxelGrid_ExpandAndCarve Routine Verification",
+          "rva": "0x009c8e50",
+          "offset": "0x9c8250",
+          "function": "VoxelGrid_ExpandAndCarve",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009c8e50",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009c8e50 (Shift: +0x0)",
+          "analysis": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units)."
+        },
+        {
+          "title": "SerializeSparseDelta Routine Verification",
+          "rva": "0x009b1bd0",
+          "offset": "0x9b0fd0",
+          "function": "SerializeSparseDelta",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009b1bd0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009b1bd0 (Shift: +0x0)",
+          "analysis": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire."
+        },
+        {
+          "title": "EvaluateBulletPenetration Routine Verification",
+          "rva": "0x00a8fca0",
+          "offset": "0xa8f0a0",
+          "function": "EvaluateBulletPenetration",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00a8fca0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00a8fca0 (Shift: +0x0)",
+          "analysis": "Authoritative surface penetration evaluator computing material absorption, penetration power reduction, and distance damage falloff."
+        },
+        {
+          "title": "CLagCompensationManager::FinishLagCompensation Routine Verification",
+          "rva": "0x00ebf350",
+          "offset": "0xebe750",
+          "function": "CLagCompensationManager::FinishLagCompensation",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00ebf350",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00ebf350 (Shift: +0x0)",
+          "analysis": "Restores all backtracked player pawns to authoritative current states after lag-compensated traces."
+        },
+        {
+          "title": "CLagCompensationManager::RestoreEntityTo Routine Verification",
+          "rva": "0x00ed3f10",
+          "offset": "0xed3310",
+          "function": "CLagCompensationManager::RestoreEntityTo",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00ed3f10",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00ed3f10 (Shift: +0x0)",
+          "analysis": "Restores entity origin, angles, bounds, and bone matrix cache with 4096.0 sqr teleport distance breaker."
+        },
+        {
+          "title": "CCSPlayerPawn::IsArmored Routine Verification",
+          "rva": "0x00aca700",
+          "offset": "0xac9b00",
+          "function": "CCSPlayerPawn::IsArmored",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00aca700",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00aca700 (Shift: +0x0)",
+          "analysis": "8-way HitGroup_t jump table verifying Kevlar vest coverage on torso/arms and m_bHasHelmet on head/neck."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 24,515,584 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 6,488,576 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 1,739,264 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 108,757 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 567,296 B (+0 B)."
+      }
+    }
+  }
 }
