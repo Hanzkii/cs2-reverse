@@ -5,7 +5,7 @@
   "new_build_id": "26598758",
   "old_date": "2026-10-15",
   "new_date": "2026-11-11",
-  "generated_at": "2026-11-16T21:00:53.457641",
+  "generated_at": "2026-11-16T22:51:30.213866",
   "summary": {
     "binaries_modified_count": 34,
     "classes_added_count": 1,
@@ -6542,217 +6542,230 @@
       {
         "name": "cl_clockdrift_max_secs",
         "binary": "engine2.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Server & Host",
+        "description": "Source 2 console variable in engine2.dll for server & host tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "cl_packetentities_merge_before_decode",
         "binary": "engine2.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Merges incoming packet entity state deltas before decoding tick updates to optimize memory bandwidth and reduce framing latency.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "cl_weapon_stealth_reload_toggle",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Weapons & Combat",
+        "description": "Client prediction toggle for quiet weapon reload sound suppression and magazine seating telemetry.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "net_decode_callback_queue_stats_clear",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_decode_callback_queue_stats_dump",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Dumps diagnostic statistics for queued network message decode callbacks and dispatch queues.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_gather_child_fields_only",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Network serializer optimization restricting delta gathering to modified child property descriptors.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_limit_sv_listen_max_message_size_kb",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_limit_sv_listen_recvbuffer_kb",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_limit_sv_listen_recvbuffer_msg",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_limit_sv_recv_chan_buffer_messages",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Caps maximum queued incoming channel buffer messages to prevent server receive buffer exhaustion.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_limit_sv_recv_chan_msgs_per_frame",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "net_limit_sv_recv_max_frame_size_kb",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Enforces maximum allowable packet frame size in kilobytes on inbound network streams.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "r_BigHead",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_dry_time",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_force",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_grow_time",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Growth timeline in seconds for environmental frost condensation and frost shader accumulation.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_heat_barrel_position",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_heat_cool_time",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Cooldown duration in seconds for surface thermal dissipation and frost overlay effects.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_heat_light_delay",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_heat_light_time",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_heat_per_shot",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_indoor_distance",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_frost_melt_time",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Melting transition duration in seconds for ambient temperature frost dispersion.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
         "name": "r_csgo_parallax",
         "binary": "client.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_CLIENTDLL"
         ]
       },
       {
@@ -6768,10 +6781,10 @@
       {
         "name": "r_sec",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
@@ -6797,28 +6810,30 @@
       {
         "name": "r_untrusted_addons",
         "binary": "pulse_system.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Graphics & Rendering",
+        "description": "Source 2 console variable in pulse_system.dll for graphics & rendering tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE"
         ]
       },
       {
         "name": "sv_message_process_time_ms_drop_burst",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_REPLICATED"
         ]
       },
       {
         "name": "sv_message_process_time_ms_warn_burst",
         "binary": "networksystem.dll",
-        "category": "General Engine",
-        "description": "Source 2 engine console variable added in update.",
+        "category": "Netcode & Sub-Tick",
+        "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
         "flags": [
-          "FCVAR_NONE"
+          "FCVAR_RELEASE",
+          "FCVAR_REPLICATED"
         ]
       }
     ],

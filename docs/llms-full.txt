@@ -123,6 +123,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `rendersystemdx11.dll` | `CDX11Device::Present` | `0x001e0b70` | `0x1801e0b70` | Rendering & Math |
 | `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
 | `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
+| `engine2.dll` | `CreateInterface` | `0x00407190` | `0x180407190` | Engine Interface |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -445,6 +446,13 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **Current VA**: `0x1800b4128`
 - **IDA / Ghidra Pattern**: `FF 90 B8 00 00 00 84 C0 0F 85 8E 00 00 00 83 3D ?? ?? ?? ?? 04 7C 46 48 8D 4F 34 41 B8 80 00 00 00 48 8D 55 08`
 - **Description**: UDP datagram crypto verification, connection packet dispatch, and pacing rate limiter.
+
+### CreateInterface (engine2.dll)
+- **ID**: `engine2_createinterface`
+- **Current RVA**: `0x00407190` (Baseline: `0x00407190`, Delta: `+0x0`)
+- **Current VA**: `0x180407190`
+- **IDA / Ghidra Pattern**: `4C 8B 0D ?? ?? ?? ?? 4C 8B D2 4C 8B D9`
+- **Description**: Standard Source 2 engine module interface factory dispatcher.
 
 ================================================================================
 # SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
@@ -17630,6 +17638,10 @@ In the Counter-Strike 2 engine update `2026-11-11_26598758`, Valve overhauled th
 1. **`cl_packetentities_merge_before_decode` (Pre-Decode Snapshot Delta Merger)**: Consolidates static baseline bitstreams with incoming wire delta payloads in intermediate scratch memory prior to schema deserialization. This eliminates duplicate deserialization passes and completely removes redundant `PostDataUpdate` / network property change callbacks on active entities.
 2. **`cl_parallel_readpacketentities` (Parallel Thread Worker Entity Decoder)**: Dynamically fragments packet entity arrays into discrete slice chunks across worker job threads (`CJobThread` / `CParallelProcessLauncher`) when the entity count exceeds the threshold (`cl_parallel_readpacketentities_threshold >= 2`), accelerating client packet ingress processing by over $6\times$.
 3. **`cl_weapon_stealth_reload_toggle` (Silent State Evaluation)**: Modulates client weapon entity state evaluation flags (`0x2000`) and reload progress timers in `client.dll` during magazine replacement operations, adjusting inaccuracy penalties and sound graph propagation.
+
+> [!TIP]
+> **Live Interactive Visualizer Available**:
+> Launch the interactive **[Network Packet Entities Pipeline Visualizer](index.html#simulators/21)** to experiment with `cl_packetentities_merge_before_decode`, tune entity counts from 1 to 4,096, adjust worker thread concurrency (1 to 16 `CJobThread` workers), and observe real-time latency, throughput, and redundant callback elimination metrics.
 
 ```mermaid
 flowchart TD

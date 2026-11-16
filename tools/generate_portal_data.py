@@ -21,6 +21,7 @@ SIMULATOR_FILES = {
     "14": "cs2_bullet_penetration_sim.cpp",
     "15": "cs2_econ_item_wear_sim.cpp",
     "16": "cs2_weapon_spread_recoil_sim.cpp",
+    "21": "packet_entities_merge_sim.cpp",
 }
 
 SIMULATORS_METADATA = [
@@ -227,6 +228,26 @@ SIMULATORS_METADATA = [
             {"name": "CPlayer_AimPunchServices::SimulateAimPunchDecay", "addr": "0x18085ea90", "desc": "Damped spring-mass-damper recoil aim punch integrator"}
         ],
         "docId": "weapon-inaccuracy"
+    },
+    {
+        "id": "21",
+        "name": "packet_entities_merge_sim.cpp",
+        "title": "Network Packet Entities Snapshot Pre-Decode Delta Merger & Parallel Reader",
+        "target": "engine2.dll (0x465ad & 0x442e2) & client.dll",
+        "runner": "build_packet_entities_merge_sim.bat",
+        "category": "Networking & Threading",
+        "badge": "Packet Entities Merge",
+        "checks": "Pre-decode delta consolidation in scratch memory (cl_packetentities_merge_before_decode), single-pass deserialization eliminating 98,304 redundant callbacks, parallel CJobThread worker chunking (cl_parallel_readpacketentities, threshold >= 2), completion barrier synchronization.",
+        "description": "Simulates Valve's Source 2 snapshot entity decoding pipeline overhauled in Build 26598758. Models pre-decode bitstream consolidation vs legacy two-pass deserialization, redundant change callback elimination, and dynamic multi-threaded worker dispatching across CJobThread swimlanes.",
+        "addresses": [
+            {"name": "CNetworkGameClient::InternalProcessPacketEntities", "addr": "0x1800465ad", "desc": "Wire CSVCMsg_PacketEntities packet ingress and threshold dispatcher"},
+            {"name": "CNetworkGameClient::ProcessReadPacketEntitiesWorkItems", "addr": "0x1800442e2", "desc": "Delta consolidation and entity deserialization execution loop"},
+            {"name": "PreDecodeMergeDelta Scratch Arena", "addr": "0x180044386", "desc": "Intermediate scratch bitstream buffer delta consolidation branch"},
+            {"name": "CReadPacketEntities_ParallelProcessingController", "addr": "0x180044abd", "desc": "Multi-threaded worker job slice launcher and barrier synchronization"},
+            {"name": "cl_packetentities_merge_before_decode", "addr": "0x1807305e8", "desc": "Cached ConVar pointer controlling pre-decode consolidation"},
+            {"name": "cl_parallel_readpacketentities", "addr": "0x1807305b8", "desc": "Cached ConVar pointer controlling dynamic parallel dispatch"}
+        ],
+        "docId": "packet-entities-merge"
     }
 ]
 
@@ -266,8 +287,8 @@ BINARIES_DETAIL = [
             {"proto": "CSubtickMoveStep", "desc": "Discrete button transitions tagged with continuous analog fraction t in [0.0, 1.0)."},
             {"proto": "CEntityHandle", "desc": "32-bit index (15 bits) and serial number (17 bits) entity identifier."}
         ],
-        "docs": ["subtick-prediction", "controller-pawn", "camera-view-matrix", "skeleton-animgraph", "weapon-inaccuracy"],
-        "simulators": ["03", "07", "09", "16"]
+        "docs": ["subtick-prediction", "controller-pawn", "camera-view-matrix", "skeleton-animgraph", "weapon-inaccuracy", "packet-entities-merge"],
+        "simulators": ["03", "07", "09", "16", "21"]
     },
     {
         "name": "server.dll",
@@ -326,10 +347,11 @@ BINARIES_DETAIL = [
         ],
         "wireProtocols": [
             {"proto": "CNETMsg_SetConVar", "desc": "ConVar update message (ID 0x06) checked against FCVAR_REPLICATED bit 13."},
-            {"proto": "CSVCMsg_GameEventList", "desc": "Phase 1 dictionary message synchronizing event IDs and key types."}
+            {"proto": "CSVCMsg_GameEventList", "desc": "Phase 1 dictionary message synchronizing event IDs and key types."},
+            {"proto": "CSVCMsg_PacketEntities", "desc": "Snapshot entity delta stream decoded via CReadPacketEntities_ParallelProcessingController."}
         ],
-        "docs": ["convar-replication", "game-events"],
-        "simulators": []
+        "docs": ["convar-replication", "game-events", "packet-entities-merge"],
+        "simulators": ["21"]
     },
     {
         "name": "networksystem.dll",

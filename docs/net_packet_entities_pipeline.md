@@ -6,6 +6,10 @@ In the Counter-Strike 2 engine update `2026-11-11_26598758`, Valve overhauled th
 2. **`cl_parallel_readpacketentities` (Parallel Thread Worker Entity Decoder)**: Dynamically fragments packet entity arrays into discrete slice chunks across worker job threads (`CJobThread` / `CParallelProcessLauncher`) when the entity count exceeds the threshold (`cl_parallel_readpacketentities_threshold >= 2`), accelerating client packet ingress processing by over $6\times$.
 3. **`cl_weapon_stealth_reload_toggle` (Silent State Evaluation)**: Modulates client weapon entity state evaluation flags (`0x2000`) and reload progress timers in `client.dll` during magazine replacement operations, adjusting inaccuracy penalties and sound graph propagation.
 
+> [!TIP]
+> **Live Interactive Visualizer Available**:
+> Launch the interactive **[Network Packet Entities Pipeline Visualizer](index.html#simulators/21)** to experiment with `cl_packetentities_merge_before_decode`, tune entity counts from 1 to 4,096, adjust worker thread concurrency (1 to 16 `CJobThread` workers), and observe real-time latency, throughput, and redundant callback elimination metrics.
+
 ```mermaid
 flowchart TD
     A["CSVCMsg_PacketEntities Ingress"] --> B["CNetworkGameClient::InternalProcessPacketEntities<br/>(engine2.dll @ 0x465ad)"]

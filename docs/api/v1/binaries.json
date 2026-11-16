@@ -140,13 +140,15 @@
         "controller-pawn",
         "camera-view-matrix",
         "skeleton-animgraph",
-        "weapon-inaccuracy"
+        "weapon-inaccuracy",
+        "packet-entities-merge"
       ],
       "simulators": [
         "03",
         "07",
         "09",
-        "16"
+        "16",
+        "21"
       ],
       "progress": {
         "status": "Extensively Reversed",
@@ -545,13 +547,20 @@
         {
           "proto": "CSVCMsg_GameEventList",
           "desc": "Phase 1 dictionary message synchronizing event IDs and key types."
+        },
+        {
+          "proto": "CSVCMsg_PacketEntities",
+          "desc": "Snapshot entity delta stream decoded via CReadPacketEntities_ParallelProcessingController."
         }
       ],
       "docs": [
         "convar-replication",
-        "game-events"
+        "game-events",
+        "packet-entities-merge"
       ],
-      "simulators": [],
+      "simulators": [
+        "21"
+      ],
       "progress": {
         "status": "Extensively Reversed",
         "badgeColor": "emerald",

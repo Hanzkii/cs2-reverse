@@ -147,6 +147,13 @@ metadata_map = {
         "category": "Weapons & Ballistics",
         "badge": "HitReg & Armor Math",
         "order": 19
+    },
+    "net_packet_entities_pipeline.md": {
+        "id": "packet-entities-merge",
+        "title": "Network Packet Entities Pipeline & Delta Consolidation Architecture",
+        "category": "Networking",
+        "badge": "Packet Entities",
+        "order": 21
     }
 }
 

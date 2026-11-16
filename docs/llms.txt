@@ -123,6 +123,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `rendersystemdx11.dll` | `CDX11Device::Present` | `0x001e0b70` | `0x1801e0b70` | Rendering & Math |
 | `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
 | `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
+| `engine2.dll` | `CreateInterface` | `0x00407190` | `0x180407190` | Engine Interface |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)

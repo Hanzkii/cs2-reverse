@@ -138,13 +138,15 @@ window.CS2_BINARIES_DETAIL = [
       "controller-pawn",
       "camera-view-matrix",
       "skeleton-animgraph",
-      "weapon-inaccuracy"
+      "weapon-inaccuracy",
+      "packet-entities-merge"
     ],
     "simulators": [
       "03",
       "07",
       "09",
-      "16"
+      "16",
+      "21"
     ],
     "progress": {
       "status": "Extensively Reversed",
@@ -543,13 +545,20 @@ window.CS2_BINARIES_DETAIL = [
       {
         "proto": "CSVCMsg_GameEventList",
         "desc": "Phase 1 dictionary message synchronizing event IDs and key types."
+      },
+      {
+        "proto": "CSVCMsg_PacketEntities",
+        "desc": "Snapshot entity delta stream decoded via CReadPacketEntities_ParallelProcessingController."
       }
     ],
     "docs": [
       "convar-replication",
-      "game-events"
+      "game-events",
+      "packet-entities-merge"
     ],
-    "simulators": [],
+    "simulators": [
+      "21"
+    ],
     "progress": {
       "status": "Extensively Reversed",
       "badgeColor": "emerald",
@@ -3115,21 +3124,53 @@ window.CS2_SIMULATORS_DATA = [
     "lineCount": 763
   },
   {
-    "id": "20",
+    "id": "21",
     "name": "packet_entities_merge_sim.cpp",
-    "title": "* packet_entities_merge_sim.cpp - Pure C++20 Reference Simulator",
-    "target": "client.dll & server.dll",
-    "runner": "packet_entities_merge_sim.bat",
-    "category": "Engine Simulation",
-    "badge": "* packet_entities_merge_",
-    "checks": "Reconstructed C++20 simulation runner (423 lines) verifying Source 2 internal algorithms.",
-    "description": "Interactive engine visualizer and clean-room C++20 reference simulation for * packet_entities_merge_sim.cpp - Pure C++20 Reference Simulator.",
-    "addresses": [],
+    "title": "Network Packet Entities Snapshot Pre-Decode Delta Merger & Parallel Reader",
+    "target": "engine2.dll (0x465ad & 0x442e2) & client.dll",
+    "runner": "build_packet_entities_merge_sim.bat",
+    "category": "Networking & Threading",
+    "badge": "Packet Entities Merge",
+    "checks": "Pre-decode delta consolidation in scratch memory (cl_packetentities_merge_before_decode), single-pass deserialization eliminating 98,304 redundant callbacks, parallel CJobThread worker chunking (cl_parallel_readpacketentities, threshold >= 2), completion barrier synchronization.",
+    "description": "Simulates Valve's Source 2 snapshot entity decoding pipeline overhauled in Build 26598758. Models pre-decode bitstream consolidation vs legacy two-pass deserialization, redundant change callback elimination, and dynamic multi-threaded worker dispatching across CJobThread swimlanes.",
+    "addresses": [
+      {
+        "name": "CNetworkGameClient::InternalProcessPacketEntities",
+        "addr": "0x1800465ad",
+        "desc": "Wire CSVCMsg_PacketEntities packet ingress and threshold dispatcher"
+      },
+      {
+        "name": "CNetworkGameClient::ProcessReadPacketEntitiesWorkItems",
+        "addr": "0x1800442e2",
+        "desc": "Delta consolidation and entity deserialization execution loop"
+      },
+      {
+        "name": "PreDecodeMergeDelta Scratch Arena",
+        "addr": "0x180044386",
+        "desc": "Intermediate scratch bitstream buffer delta consolidation branch"
+      },
+      {
+        "name": "CReadPacketEntities_ParallelProcessingController",
+        "addr": "0x180044abd",
+        "desc": "Multi-threaded worker job slice launcher and barrier synchronization"
+      },
+      {
+        "name": "cl_packetentities_merge_before_decode",
+        "addr": "0x1807305e8",
+        "desc": "Cached ConVar pointer controlling pre-decode consolidation"
+      },
+      {
+        "name": "cl_parallel_readpacketentities",
+        "addr": "0x1807305b8",
+        "desc": "Cached ConVar pointer controlling dynamic parallel dispatch"
+      }
+    ],
+    "docId": "packet-entities-merge",
     "code": "/**\n * packet_entities_merge_sim.cpp - Pure C++20 Reference Simulator\n * Source 2 Network Packet Entities Snapshot Pre-Decode Delta Merger & Parallel Reader Simulator\n * \n * Accurately models Valve's CS2 engine networking pipeline optimizations introduced in update 2026-11-11_26598758:\n * 1. cl_packetentities_merge_before_decode: Consolidates baseline and wire delta bitstreams\n *    prior to schema property deserialization, eliminating redundant PostDataUpdate callbacks.\n * 2. cl_parallel_readpacketentities: Thread pool worker entity slice chunking (threshold >= 2).\n *\n * Compilation:\n *   cl.exe /O2 /std:c++20 /EHsc docs/simulators/packet_entities_merge_sim.cpp\n */\n\n#include <iostream>\n#include <vector>\n#include <string>\n#include <string_view>\n#include <chrono>\n#include <cstdint>\n#include <cstring>\n#include <memory>\n#include <thread>\n#include <future>\n#include <random>\n#include <iomanip>\n#include <cassert>\n#include <atomic>\n#include <span>\n\nnamespace cs2::net {\n\nconstexpr uint32_t ENTITY_MAX_FIELDS = 128;\n\n// Accurate bitstream buffer representation for network payloads\nclass BitStream {\npublic:\n    std::vector<uint8_t> data;\n    size_t num_bits = 0;\n    size_t bit_read_pos = 0;\n\n    BitStream() = default;\n    explicit BitStream(size_t reserve_bytes) { data.reserve(reserve_bytes); }\n\n    void WriteBit(bool bit) {\n        size_t byte_idx = num_bits / 8;\n        size_t bit_idx = num_bits % 8;\n        if (byte_idx >= data.size()) {\n            data.push_back(0);\n        }\n        if (bit) {\n            data[byte_idx] |= static_cast<uint8_t>(1 << bit_idx);\n        }\n        num_bits++;\n    }\n\n    void WriteBits(uint32_t val, uint32_t count) {\n        for (uint32_t i = 0; i < count; ++i) {\n            WriteBit((val >> i) & 1);\n        }\n    }\n\n    void WriteVarInt32(uint32_t val) {\n        while (val >= 0x80) {\n            WriteBits((val & 0x7F) | 0x80, 8);\n            val >>= 7;\n        }\n        WriteBits(val, 8);\n    }\n\n    bool ReadBit() {\n        if (bit_read_pos >= num_bits) return false;\n        size_t byte_idx = bit_read_pos / 8;\n        size_t bit_idx = bit_read_pos % 8;\n        bit_read_pos++;\n        return (data[byte_idx] >> bit_idx) & 1;\n    }\n\n    uint32_t ReadBits(uint32_t count) {\n        uint32_t res = 0;\n        for (uint32_t i = 0; i < count; ++i) {\n            if (ReadBit()) res |= (1 << i);\n        }\n        return res;\n    }\n\n    uint32_t ReadVarInt32() {\n        uint32_t res = 0;\n        uint32_t shift = 0;\n        while (shift < 35) {\n            uint32_t byte = ReadBits(8);\n            res |= (byte & 0x7F) << shift;\n            if (!(byte & 0x80)) break;\n            shift += 7;\n        }\n        return res;\n    }\n\n    void ResetRead() { bit_read_pos = 0; }\n    size_t BitsRemaining() const {\n        return (bit_read_pos < num_bits) ? (num_bits - bit_read_pos) : 0;\n    }\n};\n\n// Simplified field representation modeling SchemaSystem reflected properties\nstruct NetworkField {\n    uint32_t field_index = 0;\n    uint32_t uint_value = 0;\n};\n\n// Structure representing an active game entity with change notification callbacks\nstruct alignas(64) ReplicatedEntity {\n    uint32_t entity_id = 0;\n    uint32_t class_id = 0;\n    uint32_t fields[ENTITY_MAX_FIELDS]{};\n    uint32_t change_callback_count = 0;\n    uint32_t redundant_callback_count = 0;\n\n    void Reset() {\n        std::memset(fields, 0, sizeof(fields));\n        change_callback_count = 0;\n        redundant_callback_count = 0;\n    }\n\n    void OnFieldChanged(uint32_t idx, uint32_t new_val, bool is_existing_ent, bool is_baseline_pass) {\n        if (idx >= ENTITY_MAX_FIELDS) return;\n        change_callback_count++;\n        // In legacy mode, if an existing entity is updated with baseline values during pass 1,\n        // it triggers redundant callbacks before wire deltas overwrite them in pass 2.\n        if (is_existing_ent && is_baseline_pass) {\n            redundant_callback_count++;\n        }\n        fields[idx] = new_val;\n    }\n};\n\n// Work item representing a single entity payload in CSVCMsg_PacketEntities\nstruct ReadPacketEntitiesWorkItem_t {\n    uint32_t entity_index = 0;\n    uint32_t class_id = 0;\n    uint32_t update_type = 0; // 0=Delta, 1=EnterPVS, 2=LeavePVS\n    bool is_existing_entity = false;\n    BitStream baseline_stream;\n    BitStream wire_delta_stream;\n};\n\n// =========================================================================\n// Algorithm A: Legacy Two-Pass Deserialization (merge_before_decode = false)\n// =========================================================================\nvoid DecodeEntity_LegacyTwoPass(ReplicatedEntity& ent, ReadPacketEntitiesWorkItem_t& item) {\n    // Pass 1: Decode Baseline BitStream\n    if (item.baseline_stream.num_bits > 0) {\n        item.baseline_stream.ResetRead();\n        uint32_t baseline_count = item.baseline_stream.ReadVarInt32();\n        for (uint32_t i = 0; i < baseline_count; ++i) {\n            uint32_t field_idx = item.baseline_stream.ReadVarInt32();\n            uint32_t val = item.baseline_stream.ReadBits(32);\n            ent.OnFieldChanged(field_idx, val, item.is_existing_entity, true);\n        }\n    }\n\n    // Pass 2: Decode Wire Delta BitStream\n    if (item.wire_delta_stream.num_bits > 0) {\n        item.wire_delta_stream.ResetRead();\n        uint32_t delta_count = item.wire_delta_stream.ReadVarInt32();\n        for (uint32_t i = 0; i < delta_count; ++i) {\n            uint32_t field_idx = item.wire_delta_stream.ReadVarInt32();\n            uint32_t val = item.wire_delta_stream.ReadBits(32);\n            ent.OnFieldChanged(field_idx, val, item.is_existing_entity, false);\n        }\n    }\n}\n\n// =========================================================================\n// Algorithm B: Pre-Decode Delta Consolidation (merge_before_decode = true)\n// =========================================================================\nvoid PreDecodeMergeDelta(BitStream& baseline_stream,\n                         BitStream& wire_delta_stream,\n                         std::vector<NetworkField>& merged_fields) {\n    merged_fields.clear();\n\n    // Map for consolidating fields in intermediate scratch memory\n    // (In engine2.dll @ 0x443a0, an intermediate stack/scratch arena is used)\n    bool has_field[ENTITY_MAX_FIELDS]{};\n    uint32_t field_vals[ENTITY_MAX_FIELDS]{};\n\n    // 1. Stage Baseline Fields\n    if (baseline_stream.num_bits > 0) {\n        baseline_stream.ResetRead();\n        uint32_t count = baseline_stream.ReadVarInt32();\n        for (uint32_t i = 0; i < count; ++i) {\n            uint32_t idx = baseline_stream.ReadVarInt32();\n            uint32_t val = baseline_stream.ReadBits(32);\n            if (idx < ENTITY_MAX_FIELDS) {\n                has_field[idx] = true;\n                field_vals[idx] = val;\n            }\n        }\n    }\n\n    // 2. Stage Wire Delta Fields (overwrites baseline in intermediate scratch memory)\n    if (wire_delta_stream.num_bits > 0) {\n        wire_delta_stream.ResetRead();\n        uint32_t count = wire_delta_stream.ReadVarInt32();\n        for (uint32_t i = 0; i < count; ++i) {\n            uint32_t idx = wire_delta_stream.ReadVarInt32();\n            uint32_t val = wire_delta_stream.ReadBits(32);\n            if (idx < ENTITY_MAX_FIELDS) {\n                has_field[idx] = true;\n                field_vals[idx] = val;\n            }\n        }\n    }\n\n    // 3. Output consolidated fields\n    for (uint32_t i = 0; i < ENTITY_MAX_FIELDS; ++i) {\n        if (has_field[i]) {\n            merged_fields.push_back({i, field_vals[i]});\n        }\n    }\n}\n\nvoid DecodeEntity_MergedSinglePass(ReplicatedEntity& ent, ReadPacketEntitiesWorkItem_t& item, std::vector<NetworkField>& scratch) {\n    // Stage 1: Merge before decode\n    PreDecodeMergeDelta(item.baseline_stream, item.wire_delta_stream, scratch);\n\n    // Stage 2: Single pass decode directly onto target entity memory\n    for (const auto& f : scratch) {\n        ent.OnFieldChanged(f.field_index, f.uint_value, item.is_existing_entity, false);\n    }\n}\n\n// =========================================================================\n// Parallel Job Dispatcher (cl_parallel_readpacketentities)\n// =========================================================================\nvoid ProcessPacketEntities_Parallel(std::vector<ReplicatedEntity>& entities,\n                                    std::vector<ReadPacketEntitiesWorkItem_t>& items,\n                                    uint32_t threshold = 2) {\n    size_t count = items.size();\n    if (count < threshold) {\n        // Fallback: Single-threaded sequential execution\n        std::vector<NetworkField> scratch;\n        scratch.reserve(ENTITY_MAX_FIELDS);\n        for (size_t i = 0; i < count; ++i) {\n            DecodeEntity_MergedSinglePass(entities[items[i].entity_index], items[i], scratch);\n        }\n        return;\n    }\n\n    // Parallel Dispatcher: Divide slices across available hardware threads\n    unsigned int num_threads = std::min(std::thread::hardware_concurrency(), static_cast<unsigned int>(count));\n    if (num_threads == 0) num_threads = 2;\n\n    size_t chunk_size = (count + num_threads - 1) / num_threads;\n    std::vector<std::future<void>> futures;\n\n    for (unsigned int t = 0; t < num_threads; ++t) {\n        size_t start = t * chunk_size;\n        size_t end = std::min(start + chunk_size, count);\n        if (start >= end) break;\n\n        futures.push_back(std::async(std::launch::async, [&entities, &items, start, end]() {\n            std::vector<NetworkField> thread_scratch;\n            thread_scratch.reserve(ENTITY_MAX_FIELDS);\n            for (size_t i = start; i < end; ++i) {\n                DecodeEntity_MergedSinglePass(entities[items[i].entity_index], items[i], thread_scratch);\n            }\n        }));\n    }\n\n    for (auto& f : futures) {\n        f.get();\n    }\n}\n\n} // namespace cs2::net\n\n// =========================================================================\n// Synthetic Benchmark & Verification Suite\n// =========================================================================\nint main() {\n    std::cout << \"======================================================================\\n\";\n    std::cout << \" Source 2 CS2 Network Packet Entities Merge & Parallel Reader Sim\\n\";\n    std::cout << \" Reference Architecture: engine2.dll (Build 26598758 vs Baseline 25966348)\\n\";\n    std::cout << \"======================================================================\\n\\n\";\n\n    constexpr size_t NUM_ENTITIES = 4096;\n    constexpr uint32_t FIELDS_PER_BASELINE = 32;\n    constexpr uint32_t FIELDS_PER_DELTA = 16;\n\n    std::mt19937 rng(1337);\n    std::uniform_int_distribution<uint32_t> val_dist(1, 0xFFFFFFF0);\n\n    std::cout << \"[*] Generating \" << NUM_ENTITIES << \" test entity bitstream packets...\\n\";\n\n    std::vector<cs2::net::ReadPacketEntitiesWorkItem_t> work_items(NUM_ENTITIES);\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) {\n        auto& item = work_items[i];\n        item.entity_index = static_cast<uint32_t>(i);\n        item.class_id = static_cast<uint32_t>(100 + (i % 20));\n        item.is_existing_entity = (i % 4 != 0); // 75% existing entities, 25% new\n\n        // Generate baseline bitstream\n        item.baseline_stream = cs2::net::BitStream(256);\n        item.baseline_stream.WriteVarInt32(FIELDS_PER_BASELINE);\n        for (uint32_t f = 0; f < FIELDS_PER_BASELINE; ++f) {\n            item.baseline_stream.WriteVarInt32(f);\n            item.baseline_stream.WriteBits(val_dist(rng), 32);\n        }\n\n        // Generate wire delta bitstream (modifying first 16 baseline fields)\n        item.wire_delta_stream = cs2::net::BitStream(256);\n        item.wire_delta_stream.WriteVarInt32(FIELDS_PER_DELTA);\n        for (uint32_t f = 0; f < FIELDS_PER_DELTA; ++f) {\n            item.wire_delta_stream.WriteVarInt32(f);\n            item.wire_delta_stream.WriteBits(val_dist(rng), 32);\n        }\n    }\n\n    std::cout << \"[+] Packet generation complete.\\n\\n\";\n\n    // ---------------------------------------------------------------------\n    // Benchmark 1: Legacy Two-Pass (merge_before_decode = false)\n    // ---------------------------------------------------------------------\n    std::vector<cs2::net::ReplicatedEntity> entities_legacy(NUM_ENTITIES);\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) entities_legacy[i].entity_id = static_cast<uint32_t>(i);\n\n    auto t0 = std::chrono::high_resolution_clock::now();\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) {\n        cs2::net::DecodeEntity_LegacyTwoPass(entities_legacy[i], work_items[i]);\n    }\n    auto t1 = std::chrono::high_resolution_clock::now();\n    double legacy_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();\n\n    uint64_t legacy_total_callbacks = 0;\n    uint64_t legacy_redundant_callbacks = 0;\n    for (const auto& e : entities_legacy) {\n        legacy_total_callbacks += e.change_callback_count;\n        legacy_redundant_callbacks += e.redundant_callback_count;\n    }\n\n    // ---------------------------------------------------------------------\n    // Benchmark 2: Pre-Decode Single-Pass Merged (merge_before_decode = true)\n    // ---------------------------------------------------------------------\n    std::vector<cs2::net::ReplicatedEntity> entities_merged(NUM_ENTITIES);\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) entities_merged[i].entity_id = static_cast<uint32_t>(i);\n\n    std::vector<cs2::net::NetworkField> scratch;\n    scratch.reserve(cs2::net::ENTITY_MAX_FIELDS);\n\n    auto t2 = std::chrono::high_resolution_clock::now();\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) {\n        cs2::net::DecodeEntity_MergedSinglePass(entities_merged[i], work_items[i], scratch);\n    }\n    auto t3 = std::chrono::high_resolution_clock::now();\n    double merged_ms = std::chrono::duration<double, std::milli>(t3 - t2).count();\n\n    uint64_t merged_total_callbacks = 0;\n    uint64_t merged_redundant_callbacks = 0;\n    for (const auto& e : entities_merged) {\n        merged_total_callbacks += e.change_callback_count;\n        merged_redundant_callbacks += e.redundant_callback_count;\n    }\n\n    // ---------------------------------------------------------------------\n    // Benchmark 3: Parallel Pre-Decode Merged (cl_parallel_readpacketentities = 1)\n    // ---------------------------------------------------------------------\n    std::vector<cs2::net::ReplicatedEntity> entities_parallel(NUM_ENTITIES);\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) entities_parallel[i].entity_id = static_cast<uint32_t>(i);\n\n    auto t4 = std::chrono::high_resolution_clock::now();\n    cs2::net::ProcessPacketEntities_Parallel(entities_parallel, work_items, 2);\n    auto t5 = std::chrono::high_resolution_clock::now();\n    double parallel_ms = std::chrono::duration<double, std::milli>(t5 - t4).count();\n\n    // ---------------------------------------------------------------------\n    // State Verification\n    // ---------------------------------------------------------------------\n    bool match_verified = true;\n    for (size_t i = 0; i < NUM_ENTITIES; ++i) {\n        for (size_t f = 0; f < cs2::net::ENTITY_MAX_FIELDS; ++f) {\n            if (entities_legacy[i].fields[f] != entities_merged[i].fields[f] ||\n                entities_legacy[i].fields[f] != entities_parallel[i].fields[f]) {\n                match_verified = false;\n                std::cerr << \"[-] State mismatch at ent \" << i << \" field \" << f << \"!\\n\";\n                break;\n            }\n        }\n        if (!match_verified) break;\n    }\n\n    // ---------------------------------------------------------------------\n    // Display Benchmark Results\n    // ---------------------------------------------------------------------\n    std::cout << \"--- Benchmark Results (\" << NUM_ENTITIES << \" entities) ---\\n\";\n    std::cout << std::fixed << std::setprecision(3);\n    std::cout << \"1. Legacy Two-Pass (merge=0, parallel=0):  \" << legacy_ms << \" ms | \"\n              << (NUM_ENTITIES / (legacy_ms / 1000.0)) << \" ents/sec\\n\";\n    std::cout << \"   - Total Callbacks:     \" << legacy_total_callbacks << \"\\n\";\n    std::cout << \"   - Redundant Callbacks: \" << legacy_redundant_callbacks << \" (Stale baseline events on existing ents)\\n\\n\";\n\n    std::cout << \"2. Merged Single-Pass (merge=1, parallel=0): \" << merged_ms << \" ms | \"\n              << (NUM_ENTITIES / (merged_ms / 1000.0)) << \" ents/sec\\n\";\n    std::cout << \"   - Total Callbacks:     \" << merged_total_callbacks << \" (Saved \" \n              << (legacy_total_callbacks - merged_total_callbacks) << \" callback dispatches)\\n\";\n    std::cout << \"   - Redundant Callbacks: \" << merged_redundant_callbacks << \" (100% ELIMINATED)\\n\";\n    std::cout << \"   - Speedup vs Legacy:   \" << (legacy_ms / merged_ms) << \"x\\n\\n\";\n\n    std::cout << \"3. Parallel Merged (merge=1, parallel=1):   \" << parallel_ms << \" ms | \"\n              << (NUM_ENTITIES / (parallel_ms / 1000.0)) << \" ents/sec\\n\";\n    std::cout << \"   - Speedup vs Legacy:   \" << (legacy_ms / parallel_ms) << \"x\\n\";\n    std::cout << \"   - Speedup vs Merged:   \" << (merged_ms / parallel_ms) << \"x\\n\\n\";\n\n    std::cout << \"--- Correctness Invariant Check ---\\n\";\n    if (match_verified) {\n        std::cout << \"[PASS] All 4,096 entities matched bit-identical final states across all 3 execution pipelines!\\n\";\n    } else {\n        std::cout << \"[FAIL] State divergence detected!\\n\";\n        return 1;\n    }\n\n    std::cout << \"\\n[SUCCESS] Simulation & verification completed successfully.\\n\";\n    return 0;\n}\n",
     "lineCount": 423
   },
   {
-    "id": "21",
+    "id": "20",
     "name": "test_sdk_game_integration.cpp",
     "title": "Test Sdk Game Integration.Cpp",
     "target": "client.dll & server.dll",
@@ -4363,6 +4404,26 @@ window.CS2_SIGNATURES_DATA = [
     "delta_str": "-0x5e7c",
     "last_verified_build": "26598758",
     "status": "SHIFTED"
+  },
+  {
+    "id": "engine2_createinterface",
+    "name": "CreateInterface",
+    "binary": "engine2.dll",
+    "category": "Engine Interface",
+    "baseline_rva": "0x00407190",
+    "baseline_va": "0x180407190",
+    "pattern": "4C 8B 0D ?? ?? ?? ?? 4C 8B D2 4C 8B D9",
+    "pattern_type": "prologue",
+    "description": "Standard Source 2 engine module interface factory dispatcher.",
+    "explanation": "Disassembled instruction routine in engine2.dll located at baseline RVA 0x00407190.",
+    "code_snippet": "// Reconstructed prototype for CreateInterface\nvoid CreateInterface();",
+    "reconstructed_file": "game/engine2/createinterface.cpp",
+    "current_rva": "0x00407190",
+    "current_va": "0x180407190",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26598758",
+    "status": "UNCHANGED"
   }
 ];
 
@@ -70732,7 +70793,7 @@ window.CS2_DIFFS_DATA = [
     "new_build_id": "26598758",
     "old_date": "2026-10-15",
     "new_date": "2026-11-11",
-    "generated_at": "2026-11-16T21:00:53.457641",
+    "generated_at": "2026-11-16T22:51:30.213866",
     "summary": {
       "binaries_modified_count": 34,
       "classes_added_count": 1,
@@ -77269,217 +77330,230 @@ window.CS2_DIFFS_DATA = [
         {
           "name": "cl_clockdrift_max_secs",
           "binary": "engine2.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Server & Host",
+          "description": "Source 2 console variable in engine2.dll for server & host tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "cl_packetentities_merge_before_decode",
           "binary": "engine2.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Merges incoming packet entity state deltas before decoding tick updates to optimize memory bandwidth and reduce framing latency.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "cl_weapon_stealth_reload_toggle",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Weapons & Combat",
+          "description": "Client prediction toggle for quiet weapon reload sound suppression and magazine seating telemetry.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "net_decode_callback_queue_stats_clear",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_decode_callback_queue_stats_dump",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Dumps diagnostic statistics for queued network message decode callbacks and dispatch queues.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_gather_child_fields_only",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Network serializer optimization restricting delta gathering to modified child property descriptors.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_limit_sv_listen_max_message_size_kb",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_limit_sv_listen_recvbuffer_kb",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_limit_sv_listen_recvbuffer_msg",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_limit_sv_recv_chan_buffer_messages",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Caps maximum queued incoming channel buffer messages to prevent server receive buffer exhaustion.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_limit_sv_recv_chan_msgs_per_frame",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "net_limit_sv_recv_max_frame_size_kb",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Enforces maximum allowable packet frame size in kilobytes on inbound network streams.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "r_BigHead",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_dry_time",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_force",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_grow_time",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Growth timeline in seconds for environmental frost condensation and frost shader accumulation.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_heat_barrel_position",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_heat_cool_time",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Cooldown duration in seconds for surface thermal dissipation and frost overlay effects.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_heat_light_delay",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_heat_light_time",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_heat_per_shot",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_indoor_distance",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_frost_melt_time",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Melting transition duration in seconds for ambient temperature frost dispersion.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
           "name": "r_csgo_parallax",
           "binary": "client.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in client.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_CLIENTDLL"
           ]
         },
         {
@@ -77495,10 +77569,10 @@ window.CS2_DIFFS_DATA = [
         {
           "name": "r_sec",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
@@ -77524,28 +77598,30 @@ window.CS2_DIFFS_DATA = [
         {
           "name": "r_untrusted_addons",
           "binary": "pulse_system.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Graphics & Rendering",
+          "description": "Source 2 console variable in pulse_system.dll for graphics & rendering tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE"
           ]
         },
         {
           "name": "sv_message_process_time_ms_drop_burst",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_REPLICATED"
           ]
         },
         {
           "name": "sv_message_process_time_ms_warn_burst",
           "binary": "networksystem.dll",
-          "category": "General Engine",
-          "description": "Source 2 engine console variable added in update.",
+          "category": "Netcode & Sub-Tick",
+          "description": "Source 2 console variable in networksystem.dll for netcode & sub-tick tuning.",
           "flags": [
-            "FCVAR_NONE"
+            "FCVAR_RELEASE",
+            "FCVAR_REPLICATED"
           ]
         }
       ],

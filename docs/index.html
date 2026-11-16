@@ -5307,6 +5307,81 @@
             <input type="range" id="param16RecoilIdx" min="1" max="30" step="1" value="8" class="w-full accent-amber-500" oninput="document.getElementById('lblParam16RecoilIdx').innerText = 'Shot #' + this.value">
           </div>
         `;
+      } else if (simId === '21') {
+        container.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-300 font-bold">Merge ConVar:</span>
+              <span id="lblSim21Merge" class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold">true (1)</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+              <button type="button" id="btnSim21MergeTrue" onclick="setSim21MergeMode(true)" class="py-1.5 px-2 rounded-lg bg-emerald-600 text-white font-bold transition-all shadow-sm border border-emerald-500 flex flex-col items-center">
+                <span>Pre-Decode Merge</span>
+                <span class="text-[9px] opacity-80 font-normal">Single-Pass (0x44386)</span>
+              </button>
+              <button type="button" id="btnSim21MergeFalse" onclick="setSim21MergeMode(false)" class="py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center">
+                <span>Legacy Two-Pass</span>
+                <span class="text-[9px] opacity-80 font-normal">Baseline &rarr; Delta</span>
+              </button>
+            </div>
+            <input type="hidden" id="param21Merge" value="1">
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-300 font-bold">Parallel Dispatch:</span>
+              <span id="lblSim21Parallel" class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 font-bold">true (1)</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+              <button type="button" id="btnSim21ParallelTrue" onclick="setSim21ParallelMode(true)" class="py-1.5 px-2 rounded-lg bg-purple-600 text-white font-bold transition-all shadow-sm border border-purple-500 flex flex-col items-center">
+                <span>Multi-Threaded</span>
+                <span class="text-[9px] opacity-80 font-normal">CJobThread Workers</span>
+              </button>
+              <button type="button" id="btnSim21ParallelFalse" onclick="setSim21ParallelMode(false)" class="py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center">
+                <span>Sequential Fallback</span>
+                <span class="text-[9px] opacity-80 font-normal">Single Thread</span>
+              </button>
+            </div>
+            <input type="hidden" id="param21Parallel" value="1">
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Entity Count:</span>
+              <span id="lblParam21Count" class="text-cyan-300 font-bold">4,096 entities</span>
+            </div>
+            <input type="range" id="param21Count" min="1" max="4096" step="1" value="4096" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam21Count').innerText = parseInt(this.value).toLocaleString() + ' entities'">
+            <div class="grid grid-cols-4 gap-1 text-[10px] font-mono pt-1">
+              <button type="button" onclick="setSim21Preset(64)" class="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-center">64</button>
+              <button type="button" onclick="setSim21Preset(256)" class="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-center">256</button>
+              <button type="button" onclick="setSim21Preset(1024)" class="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-center">1024</button>
+              <button type="button" onclick="setSim21Preset(4096)" class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-center font-bold">4096</button>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Thread Cap (CJobThread):</span>
+              <span id="lblParam21Threads" class="text-purple-300 font-bold">8 Threads</span>
+            </div>
+            <input type="range" id="param21Threads" min="1" max="16" step="1" value="8" class="w-full accent-purple-500" oninput="document.getElementById('lblParam21Threads').innerText = this.value + ' Threads'">
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Parallel Threshold:</span>
+              <span id="lblParam21Threshold" class="text-amber-300 font-bold">&gt;= 2 entities</span>
+            </div>
+            <input type="range" id="param21Threshold" min="1" max="32" step="1" value="2" class="w-full accent-amber-500" oninput="document.getElementById('lblParam21Threshold').innerText = '>= ' + this.value + ' entities'">
+          </div>
+
+          <div class="pt-2 border-t border-slate-800">
+            <a href="visualizers/packet_entities_visualizer.html" target="_blank" class="w-full py-2 px-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <span>Open Standalone Visualizer</span>
+              <span>&nearr;</span>
+            </a>
+          </div>
+        `;
       } else {
         // Universal future-proof parameter generator for any newly added simulator
         container.innerHTML = `
@@ -7260,6 +7335,116 @@
           ctx.fillText('95% (' + highSpeed.toFixed(0) + 'u/s)', Math.min(gx + gw - 78, x95 - 25), gy2 + gh2 - 3);
         }
       }
+      else if (simId === '21') {
+        if (subtitle) subtitle.innerText = 'Pre-Decode Delta Consolidation & Parallel Worker Swimlanes';
+
+        const isMerge = (document.getElementById('param21Merge') && document.getElementById('param21Merge').value === '1');
+        const isParallel = (document.getElementById('param21Parallel') && document.getElementById('param21Parallel').value === '1');
+        const N = parseInt((document.getElementById('param21Count') && document.getElementById('param21Count').value) || 4096, 10);
+        const maxThreads = parseInt((document.getElementById('param21Threads') && document.getElementById('param21Threads').value) || 8, 10);
+        const threshold = parseInt((document.getElementById('param21Threshold') && document.getElementById('param21Threshold').value) || 2, 10);
+
+        const BASELINE_F = 32;
+        const DELTA_F = 16;
+        const EXISTING_RATIO = 0.75;
+
+        const isThreaded = isParallel && (N >= threshold);
+        const allocatedThreads = isThreaded ? Math.max(1, Math.min(maxThreads, Math.ceil(N / 16))) : 1;
+
+        let redundantCount = 0;
+        let totalCallbacks = 0;
+        if (!isMerge) {
+          redundantCount = Math.round(N * EXISTING_RATIO * BASELINE_F);
+          totalCallbacks = N * (BASELINE_F + DELTA_F);
+        } else {
+          redundantCount = 0;
+          totalCallbacks = N * BASELINE_F;
+        }
+
+        const seqPerEntMs = isMerge ? 0.00072 : 0.00118;
+        const baseSeqMs = N * seqPerEntMs;
+        let latencyMs = 0;
+        if (allocatedThreads <= 1) {
+          latencyMs = baseSeqMs;
+        } else {
+          const parFactor = Math.pow(allocatedThreads, 0.92);
+          const overhead = 0.035 + (0.004 * allocatedThreads);
+          latencyMs = (baseSeqMs / parFactor) + overhead;
+        }
+        if (latencyMs < 0.02) latencyMs = 0.02;
+
+        const baselineLegacyMs = Math.max(0.02, N * 0.00118);
+        const speedup = baselineLegacyMs / latencyMs;
+        const throughput = (N / (latencyMs / 1000));
+        const throughputStr = throughput >= 1000000 ? (throughput / 1000000).toFixed(2) + 'M' : Math.round(throughput / 1000) + 'k';
+        const chunkSize = Math.ceil(N / allocatedThreads);
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <!-- Metrics HUD -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+              <div class="p-3 bg-[#0f172a] rounded-xl border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-mono">Decode Latency</div>
+                <div class="text-xl font-black ${latencyMs <= 1.0 ? 'text-emerald-400' : (latencyMs <= 3.0 ? 'text-amber-400' : 'text-rose-400')} font-mono mt-0.5">${latencyMs.toFixed(2)} ms</div>
+                <div class="text-[9px] font-mono text-slate-400 mt-0.5">${latencyMs <= 1.0 ? 'Line-Rate Ingress' : 'Frame Delay'}</div>
+              </div>
+              <div class="p-3 bg-[#0f172a] rounded-xl border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-mono">Redundant Calls</div>
+                <div class="text-xl font-black ${redundantCount === 0 ? 'text-emerald-400' : 'text-rose-400'} font-mono mt-0.5">${redundantCount.toLocaleString()}</div>
+                <div class="text-[9px] font-mono ${redundantCount === 0 ? 'text-emerald-400' : 'text-rose-400'} mt-0.5">${redundantCount === 0 ? '100% ELIMINATED' : 'Stale Overwrites'}</div>
+              </div>
+              <div class="p-3 bg-[#0f172a] rounded-xl border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-mono">Total Dispatches</div>
+                <div class="text-xl font-black text-purple-400 font-mono mt-0.5">${totalCallbacks.toLocaleString()}</div>
+                <div class="text-[9px] font-mono text-slate-400 mt-0.5">${isMerge ? 'Saved ' + (N * DELTA_F).toLocaleString() : 'Unmerged baseline'}</div>
+              </div>
+              <div class="p-3 bg-[#0f172a] rounded-xl border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-mono">Throughput</div>
+                <div class="text-xl font-black text-amber-400 font-mono mt-0.5">${throughputStr} <span class="text-xs font-normal">e/s</span></div>
+                <div class="text-[9px] font-mono text-amber-300 mt-0.5">Packet Line-Rate</div>
+              </div>
+              <div class="p-3 bg-[#0f172a] rounded-xl border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-mono">Worker Threads</div>
+                <div class="text-xl font-black text-white font-mono mt-0.5">${allocatedThreads} <span class="text-xs font-normal">CJob</span></div>
+                <div class="text-[9px] font-mono text-cyan-300 mt-0.5">${chunkSize.toLocaleString()} ents / slice</div>
+              </div>
+              <div class="p-3 bg-[#0f172a] rounded-xl border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase font-mono">Net Speedup</div>
+                <div class="text-xl font-black ${speedup >= 4.0 ? 'text-emerald-400' : 'text-cyan-400'} font-mono mt-0.5">${speedup.toFixed(1)}x</div>
+                <div class="text-[9px] font-mono text-slate-400 mt-0.5">vs Legacy Seq</div>
+              </div>
+            </div>
+
+            <!-- Pipeline High-Resolution Canvas -->
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="packetPipelineCanvas" width="850" height="420" class="w-full h-auto block"></canvas>
+              <div class="absolute top-3 right-3 flex items-center gap-2 pointer-events-none text-xs font-mono">
+                <span class="px-2.5 py-0.5 rounded-full ${isMerge ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'} font-bold">
+                  ${isMerge ? 'CONSOLIDATED MERGE (0x44386)' : 'LEGACY TWO-PASS'}
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full ${isThreaded ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'bg-slate-700/40 text-slate-300 border border-slate-600'} font-bold">
+                  ${isThreaded ? 'PARALLEL (' + allocatedThreads + ' THREADS)' : 'SEQUENTIAL'}
+                </span>
+              </div>
+            </div>
+
+            <!-- Architecture Legend -->
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-400 pt-1">
+              <div class="flex flex-wrap items-center gap-4">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-cyan-400 inline-block"></span> Baseline Stream (32f)</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-amber-400 inline-block"></span> Wire Delta Stream (16f)</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-emerald-400 inline-block"></span> Scratch Arena Merge (0x44386)</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-rose-500 inline-block"></span> Redundant Callback</span>
+              </div>
+              <div class="text-[11px] text-slate-500">
+                Verified: <code class="text-cyan-300 font-mono">engine2.dll</code> @ 0x442e2 / 0x44386
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawPacketPipelineCanvas('packetPipelineCanvas', isMerge, isThreaded, allocatedThreads, N);
+      }
       else {
         // Universal Interactive Engine Telemetry Visualizer for any future simulator added to SIMULATORS_DATA
         const s = SIMULATORS_DATA.find(item => item.id === simId) || { title: 'Engine Simulation', name: 'simulator.cpp', target: 'client.dll', addresses: [] };
@@ -7320,6 +7505,295 @@
           ctx.fillText(s.title || s.name, 50, 32);
         }
       }
+    }
+
+    function setSim21MergeMode(val) {
+      const p = document.getElementById('param21Merge');
+      if (p) p.value = val ? '1' : '0';
+      const btnT = document.getElementById('btnSim21MergeTrue');
+      const btnF = document.getElementById('btnSim21MergeFalse');
+      const lbl = document.getElementById('lblSim21Merge');
+      if (btnT && btnF && lbl) {
+        if (val) {
+          btnT.className = 'py-1.5 px-2 rounded-lg bg-emerald-600 text-white font-bold transition-all shadow-sm border border-emerald-500 flex flex-col items-center';
+          btnF.className = 'py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center';
+          lbl.className = 'px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold';
+          lbl.innerText = 'true (1)';
+        } else {
+          btnT.className = 'py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center';
+          btnF.className = 'py-1.5 px-2 rounded-lg bg-rose-600 text-white font-bold transition-all shadow-sm border border-rose-500 flex flex-col items-center';
+          lbl.className = 'px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30 font-bold';
+          lbl.innerText = 'false (0)';
+        }
+      }
+      renderSimVisualizer('21');
+    }
+
+    function setSim21ParallelMode(val) {
+      const p = document.getElementById('param21Parallel');
+      if (p) p.value = val ? '1' : '0';
+      const btnT = document.getElementById('btnSim21ParallelTrue');
+      const btnF = document.getElementById('btnSim21ParallelFalse');
+      const lbl = document.getElementById('lblSim21Parallel');
+      if (btnT && btnF && lbl) {
+        if (val) {
+          btnT.className = 'py-1.5 px-2 rounded-lg bg-purple-600 text-white font-bold transition-all shadow-sm border border-purple-500 flex flex-col items-center';
+          btnF.className = 'py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center';
+          lbl.className = 'px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 font-bold';
+          lbl.innerText = 'true (1)';
+        } else {
+          btnT.className = 'py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center';
+          btnF.className = 'py-1.5 px-2 rounded-lg bg-slate-700 text-slate-200 font-bold transition-all shadow-sm border border-slate-600 flex flex-col items-center';
+          lbl.className = 'px-2 py-0.5 rounded bg-slate-700/50 text-slate-300 border border-slate-600 font-bold';
+          lbl.innerText = 'false (0)';
+        }
+      }
+      renderSimVisualizer('21');
+    }
+
+    function setSim21Preset(count) {
+      const p = document.getElementById('param21Count');
+      if (p) p.value = count;
+      const lbl = document.getElementById('lblParam21Count');
+      if (lbl) lbl.innerText = parseInt(count).toLocaleString() + ' entities';
+      renderSimVisualizer('21');
+    }
+
+    function drawPacketPipelineCanvas(canvasId, isMerge, isThreaded, allocatedThreads, N) {
+      const cvs = document.getElementById(canvasId);
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width;
+      const h = cvs.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // Dark background with subtle cyber grid
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = '#101927';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 28) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 28) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // Stage 1: Ingress Box (Left: x 25, w 135, y 25, h 370)
+      const inX = 25, inY = 25, inW = 135, inH = 370;
+      ctx.fillStyle = '#0e1626';
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1.5;
+      if (ctx.roundRect) ctx.roundRect(inX, inY, inW, inH, 10); else ctx.rect(inX, inY, inW, inH);
+      ctx.fill(); ctx.stroke();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText('CSVCMsg_Packet', inX + 14, inY + 24);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '9.5px monospace';
+      ctx.fillText('Entities Ingress', inX + 14, inY + 38);
+
+      // Simulated packet blocks
+      const packetCount = 4;
+      for (let p = 0; p < packetCount; p++) {
+        const py = inY + 54 + (p * 58);
+        ctx.fillStyle = '#1e293b';
+        if (ctx.roundRect) ctx.roundRect(inX + 10, py, inW - 20, 48, 6); else ctx.rect(inX + 10, py, inW - 20, 48);
+        ctx.fill();
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 9.5px monospace';
+        ctx.fillText(`PacketChunk #${p + 1}`, inX + 16, py + 16);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '8.5px monospace';
+        const startEnt = Math.round(p * (N / packetCount));
+        const endEnt = Math.round(Math.min((p + 1) * (N / packetCount), N)) - 1;
+        ctx.fillText(`Ents [${startEnt}..${endEnt}]`, inX + 16, py + 30);
+        ctx.fillStyle = '#10b981';
+        ctx.fillText(`BitStream: 0xb0`, inX + 16, py + 42);
+      }
+
+      // Stage 2: Swimlanes (Center: x 195, w 495, y 25, h 370)
+      const lanesX = 195, lanesW = 495;
+      const visibleLanes = Math.min(allocatedThreads, 6);
+      const laneH = Math.min(54, (inH - 20) / visibleLanes);
+      const laneSpacing = 6;
+      const totalLanesH = (visibleLanes * laneH) + ((visibleLanes - 1) * laneSpacing);
+      const startLaneY = inY + (inH - totalLanesH) / 2;
+
+      for (let t = 0; t < visibleLanes; t++) {
+        const ly = startLaneY + (t * (laneH + laneSpacing));
+        const chunkStart = Math.round(t * (N / allocatedThreads));
+        const chunkEnd = Math.round(Math.min((t + 1) * (N / allocatedThreads), N)) - 1;
+
+        // Ingress connector line
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(inX + inW, inY + inH / 2);
+        ctx.bezierCurveTo(inX + inW + 18, inY + inH / 2, lanesX - 18, ly + laneH / 2, lanesX, ly + laneH / 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Lane Box
+        ctx.fillStyle = '#0c1424';
+        ctx.strokeStyle = isThreaded ? '#581c87' : '#1e293b';
+        ctx.lineWidth = 1.5;
+        if (ctx.roundRect) ctx.roundRect(lanesX, ly, lanesW, laneH, 8); else ctx.rect(lanesX, ly, lanesW, laneH);
+        ctx.fill(); ctx.stroke();
+
+        // Lane thread header
+        ctx.fillStyle = isThreaded ? '#c084fc' : '#94a3b8';
+        ctx.font = 'bold 10px monospace';
+        const threadName = isThreaded ? `CJobThread #${t}` : 'Main Network Thread';
+        ctx.fillText(threadName, lanesX + 10, ly + 18);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '9px monospace';
+        ctx.fillText(`Slice [${chunkStart}..${chunkEnd}]`, lanesX + 10, ly + 34);
+
+        // Sub-boxes inside swimlane
+        const subX = lanesX + 155;
+        const subW = lanesW - 170;
+
+        if (isMerge) {
+          // Pre-Decode Scratch Consolidation
+          const scratchW = subW * 0.45;
+          ctx.fillStyle = '#101c2e';
+          ctx.strokeStyle = '#0284c7';
+          if (ctx.roundRect) ctx.roundRect(subX, ly + 8, scratchW, laneH - 16, 5); else ctx.rect(subX, ly + 8, scratchW, laneH - 16);
+          ctx.fill(); ctx.stroke();
+
+          ctx.fillStyle = '#38bdf8';
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillText('Scratch Merge (0x44386)', subX + 6, ly + 20);
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '8px monospace';
+          ctx.fillText('32 Base + 16 Delta', subX + 6, ly + 31);
+
+          // Arrow to single decode pass
+          const arrowX1 = subX + scratchW + 4;
+          const arrowX2 = subX + scratchW + 18;
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(arrowX1, ly + laneH / 2);
+          ctx.lineTo(arrowX2, ly + laneH / 2);
+          ctx.stroke();
+
+          // Single-pass decode box
+          const decX = subX + scratchW + 22;
+          const decW = subW - scratchW - 26;
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+          ctx.strokeStyle = '#10b981';
+          if (ctx.roundRect) ctx.roundRect(decX, ly + 8, decW, laneH - 16, 5); else ctx.rect(decX, ly + 8, decW, laneH - 16);
+          ctx.fill(); ctx.stroke();
+
+          ctx.fillStyle = '#34d399';
+          ctx.font = 'bold 9px monospace';
+          ctx.fillText('1-Pass Decode', decX + 6, ly + 20);
+          ctx.fillStyle = '#6ee7b7';
+          ctx.font = '8px monospace';
+          ctx.fillText('0 Redundant Calls!', decX + 6, ly + 31);
+
+        } else {
+          // Legacy Two-Pass Deserialization
+          const pass1W = subW * 0.44;
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.1)';
+          ctx.strokeStyle = '#e11d48';
+          if (ctx.roundRect) ctx.roundRect(subX, ly + 8, pass1W, laneH - 16, 5); else ctx.rect(subX, ly + 8, pass1W, laneH - 16);
+          ctx.fill(); ctx.stroke();
+
+          ctx.fillStyle = '#fb7185';
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillText('Pass 1: Baseline', subX + 6, ly + 20);
+          ctx.fillStyle = '#f87171';
+          ctx.font = '7.5px monospace';
+          ctx.fillText('Fires Stale Callback!', subX + 6, ly + 31);
+
+          // Arrow to pass 2
+          const arrowX1 = subX + pass1W + 4;
+          const arrowX2 = subX + pass1W + 16;
+          ctx.strokeStyle = '#fb7185';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(arrowX1, ly + laneH / 2);
+          ctx.lineTo(arrowX2, ly + laneH / 2);
+          ctx.stroke();
+
+          // Pass 2 box
+          const pass2X = subX + pass1W + 20;
+          const pass2W = subW - pass1W - 24;
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.12)';
+          ctx.strokeStyle = '#f59e0b';
+          if (ctx.roundRect) ctx.roundRect(pass2X, ly + 8, pass2W, laneH - 16, 5); else ctx.rect(pass2X, ly + 8, pass2W, laneH - 16);
+          ctx.fill(); ctx.stroke();
+
+          ctx.fillStyle = '#fbbf24';
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillText('Pass 2: Wire Delta', pass2X + 6, ly + 20);
+          ctx.fillStyle = '#fca5a5';
+          ctx.font = '7.5px monospace';
+          ctx.fillText('Overwrites Stale Val', pass2X + 6, ly + 31);
+        }
+
+        // Connector to Barrier
+        const barX = 720;
+        ctx.strokeStyle = '#334155';
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(lanesX + lanesW, ly + laneH / 2);
+        ctx.bezierCurveTo(lanesX + lanesW + 14, ly + laneH / 2, barX - 14, inY + inH / 2, barX, inY + inH / 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // Stage 3: Barrier & Chunk Commit Box (Right: x 720, w 105, y 25, h 370)
+      const barX = 720, barW = 105;
+      ctx.fillStyle = '#0e1626';
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 1.5;
+      if (ctx.roundRect) ctx.roundRect(barX, inY, barW, inH, 10); else ctx.rect(barX, inY, barW, inH);
+      ctx.fill(); ctx.stroke();
+
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText('Barrier Sync', barX + 12, inY + 24);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '9px monospace';
+      ctx.fillText('CParallel::Wait', barX + 12, inY + 38);
+
+      // Entity Chunk Table
+      const tblY = inY + 60;
+      ctx.fillStyle = '#1e293b';
+      if (ctx.roundRect) ctx.roundRect(barX + 8, tblY, barW - 16, 120, 6); else ctx.rect(barX + 8, tblY, barW - 16, 120);
+      ctx.fill();
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 9.5px monospace';
+      ctx.fillText('Entity Chunks', barX + 14, tblY + 20);
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '8.5px monospace';
+      const chunkCount = Math.ceil(N / 512);
+      ctx.fillText(`Pages: ${chunkCount}`, barX + 14, tblY + 38);
+      ctx.fillText('Slots: 512/pg', barX + 14, tblY + 54);
+      ctx.fillStyle = '#34d399';
+      ctx.fillText('PostDataUpdate', barX + 14, tblY + 76);
+      ctx.fillStyle = '#a7f3d0';
+      ctx.fillText('Batch Done', barX + 14, tblY + 92);
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText(`${N} Entities`, barX + 14, tblY + 108);
+
+      // Barrier Green Pulse Line
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.7)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(barX + 2, inY + 8);
+      ctx.lineTo(barX + 2, inY + inH - 8);
+      ctx.stroke();
     }
 
     function setSubtickMode(mode) {

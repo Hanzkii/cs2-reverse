@@ -838,5 +838,25 @@
     "delta_str": "-0x5e7c",
     "last_verified_build": "26598758",
     "status": "SHIFTED"
+  },
+  {
+    "id": "engine2_createinterface",
+    "name": "CreateInterface",
+    "binary": "engine2.dll",
+    "category": "Engine Interface",
+    "baseline_rva": "0x00407190",
+    "baseline_va": "0x180407190",
+    "pattern": "4C 8B 0D ?? ?? ?? ?? 4C 8B D2 4C 8B D9",
+    "pattern_type": "prologue",
+    "description": "Standard Source 2 engine module interface factory dispatcher.",
+    "explanation": "Disassembled instruction routine in engine2.dll located at baseline RVA 0x00407190.",
+    "code_snippet": "// Reconstructed prototype for CreateInterface\nvoid CreateInterface();",
+    "reconstructed_file": "game/engine2/createinterface.cpp",
+    "current_rva": "0x00407190",
+    "current_va": "0x180407190",
+    "delta_bytes": 0,
+    "delta_str": "+0x0",
+    "last_verified_build": "26598758",
+    "status": "UNCHANGED"
   }
 ]
