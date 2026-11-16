@@ -120,6 +120,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `animationsystem.dll` | `CBlendUpdateNode_ComputeWeights` | `0x002d7a20` | `0x1802d7a20` | Animation & Hitboxes |
 | `animationsystem.dll` | `CStateMachineUpdateNode_EvaluateTransitions` | `0x002c8260` | `0x1802c8260` | Animation & Hitboxes |
 | `animationsystem.dll` | `Quaternion_FromAngleAxis` | `0x0038dc60` | `0x18038dc60` | Animation & Hitboxes |
+| `rendersystemdx11.dll` | `CDX11Device::Present` | `0x001e0b70` | `0x1801e0b70` | Rendering & Math |
+| `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
+| `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -143,3 +146,4 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [18_lag_compensation_and_hitbox_backtracking.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/18_lag_compensation_and_hitbox_backtracking.md)
 - [19_hit_registration_and_armor_damage.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md)
 - [20_source2_reconstructed_sdk_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md)
+- [net_packet_entities_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/net_packet_entities_pipeline.md)
