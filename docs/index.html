@@ -573,14 +573,17 @@
 
           <!-- Subtab Navigation -->
           <div class="flex flex-wrap items-center gap-1.5 border-t border-slate-800 pt-3 text-xs font-mono">
-            <button onclick="setDiffSubtab('overview')" id="diffSubtabBtn_overview" class="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30 inline-flex items-center gap-1.5 whitespace-nowrap">Overview</button>
-            <button onclick="setDiffSubtab('patches')" id="diffSubtabBtn_patches" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">
+            <button onclick="setDiffSubtab('patches')" id="diffSubtabBtn_patches" class="px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30 inline-flex items-center gap-1.5 whitespace-nowrap">
               <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span>Patch History &amp; Changelog</span>
+              <span>Patch History &amp; AI Changelog</span>
             </button>
-            <button onclick="setDiffSubtab('schemas')" id="diffSubtabBtn_schemas" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Schema Shifts &amp; Offsets</button>
             <button onclick="setDiffSubtab('binaries')" id="diffSubtabBtn_binaries" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Binary PE Deltas</button>
+            <button onclick="setDiffSubtab('schemas')" id="diffSubtabBtn_schemas" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Schema Shifts &amp; Offsets</button>
             <button onclick="setDiffSubtab('interfaces')" id="diffSubtabBtn_interfaces" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">Interfaces &amp; ConVars</button>
+            <button onclick="switchTab('signatures')" id="diffSubtabBtn_signatures" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
+              <svg class="w-3.5 h-3.5 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <span>Canonical Signatures &amp; RVAs</span>
+            </button>
             <button onclick="setDiffSubtab('guide')" id="diffSubtabBtn_guide" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">How to Diff Updates</button>
           </div>
         </div>
@@ -1098,7 +1101,7 @@
     let activeTab = "docs";
     let currentToolCategory = "all";
 
-    let currentDiffSubtab = "overview";
+    let currentDiffSubtab = "patches";
     let currentDiffOld = "";
     let currentDiffNew = "";
 
@@ -2954,11 +2957,12 @@
     }
 
     function setDiffSubtab(subtab, updateHash = true) {
+      if (subtab === 'overview') subtab = 'patches';
       if (updateHash) {
         setUrlHash('diff/' + subtab);
       }
       currentDiffSubtab = subtab;
-      const tabs = ['overview', 'patches', 'schemas', 'binaries', 'interfaces', 'guide'];
+      const tabs = ['patches', 'binaries', 'schemas', 'interfaces', 'guide'];
       tabs.forEach(t => {
         const btn = document.getElementById('diffSubtabBtn_' + t);
         if (btn) {
@@ -3027,18 +3031,16 @@
       const vNew = VERSIONS_DATA.find(v => v.tag === currentDiffNew) || VERSIONS_DATA[0];
       const diff = DIFFS_DATA.find(d => d.old_tag === currentDiffOld && d.new_tag === currentDiffNew);
 
-      if (currentDiffSubtab === 'overview') {
-        renderDiffOverview(container, vOld, vNew, diff);
-      } else if (currentDiffSubtab === 'patches') {
-        renderDiffPatches(container);
+      if (currentDiffSubtab === 'binaries') {
+        renderDiffBinaries(container, vOld, vNew, diff);
       } else if (currentDiffSubtab === 'schemas') {
         renderDiffSchemas(container, vOld, vNew, diff);
-      } else if (currentDiffSubtab === 'binaries') {
-        renderDiffBinaries(container, vOld, vNew, diff);
       } else if (currentDiffSubtab === 'interfaces') {
         renderDiffInterfaces(container, vOld, vNew, diff);
       } else if (currentDiffSubtab === 'guide') {
         renderDiffGuide(container);
+      } else {
+        renderDiffPatches(container);
       }
     }
 
@@ -3054,8 +3056,71 @@
 
 
     // ========================================================================
-    // 4C-2. Patch History & Module Changelog
+    // 4C-2. Patch History & AI Changelog Component
     // ========================================================================
+    function renderPatchAiOverviewBox(oldTag, newTag) {
+      const diff = (typeof DIFFS_DATA !== 'undefined' ? DIFFS_DATA : []).find(d => d.old_tag === oldTag && d.new_tag === newTag);
+      const ai = diff ? diff.ai_overview : null;
+      if (!ai) return '';
+
+      const subsystems = ai.subsystems || [];
+      return `
+        <!-- AI Patch Intelligence Briefing Box -->
+        <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950/60 via-slate-950/90 to-[#0c101c] border border-indigo-500/40 hover:border-indigo-500/70 rounded-xl p-4 sm:p-5 space-y-3.5 transition-all shadow-xl relative z-10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-indigo-500/20 pb-3">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 shadow-sm">
+                <span class="flex h-1.5 w-1.5 relative">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-indigo-500"></span>
+                </span>
+                AI PATCH OVERVIEW
+              </span>
+              <span class="text-xs sm:text-sm font-bold text-white tracking-tight">${escapeHtml(ai.title || 'Update Intelligence')}</span>
+            </div>
+            <div class="text-[10px] font-mono text-indigo-300/80 shrink-0">Automated Architecture Analysis</div>
+          </div>
+
+          <!-- Executive Summary -->
+          <div class="bg-slate-900/70 border border-indigo-500/20 rounded-xl p-3.5 space-y-1.5">
+            <div class="text-[10px] font-mono font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-indigo-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Executive Briefing &bull; Update TL;DR</span>
+            </div>
+            <p class="text-slate-200 text-xs sm:text-[13px] leading-relaxed font-sans">
+              ${escapeHtml(ai.executive_summary || '')}
+            </p>
+          </div>
+
+          <!-- Subsystem Impact Grid -->
+          ${subsystems.length > 0 ? `
+            <div class="space-y-1.5 pt-0.5">
+              <div class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">Subsystem Impact Analysis:</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                ${subsystems.map(sub => {
+                  const status = sub.status || 'STABLE';
+                  const badgeClass = status === 'CRITICAL_FIX' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
+                                     status === 'REFACTORED' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
+                                     status === 'MAINTENANCE' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' :
+                                     status === 'ADDED' ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' :
+                                     'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+                  return `
+                    <div class="bg-slate-950/80 border border-slate-800/90 rounded-lg p-2.5 space-y-1 font-mono text-[11px]">
+                      <div class="flex items-center justify-between gap-1">
+                        <span class="font-bold text-slate-200 truncate">${escapeHtml(sub.name)}</span>
+                        <span class="px-1.5 py-0.2 rounded text-[9px] font-bold border ${badgeClass} shrink-0">${escapeHtml(status)}</span>
+                      </div>
+                      <p class="text-slate-400 text-[10px] font-sans leading-relaxed line-clamp-2">${escapeHtml(sub.description)}</p>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
     function renderDiffPatches(container) {
       container.innerHTML = `
         <div class="space-y-6">
@@ -3114,10 +3179,7 @@
               </div>
             </div>
 
-            <!-- Summary & Telemetry Pills -->
-            <p class="text-xs text-slate-300 leading-relaxed font-sans relative z-10">
-              Critical stability hotfix addressing the <strong onclick="openBinaryCodeDelta('rendersystemdx11.dll')" class="text-amber-300 hover:underline cursor-pointer">DirectX 11 device lost rendering hang</strong> in <code>rendersystemdx11.dll</code> via explicit pre-present state validation. Refactored <strong onclick="openBinaryCodeDelta('steamnetworkingsockets.dll')" class="text-amber-300 hover:underline cursor-pointer">Steam Datagram Relay (SDR) encrypted UDP transport</strong> (+14.4 KB in <code>steamnetworkingsockets.dll</code>) and integrated automated profiler command line parsing (<code onclick="openBinaryCodeDelta('engine2.dll')" class="text-cyan-400 hover:underline cursor-pointer">VProfLite_ParseCommandLineOption</code> at 0x18021F820 in <code>engine2.dll</code>). All <strong onclick="loadPatchDiff('2026-10-25_26144732', '2026-11-11_26598758', 'signatures')" class="text-purple-300 hover:underline cursor-pointer">39 canonical Source 2 SDK signatures</strong> verified intact with zero broken patterns.
-            </p>
+            ${renderPatchAiOverviewBox('2026-10-25_26144732', '2026-11-11_26598758')}
 
             <!-- 4 Interactive Summary Click Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs relative z-10">
@@ -3269,10 +3331,7 @@
               </div>
             </div>
 
-            <!-- Summary & Telemetry Pills -->
-            <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Major engine update re-compiling <strong onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'binaries')" class="text-amber-300 hover:underline cursor-pointer">32 of 34 core binaries</strong> (~129 MB patch). Static analysis identified <strong onclick="openAddedEngineItemsModal('2026-10-21_26087496', '2026-10-25_26144732')" class="text-cyan-400 hover:underline cursor-pointer font-mono">1 new Schema class (CVoiceContainerVMixSnd)</strong>, <strong onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas')" class="text-amber-300 hover:underline cursor-pointer">25 modified classes with 255 shifted member offsets</strong> (including <code onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'schemas'); onDiffSchemaSearch('C_CSPlayerPawn');" class="text-cyan-400 hover:underline cursor-pointer">C_CSPlayerPawn</code> viewmodel alignment fields), <strong onclick="openAddedEngineItemsModal('2026-10-21_26087496', '2026-10-25_26144732')" class="text-emerald-400 hover:underline cursor-pointer">3 new render ConVars</strong>, and <strong onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'signatures')" class="text-purple-300 hover:underline cursor-pointer">10 shifted canonical function signatures</strong> across <code>client.dll</code> and <code>server.dll</code>. All 39 signature patterns match with 100% uniqueness (0 broken).
-            </p>
+            ${renderPatchAiOverviewBox('2026-10-21_26087496', '2026-10-25_26144732')}
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
               <div onclick="loadPatchDiff('2026-10-21_26087496', '2026-10-25_26144732', 'binaries')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-amber-400 cursor-pointer transition-all group shadow-md hover:shadow-amber-500/10">
@@ -3436,9 +3495,7 @@
               </div>
             </div>
 
-            <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Valve released a client/server maintenance update. Confirmed <strong>0 SchemaSystem field shifts</strong>, <strong>0 instruction opcode changes</strong>, and <strong>100% signature stability (39/39 verified)</strong>. Recompilation affected only <code>client.dll</code> and <code>server.dll</code>, renewing Authenticode digital signatures and realigning <code>.rdata</code> string pools.
-            </p>
+            ${renderPatchAiOverviewBox('2026-10-15_25966348', '2026-10-21_26087496')}
 
             <!-- 4 Interactive Summary Click Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
@@ -3489,9 +3546,7 @@
               </div>
             </div>
 
-            <p class="text-xs text-slate-300 leading-relaxed font-sans">
-              Authoritative initial static reverse engineering baseline. Extracted full RTTI Complete Object Locators, virtual method jump tables, SchemaSystem reflection tables, and 39 canonical function signatures across all 34 core Source 2 engine modules.
-            </p>
+            ${renderPatchAiOverviewBox('2026-10-15_25966348', '2026-10-15_25966348')}
 
             <div class="space-y-2">
               <span class="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Indexed Core Modules (All 34 Synced):</span>
@@ -3507,7 +3562,7 @@
       `;
     }
 
-    function loadPatchDiff(oldTag, newTag, targetSubtab = 'overview') {
+    function loadPatchDiff(oldTag, newTag, targetSubtab = 'patches') {
       const selOld = document.getElementById('diffSelectOld');
       const selNew = document.getElementById('diffSelectNew');
       if (selOld && selNew) {
@@ -3525,400 +3580,8 @@
     }
 
     function renderDiffOverview(container, vOld, vNew, diff) {
-      const isSelf = (currentDiffOld === currentDiffNew);
-      const s = diff ? diff.summary : {
-        binaries_modified_count: 0,
-        classes_added_count: 0,
-        classes_removed_count: 0,
-        classes_modified_count: 0,
-        fields_shifted_total: 0,
-        interfaces_added_count: 0,
-        interfaces_removed_count: 0,
-        cvars_added_count: 0,
-        cvars_removed_count: 0
-      };
-
-      // Determine modified binaries
-      const oldBins = (vOld && vOld.binaries) ? vOld.binaries : {};
-      const newBins = (vNew && vNew.binaries) ? vNew.binaries : {};
-      const modifiedBinList = [];
-
-      if (diff && diff.binary_diffs && diff.binary_diffs.length > 0) {
-        diff.binary_diffs.filter(b => b.status === 'MODIFIED').forEach(b => {
-          modifiedBinList.push({
-            name: b.binary,
-            oldSize: b.old_size,
-            newSize: b.new_size,
-            delta: b.delta,
-            oldHash: oldBins[b.binary] ? oldBins[b.binary].sha256 : '',
-            newHash: newBins[b.binary] ? newBins[b.binary].sha256 : ''
-          });
-        });
-      } else {
-        Object.keys(newBins).forEach(bName => {
-          if (oldBins[bName] && oldBins[bName].sha256 !== newBins[bName].sha256) {
-            modifiedBinList.push({
-              name: bName,
-              oldSize: oldBins[bName].size,
-              newSize: newBins[bName].size,
-              delta: newBins[bName].size - oldBins[bName].size,
-              oldHash: oldBins[bName].sha256,
-              newHash: newBins[bName].sha256
-            });
-          }
-        });
-      }
-
-      let convarsBannerHtml = '';
-      const addedCvars = (diff && diff.cvars && diff.cvars.added) ? diff.cvars.added : [];
-      const addedDetails = (diff && diff.cvars && diff.cvars.added_details) ? diff.cvars.added_details : [];
-
-      // AI Patch Intelligence Briefing Card Component
-      let aiOverviewHtml = '';
-      const aiOverview = diff ? diff.ai_overview : null;
-      if (aiOverview) {
-        const oldBuildStr = vOld ? (vOld.build_id || vOld.tag) : 'Baseline';
-        const newBuildStr = vNew ? (vNew.build_id || vNew.tag) : 'Target';
-        const isSameVer = (oldBuildStr === newBuildStr);
-
-        const subsystems = aiOverview.subsystems || [];
-        const keyDiscoveries = aiOverview.key_discoveries || [];
-
-        aiOverviewHtml = `
-          <!-- AI Patch Intelligence Briefing Card -->
-          <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950/70 via-slate-900/90 to-[#0e131f] border-2 border-indigo-500/40 hover:border-indigo-500/70 rounded-2xl p-6 shadow-2xl transition-all space-y-5">
-            <!-- Ambient Glows -->
-            <div class="absolute -top-24 -right-24 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <!-- Header Section -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-500/20 pb-4 relative z-10">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 shadow-sm">
-                    <span class="flex h-2 w-2 relative">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                    </span>
-                    AI PATCH INTELLIGENCE BRIEFING
-                  </span>
-                  <span class="text-xs font-mono text-slate-400">
-                    ${isSameVer ? `Snapshot Build ${newBuildStr}` : `Build ${oldBuildStr} &rarr; ${newBuildStr}`}
-                  </span>
-                </div>
-                <h2 class="text-lg font-bold text-white tracking-tight mt-1.5 flex items-center gap-2">
-                  <span>${escapeHtml(aiOverview.title || 'Source 2 Engine Delta Analysis & Architecture Report')}</span>
-                </h2>
-              </div>
-              <div class="flex items-center gap-2 self-start sm:self-auto">
-                <button onclick="setDiffSubtab('binaries')" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-200 border border-indigo-500/30 text-xs font-mono transition-all cursor-pointer">
-                  Binary Deltas
-                </button>
-                <button onclick="setDiffSubtab('signatures')" class="px-3 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-200 border border-indigo-500/30 text-xs font-mono transition-all cursor-pointer">
-                  Signatures
-                </button>
-              </div>
-            </div>
-
-            <!-- Executive TL;DR Summary Callout -->
-            <div class="bg-slate-950/70 border border-indigo-500/20 rounded-xl p-4.5 space-y-2 relative z-10">
-              <div class="flex items-center gap-2 text-xs font-mono font-bold text-indigo-300">
-                <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>EXECUTIVE SUMMARY &bull; UPDATE TL;DR</span>
-              </div>
-              <p class="text-slate-200 text-sm leading-relaxed font-sans">
-                ${escapeHtml(aiOverview.executive_summary || '')}
-              </p>
-            </div>
-
-            <!-- Subsystem Impact Grid -->
-            ${subsystems.length > 0 ? `
-              <div class="space-y-2 relative z-10">
-                <div class="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                  Subsystem Impact Analysis
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  ${subsystems.map(sub => {
-                    const status = sub.status || 'STABLE';
-                    const badgeClass = status === 'CRITICAL_FIX' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
-                                       status === 'REFACTORED' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
-                                       status === 'MAINTENANCE' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' :
-                                       status === 'ADDED' ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' :
-                                       'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
-                    return `
-                      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5 font-mono text-xs">
-                        <div class="flex items-center justify-between">
-                          <span class="text-xs font-bold text-slate-200">${escapeHtml(sub.name)}</span>
-                          <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${badgeClass}">${escapeHtml(status)}</span>
-                        </div>
-                        <div class="text-[10px] text-indigo-400 font-mono">${escapeHtml(sub.badge || '')}</div>
-                        <p class="text-slate-400 text-[11px] font-sans leading-relaxed">
-                          ${escapeHtml(sub.description)}
-                        </p>
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
-              </div>
-            ` : ''}
-
-            <!-- Key Reverse-Engineering Discoveries -->
-            ${keyDiscoveries.length > 0 ? `
-              <div class="space-y-3 pt-1 relative z-10">
-                <div class="text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
-                  <span class="flex items-center gap-1.5">
-                    <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                    Key Reverse-Engineering Discoveries &amp; Code Insights
-                  </span>
-                  <span class="text-[10px] text-slate-500 font-sans">Click card to inspect disassembly &amp; code deltas</span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                  ${keyDiscoveries.map(kd => {
-                    const impact = kd.impact || 'Medium';
-                    const impactBadge = impact === 'High' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
-                                        impact === 'Medium' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
-                                        'bg-slate-800 text-slate-300 border-slate-700';
-                    return `
-                      <div onclick="openBinaryCodeDelta('${escapeHtml(kd.binary || 'client.dll')}')" class="bg-slate-950/80 border border-slate-800 hover:border-indigo-500/50 rounded-xl p-4 space-y-2 transition-all cursor-pointer group">
-                        <div class="flex items-center justify-between">
-                          <span class="text-xs font-bold text-indigo-300 group-hover:text-indigo-200 transition-colors">${escapeHtml(kd.title)}</span>
-                          <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${impactBadge}">${escapeHtml(impact)} Impact</span>
-                        </div>
-                        <p class="text-slate-300 text-xs font-sans leading-relaxed">
-                          ${escapeHtml(kd.summary)}
-                        </p>
-                        <div class="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[10px] font-mono text-slate-400">
-                          <span class="text-slate-400">${escapeHtml(kd.binary || '')} &bull; <span class="text-slate-300">${escapeHtml(kd.anchor || 'Routine')}</span></span>
-                          <span class="text-indigo-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                            Inspect Code Delta &rarr;
-                          </span>
-                        </div>
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
-              </div>
-            ` : ''}
-
-            <!-- Bottom Quick Action Bar -->
-            <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-indigo-500/20 relative z-10">
-              <div class="flex items-center gap-2 text-xs text-slate-400 font-sans">
-                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span>Telemetry synchronized with Ghidra decompilation archive &amp; Source 2 SDK.</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <button onclick="setDiffSubtab('schemas')" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-cyan-300 border border-slate-700 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer">
-                  <span>Schemas (${s.fields_shifted_total} shifts)</span>
-                </button>
-                <button onclick="setDiffSubtab('interfaces')" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-purple-300 border border-slate-700 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer">
-                  <span>ConVars (+${s.cvars_added_count})</span>
-                </button>
-                <button onclick="setDiffSubtab('signatures')" class="px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-emerald-300 border border-slate-700 text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer">
-                  <span>Signatures (${s.signatures_shifted_count || 0} shifted)</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      if (!isSelf && addedCvars.length > 0) {
-        convarsBannerHtml = `
-          <!-- Newly Introduced ConVars Banner in Patch Diffing -->
-          <div class="bg-gradient-to-r from-cyan-500/10 via-slate-900 to-[#111827] border-2 border-cyan-500/50 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
-              <div>
-                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 uppercase tracking-wider">
-                  New ConVars &amp; Commands Added in this Update
-                </span>
-                <h3 class="text-base font-bold text-white mt-1.5 flex items-center gap-2">
-                  <span class="flex h-3 w-3 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
-                  </span>
-                  <span>${addedCvars.length} New ConVar${addedCvars.length > 1 ? 's' : ''} Introduced in Build ${vNew ? (vNew.build_id || vNew.tag) : ''}</span>
-                </h3>
-              </div>
-              <button onclick="setDiffSubtab('interfaces')" class="px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-mono font-bold transition-all flex items-center gap-1.5 self-start sm:self-auto shadow-lg shadow-cyan-500/20 cursor-pointer">
-                <span>View Full ConVar Deltas</span>
-                <span>&rarr;</span>
-              </button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
-              ${(addedDetails.length > 0 ? addedDetails : addedCvars.map(cv => ({ name: cv, binary: 'engine2.dll', category: 'General', description: 'Newly introduced console variable.', flags: ['FCVAR_NONE'] }))).map(cv => `
-                <div onclick="switchTab('convars'); filterConvarsBySearch('${escapeHtml(cv.name)}')" class="bg-slate-950/80 border border-cyan-500/40 hover:border-cyan-400 rounded-xl p-4 space-y-2.5 font-mono text-xs transition-all cursor-pointer group">
-                  <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-cyan-300 break-all">${escapeHtml(cv.name)}</span>
-                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/50">NEW</span>
-                  </div>
-                  <div class="flex items-center gap-2 text-[10px]">
-                    <span class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">${escapeHtml(cv.binary || 'engine2.dll')}</span>
-                    <span class="text-slate-400">${escapeHtml(cv.category || 'General')}</span>
-                  </div>
-                  <p class="text-slate-300 text-[11px] font-sans leading-relaxed line-clamp-3">
-                    ${escapeHtml(cv.description || '')}
-                  </p>
-                  <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-500">
-                    <span>${(cv.flags || []).slice(0, 2).join(', ') || 'FCVAR_NONE'}</span>
-                    <span class="text-cyan-400 group-hover:underline">Inspect in ConVars &rarr;</span>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      }
-
-      let modifiedBannerHtml = '';
-      if (!isSelf && modifiedBinList.length > 0) {
-        modifiedBannerHtml = `
-          <!-- Prominent Modified Binaries Highlight Card -->
-          <div class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-[#111827] border-2 border-amber-500/50 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-500/20 pb-4">
-              <div>
-                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase tracking-wider">
-                  Recompiled Game Binaries Detected
-                </span>
-                <h3 class="text-base font-bold text-white mt-1.5 flex items-center gap-2">
-                  <span class="flex h-3 w-3 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
-                  </span>
-                  <span>${modifiedBinList.length} Binaries Modified in Build ${vNew ? vNew.build_id : ''}</span>
-                </h3>
-              </div>
-              <button onclick="setDiffSubtab('binaries')" class="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-mono font-bold transition-all flex items-center gap-1.5 self-start sm:self-auto shadow-lg shadow-amber-500/20">
-                <span>View in Binaries Table</span>
-                <span>&rarr;</span>
-              </button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-              ${modifiedBinList.map(b => {
-                const sizeMb = (b.newSize / (1024 * 1024)).toFixed(2);
-                const deltaStr = b.delta === 0 ? '+0 B (Identical byte size)' : (b.delta > 0 ? `+${b.delta} B` : `${b.delta} B`);
-                return `
-                  <div onclick="openBinaryCodeDelta('${b.name}')" class="bg-slate-950/80 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group">
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold text-amber-300">${b.name}</span>
-                      </div>
-                      <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">
-                        RECOMPILED
-                      </span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
-                      <div>
-                        <span class="text-slate-500 block text-[10px]">Binary Size</span>
-                        <span class="text-slate-200 font-bold">${sizeMb} MB <span class="text-slate-400 font-normal">(${deltaStr})</span></span>
-                      </div>
-                      <div>
-                        <span class="text-slate-500 block text-[10px]">Signature Stability</span>
-                        <span class="text-emerald-400 font-bold">100% Verified (0 Shift)</span>
-                      </div>
-                    </div>
-
-                    <div class="space-y-1 text-[10px]">
-                      <div class="flex items-center justify-between text-slate-400">
-                        <span>Baseline SHA-256:</span>
-                        <span class="text-slate-300 font-mono">${b.oldHash ? b.oldHash.substring(0, 14) + '...' : 'N/A'}</span>
-                      </div>
-                      <div class="flex items-center justify-between text-slate-400">
-                        <span>Target SHA-256:</span>
-                        <span class="text-amber-400 font-mono font-bold">${b.newHash ? b.newHash.substring(0, 14) + '...' : 'N/A'}</span>
-                      </div>
-                    </div>
-
-                    <button onclick="event.stopPropagation(); openBinaryCodeDelta('${b.name}')" class="w-full mt-2 py-2 px-3 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 group-hover:bg-amber-500 group-hover:text-slate-950">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                      <span>Inspect Code &amp; Instruction Delta &rarr;</span>
-                    </button>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          </div>
-        `;
-      }
-
-      container.innerHTML = `
-        ${aiOverviewHtml}
-
-        <!-- Differential Summary Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div onclick="setDiffSubtab('binaries')" class="bg-[#111827] border border-cs2-border hover:border-amber-500/50 rounded-xl p-4 flex flex-col justify-between cursor-pointer transition-all group">
-            <span class="text-[10px] font-mono text-slate-500 uppercase flex items-center justify-between">
-              <span>Binaries Modified</span>
-              <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
-            </span>
-            <span class="text-2xl font-bold font-mono ${s.binaries_modified_count > 0 ? 'text-amber-400' : 'text-emerald-400'} mt-1">${s.binaries_modified_count}</span>
-            <span class="text-[11px] text-slate-400 mt-1">out of 34 PE binaries</span>
-          </div>
-          <div onclick="setDiffSubtab('schemas')" class="bg-[#111827] border border-cs2-border hover:border-cyan-500/50 rounded-xl p-4 flex flex-col justify-between cursor-pointer transition-all group">
-            <span class="text-[10px] font-mono text-slate-500 uppercase flex items-center justify-between">
-              <span>Field Offsets Shifted</span>
-              <span class="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
-            </span>
-            <span class="text-2xl font-bold font-mono ${s.fields_shifted_total > 0 ? 'text-amber-400' : 'text-emerald-400'} mt-1">${s.fields_shifted_total}</span>
-            <span class="text-[11px] text-slate-400 mt-1">across ${s.classes_modified_count} classes</span>
-          </div>
-          <div onclick="setDiffSubtab('schemas')" class="bg-[#111827] border border-cs2-border hover:border-cyan-500/50 rounded-xl p-4 flex flex-col justify-between cursor-pointer transition-all group">
-            <span class="text-[10px] font-mono text-slate-500 uppercase flex items-center justify-between">
-              <span>Classes Added / Del</span>
-              <span class="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
-            </span>
-            <span class="text-2xl font-bold font-mono text-cyan-400 mt-1">+${s.classes_added_count} / -${s.classes_removed_count}</span>
-            <span class="text-[11px] text-slate-400 mt-1">SchemaSystem classes</span>
-          </div>
-          <div onclick="setDiffSubtab('interfaces')" class="bg-[#111827] border border-cs2-border hover:border-purple-500/50 rounded-xl p-4 flex flex-col justify-between cursor-pointer transition-all group">
-            <span class="text-[10px] font-mono text-slate-500 uppercase flex items-center justify-between">
-              <span>ConVar &amp; Interface Bumps</span>
-              <span class="text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
-            </span>
-            <span class="text-2xl font-bold font-mono text-purple-400 mt-1">+${s.cvars_added_count + s.interfaces_added_count}</span>
-            <span class="text-[11px] text-slate-400 mt-1">${s.interfaces_added_count} interfaces, ${s.cvars_added_count} cvars</span>
-          </div>
-        </div>
-
-        ${modifiedBannerHtml}
-
-        ${convarsBannerHtml}
-
-        <!-- Quick Binary Section Breakdown -->
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-bold text-white flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-              Core Source 2 Engine Modules in this Snapshot
-            </h3>
-            <button onclick="setDiffSubtab('binaries')" class="text-xs font-mono text-sky-400 hover:text-sky-300">
-              View All 34 Binaries &rarr;
-            </button>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            ${['client.dll', 'server.dll', 'engine2.dll', 'schemasystem.dll', 'networksystem.dll', 'vphysics2.dll'].map(binName => {
-              const binInfo = vNew && vNew.binaries ? vNew.binaries[binName] : null;
-              const oldInfo = vOld && vOld.binaries ? vOld.binaries[binName] : null;
-              const isMod = !isSelf && ((oldInfo && binInfo && oldInfo.sha256 !== binInfo.sha256) || (diff && diff.binary_diffs && diff.binary_diffs.some(bd => bd.binary === binName && bd.status === 'MODIFIED')));
-              const sizeMb = binInfo ? (binInfo.size / (1024 * 1024)).toFixed(2) : '-';
-              return `
-                <div class="bg-slate-900/80 border ${isMod ? 'border-amber-500/50 bg-amber-500/5' : 'border-slate-800'} rounded-xl p-3 flex items-center justify-between font-mono text-xs">
-                  <div>
-                    <span class="font-bold ${isMod ? 'text-amber-300' : 'text-cyan-400'}">${binName}</span>
-                    <span class="text-slate-500 text-[11px] block">${sizeMb} MB</span>
-                  </div>
-                  ${isMod ? 
-                    '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Recompiled</span>' :
-                    '<span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Synced</span>'
-                  }
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      `;
+      // Forward overview to the unified Patch History & AI Changelog
+      renderDiffPatches(container);
     }
     let diffSchemaBinaryFilter = 'all';
     let diffSchemaSearchQuery = '';
