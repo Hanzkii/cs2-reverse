@@ -1,11 +1,20 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title CS2 3D Replay and Sub-Tick Overlay Auto-Renderer
+title CS2 In-Game Sub-Tick HUD and Replay Overlay Launcher
 color 0B
 
 echo ==============================================================================
-echo   COUNTER-STRIKE 2: AUTOMATED 3D MOVIE AND SUB-TICK REPLAY PIPELINE
+echo   COUNTER-STRIKE 2: IN-GAME SUB-TICK AND LAG COMPENSATION HUD OVERLAY
+echo ==============================================================================
+echo.
+echo   - 100% In-Game Overlay (floats directly over CS2 window while watching demo)
+echo   - Layer 1: Sub-Tick Micro-Slice Bar (15.625 ms discrete window)
+echo   - Layer 2: 3D Rewound Lag Comp Hitbox (Capsule + Apex #6 Head Sphere)
+echo   - Layer 3: Bullet Ray-Trace and Trajectory Vector
+echo   - Layer 4: Desync and Anomaly Rollback Alerts
+echo   - Layer 5: Interactive Settings Menu (Press F1 or INSERT in-game)
+echo.
 echo ==============================================================================
 echo.
 

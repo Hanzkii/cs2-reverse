@@ -32,3 +32,6 @@ versions/archive/
 temp/
 tools/temp/
 tmp/
+
+# Rendered clips and local recording output
+rendered_clips/
