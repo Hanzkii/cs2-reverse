@@ -441,6 +441,10 @@ public:
         }
         punch.angle.pitch = ClampFloat(punch.angle.pitch, -89.0f, 89.0f);
     }
+
+    static QAngle GetEffectiveViewPunchAngle(const AimPunchState& punch) {
+        return { punch.angle.pitch * 2.0f, punch.angle.yaw * 2.0f, punch.angle.roll * 2.0f };
+    }
 };
 
 // =======================================================================================
@@ -475,6 +479,240 @@ static void RenderTargetImpacts(const std::vector<SpreadVector2D>& impacts, floa
         std::cout << "    |" << grid[y] << "|\n";
     }
     std::cout << "    +" << std::string(gridWidth, '-') << "+\n";
+}
+
+// =======================================================================================
+// Automated Verification Unit Tests
+// =======================================================================================
+
+bool TestVelocityScaling() {
+    std::cout << "\n  [TEST 1] Inaccuracy Velocity Scaling Across Standing (0 u/s), Walking (130 u/s), Running (250 u/s)...\n";
+    AccuracyConVars cvars;
+    CCSWeaponVData ak = CreateAK47();
+    WeaponAccuracyState state;
+    state.m_fAccuracyPenalty = ak.m_flInaccuracyStand;
+    PlayerContext ctx;
+    ctx.onGround = true;
+
+    // 1. Standing (0 u/s)
+    ctx.velocity = {0.0f, 0.0f, 0.0f};
+    ctx.ducking = false;
+    float inacc0 = CSimulatorPipeline::GetInaccuracy(state, ak, ctx, cvars);
+    if (std::abs(inacc0 - ak.m_flInaccuracyStand) > 1e-5f) {
+        std::cerr << "    FAILED: Standing inaccuracy mismatch. Expected " << ak.m_flInaccuracyStand << ", got " << inacc0 << "\n";
+        return false;
+    }
+
+    // 2. Walking (130 u/s) - Standing
+    ctx.velocity = {130.0f, 0.0f, 0.0f};
+    ctx.ducking = false;
+    float inacc130_stand = CSimulatorPipeline::GetInaccuracy(state, ak, ctx, cvars);
+    float low = ak.m_flMaxSpeed * 0.34f;   // 73.1
+    float high = ak.m_flMaxSpeed * 0.95f; // 204.25
+    float expectedFracStand = (130.0f - low) / (high - low);
+    float expectedInacc130_stand = ak.m_flInaccuracyStand + expectedFracStand * ak.m_flInaccuracyMove;
+    if (std::abs(inacc130_stand - expectedInacc130_stand) > 1e-4f) {
+        std::cerr << "    FAILED: Walking standing inaccuracy mismatch. Expected " << expectedInacc130_stand << ", got " << inacc130_stand << "\n";
+        return false;
+    }
+
+    // 3. Walking (130 u/s) - Crouching (0.25 exponent)
+    ctx.ducking = true;
+    state.m_fAccuracyPenalty = ak.m_flInaccuracyCrouch;
+    float inacc130_crouch = CSimulatorPipeline::GetInaccuracy(state, ak, ctx, cvars);
+    float expectedFracCrouch = std::pow(expectedFracStand, 0.25f);
+    float expectedInacc130_crouch = ak.m_flInaccuracyCrouch + expectedFracCrouch * ak.m_flInaccuracyMove;
+    if (std::abs(inacc130_crouch - expectedInacc130_crouch) > 1e-4f) {
+        std::cerr << "    FAILED: Walking crouch inaccuracy mismatch. Expected " << expectedInacc130_crouch << ", got " << inacc130_crouch << "\n";
+        return false;
+    }
+
+    // 4. Running (250 u/s) - Saturated above high
+    ctx.ducking = false;
+    state.m_fAccuracyPenalty = ak.m_flInaccuracyStand;
+    ctx.velocity = {250.0f, 0.0f, 0.0f};
+    float inacc250 = CSimulatorPipeline::GetInaccuracy(state, ak, ctx, cvars);
+    float expectedInacc250 = ak.m_flInaccuracyStand + 1.0f * ak.m_flInaccuracyMove;
+    if (std::abs(inacc250 - expectedInacc250) > 1e-5f) {
+        std::cerr << "    FAILED: Running saturation mismatch. Expected " << expectedInacc250 << ", got " << inacc250 << "\n";
+        return false;
+    }
+
+    // Monotonic scaling invariant
+    if (!(inacc0 < inacc130_stand && inacc130_stand < inacc250)) {
+        std::cerr << "    FAILED: Monotonic scaling violation!\n";
+        return false;
+    }
+
+    std::cout << "    [PASS] Standing (0 u/s)=" << inacc0 
+              << ", Walking (130 u/s)=" << inacc130_stand 
+              << ", Running (250 u/s)=" << inacc250 
+              << " verified with monotonic precision.\n";
+    return true;
+}
+
+bool TestDualDiskMonteCarloRadiusBounds() {
+    std::cout << "\n  [TEST 2] Dual-Disk Monte Carlo Distribution Radius Bounds (10,000 iterations)...\n";
+    AccuracyConVars cvars;
+    CCSWeaponVData ak = CreateAK47();
+    float inacc = ak.m_flInaccuracyStand;
+    float spread = ak.m_flSpread;
+    float theoreticalMaxRadius = inacc + spread; // 0.00455 + 0.00200 = 0.00655
+
+    constexpr int SAMPLES = 10000;
+    float maxObservedRadius = 0.0f;
+    float minObservedRadius = 1e9f;
+    float sumRadius = 0.0f;
+
+    for (int i = 0; i < SAMPLES; ++i) {
+        uint32_t seed = CSubtickSeedGenerator::GenerateSeed(i * 3 + 7, (i % 64));
+        SpreadVector2D vec = CSimulatorPipeline::CalculateSpreadVector(
+            ak.itemDefIndex, 0, seed, inacc, spread, 0.0f, cvars
+        );
+        float r = vec.Length();
+        if (r > maxObservedRadius) maxObservedRadius = r;
+        if (r < minObservedRadius) minObservedRadius = r;
+        sumRadius += r;
+
+        if (r > (theoreticalMaxRadius + 1e-6f)) {
+            std::cerr << "    FAILED: Sample " << i << " exceeded theoretical max radius: " 
+                      << r << " > " << theoreticalMaxRadius << "\n";
+            return false;
+        }
+        if (r < 0.0f) {
+            std::cerr << "    FAILED: Sample " << i << " radius is negative: " << r << "\n";
+            return false;
+        }
+    }
+
+    float meanRadius = sumRadius / static_cast<float>(SAMPLES);
+    std::cout << "    [PASS] 10,000 samples strictly within bounds: min=" << minObservedRadius 
+              << ", max=" << maxObservedRadius 
+              << " <= theoretical max (" << theoreticalMaxRadius << "), mean=" << meanRadius << "\n";
+    return true;
+}
+
+bool TestExponentialRecoveryDecayConvergence() {
+    std::cout << "\n  [TEST 3] Exponential Recovery Decay ODE Convergence (t -> infinity)...\n";
+    CCSWeaponVData ak = CreateAK47();
+    PlayerContext ctx;
+    ctx.onGround = true;
+
+    // Part A: Single-shot baseline recovery (recoilIndex = 0 => tau = m_flRecoveryTimeStand = 0.450s)
+    {
+        WeaponAccuracyState state;
+        float initialPenalty = 0.06000f; // Single shot elevated penalty
+        state.m_fAccuracyPenalty = initialPenalty;
+        state.m_flRecoilIndex = 0.0f;
+        state.m_iRecoilIndex = 0;
+        state.m_fLastShotTime = 0.0f;
+
+        float target = ak.m_flInaccuracyStand; // 0.00455
+        float recoveryTime = ak.m_flRecoveryTimeStand; // 0.450s
+
+        float curTime = 0.0f;
+        float penaltyAtTau = 0.0f;
+        bool checkedTau = false;
+
+        while (curTime < 3.0f) {
+            curTime += TICK_INTERVAL;
+            CSimulatorPipeline::UpdateAccuracyPenalty(state, ak, ctx, curTime, TICK_INTERVAL);
+
+            if (!checkedTau && curTime >= recoveryTime) {
+                penaltyAtTau = state.m_fAccuracyPenalty;
+                checkedTau = true;
+            }
+        }
+
+        // At t = tau, excess should be ~10% (1/10th) of initial excess
+        float initialExcess = initialPenalty - target;
+        float excessAtTau = penaltyAtTau - target;
+        float ratioAtTau = excessAtTau / initialExcess;
+
+        if (ratioAtTau < 0.08f || ratioAtTau > 0.12f) {
+            std::cerr << "    FAILED: Decay at tau out of expected 10% band: ratio=" << ratioAtTau << "\n";
+            return false;
+        }
+
+        // At t = 3.0s, penalty should converge to target within 1e-5
+        float residual = std::abs(state.m_fAccuracyPenalty - target);
+        if (residual > 1e-5f) {
+            std::cerr << "    FAILED: Non-convergence at t=3.0s. Target=" << target 
+                      << ", Actual=" << state.m_fAccuracyPenalty << ", Residual=" << residual << "\n";
+            return false;
+        }
+
+        std::cout << "    [PASS - Part A] Base recovery excess at tau(" << recoveryTime << "s) = " 
+                  << (ratioAtTau * 100.0f) << "% (10% expected). Asymptotic residual at 3s=" << residual << "\n";
+    }
+
+    // Part B: Extended continuous burst recovery with rapid-fire recoil index decay
+    {
+        WeaponAccuracyState state;
+        float initialPenalty = 0.17320f;
+        state.m_fAccuracyPenalty = initialPenalty;
+        state.m_flRecoilIndex = 25.0f;
+        state.m_iRecoilIndex = 25;
+        state.m_fLastShotTime = 0.0f;
+
+        float target = ak.m_flInaccuracyStand;
+        float curTime = 0.0f;
+
+        while (curTime < 3.0f) {
+            curTime += TICK_INTERVAL;
+            CSimulatorPipeline::UpdateAccuracyPenalty(state, ak, ctx, curTime, TICK_INTERVAL);
+        }
+
+        // At t = 3.0s, penalty must converge to target
+        float residual = std::abs(state.m_fAccuracyPenalty - target);
+        if (residual > 1e-4f) {
+            std::cerr << "    FAILED: Extended burst non-convergence at t=3.0s. Target=" << target 
+                      << ", Actual=" << state.m_fAccuracyPenalty << ", Residual=" << residual << "\n";
+            return false;
+        }
+
+        // Continuous recoil index must decay and snap to 0 via deadzone
+        if (state.m_flRecoilIndex != 0.0f || state.m_iRecoilIndex != 0) {
+            std::cerr << "    FAILED: Recoil index did not snap to 0. Got fl=" 
+                      << state.m_flRecoilIndex << ", int=" << state.m_iRecoilIndex << "\n";
+            return false;
+        }
+
+        std::cout << "    [PASS - Part B] Extended burst converged to target=" << target 
+                  << ", recoil index snapped to 0.00000.\n";
+    }
+
+    return true;
+}
+
+bool TestAimPunchDynamicsAnd2xViewFactor() {
+    std::cout << "\n  [TEST 4] Recoil Aim Punch Dynamics & 2.0x View Factor...\n";
+    AimPunchState punch;
+    punch.angle.pitch = -1.155f;
+    punch.velocity.pitch = -23.10f;
+
+    // 1. Authoritative 2.0x view kick factor
+    QAngle viewPunch = CSimulatorPipeline::GetEffectiveViewPunchAngle(punch);
+    if (std::abs(viewPunch.pitch - (-2.310f)) > 1e-5f) {
+        std::cerr << "    FAILED: View punch 2.0x factor mismatch: " << viewPunch.pitch << "\n";
+        return false;
+    }
+
+    // 2. Simulate damping until deadzone cutoff
+    for (int tick = 0; tick < 128; ++tick) {
+        CSimulatorPipeline::SimulateAimPunchDecay(punch, TICK_INTERVAL);
+    }
+
+    // Should have decayed to exactly zero via deadzone cutoff
+    if (punch.angle.pitch != 0.0f || punch.velocity.pitch != 0.0f) {
+        std::cerr << "    FAILED: Aim punch did not decay to zero. Pitch angle=" 
+                  << punch.angle.pitch << ", vel=" << punch.velocity.pitch << "\n";
+        return false;
+    }
+
+    std::cout << "    [PASS] 2.0x view kick verified (" << viewPunch.pitch 
+              << " deg). Damped spring snapped to zero via deadzone cutoff.\n";
+    return true;
 }
 
 } // namespace CS2Sim
@@ -755,9 +993,27 @@ int main() {
         RenderTargetImpacts(impacts, maxR);
     }
 
+    // -----------------------------------------------------------------------------------
+    // Scenario 6: Automated Verification Unit Test Suite
+    // -----------------------------------------------------------------------------------
     std::cout << "\n====================================================================================\n";
-    std::cout << "  [SIMULATION COMPLETE] All accuracy, recoil, and spread math verified clean.\n";
+    std::cout << "  [SCENARIO 6] AUTOMATED MATHEMATICAL UNIT VERIFICATION SUITE\n";
     std::cout << "====================================================================================\n";
 
-    return 0;
+    bool allTestsPassed = true;
+    allTestsPassed &= TestVelocityScaling();
+    allTestsPassed &= TestDualDiskMonteCarloRadiusBounds();
+    allTestsPassed &= TestExponentialRecoveryDecayConvergence();
+    allTestsPassed &= TestAimPunchDynamicsAnd2xViewFactor();
+
+    std::cout << "\n====================================================================================\n";
+    if (allTestsPassed) {
+        std::cout << "  [UNIT TESTS PASSED] 100% of mathematical invariants and limits verified clean.\n";
+        std::cout << "====================================================================================\n";
+        return 0;
+    } else {
+        std::cerr << "  [UNIT TESTS FAILED] One or more mathematical checks violated.\n";
+        std::cout << "====================================================================================\n";
+        return 1;
+    }
 }

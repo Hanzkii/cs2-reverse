@@ -1,0 +1,21 @@
+// ============================================================================
+// Extracted from Source 2 Binary: panorama_text_pango.dll
+// File Descriptor: uifontfile_format.proto (Size: 274 bytes)
+// Extracted via tools/extract_protobuf_schemas.py
+// ============================================================================
+
+syntax = "proto2";
+
+message CUIFontFilePB {
+  optional string font_file_name = 1;
+  optional bytes opentype_font_data = 2;
+}
+
+message CUIFontFilePackagePB {
+  message CUIEncryptedFontFilePB {
+    optional bytes encrypted_contents = 1;
+  }
+
+  optional uint32 package_version = 1;
+  repeated CUIFontFilePackagePB.CUIEncryptedFontFilePB encrypted_font_files = 2;
+}

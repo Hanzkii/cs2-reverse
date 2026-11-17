@@ -36,13 +36,13 @@ public:
     SCHEMA_FIELD(int32_t, m_nLastEmptySoundCmdNum, 0x1A20); // +0x1a20
     SCHEMA_FIELD(bool, m_bFireOnEmpty, 0x1A24); // +0x1a24
     SCHEMA_FIELD(uintptr_t, m_OnPlayerPickup, 0x1A28); // +0x1a28
-    SCHEMA_FIELD(uintptr_t, m_weaponMode, 0x1A40); // +0x1a40
+    SCHEMA_FIELD(int32_t, m_weaponMode, 0x1A40); // +0x1a40
     SCHEMA_FIELD(float, m_flTurningInaccuracyDelta, 0x1A44); // +0x1a44
     SCHEMA_FIELD(Vector3, m_vecTurningInaccuracyEyeDirLast, 0x1A48); // +0x1a48
     SCHEMA_FIELD(float, m_flTurningInaccuracy, 0x1A54); // +0x1a54
-    SCHEMA_FIELD(uintptr_t, m_fAccuracyPenalty, 0x1A58); // +0x1a58
+    SCHEMA_FIELD(float, m_fAccuracyPenalty, 0x1A58); // +0x1a58
     SCHEMA_FIELD(float, m_flLastAccuracyUpdateTime, 0x1A5C); // +0x1a5c
-    SCHEMA_FIELD(uintptr_t, m_fAccuracySmoothedForZoom, 0x1A60); // +0x1a60
+    SCHEMA_FIELD(float, m_fAccuracySmoothedForZoom, 0x1A60); // +0x1a60
     SCHEMA_FIELD(int32_t, m_iRecoilIndex, 0x1A64); // +0x1a64
     SCHEMA_FIELD(float, m_flRecoilIndex, 0x1A68); // +0x1a68
     SCHEMA_FIELD(bool, m_bBurstMode, 0x1A6C); // +0x1a6c
@@ -75,7 +75,7 @@ public:
     SCHEMA_FIELD(int32_t, m_nDropTick, 0x1B7C); // +0x1b7c
     SCHEMA_FIELD(bool, m_bWasActiveWeaponWhenDropped, 0x1B80); // +0x1b80
     SCHEMA_FIELD(uintptr_t, m_donated, 0x1BA4); // +0x1ba4
-    SCHEMA_FIELD(uintptr_t, m_fLastShotTime, 0x1BA8); // +0x1ba8
+    SCHEMA_FIELD(float, m_fLastShotTime, 0x1BA8); // +0x1ba8
     SCHEMA_FIELD(bool, m_bWasOwnedByCT, 0x1BAC); // +0x1bac
     SCHEMA_FIELD(bool, m_bWasOwnedByTerrorist, 0x1BAD); // +0x1bad
     SCHEMA_FIELD(float, m_flNextClientFireBulletTime, 0x1BB0); // +0x1bb0

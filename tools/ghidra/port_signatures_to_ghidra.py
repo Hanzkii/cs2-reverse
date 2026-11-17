@@ -189,7 +189,7 @@ def run_headless_porting(ghidra_home: Path, project_dir: Path, project_name: str
                          dry_run: bool = False):
     """Run Ghidra Headless Analyzer to port signatures across all project binaries."""
     analyze_bat = ghidra_home / "support" / "analyzeHeadless.bat"
-    if not analyze_bat.exists():
+    if not dry_run and not analyze_bat.exists():
         print(f"[-] ERROR: analyzeHeadless.bat not found at {analyze_bat}")
         return False
 
@@ -337,13 +337,19 @@ def main():
 
     ghidra_home = Path(args.ghidra_home) if args.ghidra_home else None
     if not ghidra_home:
-        print("[-] ERROR: --ghidra-home not specified and GHIDRA_HOME env var not set.")
-        sys.exit(1)
+        if args.dry_run:
+            ghidra_home = Path(os.environ.get("GHIDRA_HOME", "<GHIDRA_HOME>"))
+        else:
+            print("[-] ERROR: --ghidra-home not specified and GHIDRA_HOME env var not set.")
+            sys.exit(1)
 
     project_dir = Path(args.project_dir) if args.project_dir else None
     if not project_dir:
-        print("[-] ERROR: --project-dir not specified and CS2_DISASSEMBLY_DIR env var not set.")
-        sys.exit(1)
+        if args.dry_run:
+            project_dir = Path(os.environ.get("CS2_DISASSEMBLY_DIR", "<CS2_DISASSEMBLY_DIR>"))
+        else:
+            print("[-] ERROR: --project-dir not specified and CS2_DISASSEMBLY_DIR env var not set.")
+            sys.exit(1)
 
     success = run_headless_porting(
         ghidra_home=ghidra_home,

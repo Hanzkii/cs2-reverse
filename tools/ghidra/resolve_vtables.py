@@ -466,7 +466,7 @@ def run_headless_ghidra(ghidra_home: Path, project_dir: Path, project_name: str,
                         dry_run: bool = False):
     """Executes analyzeHeadless.bat with Source2_VTableResolver.java across target binaries."""
     analyze_bat = ghidra_home / "support" / "analyzeHeadless.bat"
-    if not analyze_bat.exists():
+    if not dry_run and not analyze_bat.exists():
         analyze_bat = ghidra_home / "support" / "analyzeHeadless"
         if not analyze_bat.exists():
             print(f"[-] ERROR: analyzeHeadless not found under {ghidra_home}")
@@ -762,11 +762,17 @@ def main():
     if args.headless:
         # Ghidra Headless Analyzer Mode
         if not args.ghidra_home:
-            print("[-] ERROR: --ghidra-home or %GHIDRA_HOME% environment variable required for --headless mode.")
-            sys.exit(1)
+            if args.dry_run:
+                args.ghidra_home = os.environ.get("GHIDRA_HOME", "<GHIDRA_HOME>")
+            else:
+                print("[-] ERROR: --ghidra-home or %GHIDRA_HOME% environment variable required for --headless mode.")
+                sys.exit(1)
         if not args.project_dir:
-            print("[-] ERROR: --project-dir or %CS2_DISASSEMBLY_DIR% environment variable required for --headless mode.")
-            sys.exit(1)
+            if args.dry_run:
+                args.project_dir = os.environ.get("CS2_DISASSEMBLY_DIR", "<CS2_DISASSEMBLY_DIR>")
+            else:
+                print("[-] ERROR: --project-dir or %CS2_DISASSEMBLY_DIR% environment variable required for --headless mode.")
+                sys.exit(1)
 
         success = run_headless_ghidra(
             ghidra_home=Path(args.ghidra_home),

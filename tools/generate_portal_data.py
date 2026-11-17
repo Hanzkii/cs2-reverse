@@ -1353,6 +1353,18 @@ TOOLS_DATA = [
         "codeSnippet": "proc = subprocess.run([analyze_bat, project_dir, project_name, '-process', bin_name, '-noanalysis', '-postScript', 'Source2_PortSignatures.java', str(sigs_path)])"
     },
     {
+        "id": "import_sdk_types",
+        "name": "import_sdk_types.py & Source2_ImportSDKTypes.java",
+        "category": "Ghidra Integration",
+        "language": "Python 3 & Java (GhidraScript)",
+        "targets": ["data/source2_types.h", "game/shared/schema_classes/", "DataTypeManager"],
+        "summary": "Headless C-Parser & SDK type importer populating all 2,276 SchemaSystem classes and C++20 reconstructed entity types into Ghidra.",
+        "purpose": "Headlessly feeds data/source2_types.h and reconstructed C++20 definitions from game/shared/schema_classes/ into Ghidra's DataTypeManager (/Source2/Classes and /Source2/BaseTypes). Resolves exact struct layouts, offsets, base classes, and typed pointers so Ghidra decompilation displays high-level member accesses (e.g. pawn->m_pGameSceneNode) instead of raw pointer offsets (*(int*)(param_1 + 0x34c)). Supports analyzeHeadless postScript batching, dry-run validation, and in-Ghidra GUI parsing.",
+        "usage": "python tools/ghidra/import_sdk_types.py --project-dir <CS2_DIR> --project-name CS2\npython tools/ghidra/import_sdk_types.py --dry-run",
+        "exampleOutput": "=================================================================\n CS2 HEADLESS SDK TYPE IMPORTER & C-PARSER PIPELINE\n=================================================================\n Source C Header:    data/source2_types.h (2,276 classes)\n C++20 Schemas Dir:  game/shared/schema_classes (20 classes)\n Merged SDK catalog: 2,276 total classes (207 fields upgraded)\n[*] Module: client.dll (183 classes to populate in /Source2/Classes)...\n  [+] Ingested 183 client schema classes into /Source2/Classes\n[+] Finished SDK type import across target binaries.",
+        "codeSnippet": "dtm = currentProgram.getDataTypeManager()\nstruct = StructureDataType(CategoryPath('/Source2/Classes'), cls_name, cls_size, dtm)\nstruct.replaceAtOffset(offset, field_type, field_size, field_name, comment)\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER)"
+    },
+    {
         "id": "generate_signature",
         "name": "generate_signature.py",
         "category": "Binary Scanning & Automation",
@@ -1375,6 +1387,30 @@ TOOLS_DATA = [
         "usage": "python tools/update_orchestrator.py --target-build 2026-11-11_26598758",
         "exampleOutput": "=== Source 2 Game Update Ingestion Engine ===\nScanning 43 canonical signatures across 34 updated binaries...\n  [+] All 43 signatures successfully migrated! Zero broken signatures.\nGenerating markdown diff report in versions/diffs/2026-11-11_26598758.md...",
         "codeSnippet": "def run_update_pipeline(build_tag):\n    run_patch_diff(build_tag)\n    run_signature_scan(build_tag, update_db=True)\n    run_portal_sync()"
+    },
+    {
+        "id": "diff_vtables",
+        "name": "diff_vtables.py",
+        "category": "RTTI & VTable Crawlers",
+        "language": "Python 3",
+        "targets": ["data/vtables.json", "Universal (All 10 Core DLLs)"],
+        "summary": "Differential VTable ABI comparison and slot shift detection engine across Source 2 updates.",
+        "purpose": "Compares two vtables.json datasets across Source 2 game updates to detect virtual method additions, removals, slot count changes, and index displacement shifts. Emits structured warnings and markdown alerts if canonical interface slots (CEntityInstance, CEngineClient, CCvar, CSchemaSystem) have moved, ensuring C++20 interface headers stay ABI-synchronized.",
+        "usage": "python tools/diff_vtables.py --old versions/archive/2026-10-25_26144732/vtables.json --new data/vtables.json --output-report report.md",
+        "exampleOutput": "=================================================================\n VTABLE ABI DIFF ANALYSIS SUMMARY\n=================================================================\n  Binaries Audited:        client.dll, engine2.dll, server.dll, tier0.dll\n  Baseline Total VTables:  13,365\n  Target Total VTables:    13,365\n  Added VTables:           +0\n  Removed VTables:         -0\n  Modified VTables:        0\n  Canonical Slot Shifts:   0\n=================================================================",
+        "codeSnippet": "engine = VTableDiffEngine(old_data, new_data)\ndiff_res = engine.compute_diff(binary_filter=args.binary)\nreport_md = format_markdown_report(diff_res, args.old, args.new)"
+    },
+    {
+        "id": "extract_protobuf_schemas",
+        "name": "extract_protobuf_schemas.py",
+        "category": "Protobuf & Network Inspection",
+        "language": "Python 3",
+        "targets": ["networksystem.dll", "client.dll", "server.dll", "engine2.dll", "data/protobuf/"],
+        "summary": "Scans PE .rdata sections for compiled Google Protobuf descriptor tables and extracts canonical .proto schemas.",
+        "purpose": "Locates compiled DescriptorTable and FileDescriptorProto/FileDescriptorSet structures across Source 2 binaries, parses the LEB128 varint wire streams with a version-resilient pure Python decoder, and reconstructs 42 canonical .proto definitions (cstrike15_usermessages.proto, cs_usercmd.proto, netmessages.proto, gameevents.proto, networkbasetypes.proto) into data/protobuf/ with an indexed manifest.json.",
+        "usage": "python tools/extract_protobuf_schemas.py --archive versions/archive/2026-11-11_26598758 --outdir data/protobuf",
+        "exampleOutput": "=================================================================\n SOURCE 2 PROTOBUF SCHEMA EXTRACTOR\n=================================================================\n[*] Scanning 33 binaries in: versions/archive/2026-11-11_26598758...\n  [+] client.dll               : Discovered 33 descriptor tables\n  [+] networksystem.dll        : Discovered 7 descriptor tables\n[*] Total unique schemas successfully decoded: 42 / 108 tables\n[+] Successfully extracted 42 canonical .proto files!\n[+] Generated schema manifest at: data/protobuf/manifest.json",
+        "codeSnippet": "scanner = BinaryProtoScanner(dll_path)\ndescs = scanner.scan_descriptors()\nfor proto_name, size, desc_off in descs:\n    decoded = ProtoWireDecoder.decode_file_descriptor(raw_chunk)\n    proto_code = ProtoFormatter.emit_proto_file(decoded, dll_name, size)"
     }
 ]
 

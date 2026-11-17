@@ -1,0 +1,27 @@
+// ============================================================================
+// Extracted from Source 2 Binary: engine2.dll
+// File Descriptor: networksystem_protomessages.proto (Size: 260 bytes)
+// Extracted via tools/extract_protobuf_schemas.py
+// ============================================================================
+
+syntax = "proto2";
+
+message NetMessageSplitscreenUserChanged {
+  optional uint32 slot = 1;
+}
+
+message NetMessageConnectionClosed {
+  optional uint32 reason = 1;
+  optional string message = 2;
+}
+
+message NetMessageConnectionCrashed {
+  optional uint32 reason = 1;
+  optional string message = 2;
+}
+
+message NetMessagePacketStart {
+}
+
+message NetMessagePacketEnd {
+}

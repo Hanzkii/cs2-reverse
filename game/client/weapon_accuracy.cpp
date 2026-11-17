@@ -1,4 +1,5 @@
 #include "weapon_accuracy.h"
+#include "../shared/schema_classes/C_CSWeaponBase.h"
 #include <algorithm>
 #include <cmath>
 
@@ -513,6 +514,86 @@ Vector3 CWeaponAccuracyPipeline::CalculateSpreadConeRay(
     };
 
     return NormalizeVector(ray);
+}
+
+// =======================================================================================
+// Source 2 C_CSWeaponBase Schema Class Direct Integration Methods
+// =======================================================================================
+
+WeaponAccuracyState CWeaponAccuracyPipeline::ReadStateFromSchema(const cs2::schema::C_CSWeaponBase* weapon) {
+    WeaponAccuracyState state{};
+    if (!weapon) return state;
+
+    state.m_weaponMode = weapon->m_weaponMode();
+    state.m_flTurningInaccuracyDelta = weapon->m_flTurningInaccuracyDelta();
+    const auto& lastDir = weapon->m_vecTurningInaccuracyEyeDirLast();
+    state.m_vecTurningInaccuracyEyeDirLast = {lastDir.x, lastDir.y, lastDir.z};
+    state.m_flTurningInaccuracy = weapon->m_flTurningInaccuracy();
+    state.m_fAccuracyPenalty = weapon->m_fAccuracyPenalty();
+    state.m_flLastAccuracyUpdateTime = weapon->m_flLastAccuracyUpdateTime();
+    state.m_fAccuracySmoothedForZoom = weapon->m_fAccuracySmoothedForZoom();
+    state.m_iRecoilIndex = weapon->m_iRecoilIndex();
+    state.m_flRecoilIndex = weapon->m_flRecoilIndex();
+    state.m_bInReload = weapon->m_bInReload();
+    state.m_fLastShotTime = weapon->m_fLastShotTime();
+    return state;
+}
+
+void CWeaponAccuracyPipeline::WriteStateToSchema(cs2::schema::C_CSWeaponBase* weapon, const WeaponAccuracyState& state) {
+    if (!weapon) return;
+
+    weapon->m_weaponMode() = state.m_weaponMode;
+    weapon->m_flTurningInaccuracyDelta() = state.m_flTurningInaccuracyDelta;
+    weapon->m_vecTurningInaccuracyEyeDirLast().x = state.m_vecTurningInaccuracyEyeDirLast.x;
+    weapon->m_vecTurningInaccuracyEyeDirLast().y = state.m_vecTurningInaccuracyEyeDirLast.y;
+    weapon->m_vecTurningInaccuracyEyeDirLast().z = state.m_vecTurningInaccuracyEyeDirLast.z;
+    weapon->m_flTurningInaccuracy() = state.m_flTurningInaccuracy;
+    weapon->m_fAccuracyPenalty() = state.m_fAccuracyPenalty;
+    weapon->m_flLastAccuracyUpdateTime() = state.m_flLastAccuracyUpdateTime;
+    weapon->m_fAccuracySmoothedForZoom() = state.m_fAccuracySmoothedForZoom;
+    weapon->m_iRecoilIndex() = state.m_iRecoilIndex;
+    weapon->m_flRecoilIndex() = state.m_flRecoilIndex;
+    weapon->m_bInReload() = state.m_bInReload;
+    weapon->m_fLastShotTime() = state.m_fLastShotTime;
+}
+
+void CWeaponAccuracyPipeline::UpdateAccuracyPenalty(
+    cs2::schema::C_CSWeaponBase* weapon,
+    const CCSWeaponBaseVData_Accuracy& vdata,
+    const PlayerPawnAccuracyContext& ctx,
+    float curTime,
+    float dt,
+    const AccuracyConVars& cvars
+) {
+    if (!weapon) return;
+    WeaponAccuracyState state = ReadStateFromSchema(weapon);
+    UpdateAccuracyPenalty(state, vdata, ctx, curTime, dt, cvars);
+    WriteStateToSchema(weapon, state);
+}
+
+float CWeaponAccuracyPipeline::GetInaccuracy(
+    const cs2::schema::C_CSWeaponBase* weapon,
+    const CCSWeaponBaseVData_Accuracy& vdata,
+    const PlayerPawnAccuracyContext& ctx,
+    float* outSpread,
+    float* outJumpInacc,
+    const AccuracyConVars& cvars
+) {
+    if (!weapon) return 0.0f;
+    WeaponAccuracyState state = ReadStateFromSchema(weapon);
+    return GetInaccuracy(state, vdata, ctx, outSpread, outJumpInacc, cvars);
+}
+
+void CWeaponAccuracyPipeline::OnWeaponFired(
+    cs2::schema::C_CSWeaponBase* weapon,
+    const CCSWeaponBaseVData_Accuracy& vdata,
+    AimPunchState& punchState,
+    float curTime
+) {
+    if (!weapon) return;
+    WeaponAccuracyState state = ReadStateFromSchema(weapon);
+    OnWeaponFired(state, vdata, punchState, curTime);
+    WriteStateToSchema(weapon, state);
 }
 
 } // namespace cs2::client

@@ -154,3 +154,4 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [subtick_wire_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/subtick_wire_framing.md)
 - [volumetric_smoke_voxel_grid.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/volumetric_smoke_voxel_grid.md)
 - [vtable_resolution_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/vtable_resolution_pipeline.md)
+- [weapon_spread_recoil_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/weapon_spread_recoil_physics.md)

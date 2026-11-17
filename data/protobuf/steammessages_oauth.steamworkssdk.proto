@@ -1,0 +1,22 @@
+// ============================================================================
+// Extracted from Source 2 Binary: client.dll
+// File Descriptor: steammessages_oauth.steamworkssdk.proto (Size: 708 bytes)
+// Extracted via tools/extract_protobuf_schemas.py
+// ============================================================================
+
+syntax = "proto2";
+
+import "steammessages_unified_base.steamworkssdk.proto";
+
+message COAuthToken_ImplicitGrantNoPrompt_Request {
+  optional string clientid = 1;
+}
+
+message COAuthToken_ImplicitGrantNoPrompt_Response {
+  optional string access_token = 1;
+  optional string redirect_uri = 2;
+}
+
+service OAuthToken {
+  rpc ImplicitGrantNoPrompt (COAuthToken_ImplicitGrantNoPrompt_Request) returns (COAuthToken_ImplicitGrantNoPrompt_Response);
+}

@@ -5,6 +5,10 @@
 #include <cstdint>
 #include <cmath>
 
+namespace cs2::schema {
+class C_CSWeaponBase;
+}
+
 namespace cs2::client {
 
 /**
@@ -44,19 +48,20 @@ struct CCSWeaponBaseVData_Accuracy {
 
 /**
  * @brief Dynamic runtime weapon accuracy and recoil state (C_CSWeaponBase).
+ * Verified against client.dll SchemaSystem class reflection (Build 26598758).
  */
 struct WeaponAccuracyState {
-    float m_fAccuracyPenalty = 0.0f;              // +0x1a18
-    float m_flLastAccuracyUpdateTime = 0.0f;      // +0x1a1c
-    float m_fAccuracySmoothedForZoom = 0.0f;      // +0x1a20
-    int32_t m_iRecoilIndex = 0;                   // +0x1a24
-    float m_flRecoilIndex = 0.0f;                 // +0x1a28
-    float m_flTurningInaccuracyDelta = 0.0f;      // +0x1a04
-    Vector3 m_vecTurningInaccuracyEyeDirLast{};   // +0x1a08
-    float m_flTurningInaccuracy = 0.0f;           // +0x1a14
-    float m_fLastShotTime = 0.0f;                 // +0x1b68
-    int32_t m_weaponMode = 0;                     // +0x1a00
-    bool m_bInReload = false;                     // +0x1a3c
+    int32_t m_weaponMode = 0;                     // +0x1A40
+    float m_flTurningInaccuracyDelta = 0.0f;      // +0x1A44
+    Vector3 m_vecTurningInaccuracyEyeDirLast{};   // +0x1A48
+    float m_flTurningInaccuracy = 0.0f;           // +0x1A54
+    float m_fAccuracyPenalty = 0.0f;              // +0x1A58
+    float m_flLastAccuracyUpdateTime = 0.0f;      // +0x1A5C
+    float m_fAccuracySmoothedForZoom = 0.0f;      // +0x1A60
+    int32_t m_iRecoilIndex = 0;                   // +0x1A64
+    float m_flRecoilIndex = 0.0f;                 // +0x1A68
+    bool m_bInReload = false;                     // +0x1A7C
+    float m_fLastShotTime = 0.0f;                 // +0x1BA8
 };
 
 /**
@@ -72,7 +77,7 @@ struct PlayerPawnAccuracyContext {
 };
 
 /**
- * @brief Recoil aim punch spring-damper state (CPlayer_AimPunchServices).
+ * @brief Recoil aim punch spring-damper state (CCSPlayer_AimPunchServices).
  */
 struct AimPunchState {
     int32_t m_predictableBaseTick = 0;            // +0x0048
@@ -80,6 +85,19 @@ struct AimPunchState {
     QAngle m_aimPunchAngle{};                     // +0x0050 (m_predictableBaseAngle)
     QAngle m_aimPunchAngleVel{};                  // +0x005c (m_predictableBaseAngleVel)
 };
+
+/**
+ * @brief Evaluates effective camera view punch angle using authoritative 2.0x factor.
+ */
+constexpr float AIM_PUNCH_VIEW_FACTOR = 2.0f;
+
+inline QAngle GetEffectiveViewPunchAngle(const AimPunchState& punchState) noexcept {
+    return {
+        punchState.m_aimPunchAngle.pitch * AIM_PUNCH_VIEW_FACTOR,
+        punchState.m_aimPunchAngle.yaw   * AIM_PUNCH_VIEW_FACTOR,
+        punchState.m_aimPunchAngle.roll  * AIM_PUNCH_VIEW_FACTOR
+    };
+}
 
 /**
  * @brief 2D spread deflection vector on the view plane.
@@ -238,6 +256,56 @@ public:
      */
     static void OnWeaponFired(
         WeaponAccuracyState& state,
+        const CCSWeaponBaseVData_Accuracy& vdata,
+        AimPunchState& punchState,
+        float curTime
+    );
+
+    // ===================================================================================
+    // Source 2 C_CSWeaponBase Schema Class Direct Integration
+    // ===================================================================================
+
+    /**
+     * @brief Extracts WeaponAccuracyState snapshot from C_CSWeaponBase schema instance.
+     */
+    static WeaponAccuracyState ReadStateFromSchema(const cs2::schema::C_CSWeaponBase* weapon);
+
+    /**
+     * @brief Writes WeaponAccuracyState back into C_CSWeaponBase schema instance.
+     */
+    static void WriteStateToSchema(cs2::schema::C_CSWeaponBase* weapon, const WeaponAccuracyState& state);
+
+    /**
+     * @brief Schema-integrated tick update for weapon accuracy penalty and recoil index decay.
+     * Reconstructed from FUN_1808230d0 @ RVA 0x008230d0 (C_CSWeaponBase::UpdateAccuracyPenalty).
+     */
+    static void UpdateAccuracyPenalty(
+        cs2::schema::C_CSWeaponBase* weapon,
+        const CCSWeaponBaseVData_Accuracy& vdata,
+        const PlayerPawnAccuracyContext& ctx,
+        float curTime,
+        float dt,
+        const AccuracyConVars& cvars
+    );
+
+    /**
+     * @brief Schema-integrated composite weapon inaccuracy evaluation.
+     * Reconstructed from FUN_1808074a0 @ RVA 0x008074a0 (C_CSWeaponBase::GetInaccuracy).
+     */
+    static float GetInaccuracy(
+        const cs2::schema::C_CSWeaponBase* weapon,
+        const CCSWeaponBaseVData_Accuracy& vdata,
+        const PlayerPawnAccuracyContext& ctx,
+        float* outSpread,
+        float* outJumpInacc,
+        const AccuracyConVars& cvars
+    );
+
+    /**
+     * @brief Schema-integrated weapon firing impulse handler.
+     */
+    static void OnWeaponFired(
+        cs2::schema::C_CSWeaponBase* weapon,
         const CCSWeaponBaseVData_Accuracy& vdata,
         AimPunchState& punchState,
         float curTime
