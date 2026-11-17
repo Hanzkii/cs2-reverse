@@ -559,7 +559,8 @@
         "packet-entities-merge"
       ],
       "simulators": [
-        "21"
+        "21",
+        "23"
       ],
       "progress": {
         "status": "Extensively Reversed",
@@ -698,7 +699,9 @@
         "network-framing",
         "flattened-serializers"
       ],
-      "simulators": [],
+      "simulators": [
+        "23"
+      ],
       "progress": {
         "status": "Extensively Reversed",
         "badgeColor": "emerald",

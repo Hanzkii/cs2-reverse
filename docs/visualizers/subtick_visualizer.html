@@ -8,6 +8,10 @@
     canvas {
       image-rendering: pixelated;
     }
+    .dragover {
+      border-color: #38bdf8 !important;
+      background-color: rgba(56, 189, 248, 0.08) !important;
+    }
   </style>
 </head>
 <body class="bg-transparent text-[var(--foreground)] antialiased p-4">
@@ -58,8 +62,54 @@
       </div>
     </div>
 
-    <!-- Interactive Controls -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[var(--background)] p-4 rounded-xl border border-[var(--border)]">
+    <!-- Drag & Drop Zone for Demo Replay JSON -->
+    <div id="dropZone" onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-slate-700 hover:border-cyan-500/60 rounded-xl p-4 text-center cursor-pointer transition-colors bg-slate-900/40">
+      <input type="file" id="fileInput" accept=".json" class="hidden" onchange="handleFileSelect(event)">
+      <div class="flex items-center justify-center gap-2 text-xs font-mono text-slate-400">
+        <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+        <span id="dropText">Drag &amp; drop CS2 Replay JSON (<code class="text-cyan-300">cs2_demo_validator.py --export-replay-json</code>) to inspect live telemetry</span>
+      </div>
+    </div>
+
+    <!-- Replay Scrubber Workstation (Visible when replay is loaded) -->
+    <div id="replayPanel" class="hidden space-y-4 bg-slate-900/60 p-4 rounded-xl border border-cyan-500/30">
+      <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold" id="replayMap">de_dust2</span>
+          <span class="text-slate-400">Tick: <strong class="text-white" id="replayTickNum">6400</strong></span>
+          <span class="text-slate-400">Cmd: <strong class="text-white" id="replayCmdNum">100</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="replayBtnBadge" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Buttons: IN_FORWARD</span>
+          <span id="replayCombatBadge" class="hidden px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold animate-pulse">RAYCAST ENGAGEMENT</span>
+        </div>
+      </div>
+
+      <!-- Scrubber Slider -->
+      <div class="space-y-1">
+        <input type="range" id="replayScrubber" min="0" max="0" value="0" class="w-full accent-cyan-400 cursor-pointer" oninput="onScrub(parseInt(this.value))">
+        <div class="flex justify-between text-[11px] font-mono text-slate-500">
+          <span>Start (Tick 0)</span>
+          <div class="flex gap-2">
+            <button onclick="stepReplay(-1)" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded">&larr; Prev</button>
+            <button id="btnPlayPause" onclick="togglePlayPause()" class="px-3 py-0.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-bold">Play</button>
+            <button onclick="stepReplay(1)" class="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded">Next &rarr;</button>
+          </div>
+          <span id="replayTotalTicks">64 Ticks</span>
+        </div>
+      </div>
+
+      <!-- Live Replay Telemetry Metrics -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 pt-2 border-t border-slate-800 text-[11px] font-mono">
+        <div><span class="text-slate-500">Predicted Pos:</span> <span id="telemetryPos" class="text-cyan-300">[0.0, 0.0, 0.0]</span></div>
+        <div><span class="text-slate-500">Velocity:</span> <span id="telemetryVel" class="text-emerald-300">250.0 u/s</span></div>
+        <div><span class="text-slate-500">Sub-Tick Actuation:</span> <span id="telemetrySubtick" class="text-amber-300">&tau; = 0.00</span></div>
+        <div><span class="text-slate-500">Ground State:</span> <span id="telemetryGround" class="text-purple-300">ON_GROUND</span></div>
+      </div>
+    </div>
+
+    <!-- Interactive Manual Controls -->
+    <div id="manualControls" class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[var(--background)] p-4 rounded-xl border border-[var(--border)]">
       
       <!-- Sub-tick fraction slider -->
       <div class="space-y-1.5">
@@ -129,9 +179,12 @@
     const canvas = document.getElementById('simCanvas');
     const ctx = canvas.getContext('2d');
 
-    function updateSim() {
-      const subtickPct = parseInt(document.getElementById('subtickSlider').value);
-      const speed = parseInt(document.getElementById('speedSlider').value);
+    let loadedReplay = null;
+    let playInterval = null;
+
+    function updateSim(customTau = null, customSpeed = null) {
+      const subtickPct = customTau !== null ? Math.round(customTau * 100) : parseInt(document.getElementById('subtickSlider').value);
+      const speed = customSpeed !== null ? customSpeed : parseInt(document.getElementById('speedSlider').value);
       const ping = parseInt(document.getElementById('pingSlider').value);
 
       const tau = subtickPct / 100.0;
@@ -264,20 +317,122 @@
       ctx.restore();
     }
 
-    function drawGhostHead(x, y, color, label) {
-      ctx.save();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([2, 2]);
-      ctx.beginPath();
-      ctx.arc(x, y, 14, 0, Math.PI * 2);
-      ctx.stroke();
+    // Drag and Drop & Replay Parser
+    const dropZone = document.getElementById('dropZone');
+    ['dragenter', 'dragover'].forEach(name => {
+      dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(name => {
+      dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+    });
 
-      ctx.fillStyle = color;
-      ctx.font = '12px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(label, x, y - 22);
-      ctx.restore();
+    dropZone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0) processReplayFile(files[0]);
+    });
+
+    function handleFileSelect(event) {
+      const files = event.target.files;
+      if (files.length > 0) processReplayFile(files[0]);
+    }
+
+    function processReplayFile(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const json = JSON.parse(e.target.result);
+          loadReplayData(json, file.name);
+        } catch (err) {
+          alert('Failed to parse CS2 replay JSON: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function loadReplayData(data, filename) {
+      if (!data.ticks || !Array.isArray(data.ticks)) {
+        alert('Invalid replay schema: "ticks" array missing.');
+        return;
+      }
+      loadedReplay = data;
+      document.getElementById('dropText').innerHTML = `Loaded: <strong class="text-emerald-400">${filename}</strong> (${data.ticks.length} ticks, Build ${data.metadata?.build_num || 'Unknown'})`;
+      
+      const panel = document.getElementById('replayPanel');
+      panel.classList.remove('hidden');
+
+      document.getElementById('replayMap').innerText = data.metadata?.map_name || 'de_dust2';
+      document.getElementById('replayTotalTicks').innerText = `${data.ticks.length} Ticks`;
+
+      const scrubber = document.getElementById('replayScrubber');
+      scrubber.min = 0;
+      scrubber.max = data.ticks.length - 1;
+      scrubber.value = 0;
+
+      onScrub(0);
+    }
+
+    function onScrub(idx) {
+      if (!loadedReplay || !loadedReplay.ticks[idx]) return;
+      const t = loadedReplay.ticks[idx];
+
+      document.getElementById('replayTickNum').innerText = t.tick;
+      document.getElementById('replayCmdNum').innerText = t.command_number;
+      document.getElementById('replayBtnBadge').innerText = t.button_names?.length ? ('Buttons: ' + t.button_names.join(', ')) : 'Buttons: NONE';
+
+      const combatBadge = document.getElementById('replayCombatBadge');
+      if (t.combat_events && t.combat_events.length > 0) {
+        combatBadge.classList.remove('hidden');
+      } else {
+        combatBadge.classList.add('hidden');
+      }
+
+      // Telemetry metrics
+      const kin = t.predicted_kinematics || {};
+      document.getElementById('telemetryPos').innerText = kin.origin ? JSON.stringify(kin.origin) : 'N/A';
+      document.getElementById('telemetryVel').innerText = `${kin.speed || 0.0} u/s`;
+      document.getElementById('telemetryGround').innerText = kin.on_ground ? 'ON_GROUND' : 'AIRBORNE';
+
+      let tau = 0.0;
+      if (t.subtick_steps && t.subtick_steps.length > 0) {
+        tau = t.subtick_steps[0].when || 0.0;
+      } else if (t.combat_events && t.combat_events.length > 0) {
+        tau = t.combat_events[0].actuation_fraction || 0.0;
+      }
+      document.getElementById('telemetrySubtick').innerText = `\u03c4 = ${tau.toFixed(2)}`;
+
+      // Update simulation canvas
+      updateSim(tau, Math.max(100, Math.min(300, Math.round(kin.speed || 250))));
+    }
+
+    function stepReplay(delta) {
+      if (!loadedReplay) return;
+      const scrubber = document.getElementById('replayScrubber');
+      let val = parseInt(scrubber.value) + delta;
+      if (val < 0) val = 0;
+      if (val >= loadedReplay.ticks.length) val = loadedReplay.ticks.length - 1;
+      scrubber.value = val;
+      onScrub(val);
+    }
+
+    function togglePlayPause() {
+      if (!loadedReplay) return;
+      const btn = document.getElementById('btnPlayPause');
+      if (playInterval) {
+        clearInterval(playInterval);
+        playInterval = null;
+        btn.innerText = 'Play';
+      } else {
+        btn.innerText = 'Pause';
+        playInterval = setInterval(() => {
+          const scrubber = document.getElementById('replayScrubber');
+          let val = parseInt(scrubber.value) + 1;
+          if (val >= loadedReplay.ticks.length) {
+            val = 0;
+          }
+          scrubber.value = val;
+          onScrub(val);
+        }, 100);
+      }
     }
 
     // Initialize
