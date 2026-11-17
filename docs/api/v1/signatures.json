@@ -1,7 +1,7 @@
 {
   "build_id": "26598758",
   "tag": "2026-11-11_26598758",
-  "count": 43,
+  "count": 46,
   "signatures": [
     {
       "id": "client_angle_vectors",
@@ -862,6 +862,66 @@
       "delta_str": "+0x0",
       "last_verified_build": "26598758",
       "status": "UNCHANGED"
+    },
+    {
+      "id": "server_inferno_think",
+      "name": "CInferno::InfernoThink",
+      "binary": "server.dll",
+      "category": "Combustion & Thermal",
+      "baseline_rva": "0x003427b0",
+      "baseline_va": "0x1803427b0",
+      "pattern": "40 55 57 48 8D AC 24 68 D7 FF FF B8 98 29 00 00",
+      "pattern_type": "prologue",
+      "description": "Main simulation tick loop managing node combustion lifecycles, mutual smoke interaction, radial spread, and area damage.",
+      "explanation": "Per-tick authoritative think routine for active CInferno entities. Iterates through the 64-element flame cluster array, checks burnout expiration timers, tests intersection against volumetric smoke clouds (enforcing the 1/3rd extinguishment threshold), executes periodic surface tangent spread hops, and applies ramped area damage to intersecting entities.",
+      "code_snippet": "void CInferno::InfernoThink() {\n    this->CheckExpired();\n    if (this->m_fireCount == 0 || this->m_bInPostEffectTime) {\n        this->StartPostEffect();\n        return;\n    }\n    this->ExtinguishOverlappingSmoke();\n    if (gpGlobals->curtime >= this->m_NextSpreadTimer) {\n        this->Spread();\n        this->m_NextSpreadTimer = gpGlobals->curtime + 0.08f;\n    }\n    this->DamageEntities();\n}",
+      "reconstructed_file": "game/particles/inferno_fire_grid.cpp",
+      "current_rva": "0x00346090",
+      "current_va": "0x180346090",
+      "delta_bytes": 14560,
+      "delta_str": "+0x38e0",
+      "last_verified_build": "26598758",
+      "status": "SHIFTED"
+    },
+    {
+      "id": "server_inferno_spread",
+      "name": "CInferno::Spread",
+      "binary": "server.dll",
+      "category": "Combustion & Thermal",
+      "baseline_rva": "0x0034b560",
+      "baseline_va": "0x18034b560",
+      "pattern": "48 89 54 24 10 55 53 56 48 8D AC 24 00 FD FF FF 48 81 EC 00 04 00 00",
+      "pattern_type": "prologue",
+      "description": "Dynamic 2D/3D surface propagation expanding flame nodes along terrain tangent planes with slope and step height gating.",
+      "explanation": "Executes discrete radial flame cluster expansion. Projects 16 angular candidate rays onto surface tangent planes, raycasts downward to snap child nodes to uneven terrain brushes, checks normal.z >= 0.7071 slope climbing limits, enforces a 44.0-unit step height delta, and ensures a 24.0-unit minimum separation up to the 64-node ceiling.",
+      "code_snippet": "int CInferno::Spread() {\n    if (this->m_fireCount >= this->m_nMaxFlames) return 0;\n    int added = 0;\n    for (int p = 0; p < this->m_fireCount && added < 4; ++p) {\n        Vector dir = this->GetSpreadDirection(p);\n        Vector snapped;\n        if (this->TraceGround(dir, &snapped)) {\n            this->AddFlameNode(snapped);\n            ++added;\n        }\n    }\n    return added;\n}",
+      "reconstructed_file": "game/particles/inferno_fire_grid.cpp",
+      "current_rva": "0x0034ef00",
+      "current_va": "0x18034ef00",
+      "delta_bytes": 14752,
+      "delta_str": "+0x39a0",
+      "last_verified_build": "26598758",
+      "status": "SHIFTED"
+    },
+    {
+      "id": "server_inferno_extinguish",
+      "name": "CInferno::ExtinguishFire",
+      "binary": "server.dll",
+      "category": "Combustion & Thermal",
+      "baseline_rva": "0x00340eb0",
+      "baseline_va": "0x180340eb0",
+      "pattern": "4C 8B DC 49 89 6B 20 57 48 81 EC A0 00 00 00",
+      "pattern_type": "prologue",
+      "description": "Quenches individual flame node upon smoke overlap, stopping ambient sound loops and emitting steam dissipation particles.",
+      "explanation": "Quenches a single burning flame node in the inferno cluster. Sets m_bFireIsBurning[idx] = false, increments extinguished flame counters, terminates node sound loops, and emits the molotov_extinguish steam particle puff.",
+      "code_snippet": "void CInferno::ExtinguishFire(int nIndex, bool bPlaySound) {\n    if (!this->m_bFireIsBurning[nIndex]) return;\n    this->m_bFireIsBurning[nIndex] = false;\n    if (bPlaySound) {\n        this->EmitSound(\"Molotov.Extinguish\");\n    }\n}",
+      "reconstructed_file": "game/particles/inferno_fire_grid.cpp",
+      "current_rva": "0x00344790",
+      "current_va": "0x180344790",
+      "delta_bytes": 14560,
+      "delta_str": "+0x38e0",
+      "last_verified_build": "26598758",
+      "status": "SHIFTED"
     }
   ]
 }

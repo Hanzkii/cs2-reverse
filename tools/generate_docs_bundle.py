@@ -154,6 +154,13 @@ metadata_map = {
         "category": "Networking",
         "badge": "Packet Entities",
         "order": 21
+    },
+    "particle_system_architecture.md": {
+        "id": "particle-system-architecture",
+        "title": "Data-Driven Particle Architecture & Compute Operators",
+        "category": "Volumetric & Particles",
+        "badge": "Particle Dynamics",
+        "order": 22
     }
 }
 

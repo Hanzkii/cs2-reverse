@@ -68,8 +68,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h`, `pathfinder.cpp`, `pathfinder.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
 - **networksystem.dll** (`game/networksystem/`): `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
 - **panorama.dll** (`game/panorama/`): `panorama_engine.cpp`, `panorama_engine.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/panorama)
-- **particles.dll** (`game/particles/`): `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
+- **particles.dll** (`game/particles/`): `inferno_fire_grid.cpp`, `inferno_fire_grid.h`, `particle_system.cpp`, `particle_system.h`, `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
 - **pulse_system.dll** (`game/pulse_system/`): `pulse_interpreter.cpp`, `pulse_interpreter.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/pulse_system)
+- **resourcesystem.dll** (`game/resourcesystem/`): `kv3_parser.cpp`, `kv3_parser.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/resourcesystem)
 - **scenesystem.dll** (`game/scenesystem/`): `scene_system.cpp`, `scene_system.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/scenesystem)
 - **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
 - **server.dll** (`game/server/`): `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
@@ -124,6 +125,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
 | `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
 | `engine2.dll` | `CreateInterface` | `0x00407190` | `0x180407190` | Engine Interface |
+| `server.dll` | `CInferno::InfernoThink` | `0x00346090` | `0x180346090` | Combustion & Thermal |
+| `server.dll` | `CInferno::Spread` | `0x0034ef00` | `0x18034ef00` | Combustion & Thermal |
+| `server.dll` | `CInferno::ExtinguishFire` | `0x00344790` | `0x180344790` | Combustion & Thermal |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -148,9 +152,12 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [19_hit_registration_and_armor_damage.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md)
 - [20_source2_reconstructed_sdk_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md)
 - [ballistic_penetration_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md)
+- [inferno_combustion_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md)
+- [kv3_resource_system.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/kv3_resource_system.md)
 - [lag_compensation_rollback.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/lag_compensation_rollback.md)
 - [net_packet_entities_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/net_packet_entities_pipeline.md)
 - [network_entity_delta_codec.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/network_entity_delta_codec.md)
+- [particle_system_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/particle_system_architecture.md)
 - [rubikon_collision_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/rubikon_collision_physics.md)
 - [spatial_audio_acoustics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/spatial_audio_acoustics.md)
 - [subtick_wire_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/subtick_wire_framing.md)

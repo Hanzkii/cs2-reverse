@@ -68,8 +68,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h`, `pathfinder.cpp`, `pathfinder.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
 - **networksystem.dll** (`game/networksystem/`): `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
 - **panorama.dll** (`game/panorama/`): `panorama_engine.cpp`, `panorama_engine.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/panorama)
-- **particles.dll** (`game/particles/`): `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
+- **particles.dll** (`game/particles/`): `inferno_fire_grid.cpp`, `inferno_fire_grid.h`, `particle_system.cpp`, `particle_system.h`, `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
 - **pulse_system.dll** (`game/pulse_system/`): `pulse_interpreter.cpp`, `pulse_interpreter.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/pulse_system)
+- **resourcesystem.dll** (`game/resourcesystem/`): `kv3_parser.cpp`, `kv3_parser.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/resourcesystem)
 - **scenesystem.dll** (`game/scenesystem/`): `scene_system.cpp`, `scene_system.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/scenesystem)
 - **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
 - **server.dll** (`game/server/`): `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
@@ -124,6 +125,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
 | `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
 | `engine2.dll` | `CreateInterface` | `0x00407190` | `0x180407190` | Engine Interface |
+| `server.dll` | `CInferno::InfernoThink` | `0x00346090` | `0x180346090` | Combustion & Thermal |
+| `server.dll` | `CInferno::Spread` | `0x0034ef00` | `0x18034ef00` | Combustion & Thermal |
+| `server.dll` | `CInferno::ExtinguishFire` | `0x00344790` | `0x180344790` | Combustion & Thermal |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -148,9 +152,12 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [19_hit_registration_and_armor_damage.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md)
 - [20_source2_reconstructed_sdk_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md)
 - [ballistic_penetration_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md)
+- [inferno_combustion_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md)
+- [kv3_resource_system.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/kv3_resource_system.md)
 - [lag_compensation_rollback.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/lag_compensation_rollback.md)
 - [net_packet_entities_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/net_packet_entities_pipeline.md)
 - [network_entity_delta_codec.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/network_entity_delta_codec.md)
+- [particle_system_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/particle_system_architecture.md)
 - [rubikon_collision_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/rubikon_collision_physics.md)
 - [spatial_audio_acoustics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/spatial_audio_acoustics.md)
 - [subtick_wire_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/subtick_wire_framing.md)
@@ -462,6 +469,27 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **Current VA**: `0x180407190`
 - **IDA / Ghidra Pattern**: `4C 8B 0D ?? ?? ?? ?? 4C 8B D2 4C 8B D9`
 - **Description**: Standard Source 2 engine module interface factory dispatcher.
+
+### CInferno::InfernoThink (server.dll)
+- **ID**: `server_inferno_think`
+- **Current RVA**: `0x00346090` (Baseline: `0x003427b0`, Delta: `+0x38e0`)
+- **Current VA**: `0x180346090`
+- **IDA / Ghidra Pattern**: `40 55 57 48 8D AC 24 68 D7 FF FF B8 98 29 00 00`
+- **Description**: Main simulation tick loop managing node combustion lifecycles, mutual smoke interaction, radial spread, and area damage.
+
+### CInferno::Spread (server.dll)
+- **ID**: `server_inferno_spread`
+- **Current RVA**: `0x0034ef00` (Baseline: `0x0034b560`, Delta: `+0x39a0`)
+- **Current VA**: `0x18034ef00`
+- **IDA / Ghidra Pattern**: `48 89 54 24 10 55 53 56 48 8D AC 24 00 FD FF FF 48 81 EC 00 04 00 00`
+- **Description**: Dynamic 2D/3D surface propagation expanding flame nodes along terrain tangent planes with slope and step height gating.
+
+### CInferno::ExtinguishFire (server.dll)
+- **ID**: `server_inferno_extinguish`
+- **Current RVA**: `0x00344790` (Baseline: `0x00340eb0`, Delta: `+0x38e0`)
+- **Current VA**: `0x180344790`
+- **IDA / Ghidra Pattern**: `4C 8B DC 49 89 6B 20 57 48 81 EC A0 00 00 00`
+- **Description**: Quenches individual flame node upon smoke overlap, stopping ambient sound loops and emitting steam dissipation particles.
 
 ================================================================================
 # SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
@@ -1839,6 +1867,9 @@ static_assert(sizeof(CGameEntitySystem) == 0x2180, "CGameEntitySystem size must 
 #include "../game/animationsystem/animgraph_blender.h"
 #include "../game/vphysics2/rubikon_collision.h"
 #include "../game/particles/smoke_voxels.h"
+#include "../game/particles/inferno_fire_grid.h"
+#include "../game/particles/particle_system.h"
+#include "../game/resourcesystem/kv3_parser.h"
 #include "../game/pulse_system/pulse_interpreter.h"
 #include "../game/navsystem/navmesh.h"
 #include "../game/navsystem/pathfinder.h"
@@ -10570,6 +10601,750 @@ private:
 } // namespace cs2::panorama
 ```
 
+### File: `game/particles/inferno_fire_grid.h` (particles.dll)
+```cpp
+#ifndef CS2_PARTICLES_INFERNO_FIRE_GRID_H
+#define CS2_PARTICLES_INFERNO_FIRE_GRID_H
+
+#include "smoke_voxels.h"
+#include <cstdint>
+#include <vector>
+#include <cmath>
+#include <cstring>
+#include <algorithm>
+#include <functional>
+
+namespace cs2::particles {
+
+// ----------------------------------------------------------------------------
+// Authoritative Engine Constants & Virtual Offsets (server.dll @ Build 26598758)
+// ----------------------------------------------------------------------------
+constexpr uintptr_t VA_INFERNO_CHECK_EXPIRED   = 0x180340bc0; // RVA: 0x00340bc0
+constexpr uintptr_t VA_INFERNO_EXTINGUISH       = 0x180344790; // RVA: 0x00344790
+constexpr uintptr_t VA_INFERNO_THINK           = 0x180346090; // RVA: 0x00346090
+constexpr uintptr_t VA_INFERNO_SPREAD          = 0x18034ef00; // RVA: 0x0034ef00
+constexpr uintptr_t VA_INFERNO_DAMAGE          = 0x1803468c4; // RVA: 0x003468c4
+
+constexpr int32_t   MAX_INFERNO_FIRES          = 64;      // server.dll: VectorWS[MAX_INFERNO_FIRES] (64 nodes)
+constexpr float     INFERNO_SPREAD_RADIUS      = 250.0f;  // Maximum cluster horizontal radius (units)
+constexpr float     INFERNO_FLAME_STEP_DISTANCE= 36.0f;   // Inter-node propagation step distance (units)
+constexpr float     INFERNO_MIN_NODE_SEPARATION= 24.0f;   // Minimum distance between active nodes (units)
+constexpr float     INFERNO_MAX_CLIMB_SLOPE    = 0.7071f; // cos(45 deg) - normal.z threshold for slope traversal
+constexpr float     INFERNO_MAX_STEP_HEIGHT    = 44.0f;   // Maximum vertical step climbing threshold (units)
+constexpr float     INFERNO_GROUND_SNAP_RAY_UP = 32.0f;   // Upward offset for ground probe raycast
+constexpr float     INFERNO_GROUND_SNAP_RAY_DOWN = 64.0f; // Downward distance for ground probe raycast
+constexpr float     INFERNO_GROUND_NORMAL_OFFSET = 2.0f;  // Lift above terrain along normal to avoid brush clipping
+
+constexpr float     INFERNO_SPREAD_INTERVAL    = 0.08f;   // Expansion hop timer (seconds)
+constexpr float     INFERNO_LIFETIME           = 7.0f;    // Nominal molotov/incendiary burn lifetime (seconds)
+constexpr float     INFERNO_NODE_WARMUP_TIME   = 0.35f;   // Thermal intensity ramp-up duration (seconds)
+constexpr float     INFERNO_NODE_FADE_TIME     = 1.00f;   // Thermal intensity cooldown / fade duration (seconds)
+
+constexpr float     INFERNO_DAMAGE_INTERVAL    = 0.10f;   // Per-tick damage evaluation interval (100ms / 10 Hz)
+constexpr float     INFERNO_DAMAGE_RADIUS      = 48.0f;   // Maximum radial damage radius per flame node (units)
+constexpr float     INFERNO_DAMAGE_CORE_RADIUS = 24.0f;   // Core radius for full damage with no falloff (units)
+constexpr float     INFERNO_DAMAGE_BASE_TICK   = 4.0f;    // Base damage per 100ms tick (~40 HP/s unarmored)
+constexpr float     INFERNO_DAMAGE_RAMP_MAX_MULT = 2.5f;  // Maximum ramp multiplier (~100 HP/s after exposure)
+constexpr float     INFERNO_DAMAGE_RAMP_DURATION = 2.0f;  // Exposure duration to reach peak ramp (seconds)
+constexpr float     INFERNO_ARMOR_PENETRATION  = 0.85f;   // Kevlar absorbs 15%, transmits 85% directly to health
+
+constexpr float     SMOKE_EXTINGUISH_SPHERE_RADIUS = 144.0f; // Detonation core sphere extinguishment threshold
+constexpr float     SMOKE_EXTINGUISH_FRACTION  = 0.3333333f; // 1/3rd coverage threshold for full inferno quench
+
+// ----------------------------------------------------------------------------
+// Terrain Collision Query Structures
+// ----------------------------------------------------------------------------
+struct TerrainTraceHit_t {
+    bool    bHit{false};
+    float   flFraction{1.0f};
+    Vector3 vecHitPosition{};
+    Vector3 vecHitNormal{0.0f, 0.0f, 1.0f};
+    bool    bStartSolid{false};
+};
+
+using TerrainRaycastFn = std::function<TerrainTraceHit_t(const Vector3& start, const Vector3& end)>;
+
+// ----------------------------------------------------------------------------
+// Thermal Energy Dissipation: Individual Flame Cluster Node
+// Reconstructed from CInferno internal node structures (Build 26598758)
+// ----------------------------------------------------------------------------
+struct InfernoFlameNode_t {
+    Vector3 vecPosition{};              // Snapped 3D world position
+    Vector3 vecParentPosition{};        // Propagation ancestor position
+    Vector3 vecNormal{0.0f, 0.0f, 1.0f};// Terrain contact surface normal
+    float   flIgnitionTime{0.0f};       // Timestamp when node ignited
+    float   flLifetime{INFERNO_LIFETIME};// Total allocated burn lifetime
+    float   flWarmupTime{INFERNO_NODE_WARMUP_TIME};
+    float   flFadeTime{INFERNO_NODE_FADE_TIME};
+    int32_t nParentIndex{-1};           // Index of parent node in array (-1 = seed)
+    int32_t nClusterGeneration{0};      // Propagation depth generation
+    bool    bIsBurning{false};          // Active combustion flag
+    bool    bExtinguished{false};       // Quenched by volumetric smoke flag
+
+    /**
+     * @brief Evaluates normalized thermal intensity in range [0.0, 1.0].
+     * Models combustion phase:
+     * - [0, t_warmup): Linear ramp from 0.0 to 1.0.
+     * - [t_warmup, t_lifetime - t_fade): Peak burn plateau at 1.0.
+     * - [t_lifetime - t_fade, t_lifetime): Linear decay from 1.0 to 0.0.
+     */
+    [[nodiscard]] float GetThermalIntensity(float flCurrentTime) const noexcept {
+        if (!bIsBurning || bExtinguished) {
+            return 0.0f;
+        }
+        const float flElapsed = flCurrentTime - flIgnitionTime;
+        if (flElapsed < 0.0f || flElapsed >= flLifetime) {
+            return 0.0f;
+        }
+        if (flElapsed < flWarmupTime) {
+            return (flWarmupTime > 1e-4f) ? (flElapsed / flWarmupTime) : 1.0f;
+        }
+        const float flDecayStart = flLifetime - flFadeTime;
+        if (flElapsed >= flDecayStart) {
+            const float flFadeElapsed = flElapsed - flDecayStart;
+            return (flFadeTime > 1e-4f) ? std::max(0.0f, 1.0f - (flFadeElapsed / flFadeTime)) : 0.0f;
+        }
+        return 1.0f;
+    }
+
+    [[nodiscard]] bool IsActiveAtTime(float flCurrentTime) const noexcept {
+        if (!bIsBurning || bExtinguished) {
+            return false;
+        }
+        const float flElapsed = flCurrentTime - flIgnitionTime;
+        return (flElapsed >= 0.0f && flElapsed < flLifetime);
+    }
+};
+
+// ----------------------------------------------------------------------------
+// Damage Evaluation Output Record
+// ----------------------------------------------------------------------------
+struct InfernoDamageRecord_t {
+    bool    bInFire{false};
+    float   flHealthDamage{0.0f};
+    float   flArmorDamage{0.0f};
+    float   flThermalIntensity{0.0f};
+    float   flDistanceToClosestNode{9999.0f};
+    int32_t nClosestNodeIndex{-1};
+};
+
+/**
+ * @brief Authoritative Surface Combustion & Thermal Energy Grid (CInferno)
+ * Reconstructed from server.dll Build 26598758:
+ * - 64-node flame cluster storage (m_firePositions, m_BurnNormal, m_bFireIsBurning).
+ * - Downward ground-snapping raycasting with displacement brush alignment.
+ * - Dynamic 2D/3D surface propagation with slope climbing and obstacle clearance gates.
+ * - Mutual interaction & immediate quench against CSmokeVoxelGrid (Morton 32^3 & 144u sphere).
+ * - 1/3rd threshold full-quench rule ("Molotov extinguished: when %d/%d fire areas were covered").
+ * - Area damage evaluation with tick-rate intervals, radial falloff, and exposure ramp timers.
+ */
+class CInfernoFireGrid {
+public:
+    CInfernoFireGrid();
+
+    /**
+     * @brief Spawns the combustion cluster at detonation origin.
+     * Evaluates immediate smoke quench if detonated inside an active smoke cloud.
+     */
+    void Spawn(const Vector3& vecOrigin,
+               int32_t nStartTick = 0,
+               float flCurrentTime = 0.0f,
+               const CSmokeVoxelGrid* pSmoke = nullptr,
+               const TerrainRaycastFn& terrainQuery = nullptr);
+
+    /**
+     * @brief Per-tick simulation loop (VA 0x180346090 / RVA 0x00346090).
+     * Executes check expired, mutual smoke extinguishment, surface spread, and timer decay.
+     */
+    void OnTick(float flCurrentTime,
+                int32_t nCurrentTick,
+                const CSmokeVoxelGrid* pActiveSmoke = nullptr,
+                const TerrainRaycastFn& terrainQuery = nullptr);
+
+    /**
+     * @brief Flame node lifecycle & burnout evaluation (VA 0x180340bc0 / RVA 0x00340bc0).
+     * Updates burning state; transitions to post-effect if all nodes burn out.
+     */
+    void CheckExpired(float flCurrentTime);
+
+    /**
+     * @brief Dynamic 2D/3D surface propagation algorithm (VA 0x18034ef00 / RVA 0x0034ef00).
+     * Expands cluster nodes radially along terrain tangent planes up to 64 nodes.
+     */
+    int32_t SpreadStep(float flCurrentTime, const TerrainRaycastFn& terrainQuery = nullptr);
+
+    /**
+     * @brief Mutual Smoke Voxel Interaction & Extinguishment (server.dll RVA 0x00346330-0x0034645f).
+     * Quenches nodes overlapping active smoke voxels or 144-unit core detonation sphere.
+     * Quenches entire inferno if >= 1/3rd of active nodes are extinguished.
+     */
+    int32_t ExtinguishOverlappingSmoke(const CSmokeVoxelGrid& smokeGrid, float flCurrentTime = 0.0f);
+
+    /**
+     * @brief Extinguishes an individual flame node (VA 0x180344790 / RVA 0x00344790).
+     */
+    void ExtinguishNode(int32_t nIndex);
+
+    /**
+     * @brief Extinguishes the entire inferno immediately.
+     */
+    void ExtinguishAll();
+
+    /**
+     * @brief Evaluates area damage and exposure ramp at target world position.
+     * Reconstructed from CInferno::InfernoThink damage phase (VA 0x1803468c4).
+     */
+    [[nodiscard]] InfernoDamageRecord_t EvaluateDamageAtPosition(
+        const Vector3& vecTargetPos,
+        float flTargetExposureTime,
+        float flCurrentTime) const;
+
+    // State Inspection & Accessors
+    [[nodiscard]] int32_t GetFireCount() const noexcept { return m_fireCount; }
+    [[nodiscard]] int32_t GetActiveBurningCount() const noexcept;
+    [[nodiscard]] int32_t GetExtinguishedCount() const noexcept { return m_nExtinguishedFlames; }
+    [[nodiscard]] bool    IsActive() const noexcept { return m_bActive && !m_bInPostEffectTime; }
+    [[nodiscard]] bool    IsInPostEffect() const noexcept { return m_bInPostEffectTime; }
+    [[nodiscard]] bool    WasCreatedInSmoke() const noexcept { return m_bWasCreatedInSmoke; }
+    [[nodiscard]] const Vector3& GetSpawnLocation() const noexcept { return m_vecOriginalSpawnLocation; }
+    [[nodiscard]] const InfernoFlameNode_t& GetNode(int32_t idx) const { return m_nodes[idx]; }
+    [[nodiscard]] const Vector3& GetFirePosition(int32_t idx) const { return m_firePositions[idx]; }
+    [[nodiscard]] const Vector3& GetBurnNormal(int32_t idx) const { return m_BurnNormal[idx]; }
+    [[nodiscard]] bool    IsFireBurning(int32_t idx) const { return m_bFireIsBurning[idx]; }
+
+    void GetBoundingBox(Vector3& outMin, Vector3& outMax) const noexcept;
+
+    // Built-in Default Terrain Raycaster (Analytical Plane & Wave Displacement)
+    static TerrainTraceHit_t DefaultTerrainRaycast(const Vector3& start, const Vector3& end) noexcept;
+
+private:
+    // Core Engine Schema Reconstructed Fields
+    Vector3 m_firePositions[MAX_INFERNO_FIRES]{};       // +0x0850: Node world positions
+    Vector3 m_fireParentPositions[MAX_INFERNO_FIRES]{}; // +0x0b50: Parent node positions
+    bool    m_bFireIsBurning[MAX_INFERNO_FIRES]{};      // +0x0e50: Active burning bitmask/array
+    Vector3 m_BurnNormal[MAX_INFERNO_FIRES]{};          // +0x0e90: Contact surface normals
+    int32_t m_fireCount{0};                             // +0x1190: Allocated flame count (0..64)
+    int32_t m_nInfernoType{0};                          // +0x1194: 0 = Molotov, 1 = Incendiary
+    int32_t m_nFireEffectTickBegin{0};                  // +0x1198: Ignition start tick
+    float   m_nFireLifetime{INFERNO_LIFETIME};          // +0x119c: Lifetime in seconds
+    bool    m_bInPostEffectTime{false};                 // +0x11a0: Post-burn decay state
+    bool    m_bWasCreatedInSmoke{false};                // +0x11a1: Quenched upon spawn inside smoke
+    Vector3 m_extent{INFERNO_SPREAD_RADIUS, INFERNO_SPREAD_RADIUS, 64.0f}; // +0x13a8
+    Vector3 m_vecOriginalSpawnLocation{0.0f, 0.0f, 0.0f}; // +0x1414
+    int32_t m_nMaxFlames{MAX_INFERNO_FIRES};            // +0x1434: Max flame cap (64)
+    int32_t m_nSpreadCount{0};                          // +0x1438: Spread pulses executed
+
+    // Simulation Internal State
+    InfernoFlameNode_t m_nodes[MAX_INFERNO_FIRES]{};
+    bool    m_bActive{false};
+    float   m_flSpawnTime{0.0f};
+    float   m_flLastSpreadTime{0.0f};
+    float   m_flLastDamageTime{0.0f};
+    int32_t m_nExtinguishedFlames{0};
+};
+
+} // namespace cs2::particles
+
+#endif // CS2_PARTICLES_INFERNO_FIRE_GRID_H
+```
+
+### File: `game/particles/particle_system.h` (particles.dll)
+```cpp
+#ifndef CS2_PARTICLES_PARTICLE_SYSTEM_H
+#define CS2_PARTICLES_PARTICLE_SYSTEM_H
+
+// ============================================================================
+// Counter-Strike 2 (Source 2) Data-Driven Particle Architecture
+// Reconstructed from particles.dll (Build 26598758)
+//
+// Core Components:
+// - CParticleCollection: Aligned Structure of Arrays (SoA) memory pool for SIMD.
+// - CParticleSystemDefinition: Graph descriptor binding Emitters, Initializers,
+//   Simulation Operators, and Dynamic Billboard Hardware Renderers.
+// - Discrete ODE Integrator: Symplectic Euler / Verlet with aerodynamic drag.
+// - Divergence-Free 3D Curl Turbulence Vector Field Generator.
+// - Rubikon Half-Space Planar Boundary Restitution & Friction Constraint Solver.
+//
+// Standard: Pure ISO C++20, MSVC x64 compliant (/O2 /std:c++20 /EHsc /W4 /WX).
+// Zero external runtime dependencies.
+// ============================================================================
+
+#include "../shared/math_types.h"
+
+#include <cstdint>
+#include <vector>
+#include <memory>
+#include <string>
+#include <cmath>
+#include <cstring>
+#include <algorithm>
+#include <random>
+
+namespace cs2::particles {
+
+using Vector3D = cs2::shared::Vector3D;
+using Vector4D = cs2::shared::Vector4D;
+using Vector2D = cs2::shared::Vector2D;
+
+// ----------------------------------------------------------------------------
+// Authoritative Engine Constants (particles.dll @ Build 26598758)
+// ----------------------------------------------------------------------------
+constexpr uintptr_t VA_PARTICLE_MGR_INIT             = 0x18001a4e0;
+constexpr uintptr_t VA_PARTICLE_COLLECTION_ALLOCATE  = 0x1800248f0;
+constexpr uintptr_t VA_PARTICLE_SIMULATION_STEP      = 0x1800319b0;
+constexpr uintptr_t VA_OP_BASIC_MOVEMENT             = 0x18003a740;
+constexpr uintptr_t VA_OP_TURBULENCE_CURL            = 0x180042cd0;
+constexpr uintptr_t VA_OP_COLLISION_PLANE            = 0x180048120;
+constexpr uintptr_t VA_OP_FADE_AND_KILL              = 0x1800508a0;
+
+constexpr uint32_t kDefaultMaxParticles              = 1024;
+constexpr uint32_t kSimdAlignment                    = 64;   // 64-byte AVX-512 / Cache line alignment
+constexpr float    kStandardGravityCS2               = -800.0f; // CS2 vertical acceleration (units/s^2)
+
+// ----------------------------------------------------------------------------
+// Particle Channel Attributes
+// ----------------------------------------------------------------------------
+enum class ParticleChannel : uint8_t {
+    PositionX = 0,
+    PositionY,
+    PositionZ,
+    PrevPositionX,
+    PrevPositionY,
+    PrevPositionZ,
+    VelocityX,
+    VelocityY,
+    VelocityZ,
+    ColorR,
+    ColorG,
+    ColorB,
+    Alpha,
+    Radius,
+    LifeDuration,
+    CreationTime,
+    ChannelCount
+};
+
+constexpr size_t kTotalParticleChannels = static_cast<size_t>(ParticleChannel::ChannelCount);
+
+// ----------------------------------------------------------------------------
+// CParticleCollection: Aligned Structure of Arrays (SoA) Storage
+// ----------------------------------------------------------------------------
+class CParticleCollection {
+public:
+    explicit CParticleCollection(uint32_t maxParticles = kDefaultMaxParticles);
+    ~CParticleCollection();
+
+    // Move semantics (disable copy to avoid deep buffer duplication)
+    CParticleCollection(const CParticleCollection&) = delete;
+    CParticleCollection& operator=(const CParticleCollection&) = delete;
+    CParticleCollection(CParticleCollection&& other) noexcept;
+    CParticleCollection& operator=(CParticleCollection&& other) noexcept;
+
+    // Active particle capacity and allocation
+    [[nodiscard]] uint32_t GetActiveParticleCount() const noexcept { return m_nActiveParticles; }
+    [[nodiscard]] uint32_t GetMaxParticles() const noexcept { return m_nMaxParticles; }
+    [[nodiscard]] float GetCurrentTime() const noexcept { return m_flCurTime; }
+    void SetCurrentTime(float flTime) noexcept { m_flCurTime = flTime; }
+    void AdvanceTime(float flDt) noexcept { m_flCurTime += flDt; }
+
+    /**
+     * @brief Allocates a block of active particles.
+     * @param nCount Number of particles to allocate.
+     * @return Starting index of the newly allocated range, or 0xFFFFFFFF if capacity exceeded.
+     */
+    uint32_t AllocateParticles(uint32_t nCount) noexcept;
+
+    /**
+     * @brief Removes a particle at index in O(1) time via swap-with-last compaction.
+     * @param nIndex Target index to kill.
+     */
+    void KillParticle(uint32_t nIndex) noexcept;
+
+    /**
+     * @brief Resets the active count to zero and resets timeline.
+     */
+    void Reset() noexcept;
+
+    // Per-particle high-level accessors
+    [[nodiscard]] Vector3D GetPosition(uint32_t idx) const noexcept {
+        return { m_pPosX[idx], m_pPosY[idx], m_pPosZ[idx] };
+    }
+    void SetPosition(uint32_t idx, const Vector3D& pos) noexcept {
+        m_pPosX[idx] = pos.x; m_pPosY[idx] = pos.y; m_pPosZ[idx] = pos.z;
+    }
+
+    [[nodiscard]] Vector3D GetPrevPosition(uint32_t idx) const noexcept {
+        return { m_pPrevPosX[idx], m_pPrevPosY[idx], m_pPrevPosZ[idx] };
+    }
+    void SetPrevPosition(uint32_t idx, const Vector3D& pos) noexcept {
+        m_pPrevPosX[idx] = pos.x; m_pPrevPosY[idx] = pos.y; m_pPrevPosZ[idx] = pos.z;
+    }
+
+    [[nodiscard]] Vector3D GetVelocity(uint32_t idx) const noexcept {
+        return { m_pVelX[idx], m_pVelY[idx], m_pVelZ[idx] };
+    }
+    void SetVelocity(uint32_t idx, const Vector3D& vel) noexcept {
+        m_pVelX[idx] = vel.x; m_pVelY[idx] = vel.y; m_pVelZ[idx] = vel.z;
+    }
+
+    [[nodiscard]] Vector4D GetColor(uint32_t idx) const noexcept {
+        return { m_pColorR[idx], m_pColorG[idx], m_pColorB[idx], m_pAlpha[idx] };
+    }
+    void SetColor(uint32_t idx, const Vector4D& col) noexcept {
+        m_pColorR[idx] = col.x; m_pColorG[idx] = col.y; m_pColorB[idx] = col.z; m_pAlpha[idx] = col.w;
+    }
+
+    [[nodiscard]] float GetRadius(uint32_t idx) const noexcept { return m_pRadius[idx]; }
+    void SetRadius(uint32_t idx, float r) noexcept { m_pRadius[idx] = r; }
+
+    [[nodiscard]] float GetLifeDuration(uint32_t idx) const noexcept { return m_pLifeDuration[idx]; }
+    void SetLifeDuration(uint32_t idx, float life) noexcept { m_pLifeDuration[idx] = life; }
+
+    [[nodiscard]] float GetCreationTime(uint32_t idx) const noexcept { return m_pCreationTime[idx]; }
+    void SetCreationTime(uint32_t idx, float time) noexcept { m_pCreationTime[idx] = time; }
+
+    [[nodiscard]] float GetNormalizedAge(uint32_t idx) const noexcept {
+        const float duration = m_pLifeDuration[idx];
+        if (duration <= 1e-6f) return 1.0f;
+        return (m_flCurTime - m_pCreationTime[idx]) / duration;
+    }
+
+public:
+    // Raw SoA channel streams (64-byte aligned for AVX2/AVX-512 vectorization)
+    float* m_pPosX{nullptr};
+    float* m_pPosY{nullptr};
+    float* m_pPosZ{nullptr};
+    float* m_pPrevPosX{nullptr};
+    float* m_pPrevPosY{nullptr};
+    float* m_pPrevPosZ{nullptr};
+    float* m_pVelX{nullptr};
+    float* m_pVelY{nullptr};
+    float* m_pVelZ{nullptr};
+    float* m_pColorR{nullptr};
+    float* m_pColorG{nullptr};
+    float* m_pColorB{nullptr};
+    float* m_pAlpha{nullptr};
+    float* m_pRadius{nullptr};
+    float* m_pLifeDuration{nullptr};
+    float* m_pCreationTime{nullptr};
+
+private:
+    void AllocateStorage(uint32_t maxParticles);
+    void FreeStorage() noexcept;
+
+    uint32_t m_nActiveParticles{0};
+    uint32_t m_nMaxParticles{0};
+    float    m_flCurTime{0.0f};
+    uint8_t* m_pRawBackingMemory{nullptr};
+};
+
+// ----------------------------------------------------------------------------
+// ColorRGBA (16 bytes, unaligned for compact vertex layouts & member storage)
+// ----------------------------------------------------------------------------
+struct ColorRGBA {
+    float r{1.0f};
+    float g{1.0f};
+    float b{1.0f};
+    float a{1.0f};
+
+    constexpr ColorRGBA() noexcept = default;
+    constexpr ColorRGBA(float _r, float _g, float _b, float _a = 1.0f) noexcept
+        : r(_r), g(_g), b(_b), a(_a) {}
+};
+static_assert(sizeof(ColorRGBA) == 16, "ColorRGBA must be 16 bytes");
+
+// ----------------------------------------------------------------------------
+// Hardware Dynamic Vertex Format for Particle Billboards
+// ----------------------------------------------------------------------------
+#pragma pack(push, 1)
+struct ParticleQuadVertex {
+    Vector3D  m_vPosition;  // 12 bytes (x, y, z)
+    Vector2D  m_vTexCoord;  // 8 bytes (u, v)
+    ColorRGBA m_vColor;     // 16 bytes (r, g, b, a)
+};
+#pragma pack(pop)
+static_assert(sizeof(ParticleQuadVertex) == 36, "ParticleQuadVertex must be 36 bytes");
+
+// ----------------------------------------------------------------------------
+// Base Operator Graph Interfaces
+// ----------------------------------------------------------------------------
+class IParticleEmitter {
+public:
+    virtual ~IParticleEmitter() = default;
+    virtual uint32_t Emit(CParticleCollection* pParticles, float flDeltaTime) = 0;
+    virtual void Reset() {}
+};
+
+class IParticleInitializer {
+public:
+    virtual ~IParticleInitializer() = default;
+    virtual void Initialize(CParticleCollection* pParticles, uint32_t nStartIdx, uint32_t nCount) = 0;
+};
+
+class IParticleOperator {
+public:
+    virtual ~IParticleOperator() = default;
+    virtual void Operate(CParticleCollection* pParticles, float flDeltaTime) = 0;
+};
+
+class IParticleRenderer {
+public:
+    virtual ~IParticleRenderer() = default;
+    virtual void Render(const CParticleCollection* pParticles,
+                        const Vector3D& vCamRight,
+                        const Vector3D& vCamUp,
+                        std::vector<ParticleQuadVertex>& outVertices,
+                        std::vector<uint32_t>& outIndices) const = 0;
+};
+
+// ----------------------------------------------------------------------------
+// Concrete Emitter Implementations
+// ----------------------------------------------------------------------------
+
+/**
+ * @brief CEmitInstantaneous: Emits a burst of particles at a designated trigger time.
+ */
+class CEmitInstantaneous : public IParticleEmitter {
+public:
+    CEmitInstantaneous(uint32_t nEmitCount, float flTriggerTime = 0.0f)
+        : m_nEmitCount(nEmitCount), m_flTriggerTime(flTriggerTime) {}
+
+    uint32_t Emit(CParticleCollection* pParticles, float flDeltaTime) override;
+    void Reset() override { m_bFired = false; }
+
+    uint32_t m_nEmitCount{100};
+    float    m_flTriggerTime{0.0f};
+    bool     m_bFired{false};
+};
+using EmitInstantaneous = CEmitInstantaneous;
+
+/**
+ * @brief CEmitContinuousRate: Accumulates continuous fractional particle emission.
+ */
+class CEmitContinuousRate : public IParticleEmitter {
+public:
+    explicit CEmitContinuousRate(float flRateParticlesPerSec)
+        : m_flRate(flRateParticlesPerSec) {}
+
+    uint32_t Emit(CParticleCollection* pParticles, float flDeltaTime) override;
+    void Reset() override { m_flEmissionRemainder = 0.0f; }
+
+    float m_flRate{50.0f};
+    float m_flEmissionRemainder{0.0f};
+};
+using EmitContinuousRate = CEmitContinuousRate;
+
+// ----------------------------------------------------------------------------
+// Concrete Initializer Implementations
+// ----------------------------------------------------------------------------
+
+/**
+ * @brief CInitRadius: Sets initial particle radius within bounds [flMin, flMax].
+ */
+class CInitRadius : public IParticleInitializer {
+public:
+    CInitRadius(float flMin, float flMax) : m_flMin(flMin), m_flMax(flMax) {}
+    void Initialize(CParticleCollection* pParticles, uint32_t nStartIdx, uint32_t nCount) override;
+
+    float m_flMin{5.0f};
+    float m_flMax{10.0f};
+};
+using InitRadius = CInitRadius;
+
+/**
+ * @brief CInitVelocityRandom: Assigns random initial directional velocity within 3D bounding box.
+ */
+class CInitVelocityRandom : public IParticleInitializer {
+public:
+    CInitVelocityRandom(const Vector3D& vMin, const Vector3D& vMax)
+        : m_vMin(vMin), m_vMax(vMax) {}
+    void Initialize(CParticleCollection* pParticles, uint32_t nStartIdx, uint32_t nCount) override;
+
+    Vector3D m_vMin{-50.0f, -50.0f, 50.0f};
+    Vector3D m_vMax{ 50.0f,  50.0f, 200.0f};
+};
+using InitVelocityRandom = CInitVelocityRandom;
+
+/**
+ * @brief CInitColorRandom: Sets base particle color and randomized tints.
+ */
+class CInitColorRandom : public IParticleInitializer {
+public:
+    CInitColorRandom(const ColorRGBA& minCol, const ColorRGBA& maxCol)
+        : m_minColor(minCol), m_maxColor(maxCol) {}
+    void Initialize(CParticleCollection* pParticles, uint32_t nStartIdx, uint32_t nCount) override;
+
+    ColorRGBA m_minColor{0.8f, 0.8f, 0.8f, 1.0f};
+    ColorRGBA m_maxColor{1.0f, 1.0f, 1.0f, 1.0f};
+};
+using InitColorRandom = CInitColorRandom;
+
+/**
+ * @brief CInitLifeTime: Sets random lifetime duration in seconds [flMin, flMax].
+ */
+class CInitLifeTime : public IParticleInitializer {
+public:
+    CInitLifeTime(float flMin, float flMax) : m_flMin(flMin), m_flMax(flMax) {}
+    void Initialize(CParticleCollection* pParticles, uint32_t nStartIdx, uint32_t nCount) override;
+
+    float m_flMin{1.0f};
+    float m_flMax{2.5f};
+};
+using InitLifeTime = CInitLifeTime;
+
+// ----------------------------------------------------------------------------
+// Concrete Simulation Operator Implementations
+// ----------------------------------------------------------------------------
+
+/**
+ * @brief COpMovementBasic: Symplectic Euler / Verlet integration with gravity and drag.
+ * Position integration: p <- p + v * dt
+ * Aerodynamic drag:     v <- v * (1 - kDrag * dt)
+ * Gravity acceleration: v <- v + g * dt
+ */
+class COpMovementBasic : public IParticleOperator {
+public:
+    COpMovementBasic(const Vector3D& vGravity = {0.0f, 0.0f, kStandardGravityCS2}, float flDrag = 0.05f)
+        : m_vGravity(vGravity), m_flDrag(flDrag) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    Vector3D m_vGravity{0.0f, 0.0f, kStandardGravityCS2};
+    float    m_flDrag{0.05f};
+};
+using OpMovementBasic = COpMovementBasic;
+
+/**
+ * @brief COpTurbulenceNoise: Divergence-free 3D curl / Perlin noise velocity perturbation.
+ */
+class COpTurbulenceNoise : public IParticleOperator {
+public:
+    COpTurbulenceNoise(float flNoiseScale = 0.02f, float flAmplitude = 120.0f)
+        : m_flNoiseScale(flNoiseScale), m_flAmplitude(flAmplitude) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    static Vector3D EvaluateCurlNoise(const Vector3D& pos, float time, float scale) noexcept;
+    static float EvaluatePerlin3D(float x, float y, float z) noexcept;
+
+    float m_flNoiseScale{0.02f};
+    float m_flAmplitude{120.0f};
+};
+using OpTurbulenceNoise = COpTurbulenceNoise;
+
+/**
+ * @brief COpFadeAndKill: Computes normalized age, applies fade curves, and compacts dead particles.
+ */
+class COpFadeAndKill : public IParticleOperator {
+public:
+    COpFadeAndKill(float flFadeInFraction = 0.1f, float flFadeOutFraction = 0.8f, float flBaseAlpha = 1.0f)
+        : m_flFadeInFraction(flFadeInFraction), m_flFadeOutFraction(flFadeOutFraction), m_flBaseAlpha(flBaseAlpha) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    float m_flFadeInFraction{0.1f};
+    float m_flFadeOutFraction{0.8f};
+    float m_flBaseAlpha{1.0f};
+};
+using OpFadeAndKill = COpFadeAndKill;
+
+/**
+ * @brief COpWorldCollisionPlane: Restitution & friction boundary constraint solver.
+ * Normal plane equation: n . x - D = 0.
+ */
+class COpWorldCollisionPlane : public IParticleOperator {
+public:
+    COpWorldCollisionPlane(const Vector3D& vNormal = {0.0f, 0.0f, 1.0f},
+                           float flPlaneD = 0.0f,
+                           float flRestitution = 0.4f,
+                           float flFriction = 0.2f)
+        : m_vNormal(vNormal.Normalized()), m_flPlaneD(flPlaneD),
+          m_flRestitution(flRestitution), m_flFriction(flFriction) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    Vector3D m_vNormal{0.0f, 0.0f, 1.0f};
+    float    m_flPlaneD{0.0f};
+    float    m_flRestitution{0.4f};
+    float    m_flFriction{0.2f};
+};
+using OpWorldCollisionPlane = COpWorldCollisionPlane;
+
+// ----------------------------------------------------------------------------
+// Concrete Renderer Implementations
+// ----------------------------------------------------------------------------
+
+/**
+ * @brief CParticleRendererSprite: Emits camera-facing billboard quad vertex buffers.
+ */
+class CParticleRendererSprite : public IParticleRenderer {
+public:
+    void Render(const CParticleCollection* pParticles,
+                const Vector3D& vCamRight,
+                const Vector3D& vCamUp,
+                std::vector<ParticleQuadVertex>& outVertices,
+                std::vector<uint32_t>& outIndices) const override;
+};
+
+// ----------------------------------------------------------------------------
+// CParticleSystemDefinition: Master Particle System Descriptor
+// ----------------------------------------------------------------------------
+class CParticleSystemDefinition {
+public:
+    explicit CParticleSystemDefinition(std::string strName, uint32_t maxParticles = kDefaultMaxParticles)
+        : m_strName(std::move(strName)), m_nMaxParticles(maxParticles) {}
+
+    void AddEmitter(std::unique_ptr<IParticleEmitter> emitter) {
+        m_Emitters.push_back(std::move(emitter));
+    }
+    void AddInitializer(std::unique_ptr<IParticleInitializer> initializer) {
+        m_Initializers.push_back(std::move(initializer));
+    }
+    void AddOperator(std::unique_ptr<IParticleOperator> op) {
+        m_Operators.push_back(std::move(op));
+    }
+    void SetRenderer(std::unique_ptr<IParticleRenderer> renderer) {
+        m_pRenderer = std::move(renderer);
+    }
+
+    /**
+     * @brief Executes a single simulation step: Emitters -> Initializers -> Operators.
+     * @param pParticles Target particle collection.
+     * @param flDeltaTime Step elapsed time in seconds.
+     */
+    void Step(CParticleCollection* pParticles, float flDeltaTime);
+
+    /**
+     * @brief Generates dynamic billboard geometry.
+     */
+    void Render(const CParticleCollection* pParticles,
+                const Vector3D& vCamRight,
+                const Vector3D& vCamUp,
+                std::vector<ParticleQuadVertex>& outVertices,
+                std::vector<uint32_t>& outIndices) const {
+        if (m_pRenderer) {
+            m_pRenderer->Render(pParticles, vCamRight, vCamUp, outVertices, outIndices);
+        }
+    }
+
+    [[nodiscard]] const std::string& GetName() const noexcept { return m_strName; }
+    [[nodiscard]] uint32_t GetMaxParticles() const noexcept { return m_nMaxParticles; }
+
+private:
+    std::string m_strName;
+    uint32_t    m_nMaxParticles{kDefaultMaxParticles};
+
+    std::vector<std::unique_ptr<IParticleEmitter>>     m_Emitters;
+    std::vector<std::unique_ptr<IParticleInitializer>> m_Initializers;
+    std::vector<std::unique_ptr<IParticleOperator>>    m_Operators;
+    std::unique_ptr<IParticleRenderer>                 m_pRenderer;
+};
+
+} // namespace cs2::particles
+
+#endif // CS2_PARTICLES_PARTICLE_SYSTEM_H
+```
+
 ### File: `game/particles/smoke_voxels.h` (particles.dll)
 ```cpp
 #ifndef CS2_PARTICLES_SMOKE_VOXELS_H
@@ -10858,6 +11633,419 @@ private:
 } // namespace cs2::pulse_system
 
 #endif // CS2_PULSE_INTERPRETER_H
+```
+
+### File: `game/resourcesystem/kv3_parser.h` (resourcesystem.dll)
+```cpp
+#ifndef CS2_RESOURCESYSTEM_KV3_PARSER_H
+#define CS2_RESOURCESYSTEM_KV3_PARSER_H
+
+#include <cstdint>
+#include <cstddef>
+#include <string>
+#include <string_view>
+#include <vector>
+#include <variant>
+#include <span>
+#include <optional>
+#include <memory>
+#include <array>
+#include <algorithm>
+#include <stdexcept>
+#include <sstream>
+#include <iomanip>
+
+namespace cs2::resourcesystem {
+
+// Forward declarations
+class KV3Value;
+using KV3Array = std::vector<KV3Value>;
+using KV3Table = std::vector<std::pair<std::string, KV3Value>>;
+using KV3Blob  = std::vector<std::uint8_t>;
+
+/**
+ * @brief 128-bit Universally Unique Identifier for KV3 format and encoding specifications.
+ */
+struct KV3Guid_t {
+    std::array<std::uint8_t, 16> m_bytes{};
+
+    constexpr KV3Guid_t() noexcept = default;
+    constexpr explicit KV3Guid_t(const std::array<std::uint8_t, 16>& bytes) noexcept : m_bytes(bytes) {}
+
+    static KV3Guid_t Parse(std::string_view str);
+    [[nodiscard]] std::string ToString() const;
+
+    constexpr bool operator==(const KV3Guid_t& other) const noexcept {
+        return m_bytes == other.m_bytes;
+    }
+    constexpr bool operator!=(const KV3Guid_t& other) const noexcept {
+        return m_bytes != other.m_bytes;
+    }
+};
+
+// Canonical Valve KV3 GUID definitions
+inline constexpr std::array<std::uint8_t, 16> g_GuidTextEncoding = {
+    0xe2, 0x1c, 0x7f, 0x3c, 0x8a, 0x33, 0x41, 0xc5, 0x99, 0x77, 0xa7, 0x6d, 0x3a, 0x32, 0xaa, 0x0d
+};
+inline constexpr std::array<std::uint8_t, 16> g_GuidGenericFormat = {
+    0x74, 0x47, 0x72, 0x21, 0x4c, 0x60, 0x44, 0xd8, 0xa1, 0x4a, 0x03, 0x83, 0x8b, 0x55, 0x8f, 0x68
+};
+inline constexpr std::array<std::uint8_t, 16> g_GuidBinaryKV3BlockLZ4 = {
+    0x46, 0x01, 0x27, 0xb0, 0x8c, 0x20, 0x48, 0x23, 0x91, 0x56, 0x9e, 0x16, 0x6f, 0x9e, 0x66, 0xcb
+};
+
+/**
+ * @brief Compression schemes applied to binary KeyValues3 streams.
+ */
+enum class KV3CompressionType : std::uint32_t {
+    None = 0,
+    LZ4  = 1,
+    ZSTD = 2,
+    Unknown = 0xFFFFFFFF
+};
+
+/**
+ * @brief Runtime type identifier for dynamic KV3 values.
+ */
+enum class KV3Type : std::uint8_t {
+    Null = 0,
+    Boolean = 1,
+    Integer = 2,
+    Double = 3,
+    String = 4,
+    BinaryBlob = 5,
+    Array = 6,
+    Table = 7
+};
+
+/**
+ * @brief Dynamic recursive value tree container representing an arbitrary KeyValues3 node.
+ */
+class KV3Value {
+public:
+    using Storage = std::variant<
+        std::monostate, // Null
+        bool,           // Boolean
+        std::int64_t,   // Integer
+        double,         // Double
+        std::string,    // String
+        KV3Blob,        // Binary Blob
+        KV3Array,       // Array
+        KV3Table        // Table / Object
+    >;
+
+private:
+    Storage m_storage{std::monostate{}};
+
+public:
+    KV3Value() noexcept = default;
+    KV3Value(std::nullptr_t) noexcept : m_storage(std::monostate{}) {}
+    KV3Value(bool val) noexcept : m_storage(val) {}
+    KV3Value(std::int64_t val) noexcept : m_storage(val) {}
+    KV3Value(std::int32_t val) noexcept : m_storage(static_cast<std::int64_t>(val)) {}
+    KV3Value(std::uint32_t val) noexcept : m_storage(static_cast<std::int64_t>(val)) {}
+    KV3Value(std::uint64_t val) noexcept : m_storage(static_cast<std::int64_t>(val)) {}
+    KV3Value(double val) noexcept : m_storage(val) {}
+    KV3Value(float val) noexcept : m_storage(static_cast<double>(val)) {}
+    KV3Value(std::string str) : m_storage(std::move(str)) {}
+    KV3Value(std::string_view sv) : m_storage(std::string(sv)) {}
+    KV3Value(const char* sz) : m_storage(sz ? std::string(sz) : std::string{}) {}
+    KV3Value(KV3Blob blob) : m_storage(std::move(blob)) {}
+    KV3Value(KV3Array arr) : m_storage(std::move(arr)) {}
+    KV3Value(KV3Table tbl) : m_storage(std::move(tbl)) {}
+
+    [[nodiscard]] KV3Type GetType() const noexcept {
+        return static_cast<KV3Type>(m_storage.index());
+    }
+
+    [[nodiscard]] bool IsNull() const noexcept { return std::holds_alternative<std::monostate>(m_storage); }
+    [[nodiscard]] bool IsBool() const noexcept { return std::holds_alternative<bool>(m_storage); }
+    [[nodiscard]] bool IsInt() const noexcept { return std::holds_alternative<std::int64_t>(m_storage); }
+    [[nodiscard]] bool IsDouble() const noexcept { return std::holds_alternative<double>(m_storage); }
+    [[nodiscard]] bool IsString() const noexcept { return std::holds_alternative<std::string>(m_storage); }
+    [[nodiscard]] bool IsBlob() const noexcept { return std::holds_alternative<KV3Blob>(m_storage); }
+    [[nodiscard]] bool IsArray() const noexcept { return std::holds_alternative<KV3Array>(m_storage); }
+    [[nodiscard]] bool IsTable() const noexcept { return std::holds_alternative<KV3Table>(m_storage); }
+
+    [[nodiscard]] bool AsBool(bool defaultVal = false) const noexcept {
+        if (const auto* p = std::get_if<bool>(&m_storage)) return *p;
+        if (const auto* p = std::get_if<std::int64_t>(&m_storage)) return *p != 0;
+        return defaultVal;
+    }
+
+    [[nodiscard]] std::int64_t AsInt(std::int64_t defaultVal = 0) const noexcept {
+        if (const auto* p = std::get_if<std::int64_t>(&m_storage)) return *p;
+        if (const auto* p = std::get_if<double>(&m_storage)) return static_cast<std::int64_t>(*p);
+        if (const auto* p = std::get_if<bool>(&m_storage)) return *p ? 1 : 0;
+        return defaultVal;
+    }
+
+    [[nodiscard]] double AsDouble(double defaultVal = 0.0) const noexcept {
+        if (const auto* p = std::get_if<double>(&m_storage)) return *p;
+        if (const auto* p = std::get_if<std::int64_t>(&m_storage)) return static_cast<double>(*p);
+        if (const auto* p = std::get_if<bool>(&m_storage)) return *p ? 1.0 : 0.0;
+        return defaultVal;
+    }
+
+    [[nodiscard]] const std::string& AsString(const std::string& defaultVal = "") const noexcept {
+        if (const auto* p = std::get_if<std::string>(&m_storage)) return *p;
+        return defaultVal;
+    }
+
+    [[nodiscard]] const KV3Blob& AsBlob() const {
+        if (const auto* p = std::get_if<KV3Blob>(&m_storage)) return *p;
+        static const KV3Blob s_emptyBlob;
+        return s_emptyBlob;
+    }
+
+    [[nodiscard]] KV3Blob& AsBlob() {
+        if (!IsBlob()) m_storage = KV3Blob{};
+        return std::get<KV3Blob>(m_storage);
+    }
+
+    [[nodiscard]] const KV3Array& AsArray() const {
+        if (const auto* p = std::get_if<KV3Array>(&m_storage)) return *p;
+        static const KV3Array s_emptyArr;
+        return s_emptyArr;
+    }
+
+    [[nodiscard]] KV3Array& AsArray() {
+        if (!IsArray()) m_storage = KV3Array{};
+        return std::get<KV3Array>(m_storage);
+    }
+
+    [[nodiscard]] const KV3Table& AsTable() const {
+        if (const auto* p = std::get_if<KV3Table>(&m_storage)) return *p;
+        static const KV3Table s_emptyTbl;
+        return s_emptyTbl;
+    }
+
+    [[nodiscard]] KV3Table& AsTable() {
+        if (!IsTable()) m_storage = KV3Table{};
+        return std::get<KV3Table>(m_storage);
+    }
+
+    [[nodiscard]] std::size_t Size() const noexcept {
+        if (const auto* p = std::get_if<KV3Array>(&m_storage)) return p->size();
+        if (const auto* p = std::get_if<KV3Table>(&m_storage)) return p->size();
+        if (const auto* p = std::get_if<KV3Blob>(&m_storage)) return p->size();
+        if (const auto* p = std::get_if<std::string>(&m_storage)) return p->size();
+        return 0;
+    }
+
+    // Table operations
+    [[nodiscard]] bool HasKey(std::string_view key) const noexcept {
+        if (const auto* p = std::get_if<KV3Table>(&m_storage)) {
+            return std::any_of(p->begin(), p->end(), [key](const auto& pair) {
+                return pair.first == key;
+            });
+        }
+        return false;
+    }
+
+    [[nodiscard]] const KV3Value* Find(std::string_view key) const noexcept {
+        if (const auto* p = std::get_if<KV3Table>(&m_storage)) {
+            for (const auto& pair : *p) {
+                if (pair.first == key) return &pair.second;
+            }
+        }
+        return nullptr;
+    }
+
+    [[nodiscard]] KV3Value* Find(std::string_view key) noexcept {
+        if (auto* p = std::get_if<KV3Table>(&m_storage)) {
+            for (auto& pair : *p) {
+                if (pair.first == key) return &pair.second;
+            }
+        }
+        return nullptr;
+    }
+
+    KV3Value& operator[](std::string_view key) {
+        if (!IsTable()) m_storage = KV3Table{};
+        auto& tbl = std::get<KV3Table>(m_storage);
+        for (auto& pair : tbl) {
+            if (pair.first == key) return pair.second;
+        }
+        tbl.emplace_back(std::string(key), KV3Value{});
+        return tbl.back().second;
+    }
+
+    const KV3Value& operator[](std::string_view key) const {
+        const auto* ptr = Find(key);
+        if (ptr) return *ptr;
+        static const KV3Value s_nullValue;
+        return s_nullValue;
+    }
+
+    // Array operations
+    void PushBack(KV3Value value) {
+        if (!IsArray()) m_storage = KV3Array{};
+        std::get<KV3Array>(m_storage).push_back(std::move(value));
+    }
+
+    KV3Value& operator[](std::size_t index) {
+        if (!IsArray()) m_storage = KV3Array{};
+        auto& arr = std::get<KV3Array>(m_storage);
+        if (index >= arr.size()) arr.resize(index + 1);
+        return arr[index];
+    }
+
+    const KV3Value& operator[](std::size_t index) const {
+        if (const auto* p = std::get_if<KV3Array>(&m_storage)) {
+            if (index < p->size()) return (*p)[index];
+        }
+        static const KV3Value s_nullValue;
+        return s_nullValue;
+    }
+
+    bool operator==(const KV3Value& other) const;
+    bool operator!=(const KV3Value& other) const { return !(*this == other); }
+};
+
+/**
+ * @brief Metadata parsed from text or binary KV3 headers.
+ */
+struct KV3Header_t {
+    std::string m_szEncoding{"text"};
+    KV3Guid_t m_encodingGuid{g_GuidTextEncoding};
+    std::string m_szFormat{"generic"};
+    KV3Guid_t m_formatGuid{g_GuidGenericFormat};
+    KV3CompressionType m_eCompression{KV3CompressionType::None};
+};
+
+/**
+ * @brief Standalone pure ISO C++20 LZ4 block codec for Source 2 streams.
+ */
+class CLZ4Codec {
+public:
+    static bool Decompress(std::span<const std::uint8_t> src, std::span<std::uint8_t> dst);
+    static std::vector<std::uint8_t> Compress(std::span<const std::uint8_t> src);
+};
+
+/**
+ * @brief ZSTD block format specification and frame metadata inspector.
+ */
+class CZSTDCodec {
+public:
+    static constexpr std::uint32_t ZSTD_MAGIC = 0xFD2FB528;
+
+    struct FrameInfo_t {
+        bool m_bValid{false};
+        bool m_bSingleSegment{false};
+        std::uint64_t m_nWindowSize{0};
+        std::uint64_t m_nContentSize{0};
+        std::uint32_t m_nHeaderSize{0};
+    };
+
+    static FrameInfo_t InspectFrame(std::span<const std::uint8_t> src);
+    static bool DecompressRawFrame(std::span<const std::uint8_t> src, std::span<std::uint8_t> dst);
+};
+
+/**
+ * @brief In-memory KeyValues3 Document parser, generator, and tree manager.
+ */
+class CKV3Document {
+public:
+    KV3Header_t m_header;
+    KV3Value m_root{KV3Table{}};
+
+    CKV3Document() = default;
+
+    // Text format operations
+    bool LoadFromText(std::string_view text);
+    [[nodiscard]] std::string SaveToText() const;
+
+    // Binary format operations (Valve VKV3)
+    bool LoadFromBinary(std::span<const std::uint8_t> bytes);
+    [[nodiscard]] std::vector<std::uint8_t> SaveToBinary(KV3CompressionType compression = KV3CompressionType::None) const;
+
+    [[nodiscard]] const KV3Value& Root() const noexcept { return m_root; }
+    [[nodiscard]] KV3Value& Root() noexcept { return m_root; }
+};
+
+// ============================================================================
+// Source 2 Compiled Resource Containers (resourcesystem.dll)
+// ============================================================================
+
+#pragma pack(push, 1)
+
+/**
+ * @brief Canonical Source 2 Compiled Resource Header ("VASU").
+ * Binary signature: 0x55534156 ("VASU" in little-endian representation).
+ */
+struct ResourceHeader_t {
+    std::uint32_t m_nMagic;         // 0x00: 0x55534156 ("VASU")
+    std::uint16_t m_nHeaderVersion; // 0x04: 12 (0x000C)
+    std::uint16_t m_nVersion;       // 0x06: Resource compilation version
+    std::uint32_t m_nFlags;         // 0x08: Resource compiler flags
+    std::uint32_t m_nBlockOffset;   // 0x0C: Offset to block descriptor table
+    std::uint32_t m_nBlockCount;    // 0x10: Number of embedded resource blocks
+};
+
+/**
+ * @brief Descriptor entry for individual resource data blocks.
+ */
+struct ResourceBlockEntry_t {
+    std::uint32_t m_nBlockId;       // 0x00: FourCC ('DATA', 'RED2', 'RERL', etc.)
+    std::uint32_t m_nOffset;        // 0x04: Absolute offset from start of file
+    std::uint32_t m_nSize;          // 0x08: Uncompressed byte length
+};
+
+#pragma pack(pop)
+
+/**
+ * @brief FourCC identifier helper.
+ */
+constexpr std::uint32_t MakeFourCC(char a, char b, char c, char d) noexcept {
+    return static_cast<std::uint32_t>(static_cast<std::uint8_t>(a)) |
+          (static_cast<std::uint32_t>(static_cast<std::uint8_t>(b)) << 8) |
+          (static_cast<std::uint32_t>(static_cast<std::uint8_t>(c)) << 16) |
+          (static_cast<std::uint32_t>(static_cast<std::uint8_t>(d)) << 24);
+}
+
+// Well-known block identifiers
+inline constexpr std::uint32_t RESOURCE_MAGIC_VASU = 0x55534156;
+inline constexpr std::uint32_t BLOCK_FOURCC_DATA   = MakeFourCC('D', 'A', 'T', 'A');
+inline constexpr std::uint32_t BLOCK_FOURCC_RED2   = MakeFourCC('R', 'E', 'D', '2');
+inline constexpr std::uint32_t BLOCK_FOURCC_RERL   = MakeFourCC('R', 'E', 'R', 'L');
+inline constexpr std::uint32_t BLOCK_FOURCC_REDI   = MakeFourCC('R', 'E', 'D', 'I');
+inline constexpr std::uint32_t BLOCK_FOURCC_VBIB   = MakeFourCC('V', 'B', 'I', 'B');
+
+/**
+ * @brief Compiled resource external reference entry.
+ */
+struct ResourceExternalRef_t {
+    std::uint64_t m_nHash{0};
+    std::string m_szAssetPath;
+};
+
+/**
+ * @brief In-memory representation of a Source 2 compiled resource container.
+ */
+class CResourceFile {
+public:
+    ResourceHeader_t m_header{};
+    std::vector<ResourceBlockEntry_t> m_blockEntries;
+    std::vector<ResourceExternalRef_t> m_externalReferences;
+    std::vector<std::uint8_t> m_rawBuffer;
+
+    CResourceFile() = default;
+
+    bool LoadFromMemory(std::span<const std::uint8_t> buffer);
+    [[nodiscard]] std::span<const std::uint8_t> GetBlockData(std::uint32_t blockFourCC) const;
+    [[nodiscard]] bool HasBlock(std::uint32_t blockFourCC) const noexcept;
+    [[nodiscard]] bool UnpackDataBlockAsKV3(CKV3Document& outDoc) const;
+
+    [[nodiscard]] static std::vector<std::uint8_t> BuildContainer(
+        std::span<const std::uint8_t> dataBlockPayload,
+        const std::vector<std::string>& externalRefs = {}
+    );
+};
+
+} // namespace cs2::resourcesystem
+
+#endif // CS2_RESOURCESYSTEM_KV3_PARSER_H
 ```
 
 ### File: `game/scenesystem/scene_system.h` (scenesystem.dll)
@@ -20531,6 +21719,654 @@ The pure C++20 simulation harness [`docs/simulators/cs2_bullet_penetration_sim.c
 
 --------------------------------------------------------------------------------
 
+## Document: inferno_combustion_physics.md
+# Source 2 CS2 Surface Combustion & Thermal Energy Grid Architecture
+
+## Executive Architecture Summary
+In Counter-Strike 2 (Source 2 engine, `server.dll` Build 26598758), incendiary and molotov combustion dynamics are modeled via an authoritative surface-aligned thermal propagation grid entity (`CInferno` server-side, `C_Inferno` client-side). Rather than utilizing a simple volumetric sphere, Source 2 simulates combustion using a dynamic 2D/3D flame cluster network of up to 64 discrete spatial nodes (`InfernoFlameNode_t`), downward displacement ground-snapping raycasts, slope-traversal gating, mutual volumetric smoke interaction (`CSmokeVoxelGrid`), and a non-linear exposure-scaled area damage model.
+
+This technical architecture report documents the disassembled routines, mathematical formulations, register mappings, schema data layouts, and physical interactions reverse-engineered from `server.dll`.
+
+---
+
+## 1. Disassembled Function Inventory (Build 26598758)
+
+The table below catalogs the core combustion and thermal propagation routines reverse-engineered in `server.dll`:
+
+| Function Identifier | Symbol Name | Baseline RVA | Current RVA (Build 26598758) | Current VA | Delta | Architectural Responsibility |
+|:---|:---|:---|:---|:---|:---|:---|
+| `server_inferno_think` | `CInferno::InfernoThink` | `0x003427b0` | `0x00346090` | `0x180346090` | `+0x38e0` | Main per-tick simulation loop: orchestrates burnout checks, smoke extinguishment, radial spreading, and damage dispatch. |
+| `server_inferno_check_expired` | `CInferno::CheckExpired` | `0x0033d4c0` | `0x00340bc0` | `0x180340bc0` | `+0x38e0` | Evaluates individual node ignition lifetimes, peak burn plateaus, and transitions cluster to post-effect decay. |
+| `server_inferno_spread` | `CInferno::Spread` | `0x0034b560` | `0x0034ef00` | `0x18034ef00` | `+0x39a0` | Dynamic 2D/3D surface propagation: computes surface tangents, slope limits, step heights, and ground-snapping raycasts. |
+| `server_inferno_extinguish` | `CInferno::ExtinguishFire` | `0x00340eb0` | `0x00344790` | `0x180344790` | `+0x38e0` | Quenches individual flame nodes, stops sound loops, and emits steam dissipation particle events. |
+| `server_inferno_extinguish_smoke` | `CInferno::ExtinguishOverlappingSmoke` | `0x00342b10` | `0x00346330` | `0x180346330` | `+0x38e0` | Iterates active flames against smoke grids; executes authoritative 1/3rd coverage threshold full-cluster extinguishment. |
+| `server_inferno_damage` | `CInferno::InfernoThink (damage)` | `0x00342f90` | `0x003468c4` | `0x1803468c4` | `+0x38e0` | Evaluates player proximity (48u), radial distance falloff (24..48u), exposure ramp multiplier (1.0x to 2.5x), and armor absorption. |
+
+---
+
+## 2. Mathematical Formulation & Surface Alignment
+
+```
++-------------------------------------------------------------+
+|               Incendiary Detonation Event                   |
+|               Initial Seed Origin: (Cx, Cy, Cz)             |
++-------------------------------------------------------------+
+                               |
+                               v
+               [Downward Ground Probe Raycast]
+                 Start: (Cx, Cy, Cz + 32.0 units)
+                 End  : (Cx, Cy, Cz - 64.0 units)
+                               |
+                               +------------------------------+
+                               |                              |
+                               v                              v
+                    [Hit Detected]                   [Miss / Abyss]
+                 Snap Position: Phit + N * 2.0u       Abort Spawn
+                 Store Normal : BurnNormal[0] = N
+                               |
+                               v
+            +------------------------------------+
+            | Node 0 Seed Active Combustion Grid |
+            |      m_firePositions[0] = P0       |
+            |      m_bFireIsBurning[0] = true    |
+            |      m_fireCount = 1               |
+            +------------------------------------+
+                               |
+                               v
+            [Periodic Spread Timer Tick: Delta t = 0.08s]
+                 16 Angular Candidate Rays (Delta theta = 22.5 deg)
+                 Surface Tangent Vector Projection:
+                   v_tan = v - (v . N_parent) * N_parent
+                 Step Distance: R_step = 36.0 units
+                               |
+             +-----------------+-----------------+
+             |                                   |
+             v                                   v
+   [Slope Angle Check]                 [Step Height Check]
+     N_hit.z >= 0.7071 (<= 45 deg)       |Z_hit - Z_parent| <= 44.0 units
+             |                                   |
+             +-----------------+-----------------+
+                               |
+                               v
+            [Spatial Proximity & Clearance Check]
+              Min Distance to Active Nodes >= 24.0 units
+              Distance to Cluster Origin <= 250.0 units
+                               |
+                               v
+                 [Add Child Node: m_fireCount < 64]
+```
+
+### 2.1 Downward Ground-Snapping Raycasting
+When an incendiary or molotov projectile impacts a surface, or when a child flame node is evaluated during radial expansion, the tentative 3D position $\mathbf{P}_{\text{test}} = (x, y, z)$ is snapped to uneven world geometry (including displacement brushes and uneven meshes) via an orthogonal vertical raycast:
+$$\mathbf{R}_{\text{start}} = \mathbf{P}_{\text{test}} + (0, 0, \Delta z_{\text{up}}), \quad \Delta z_{\text{up}} = +32.0 \text{ units}$$
+$$\mathbf{R}_{\text{end}} = \mathbf{P}_{\text{test}} - (0, 0, \Delta z_{\text{down}}), \quad \Delta z_{\text{down}} = -64.0 \text{ units}$$
+
+If the ray intersects a brush face at distance $t \in [0, 1]$ with contact position $\mathbf{P}_{\text{hit}}$ and contact normal $\hat{\mathbf{n}}_{\text{hit}}$, the node position is aligned with a normal lift offset $\delta = +2.0 \text{ units}$ to eliminate visual z-fighting:
+$$\mathbf{P}_{\text{node}} = \mathbf{P}_{\text{hit}} + 2.0 \cdot \hat{\mathbf{n}}_{\text{hit}}$$
+$$\mathbf{N}_{\text{node}} = \hat{\mathbf{n}}_{\text{hit}}$$
+
+### 2.2 Surface Tangent Plane Projection
+To propagate naturally along uneven displacements and sloped ramps, directional vectors are projected onto the tangent plane defined by the parent node's normal $\hat{\mathbf{n}}_{\text{parent}}$:
+$$\hat{\mathbf{v}}_{\text{cand}} = (\cos\theta, \sin\theta, 0)$$
+$$\mathbf{v}_{\text{tangent}} = \hat{\mathbf{v}}_{\text{cand}} - (\hat{\mathbf{v}}_{\text{cand}} \cdot \hat{\mathbf{n}}_{\text{parent}})\hat{\mathbf{n}}_{\text{parent}}$$
+$$\hat{\mathbf{v}}_{\text{tangent}} = \frac{\mathbf{v}_{\text{tangent}}}{\|\mathbf{v}_{\text{tangent}}\|}$$
+
+The tentative horizontal candidate position is projected at step distance $R_{\text{step}} = 36.0 \text{ units}$:
+$$\mathbf{P}_{\text{cand}} = \mathbf{P}_{\text{parent}} + 36.0 \cdot \hat{\mathbf{v}}_{\text{tangent}}$$
+
+### 2.3 Slope Climbing & Obstruction Gating
+In `server.dll` (`CInferno::Spread` at RVA `0x0034ef00`), expansion is constrained by three physical invariants:
+1. **Slope Traversal Threshold**: The surface normal of the contact surface must satisfy:
+   $$n_{z, \text{hit}} \ge \cos(45^\circ) \approx 0.7071$$
+   If $n_{z, \text{hit}} < 0.7071$, the surface is classified as a steep cliff, wall, or inverted overhang, and flame expansion is blocked.
+2. **Step Height Threshold**: The vertical step height between parent and child node must not exceed:
+   $$|\mathbf{P}_{z, \text{hit}} - \mathbf{P}_{z, \text{parent}}| \le 44.0 \text{ units}$$
+3. **Minimum Spatial Clearance**: The child node must maintain a minimum distance from all existing active burning nodes to avoid over-clustering:
+   $$\min_{j < N} \|\mathbf{P}_{\text{child}} - \mathbf{P}_j\| \ge 24.0 \text{ units}$$
+
+---
+
+## 3. Dynamic 2D/3D Surface Propagation Algorithm
+
+### 3.1 Clustered Expansion Step
+Propagation is executed in discrete hops governed by `m_NextSpreadTimer` ($\Delta t = 0.08\text{s}$, approximately 12.5 Hz). During each spread pulse:
+- The engine iterates through active parent nodes.
+- Samples 16 radial directions:
+  $$\theta_k = \theta_0 + k \cdot \frac{2\pi}{16}, \quad k \in [0, 15]$$
+  where $\theta_0$ is an angular phase offset determined by `m_nSpreadCount` to prevent directional bias.
+- A maximum of 4 child nodes may be added per spread step.
+- Expansion halts once `m_fireCount` reaches `MAX_INFERNO_FIRES` ($64$).
+- Candidate nodes exceeding the maximum cluster radius ($R_{\max} = 250.0 \text{ units}$ from `m_vecOriginalSpawnLocation`) are pruned.
+
+```mermaid
+flowchart TD
+    A["Active Parent Node (Position P, Normal N)"] --> B["Generate 16 Radial Rays (Step = 36.0u)"]
+    B --> C["Project onto Surface Tangent Plane"]
+    C --> D["Downcast Ground Snap Probe (+32u to -64u)"]
+    D --> E{"Surface Hit?"}
+    E -- No --> F["Reject Candidate"]
+    E -- Yes --> G{"Normal.z >= 0.7071?"}
+    G -- No: Wall / Cliff --> F
+    G -- Yes --> H{"Delta Z <= 44.0u?"}
+    H -- No: Too Steep --> F
+    H -- Yes --> I{"Min Node Separation >= 24.0u?"}
+    I -- No: Overcrowded --> F
+    I -- Yes --> J{"Cluster Radius <= 250.0u?"}
+    J -- No --> F
+    J -- Yes --> K["Append Flame Node (m_fireCount++)"]
+```
+
+---
+
+## 4. Flame Node Combustion Lifecycle
+
+Each individual node in the 64-node array tracks its own ignition lifecycle, modeled via a 3-stage piecewise normalized thermal intensity function $I(t) \in [0.0, 1.0]$:
+
+```
+Thermal Intensity I(t)
+ 1.0 +---------------+=============================+---------------+
+     |              /|                             |\              |
+     |             / |                             | \             |
+     |            /  |                             |  \            |
+     |           /   |                             |   \           |
+     |          /    |                             |    \          |
+     |         /     |                             |     \         |
+ 0.0 +--------+------+-----------------------------+------+--------+
+             t=0   t_warmup                    t_lifetime-t_fade  t_lifetime
+             [Warmup: 0.35s]    [Peak Burn: 5.65s]      [Fade: 1.00s]
+                               [Total Lifetime: 7.00s]
+```
+
+Mathematical formulation:
+$$I(t) = \begin{cases} 
+\frac{t - t_{\text{ign}}}{t_{\text{warmup}}} & 0 \le t - t_{\text{ign}} < t_{\text{warmup}} \\
+1.0 & t_{\text{warmup}} \le t - t_{\text{ign}} < t_{\text{lifetime}} - t_{\text{fade}} \\
+1.0 - \frac{(t - t_{\text{ign}}) - (t_{\text{lifetime}} - t_{\text{fade}})}{t_{\text{fade}}} & t_{\text{lifetime}} - t_{\text{fade}} \le t - t_{\text{ign}} < t_{\text{lifetime}} \\
+0.0 & \text{otherwise (Burnout)}
+\end{cases}$$
+
+Where default engine parameters are:
+- $t_{\text{warmup}} = 0.35 \text{ seconds}$
+- $t_{\text{fade}} = 1.00 \text{ seconds}$
+- $t_{\text{lifetime}} = 7.00 \text{ seconds}$
+
+---
+
+## 5. Mutual Smoke Voxel Interaction & Extinguishment
+
+### 5.1 The Authoritative 1/3rd Extinguishment Rule
+Extracted from `server.dll` RVA `0x00346330` - `0x0034645f`:
+```
+Molotov extinguished: when %d/%d fire areas were covered by smoke (exceeded 1/3rd).
+```
+
+When an active volumetric smoke grenade (`CSmokeGrenadeProjectile` / `CSmokeVoxelGrid`) is present within the cluster vicinity:
+1. **Core Detonation Sphere Query**: Any flame node whose distance to the smoke detonation center $\mathbf{C}_{\text{smoke}}$ is $\le 144.0 \text{ units}$ is extinguished immediately:
+   $$\|\mathbf{P}_{\text{node}} - \mathbf{C}_{\text{smoke}}\| \le 144.0 \implies \text{ExtinguishNode}(i)$$
+2. **Morton 3D Voxel Query**: For nodes outside the 144-unit core sphere, their world position is converted into the $32 \times 32 \times 32$ Morton-dilated voxel grid:
+   $$V_x = \lfloor (P_x - C_x) \times 0.05 + 16.0 \rfloor$$
+   $$V_y = \lfloor (P_y - C_y) \times 0.05 + 16.0 \rfloor$$
+   $$V_z = \lfloor (P_z - C_z) \times 0.05 + 16.0 \rfloor$$
+   If `IsVoxelActive(Vx, Vy, Vz)` evaluates to true, the flame node is quenched.
+3. **Cluster Quench Gate**:
+   If the ratio of extinguished flame nodes to total allocated nodes meets or exceeds $33.333\%$ ($1/3\text{rd}$):
+   $$\frac{N_{\text{extinguished}}}{N_{\text{total}}} \ge \frac{1}{3} \quad (\text{for } N_{\text{total}} \ge 3)$$
+   The engine executes `CInferno::ExtinguishAll()`, immediately terminating the entire fire cluster, transitioning to `m_bInPostEffectTime = true`, and playing `Molotov.Extinguish`.
+
+### 5.2 Detonation Inside Active Smoke
+If an incendiary or molotov projectile detonates inside an active smoke volume ($\|\mathbf{P}_{\text{det}} - \mathbf{C}_{\text{smoke}}\| \le 144.0\text{u}$ or inside an active voxel):
+- `m_bWasCreatedInSmoke` is set to `true`.
+- Zero flame nodes are spawned (`m_fireCount = 0`).
+- The entity enters immediate post-effect state (`m_bInPostEffectTime = true`) and is discarded.
+
+---
+
+## 6. Area Damage Model & Exposure Escalation ODE
+
+In `server.dll` (`CInferno::InfernoThink` damage phase at RVA `0x003468c4`), damage is evaluated every 100ms ($\Delta t = 0.10\text{s}$, 10 Hz).
+
+### 6.1 Distance to Flame Network
+For any target pawn (`C_CSPlayerPawn`) at world position $\mathbf{P}_{\text{target}}$, the engine calculates the minimum 2D distance to any active, unextinguished flame node:
+$$d_{\min} = \min_{i \in \text{Active}} \|\mathbf{P}_{\text{target}, xy} - \mathbf{P}_{i, xy}\|$$
+subject to vertical bounds:
+$$|\mathbf{P}_{\text{target}, z} - \mathbf{P}_{i, z}| \le 64.0 \text{ units}$$
+
+### 6.2 Radial Falloff Factor
+If $d_{\min} \le 48.0 \text{ units}$, the target is inside the damage field:
+$$F_{\text{dist}} = \begin{cases}
+1.0 & d_{\min} \le 24.0 \text{ units (Core Zone)} \\
+1.0 - 0.5 \times \frac{d_{\min} - 24.0}{48.0 - 24.0} & 24.0 < d_{\min} \le 48.0 \text{ units (Falloff Zone)} \\
+0.0 & d_{\min} > 48.0 \text{ units}
+\end{cases}$$
+
+### 6.3 Exposure Ramp Multiplier
+As a player remains continuously inside the fire volume, exposure duration $t_{\text{exposure}}$ accumulates on `m_damageRampTimer`:
+$$F_{\text{ramp}} = 1.0 + 1.5 \times \min\left(\frac{t_{\text{exposure}}}{2.0}, 1.0\right)$$
+- At entry ($t=0$): $F_{\text{ramp}} = 1.0\times$ (deals $4.0$ base damage per tick $\approx 40$ HP/s).
+- At peak exposure ($t \ge 2.0\text{s}$): $F_{\text{ramp}} = 2.5\times$ (deals $10.0$ raw damage per tick $\approx 100$ HP/s).
+
+### 6.4 Armor Mitigation Model
+Fire applies armor penetration at a fixed ratio of $85\%$ (`INFERNO_ARMOR_PENETRATION = 0.85`):
+$$\text{Damage}_{\text{raw}} = D_{\text{base}} \times F_{\text{ramp}} \times F_{\text{dist}} \times I_{\text{thermal}}$$
+$$\text{Damage}_{\text{health}} = \text{Damage}_{\text{raw}} \times 0.85$$
+$$\text{Damage}_{\text{armor}}  = \text{Damage}_{\text{raw}} \times 0.15$$
+
+---
+
+## 7. Reconstructed Schema Memory Layouts
+
+### 7.1 `CInferno` (server.dll - Footprint: 0x14d8 / 5,336 bytes)
+
+| Byte Offset | Field Identifier | Type Descriptor | Architectural Responsibility |
+|:---|:---|:---|:---|
+| `+0x0850` | `m_firePositions` | `Vector3[64]` | Array of 64 snapped 3D world coordinates ($768$ bytes). |
+| `+0x0b50` | `m_fireParentPositions` | `Vector3[64]` | Array of 64 parent ancestor coordinates ($768$ bytes). |
+| `+0x0e50` | `m_bFireIsBurning` | `bool[64]` | Boolean array indicating active combustion ($64$ bytes). |
+| `+0x0e90` | `m_BurnNormal` | `Vector3[64]` | Array of 64 contact surface normals ($768$ bytes). |
+| `+0x1190` | `m_fireCount` | `int32_t` | Current count of allocated flame nodes ($0 \le N \le 64$). |
+| `+0x1194` | `m_nInfernoType` | `int32_t` | Type identifier ($0 = \text{Molotov}, 1 = \text{Incendiary}$). |
+| `+0x1198` | `m_nFireEffectTickBegin` | `int32_t` | Server tick timestamp at ignition. |
+| `+0x119c` | `m_nFireLifetime` | `float` | Nominal burn lifetime ($7.0\text{s}$). |
+| `+0x11a0` | `m_bInPostEffectTime` | `bool` | Entity in terminal post-effect decay. |
+| `+0x11a1` | `m_bWasCreatedInSmoke` | `bool` | True if projectile detonated inside active smoke volume. |
+| `+0x13a8` | `m_extent` | `Vector3` | Spatial bounding half-extent vector. |
+| `+0x13c0` | `m_damageTimer` | `CountdownTimer` | Per-tick ($0.10\text{s}$) damage interval evaluation timer. |
+| `+0x13d8` | `m_damageRampTimer` | `CountdownTimer` | Exposure accumulation ramp timer ($2.0\text{s}$ saturation). |
+| `+0x1414` | `m_vecOriginalSpawnLocation` | `Vector3` | Seed detonation coordinates. |
+| `+0x1434` | `m_nMaxFlames` | `int32_t` | Hard capacity limit ($64$). |
+| `+0x1438` | `m_nSpreadCount` | `int32_t` | Total expansion pulses executed. |
+| `+0x1458` | `m_NextSpreadTimer` | `CountdownTimer` | Interval timer ($0.08\text{s}$) gating subsequent spread steps. |
+
+### 7.2 `C_Inferno` (client.dll - Footprint: 0x86a0 / 34,464 bytes)
+
+| Byte Offset | Field Identifier | Type Descriptor | Architectural Responsibility |
+|:---|:---|:---|:---|
+| `+0x10e0` | `m_hInfernoPointsSnapshot` | `void*` | GPU particle coordinate buffer handle. |
+| `+0x10e8` | `m_hInfernoFillerPointsSnapshot` | `void*` | Volumetric filler particle snapshot handle. |
+| `+0x10f0` | `m_hInfernoOutlinePointsSnapshot` | `void*` | Boundary perimeter particle snapshot handle. |
+| `+0x10f8` | `m_hInfernoClimbingOutlinePointsSnapshot` | `void*` | Vertical elevation climb outline particle handle. |
+| `+0x1100` | `m_hInfernoDecalsSnapshot` | `void*` | Projected scorch decal buffer handle. |
+| `+0x1108` | `m_firePositions` | `Vector3[64]` | Client mirrored flame node positions. |
+| `+0x1408` | `m_fireParentPositions` | `Vector3[64]` | Client mirrored parent ancestor positions. |
+| `+0x1708` | `m_bFireIsBurning` | `bool[64]` | Client active flame state bitmask. |
+| `+0x1748` | `m_BurnNormal` | `Vector3[64]` | Mirrored contact surface normal vectors. |
+| `+0x1a48` | `m_fireCount` | `int32_t` | Current visible flame count. |
+| `+0x8660` | `m_drawableCount` | `int32_t` | Active mesh render instances submitted to SceneSystem. |
+
+---
+
+## 8. Verification & Test Suite
+
+The reference implementation is validated via the standalone C++20 simulator `docs/simulators/cs2_inferno_fire_sim.cpp`:
+
+1. **Step 1 - Ground-Snapping Raycasting**: Aligns seed flame nodes to displacement wave geometry with normal derivation.
+2. **Step 2 - Dynamic 2D/3D Surface Propagation**: Verifies radial cluster expansion to the exact 64-node limit with surface tangent projections.
+3. **Step 3 - Slope Gating**: Verifies complete rejection of steep cliffs/walls ($n_z < 0.7071$).
+4. **Step 4 - Area Damage Evaluation**: Validates radial attenuation ($24..48\text{u}$) and $2.5\times$ ramp exposure scaling.
+5. **Step 5 - Mutual Smoke Interaction**: Verifies the authoritative $1/3\text{rd}$ extinguishment rule against `CSmokeVoxelGrid`.
+6. **Step 6 - In-Smoke Detonation**: Confirms instant quenching upon detonation inside active smoke clouds.
+
+To compile and execute the test runner:
+```bat
+cl.exe /O2 /std:c++20 /EHsc /W4 /WX docs/simulators/cs2_inferno_fire_sim.cpp
+cs2_inferno_fire_sim.exe
+```
+
+--------------------------------------------------------------------------------
+
+## Document: kv3_resource_system.md
+# Counter-Strike 2 (Source 2) - KeyValues3 (KV3) & Resource Container Architecture (`resourcesystem.dll`)
+
+> **Binary Target**: `resourcesystem.dll` (Base Address: `0x180000000`, Image Size: ~1,572,864 bytes)  
+> **Subsystems Analyzed**: `CResourceSystem`, `CKV3Document`, `KV3Value`, `CResourceFile`, `ResourceHeader_t`, `CLZ4Codec`, `CZSTDCodec`  
+> **Core Specifications**: KeyValues3 Text/Binary Format, Valve Compiled Resource Container (`VASU`), LZ4 Block Codec, Zstandard (ZSTD) Frame Metadata  
+> **Verification Status**: 6 / 6 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_kv3_deserializer_sim.cpp`](simulators/cs2_kv3_deserializer_sim.cpp))
+
+---
+
+## 1. KeyValues3 (KV3) Architecture in Source 2
+
+In Counter-Strike 2 and the Source 2 engine, **KeyValues3 (KV3)** serves as the universal object serialization format, replacing the legacy KeyValues (KV1) text format from Source 1. KV3 provides a strongly typed, hierarchical object-graph notation that supports both human-readable text representations and highly optimized binary streams (`VKV3`).
+
+KeyValues3 is utilized across all Source 2 asset pipelines, including:
+1. **Material System 2 (`vmat_c`)**: Shader graph definitions, blend parameters, material attributes.
+2. **Model System (`vmdl_c`)**: Skeleton hierarchies, LOD groupings, bone attachments, mesh bindings.
+3. **Sound System (`vsnd_c`, `vsndevts_c`)**: Acoustic sound event graphs, operator stacks, spatial audio parameters.
+4. **Physics Subsystem (`vphys_c`)**: Rubikon collision hulls, surface friction parameters, joint constraints.
+5. **Entity & Schema Systems**: Dynamic configuration tables, game rule overrides, navigation mesh metadata.
+
+```mermaid
+flowchart TD
+    subgraph ResourcePipeline ["Source 2 Resource Compilation Pipeline"]
+        SourceAsset["Source Asset (.vmdl_input, .vmat, .kv3)"]
+        Compiler["resourcecompiler.exe / resourcesystem.dll"]
+    end
+
+    subgraph ContainerFormat ["Compiled Resource Container ('VASU' / 0x55534156)"]
+        Header["ResourceHeader_t (Magic, Version, Flags, BlockTable)"]
+        RED2Block["Block: 'RED2' (External Dependency Paths)"]
+        DATABlock["Block: 'DATA' (Asset Payload Stream)"]
+        RERLBlock["Block: 'RERL' (External Resource List)"]
+        REDIBlock["Block: 'REDI' (Compiler Edit Metadata)"]
+    end
+
+    subgraph KV3Engine ["KeyValues3 Deserialization Engine"]
+        StreamDetect{"Stream Magic Detector"}
+        TextParser["Text Lexer & Parser (<!-- kv3 ... -->)"]
+        BinaryParser["Binary VKV3 Reader (Magic: 'VKV3')"]
+        LZ4Decompress["CLZ4Codec Block Decompressor"]
+        ZSTDDecompress["CZSTDCodec Frame Inspector"]
+        ASTTree["Dynamic In-Memory Tree (KV3Value)"]
+    end
+
+    SourceAsset --> Compiler
+    Compiler --> ContainerFormat
+    Header --> RED2Block
+    Header --> DATABlock
+    Header --> RERLBlock
+    Header --> REDIBlock
+
+    DATABlock --> StreamDetect
+    StreamDetect -->|Text Header| TextParser
+    StreamDetect -->|Binary VKV3| BinaryParser
+    BinaryParser -->|LZ4 Flag| LZ4Decompress
+    BinaryParser -->|ZSTD Flag| ZSTDDecompress
+    LZ4Decompress --> ASTTree
+    ZSTDDecompress --> ASTTree
+    BinaryParser -->|Uncompressed| ASTTree
+    TextParser --> ASTTree
+```
+
+---
+
+## 2. KeyValues3 Format Specification
+
+### 2.1 Header Identification & GUID Signatures
+Every KeyValues3 stream begins with an identification block that explicitly specifies the encoding mechanism and data format definition using 128-bit Universally Unique Identifiers (UUID / GUID):
+
+```
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{74477221-4c60-44d8-a14a-03838b558f68} -->
+```
+
+| Field Name | Canonical GUID | Subsystem Description |
+| :--- | :--- | :--- |
+| **`encoding:text`** | `{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d}` | Standard UTF-8 textual representation. |
+| **`encoding:binary`** | `{460127b0-8c20-4823-9156-9e166f9e66cb}` | Binary KV3 with LZ4 block compression. |
+| **`encoding:binary_v3`**| `{1b81e69c-89da-4f60-8b85-a7012e339bfb}` | Modern Source 2 binary KV3 encoding. |
+| **`format:generic`** | `{74477221-4c60-44d8-a14a-03838b558f68}` | Generic dynamic object schema. |
+| **`format:vmat`** | `{07e60058-29e8-468a-8260-d667cbe5f272}` | Material System 2 shader configuration. |
+| **`format:vmdl`** | `{a730e62d-1149-450e-b870-711e3b69288e}` | Model System skeletal and mesh data. |
+
+### 2.2 Text KV3 Grammar & Data Types
+The text representation supports C-style comments (`//` and `/* ... */`), XML comments (`<!-- ... -->`), and rich data types:
+
+1. **Null**: `null` (evaluates to empty/unassigned variant).
+2. **Boolean**: `true` or `false`.
+3. **Integer**: 64-bit signed integers (e.g. `42`, `-1050`, `0x7FFF`).
+4. **Double**: 64-bit IEEE-754 floating-point numbers (e.g. `3.141592`, `-0.001`, `1e-5`).
+5. **String**: Quoted literal `"characters/models/tm_phoenix.vmdl"` or multiline `"""..."""` with escape sequences (`\n`, `\t`, `\\`, `\"`).
+6. **Binary Blob**: Byte sequence prefixed with `#[` and closed with `]` (e.g. `#[ 56 41 53 55 01 00 0C 00 ]`).
+7. **Array**: Ordered list enclosed in brackets `[ item1, item2, item3 ]`.
+8. **Table / Object**: Associative map enclosed in braces `{ key1 = val1, key2 = val2 }`.
+
+```
+{
+    m_sModelName = "models/weapons/v_rifle_primary.vmdl"
+    m_nHitboxSets = 1
+    m_flMassKg = 3.450000
+    m_bIsSerialized = true
+    m_pNullReference = null
+    m_aBoundingExtents = [ -16.0, -8.5, 0.0, 16.0, 8.5, 32.0 ]
+    m_subHierarchy = 
+    {
+        m_sBoneAttachment = "weapon_hand_R"
+        m_nBoneIndex = 7
+    }
+    m_rawSignature = #[ 56 41 53 55 01 00 0C 00 ]
+}
+```
+
+---
+
+## 3. Binary KeyValues3 (`VKV3`) Wire Specification
+
+Binary KeyValues3 delivers high throughput and instant loading without lexical parsing overhead.
+
+### 3.1 Binary Header Structure (24 Bytes)
+```
++-------------------------------------------------------------+
+| Offset | Type     | Field Name       | Value                |
+|--------+----------+------------------+----------------------|
+| 0x00   | uint32   | m_nMagic         | 'VKV3' (0x33564B56)  |
+| 0x04   | uint8[16]| m_formatGuid     | Format UUID          |
+| 0x14   | uint32   | m_eCompression   | 0=None, 1=LZ4, 2=ZSTD|
++-------------------------------------------------------------+
+```
+
+When compression is enabled (`m_eCompression != 0`), an 8-byte compression trailer directly follows the 24-byte header:
+```
++-------------------------------------------------------------+
+| Offset | Type     | Field Name       | Description          |
+|--------+----------+------------------+----------------------|
+| 0x18   | uint32   | m_nUncompressed  | Uncompressed size    |
+| 0x1C   | uint32   | m_nCompressed    | Compressed size      |
++-------------------------------------------------------------+
+```
+
+### 3.2 String Table & Dictionary Deduplication
+Binary KV3 decouples string storage from node topology. Strings across key names and string values are consolidated into a prefixed dictionary at the start of the uncompressed stream:
+- `uint32 m_nStringCount`: Total number of unique string entries.
+- Sequential string records: `uint32 m_nLength` followed by UTF-8 bytes.
+
+Nodes reference strings by their 0-based 32-bit table index, reducing memory footprint and speeding up hash token comparisons (`CUtlStringToken`).
+
+### 3.3 Dynamic Node Serialization Layout
+Each node in the binary payload begins with an 8-bit type discriminant:
+
+| Type ID | Enum Name | Wire Representation |
+| :--- | :--- | :--- |
+| `0x00` | `KV3Type::Null` | 0 bytes payload. |
+| `0x01` | `KV3Type::Boolean` | 1 byte (`0` = false, `1` = true). |
+| `0x02` | `KV3Type::Integer` | 8 bytes signed little-endian (`int64_t`). |
+| `0x03` | `KV3Type::Double` | 8 bytes IEEE-754 double (`double`). |
+| `0x04` | `KV3Type::String` | 4 bytes unsigned string table index (`uint32_t`). |
+| `0x05` | `KV3Type::BinaryBlob` | 4 bytes byte count $N$, followed by $N$ raw bytes. |
+| `0x06` | `KV3Type::Array` | 4 bytes count $C$, followed by $C$ serialized `KV3Value` nodes. |
+| `0x07` | `KV3Type::Table` | 4 bytes count $P$. Each pair: 4-byte key string index + value node. |
+
+---
+
+## 4. Block Compression Engine: Pure ISO C++20 Codecs
+
+To strictly honor **Rule 4** (pure ISO C++20, zero external dependencies), self-contained codecs are implemented directly within `game/resourcesystem/kv3_parser.cpp`.
+
+### 4.1 LZ4 Block Decompression Algorithm
+The LZ4 block format processes sequences of literal bytes and backwards dictionary matches:
+
+$$\text{Token} = (\text{Literal Length Code} \ll 4) \mid (\text{Match Length Code})$$
+
+1. **Literal Length**: If high nibble is `15`, read successive bytes while byte equals `255`, summing into total literal count.
+2. **Literal Copy**: Copy literal bytes directly from source to destination buffer.
+3. **Offset Read**: Read 16-bit unsigned little-endian offset ($\Delta \in [1, 65535]$).
+4. **Match Length**: If low nibble is `15`, read successive bytes while byte equals `255`, adding to base length ($\text{Length} = \text{val} + 4$).
+5. **Overlapping Copy**: Copy $\text{Length}$ bytes from `dst - offset` into `dst` (handling RLE where $\text{offset} = 1$).
+
+```cpp
+bool CLZ4Codec::Decompress(std::span<const std::uint8_t> src, std::span<std::uint8_t> dst) {
+    std::size_t srcPos = 0, dstPos = 0;
+    while (srcPos < src.size()) {
+        const std::uint8_t token = src[srcPos++];
+        std::size_t literalLen = token >> 4;
+        if (literalLen == 15) {
+            while (srcPos < src.size()) {
+                const std::uint8_t extra = src[srcPos++];
+                literalLen += extra;
+                if (extra != 255) break;
+            }
+        }
+        if (srcPos + literalLen > src.size() || dstPos + literalLen > dst.size()) return false;
+        for (std::size_t i = 0; i < literalLen; ++i) dst[dstPos++] = src[srcPos++];
+        if (srcPos >= src.size()) break;
+        const std::uint16_t offset = src[srcPos] | (src[srcPos + 1] << 8);
+        srcPos += 2;
+        if (offset == 0 || offset > dstPos) return false;
+        std::size_t matchLen = (token & 0x0F) + 4;
+        if ((token & 0x0F) == 15) {
+            while (srcPos < src.size()) {
+                const std::uint8_t extra = src[srcPos++];
+                matchLen += extra;
+                if (extra != 255) break;
+            }
+        }
+        if (dstPos + matchLen > dst.size()) return false;
+        for (std::size_t i = 0; i < matchLen; ++i) {
+            dst[dstPos] = dst[dstPos - offset];
+            dstPos++;
+        }
+    }
+    return dstPos == dst.size();
+}
+```
+
+### 4.2 ZSTD Frame Inspection & Raw Block Decoding
+Source 2 updates increasingly utilize Zstandard compression for large asset streams. `CZSTDCodec` inspects the Zstandard frame header (`0xFD2FB528`), extracts single-segment and content size flags from the Frame Header Descriptor (FHD), and decodes uncompressed blocks across block boundaries.
+
+---
+
+## 5. Source 2 Compiled Resource Container (`ResourceHeader_t`)
+
+Source 2 compiled asset files (e.g., `*.vmdl_c`, `*.vmat_c`, `*.vsnd_c`, `*.vphys_c`) wrap payloads in a standardized container format.
+
+### 5.1 Container Binary Layout
+```
++-------------------------------------------------------------------------+
+| Offset | Type     | Field Name       | Description                      |
+|--------+----------+------------------+----------------------------------|
+| 0x00   | uint32   | m_nMagic         | 0x55534156 ("VASU" Little-Endian)|
+| 0x04   | uint16   | m_nHeaderVersion | Typically 12 (0x000C)            |
+| 0x06   | uint16   | m_nVersion       | Compilation asset version        |
+| 0x08   | uint32   | m_nFlags         | Compiler & endian flags          |
+| 0x0C   | uint32   | m_nBlockOffset   | Offset to block descriptor table |
+| 0x10   | uint32   | m_nBlockCount    | Total number of resource blocks  |
++-------------------------------------------------------------------------+
+```
+
+### 5.2 Resource Block Descriptor (`ResourceBlockEntry_t`)
+Each block entry in the table occupies 12 bytes:
+```
++-------------------------------------------------------------------------+
+| Offset | Type     | Field Name       | Description                      |
+|--------+----------+------------------+----------------------------------|
+| 0x00   | uint32   | m_nBlockId       | FourCC ('DATA', 'RED2', 'RERL')  |
+| 0x04   | uint32   | m_nOffset        | Absolute byte offset in file     |
+| 0x08   | uint32   | m_nSize          | Uncompressed byte length         |
++-------------------------------------------------------------------------+
+```
+
+### 5.3 Canonical Block FourCC Identifiers
+- **`DATA` (`0x41544144`)**: Compiled asset data. In modern Source 2, this block contains an embedded binary `VKV3` stream or specialized engine buffers.
+- **`RED2` (`0x32444552`)**: External Resource References (v2). Stores a list of referenced file paths (materials, models, sounds, physics hulls) and their 64-bit content hashes.
+- **`RERL` (`0x4C524552`)**: Legacy Resource External Reference List (v1).
+- **`REDI` (`0x49444552`)**: Resource Edit Information (compiler version, compile arguments, source file timestamps).
+- **`VBIB` (`0x42494256`)**: Vertex Buffer and Index Buffer mesh primitives.
+- **`NTRO` (`0x4F52544E`)**: Introspection Schema metadata table.
+
+---
+
+## 6. Implementation Architecture (`game/resourcesystem/`)
+
+The reconstructed serialization engine is modularized across:
+- **`game/resourcesystem/kv3_parser.h`**: Type definitions, `KV3Value` variant container, GUID helpers, `CKV3Document`, `CResourceFile`, codec classes.
+- **`game/resourcesystem/kv3_parser.cpp`**: Lexer, recursive descent parser, text formatter, binary VKV3 serializer/deserializer, LZ4 codec, container builder.
+
+### 6.1 `KV3Value` Dynamic Variant Architecture
+`KV3Value` encapsulates a `std::variant` over 8 distinct types:
+```cpp
+using Storage = std::variant<
+    std::monostate, // Null
+    bool,           // Boolean
+    std::int64_t,   // Integer
+    double,         // Double
+    std::string,    // String
+    KV3Blob,        // Binary Blob (std::vector<uint8_t>)
+    KV3Array,       // Array (std::vector<KV3Value>)
+    KV3Table        // Table / Object (std::vector<std::pair<std::string, KV3Value>>)
+>;
+```
+Key accessor features:
+- **Null Safety**: Accessing missing table keys or array indices returns a null sentinel without throwing exceptions or causing memory corruption.
+- **Type Coercion**: `AsInt()`, `AsDouble()`, `AsString()`, `AsBool()` provide safe fallbacks with user-supplied default values.
+- **Deep Traversal**: Fluent chaining syntax `doc.Root()["player"]["inventory"][1].AsString()`.
+
+---
+
+## 7. Verification & Analytical Simulation
+
+The standalone simulator (`docs/simulators/cs2_kv3_deserializer_sim.cpp`) validates all serialization, decompression, and container features under strict MSVC x64 compilation (`/std:c++20 /O2 /EHsc /W4 /WX`).
+
+### 7.1 Verification Suite Results (100% SUCCESS)
+```
+================================================================================
+ Source 2 KeyValues3 (KV3) Serialization & Asset Container Suite
+ Target: resourcesystem.dll | Container: "VASU" (Magic: 0x55534156)
+ Standard: Pure ISO C++20 | MSVC x64 (/std:c++20 /O2 /EHsc /W4 /WX)
+================================================================================
+
+[TEST 1] Text KV3 Syntax Parsing & Dynamic AST Traversal
+   Parsing Text KV3 Document... SUCCESS
+   Encoding GUID: {e21c7f3c-8a33-41c5-9977-a76d3a32aa0d}
+   Format GUID:   {74477221-4c60-44d8-a14a-03838b558f68}
+   [PASS] Text KV3 AST parsing and field verification verified!
+
+[TEST 2] Binary KeyValues3 (VKV3) Serialization & Deserialization
+   Generated VKV3 Stream: 387 bytes
+   [PASS] Binary KeyValues3 round-trip lossless encoding verified!
+
+[TEST 3] Pure ISO C++20 LZ4 Block Compression & Decompression
+   Uncompressed Test Buffer: 3280 bytes
+   LZ4 Compressed Buffer:    99 bytes
+   Compression Ratio:        3.02%
+   LZ4-Compressed VKV3 File: 321 bytes
+   [PASS] Standalone LZ4 block compression/decompression verified!
+
+[TEST 4] ZSTD Frame Specification & Block Decoding Representation
+   ZSTD Valid Magic:    TRUE
+   Single Segment Mode: TRUE
+   Content Size:        38 bytes
+   Header Size:         6 bytes
+   [PASS] ZSTD frame metadata inspection and raw block extraction verified!
+
+[TEST 5] Source 2 Compiled Resource Container ("VASU") Processing
+   Generated Compiled Container Size: 389 bytes
+   Magic:          0x55534156 ("VASU")
+   Header Version: 12
+   Resource Ver:   1
+   Block Count:    2
+   External Dependencies (3):
+     * materials/models/characters/phoenix/tm_phoenix_body.vmat
+     * materials/models/characters/phoenix/tm_phoenix_head.vmat
+     * sounds/physics/footsteps/boots_concrete.vsnd
+   [PASS] Source 2 compiled container and embedded block extraction verified!
+
+[TEST 6] Schema-Driven Dynamic Object Mutation & Querying
+   [PASS] Dynamic object graph mutation, deep traversal & null safety verified!
+================================================================================
+ VERIFICATION RESULTS: 6 / 6 Tests Passed (100% SUCCESS)
+================================================================================
+```
+
+---
+
+## 8. Cross-Reference Index
+
+- [`game/resourcesystem/kv3_parser.h`](../game/resourcesystem/kv3_parser.h) - KeyValues3 and Resource System header declarations.
+- [`game/resourcesystem/kv3_parser.cpp`](../game/resourcesystem/kv3_parser.cpp) - Pure C++20 KeyValues3 parser, serializer, and LZ4/ZSTD block codecs.
+- [`docs/simulators/cs2_kv3_deserializer_sim.cpp`](simulators/cs2_kv3_deserializer_sim.cpp) - Standalone verification runner.
+- [`docs/simulators/build_kv3_deserializer_sim.bat`](simulators/build_kv3_deserializer_sim.bat) - Automated MSVC x64 build script.
+- [`docs/04_schemasystem_runtime_reflection.md`](04_schemasystem_runtime_reflection.md) - Source 2 SchemaSystem runtime type introspection.
+
+--------------------------------------------------------------------------------
+
 ## Document: lag_compensation_rollback.md
 # Source 2 CS2 Authoritative Temporal Rollback & Lag Compensation (`server.dll`)
 
@@ -21588,6 +23424,278 @@ The core network delta routines are registered in `data/function_signatures.json
 | `ReadVarInt32` | `networksystem.dll` | `0x001C5020` | `0x1801C5020` | Prologue | `45 33 D2 48 8B C1 45 8B DA ? ? ? ? ? ? ? 41 83 FB 23 74 ? 8B 48 10` — LEB128 unsigned 32-bit decoder |
 | `ReadVariableBitMessageId` | `networksystem.dll` | `0x001C4EF0` | `0x1801C4EF0` | Prologue | `48 89 5C 24 10 48 89 6C 24 18 56 44 8B 51 10` — Variable-bit prefix message token reader |
 | `ProcessReadPacketEntitiesWorkItems` | `engine2.dll` | `0x000442E2` | `0x1800442E2` | Signature | `48 8B 05 FF C2 6E 00 80 78 58 00` — Snapshot delta merger evaluation (`cl_packetentities_merge_before_decode`) |
+
+--------------------------------------------------------------------------------
+
+## Document: particle_system_architecture.md
+# Counter-Strike 2 (Source 2) - Data-Driven Particle Architecture & Compute Operators (`particles.dll`)
+
+> **Binary Target**: `particles.dll` (Base Address: `0x180000000`, Subsystem: `CParticleSystemMgr`)  
+> **Key Subsystems**: `CParticleCollection`, `CParticleSystemDefinition`, `IParticleEmitter`, `IParticleInitializer`, `IParticleOperator`, `IParticleRenderer`  
+> **Mathematical Formulations**: Symplectic Euler ODE Integration, Divergence-Free 3D Curl Turbulence Vector Fields ($\nabla \cdot \mathbf{v}_{\text{curl}} = 0$), Rubikon Half-Space Restitution & Tangential Friction Impulse  
+> **Verification Status**: 9 / 9 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp))
+
+---
+
+## 1. Subsystem Architecture & Execution Model
+
+In Source 2 (`particles.dll`), visual dynamics—such as muzzle flashes, vapor trails, bullet impacts, debris dispersion, and smoke bursts—are simulated via a fully data-driven, graph-directed particle engine. Unlike legacy engines where particle dynamics were hard-coded into dedicated entity classes, Source 2 decouples particle definitions into declarative resource definitions (`.vpcf` files compiled into compiled binary blocks), evaluated frame-by-frame or sub-tick by sub-tick by modular operator pipelines.
+
+### 1.1 Architectural Topology
+
+```mermaid
+flowchart TD
+    subgraph Host ["Game Client / Server Subsystems"]
+        EHandle["Entity Attachment / World Spatial Query"]
+        DeltaT["Sub-Tick dt Elapsed Time"]
+    end
+
+    subgraph Def ["CParticleSystemDefinition (Graph Descriptor)"]
+        Emitters["Emitters Array\n(EmitInstantaneous, EmitContinuousRate)"]
+        Initializers["Initializers Array\n(InitRadius, InitVelocityRandom, InitColorRandom, InitLifeTime)"]
+        Operators["Operators Array\n(OpMovementBasic, OpTurbulenceNoise, OpWorldCollisionPlane, OpFadeAndKill)"]
+        Renderers["Renderers Array\n(CParticleRendererSprite Dynamic Billboard)"]
+    end
+
+    subgraph Storage ["CParticleCollection (SoA Memory Pool)"]
+        SoA["64-Byte Aligned Attribute Channels\n(PosX, PosY, PosZ, VelX, VelY, VelZ, ColorR, ColorG, ColorB, Alpha, Radius, Life, CreationTime)"]
+        Active["m_nActiveParticles / m_nMaxParticles"]
+    end
+
+    subgraph GPU ["Hardware Render Stream"]
+        DynVB["Dynamic Vertex Buffer (ParticleQuadVertex - 36 Bytes)"]
+        DynIB["Dynamic Index Buffer (2 Triangles / 6 Indices per Quad)"]
+    end
+
+    DeltaT --> Def
+    EHandle --> Def
+    Def -->|1. Emit| Emitters
+    Emitters -->|Allocate Block| Storage
+    Def -->|2. Initialize New| Initializers
+    Initializers -->|Set Spawn Attributes| Storage
+    Def -->|3. Evaluate Operators| Operators
+    Operators -->|Integrate, Perturb, Collide, Compact| Storage
+    Def -->|4. Stream Quads| Renderers
+    Renderers --> Storage
+    Renderers --> DynVB
+    Renderers --> DynIB
+```
+
+---
+
+## 2. Structure of Arrays (SoA) SIMD Memory Layout
+
+### 2.1 The Cache Penalty of Legacy AoS
+
+Legacy engines (including Source 1 early branches) organized particles using an **Array of Structures (AoS)**:
+
+```cpp
+// Legacy Array of Structures (AoS) - Cache Inefficient
+struct LegacyParticle_t {
+    Vector3 m_vPosition;     // 12 bytes
+    Vector3 m_vVelocity;     // 12 bytes
+    float   m_flRadius;       // 4 bytes
+    float   m_flColor[4];     // 16 bytes
+    float   m_flLifeTime;     // 4 bytes
+    float   m_flCreationTime; // 4 bytes
+    // Total: 52 bytes per particle (unaligned, straddles 64-byte cache lines)
+};
+```
+
+When an operator updates only velocity or position, the CPU is forced to load all 52 bytes of each particle into cache lines (L1/L2), resulting in over 70% cache line bandwidth waste. Furthermore, hardware SIMD vector units (AVX2 256-bit or AVX-512 512-bit) cannot stream contiguous coordinates without expensive gather/scatter vector instructions.
+
+### 2.2 Source 2 Aligned Structure of Arrays (SoA)
+
+`CParticleCollection` in `particles.dll` organizes particle attributes into contiguous, independently aligned channel arrays. Each channel stream is padded and aligned to **64-byte boundaries** (matching x86-64 CPU cache lines and AVX-512 register widths).
+
+```
++-----------------------------------------------------------------------------------------+
+| Channel 0:  m_pPosX          | [ x_0,  x_1,  x_2,  x_3, ...  x_N ] (64-byte aligned)   |
+| Channel 1:  m_pPosY          | [ y_0,  y_1,  y_2,  y_3, ...  y_N ] (64-byte aligned)   |
+| Channel 2:  m_pPosZ          | [ z_0,  z_1,  z_2,  z_3, ...  z_N ] (64-byte aligned)   |
+| Channel 3:  m_pPrevPosX      | [ px_0, px_1, px_2, px_3, ... px_N] (64-byte aligned)   |
+| Channel 4:  m_pPrevPosY      | [ py_0, py_1, py_2, py_3, ... py_N] (64-byte aligned)   |
+| Channel 5:  m_pPrevPosZ      | [ pz_0, pz_1, pz_2, pz_3, ... pz_N] (64-byte aligned)   |
+| Channel 6:  m_pVelX          | [ vx_0, vx_1, vx_2, vx_3, ... vx_N] (64-byte aligned)   |
+| Channel 7:  m_pVelY          | [ vy_0, vy_1, vy_2, vy_3, ... vy_N] (64-byte aligned)   |
+| Channel 8:  m_pVelZ          | [ vz_0, vz_1, vz_2, vz_3, ... vz_N] (64-byte aligned)   |
+| Channel 9:  m_pColorR        | [ r_0,  r_1,  r_2,  r_3,  ...  r_N ] (64-byte aligned)   |
+| Channel 10: m_pColorG        | [ g_0,  g_1,  g_2,  g_3,  ...  g_N ] (64-byte aligned)   |
+| Channel 11: m_pColorB        | [ b_0,  b_1,  b_2,  b_3,  ...  b_N ] (64-byte aligned)   |
+| Channel 12: m_pAlpha         | [ a_0,  a_1,  a_2,  a_3,  ...  a_N ] (64-byte aligned)   |
+| Channel 13: m_pRadius        | [ rad_0,rad_1,rad_2,rad_3,... rad_N] (64-byte aligned)  |
+| Channel 14: m_pLifeDuration  | [ tau_0,tau_1,tau_2,tau_3,... tau_N] (64-byte aligned)  |
+| Channel 15: m_pCreationTime  | [ t0_0, t0_1, t0_2, t0_3, ... t0_N ] (64-byte aligned)  |
++-----------------------------------------------------------------------------------------+
+```
+
+### 2.3 Performance Characteristics of the SoA Layout
+
+1. **Zero-Waste Streaming**: SIMD registers (`__m256` or `__m512`) load 8 or 16 contiguous velocity components directly in a single `_mm256_load_ps` instruction.
+2. **Deterministic Prefetching**: Hardware prefetchers detect contiguous sequential memory access, achieving near-zero L1 cache miss latencies during operator passes.
+3. **Zero Dynamic Allocation**: The entire buffer pool is allocated once at particle system instantiation. Active particle count increases and decreases within pre-allocated capacity.
+
+---
+
+## 3. Mathematical Foundations of Particle Compute Operators
+
+### 3.1 Numerical ODE Integration (`COpMovementBasic`)
+
+The movement operator integrates particle trajectories under constant or variable gravity $\mathbf{g}$ and aerodynamic drag coefficient $k_{\text{drag}} \ge 0$:
+
+$$\frac{d\mathbf{v}}{dt} = \mathbf{g} - k_{\text{drag}}\mathbf{v}, \quad \frac{d\mathbf{p}}{dt} = \mathbf{v}$$
+
+Source 2 evaluates a **Symplectic Euler** (semi-implicit) discrete update:
+
+$$\mathbf{v}_{t+\Delta t} = \left(\mathbf{v}_t + \mathbf{g}\Delta t\right) \cdot \max\left(0, 1 - k_{\text{drag}}\Delta t\right)$$
+
+$$\mathbf{p}_{t+\Delta t} = \mathbf{p}_t + \mathbf{v}_{t+\Delta t}\Delta t$$
+
+#### Discrete Terminal Velocity Convergence
+At dynamic steady-state equilibrium ($\mathbf{v}_{t+\Delta t} = \mathbf{v}_t = \mathbf{v}^*$):
+
+$$\mathbf{v}^* = (\mathbf{v}^* + \mathbf{g}\Delta t)(1 - k_{\text{drag}}\Delta t)$$
+
+Solving for $\mathbf{v}^*$:
+
+$$\mathbf{v}^* = \frac{\mathbf{g}}{k_{\text{drag}}} \cdot (1 - k_{\text{drag}}\Delta t)$$
+
+Under CS2 standard gravity $\mathbf{g} = (0, 0, -800.0)\text{ units/s}^2$, drag $k_{\text{drag}} = 0.5\text{ s}^{-1}$, and step size $\Delta t = 0.01\text{ s}$:
+- Continuous theoretical limit: $\frac{-800}{0.5} = -1600.0\text{ units/s}$.
+- Discrete update equilibrium: $-1600.0 \times (1 - 0.005) = -1592.0\text{ units/s}$.
+- Simulator verification matches $-1591.93\text{ units/s}$ (relative error $< 0.01\%$).
+
+---
+
+### 3.2 Divergence-Free 3D Curl Turbulence (`COpTurbulenceNoise`)
+
+In standard particle systems, simple scalar noise applied directly to coordinates causes unnatural clumping, vacuum voids, and visual compression artifacts. Source 2 employs **Divergence-Free Curl Noise**:
+
+Given a 3D vector potential field $\mathbf{\Psi}(\mathbf{x}) = (\psi_x, \psi_y, \psi_z)$ constructed from three spatially decorrelated Perlin gradient noise functions:
+
+$$\mathbf{\Psi}(\mathbf{x}) = \begin{pmatrix} N(\mathbf{x}) \\ N(\mathbf{x} + \mathbf{\delta}_1) \\ N(\mathbf{x} + \mathbf{\delta}_2) \end{pmatrix}$$
+
+The turbulent velocity perturbation $\mathbf{v}_{\text{curl}}$ is defined as the mathematical curl of $\mathbf{\Psi}$:
+
+$$\mathbf{v}_{\text{curl}} = \nabla \times \mathbf{\Psi} = \begin{pmatrix} \frac{\partial \psi_z}{\partial y} - \frac{\partial \psi_y}{\partial z} \\[6pt] \frac{\partial \psi_x}{\partial z} - \frac{\partial \psi_z}{\partial x} \\[6pt] \frac{\partial \psi_y}{\partial x} - \frac{\partial \psi_x}{\partial y} \end{pmatrix}$$
+
+#### Proof of Incompressibility
+By the fundamental vector calculus identity, the divergence of the curl of any twice continuously differentiable vector field is identically zero:
+
+$$\nabla \cdot \mathbf{v}_{\text{curl}} = \nabla \cdot (\nabla \times \mathbf{\Psi}) = \frac{\partial}{\partial x}\left(\frac{\partial \psi_z}{\partial y} - \frac{\partial \psi_y}{\partial z}\right) + \frac{\partial}{\partial y}\left(\frac{\partial \psi_x}{\partial z} - \frac{\partial \psi_z}{\partial x}\right) + \frac{\partial}{\partial z}\left(\frac{\partial \psi_y}{\partial x} - \frac{\partial \psi_x}{\partial y}\right) \equiv 0$$
+
+Because $\nabla \cdot \mathbf{v} = 0$, the fluid velocity field is volume-preserving. Particles deflect and swirl smoothly without collapsing into artificial clumps.
+
+---
+
+### 3.3 Rubikon Planar Boundary Collision (`COpWorldCollisionPlane`)
+
+For collision against world boundaries and player geometry (such as floor surfaces, walls, and Rubikon physical convex hulls), the planar operator evaluates contact against half-space bounding planes:
+
+$$\mathbf{n} \cdot \mathbf{p} - D = 0 \quad (\|\mathbf{n}\| = 1)$$
+
+Given particle radius $r$ and center $\mathbf{p}$:
+1. **Signed Distance**:
+   $$d = \mathbf{n} \cdot \mathbf{p} - D$$
+2. **Boundary Penetration**:
+   If $d < r$, the particle penetrates the boundary by depth $\delta = r - d > 0$. Positional correction is applied along the surface normal:
+   $$\mathbf{p}_{\text{corrected}} = \mathbf{p} + \mathbf{n}\delta$$
+3. **Impulse Decomposition**:
+   $$\mathbf{v}_n = (\mathbf{v} \cdot \mathbf{n})\mathbf{n}, \quad \mathbf{v}_t = \mathbf{v} - \mathbf{v}_n$$
+4. **Restitution & Friction Reflection**:
+   If $\mathbf{v} \cdot \mathbf{n} < 0$ (moving into surface):
+   $$\mathbf{v}_{\text{post}} = -e_{\text{restitution}}\mathbf{v}_n + (1 - \mu_{\text{friction}})\mathbf{v}_t$$
+
+---
+
+### 3.4 Particle Lifecycle & $O(1)$ Swap-with-Last Compaction (`COpFadeAndKill`)
+
+Each particle records creation time $t_0$ and maximum lifetime duration $\tau$. The normalized age $u \in [0.0, 1.0]$ is evaluated as:
+
+$$u(t) = \frac{t_{\text{current}} - t_0}{\tau}$$
+
+The operator implements a two-stage piecewise envelope for alpha transparency:
+
+$$\alpha(u) = \begin{cases} \frac{u}{u_{\text{fade\_in}}} \cdot \alpha_0 & 0 \le u < u_{\text{fade\_in}} \\[6pt] \alpha_0 & u_{\text{fade\_in}} \le u \le u_{\text{fade\_out}} \\[6pt] \frac{1 - u}{1 - u_{\text{fade\_out}}} \cdot \alpha_0 & u_{\text{fade\_out}} < u < 1.0 \\[6pt] 0 & u \ge 1.0 \quad (\text{Expired}) \end{cases}$$
+
+#### $O(1)$ Array Compaction (Zero Dynamic Reallocation)
+When a particle reaches $u \ge 1.0$, removing it must not incur an $O(N)$ memory shift. `CParticleCollection::KillParticle` executes an unordered swap with the last active element:
+
+```
+Before Kill(index = 2):
+Index:     0       1      [2]      3       4 (Last)
+Tag:     [100]   [200]  [DEAD]   [400]   [500]      (m_nActive = 5)
+
+Action:  Copy slot 4 into slot 2, then decrement m_nActive:
+Index:     0       1      [2]      3
+Tag:     [100]   [200]   [500]   [400]              (m_nActive = 4)
+```
+
+The traversal index is not incremented, immediately evaluating the newly swapped particle in the same loop pass. Compaction is strictly $O(1)$ with zero heap reallocations.
+
+---
+
+## 4. Hardware Dynamic Vertex Buffer Layout
+
+For GPU submission, `CParticleRendererSprite` transforms active SoA particles into camera-facing billboard quad vertex streams.
+
+```cpp
+#pragma pack(push, 1)
+struct ParticleQuadVertex {
+    Vector3D  m_vPosition;  // 12 bytes (x, y, z world coordinates)
+    Vector2D  m_vTexCoord;  // 8 bytes (u, v texture coordinates)
+    ColorRGBA m_vColor;     // 16 bytes (r, g, b, a normalized float)
+};
+#pragma pack(pop)
+static_assert(sizeof(ParticleQuadVertex) == 36, "ParticleQuadVertex must be 36 bytes");
+```
+
+Given camera right basis vector $\mathbf{r}_{\text{cam}}$ and camera up vector $\mathbf{u}_{\text{cam}}$, 4 vertices are generated per active particle centered at $\mathbf{p}$ with radius $R$:
+
+$$\mathbf{v}_0 = \mathbf{p} - \mathbf{r}_{\text{cam}}R - \mathbf{u}_{\text{cam}}R \quad (u=0, v=0)$$
+
+$$\mathbf{v}_1 = \mathbf{p} + \mathbf{r}_{\text{cam}}R - \mathbf{u}_{\text{cam}}R \quad (u=1, v=0)$$
+
+$$\mathbf{v}_2 = \mathbf{p} + \mathbf{r}_{\text{cam}}R + \mathbf{u}_{\text{cam}}R \quad (u=1, v=1)$$
+
+$$\mathbf{v}_3 = \mathbf{p} - \mathbf{r}_{\text{cam}}R + \mathbf{u}_{\text{cam}}R \quad (u=0, v=1)$$
+
+Two indexed triangles are generated per quad: $(0, 1, 2)$ and $(0, 2, 3)$, yielding exactly 6 indices per active billboard.
+
+---
+
+## 5. Verification Suite & Test Results
+
+The particle system engine is verified by [`cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp), executable via [`build_particle_engine_sim.bat`](simulators/build_particle_engine_sim.bat).
+
+| Test Suite | Subsystem Verified | Mathematical / Physical Invariant | Result |
+| :--- | :--- | :--- | :--- |
+| **Test 1** | Memory Allocation | 16 SoA channel pointers strictly satisfy 64-byte AVX-512 alignment | **PASS** |
+| **Test 2** | Emitter Dynamics | Single burst emission & continuous rate fractional accumulator ($\Delta t = 5\text{ms}$) | **PASS** |
+| **Test 3** | Stochastic Initializers | Radius, 3D velocity bounding box, RGBA tints, and lifetime distributions | **PASS** |
+| **Test 4** | Numerical ODE Integrator | Symplectic Euler convergence to discrete terminal velocity equilibrium ($v = -1591.93\text{ in/s}$) | **PASS** |
+| **Test 5** | 3D Curl Turbulence | Finite difference numerical divergence $\nabla \cdot (\nabla \times \mathbf{\Psi}) < 10^{-3}$ at 4 spatial probes | **PASS** |
+| **Test 6** | Planar Restitution | Half-space boundary penetration resolution, normal bounce ($e = 0.5$), and friction ($1 - \mu = 0.75$) | **PASS** |
+| **Test 7** | Particle Compaction | Lifetime expiration with $O(1)$ swap-with-last compaction and zero array corruption | **PASS** |
+| **Test 8** | Dynamic Vertex Stream | Billboard quad generation ($4 \times N$ vertices, $6 \times N$ indices, UV alignment) | **PASS** |
+| **Test 9** | End-to-End Graph Step | Full composite simulation step loop evaluated at 60 Hz across 30 ticks | **PASS** |
+
+### Execution Command:
+```cmd
+cd docs\simulators
+build_particle_engine_sim.bat
+```
+*(Compiles cleanly with MSVC x64 `/O2 /std:c++20 /EHsc /W4 /WX`, executes all 9 test suites, and deletes binaries post-run).*
+
+---
+
+## 6. Clean-Room C++20 Header Reference
+
+The authoritative SDK components reside under `game/particles/`:
+- Header: [`game/particles/particle_system.h`](../game/particles/particle_system.h)
+- Implementation: [`game/particles/particle_system.cpp`](../game/particles/particle_system.cpp)
+- Standalone Simulator: [`docs/simulators/cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp)
+- Build Automation: [`docs/simulators/build_particle_engine_sim.bat`](simulators/build_particle_engine_sim.bat)
 
 --------------------------------------------------------------------------------
 

@@ -6,10 +6,10 @@
     "build_id": "26598758",
     "date": "2026-11-11",
     "binaries_count": 34,
-    "signatures_count": 43,
+    "signatures_count": 46,
     "schema_classes_count": 2276,
     "convars_count": 4802,
-    "sdk_modules_count": 18
+    "sdk_modules_count": 19
   },
   "ai_context_files": {
     "llms_txt": "https://hanzkii.github.io/cs2-reverse/docs/llms.txt",

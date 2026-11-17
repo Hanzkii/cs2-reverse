@@ -21,7 +21,12 @@ SIMULATOR_FILES = {
     "14": "cs2_bullet_penetration_sim.cpp",
     "15": "cs2_econ_item_wear_sim.cpp",
     "16": "cs2_weapon_spread_recoil_sim.cpp",
+    "17": "cs2_spatial_audio_sim.cpp",
+    "18": "cs2_rubikon_collision_sim.cpp",
+    "19": "cs2_inferno_fire_sim.cpp",
+    "20": "cs2_kv3_deserializer_sim.cpp",
     "21": "packet_entities_merge_sim.cpp",
+    "22": "cs2_particle_engine_sim.cpp",
 }
 
 SIMULATORS_METADATA = [
@@ -287,6 +292,63 @@ SIMULATORS_METADATA = [
             {"name": "RnMortonBVH_Query", "addr": "0x18000f4e0", "desc": "30-bit Morton curve 3D BVH spatial tree acceleration query"}
         ],
         "docId": "rubikon_collision_physics"
+    },
+    {
+        "id": "19",
+        "name": "cs2_inferno_fire_sim.cpp",
+        "title": "Molotov Surface Combustion, Displacement Terrain Snapping & Smoke Extinguishment",
+        "target": "server.dll (CInferno) & particles.dll",
+        "runner": "build_inferno_fire_sim.bat",
+        "category": "Volumetric & Combustion",
+        "badge": "Combustion Dynamics",
+        "checks": "Displacement terrain downward raycasting with +2.0u normal lift, 2D/3D surface propagation with slope gating (nz >= 0.7071) and 44u step limits, 64-node cluster ceiling, 10 Hz tick-rate damage with 2.5x exposure ramp (3.4 to 8.5 HP/tick), and mutual smoke extinguishment enforcing the authoritative 1/3rd cluster coverage rule.",
+        "description": "Simulates Valve's Source 2 Molotov / Incendiary surface combustion grid in server.dll and particles.dll. Models displacement ground-snapping raycasts, surface tangent propagation over complex map geometry, mutual smoke voxel grid collision, the authoritative 1/3rd extinguishment threshold, and exposure-escalating area damage.",
+        "addresses": [
+            {"name": "CInferno::InfernoThink", "addr": "0x180346090", "desc": "Main per-tick simulation loop: checks burnout, smoke extinguishment, spread, and damage"},
+            {"name": "CInferno::CheckExpired", "addr": "0x180340bc0", "desc": "Node ignition lifetime evaluation and post-effect decay transition"},
+            {"name": "CInferno::Spread", "addr": "0x18034ef00", "desc": "Dynamic 2D/3D surface propagation along tangent planes with slope and step gates"},
+            {"name": "CInferno::ExtinguishFire", "addr": "0x180344790", "desc": "Quenches single flame node, updates sound loops, and emits steam puff"}
+        ],
+        "docId": "inferno_combustion_physics"
+    },
+    {
+        "id": "20",
+        "name": "cs2_kv3_deserializer_sim.cpp",
+        "title": "KeyValues3 (KV3) Binary Deserializer, LZ4/ZSTD Decompression & Compiled Containers",
+        "target": "resourcesystem.dll (0x180000000)",
+        "runner": "build_kv3_deserializer_sim.bat",
+        "category": "Serialization & Assets",
+        "badge": "KV3 & Resource Container",
+        "checks": "Text KV3 header syntax and binary VKV3 (0x33564B56) magic, strongly-typed KV3Value variant dynamic AST, pure ISO C++20 LZ4 block decompressor, Zstandard frame header inspection, and Source 2 Compiled Resource Container ('VASU' magic 0x55534156) block table unpacking (DATA, RED2, RERL, REDI).",
+        "description": "Simulates Valve's KeyValues3 dynamic object serialization format and compiled resource container parser in resourcesystem.dll. Models binary KV3 byte stream parsing, LZ4/ZSTD block decompression, recursive variant AST traversal, type dictionaries, and 'VASU' multi-block asset container extraction.",
+        "addresses": [
+            {"name": "ResourceHeader_t Magic", "addr": "0x55534156", "desc": "'VASU' 16-byte compiled resource header magic in resourcesystem.dll"},
+            {"name": "VKV3 Binary Magic", "addr": "0x33564B56", "desc": "'3VKV' binary KeyValues3 byte sequence identifier"},
+            {"name": "ResourceExtRef_t (RED2)", "addr": "0x180012480", "desc": "External asset dependency array descriptor table"},
+            {"name": "CResourceFile::ReadBlock", "addr": "0x1800189b0", "desc": "Multi-block resource extraction dispatcher"}
+        ],
+        "docId": "kv3_resource_system"
+    },
+    {
+        "id": "22",
+        "name": "cs2_particle_engine_sim.cpp",
+        "title": "Data-Driven Particle Architecture, SoA SIMD Storage & Compute Operators",
+        "target": "particles.dll (0x180000000)",
+        "runner": "build_particle_engine_sim.bat",
+        "category": "Volumetric & Particles",
+        "badge": "Particle Dynamics",
+        "checks": "64-byte aligned Structure of Arrays (SoA) SIMD channel layout, continuous rate fractional remainder emission, stochastic parameter initialization, Symplectic Euler ODE integration with CS2 gravity (-800 in/s^2) and drag, divergence-free 3D curl turbulence vector field, Rubikon half-space planar boundary collision with restitution and tangential friction, O(1) swap-with-last particle compaction, and dynamic camera-facing billboard quad vertex stream generation.",
+        "description": "Simulates Valve's Source 2 data-driven particle simulation graph in particles.dll. Models cache-friendly 64-byte aligned SoA storage across 16 channels, continuous fractional emission accumulators, semi-implicit Euler ODE solvers matching discrete terminal velocity, volume-preserving curl turbulence vector fields (div = 0), Rubikon planar restitution/friction impulse constraints, O(1) compaction without memory reallocations, and dynamic 36-byte quad vertex stream generation for GPU submission.",
+        "addresses": [
+            {"name": "CParticleSystemMgr VTable", "addr": "0x18001a4e0", "desc": "Particle system manager master singleton interface table"},
+            {"name": "CParticleCollection::AllocateStorage", "addr": "0x1800248f0", "desc": "64-byte aligned SoA multi-channel memory pool allocation"},
+            {"name": "CParticleSystemDefinition::Step", "addr": "0x1800319b0", "desc": "Topological graph execution: Emitters -> Initializers -> Operators"},
+            {"name": "COpMovementBasic::Operate", "addr": "0x18003a740", "desc": "Semi-implicit Euler position and velocity integration with drag"},
+            {"name": "COpTurbulenceNoise::Operate", "addr": "0x180042cd0", "desc": "Divergence-free 3D curl turbulence perturbation"},
+            {"name": "COpWorldCollisionPlane::Operate", "addr": "0x180048120", "desc": "Planar penetration resolution, normal restitution and friction"},
+            {"name": "COpFadeAndKill::Operate", "addr": "0x1800508a0", "desc": "Normalized age piecewise alpha envelope and O(1) compaction"}
+        ],
+        "docId": "particle-system-architecture"
     }
 ]
 
@@ -1402,6 +1464,18 @@ TOOLS_DATA = [
         "usage": "python tools/ghidra/sync_live_ghidra.py --port 8089 --version-folder /2026-11-11_26598758",
         "exampleOutput": "[+] Connected to GhidraMCP: Connected with program 'server.dll'\n[*] Opening /2026-11-11_26598758/server.dll (12 signatures)...\n  [+] Synced server.dll: 12 functions created/renamed, 12 bookmarked\n  [+] Saved server.dll successfully\nAll 11 target binaries synced in 5.8s!",
         "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nclient.open_program(f'{folder}/{binary_name}')\nclient.create_function(clean_va, name)\nclient.set_bookmark(clean_va, 'CS2 Canonical Signature', comment)\nclient.save_program(binary_name)"
+    },
+    {
+        "id": "label_live_vtables",
+        "name": "label_live_vtables.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3",
+        "targets": ["GhidraMCP (Port 8089)", "tools/interfaces_with_vtables.json", "data/vtables.json"],
+        "summary": "Live in-memory Ghidra VTable & virtual method table labeler annotating core interface methods directly via GhidraMCP.",
+        "purpose": "Connects to running Ghidra instances via the GhidraMCP REST API to annotate stripped virtual method tables across 8 core binaries (client.dll, server.dll, engine2.dll, schemasystem.dll, vphysics2.dll, networksystem.dll, inputsystem.dll, tier0.dll). Ingests tools/interfaces_with_vtables.json and data/vtables.json, reads 64-bit function pointer arrays from active memory, dereferences slot targets, labels symbols formatted as <InterfaceName>::<MethodName> (e.g. ISource2Client::FrameStageNotify, ISchemaSystem::FindTypeScopeForModule), tags bookmarks under 'Source2 VTable Method', and commits modifications.",
+        "usage": "python tools/ghidra/label_live_vtables.py --port 8089 --version-folder /2026-11-11_26598758",
+        "exampleOutput": "[+] Connected to GhidraMCP: Connected with program 'client.dll'\n[*] Processing binary client.dll (4 core interfaces)...\n  [+] ISource2Client: Resolved 16 methods\n  [+] Saved client.dll successfully (29 methods labeled, 29 bookmarks)\nAll 8 core binaries labeled (185 methods, 189 bookmarks)!",
+        "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nraw_bytes = client.read_memory(vtable_va, num_slots * 8, program=binary_name)\nptrs = struct.unpack(f'<{len(raw_bytes)//8}Q', raw_bytes)\nfor slot, ptr in enumerate(ptrs):\n    client.rename_function_by_address(f'0x{ptr:x}', f'{iface_name}::{method_name}', program=binary_name)\n    client.set_bookmark(f'0x{ptr:x}', 'Source2 VTable Method', comment, program=binary_name)"
     },
     {
         "id": "import_sdk_types",

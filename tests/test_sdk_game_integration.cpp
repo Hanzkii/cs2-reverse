@@ -20,6 +20,9 @@
  *  14. Synthesized SchemaSystem C++20 Classes & Dynamic Lvalue Accessors (game/shared/schema_classes/)
  *  15. Steam Audio Spatial Acoustics, 3-Band Air Absorption ODE & Ambisonics B-Format (soundsystem.dll)
  *  16. Rubikon Convex Collision, GJK Simplex Solver, EPA Manifold & CCD Swept Capsule (vphysics2.dll)
+ *  17. Surface Combustion Thermal Energy Grid & Smoke Extinguishment (particles.dll & server.dll)
+ *  18. Data-Driven Particle Architecture, 64-byte SoA Storage & Curl Turbulence (particles.dll)
+ *  19. KeyValues3 Dynamic AST Variant, LZ4 Block Codec & Compiled Containers (resourcesystem.dll)
  * 
  * Standards: Pure ISO C++20, Zero external dependencies, MSVC x64 compliant (/W4 /WX).
  */
@@ -986,8 +989,135 @@ int main() {
         std::cout << "  -> SUCCESS: Rubikon convex GJK/EPA solver, CCD advancement & Morton BVH validated.\n";
     }
 
+    // -------------------------------------------------------------------------
+    // Test 17: Inferno Surface Combustion Grid & Smoke Quenching (particles.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 17] Testing SDK Integration with Inferno Surface Combustion Engine...\n";
+    {
+        using namespace particles;
+
+        CInfernoFireGrid fireGrid;
+        const Vector3 spawnPos{ 500.0f, 1000.0f, 10.0f };
+        fireGrid.Spawn(spawnPos, 0, 0.0f);
+        assert(fireGrid.GetFireCount() == 1);
+        assert(fireGrid.GetActiveBurningCount() == 1);
+
+        // Step propagation
+        for (int i = 0; i < 5; ++i) {
+            fireGrid.SpreadStep(0.1f * static_cast<float>(i + 1));
+        }
+        assert(fireGrid.GetFireCount() > 1);
+
+        // Evaluate area damage at center
+        const auto dmgRecord = fireGrid.EvaluateDamageAtPosition(spawnPos, 0.0f, 1.0f);
+        assert(dmgRecord.bInFire);
+        assert(dmgRecord.flHealthDamage > 0.0f);
+
+        // Quench with active smoke voxel grid
+        CSmokeVoxelGrid smokeGrid;
+        smokeGrid.Detonate(spawnPos, 0); // Smoke centered on fire
+        const int32_t quenched = fireGrid.ExtinguishOverlappingSmoke(smokeGrid, 0.5f);
+        assert(quenched > 0);
+        assert(fireGrid.GetActiveBurningCount() == 0); // Authoritative 1/3rd rule triggered full quench
+
+        std::cout << "  Flame Nodes Spawned:  " << fireGrid.GetFireCount() << " nodes\n";
+        std::cout << "  Core Damage / Tick:   " << dmgRecord.flHealthDamage << " HP (Armor Absorption: " << dmgRecord.flArmorDamage << ")\n";
+        std::cout << "  Smoke Quenched Nodes: " << quenched << " nodes (1/3rd Rule: EXTINGUISHED)\n";
+        std::cout << "  -> SUCCESS: Surface combustion propagation, damage ramping & smoke quench verified.\n";
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 18: Particle Simulation System & 64-Byte Aligned SoA (particles.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 18] Testing SDK Integration with Data-Driven Particle Architecture...\n";
+    {
+        using namespace particles;
+
+        CParticleCollection collection(128);
+        assert(collection.GetMaxParticles() == 128);
+        assert(collection.GetActiveParticleCount() == 0);
+
+        // Verify 64-byte AVX-512 cache alignment on allocated attribute streams
+        assert(reinterpret_cast<uintptr_t>(collection.m_pPosX) % 64 == 0);
+        assert(reinterpret_cast<uintptr_t>(collection.m_pPosY) % 64 == 0);
+        assert(reinterpret_cast<uintptr_t>(collection.m_pPosZ) % 64 == 0);
+        assert(reinterpret_cast<uintptr_t>(collection.m_pVelX) % 64 == 0);
+
+        // Allocate test particles
+        const uint32_t baseIdx = collection.AllocateParticles(32);
+        assert(baseIdx == 0);
+        assert(collection.GetActiveParticleCount() == 32);
+
+        for (uint32_t i = 0; i < 32; ++i) {
+            collection.SetPosition(i, Vector3D{ 0.0f, 0.0f, 100.0f });
+            collection.SetVelocity(i, Vector3D{ 10.0f, 20.0f, -50.0f });
+            collection.SetLifeDuration(i, 2.0f);
+        }
+
+        // Step basic movement operator
+        COpMovementBasic moveOp;
+        moveOp.m_vGravity = Vector3D{ 0.0f, 0.0f, kStandardGravityCS2 };
+        moveOp.m_flDrag = 0.5f;
+        moveOp.Operate(&collection, 0.016f);
+
+        // Verify velocity and position updated correctly
+        const auto p0 = collection.GetPosition(0);
+        assert(p0.z < 100.0f); // Fall under gravity
+
+        std::cout << "  SoA Storage Channels: 16 streams, 64-byte AVX-512 SIMD aligned\n";
+        std::cout << "  Active Particle Pool: 32 / 128 particles\n";
+        std::cout << "  Movement ODE Step:    Integrated Z=" << p0.z << " units (Grav: " << kStandardGravityCS2 << ")\n";
+        std::cout << "  -> SUCCESS: Data-driven particle system, SoA storage & numerical movement verified.\n";
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 19: KeyValues3 Dynamic Variant Tree & Pure C++20 LZ4 Codec (resourcesystem.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 19] Testing SDK Integration with KeyValues3 & Resource System...\n";
+    {
+        using namespace resourcesystem;
+
+        // 1. Dynamic KV3 Value Tree AST
+        KV3Table table;
+        table.emplace_back("version", KV3Value(2));
+        table.emplace_back("assetName", KV3Value(std::string("weapons/models/ak47.vmdl")));
+        table.emplace_back("damageMultiplier", KV3Value(1.25));
+        table.emplace_back("isPrimary", KV3Value(true));
+
+        KV3Value rootVal(std::move(table));
+        assert(rootVal.IsTable());
+        assert(rootVal["version"].AsInt() == 2);
+        assert(rootVal["assetName"].AsString() == "weapons/models/ak47.vmdl");
+        assert(rootVal["damageMultiplier"].AsDouble() == 1.25);
+        assert(rootVal["isPrimary"].AsBool() == true);
+
+        // 2. Pure ISO C++20 LZ4 Block Compression Engine
+        std::string payload = "Source2_Engine_Resource_System_VKV3_Compiled_Asset_Header_Block_Payload_Test_Vector_String_1234567890";
+        std::vector<uint8_t> srcBytes(payload.begin(), payload.end());
+        // duplicate to provide high compressibility
+        for (int i = 0; i < 8; ++i) {
+            srcBytes.insert(srcBytes.end(), payload.begin(), payload.end());
+        }
+
+        const std::vector<uint8_t> compressed = CLZ4Codec::Compress(srcBytes);
+        assert(!compressed.empty());
+        assert(compressed.size() < srcBytes.size());
+
+        std::vector<uint8_t> decompressed(srcBytes.size());
+        const bool decompOk = CLZ4Codec::Decompress(compressed, decompressed);
+        assert(decompOk);
+        assert(decompressed == srcBytes);
+
+        std::cout << "  KV3 Variant AST:      Table with 4 dynamic properties (Int, String, Double, Bool)\n";
+        std::cout << "  LZ4 Raw Payload:      " << srcBytes.size() << " bytes\n";
+        std::cout << "  LZ4 Compressed Size:  " << compressed.size() << " bytes (Ratio: "
+                  << std::fixed << std::setprecision(1) << (100.0f * compressed.size() / srcBytes.size()) << "%)\n";
+        std::cout << "  LZ4 Round-Trip Match: Bit-identical recovery verified\n";
+        std::cout << "  -> SUCCESS: KeyValues3 AST variant tree and pure C++20 LZ4 codec validated.\n";
+    }
+
     std::cout << "\n=================================================================\n";
-    std::cout << " ALL 16 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
+    std::cout << " ALL 19 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
     std::cout << "=================================================================\n";
     return 0;
 }
