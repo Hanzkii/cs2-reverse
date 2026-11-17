@@ -1,52 +1,52 @@
 @echo off
-title CS2 3D Replay & Sub-Tick Overlay Auto-Renderer
+setlocal
+cd /d "%~dp0"
+title CS2 3D Replay and Sub-Tick Overlay Auto-Renderer
 color 0B
-setlocal enabledelayedexpansion
 
 echo ==============================================================================
-echo   COUNTER-STRIKE 2: AUTOMATED 3D MOVIE & SUB-TICK REPLAY PIPELINE
+echo   COUNTER-STRIKE 2: AUTOMATED 3D MOVIE AND SUB-TICK REPLAY PIPELINE
 echo ==============================================================================
 echo.
 
-:: 1. Check if a .dem file was passed via drag-and-drop
 if "%~1"=="" (
-    echo [PROMPT] Drag and drop ANY Counter-Strike 2 match recording (.dem) file
-    echo          directly onto this batch icon in Windows Explorer!
+    echo [PROMPT] Drag and drop ANY CS2 match recording .dem file onto this icon.
     echo.
-    set /p "USER_DEMO=Or type / paste the full path to a .dem file: "
-    if "!USER_DEMO!"=="" (
-        echo [ERROR] No file provided. Exiting.
-        pause
-        exit /b 1
-    )
-    set "TARGET_DEMO=!USER_DEMO!"
+    set /p "TARGET_DEMO=Or paste full path to a demo file: "
 ) else (
     set "TARGET_DEMO=%~1"
 )
 
-:: Strip surrounding quotes if present
-set "TARGET_DEMO=!TARGET_DEMO:"=!"
+if defined TARGET_DEMO (
+    set "TARGET_DEMO=%TARGET_DEMO:"=%"
+)
 
-if not exist "!TARGET_DEMO!" (
-    echo [ERROR] Demo file not found: "!TARGET_DEMO!"
-    echo Please verify the file path and try again.
+if "%TARGET_DEMO%"=="" (
+    echo [ERROR] No demo file provided. Exiting.
+    echo.
     pause
     exit /b 1
 )
 
-echo [TARGET] Ingesting demo: "!TARGET_DEMO!"
+if not exist "%TARGET_DEMO%" (
+    echo [ERROR] File does not exist: "%TARGET_DEMO%"
+    echo.
+    pause
+    exit /b 1
+)
+
+echo [TARGET] Demo: "%TARGET_DEMO%"
 echo.
 
-:: 2. Execute automated Python master orchestrator
-python tools\cs2_auto_record.py "!TARGET_DEMO!"
+python "%~dp0tools\cs2_auto_record.py" "%TARGET_DEMO%"
 
 if %ERRORLEVEL% NEQ 0 (
     echo.
-    echo [WARNING] Pipeline exited with status %ERRORLEVEL%.
+    echo [ERROR] Pipeline stopped with exit code %ERRORLEVEL%.
     pause
     exit /b %ERRORLEVEL%
 )
 
 echo.
-echo [DONE] Automated render complete!
+echo [DONE] Processing complete!
 pause

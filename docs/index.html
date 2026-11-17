@@ -11440,31 +11440,52 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       demoDropzoneInitialized = true;
 
       const dropzone = document.getElementById('demoDropzone');
-      if (!dropzone) return;
+      const tabView = document.getElementById('tabDemoView');
 
-      ['dragenter', 'dragover'].forEach(eventName => {
-        dropzone.addEventListener(eventName, (e) => {
+      // Prevent browser default file open behavior across the entire window when on demo tab
+      window.addEventListener('dragover', (e) => {
+        if (activeTab === 'demo') {
           e.preventDefault();
-          e.stopPropagation();
-          dropzone.classList.add('border-indigo-400', 'bg-indigo-950/40');
-        }, false);
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        dropzone.addEventListener(eventName, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropzone.classList.remove('border-indigo-400', 'bg-indigo-950/40');
-        }, false);
-      });
-
-      dropzone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        if (files && files.length > 0) {
-          processDemoFile(files[0]);
         }
       }, false);
+
+      window.addEventListener('drop', (e) => {
+        if (activeTab === 'demo') {
+          e.preventDefault();
+          const dt = e.dataTransfer;
+          if (dt && dt.files && dt.files.length > 0) {
+            processDemoFile(dt.files[0]);
+          }
+        }
+      }, false);
+
+      if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('border-indigo-400', 'bg-indigo-950/40');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('border-indigo-400', 'bg-indigo-950/40');
+          }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const dt = e.dataTransfer;
+          const files = dt.files;
+          if (files && files.length > 0) {
+            processDemoFile(files[0]);
+          }
+        }, false);
+      }
     }
 
     function handleDemoFileUpload(input) {
@@ -11567,7 +11588,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       const statusEl = document.getElementById('demoFileStatusText');
       if (!file) return;
 
-      if (file.name.endsWith('.dem')) {
+      const lowerName = file.name.toLowerCase();
+      if (lowerName.endsWith('.dem')) {
         const reader = new FileReader();
         reader.onload = function(e) {
           const buf = new Uint8Array(e.target.result);
@@ -11609,7 +11631,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           }
         };
         reader.readAsArrayBuffer(file.slice(0, 32));
-      } else if (file.name.endsWith('.json')) {
+      } else if (lowerName.endsWith('.json')) {
         const reader = new FileReader();
         reader.onload = function(e) {
           try {
@@ -11635,6 +11657,10 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           }
         };
         reader.readAsText(file);
+      } else {
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-rose-400 font-bold font-mono">Unrecognized file type: ${file.name}</span> &mdash; Please drop a CS2 match recording (<code class="text-indigo-300 font-mono">.dem</code>) or telemetry (<code class="text-cyan-300 font-mono">.json</code>).`;
+        }
       }
     }
 
