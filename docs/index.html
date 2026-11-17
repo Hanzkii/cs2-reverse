@@ -5382,6 +5382,290 @@
             </a>
           </div>
         `;
+      } else if (simId === '12') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Target Rollback Sub-Tick:</span>
+              <span id="lblParam12Tick" class="text-cyan-300 font-bold">102.40</span>
+            </div>
+            <input type="range" id="param12Tick" min="98.0" max="105.0" step="0.05" value="102.40" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam12Tick').innerText = parseFloat(this.value).toFixed(2)">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Client Ping / RTT:</span>
+              <span id="lblParam12Ping" class="text-purple-300 font-bold">64 ms</span>
+            </div>
+            <input type="range" id="param12Ping" min="15" max="180" step="5" value="64" class="w-full accent-purple-400" oninput="document.getElementById('lblParam12Ping').innerText = this.value + ' ms'">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Interpolation Period (cl_interp):</label>
+            <select id="param12Interp" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="15.625" selected>Standard (15.625 ms - 1 Tick Ratio)</option>
+              <option value="31.250">Safe Buffer (31.250 ms - 2 Ticks Ratio)</option>
+              <option value="7.812">Sub-Tick Sliced (7.812 ms - Half-Tick)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Historical Record Continuity:</label>
+            <select id="param12Teleport" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="normal" selected>Normal Continuous Trajectory (dx < 64u)</option>
+              <option value="teleport">Teleport Anomaly Breach (dx > 64u - Clamp)</option>
+              <option value="packetloss">Packet Gap (Missing Tick 103 Record)</option>
+            </select>
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Target Binary:</span><span class="text-cyan-300">server.dll</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Anchor:</span><span class="text-emerald-300">StartLagCompensation</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">ConVar:</span><span class="text-amber-300">sv_maxunlag (200ms)</span></div>
+            </div>
+          </div>
+        `;
+      } else if (simId === '15') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Item Float Wear (w):</span>
+              <span id="lblParam15Float" class="text-cyan-300 font-bold">0.1550</span>
+            </div>
+            <input type="range" id="param15Float" min="0.000" max="1.000" step="0.005" value="0.155" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam15Float').innerText = parseFloat(this.value).toFixed(4)">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Quick Tier Presets:</label>
+            <div class="grid grid-cols-5 gap-1 text-[10px] font-mono">
+              <button type="button" onclick="setSim15Wear(0.03)" class="py-1 px-1 bg-emerald-950/60 hover:bg-emerald-800/80 text-emerald-300 border border-emerald-700/50 rounded text-center">FN</button>
+              <button type="button" onclick="setSim15Wear(0.11)" class="py-1 px-1 bg-lime-950/60 hover:bg-lime-800/80 text-lime-300 border border-lime-700/50 rounded text-center">MW</button>
+              <button type="button" onclick="setSim15Wear(0.24)" class="py-1 px-1 bg-amber-950/60 hover:bg-amber-800/80 text-amber-300 border border-amber-700/50 rounded text-center">FT</button>
+              <button type="button" onclick="setSim15Wear(0.42)" class="py-1 px-1 bg-orange-950/60 hover:bg-orange-800/80 text-orange-300 border border-orange-700/50 rounded text-center">WW</button>
+              <button type="button" onclick="setSim15Wear(0.78)" class="py-1 px-1 bg-rose-950/60 hover:bg-rose-800/80 text-rose-300 border border-rose-700/50 rounded text-center">BS</button>
+            </div>
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Paint Seed (Seed Hash):</span>
+              <span id="lblParam15Seed" class="text-purple-300 font-bold">420</span>
+            </div>
+            <input type="range" id="param15Seed" min="1" max="1000" step="1" value="420" class="w-full accent-purple-400" oninput="document.getElementById('lblParam15Seed').innerText = this.value">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Finish Style:</label>
+            <select id="param15Style" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="custom" selected>Custom Paint Job (Lacquer Wear)</option>
+              <option value="patina">Patina (Oxidation & Chemical Darkness)</option>
+              <option value="gunsmith">Gunsmith (Dual Anodized & Wood Coat)</option>
+            </select>
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Schema Class:</span><span class="text-cyan-300">C_EconItemView</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">ODE Solver:</span><span class="text-emerald-300">Runge-Kutta 4 (RK4)</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">UV Matrix:</span><span class="text-purple-300">Procedural 2D Affine</span></div>
+            </div>
+          </div>
+        `;
+      } else if (simId === '17') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Emitter Distance:</span>
+              <span id="lblParam17Dist" class="text-cyan-300 font-bold">8.5 m</span>
+            </div>
+            <input type="range" id="param17Dist" min="1.0" max="30.0" step="0.5" value="8.5" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam17Dist').innerText = parseFloat(this.value).toFixed(1) + ' m'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Azimuth Angle (&theta;):</span>
+              <span id="lblParam17Azimuth" class="text-purple-300 font-bold">45&deg;</span>
+            </div>
+            <input type="range" id="param17Azimuth" min="0" max="360" step="5" value="45" class="w-full accent-purple-400" oninput="document.getElementById('lblParam17Azimuth').innerText = this.value + '&deg;'">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Acoustic Occlusion Barrier:</label>
+            <select id="param17Wall" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="none" selected>Free Air / Direct LOS (0 dB Loss)</option>
+              <option value="wood">Plywood Partition (8 dB Loss, Muffled Treble)</option>
+              <option value="concrete">Solid Concrete Wall (28 dB Loss, Heavy Atten)</option>
+              <option value="steel">Armored Steel Blast Door (45 dB Loss, Full Shadow)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Source Directivity Pattern:</label>
+            <select id="param17Pattern" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="cardioid" selected>Cardioid (Gun Muzzle / Directional Voice)</option>
+              <option value="omni">Omnidirectional (Explosions / Footsteps)</option>
+              <option value="figure8">Figure-8 (Dipole Resonance)</option>
+            </select>
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Engine API:</span><span class="text-cyan-300">steamaudio.dll / IPL</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Spatial Format:</span><span class="text-emerald-300">2nd-Order Ambisonics</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">DSP Filter:</span><span class="text-amber-300">HRTF Bilateral Bi-Quad</span></div>
+            </div>
+          </div>
+        `;
+      } else if (simId === '18') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Separation / Penetration:</span>
+              <span id="lblParam18Dist" class="text-rose-400 font-bold">-4.0 units</span>
+            </div>
+            <input type="range" id="param18Dist" min="-15" max="30" step="1" value="-4" class="w-full accent-rose-500" oninput="document.getElementById('lblParam18Dist').innerText = (parseFloat(this.value) >= 0 ? '+' : '') + this.value + ' units'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Shape Rotation Angle:</span>
+              <span id="lblParam18Angle" class="text-cyan-300 font-bold">28&deg;</span>
+            </div>
+            <input type="range" id="param18Angle" min="0" max="90" step="2" value="28" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam18Angle').innerText = this.value + '&deg;'">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Convex Shape Pair:</label>
+            <select id="param18Shapes" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="obb_capsule" selected>OBB Box vs Swept Capsule</option>
+              <option value="obb_poly">Oriented Box vs Convex Polytope</option>
+              <option value="sphere_obb">Sphere vs Oriented Box</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Narrowphase Phase:</label>
+            <select id="param18Step" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="full" selected>Complete GJK Simplex + EPA Manifold</option>
+              <option value="gjk">GJK Simplex Distance Test</option>
+              <option value="epa">EPA Expanding Polytope (Normal Extraction)</option>
+            </select>
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Target Binary:</span><span class="text-cyan-300">vphysics2.dll</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Algorithm:</span><span class="text-emerald-300">Gilbert-Johnson-Keerthi</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Contact Extractor:</span><span class="text-purple-300">EPA Polytope Horizon</span></div>
+            </div>
+          </div>
+        `;
+      } else if (simId === '19') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Flame Grid Cluster Nodes:</span>
+              <span id="lblParam19Nodes" class="text-amber-400 font-bold">48 nodes</span>
+            </div>
+            <input type="range" id="param19Nodes" min="16" max="64" step="4" value="48" class="w-full accent-amber-500" oninput="document.getElementById('lblParam19Nodes').innerText = this.value + ' nodes'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Displacement Slope (&theta;):</span>
+              <span id="lblParam19Slope" class="text-cyan-300 font-bold">12&deg;</span>
+            </div>
+            <input type="range" id="param19Slope" min="-25" max="25" step="1" value="12" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam19Slope').innerText = this.value + '&deg;'">
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-slate-300 font-bold">Smoke Grenade Interaction:</span>
+              <span id="lblSim19Smoke" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold">Active</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+              <button type="button" id="btnSim19SmokeTrue" onclick="setSim19SmokeMode(true)" class="py-1.5 px-2 rounded-lg bg-cyan-600 text-white font-bold transition-all shadow-sm border border-cyan-500 flex flex-col items-center">
+                <span>Deploy Smoke</span>
+                <span class="text-[9px] opacity-80 font-normal">R = 144 units</span>
+              </button>
+              <button type="button" id="btnSim19SmokeFalse" onclick="setSim19SmokeMode(false)" class="py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center">
+                <span>No Smoke</span>
+                <span class="text-[9px] opacity-80 font-normal">Pure Fire</span>
+              </button>
+            </div>
+            <input type="hidden" id="param19Smoke" value="1">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Smoke Detonation Offset X:</span>
+              <span id="lblParam19SmokeX" class="text-purple-300 font-bold">0 u</span>
+            </div>
+            <input type="range" id="param19SmokeX" min="-80" max="80" step="5" value="0" class="w-full accent-purple-400" oninput="document.getElementById('lblParam19SmokeX').innerText = this.value + ' u'">
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Class:</span><span class="text-cyan-300">CInferno</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Extinguish Rule:</span><span class="text-emerald-300">&ge; 33.3% Quenched</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Radius Core:</span><span class="text-amber-300">144u (250u Plume)</span></div>
+            </div>
+          </div>
+        `;
+      } else if (simId === '20') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Resource Asset File:</label>
+            <select id="param20Asset" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="vmdl" selected>weapon_ak47.vmdl_c (Model + Phys Mesh)</option>
+              <option value="vpcf">inferno_fire.vpcf_c (Particle System AST)</option>
+              <option value="vmat">de_dust2_brick.vmat_c (PBR Material Shader)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Container Block Table Target:</label>
+            <select id="param20Block" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="all" selected>All Blocks (DATA, RED2, RERL, REDI)</option>
+              <option value="data">DATA Payload (KeyValues3 AST Variant)</option>
+              <option value="rerl">RERL (External Resource References)</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Payload Compression Codec:</label>
+            <select id="param20Codec" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="lz4" selected>LZ4 Fast Streaming (Engine Default)</option>
+              <option value="zstd">Zstandard Ultra Compact</option>
+              <option value="raw">Uncompressed RAW Stream</option>
+            </select>
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Magic Header:</span><span class="text-cyan-300">0x55534156 ('VASU')</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Variant DOM:</span><span class="text-emerald-300">KeyValues3 Format</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Ingress Speed:</span><span class="text-purple-300">1.42 GB/s LZ4</span></div>
+            </div>
+          </div>
+        `;
+      } else if (simId === '22') {
+        container.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Active Particles (SoA):</span>
+              <span id="lblParam22Count" class="text-cyan-300 font-bold">96 particles</span>
+            </div>
+            <input type="range" id="param22Count" min="32" max="192" step="16" value="96" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam22Count').innerText = this.value + ' particles'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Curl Turbulence Field:</span>
+              <span id="lblParam22Curl" class="text-purple-300 font-bold">1.40x</span>
+            </div>
+            <input type="range" id="param22Curl" min="0.0" max="3.0" step="0.2" value="1.4" class="w-full accent-purple-400" oninput="document.getElementById('lblParam22Curl').innerText = parseFloat(this.value).toFixed(2) + 'x'">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs text-slate-300 font-mono">
+              <span>Gravity Acceleration (g_z):</span>
+              <span id="lblParam22Grav" class="text-amber-300 font-bold">-500 u/s&sup2;</span>
+            </div>
+            <input type="range" id="param22Grav" min="-1200" max="0" step="50" value="-500" class="w-full accent-amber-500" oninput="document.getElementById('lblParam22Grav').innerText = this.value + ' u/s&sup2;'">
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-slate-300 font-mono">Ground Collision Response:</label>
+            <select id="param22Bounce" class="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white font-mono focus:border-cyan-500">
+              <option value="bounce" selected>Elastic Rebound (e = 0.65, Plane z = 0)</option>
+              <option value="kill">Kill on Impact (Sticky Ground Plane)</option>
+              <option value="free">Infinite Pass-Through</option>
+            </select>
+          </div>
+          <div class="pt-1">
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+              <div class="flex justify-between"><span class="text-slate-400">Architecture:</span><span class="text-cyan-300">64-Byte SoA Streams</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">SIMD ISA:</span><span class="text-emerald-300">AVX-512 / AVX2 (16 Wide)</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Compute Speedup:</span><span class="text-purple-300">5.4x vs Scalar AoS</span></div>
+            </div>
+          </div>
+        `;
       } else {
         // Universal future-proof parameter generator for any newly added simulator
         container.innerHTML = `
@@ -7445,6 +7729,314 @@
 
         drawPacketPipelineCanvas('packetPipelineCanvas', isMerge, isThreaded, allocatedThreads, N);
       }
+      else if (simId === '12') {
+        if (subtitle) subtitle.innerText = 'Server Lag Compensation, Temporal Rewind & Hermite Rollback';
+        const targetTick = parseFloat((document.getElementById('param12Tick') && document.getElementById('param12Tick').value) || 102.40);
+        const pingMs = parseFloat((document.getElementById('param12Ping') && document.getElementById('param12Ping').value) || 64);
+        const interpMs = parseFloat((document.getElementById('param12Interp') && document.getElementById('param12Interp').value) || 15.625);
+        const teleportMode = (document.getElementById('param12Teleport') && document.getElementById('param12Teleport').value) || 'normal';
+
+        const totalLatencyMs = (pingMs / 2.0) + interpMs;
+        const tickDelta = totalLatencyMs / 15.625;
+        const currentTick = 105.0;
+        const calculatedRewindTick = Math.max(98.0, currentTick - tickDelta);
+        const isTeleportAnomaly = (teleportMode === 'teleport');
+        const isPacketLoss = (teleportMode === 'packetloss');
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_lag_compensation_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: server.dll &amp; client.dll</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="lagCompCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Rollback Target</div>
+                <div class="text-cyan-300 font-bold mt-0.5">Tick ${targetTick.toFixed(2)} (${(targetTick * 15.625).toFixed(1)}ms)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">1/2 RTT + Interp</div>
+                <div class="text-purple-300 font-bold mt-0.5">${totalLatencyMs.toFixed(1)} ms (${tickDelta.toFixed(2)} ticks)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Record Continuity</div>
+                <div class="${isTeleportAnomaly ? 'text-rose-400' : isPacketLoss ? 'text-amber-400' : 'text-emerald-300'} font-bold mt-0.5">
+                  ${isTeleportAnomaly ? 'TELEPORT CLAMP' : isPacketLoss ? 'PACKET GAP' : 'HERMITE VALID'}
+                </div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Authoritative Unlag</div>
+                <div class="text-emerald-400 font-bold mt-0.5">HIT CONFIRMED (0x18080f320)</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawLagCompCanvas('lagCompCanvas', targetTick, pingMs, interpMs, teleportMode);
+      }
+      else if (simId === '15') {
+        if (subtitle) subtitle.innerText = 'Econ Item Schema, Wear Degradation ODE & Texture UV Projection';
+        const floatVal = parseFloat((document.getElementById('param15Float') && document.getElementById('param15Float').value) || 0.155);
+        const seedVal = parseInt((document.getElementById('param15Seed') && document.getElementById('param15Seed').value) || 420, 10);
+        const style = (document.getElementById('param15Style') && document.getElementById('param15Style').value) || 'custom';
+
+        let tierName = 'Factory New';
+        let tierColor = 'text-emerald-400';
+        let tierBadge = 'FN';
+        if (floatVal > 0.45) { tierName = 'Battle-Scarred'; tierColor = 'text-rose-400'; tierBadge = 'BS'; }
+        else if (floatVal > 0.38) { tierName = 'Well-Worn'; tierColor = 'text-orange-400'; tierBadge = 'WW'; }
+        else if (floatVal > 0.15) { tierName = 'Field-Tested'; tierColor = 'text-amber-400'; tierBadge = 'FT'; }
+        else if (floatVal > 0.07) { tierName = 'Minimal Wear'; tierColor = 'text-lime-400'; tierBadge = 'MW'; }
+
+        const lacquerLoss = (Math.pow(floatVal, 0.75) * 100.0).toFixed(1);
+        const bareMetalPct = Math.max(0, ((floatVal - 0.15) / 0.85) * 100.0).toFixed(1);
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_econ_item_wear_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: client.dll (C_EconItemView)</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="econWearCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Wear Tier</div>
+                <div class="${tierColor} font-bold mt-0.5">${tierName} (${tierBadge})</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Float Value</div>
+                <div class="text-cyan-300 font-bold mt-0.5">${floatVal.toFixed(4)}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Lacquer Abrasion</div>
+                <div class="text-purple-300 font-bold mt-0.5">${lacquerLoss}% Loss</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Exposed Bare Metal</div>
+                <div class="text-amber-300 font-bold mt-0.5">${bareMetalPct}% Area</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawEconWearCanvas('econWearCanvas', floatVal, seedVal, style);
+      }
+      else if (simId === '17') {
+        if (subtitle) subtitle.innerText = 'Steam Audio Spatial Acoustics, Atmospheric Air Absorption ODE & Ambisonics';
+        const dist = parseFloat((document.getElementById('param17Dist') && document.getElementById('param17Dist').value) || 8.5);
+        const azimuth = parseFloat((document.getElementById('param17Azimuth') && document.getElementById('param17Azimuth').value) || 45);
+        const wall = (document.getElementById('param17Wall') && document.getElementById('param17Wall').value) || 'none';
+        const pattern = (document.getElementById('param17Pattern') && document.getElementById('param17Pattern').value) || 'cardioid';
+
+        let wallLossDb = 0;
+        let wallName = 'Direct LOS';
+        if (wall === 'wood') { wallLossDb = 8; wallName = 'Plywood (8 dB)'; }
+        else if (wall === 'concrete') { wallLossDb = 28; wallName = 'Concrete (28 dB)'; }
+        else if (wall === 'steel') { wallLossDb = 45; wallName = 'Steel (45 dB)'; }
+
+        const distAttenDb = (20 * Math.log10(Math.max(1.0, dist))).toFixed(1);
+        const totalSplDrop = (parseFloat(distAttenDb) + wallLossDb).toFixed(1);
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_spatial_audio_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: soundsystem.dll &amp; steamaudio.dll</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="spatialAudioCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Distance Rolloff</div>
+                <div class="text-cyan-300 font-bold mt-0.5">-${distAttenDb} dB (1/r)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Barrier Occlusion</div>
+                <div class="text-purple-300 font-bold mt-0.5">-${wallLossDb} dB (${wallName})</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Total Transmission</div>
+                <div class="text-rose-400 font-bold mt-0.5">-${totalSplDrop} dB SPL</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Ambisonics Order</div>
+                <div class="text-emerald-300 font-bold mt-0.5">2nd-Order B-Format [W,X,Y,Z]</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawSpatialAudioCanvas('spatialAudioCanvas', dist, azimuth, wall, pattern);
+      }
+      else if (simId === '18') {
+        if (subtitle) subtitle.innerText = 'Rubikon Convex Collision, GJK Simplex Solver & EPA Manifold Extraction';
+        const dist = parseFloat((document.getElementById('param18Dist') && document.getElementById('param18Dist').value) || -4);
+        const angle = parseFloat((document.getElementById('param18Angle') && document.getElementById('param18Angle').value) || 28);
+        const shapes = (document.getElementById('param18Shapes') && document.getElementById('param18Shapes').value) || 'obb_capsule';
+        const step = (document.getElementById('param18Step') && document.getElementById('param18Step').value) || 'full';
+
+        const isCollision = dist < 0;
+        const penetrationDepth = isCollision ? Math.abs(dist).toFixed(2) : '0.00';
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_rubikon_collision_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: vphysics2.dll (0x180000000)</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="rubikonGjkCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Collision State</div>
+                <div class="${isCollision ? 'text-rose-400' : 'text-emerald-400'} font-bold mt-0.5">
+                  ${isCollision ? 'PENETRATION DETECTED' : 'CLEAR / SEPARATED'}
+                </div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">EPA Penetration Depth</div>
+                <div class="text-cyan-300 font-bold mt-0.5">${penetrationDepth} units</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">GJK Simplex Origin</div>
+                <div class="text-purple-300 font-bold mt-0.5">${isCollision ? 'Inside (0,0) in Simplex' : 'Outside Simplex'}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Contact Normal</div>
+                <div class="text-amber-300 font-bold mt-0.5">[${(Math.cos(angle * Math.PI / 180)).toFixed(2)}, ${(Math.sin(angle * Math.PI / 180)).toFixed(2)}, 0.00]</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawRubikonGjkCanvas('rubikonGjkCanvas', dist, angle, shapes, step);
+      }
+      else if (simId === '19') {
+        if (subtitle) subtitle.innerText = 'Molotov Surface Combustion, Displacement Terrain & Smoke Quenching';
+        const nodeCount = parseInt((document.getElementById('param19Nodes') && document.getElementById('param19Nodes').value) || 48, 10);
+        const slope = parseFloat((document.getElementById('param19Slope') && document.getElementById('param19Slope').value) || 12);
+        const hasSmoke = (document.getElementById('param19Smoke') && document.getElementById('param19Smoke').value === '1');
+        const smokeX = parseFloat((document.getElementById('param19SmokeX') && document.getElementById('param19SmokeX').value) || 0);
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_inferno_fire_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: server.dll (CInferno)</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="infernoFireCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Combustion Status</div>
+                <div id="lblInfernoStatus" class="text-amber-400 font-bold mt-0.5">ACTIVE FIRE</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Quenched Ratio (1/3rd)</div>
+                <div id="lblInfernoRatio" class="text-cyan-300 font-bold mt-0.5">0% (0 / ${nodeCount})</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Extinguish Rule (>=33%)</div>
+                <div id="lblInfernoRule" class="text-purple-300 font-bold mt-0.5">UNQUENCHED</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Terrain Gradient</div>
+                <div class="text-emerald-300 font-bold mt-0.5">${slope}&deg; Incline (Spread x1.3)</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawInfernoFireCanvas('infernoFireCanvas', nodeCount, slope, hasSmoke, smokeX);
+      }
+      else if (simId === '20') {
+        if (subtitle) subtitle.innerText = 'KeyValues3 (KV3) Binary Deserializer, LZ4/ZSTD Container & Variant Tree';
+        const asset = (document.getElementById('param20Asset') && document.getElementById('param20Asset').value) || 'vmdl';
+        const block = (document.getElementById('param20Block') && document.getElementById('param20Block').value) || 'all';
+        const codec = (document.getElementById('param20Codec') && document.getElementById('param20Codec').value) || 'lz4';
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_kv3_deserializer_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: schemasystem.dll &amp; resourcesystem.dll</span>
+            </div>
+            <div id="kv3ContainerView" class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] p-4 text-xs font-mono space-y-3">
+              <!-- Rendered by renderKv3AstContainer -->
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Container Magic</div>
+                <div class="text-cyan-300 font-bold mt-0.5">0x55534156 ('VASU')</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Codec Ratio</div>
+                <div class="text-purple-300 font-bold mt-0.5">${codec === 'lz4' ? '68.4% (LZ4 Block)' : codec === 'zstd' ? '79.2% (ZSTD Max)' : '0.0% (Raw Stream)'}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Decompress Speed</div>
+                <div class="text-emerald-300 font-bold mt-0.5">${codec === 'lz4' ? '1.42 GB/s' : codec === 'zstd' ? '480 MB/s' : 'Direct MMap'}</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Variant Root Class</div>
+                <div class="text-amber-300 font-bold mt-0.5">${asset === 'vmdl' ? 'CModelDefinition' : asset === 'vpcf' ? 'CParticleSystemDefinition' : 'CMaterial2'}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        renderKv3AstContainer('kv3ContainerView', asset, block, codec);
+      }
+      else if (simId === '22') {
+        if (subtitle) subtitle.innerText = 'Data-Driven Particle Architecture, SoA SIMD Streams & Curl Noise';
+        const pCount = parseInt((document.getElementById('param22Count') && document.getElementById('param22Count').value) || 96, 10);
+        const curlStr = parseFloat((document.getElementById('param22Curl') && document.getElementById('param22Curl').value) || 1.4);
+        const grav = parseFloat((document.getElementById('param22Grav') && document.getElementById('param22Grav').value) || -500);
+        const bounce = (document.getElementById('param22Bounce') && document.getElementById('param22Bounce').value) || 'bounce';
+
+        const chunks = Math.ceil(pCount / 16);
+        const soaBytes = chunks * 16 * 7 * 4;
+
+        container.innerHTML = `
+          <div class="w-full space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_particle_engine_sim.cpp</strong></span>
+              <span class="text-emerald-300 font-bold">Target: particles.dll (0x180000000)</span>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
+              <canvas id="particleEngineCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">SIMD SoA Chunks</div>
+                <div class="text-cyan-300 font-bold mt-0.5">${chunks} Chunks (16 wide)</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">64B Aligned Stream</div>
+                <div class="text-purple-300 font-bold mt-0.5">${soaBytes} Bytes Memory</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">AVX-512 Throughput</div>
+                <div class="text-emerald-300 font-bold mt-0.5">5.4x vs Scalar AoS</div>
+              </div>
+              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-slate-400 uppercase">Operator Pipeline</div>
+                <div class="text-amber-300 font-bold mt-0.5">Emit &rarr; Force &rarr; Curl &rarr; Bound</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        drawParticleEngineCanvas('particleEngineCanvas', pCount, curlStr, grav, bounce);
+      }
       else {
         // Universal Interactive Engine Telemetry Visualizer for any future simulator added to SIMULATORS_DATA
         const s = SIMULATORS_DATA.find(item => item.id === simId) || { title: 'Engine Simulation', name: 'simulator.cpp', target: 'client.dll', addresses: [] };
@@ -7505,6 +8097,1029 @@
           ctx.fillText(s.title || s.name, 50, 32);
         }
       }
+    }
+
+    // ========================================================================
+    // Domain-Specific Visualizer Canvas Drawers (Sims 12, 15, 17, 18, 19, 20, 22)
+    // ========================================================================
+
+    function drawLagCompCanvas(canvasId, targetTick, pingMs, interpMs, teleportMode) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background grid
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#111827';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+      for (let y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+      // 1. Timeline Header (Ticks 98 to 105)
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(20, 15, w - 40, 55);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(20, 15, w - 40, 55);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('SERVER TICK RING BUFFER HISTORY (sv_maxunlag 200ms)', 30, 30);
+
+      const startTick = 98;
+      const totalTicks = 8;
+      const slotWidth = (w - 80) / totalTicks;
+
+      for (let i = 0; i < totalTicks; i++) {
+        const tVal = startTick + i;
+        const tx = 40 + i * slotWidth;
+        const isCurrent = (tVal === 105);
+        const isBracket = (Math.floor(targetTick) === tVal || Math.floor(targetTick) + 1 === tVal);
+
+        ctx.fillStyle = isCurrent ? 'rgba(56, 189, 248, 0.2)' : isBracket ? 'rgba(16, 185, 129, 0.15)' : 'rgba(30, 41, 59, 0.5)';
+        ctx.fillRect(tx, 38, slotWidth - 6, 24);
+        ctx.strokeStyle = isCurrent ? '#38bdf8' : isBracket ? '#10b981' : '#334155';
+        ctx.strokeRect(tx, 38, slotWidth - 6, 24);
+
+        ctx.fillStyle = isCurrent ? '#38bdf8' : isBracket ? '#34d399' : '#64748b';
+        ctx.font = '10px monospace';
+        ctx.fillText('T' + tVal + (isCurrent ? ' (NOW)' : ''), tx + 4, 54);
+      }
+
+      // Rollback Target Needle
+      const needleFrac = Math.max(0, Math.min(1, (targetTick - 98.0) / 7.0));
+      const needleX = 40 + needleFrac * (slotWidth * 7 + slotWidth - 6);
+
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(needleX, 35);
+      ctx.lineTo(needleX, 70);
+      ctx.stroke();
+
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath();
+      ctx.moveTo(needleX - 5, 35);
+      ctx.lineTo(needleX + 5, 35);
+      ctx.lineTo(needleX, 42);
+      ctx.fill();
+
+      // 2. Spatial Hit-Registration Viewport
+      // Shooter at (90, 200)
+      const shooterX = 90, shooterY = 210;
+      ctx.fillStyle = '#06b6d4';
+      ctx.beginPath(); ctx.arc(shooterX, shooterY - 35, 12, 0, Math.PI * 2); ctx.fill(); // Head
+      ctx.fillStyle = '#0284c7';
+      ctx.fillRect(shooterX - 8, shooterY - 20, 16, 32); // Torso
+      ctx.fillStyle = '#0369a1';
+      ctx.fillRect(shooterX - 8, shooterY + 14, 6, 25);
+      ctx.fillRect(shooterX + 2, shooterY + 14, 6, 25);
+      // Rifle
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(shooterX + 4, shooterY - 8); ctx.lineTo(shooterX + 35, shooterY - 8); ctx.stroke();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText('Shooter (Local Player)', shooterX - 25, shooterY + 52);
+
+      // Present Server Pawn (Ghosted at right)
+      const presentX = 720, presentY = 210;
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.arc(presentX, presentY - 35, 14, 0, Math.PI * 2); ctx.stroke(); // Head ghost
+      ctx.strokeRect(presentX - 12, presentY - 20, 24, 36); // Torso ghost
+      ctx.strokeRect(presentX - 10, presentY + 18, 8, 28);
+      ctx.strokeRect(presentX + 2, presentY + 18, 8, 28);
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '10px monospace';
+      ctx.fillText('Present (Tick 105)', presentX - 30, presentY + 58);
+
+      // Rewound Hitbox Position
+      // If teleport anomaly, clamped at maxunlag
+      let rewindOffset = (105.0 - targetTick) * 38;
+      if (teleportMode === 'teleport') {
+        rewindOffset = Math.min(rewindOffset, 64 * 1.5);
+      }
+      const rewoundX = presentX - rewindOffset;
+
+      // Rewound Target Hitboxes (OBBs)
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 2;
+
+      // Head Hitbox
+      ctx.beginPath(); ctx.arc(rewoundX, presentY - 35, 14, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      // Chest Hitbox (OBB)
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.25)';
+      ctx.strokeStyle = '#06b6d4';
+      ctx.fillRect(rewoundX - 12, presentY - 20, 24, 36); ctx.strokeRect(rewoundX - 12, presentY - 20, 24, 36);
+      // Legs
+      ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+      ctx.strokeStyle = '#3b82f6';
+      ctx.fillRect(rewoundX - 10, presentY + 18, 8, 28); ctx.strokeRect(rewoundX - 10, presentY + 18, 8, 28);
+      ctx.fillRect(rewoundX + 2, presentY + 18, 8, 28); ctx.strokeRect(rewoundX + 2, presentY + 18, 8, 28);
+
+      ctx.fillStyle = '#34d399';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText('Rewound Hitbox (t=' + targetTick.toFixed(2) + ')', rewoundX - 45, presentY + 58);
+
+      // Rollback displacement arrow
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(presentX, presentY - 60);
+      ctx.lineTo(rewoundX, presentY - 60);
+      ctx.stroke();
+      // arrow head
+      ctx.beginPath();
+      ctx.moveTo(rewoundX, presentY - 60);
+      ctx.lineTo(rewoundX + 6, presentY - 64);
+      ctx.lineTo(rewoundX + 6, presentY - 56);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fill();
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '10px monospace';
+      ctx.fillText('Temporal Rollback: -' + ((105.0 - targetTick) * 15.625).toFixed(1) + 'ms', (rewoundX + presentX) / 2 - 50, presentY - 66);
+
+      // Shooter Eye Raycast (Gold Ray)
+      const rayStartX = shooterX + 35, rayStartY = shooterY - 8;
+      const rayHitX = rewoundX - 12, rayHitY = presentY - 8;
+
+      ctx.strokeStyle = '#eab308';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(rayStartX, rayStartY);
+      ctx.lineTo(rayHitX, rayHitY);
+      ctx.stroke();
+
+      // Hit Impact Spark
+      ctx.strokeStyle = '#facc15';
+      ctx.fillStyle = '#fef08a';
+      ctx.beginPath(); ctx.arc(rayHitX, rayHitY, 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.arc(rayHitX, rayHitY, 9, 0, Math.PI * 2); ctx.stroke();
+
+      // Hit marker badge
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.9)';
+      ctx.fillRect(rayHitX + 15, rayHitY - 14, 150, 24);
+      ctx.strokeStyle = '#34d399';
+      ctx.strokeRect(rayHitX + 15, rayHitY - 14, 150, 24);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('HIT: Chest Bone (4.0u)', rayHitX + 22, rayHitY + 2);
+
+      // Teleport warning if active
+      if (teleportMode === 'teleport') {
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+        ctx.fillRect(w / 2 - 180, h - 45, 360, 28);
+        ctx.strokeStyle = '#f87171';
+        ctx.strokeRect(w / 2 - 180, h - 45, 360, 28);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('! TELEPORT BREACH: dx > 64u (sv_maxunlag clamped)', w / 2 - 165, h - 27);
+      } else if (teleportMode === 'packetloss') {
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.9)';
+        ctx.fillRect(w / 2 - 180, h - 45, 360, 28);
+        ctx.strokeStyle = '#fbbf24';
+        ctx.strokeRect(w / 2 - 180, h - 45, 360, 28);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('! PACKET GAP: Extrapolating linear velocity at T103', w / 2 - 165, h - 27);
+      }
+    }
+
+    function drawEconWearCanvas(canvasId, floatVal, seedVal, style) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+
+      // 1. Wear Tier Spectrum Bar across top
+      const barX = 40, barY = 20, barW = w - 80, barH = 22;
+      const tiers = [
+        { name: 'FN (0.00-0.07)', end: 0.07, color: '#10b981' },
+        { name: 'MW (0.07-0.15)', end: 0.15, color: '#84cc16' },
+        { name: 'FT (0.15-0.38)', end: 0.38, color: '#eab308' },
+        { name: 'WW (0.38-0.45)', end: 0.45, color: '#f97316' },
+        { name: 'BS (0.45-1.00)', end: 1.00, color: '#ef4444' }
+      ];
+
+      let prevEnd = 0;
+      tiers.forEach(t => {
+        const segX = barX + prevEnd * barW;
+        const segW = (t.end - prevEnd) * barW;
+        ctx.fillStyle = t.color;
+        ctx.fillRect(segX, barY, segW, barH);
+        ctx.strokeStyle = '#0f172a';
+        ctx.strokeRect(segX, barY, segW, barH);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 9px monospace';
+        if (segW > 40) ctx.fillText(t.name.split(' ')[0], segX + segW / 2 - 10, barY + 15);
+        prevEnd = t.end;
+      });
+
+      // Pointer arrow at current float
+      const arrowX = barX + Math.min(1.0, Math.max(0.0, floatVal)) * barW;
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath();
+      ctx.moveTo(arrowX, barY + barH + 2);
+      ctx.lineTo(arrowX - 6, barY + barH + 10);
+      ctx.lineTo(arrowX + 6, barY + barH + 10);
+      ctx.fill();
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText('Float: ' + floatVal.toFixed(4), Math.max(40, Math.min(w - 120, arrowX - 35)), barY + barH + 24);
+
+      // 2. Left Pane: 2D Stylized Weapon Skin Projection (Receiver Silhouette)
+      const gunX = 40, gunY = 85, gunW = 420, gunH = 220;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(gunX, gunY, gunW, gunH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(gunX, gunY, gunW, gunH);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('SURFACE TEXTURE UV PROJECTION (Seed: ' + seedVal + ')', gunX + 12, gunY + 18);
+
+      // Procedural Weapon Receiver Geometry
+      const rx = gunX + 40, ry = gunY + 70;
+      ctx.save();
+
+      // Base lacquer / paint layer
+      const lacquerAlpha = Math.max(0.05, 1.0 - Math.pow(floatVal, 0.75));
+      ctx.fillStyle = style === 'patina' ? '#14532d' : style === 'gunsmith' ? '#78350f' : '#0284c7';
+      ctx.globalAlpha = lacquerAlpha;
+
+      // Draw stylized rifle body
+      ctx.beginPath();
+      ctx.moveTo(rx, ry);
+      ctx.lineTo(rx + 220, ry); // barrel top
+      ctx.lineTo(rx + 220, ry + 15); // barrel end
+      ctx.lineTo(rx + 140, ry + 15); // handguard
+      ctx.lineTo(rx + 130, ry + 35);
+      ctx.lineTo(rx + 90, ry + 35);
+      ctx.lineTo(rx + 75, ry + 75); // magazine
+      ctx.lineTo(rx + 50, ry + 75);
+      ctx.lineTo(rx + 60, ry + 35);
+      ctx.lineTo(rx + 35, ry + 60); // pistol grip
+      ctx.lineTo(rx + 20, ry + 55);
+      ctx.lineTo(rx + 30, ry + 25);
+      ctx.lineTo(rx - 30, ry + 25); // stock
+      ctx.lineTo(rx - 30, ry - 5);
+      ctx.closePath();
+      ctx.fill();
+
+      // Procedural paint pattern stripes (custom paint style)
+      ctx.fillStyle = '#f43f5e';
+      ctx.globalAlpha = lacquerAlpha * 0.8;
+      for (let i = 0; i < 5; i++) {
+        const px = rx + 30 + i * 22 + (seedVal % 15);
+        ctx.fillRect(px, ry - 2, 10, 25);
+      }
+      ctx.restore();
+
+      // Bare metal scratch layer (increases as float increases)
+      const scratchCount = Math.floor(floatVal * 60);
+      ctx.fillStyle = '#cbd5e1'; // silvery bare metal
+      for (let i = 0; i < scratchCount; i++) {
+        const sx = rx - 20 + ((seedVal * 17 + i * 31) % 230);
+        const sy = ry - 4 + ((seedVal * 13 + i * 19) % 45);
+        ctx.fillRect(sx, sy, 3 + (i % 5), 1.5);
+      }
+
+      // Edge wear outline (exposed primer)
+      ctx.strokeStyle = floatVal > 0.3 ? '#64748b' : '#334155';
+      ctx.lineWidth = 1.5 + floatVal * 2.0;
+      ctx.beginPath();
+      ctx.moveTo(rx, ry);
+      ctx.lineTo(rx + 220, ry);
+      ctx.lineTo(rx + 220, ry + 15);
+      ctx.lineTo(rx + 140, ry + 15);
+      ctx.stroke();
+
+      // 3. Right Pane: Runge-Kutta 4th Order ODE Degradation Curve
+      const odeX = 480, odeY = 85, odeW = w - 520, odeH = 220;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(odeX, odeY, odeW, odeH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(odeX, odeY, odeW, odeH);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('ODE WEAR DYNAMICS: dw/dt = -k*w*(1-w)', odeX + 12, odeY + 18);
+
+      // Axes
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(odeX + 35, odeY + 30);
+      ctx.lineTo(odeX + 35, odeY + odeH - 30);
+      ctx.lineTo(odeX + odeW - 20, odeY + odeH - 30);
+      ctx.stroke();
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '9px monospace';
+      ctx.fillText('1.0', odeX + 12, odeY + 35);
+      ctx.fillText('0.0', odeX + 12, odeY + odeH - 28);
+      ctx.fillText('Usage Cycles (t)', odeX + odeW / 2 - 35, odeY + odeH - 12);
+
+      // Logistic curve plot
+      const kVal = 1.2;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      const plotW = odeW - 65;
+      const plotH = odeH - 65;
+
+      for (let i = 0; i <= 40; i++) {
+        const t = (i / 40.0) * 6.0 - 3.0; // t in [-3, 3]
+        const wVal = 1.0 / (1.0 + Math.exp(-kVal * t)); // logistic solution
+        const px = odeX + 35 + (i / 40.0) * plotW;
+        const py = odeY + odeH - 30 - wVal * plotH;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // Current float operating point
+      const curTFrac = Math.max(0, Math.min(1, floatVal));
+      const curX = odeX + 35 + curTFrac * plotW;
+      const curY = odeY + odeH - 30 - curTFrac * plotH;
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath(); ctx.arc(curX, curY, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#ffffff'; ctx.stroke();
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('w = ' + floatVal.toFixed(3), curX + 8, curY - 6);
+    }
+
+    function drawSpatialAudioCanvas(canvasId, distMeters, azimuthDeg, wallMaterial, directivity) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+
+      // 1. Left Viewport: 2D Spatial Soundfield
+      const sfX = 20, sfY = 20, sfW = 480, sfH = 300;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(sfX, sfY, sfW, sfH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(sfX, sfY, sfW, sfH);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('2D ACOUSTIC SOUNDFIELD & WAVE PROPAGATION', sfX + 12, sfY + 18);
+
+      const listenerX = sfX + sfW / 2 - 20;
+      const listenerY = sfY + sfH / 2;
+
+      // Listener (Center Head + Ears)
+      ctx.fillStyle = '#0284c7';
+      ctx.beginPath(); ctx.arc(listenerX, listenerY, 15, 0, Math.PI * 2); ctx.fill();
+      // Facing nose
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(listenerX, listenerY); ctx.lineTo(listenerX, listenerY - 22); ctx.stroke();
+      // Left / Right Ears (HRTF)
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath(); ctx.arc(listenerX - 16, listenerY, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(listenerX + 16, listenerY, 4, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '9px monospace';
+      ctx.fillText('L', listenerX - 24, listenerY + 3);
+      ctx.fillText('R', listenerX + 19, listenerY + 3);
+      ctx.fillText('Listener (HRTF)', listenerX - 35, listenerY + 32);
+
+      // Sound Source position
+      const rad = (azimuthDeg - 90) * Math.PI / 180.0;
+      const visualDist = 45 + (distMeters / 30.0) * 125;
+      const srcX = listenerX + visualDist * Math.cos(rad);
+      const srcY = listenerY + visualDist * Math.sin(rad);
+
+      // Acoustic Barrier Wall (midway)
+      const hasWall = wallMaterial !== 'none';
+      const wallX = listenerX + visualDist * 0.5 * Math.cos(rad);
+      const wallY = listenerY + visualDist * 0.5 * Math.sin(rad);
+
+      if (hasWall) {
+        ctx.save();
+        ctx.translate(wallX, wallY);
+        ctx.rotate(rad + Math.PI / 2);
+        ctx.fillStyle = wallMaterial === 'steel' ? '#64748b' : wallMaterial === 'concrete' ? '#475569' : '#b45309';
+        ctx.fillRect(-35, -5, 70, 10);
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.strokeRect(-35, -5, 70, 10);
+        ctx.restore();
+
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '9px monospace';
+        ctx.fillText('Barrier (' + wallMaterial + ')', wallX - 30, wallY - 14);
+      }
+
+      // Wavefront rings from source
+      ctx.strokeStyle = hasWall ? 'rgba(244, 63, 94, 0.4)' : 'rgba(56, 189, 248, 0.4)';
+      ctx.lineWidth = 1.5;
+      for (let r = 15; r < visualDist * 1.3; r += 20) {
+        ctx.beginPath();
+        ctx.arc(srcX, srcY, r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Direct Ray Line
+      ctx.strokeStyle = hasWall ? '#f43f5e' : '#34d399';
+      ctx.lineWidth = 2;
+      ctx.setLineDash(hasWall ? [4, 4] : []);
+      ctx.beginPath();
+      ctx.moveTo(srcX, srcY);
+      ctx.lineTo(listenerX, listenerY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Sound Emitter Marker
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath(); ctx.arc(srcX, srcY, 8, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#ffffff'; ctx.stroke();
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('Source (' + distMeters.toFixed(1) + 'm)', srcX - 30, srcY - 12);
+
+      // 2. Right Viewport: Spectral Telemetry & Ambisonics
+      const telX = 520, telY = 20, telW = w - 540, telH = 300;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(telX, telY, telW, telH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(telX, telY, telW, telH);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('ATMOSPHERIC ABSORPTION & AMBISONICS', telX + 12, telY + 18);
+
+      // 3-Band Absorption Spectrum
+      const bands = [
+        { name: 'Low (400 Hz)', loss: Math.min(1.0, 0.05 + distMeters * 0.01), color: '#10b981' },
+        { name: 'Mid (2.5 kHz)', loss: Math.min(1.0, 0.15 + distMeters * 0.025), color: '#f59e0b' },
+        { name: 'High (15 kHz)', loss: Math.min(1.0, 0.35 + distMeters * 0.045), color: '#ef4444' }
+      ];
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '9px monospace';
+      ctx.fillText('Frequency Attenuation Spectrum:', telX + 15, telY + 45);
+
+      bands.forEach((b, idx) => {
+        const by = telY + 60 + idx * 30;
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '9px monospace';
+        ctx.fillText(b.name, telX + 15, by + 10);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.fillRect(telX + 110, by, 140, 14);
+        ctx.fillStyle = b.color;
+        ctx.fillRect(telX + 110, by, 140 * (1.0 - b.loss), 14);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('-' + (b.loss * 32.0).toFixed(1) + ' dB', telX + 255, by + 11);
+      });
+
+      // Ambisonics B-Format Channels (W, X, Y, Z)
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '9px monospace';
+      ctx.fillText('Ambisonics 2nd-Order Channels:', telX + 15, telY + 175);
+
+      const radAz = azimuthDeg * Math.PI / 180.0;
+      const chW = 0.707;
+      const chX = Math.cos(radAz);
+      const chY = Math.sin(radAz);
+      const chZ = 0.0; // horizontal plane
+
+      const channels = [
+        { name: 'W (Omni)', val: chW, color: '#06b6d4' },
+        { name: 'X (Front/Back)', val: chX, color: '#8b5cf6' },
+        { name: 'Y (Left/Right)', val: chY, color: '#ec4899' },
+        { name: 'Z (Elevation)', val: chZ, color: '#64748b' }
+      ];
+
+      channels.forEach((ch, idx) => {
+        const cy = telY + 195 + idx * 24;
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '9px monospace';
+        ctx.fillText(ch.name, telX + 15, cy + 10);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.fillRect(telX + 120, cy, 110, 12);
+
+        const normVal = (ch.val + 1.0) / 2.0; // map [-1, 1] to [0, 1]
+        ctx.fillStyle = ch.color;
+        ctx.fillRect(telX + 120, cy, 110 * normVal, 12);
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillText(ch.val.toFixed(2), telX + 238, cy + 10);
+      });
+    }
+
+    function drawRubikonGjkCanvas(canvasId, separationDist, angleDeg, shapePair, solverStep) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+
+      // 1. Left Viewport: World Space Collision
+      const wsX = 20, wsY = 20, wsW = 400, wsH = 300;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(wsX, wsY, wsW, wsH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(wsX, wsY, wsW, wsH);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('WORLD SPACE: NARROWPHASE PAIR', wsX + 12, wsY + 18);
+
+      const centerAX = wsX + 140, centerAY = wsY + 150;
+      const isCollision = separationDist < 0;
+
+      // Shape A: Oriented Box (Cyan)
+      ctx.save();
+      ctx.translate(centerAX, centerAY);
+      ctx.rotate(angleDeg * Math.PI / 180.0);
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.25)';
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2;
+      ctx.fillRect(-45, -35, 90, 70);
+      ctx.strokeRect(-45, -35, 90, 70);
+      ctx.restore();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '10px monospace';
+      ctx.fillText('Polytope A (OBB)', centerAX - 45, centerAY + 65);
+
+      // Shape B: Capsule / Box (Purple)
+      const centerBX = centerAX + 80 + separationDist * 4.5;
+      const centerBY = centerAY;
+
+      ctx.save();
+      ctx.translate(centerBX, centerBY);
+      ctx.fillStyle = isCollision ? 'rgba(244, 63, 94, 0.3)' : 'rgba(168, 85, 247, 0.25)';
+      ctx.strokeStyle = isCollision ? '#f43f5e' : '#a855f7';
+      ctx.lineWidth = 2;
+
+      // Draw capsule
+      ctx.beginPath();
+      ctx.arc(0, -25, 25, Math.PI, 0);
+      ctx.arc(0, 25, 25, 0, Math.PI);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = isCollision ? '#f43f5e' : '#c084fc';
+      ctx.font = '10px monospace';
+      ctx.fillText('Shape B (Capsule)', centerBX - 40, centerBY + 65);
+
+      // Contact Normal & Penetration Vector
+      if (isCollision) {
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(centerBX - 20, centerBY);
+        ctx.lineTo(centerBX - 20 - Math.abs(separationDist) * 4.5, centerBY);
+        ctx.stroke();
+
+        ctx.fillStyle = '#facc15';
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText('EPA Normal n', centerBX - 55, centerBY - 10);
+      }
+
+      // 2. Right Viewport: Minkowski Difference Space (A - B)
+      const mdX = 440, mdY = 20, mdW = w - 460, mdH = 300;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(mdX, mdY, mdW, mdH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(mdX, mdY, mdW, mdH);
+
+      ctx.fillStyle = '#a855f7';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('MINKOWSKI SPACE: CSO (A - B) & GJK SIMPLEX', mdX + 12, mdY + 18);
+
+      const mOriginX = mdX + mdW / 2;
+      const mOriginY = mdY + mdH / 2;
+
+      // Origin (0,0) Reticle
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(mOriginX - 15, mOriginY); ctx.lineTo(mOriginX + 15, mOriginY);
+      ctx.moveTo(mOriginX, mOriginY - 15); ctx.lineTo(mOriginX, mOriginY + 15);
+      ctx.stroke();
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath(); ctx.arc(mOriginX, mOriginY, 3, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = '#f87171';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('Origin (0,0)', mOriginX + 6, mOriginY - 6);
+
+      // Minkowski Difference Polytope Hull (shifts with separationDist)
+      const shiftX = -separationDist * 4.5;
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(mOriginX + shiftX - 60, mOriginY - 45);
+      ctx.lineTo(mOriginX + shiftX + 50, mOriginY - 55);
+      ctx.lineTo(mOriginX + shiftX + 65, mOriginY + 40);
+      ctx.lineTo(mOriginX + shiftX - 45, mOriginY + 55);
+      ctx.closePath();
+      ctx.stroke();
+
+      // GJK Simplex Triangle
+      ctx.fillStyle = isCollision ? 'rgba(16, 185, 129, 0.35)' : 'rgba(234, 179, 8, 0.25)';
+      ctx.strokeStyle = isCollision ? '#10b981' : '#eab308';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(mOriginX + shiftX - 25, mOriginY - 30);
+      ctx.lineTo(mOriginX + shiftX + 35, mOriginY - 15);
+      ctx.lineTo(mOriginX + shiftX - 10, mOriginY + 35);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = isCollision ? '#34d399' : '#fde047';
+      ctx.font = 'bold 11px monospace';
+      ctx.fillText(isCollision ? 'GJK Simplex Encloses Origin' : 'Simplex Disjoint from Origin', mdX + 20, mdY + mdH - 18);
+    }
+
+    function drawInfernoFireCanvas(canvasId, nodeCount, slopeDeg, hasSmoke, smokeX) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+
+      // Terrain Contour Lines (sloped)
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      const slopeOffset = Math.tan(slopeDeg * Math.PI / 180.0);
+      for (let y = 30; y < h; y += 35) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y + w * slopeOffset * 0.15);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('TOP-DOWN INFERNO GRID (CInferno Spread & Smoke Quenching)', 20, 20);
+
+      const centerX = w / 2, centerY = h / 2 + 10;
+      const smokeRadius = 140; // 144 units visual
+      const smokeDetonX = centerX + smokeX;
+
+      let quenchedCount = 0;
+
+      // Draw Smoke Radius Area first if active
+      if (hasSmoke) {
+        ctx.fillStyle = 'rgba(100, 116, 139, 0.35)';
+        ctx.beginPath();
+        ctx.arc(smokeDetonX, centerY, smokeRadius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText('Smoke Quench Core (R = 144u)', smokeDetonX - 70, centerY - smokeRadius + 18);
+      }
+
+      // Draw Flame Nodes
+      for (let i = 0; i < nodeCount; i++) {
+        // Deterministic organic cluster distribution
+        const angle = i * 2.39996; // Golden ratio spiral
+        const dist = Math.sqrt((i + 1) / nodeCount) * 160;
+        const nx = centerX + dist * Math.cos(angle);
+        const ny = centerY + dist * Math.sin(angle) * 0.75;
+
+        // Check if inside smoke
+        const dSmoke = hasSmoke ? Math.hypot(nx - smokeDetonX, ny - centerY) : 9999;
+        const isQuenched = hasSmoke && (dSmoke <= smokeRadius);
+
+        if (isQuenched) {
+          quenchedCount++;
+          // Ash gray quenched node
+          ctx.fillStyle = '#334155';
+          ctx.beginPath(); ctx.arc(nx, ny, 6, 0, Math.PI * 2); ctx.fill();
+          // Rising steam puff
+          ctx.fillStyle = 'rgba(226, 232, 240, 0.4)';
+          ctx.beginPath(); ctx.arc(nx + ((i * 7) % 8 - 4), ny - 8, 8, 0, Math.PI * 2); ctx.fill();
+        } else {
+          // Fiery Active Flame Node
+          const grad = ctx.createRadialGradient(nx, ny, 2, nx, ny, 16);
+          grad.addColorStop(0, '#fef08a'); // yellow white core
+          grad.addColorStop(0.4, '#f97316'); // bright orange
+          grad.addColorStop(1, 'rgba(239, 68, 68, 0.05)'); // red halo
+
+          ctx.fillStyle = grad;
+          ctx.beginPath(); ctx.arc(nx, ny, 16, 0, Math.PI * 2); ctx.fill();
+
+          ctx.fillStyle = '#facc15';
+          ctx.beginPath(); ctx.arc(nx, ny, 4, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      // Update telemetry labels
+      const ratio = quenchedCount / nodeCount;
+      const ratioPct = (ratio * 100).toFixed(1);
+      const isExtinguishedRule = ratio >= 0.333;
+
+      const lblStatus = document.getElementById('lblInfernoStatus');
+      const lblRatio = document.getElementById('lblInfernoRatio');
+      const lblRule = document.getElementById('lblInfernoRule');
+
+      if (lblStatus) {
+        lblStatus.innerText = isExtinguishedRule ? 'EXTINGUISHED' : hasSmoke ? 'QUENCHING' : 'ACTIVE FIRE';
+        lblStatus.className = isExtinguishedRule ? 'text-emerald-400 font-bold mt-0.5' : 'text-amber-400 font-bold mt-0.5';
+      }
+      if (lblRatio) {
+        lblRatio.innerText = ratioPct + '% (' + quenchedCount + ' / ' + nodeCount + ')';
+      }
+      if (lblRule) {
+        lblRule.innerText = isExtinguishedRule ? 'TRIGGERED (>= 33%)' : 'NOT MET (' + ratioPct + '%)';
+        lblRule.className = isExtinguishedRule ? 'text-emerald-400 font-bold mt-0.5' : 'text-purple-300 font-bold mt-0.5';
+      }
+
+      // Banner on canvas
+      if (isExtinguishedRule) {
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.9)';
+        ctx.fillRect(w / 2 - 190, h - 45, 380, 28);
+        ctx.strokeStyle = '#34d399';
+        ctx.strokeRect(w / 2 - 190, h - 45, 380, 28);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('1/3rd RULE: INFERNO FULLY QUENCHED BY SMOKE GRENADE', w / 2 - 175, h - 27);
+      }
+    }
+
+    function renderKv3AstContainer(containerId, asset, block, codec) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const rawBytes = asset === 'vmdl' ? 48620 : asset === 'vpcf' ? 12840 : 8940;
+      const compRatio = codec === 'lz4' ? 0.316 : codec === 'zstd' ? 0.208 : 1.0;
+      const compBytes = Math.round(rawBytes * compRatio);
+
+      container.innerHTML = `
+        <div class="space-y-3 font-mono">
+          <!-- Binary Resource Header Block Table -->
+          <div class="bg-slate-900/90 rounded-lg p-3 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span>Resource Magic Header: <strong class="text-cyan-300">0x55534156 ('VASU')</strong></span>
+              <span class="text-emerald-300 font-bold">Version: 0x0001000C</span>
+            </div>
+            <div class="grid grid-cols-4 gap-2 text-[10px] text-center pt-1">
+              <div class="p-2 rounded bg-cyan-950/40 border border-cyan-800/40">
+                <div class="text-cyan-300 font-bold">DATA Block</div>
+                <div class="text-slate-400 mt-0.5">${compBytes} B (${codec.toUpperCase()})</div>
+              </div>
+              <div class="p-2 rounded bg-purple-950/40 border border-purple-800/40">
+                <div class="text-purple-300 font-bold">RED2 (EditInfo)</div>
+                <div class="text-slate-400 mt-0.5">320 B (Compiler)</div>
+              </div>
+              <div class="p-2 rounded bg-amber-950/40 border border-amber-800/40">
+                <div class="text-amber-300 font-bold">RERL (ExtRefs)</div>
+                <div class="text-slate-400 mt-0.5">6 Refs (vmat/vsnd)</div>
+              </div>
+              <div class="p-2 rounded bg-emerald-950/40 border border-emerald-800/40">
+                <div class="text-emerald-300 font-bold">REDI (Inputs)</div>
+                <div class="text-slate-400 mt-0.5">Hash 0x4f12a8</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KeyValues3 Syntax-Highlighted Variant AST Tree -->
+          <div class="bg-slate-950 rounded-lg p-3 border border-slate-800 text-[11px] leading-relaxed overflow-x-auto text-slate-300">
+            <div class="text-slate-500">// Source 2 KeyValues3 (KV3) Variant DOM Tree</div>
+            <div>&lt;!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} --&gt;</div>
+            <div class="text-purple-400">{</div>
+            <div class="pl-4">
+              <span class="text-cyan-300">m_sName</span> = <span class="text-amber-300">"${asset === 'vmdl' ? 'weapons/models/ak47' : asset === 'vpcf' ? 'particles/inferno_smoke' : 'materials/dust2_brick'}"</span>
+            </div>
+            <div class="pl-4">
+              <span class="text-cyan-300">m_nVersion</span> = <span class="text-emerald-300">1</span>
+            </div>
+            <div class="pl-4">
+              <span class="text-cyan-300">m_Operators</span> = [
+            </div>
+            <div class="pl-8 text-slate-400">
+              <span class="text-purple-400">{</span>
+              <span class="text-cyan-300">_class</span> = <span class="text-amber-300">"C_OP_ContinuousEmitter"</span>, 
+              <span class="text-cyan-300">m_flEmitRate</span> = <span class="text-emerald-300">120.0f</span>, 
+              <span class="text-cyan-300">m_bRunOnce</span> = <span class="text-rose-400">false</span> 
+              <span class="text-purple-400">}</span>,
+            </div>
+            <div class="pl-8 text-slate-400">
+              <span class="text-purple-400">{</span>
+              <span class="text-cyan-300">_class</span> = <span class="text-amber-300">"C_OP_WorldCollisionPlane"</span>, 
+              <span class="text-cyan-300">m_flRestitution</span> = <span class="text-emerald-300">0.65f</span> 
+              <span class="text-purple-400">}</span>
+            </div>
+            <div class="pl-4">]</div>
+            <div class="pl-4">
+              <span class="text-cyan-300">m_vInitialVelocity</span> = <span class="text-emerald-300">Vector3(0.0, 0.0, 150.0)</span>
+            </div>
+            <div class="text-purple-400">}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function drawParticleEngineCanvas(canvasId, pCount, curlStrength, gravityZ, bounceMode) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background
+      ctx.fillStyle = '#070b12';
+      ctx.fillRect(0, 0, w, h);
+
+      // 1. Left Viewport: Particle Simulation Viewport
+      const pvX = 20, pvY = 20, pvW = 460, pvH = 300;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(pvX, pvY, pvW, pvH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(pvX, pvY, pvW, pvH);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('PARTICLE PHYSICS VIEWPORT (Curl Field & Collision)', pvX + 12, pvY + 18);
+
+      // Emitter Nozzle at (pvX + pvW/2, pvY + 40)
+      const emitX = pvX + pvW / 2, emitY = pvY + 45;
+      ctx.fillStyle = '#0284c7';
+      ctx.fillRect(emitX - 10, emitY - 8, 20, 8);
+
+      // Ground plane
+      const groundY = pvY + pvH - 35;
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(pvX, groundY); ctx.lineTo(pvX + pvW, groundY);
+      ctx.stroke();
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '9px monospace';
+      ctx.fillText('Ground Plane z = 0 (COpWorldCollisionPlane)', pvX + 12, groundY + 15);
+
+      // Faint Curl Turbulence Vectors
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+      ctx.lineWidth = 1;
+      for (let cy = pvY + 60; cy < groundY; cy += 40) {
+        for (let cx = pvX + 40; cx < pvX + pvW - 30; cx += 50) {
+          const curlAngle = Math.sin(cx * 0.03) * Math.cos(cy * 0.03) * curlStrength * Math.PI;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(cx + Math.cos(curlAngle) * 12, cy + Math.sin(curlAngle) * 12);
+          ctx.stroke();
+        }
+      }
+
+      // Draw Particles
+      for (let i = 0; i < pCount; i++) {
+        const tFrac = (i / pCount);
+        const seed = i * 1337;
+
+        // Spread angle + curl noise displacement
+        const spread = (Math.sin(seed * 0.1) * 0.8);
+        const life = (1.0 - tFrac);
+        const vx = spread * 80 + Math.cos(tFrac * 6.28) * curlStrength * 30;
+        const dt = tFrac * 2.2;
+        const curPx = emitX + vx * dt;
+        let curPy = emitY + 40 * dt - 0.5 * (gravityZ / 100.0) * dt * dt;
+
+        // Ground Collision
+        if (curPy > groundY) {
+          if (bounceMode === 'bounce') {
+            const overshoot = curPy - groundY;
+            curPy = groundY - overshoot * 0.65;
+          } else if (bounceMode === 'kill') {
+            curPy = groundY;
+          }
+        }
+
+        // Color by life
+        const pColor = life > 0.6 ? '#fef08a' : life > 0.3 ? '#f97316' : '#06b6d4';
+        const pSize = 2.5 + life * 2.0;
+
+        ctx.fillStyle = pColor;
+        ctx.beginPath();
+        ctx.arc(curPx, curPy, pSize, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 2. Right Viewport: 64-Byte SoA SIMD Stream Memory Inspector
+      const soaX = 500, soaY = 20, soaW = w - 520, soaH = 300;
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(soaX, soaY, soaW, soaH);
+      ctx.strokeStyle = '#1e293b';
+      ctx.strokeRect(soaX, soaY, soaW, soaH);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 10px monospace';
+      ctx.fillText('64-BYTE ALIGNED SoA SIMD STREAMS', soaX + 12, soaY + 18);
+
+      const streams = [
+        { name: 'm_vPos[X]', reg: 'zmm0 (16x f32)', color: '#06b6d4' },
+        { name: 'm_vPos[Y]', reg: 'zmm1 (16x f32)', color: '#06b6d4' },
+        { name: 'm_vPos[Z]', reg: 'zmm2 (16x f32)', color: '#06b6d4' },
+        { name: 'm_vVel[X]', reg: 'zmm3 (16x f32)', color: '#8b5cf6' },
+        { name: 'm_vVel[Y]', reg: 'zmm4 (16x f32)', color: '#8b5cf6' },
+        { name: 'm_vVel[Z]', reg: 'zmm5 (16x f32)', color: '#8b5cf6' },
+        { name: 'm_flLifeSpan', reg: 'zmm6 (16x f32)', color: '#f59e0b' }
+      ];
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '9px monospace';
+      ctx.fillText('AVX-512 Vector Registers (Chunk 0):', soaX + 15, soaY + 42);
+
+      streams.forEach((s, idx) => {
+        const sy = soaY + 58 + idx * 32;
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '9px monospace';
+        ctx.fillText(s.name, soaX + 15, sy + 10);
+
+        // Memory block representation (16 discrete cells)
+        const blockStartX = soaX + 105;
+        const cellW = 10;
+        for (let c = 0; c < 16; c++) {
+          ctx.fillStyle = s.color;
+          ctx.fillRect(blockStartX + c * (cellW + 1), sy, cellW, 14);
+        }
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('64B', blockStartX + 16 * 11 + 6, sy + 11);
+      });
+    }
+
+    // Interactive helper presets
+    function setSim15Wear(val) {
+      const p = document.getElementById('param15Float');
+      const lbl = document.getElementById('lblParam15Float');
+      if (p) p.value = val;
+      if (lbl) lbl.innerText = val.toFixed(4);
+      renderSimVisualizer('15');
+    }
+
+    function setSim19SmokeMode(val) {
+      const p = document.getElementById('param19Smoke');
+      if (p) p.value = val ? '1' : '0';
+      const btnT = document.getElementById('btnSim19SmokeTrue');
+      const btnF = document.getElementById('btnSim19SmokeFalse');
+      const lbl = document.getElementById('lblSim19Smoke');
+      if (btnT && btnF && lbl) {
+        if (val) {
+          btnT.className = 'py-1.5 px-2 rounded-lg bg-cyan-600 text-white font-bold transition-all shadow-sm border border-cyan-500 flex flex-col items-center';
+          btnF.className = 'py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center';
+          lbl.className = 'px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold';
+          lbl.innerText = 'Active';
+        } else {
+          btnT.className = 'py-1.5 px-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all border border-slate-700 flex flex-col items-center';
+          btnF.className = 'py-1.5 px-2 rounded-lg bg-amber-600 text-white font-bold transition-all shadow-sm border border-amber-500 flex flex-col items-center';
+          lbl.className = 'px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold';
+          lbl.innerText = 'Disabled';
+        }
+      }
+      renderSimVisualizer('19');
     }
 
     function setSim21MergeMode(val) {

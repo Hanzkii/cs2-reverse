@@ -18,6 +18,7 @@ SIMULATOR_FILES = {
     "09": "cs2_skeleton_animation_sim.cpp",
     "10": "cs2_rubikon_physics_sim.cpp",
     "11": "cs2_volumetric_smoke_sim.cpp",
+    "12": "cs2_lag_compensation_sim.cpp",
     "14": "cs2_bullet_penetration_sim.cpp",
     "15": "cs2_econ_item_wear_sim.cpp",
     "16": "cs2_weapon_spread_recoil_sim.cpp",
@@ -181,6 +182,24 @@ SIMULATORS_METADATA = [
         "docId": "volumetric-smoke"
     },
     {
+        "id": "12",
+        "name": "cs2_lag_compensation_sim.cpp",
+        "title": "Authoritative Server Lag Compensation & Temporal Rollback",
+        "target": "server.dll (CLagCompensationManager)",
+        "runner": "build_lagcomp_sim.bat",
+        "category": "Gameplay & Physics",
+        "badge": "Lag Compensation",
+        "checks": "64-tick circular history ring buffer, continuous sub-tick time query t_target = (tick + w) * dt, quaternion SLERP/NLERP, 3x4 affine bone matrix blending, AABB/OBB raycast, pre-rewind snapshot caching, sv_maxunlag (0.2s) & teleport breaker (>4096 u^2).",
+        "description": "Simulates Valve's server-side lag compensation manager in server.dll. Validates history ring buffer rewind, spatial hitbox interpolation at sub-tick timestamps, and authoritative state restoration upon trace completion.",
+        "addresses": [
+            {"name": "CLagCompensationManager VTable", "addr": "0x180bb2940", "desc": "Server lag compensation manager jump table"},
+            {"name": "StartLagCompensation", "addr": "0x18080f320", "desc": "Rewinds entity hitboxes to client view target time"},
+            {"name": "FinishLagCompensation", "addr": "0x180ebf350", "desc": "Restores pre-rewind state from snapshot cache"},
+            {"name": "sv_maxunlag", "addr": "ConVar (0.200s)", "desc": "Maximum latency rollback clamping boundary"}
+        ],
+        "docId": "lag-compensation"
+    },
+    {
         "id": "14",
         "name": "cs2_bullet_penetration_sim.cpp",
         "title": "Authoritative Bullet Penetration & Multi-Surface Wallbang Physics",
@@ -233,26 +252,6 @@ SIMULATORS_METADATA = [
             {"name": "CPlayer_AimPunchServices::SimulateAimPunchDecay", "addr": "0x18085ea90", "desc": "Damped spring-mass-damper recoil aim punch integrator"}
         ],
         "docId": "weapon-inaccuracy"
-    },
-    {
-        "id": "21",
-        "name": "packet_entities_merge_sim.cpp",
-        "title": "Network Packet Entities Snapshot Pre-Decode Delta Merger & Parallel Reader",
-        "target": "engine2.dll (0x465ad & 0x442e2) & client.dll",
-        "runner": "build_packet_entities_merge_sim.bat",
-        "category": "Networking & Threading",
-        "badge": "Packet Entities Merge",
-        "checks": "Pre-decode delta consolidation in scratch memory (cl_packetentities_merge_before_decode), single-pass deserialization eliminating 98,304 redundant callbacks, parallel CJobThread worker chunking (cl_parallel_readpacketentities, threshold >= 2), completion barrier synchronization.",
-        "description": "Simulates Valve's Source 2 snapshot entity decoding pipeline overhauled in Build 26598758. Models pre-decode bitstream consolidation vs legacy two-pass deserialization, redundant change callback elimination, and dynamic multi-threaded worker dispatching across CJobThread swimlanes.",
-        "addresses": [
-            {"name": "CNetworkGameClient::InternalProcessPacketEntities", "addr": "0x1800465ad", "desc": "Wire CSVCMsg_PacketEntities packet ingress and threshold dispatcher"},
-            {"name": "CNetworkGameClient::ProcessReadPacketEntitiesWorkItems", "addr": "0x1800442e2", "desc": "Delta consolidation and entity deserialization execution loop"},
-            {"name": "PreDecodeMergeDelta Scratch Arena", "addr": "0x180044386", "desc": "Intermediate scratch bitstream buffer delta consolidation branch"},
-            {"name": "CReadPacketEntities_ParallelProcessingController", "addr": "0x180044abd", "desc": "Multi-threaded worker job slice launcher and barrier synchronization"},
-            {"name": "cl_packetentities_merge_before_decode", "addr": "0x1807305e8", "desc": "Cached ConVar pointer controlling pre-decode consolidation"},
-            {"name": "cl_parallel_readpacketentities", "addr": "0x1807305b8", "desc": "Cached ConVar pointer controlling dynamic parallel dispatch"}
-        ],
-        "docId": "packet-entities-merge"
     },
     {
         "id": "17",
@@ -328,6 +327,24 @@ SIMULATORS_METADATA = [
             {"name": "CResourceFile::ReadBlock", "addr": "0x1800189b0", "desc": "Multi-block resource extraction dispatcher"}
         ],
         "docId": "kv3_resource_system"
+    },
+    {
+        "id": "21",
+        "name": "packet_entities_merge_sim.cpp",
+        "title": "Network Packet Entities Snapshot Pre-Decode Delta Merger & Parallel Reader",
+        "target": "engine2.dll (0x465ad & 0x442e2) & client.dll",
+        "runner": "build_packet_entities_merge_sim.bat",
+        "category": "Networking & Threading",
+        "badge": "Packet Entities Merge",
+        "checks": "Pre-decode delta consolidation in scratch memory (cl_packetentities_merge_before_decode), single-pass deserialization eliminating 98,304 redundant callbacks, parallel CJobThread worker chunking (cl_parallel_readpacketentities, threshold >= 2), completion barrier synchronization.",
+        "description": "Simulates Valve's Source 2 snapshot entity decoding pipeline overhauled in Build 26598758. Models pre-decode bitstream consolidation vs legacy two-pass deserialization, redundant change callback elimination, and dynamic multi-threaded worker dispatching across CJobThread swimlanes.",
+        "addresses": [
+            {"name": "ProcessReadPacketEntitiesWorkItems", "addr": "0x1800442e2", "desc": "CJobThread worker task executing parallel per-chunk deserialization"},
+            {"name": "ReadPacketEntities", "addr": "0x1800465ad", "desc": "Pre-decode bitstream merger allocating scratch baseline copy (FUN_0x44386)"},
+            {"name": "cl_packetentities_merge_before_decode", "addr": "ConVar (true)", "desc": "Enables single-pass pre-merge to eliminate redundant change callbacks"},
+            {"name": "cl_parallel_readpacketentities", "addr": "ConVar (true)", "desc": "Enables multi-threaded packet entities worker dispatch"}
+        ],
+        "docId": "packet-entities-merge"
     },
     {
         "id": "22",
