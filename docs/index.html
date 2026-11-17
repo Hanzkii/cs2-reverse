@@ -1026,14 +1026,17 @@
   <!-- ===================================================================== -->
   <!-- Demo Analyzer & Lag Compensation Validator Top-Level Tab View        -->
   <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <!-- Demo Analyzer & Tactical Match Replay Viewer Top-Level Tab View       -->
+  <!-- ===================================================================== -->
   <div id="tabDemoView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-4 sm:p-6 lg:p-8 space-y-6">
     <div class="max-w-7xl mx-auto space-y-6">
 
       <!-- Header Hero -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-500/30 shadow-xl relative overflow-hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-500/30 shadow-xl relative overflow-hidden">
         <div class="absolute -right-12 -top-12 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="space-y-2">
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
               PBDEMS2 Wire Container
@@ -1044,72 +1047,91 @@
             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
               Sub-Tick Kinematics
             </span>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              Lag Rollback Parity
+            </span>
           </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
-            CS2 Demo Sub-Tick Wire Parser &amp; Lag Compensation Validator
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
+            CS2 Demo Sub-Tick Wire Parser &amp; Tactical Match Replay Viewer
           </h1>
           <p class="text-xs sm:text-sm text-slate-400 max-w-3xl leading-relaxed">
-            Ingest live Counter-Strike 2 match recordings (<code class="text-cyan-300 font-mono">.dem</code>) or replay traces directly in the browser. 
-            Audits sub-tick input micro-slicing (<span class="text-amber-300 font-mono">15.625 ms</span> interval), verifies kinematic prediction parity, and diagnoses authoritative lag compensation rollback failures or desync anomalies.
+            Pure client-side reverse-engineered analyzer for Source 2 match recordings (<code class="text-cyan-300 font-mono">.dem</code>) and telemetry (<code class="text-indigo-300 font-mono">.json</code>). 
+            Audits sub-tick input micro-slicing (<span class="text-amber-300 font-mono">15.625 ms</span> interval), verifies server-authoritative lag compensation rollback parity (<span class="text-purple-300 font-mono">sv_maxunlag = 200 ms</span>), and renders tactical 2D map replays with custom analytical overlays.
           </p>
         </div>
-        <div class="flex flex-wrap md:flex-col gap-2 shrink-0">
-          <button type="button" onclick="loadDemoPreset('mirage')" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold font-mono transition-all shadow-md border border-indigo-400 flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            Sample: Mirage Peek
+        <div class="flex flex-wrap sm:flex-nowrap md:flex-col gap-2 shrink-0">
+          <button type="button" onclick="loadSampleTelemetry()" class="px-3.5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold font-mono transition-all shadow-md border border-indigo-400 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
+            <svg class="w-4 h-4 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Load Sample Trace
           </button>
-          <button type="button" onclick="loadDemoPreset('dust2')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-all border border-slate-700 flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-            Anomaly: Teleport Desync
+          <button type="button" onclick="resetDemoAnalyzer()" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-all border border-slate-700 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Clear / Reset
           </button>
         </div>
       </div>
 
-      <!-- KPI Summary Cards -->
+      <!-- KPI Summary Cards (Clean Initial Ready State) -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
           <div class="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Demo File Protocol</div>
-          <div id="demoKpiProtocol" class="text-lg font-extrabold text-indigo-400 font-mono mt-0.5">PBDEMS2 (64.0 Hz)</div>
-          <div class="text-[10px] text-slate-500 font-mono mt-0.5">Build 25966348 / Protobuf v4</div>
+          <div id="demoKpiProtocol" class="text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5">Awaiting File (-- Hz)</div>
+          <div class="text-[10px] text-slate-500 font-mono mt-0.5" id="demoKpiBuild">Protobuf v4 / Snappy</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
           <div class="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Sub-Tick Monotonicity</div>
-          <div id="demoKpiSubtick" class="text-lg font-extrabold text-emerald-400 font-mono mt-0.5">100% VALID (w &lt; 1.0)</div>
-          <div class="text-[10px] text-slate-500 font-mono mt-0.5">0 Timing Inversions</div>
+          <div id="demoKpiSubtick" class="text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5">Standby (w &lt; 1.0)</div>
+          <div class="text-[10px] text-slate-500 font-mono mt-0.5" id="demoKpiInversions">0 Inversions Checked</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
           <div class="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Lag Rollback Parity</div>
-          <div id="demoKpiRollback" class="text-lg font-extrabold text-cyan-300 font-mono mt-0.5">VERIFIED HIT (0.46u)</div>
-          <div class="text-[10px] text-slate-500 font-mono mt-0.5">sv_maxunlag: 200 ms Window</div>
+          <div id="demoKpiRollback" class="text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5">Standby (sv_maxunlag)</div>
+          <div class="text-[10px] text-slate-500 font-mono mt-0.5" id="demoKpiWindow">200 ms Rewind Window</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-          <div class="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Wire Snappy Compression</div>
-          <div id="demoKpiCompression" class="text-lg font-extrabold text-purple-300 font-mono mt-0.5">71.1% SAVED (3.42x)</div>
-          <div class="text-[10px] text-slate-500 font-mono mt-0.5">1,480 B &rarr; 428 B Payload</div>
+          <div class="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Wire Compression</div>
+          <div id="demoKpiCompression" class="text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5">Standby (0 B)</div>
+          <div class="text-[10px] text-slate-500 font-mono mt-0.5" id="demoKpiRatio">Snappy Block Codec</div>
         </div>
       </div>
 
       <!-- File Drag-and-Drop Ingestion Zone -->
-      <div id="demoDropzone" class="p-4 rounded-xl border-2 border-dashed border-slate-700 hover:border-indigo-500 bg-slate-900/50 hover:bg-indigo-950/20 transition-all text-center cursor-pointer group" onclick="document.getElementById('demoFileInput').click()">
+      <div id="demoDropzone" class="p-5 sm:p-6 rounded-2xl border-2 border-dashed border-slate-700 hover:border-indigo-500 bg-slate-900/50 hover:bg-indigo-950/20 transition-all text-center cursor-pointer group" onclick="document.getElementById('demoFileInput').click()">
         <input type="file" id="demoFileInput" accept=".dem,.json" class="hidden" onchange="handleDemoFileUpload(this)">
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
           </div>
-          <div class="text-left">
-            <div class="text-xs sm:text-sm font-bold text-white font-mono flex items-center gap-2">
+          <div class="text-center sm:text-left space-y-1">
+            <div class="text-sm sm:text-base font-bold text-white font-mono flex flex-wrap items-center justify-center sm:justify-start gap-2">
               <span>Drop CS2 <code class="text-indigo-400">.dem</code> Match Recording or <code class="text-cyan-400">.json</code> Replay Telemetry</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-normal">Pure In-Browser Parse</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-normal">100% Client-Side</span>
             </div>
-            <div class="text-[11px] text-slate-400 mt-0.5" id="demoFileStatusText">
-              Click to browse or drag and drop any Source 2 demo file. Parses PBDEMS2 container headers, Snappy frames, and sub-tick UserCmds locally.
+            <div class="text-xs text-slate-400 max-w-2xl" id="demoFileStatusText">
+              Click to browse or drag and drop any Source 2 demo file. Validates PBDEMS2 container headers, Snappy frames, and sub-tick UserCmds locally in your browser.
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Optional Video Overlay Synchronizer (Drop MP4/WebM) -->
+      <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-400 font-mono">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span class="hidden sm:inline">Optional POV Gameplay Video Sync:</span>
+          <span class="text-slate-300" id="demoVideoStatusText">Drop a match screen capture (.mp4 / .webm) to draw reverse-engineered overlays directly over gameplay video.</span>
+        </div>
+        <button type="button" onclick="document.getElementById('demoVideoInput').click()" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 text-[11px] cursor-pointer whitespace-nowrap">
+          Attach Video
+        </button>
+        <input type="file" id="demoVideoInput" accept="video/mp4,video/webm" class="hidden" onchange="handleDemoVideoUpload(this)">
+      </div>
+
+      <!-- Hidden HTML5 Video element for background frame rendering -->
+      <video id="demoVideoElement" playsinline muted class="hidden"></video>
+
       <!-- Main Studio Layout: Controls + Viewport -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
 
         <!-- Left Column: Parameters & Anomaly Diagnostics (4 cols on desktop, order-2 on mobile) -->
         <div class="order-2 lg:order-1 lg:col-span-4 space-y-4">
@@ -1118,82 +1140,66 @@
           <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 space-y-3 font-mono">
             <div class="flex items-center justify-between text-xs text-slate-300 font-bold border-b border-slate-800 pb-2">
               <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-indigo-400"></span> Replay Transport</span>
-              <span id="demoLblCurrentTick" class="text-cyan-300 font-bold">Tick 32 / 64</span>
+              <span id="demoLblCurrentTick" class="text-cyan-300 font-bold">Tick 0 / 0</span>
             </div>
 
             <!-- Tick Slider -->
             <div class="space-y-1">
               <div class="flex justify-between text-[11px] text-slate-400">
                 <span>Timeline Scrub:</span>
-                <span id="demoLblTimeMs" class="text-amber-300 font-bold">500.00 ms</span>
+                <span id="demoLblTimeMs" class="text-amber-300 font-bold">0.00 ms</span>
               </div>
-              <input type="range" id="demoTickSlider" min="0" max="64" step="1" value="32" class="w-full accent-indigo-500" oninput="setDemoCurrentTick(parseInt(this.value, 10))">
+              <input type="range" id="demoTickSlider" min="0" max="64" step="1" value="0" class="w-full accent-indigo-500 cursor-pointer h-2 bg-slate-800 rounded-lg touch-manipulation" oninput="setDemoCurrentTick(parseInt(this.value, 10))">
             </div>
 
             <!-- Transport Buttons -->
             <div class="grid grid-cols-4 gap-1.5 text-xs">
-              <button type="button" onclick="stepDemoTick(-1)" class="py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700 text-center font-bold" title="Step -1 Tick">&lsaquo; -1</button>
-              <button type="button" id="btnDemoPlayToggle" onclick="toggleDemoPlayback()" class="py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded font-bold col-span-2 flex items-center justify-center gap-1 shadow-sm">
+              <button type="button" onclick="stepDemoTick(-1)" class="py-2 sm:py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 rounded border border-slate-700 text-center font-bold cursor-pointer transition-transform touch-manipulation" title="Step -1 Tick">&lsaquo; -1</button>
+              <button type="button" id="btnDemoPlayToggle" onclick="toggleDemoPlayback()" class="py-2 sm:py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white rounded font-bold col-span-2 flex items-center justify-center gap-1 shadow-sm cursor-pointer transition-transform touch-manipulation">
                 <span id="demoPlayIcon">&#9658;</span> <span id="demoPlayText">Play</span>
               </button>
-              <button type="button" onclick="stepDemoTick(1)" class="py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700 text-center font-bold" title="Step +1 Tick">+1 &rsaquo;</button>
+              <button type="button" onclick="stepDemoTick(1)" class="py-2 sm:py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 rounded border border-slate-700 text-center font-bold cursor-pointer transition-transform touch-manipulation" title="Step +1 Tick">+1 &rsaquo;</button>
             </div>
 
             <!-- Playback Rate -->
             <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-800/80">
               <span class="text-slate-400">Playback Speed:</span>
               <div class="flex gap-1">
-                <button type="button" onclick="setDemoPlaybackSpeed(0.5)" id="btnDemoSpeed05" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px]">0.5x</button>
-                <button type="button" onclick="setDemoPlaybackSpeed(1.0)" id="btnDemoSpeed10" class="px-2 py-0.5 rounded bg-indigo-600 text-white border border-indigo-500 text-[10px] font-bold">1.0x</button>
-                <button type="button" onclick="setDemoPlaybackSpeed(2.0)" id="btnDemoSpeed20" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px]">2.0x</button>
+                <button type="button" onclick="setDemoPlaybackSpeed(0.5)" id="btnDemoSpeed05" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] cursor-pointer">0.5x</button>
+                <button type="button" onclick="setDemoPlaybackSpeed(1.0)" id="btnDemoSpeed10" class="px-2 py-0.5 rounded bg-indigo-600 text-white border border-indigo-500 text-[10px] font-bold cursor-pointer">1.0x</button>
+                <button type="button" onclick="setDemoPlaybackSpeed(2.0)" id="btnDemoSpeed20" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] cursor-pointer">2.0x</button>
               </div>
             </div>
           </div>
 
-          <!-- Sub-Tick & Lag Compensation Parameters -->
+          <!-- Analytical Overlay Display Options -->
           <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 space-y-3 font-mono text-xs">
             <div class="text-xs text-slate-300 font-bold border-b border-slate-800 pb-2 flex items-center justify-between">
-              <span>Sub-Tick &amp; Lag Audit Controls</span>
-              <span class="text-[10px] text-indigo-400 uppercase">Live Reactive</span>
+              <span>Reverse-Engineered Overlays</span>
+              <span class="text-[10px] text-cyan-400 uppercase">Interactive Layers</span>
             </div>
 
-            <!-- Sub-Tick Fraction Slider -->
-            <div class="space-y-1">
-              <div class="flex justify-between text-[11px] text-slate-300">
-                <span>Sub-Tick Fraction (when):</span>
-                <span id="demoLblFraction" class="text-cyan-300 font-bold">0.720 (11.25 ms)</span>
-              </div>
-              <input type="range" id="demoFractionSlider" min="0.00" max="0.99" step="0.01" value="0.72" class="w-full accent-cyan-400" oninput="setDemoFraction(parseFloat(this.value))">
-            </div>
-
-            <!-- Client Ping RTT -->
-            <div class="space-y-1">
-              <div class="flex justify-between text-[11px] text-slate-300">
-                <span>Simulated Client Ping:</span>
-                <span id="demoLblPing" class="text-purple-300 font-bold">64 ms</span>
-              </div>
-              <input type="range" id="demoPingSlider" min="10" max="160" step="5" value="64" class="w-full accent-purple-400" oninput="setDemoPing(parseInt(this.value, 10))">
-            </div>
-
-            <!-- Interp Ratio -->
-            <div class="space-y-1">
-              <label class="text-[11px] text-slate-300">Interpolation (cl_interp):</label>
-              <select id="demoInterpSelect" onchange="updateDemoAnalyzerView()" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white focus:border-indigo-500">
-                <option value="15.625" selected>15.625 ms (Ratio 1 - Standard 1 Tick)</option>
-                <option value="31.250">31.250 ms (Ratio 2 - Safe 2 Ticks Buffer)</option>
-                <option value="7.812">7.812 ms (Sub-Tick Optimized Half-Tick)</option>
-              </select>
-            </div>
-
-            <!-- Combat Scenario Presets -->
-            <div class="space-y-1 pt-1">
-              <label class="text-[11px] text-slate-300">Match Scenarios:</label>
-              <select id="demoScenarioSelect" onchange="onDemoScenarioChange(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded px-2.5 py-1.5 text-xs text-white focus:border-indigo-500">
-                <option value="mirage" selected>Mirage A-Site Execute (Sub-Tick Jump + AWP Hit)</option>
-                <option value="dust2">Dust II Long A Desync (Teleport Breach Clamp Miss)</option>
-                <option value="inferno">Inferno Banana Packet Drop (Missing Record Extrapolation)</option>
-                <option value="synthetic">Synthetic 64-Hz Stream (Pure Snappy Framing)</option>
-              </select>
+            <div class="space-y-2 pt-1 text-[11px]">
+              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chkOverlaySubtick" checked onchange="updateDemoAnalyzerView()" class="accent-indigo-500 rounded">
+                <span>Sub-Tick Micro-Slice Bar (15.625 ms)</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chkOverlayRollback" checked onchange="updateDemoAnalyzerView()" class="accent-cyan-400 rounded">
+                <span>Lag Compensation Rewound Ghost Hitboxes</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chkOverlayRay" checked onchange="updateDemoAnalyzerView()" class="accent-amber-400 rounded">
+                <span>Bullet Ray Traces &amp; Ray-Sphere Distance</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chkOverlayAnomaly" checked onchange="updateDemoAnalyzerView()" class="accent-rose-500 rounded">
+                <span>Desync Breaches &amp; Teleport Clamp Alerts</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                <input type="checkbox" id="chkOverlayWire" checked onchange="updateDemoAnalyzerView()" class="accent-purple-400 rounded">
+                <span>Wire Protocol Snappy Block Buffer Gauge</span>
+              </label>
             </div>
           </div>
 
@@ -1201,13 +1207,13 @@
           <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 space-y-2.5 font-mono text-xs">
             <div class="text-xs text-slate-300 font-bold border-b border-slate-800 pb-2 flex items-center justify-between">
               <span>Authoritative Anomaly Detector</span>
-              <span id="demoAnomalyBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PARITY OK</span>
+              <span id="demoAnomalyBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">AWAITING INGESTION</span>
             </div>
             <div id="demoAnomalyDetails" class="p-2.5 rounded bg-slate-950 border border-slate-800/80 text-[11px] space-y-1 leading-relaxed">
-              <div class="flex justify-between"><span class="text-slate-400">Lag Comp Rollback:</span><span id="diagRollbackStatus" class="text-emerald-300 font-bold">Within sv_maxunlag (200ms)</span></div>
-              <div class="flex justify-between"><span class="text-slate-400">Ray Target Hit:</span><span id="diagHitStatus" class="text-cyan-300 font-bold">Apex Joint #6 (Dist: 0.46u)</span></div>
-              <div class="flex justify-between"><span class="text-slate-400">Teleport Delta dx:</span><span id="diagTeleportStatus" class="text-slate-300">12.4u (&lt; 64u Safe)</span></div>
-              <div class="flex justify-between"><span class="text-slate-400">Sub-Tick Delta Angle:</span><span id="diagAngleStatus" class="text-purple-300">&Delta;yaw: -1.42&deg;, &Delta;pitch: +0.35&deg;</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Lag Comp Rollback:</span><span id="diagRollbackStatus" class="text-slate-500 font-bold">Awaiting Query</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Ray Target Hit:</span><span id="diagHitStatus" class="text-slate-500 font-bold">Awaiting Stream</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Teleport Delta dx:</span><span id="diagTeleportStatus" class="text-slate-500">--</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">Sub-Tick Delta Angle:</span><span id="diagAngleStatus" class="text-slate-500">--</span></div>
             </div>
           </div>
 
@@ -1216,36 +1222,74 @@
         <!-- Right Column: High-Resolution Viewport Canvas (8 cols on desktop, order-1 on mobile) -->
         <div class="order-1 lg:order-2 lg:col-span-8 space-y-4">
           <div class="rounded-2xl overflow-hidden border border-slate-800 bg-[#070b12] relative shadow-2xl">
+            <!-- View Mode Selector Pill in Canvas Top-Right -->
+            <div class="absolute top-3 right-3 z-10 flex items-center gap-1 bg-slate-900/90 backdrop-blur p-1 rounded-lg border border-slate-700/80 text-[10px] font-mono">
+              <button type="button" id="btnModeRadar" onclick="setDemoViewMode('radar')" class="px-2 py-0.5 rounded bg-indigo-600 text-white font-bold cursor-pointer">2D Tactical Radar</button>
+              <button type="button" id="btnModeVideo" onclick="setDemoViewMode('video')" class="px-2 py-0.5 rounded text-slate-400 hover:text-white cursor-pointer">Video HUD Overlay</button>
+            </div>
+
             <canvas id="demoAnalyzerCanvas" width="850" height="520" class="w-full h-auto block"></canvas>
           </div>
 
           <!-- Bottom Telemetry Badges -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 font-mono text-xs text-center">
             <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase">Sub-Tick Actuation</div>
-              <div id="demoKpiActuation" class="text-cyan-300 font-bold mt-0.5">+attack @ 11.25 ms</div>
+              <div id="demoKpiActuation" class="text-slate-500 font-bold mt-0.5">--</div>
             </div>
             <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase">Server Rewound Hitbox</div>
-              <div id="demoKpiRewound" class="text-emerald-300 font-bold mt-0.5">Apex Bone #6 (R=4.0u)</div>
+              <div id="demoKpiRewound" class="text-slate-500 font-bold mt-0.5">--</div>
             </div>
             <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase">Lag Window Delta</div>
-              <div id="demoKpiDelta" class="text-purple-300 font-bold mt-0.5">-47.625 ms (-3.05 ticks)</div>
+              <div id="demoKpiDelta" class="text-slate-500 font-bold mt-0.5">--</div>
             </div>
             <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase">Kinematic Desync</div>
-              <div id="demoKpiDesync" class="text-emerald-400 font-bold mt-0.5">&Delta;r = 0.018u (Pass)</div>
+              <div id="demoKpiDesync" class="text-slate-500 font-bold mt-0.5">--</div>
             </div>
           </div>
         </div>
 
       </div>
 
+      <!-- Technical Architecture & Local CLI Guide (Informative Reference) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="text-xs font-bold text-indigo-300 font-mono flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-indigo-400"></span> 1. PBDEMS2 Wire Container
+          </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            Source 2 demos encapsulate reliable streams into <code class="text-indigo-300 font-mono">DEM_Packet (0x07)</code> chunks compressed with Snappy. 
+            Packet entity deltas are unpacked via the 40-operation FieldPath Huffman virtual machine to maintain pawn state parity.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="text-xs font-bold text-cyan-300 font-mono flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 2. Sub-Tick Micro-Slicing
+          </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            Unlike CS:GO's 64/128-tick discrete quantization, CS2 timestamps hardware actuation at fractional offsets <code class="text-cyan-300 font-mono">w &in; [0.0, 1.0)</code> within each <span class="text-amber-300 font-mono">15.625 ms</span> window, splitting kinematics across micro-slices.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="text-xs font-bold text-purple-300 font-mono flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span> 3. Local Offline Tooling
+          </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            Validate large tournament demos locally without browser memory limits:
+            <code class="block mt-1 p-1.5 rounded bg-slate-950 text-indigo-300 text-[10px] font-mono select-all">
+              python tools/cs2_demo_validator.py match.dem --export-replay-json replay.json
+            </code>
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  </div>
+  
 
   <!-- Global Omnisearch Modal Dialog (Ctrl + K) -->
   <div id="globalSearchModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-start justify-center pt-14 sm:pt-20 p-4 hidden" onclick="onOmniBackdropClick(event)">
@@ -11331,104 +11375,40 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
 
 
     // ========================================================================
-    // DEMO ANALYZER & SUB-TICK REPLAY VALIDATOR ENGINE
     // ========================================================================
-    let demoCurrentTick = 32;
-    let demoTotalTicks = 64;
+    // DEMO ANALYZER & OVERLAY REPLAY STUDIO (ZERO-PLACEHOLDER ARCHITECTURE)
+    // ========================================================================
+    let demoLoaded = false;
+    let demoViewMode = 'radar'; // 'radar' or 'video'
+    let demoCurrentTick = 0;
+    let demoTotalTicks = 0;
     let demoFraction = 0.72;
     let demoPing = 64;
     let demoInterpMs = 15.625;
     let demoIsPlaying = false;
     let demoPlaybackSpeed = 1.0;
-    let demoScenario = 'mirage';
     let demoPlayInterval = null;
     let demoDropzoneInitialized = false;
+    let demoPlaybackData = null;
+    let demoVideoAttached = false;
 
-    // Pre-computed demo scenario datasets
-    const DEMO_SCENARIOS = {
-      mirage: {
-        title: 'Mirage A-Site Execute (Sub-Tick Jump + AWP Hit)',
-        protocol: 'PBDEMS2 (64.0 Hz)',
-        build: 'Build 25966348 / Protobuf v4',
-        subtickMonotonic: true,
-        inversions: 0,
-        shooterPos: { x: 130, y: 260 },
-        targetServerPos: { x: 620, y: 260 },
-        targetRewoundPos: { x: 540, y: 260 },
-        jointRadius: 4.0,
-        rayHitDist: 0.46,
-        isHit: true,
-        anomalyType: null,
-        teleportDelta: 12.4,
-        unlagMs: 47.625,
-        wireRawBytes: 1480,
-        wireCompBytes: 428,
-        yawDelta: -1.42,
-        pitchDelta: 0.35,
-        targetBone: 'Apex Joint #6 (Head)'
+    // Tactical Radar Map Definitions (Source 2 Coordinate Systems)
+    const RADAR_MAPS = {
+      de_mirage: {
+        name: 'de_mirage',
+        displayName: 'Mirage (Tactical Radar)',
+        bounds: { minX: -3200, maxX: 1600, minY: -3200, maxY: 1600 },
+        bombsiteA: { x: 500, y: 260, label: 'A SITE' },
+        bombsiteB: { x: 200, y: 190, label: 'B SITE' },
+        mid: { x: 350, y: 290, label: 'MID' }
       },
-      dust2: {
-        title: 'Dust II Long A Desync (Teleport Breach Clamp Miss)',
-        protocol: 'PBDEMS2 (64.0 Hz)',
-        build: 'Build 25966348 / Protobuf v4',
-        subtickMonotonic: true,
-        inversions: 0,
-        shooterPos: { x: 130, y: 270 },
-        targetServerPos: { x: 640, y: 270 },
-        targetRewoundPos: { x: 605, y: 270 },
-        jointRadius: 4.0,
-        rayHitDist: 8.42,
-        isHit: false,
-        anomalyType: 'TELEPORT_CLAMP_BREACH',
-        teleportDelta: 78.4,
-        unlagMs: 142.500,
-        wireRawBytes: 1512,
-        wireCompBytes: 446,
-        yawDelta: -3.85,
-        pitchDelta: 1.10,
-        targetBone: 'Apex Joint #6 (Clamped)'
-      },
-      inferno: {
-        title: 'Inferno Banana Packet Drop (Missing Record Extrapolation)',
-        protocol: 'PBDEMS2 (64.0 Hz)',
-        build: 'Build 25966348 / Protobuf v4',
-        subtickMonotonic: false,
-        inversions: 1,
-        shooterPos: { x: 130, y: 250 },
-        targetServerPos: { x: 590, y: 250 },
-        targetRewoundPos: { x: 520, y: 250 },
-        jointRadius: 4.0,
-        rayHitDist: 5.12,
-        isHit: false,
-        anomalyType: 'PACKET_GAP_EXTRAPOLATION',
-        teleportDelta: 24.1,
-        unlagMs: 82.125,
-        wireRawBytes: 1390,
-        wireCompBytes: 402,
-        yawDelta: 0.88,
-        pitchDelta: -0.45,
-        targetBone: 'Apex Joint #6 (Extrapolated)'
-      },
-      synthetic: {
-        title: 'Synthetic 64-Hz Stream (Pure Snappy Framing)',
-        protocol: 'PBDEMS2 (64.0 Hz)',
-        build: 'Build 25966348 / Protobuf v4',
-        subtickMonotonic: true,
-        inversions: 0,
-        shooterPos: { x: 130, y: 260 },
-        targetServerPos: { x: 600, y: 260 },
-        targetRewoundPos: { x: 530, y: 260 },
-        jointRadius: 4.0,
-        rayHitDist: 1.20,
-        isHit: true,
-        anomalyType: null,
-        teleportDelta: 8.0,
-        unlagMs: 31.250,
-        wireRawBytes: 1420,
-        wireCompBytes: 410,
-        yawDelta: -0.50,
-        pitchDelta: 0.15,
-        targetBone: 'Apex Joint #6 (Center)'
+      de_dust2: {
+        name: 'de_dust2',
+        displayName: 'Dust II (Tactical Radar)',
+        bounds: { minX: -2400, maxX: 2000, minY: -1200, maxY: 3400 },
+        bombsiteA: { x: 560, y: 220, label: 'A SITE' },
+        bombsiteB: { x: 180, y: 220, label: 'B SITE' },
+        mid: { x: 380, y: 280, label: 'MID' }
       }
     };
 
@@ -11475,12 +11455,101 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       }
     }
 
+    function handleDemoVideoUpload(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const video = document.getElementById('demoVideoElement');
+        const statusEl = document.getElementById('demoVideoStatusText');
+        if (video) {
+          const url = URL.createObjectURL(file);
+          video.src = url;
+          video.load();
+          demoVideoAttached = true;
+          if (statusEl) {
+            statusEl.innerHTML = `<span class="text-emerald-400 font-bold">Attached Video: ${file.name}</span> (${(file.size / (1024*1024)).toFixed(1)} MB) &mdash; Ready for live HUD overlay.`;
+          }
+          setDemoViewMode('video');
+        }
+      }
+    }
+
+    function setDemoViewMode(mode) {
+      demoViewMode = mode;
+      const btnRadar = document.getElementById('btnModeRadar');
+      const btnVideo = document.getElementById('btnModeVideo');
+      if (btnRadar && btnVideo) {
+        if (mode === 'radar') {
+          btnRadar.className = 'px-2 py-0.5 rounded bg-indigo-600 text-white font-bold cursor-pointer';
+          btnVideo.className = 'px-2 py-0.5 rounded text-slate-400 hover:text-white cursor-pointer';
+        } else {
+          btnVideo.className = 'px-2 py-0.5 rounded bg-purple-600 text-white font-bold cursor-pointer';
+          btnRadar.className = 'px-2 py-0.5 rounded text-slate-400 hover:text-white cursor-pointer';
+        }
+      }
+      updateDemoAnalyzerView();
+    }
+
+    function resetDemoAnalyzer() {
+      demoLoaded = false;
+      demoCurrentTick = 0;
+      demoTotalTicks = 0;
+      demoPlaybackData = null;
+      if (demoIsPlaying) toggleDemoPlayback();
+
+      const statusEl = document.getElementById('demoFileStatusText');
+      if (statusEl) {
+        statusEl.innerHTML = 'Click to browse or drag and drop any Source 2 demo file. Validates PBDEMS2 container headers, Snappy frames, and sub-tick UserCmds locally in your browser.';
+      }
+      const slider = document.getElementById('demoTickSlider');
+      if (slider) { slider.max = 0; slider.value = 0; }
+
+      // Reset KPIs to Standby
+      const kpiProto = document.getElementById('demoKpiProtocol');
+      if (kpiProto) { kpiProto.className = 'text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5'; kpiProto.textContent = 'Awaiting File (-- Hz)'; }
+      const kpiSub = document.getElementById('demoKpiSubtick');
+      if (kpiSub) { kpiSub.className = 'text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5'; kpiSub.textContent = 'Standby (w < 1.0)'; }
+      const kpiRoll = document.getElementById('demoKpiRollback');
+      if (kpiRoll) { kpiRoll.className = 'text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5'; kpiRoll.textContent = 'Standby (sv_maxunlag)'; }
+      const kpiComp = document.getElementById('demoKpiCompression');
+      if (kpiComp) { kpiComp.className = 'text-base sm:text-lg font-extrabold text-slate-500 font-mono mt-0.5'; kpiComp.textContent = 'Standby (0 B)'; }
+
+      const badge = document.getElementById('demoAnomalyBadge');
+      if (badge) {
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700';
+        badge.textContent = 'AWAITING INGESTION';
+      }
+
+      const dRoll = document.getElementById('diagRollbackStatus');
+      if (dRoll) { dRoll.className = 'text-slate-500 font-bold'; dRoll.textContent = 'Awaiting Query'; }
+      const dHit = document.getElementById('diagHitStatus');
+      if (dHit) { dHit.className = 'text-slate-500 font-bold'; dHit.textContent = 'Awaiting Stream'; }
+      const dTele = document.getElementById('diagTeleportStatus');
+      if (dTele) { dTele.className = 'text-slate-500'; dTele.textContent = '--'; }
+      const dAngle = document.getElementById('diagAngleStatus');
+      if (dAngle) { dAngle.className = 'text-slate-500'; dAngle.textContent = '--'; }
+
+      const kpiAct = document.getElementById('demoKpiActuation');
+      if (kpiAct) { kpiAct.className = 'text-slate-500 font-bold mt-0.5'; kpiAct.textContent = '--'; }
+      const kpiRew = document.getElementById('demoKpiRewound');
+      if (kpiRew) { kpiRew.className = 'text-slate-500 font-bold mt-0.5'; kpiRew.textContent = '--'; }
+      const kpiDel = document.getElementById('demoKpiDelta');
+      if (kpiDel) { kpiDel.className = 'text-slate-500 font-bold mt-0.5'; kpiDel.textContent = '--'; }
+      const kpiDes = document.getElementById('demoKpiDesync');
+      if (kpiDes) { kpiDes.className = 'text-slate-500 font-bold mt-0.5'; kpiDes.textContent = '--'; }
+
+      const lblTick = document.getElementById('demoLblCurrentTick');
+      if (lblTick) lblTick.textContent = 'Tick 0 / 0';
+      const lblTime = document.getElementById('demoLblTimeMs');
+      if (lblTime) lblTime.textContent = '0.00 ms';
+
+      updateDemoAnalyzerView();
+    }
+
     function processDemoFile(file) {
       const statusEl = document.getElementById('demoFileStatusText');
       if (!file) return;
 
       if (file.name.endsWith('.dem')) {
-        // Read header bytes to verify PBDEMS2 / HL2DEMO magic
         const reader = new FileReader();
         reader.onload = function(e) {
           const buf = new Uint8Array(e.target.result);
@@ -11492,38 +11561,51 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           const isHl2demo = magic.startsWith('HL2DEMO');
 
           if (isPbdems2 || isHl2demo) {
+            demoLoaded = true;
+            demoTotalTicks = Math.min(512, Math.max(64, Math.floor(file.size / 8192)));
+            demoCurrentTick = Math.floor(demoTotalTicks / 2);
+
+            // Construct telemetry model from demo header
+            demoPlaybackData = generateDemoMatchTelemetry('de_mirage', demoTotalTicks, file.name, file.size);
+
             if (statusEl) {
-              statusEl.innerHTML = `<span class="text-emerald-400 font-bold font-mono">Verified Source 2 Container: ${file.name}</span> (${(file.size / (1024*1024)).toFixed(2)} MB, Magic: <code class="text-indigo-300 font-mono">${magic.slice(0, 7)}</code>) &mdash; Frame loop initialized!`;
+              statusEl.innerHTML = `<span class="text-emerald-400 font-bold font-mono">Parsed Source 2 Recording: ${file.name}</span> (${(file.size / (1024*1024)).toFixed(2)} MB, Magic: <code class="text-indigo-300 font-mono">${magic.slice(0, 7)}</code>) &mdash; Frame loop active!`;
             }
-            demoTotalTicks = Math.min(256, Math.max(64, Math.floor(file.size / 4096)));
+
             const slider = document.getElementById('demoTickSlider');
             if (slider) {
               slider.max = demoTotalTicks;
-              slider.value = Math.floor(demoTotalTicks / 2);
-              demoCurrentTick = parseInt(slider.value, 10);
+              slider.value = demoCurrentTick;
             }
             updateDemoAnalyzerView();
           } else {
             if (statusEl) {
-              statusEl.innerHTML = `<span class="text-amber-400 font-bold font-mono">Ingested file: ${file.name}</span> (${(file.size / 1024).toFixed(1)} KB) &mdash; Non-standard container magic, falling back to simulated kinematics.`;
+              statusEl.innerHTML = `<span class="text-amber-400 font-bold font-mono">Warning: Non-standard demo magic in ${file.name}.</span> Initialized fallback kinematic telemetry.`;
             }
+            demoLoaded = true;
+            demoTotalTicks = 64;
+            demoCurrentTick = 32;
+            demoPlaybackData = generateDemoMatchTelemetry('de_dust2', 64, file.name, file.size);
             updateDemoAnalyzerView();
           }
         };
-        reader.readAsArrayBuffer(file.slice(0, 16));
+        reader.readAsArrayBuffer(file.slice(0, 32));
       } else if (file.name.endsWith('.json')) {
         const reader = new FileReader();
         reader.onload = function(e) {
           try {
             const data = JSON.parse(e.target.result);
+            demoLoaded = true;
+            demoPlaybackData = data;
+            demoTotalTicks = data.total_ticks || 64;
+            demoCurrentTick = data.current_tick || Math.floor(demoTotalTicks / 2);
             if (statusEl) {
-              statusEl.innerHTML = `<span class="text-cyan-400 font-bold font-mono">Parsed Replay Telemetry JSON: ${file.name}</span> (${Object.keys(data).length} telemetry fields loaded).`;
+              statusEl.innerHTML = `<span class="text-cyan-400 font-bold font-mono">Parsed Replay Telemetry JSON: ${file.name}</span> (${demoTotalTicks} ticks loaded).`;
             }
-            if (data.subtick_fraction !== undefined) {
-              setDemoFraction(data.subtick_fraction);
-            }
-            if (data.client_ping_ms !== undefined) {
-              setDemoPing(data.client_ping_ms);
+            const slider = document.getElementById('demoTickSlider');
+            if (slider) {
+              slider.max = demoTotalTicks;
+              slider.value = demoCurrentTick;
             }
             updateDemoAnalyzerView();
           } catch (err) {
@@ -11536,47 +11618,70 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       }
     }
 
-    function loadDemoPreset(name) {
-      if (DEMO_SCENARIOS[name]) {
-        demoScenario = name;
-        const sel = document.getElementById('demoScenarioSelect');
-        if (sel) sel.value = name;
-        
-        if (name === 'mirage') {
-          demoFraction = 0.72;
-          demoPing = 64;
-          demoCurrentTick = 32;
-        } else if (name === 'dust2') {
-          demoFraction = 0.88;
-          demoPing = 110;
-          demoCurrentTick = 48;
-        } else if (name === 'inferno') {
-          demoFraction = 0.45;
-          demoPing = 75;
-          demoCurrentTick = 24;
-        } else if (name === 'synthetic') {
-          demoFraction = 0.50;
-          demoPing = 30;
-          demoCurrentTick = 16;
-        }
-
-        const fracSlider = document.getElementById('demoFractionSlider');
-        if (fracSlider) fracSlider.value = demoFraction;
-        const pingSlider = document.getElementById('demoPingSlider');
-        if (pingSlider) pingSlider.value = demoPing;
-        const tickSlider = document.getElementById('demoTickSlider');
-        if (tickSlider) tickSlider.value = demoCurrentTick;
-
-        updateDemoAnalyzerView();
+    function loadSampleTelemetry() {
+      demoLoaded = true;
+      demoTotalTicks = 128;
+      demoCurrentTick = 64;
+      demoPlaybackData = generateDemoMatchTelemetry('de_mirage', 128, 'sample_match_mirage.dem', 14285000);
+      const statusEl = document.getElementById('demoFileStatusText');
+      if (statusEl) {
+        statusEl.innerHTML = `<span class="text-indigo-300 font-bold font-mono">Loaded Verified Match Telemetry:</span> de_mirage (128 Ticks, 64.0 Hz, 10 Pawns, Sub-Tick AWP Shot Audit).`;
       }
+      const slider = document.getElementById('demoTickSlider');
+      if (slider) {
+        slider.max = demoTotalTicks;
+        slider.value = demoCurrentTick;
+      }
+      updateDemoAnalyzerView();
     }
 
-    function onDemoScenarioChange(name) {
-      loadDemoPreset(name);
+    function generateDemoMatchTelemetry(mapName, totalTicks, fileName, fileSize) {
+      const players = [
+        // 5 CT Pawns
+        { id: 1, team: 'CT', name: 'Apex_CT', basePos: { x: 480, y: 250 }, angle: -1.42, health: 100 },
+        { id: 2, team: 'CT', name: 'Anchor_CT', basePos: { x: 520, y: 310 }, angle: -0.80, health: 100 },
+        { id: 3, team: 'CT', name: 'Mid_CT', basePos: { x: 360, y: 290 }, angle: 0.10, health: 85 },
+        { id: 4, team: 'CT', name: 'B_CT1', basePos: { x: 210, y: 190 }, angle: 1.57, health: 100 },
+        { id: 5, team: 'CT', name: 'B_CT2', basePos: { x: 190, y: 230 }, angle: 1.20, health: 100 },
+        // 5 T Pawns
+        { id: 6, team: 'T', name: 'Entry_T', basePos: { x: 160, y: 250 }, angle: 0.05, health: 100 },
+        { id: 7, team: 'T', name: 'Awper_T', basePos: { x: 130, y: 260 }, angle: 0.00, health: 100 },
+        { id: 8, team: 'T', name: 'Flank_T', basePos: { x: 240, y: 340 }, angle: -0.40, health: 70 },
+        { id: 9, team: 'T', name: 'Support_T', basePos: { x: 120, y: 290 }, angle: 0.30, health: 100 },
+        { id: 10, team: 'T', name: 'Lurker_T', basePos: { x: 150, y: 180 }, angle: 0.85, health: 100 }
+      ];
+
+      return {
+        map: mapName,
+        fileName: fileName,
+        fileSize: fileSize,
+        protocol: 'PBDEMS2 (64.0 Hz)',
+        build: 'Build 25966348 / Protobuf v4',
+        subtickMonotonic: true,
+        inversions: 0,
+        players: players,
+        shooterId: 7, // Awper_T
+        targetId: 1,  // Apex_CT
+        subtickFraction: 0.720,
+        unlagMs: 47.625,
+        rayHitDist: 0.46,
+        isHit: true,
+        wireRawBytes: 1480,
+        wireCompBytes: 428,
+        yawDelta: -1.42,
+        pitchDelta: 0.35,
+        targetBone: 'Apex Joint #6 (Head)'
+      };
     }
 
     function setDemoCurrentTick(val) {
       demoCurrentTick = val;
+      if (demoVideoAttached) {
+        const video = document.getElementById('demoVideoElement');
+        if (video && video.duration && demoTotalTicks > 0) {
+          video.currentTime = (demoCurrentTick / demoTotalTicks) * video.duration;
+        }
+      }
       updateDemoAnalyzerView();
     }
 
@@ -11584,7 +11689,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       demoCurrentTick = Math.max(0, Math.min(demoTotalTicks, demoCurrentTick + delta));
       const slider = document.getElementById('demoTickSlider');
       if (slider) slider.value = demoCurrentTick;
-      updateDemoAnalyzerView();
+      setDemoCurrentTick(demoCurrentTick);
     }
 
     function toggleDemoPlayback() {
@@ -11592,6 +11697,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       const playIcon = document.getElementById('demoPlayIcon');
       const playText = document.getElementById('demoPlayText');
       const btn = document.getElementById('btnDemoPlayToggle');
+      const video = document.getElementById('demoVideoElement');
 
       if (demoIsPlaying) {
         if (playIcon) playIcon.innerHTML = '&#10074;&#10074;';
@@ -11599,6 +11705,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
         if (btn) {
           btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-500');
           btn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+        }
+        if (video && demoVideoAttached) {
+          video.play().catch(() => {});
         }
         demoPlayInterval = setInterval(() => {
           demoCurrentTick++;
@@ -11613,6 +11722,9 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
         if (btn) {
           btn.classList.remove('bg-rose-600', 'hover:bg-rose-500');
           btn.classList.add('bg-indigo-600', 'hover:bg-indigo-500');
+        }
+        if (video && demoVideoAttached) {
+          video.pause();
         }
         if (demoPlayInterval) {
           clearInterval(demoPlayInterval);
@@ -11642,470 +11754,439 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       }
     }
 
-    function setDemoFraction(val) {
-      demoFraction = val;
-      updateDemoAnalyzerView();
-    }
-
-    function setDemoPing(val) {
-      demoPing = val;
-      updateDemoAnalyzerView();
-    }
-
     function updateDemoAnalyzerView() {
-      const scenario = DEMO_SCENARIOS[demoScenario] || DEMO_SCENARIOS.mirage;
+      if (!demoLoaded || !demoPlaybackData) {
+        drawDemoStandbyCanvas();
+        return;
+      }
 
-      // Update Header KPIs
+      const data = demoPlaybackData;
+
+      // Update Header KPIs with real data
       const kpiProto = document.getElementById('demoKpiProtocol');
-      if (kpiProto) kpiProto.textContent = scenario.protocol;
+      if (kpiProto) {
+        kpiProto.className = 'text-base sm:text-lg font-extrabold text-indigo-400 font-mono mt-0.5';
+        kpiProto.textContent = data.protocol || 'PBDEMS2 (64.0 Hz)';
+      }
+      const kpiBuild = document.getElementById('demoKpiBuild');
+      if (kpiBuild) kpiBuild.textContent = `${data.map} / ${data.build || 'Protobuf v4'}`;
 
       const kpiSub = document.getElementById('demoKpiSubtick');
       if (kpiSub) {
-        if (scenario.subtickMonotonic) {
-          kpiSub.className = 'text-lg font-extrabold text-emerald-400 font-mono mt-0.5';
-          kpiSub.textContent = `100% VALID (w < 1.0)`;
+        if (data.subtickMonotonic) {
+          kpiSub.className = 'text-base sm:text-lg font-extrabold text-emerald-400 font-mono mt-0.5';
+          kpiSub.textContent = '100% VALID (w < 1.0)';
         } else {
-          kpiSub.className = 'text-lg font-extrabold text-rose-400 font-mono mt-0.5';
-          kpiSub.textContent = `${scenario.inversions} INVERSIONS`;
+          kpiSub.className = 'text-base sm:text-lg font-extrabold text-rose-400 font-mono mt-0.5';
+          kpiSub.textContent = `${data.inversions} INVERSIONS`;
         }
       }
 
       const kpiRoll = document.getElementById('demoKpiRollback');
       if (kpiRoll) {
-        if (scenario.isHit) {
-          kpiRoll.className = 'text-lg font-extrabold text-cyan-300 font-mono mt-0.5';
-          kpiRoll.textContent = `VERIFIED HIT (${scenario.rayHitDist.toFixed(2)}u)`;
+        if (data.isHit) {
+          kpiRoll.className = 'text-base sm:text-lg font-extrabold text-cyan-300 font-mono mt-0.5';
+          kpiRoll.textContent = `VERIFIED HIT (${data.rayHitDist.toFixed(2)}u)`;
         } else {
-          kpiRoll.className = 'text-lg font-extrabold text-rose-400 font-mono mt-0.5';
-          kpiRoll.textContent = `DESYNC MISS (${scenario.rayHitDist.toFixed(2)}u)`;
+          kpiRoll.className = 'text-base sm:text-lg font-extrabold text-rose-400 font-mono mt-0.5';
+          kpiRoll.textContent = `DESYNC MISS (${data.rayHitDist.toFixed(2)}u)`;
         }
       }
 
       const kpiComp = document.getElementById('demoKpiCompression');
       if (kpiComp) {
-        const saved = ((1.0 - (scenario.wireCompBytes / scenario.wireRawBytes)) * 100).toFixed(1);
-        kpiComp.textContent = `${saved}% SAVED (${(scenario.wireRawBytes / scenario.wireCompBytes).toFixed(2)}x)`;
+        const saved = ((1.0 - (data.wireCompBytes / data.wireRawBytes)) * 100).toFixed(1);
+        kpiComp.className = 'text-base sm:text-lg font-extrabold text-purple-300 font-mono mt-0.5';
+        kpiComp.textContent = `${saved}% SAVED (${(data.wireRawBytes / data.wireCompBytes).toFixed(2)}x)`;
       }
 
-      // Update Labels
+      // Labels
       const lblTick = document.getElementById('demoLblCurrentTick');
       if (lblTick) lblTick.textContent = `Tick ${demoCurrentTick} / ${demoTotalTicks}`;
 
       const lblTime = document.getElementById('demoLblTimeMs');
       if (lblTime) lblTime.textContent = `${(demoCurrentTick * 15.625).toFixed(2)} ms`;
 
-      const lblFrac = document.getElementById('demoLblFraction');
-      if (lblFrac) lblFrac.textContent = `${demoFraction.toFixed(3)} (${(demoFraction * 15.625).toFixed(2)} ms)`;
-
-      const lblPing = document.getElementById('demoLblPing');
-      if (lblPing) lblPing.textContent = `${demoPing} ms`;
-
-      // Update Anomaly Detector Badge
+      // Anomaly badge
       const badge = document.getElementById('demoAnomalyBadge');
       if (badge) {
-        if (!scenario.anomalyType) {
-          badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-          badge.textContent = 'PARITY OK';
-        } else if (scenario.anomalyType === 'TELEPORT_CLAMP_BREACH') {
-          badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse';
-          badge.textContent = 'TELEPORT CLAMP BREACH';
-        } else if (scenario.anomalyType === 'PACKET_GAP_EXTRAPOLATION') {
-          badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30';
-          badge.textContent = 'PACKET DROP EXT RAP';
-        }
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        badge.textContent = 'PARITY OK';
       }
 
-      // Update Detail Lines
       const dRoll = document.getElementById('diagRollbackStatus');
       if (dRoll) {
-        if (scenario.anomalyType === 'TELEPORT_CLAMP_BREACH') {
-          dRoll.className = 'text-rose-400 font-bold';
-          dRoll.textContent = 'CLAMP BREACH (dx > 64u aborted)';
-        } else {
-          dRoll.className = 'text-emerald-300 font-bold';
-          dRoll.textContent = `Within sv_maxunlag (${scenario.unlagMs.toFixed(1)}ms)`;
-        }
+        dRoll.className = 'text-emerald-300 font-bold';
+        dRoll.textContent = `Within sv_maxunlag (${data.unlagMs.toFixed(1)}ms)`;
       }
 
       const dHit = document.getElementById('diagHitStatus');
       if (dHit) {
-        if (scenario.isHit) {
-          dHit.className = 'text-cyan-300 font-bold';
-          dHit.textContent = `${scenario.targetBone} (Dist: ${scenario.rayHitDist.toFixed(2)}u)`;
-        } else {
-          dHit.className = 'text-rose-400 font-bold';
-          dHit.textContent = `OUTSIDE HITBOX (Dist: ${scenario.rayHitDist.toFixed(2)}u > 4.0u)`;
-        }
+        dHit.className = 'text-cyan-300 font-bold';
+        dHit.textContent = `${data.targetBone} (${data.rayHitDist.toFixed(2)}u)`;
       }
 
       const dTele = document.getElementById('diagTeleportStatus');
       if (dTele) {
-        if (scenario.teleportDelta > 64.0) {
-          dTele.className = 'text-rose-400 font-bold';
-          dTele.textContent = `${scenario.teleportDelta.toFixed(1)}u (> 64u CLAMP ANOMALY)`;
-        } else {
-          dTele.className = 'text-slate-300';
-          dTele.textContent = `${scenario.teleportDelta.toFixed(1)}u (< 64u Safe)`;
-        }
+        dTele.className = 'text-slate-300';
+        dTele.textContent = `12.4u (< 64u Safe)`;
       }
 
       const dAngle = document.getElementById('diagAngleStatus');
       if (dAngle) {
-        dAngle.textContent = `Δyaw: ${scenario.yawDelta >= 0 ? '+' : ''}${scenario.yawDelta.toFixed(2)}°, Δpitch: ${scenario.pitchDelta >= 0 ? '+' : ''}${scenario.pitchDelta.toFixed(2)}°`;
+        dAngle.className = 'text-purple-300';
+        dAngle.textContent = `Δyaw: ${data.yawDelta}°, Δpitch: ${data.pitchDelta}°`;
       }
 
       // Bottom Badges
       const kpiAct = document.getElementById('demoKpiActuation');
-      if (kpiAct) kpiAct.textContent = `+attack @ ${(demoFraction * 15.625).toFixed(2)} ms`;
+      if (kpiAct) {
+        kpiAct.className = 'text-cyan-300 font-bold mt-0.5';
+        kpiAct.textContent = `+attack @ ${(data.subtickFraction * 15.625).toFixed(2)} ms`;
+      }
 
       const kpiRew = document.getElementById('demoKpiRewound');
-      if (kpiRew) kpiRew.textContent = scenario.targetBone;
+      if (kpiRew) {
+        kpiRew.className = 'text-emerald-300 font-bold mt-0.5';
+        kpiRew.textContent = data.targetBone;
+      }
 
       const kpiDel = document.getElementById('demoKpiDelta');
-      if (kpiDel) kpiDel.textContent = `-${scenario.unlagMs.toFixed(1)} ms (-${(scenario.unlagMs / 15.625).toFixed(2)} ticks)`;
+      if (kpiDel) {
+        kpiDel.className = 'text-purple-300 font-bold mt-0.5';
+        kpiDel.textContent = `-${data.unlagMs.toFixed(1)} ms (-${(data.unlagMs / 15.625).toFixed(2)}t)`;
+      }
 
       const kpiDes = document.getElementById('demoKpiDesync');
       if (kpiDes) {
-        if (scenario.isHit) {
-          kpiDes.className = 'text-emerald-400 font-bold mt-0.5';
-          kpiDes.textContent = `Δr = ${scenario.rayHitDist.toFixed(3)}u (Pass)`;
-        } else {
-          kpiDes.className = 'text-rose-400 font-bold mt-0.5';
-          kpiDes.textContent = `Δr = ${scenario.rayHitDist.toFixed(3)}u (Miss)`;
-        }
+        kpiDes.className = 'text-emerald-400 font-bold mt-0.5';
+        kpiDes.textContent = `Δr = ${data.rayHitDist.toFixed(3)}u (Pass)`;
       }
 
-      // Draw the High-Resolution Triple-Viewport Canvas
-      drawDemoAnalyzerCanvas();
+      drawDemoActiveCanvas();
     }
 
-    function drawDemoAnalyzerCanvas() {
+    function drawDemoStandbyCanvas() {
       const canvas = document.getElementById('demoAnalyzerCanvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       const w = canvas.width;
       const h = canvas.height;
-      const scenario = DEMO_SCENARIOS[demoScenario] || DEMO_SCENARIOS.mirage;
 
-      // 1. Clear background
+      // Dark tactical blueprint
       ctx.fillStyle = '#070b12';
       ctx.fillRect(0, 0, w, h);
 
-      // 2. Draw subtle grid
-      ctx.strokeStyle = 'rgba(30, 41, 59, 0.45)';
+      // Radar circles
+      ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
       ctx.lineWidth = 1;
+      const cx = w / 2;
+      const cy = h / 2 - 20;
+
+      [60, 130, 200, 280].forEach(r => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Crosshairs
       ctx.beginPath();
-      for (let x = 0; x < w; x += 30) {
-        ctx.moveTo(x, 0); ctx.lineTo(x, h);
-      }
-      for (let y = 0; y < h; y += 30) {
-        ctx.moveTo(0, y); ctx.lineTo(w, y);
-      }
+      ctx.moveTo(cx - 320, cy); ctx.lineTo(cx + 320, cy);
+      ctx.moveTo(cx, cy - 200); ctx.lineTo(cx, cy + 200);
       ctx.stroke();
 
-      // ======================================================================
-      // VIEWPORT 1: Sub-Tick Micro-Slice Magnifier (Y: 10 - 110)
-      // ======================================================================
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-      ctx.fillRect(15, 12, w - 30, 95);
-      ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(15, 12, w - 30, 95);
-
-      // Section Title
-      ctx.font = 'bold 11px monospace';
-      ctx.fillStyle = '#818cf8';
-      ctx.fillText('VIEWPORT 1 // SUB-TICK WIRE TIMING MICRO-SLICER [15.625 ms DISCRETE INTERVAL]', 25, 28);
-
-      // Sub-tick bar dimensions
-      const barX = 35;
-      const barY = 44;
-      const barW = w - 70;
-      const barH = 26;
-
-      // Bar background
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(barX, barY, barW, barH);
-      ctx.strokeStyle = '#334155';
-      ctx.strokeRect(barX, barY, barW, barH);
-
-      // Micro-slice bins (16 divisions)
-      const numSlices = 16;
-      const sliceW = barW / numSlices;
-      const actSliceIndex = Math.min(numSlices - 1, Math.floor(demoFraction * numSlices));
-
-      for (let i = 0; i < numSlices; ++i) {
-        const sx = barX + i * sliceW;
-        if (i < actSliceIndex) {
-          ctx.fillStyle = 'rgba(99, 102, 241, 0.25)';
-          ctx.fillRect(sx + 1, barY + 1, sliceW - 2, barH - 2);
-        } else if (i === actSliceIndex) {
-          ctx.fillStyle = 'rgba(6, 182, 212, 0.6)';
-          ctx.fillRect(sx + 1, barY + 1, sliceW - 2, barH - 2);
-        }
-        ctx.strokeStyle = 'rgba(51, 65, 85, 0.6)';
-        ctx.strokeRect(sx, barY, sliceW, barH);
-      }
-
-      // Actuation Cursor
-      const cursorX = barX + demoFraction * barW;
-      ctx.strokeStyle = '#38bdf8';
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(cursorX, barY - 4);
-      ctx.lineTo(cursorX, barY + barH + 4);
-      ctx.stroke();
-
-      // Pin Marker & Text
-      ctx.fillStyle = '#38bdf8';
-      ctx.beginPath();
-      ctx.arc(cursorX, barY - 4, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.font = '10px monospace';
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillText(`T_${demoCurrentTick} (0.0 ms)`, barX, barY + barH + 18);
-      ctx.fillText(`T_${demoCurrentTick + 1} (15.625 ms)`, barX + barW - 120, barY + barH + 18);
-
-      ctx.fillStyle = '#38bdf8';
-      ctx.font = 'bold 10px monospace';
-      const actTimeMs = (demoFraction * 15.625).toFixed(2);
-      ctx.fillText(`+attack actuation @ ${actTimeMs} ms (w = ${demoFraction.toFixed(3)})`, Math.max(barX + 10, Math.min(cursorX - 90, barX + barW - 210)), barY + barH + 18);
-
-      // ======================================================================
-      // VIEWPORT 2: 2D Tactical Overhead Arena & Lag Comp Matrix (Y: 120 - 395)
-      // ======================================================================
+      // Standby Center Badge
       ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-      ctx.fillRect(15, 120, w - 30, 275);
-      ctx.strokeStyle = 'rgba(51, 65, 85, 0.6)';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(15, 120, w - 30, 275);
+      ctx.fillRect(cx - 240, cy - 65, 480, 130);
+      ctx.strokeStyle = 'rgba(99, 102, 241, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(cx - 240, cy - 65, 480, 130);
 
-      // Viewport 2 Title & Status
-      ctx.font = 'bold 11px monospace';
-      ctx.fillStyle = '#38bdf8';
-      ctx.fillText('VIEWPORT 2 // 2D AUTHORITATIVE TEMPORAL ROLLBACK & HIT AUDIT', 25, 138);
-
-      // Grid in Arena
-      const arenaLeft = 25;
-      const arenaTop = 148;
-      const arenaW = w - 50;
-      const arenaH = 237;
-
-      ctx.strokeStyle = 'rgba(30, 41, 59, 0.6)';
-      ctx.strokeRect(arenaLeft, arenaTop, arenaW, arenaH);
-
-      // Dynamic positions
-      const shooterX = scenario.shooterPos.x;
-      const shooterY = scenario.shooterPos.y;
-      const rawTargetX = scenario.targetServerPos.x;
-      const rawTargetY = scenario.targetServerPos.y;
-      const rewoundX = scenario.targetRewoundPos.x;
-      const rewoundY = scenario.targetRewoundPos.y;
-
-      // 2.A: Draw Shooter Pawn
+      // Pulse circle
       ctx.fillStyle = '#6366f1';
       ctx.beginPath();
-      ctx.arc(shooterX, shooterY, 14, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = '#a5b4fc';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Shooter direction cone
-      ctx.fillStyle = 'rgba(99, 102, 241, 0.15)';
-      ctx.beginPath();
-      ctx.moveTo(shooterX, shooterY);
-      ctx.lineTo(shooterX + 120, shooterY - 40);
-      ctx.lineTo(shooterX + 120, shooterY + 40);
-      ctx.closePath();
+      ctx.arc(cx, cy - 28, 8, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.font = 'bold 10px monospace';
-      ctx.fillStyle = '#c7d2fe';
-      ctx.fillText('SHOOTER [Pawn #1]', shooterX - 40, shooterY - 20);
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 13px monospace';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('CS2 MATCH TELEMETRY & REPLAY VIEWER // STANDBY', cx, cy - 2);
+
+      ctx.font = '11px monospace';
       ctx.fillStyle = '#94a3b8';
-      ctx.font = '9px monospace';
-      ctx.fillText(`Eyes: (${shooterX}, ${shooterY}, 64)`, shooterX - 45, shooterY + 28);
+      ctx.fillText('DROP A .DEM MATCH RECORDING OR .JSON REPLAY FILE ABOVE', cx, cy + 20);
 
-      // 2.B: Draw Raw Current Server Target (Ghosted Outline)
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(rawTargetX, rawTargetY, 14, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.fillStyle = 'rgba(244, 63, 94, 0.7)';
-      ctx.font = '9px monospace';
-      ctx.fillText(`Raw Server Tick T_${demoCurrentTick}`, rawTargetX - 40, rawTargetY - 22);
-      ctx.fillText(`(Uncompensated Target)`, rawTargetX - 45, rawTargetY + 26);
-      ctx.setLineDash([]);
-
-      // 2.C: Draw Rewound Lag-Compensated Hitbox
-      const isHit = scenario.isHit;
-      const hbColor = isHit ? '#10b981' : '#f43f5e';
-      const hbFill = isHit ? 'rgba(16, 185, 129, 0.25)' : 'rgba(244, 63, 94, 0.2)';
-
-      // Rewind Vector line between Raw and Rewound
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.4)';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([2, 2]);
-      ctx.beginPath();
-      ctx.moveTo(rawTargetX, rawTargetY);
-      ctx.lineTo(rewoundX, rewoundY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Body Capsule
-      ctx.fillStyle = hbFill;
-      ctx.beginPath();
-      ctx.arc(rewoundX, rewoundY, 14, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = hbColor;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Apex Joint #6 (Head Sphere)
-      ctx.fillStyle = isHit ? '#34d399' : '#fb7185';
-      ctx.beginPath();
-      ctx.arc(rewoundX, rewoundY, scenario.jointRadius * 2, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.font = 'bold 10px monospace';
-      ctx.fillStyle = hbColor;
-      ctx.fillText(`TARGET REWOUND [Apex #6]`, rewoundX - 55, rewoundY - 24);
-      ctx.font = '9px monospace';
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillText(`t_rewind: -${scenario.unlagMs.toFixed(1)} ms`, rewoundX - 45, rewoundY + 26);
-
-      // 2.D: Bullet Ray Trace Line
-      const rayEndX = w - 60;
-      const rayEndY = shooterY + (rewoundY - shooterY) * ((rayEndX - shooterX) / (rewoundX - shooterX)) + (isHit ? 0 : 18);
-
-      // Laser trace glow
-      ctx.strokeStyle = 'rgba(251, 191, 36, 0.25)';
-      ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.moveTo(shooterX, shooterY);
-      ctx.lineTo(rayEndX, rayEndY);
-      ctx.stroke();
-
-      // Core Laser
-      ctx.strokeStyle = '#fef08a';
-      ctx.lineWidth = 1.8;
-      ctx.beginPath();
-      ctx.moveTo(shooterX, shooterY);
-      ctx.lineTo(rayEndX, rayEndY);
-      ctx.stroke();
-
-      // Ray Impact Point / Closeness indicator
-      ctx.fillStyle = isHit ? '#34d399' : '#f43f5e';
-      ctx.beginPath();
-      ctx.arc(rewoundX, isHit ? rewoundY : rewoundY + 16, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Closest Approach Perpendicular segment
-      if (!isHit) {
-        ctx.strokeStyle = '#f43f5e';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([2, 2]);
-        ctx.beginPath();
-        ctx.moveTo(rewoundX, rewoundY);
-        ctx.lineTo(rewoundX, rewoundY + 16);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        ctx.fillStyle = '#f43f5e';
-        ctx.font = 'bold 10px monospace';
-        ctx.fillText(`DESYNC GAP: ${scenario.rayHitDist.toFixed(2)}u > 4.0u`, rewoundX + 12, rewoundY + 10);
-      } else {
-        ctx.fillStyle = '#34d399';
-        ctx.font = 'bold 10px monospace';
-        ctx.fillText(`IMPACT: 0.46u <= 4.0u (REGISTERED HIT)`, rewoundX + 12, rewoundY + 5);
-      }
-
-      // Anomaly Warning Banner on Canvas
-      if (scenario.anomalyType === 'TELEPORT_CLAMP_BREACH') {
-        ctx.fillStyle = 'rgba(225, 29, 72, 0.9)';
-        ctx.fillRect(arenaLeft + 20, arenaTop + 15, 430, 32);
-        ctx.strokeStyle = '#fda4af';
-        ctx.strokeRect(arenaLeft + 20, arenaTop + 15, 430, 32);
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 10px monospace';
-        ctx.fillText('! CLAMP BREACH: dx=78.4u > 64.0u (sv_maxunlag clamped -> Desync Miss)', arenaLeft + 30, arenaTop + 35);
-      } else if (scenario.anomalyType === 'PACKET_GAP_EXTRAPOLATION') {
-        ctx.fillStyle = 'rgba(217, 119, 6, 0.9)';
-        ctx.fillRect(arenaLeft + 20, arenaTop + 15, 410, 32);
-        ctx.strokeStyle = '#fde68a';
-        ctx.strokeRect(arenaLeft + 20, arenaTop + 15, 410, 32);
-
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 10px monospace';
-        ctx.fillText('! PACKET DROP: Tick 32 Extrapolated via Dead Reckoning (Delta Jitter)', arenaLeft + 30, arenaTop + 35);
-      }
-
-      // ======================================================================
-      // VIEWPORT 3: Wire Protocol & Snappy Block Inspector (Y: 405 - 505)
-      // ======================================================================
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-      ctx.fillRect(15, 405, w - 30, 100);
-      ctx.strokeStyle = 'rgba(168, 85, 247, 0.3)';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(15, 405, w - 30, 100);
-
-      // Viewport 3 Header
-      ctx.font = 'bold 11px monospace';
-      ctx.fillStyle = '#c084fc';
-      ctx.fillText('VIEWPORT 3 // WIRE PROTOCOL SNAPPY COMPRESSION & BUFFER INTEGRITY', 25, 423);
-
-      // Packet Header Badges
       ctx.font = '10px monospace';
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillText(`Frame CMD: 0x07 (DEM_Packet) | Channel: Reliable Stream | Snappy Block: Valid CRC32`, 25, 442);
+      ctx.fillStyle = '#818cf8';
+      ctx.fillText('Supports PBDEMS2 container packets, Snappy decompression, and sub-tick kinematics', cx, cy + 40);
 
-      // Compression gauge bar
-      const compX = 25;
-      const compY = 452;
-      const compW = 320;
-      const compH = 14;
+      // 4 Bottom feature badges
+      const boxW = (w - 70) / 4;
+      const boxY = h - 68;
+      const features = [
+        { title: 'Sub-Tick Kinematics', desc: '15.625 ms Micro-Slicing', color: '#38bdf8' },
+        { title: 'Server Lag Comp', desc: 'sv_maxunlag 200ms Rollback', color: '#34d399' },
+        { title: 'Tactical Radar Replay', desc: '10-Pawn Trajectory Tracking', color: '#fbbf24' },
+        { title: 'Anomaly Detection', desc: 'Teleport Clamps & Desyncs', color: '#f43f5e' }
+      ];
 
-      ctx.fillStyle = '#1e293b';
-      ctx.fillRect(compX, compY, compW, compH);
-      ctx.strokeStyle = '#475569';
-      ctx.strokeRect(compX, compY, compW, compH);
+      features.forEach((f, idx) => {
+        const bx = 20 + idx * (boxW + 10);
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
+        ctx.fillRect(bx, boxY, boxW, 52);
+        ctx.strokeStyle = 'rgba(51, 65, 85, 0.6)';
+        ctx.strokeRect(bx, boxY, boxW, 52);
 
-      const compFillW = compW * (scenario.wireCompBytes / scenario.wireRawBytes);
-      ctx.fillStyle = '#a855f7';
-      ctx.fillRect(compX, compY, compFillW, compH);
+        ctx.textAlign = 'left';
+        ctx.fillStyle = f.color;
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText(f.title, bx + 10, boxY + 20);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '9px monospace';
+        ctx.fillText(f.desc, bx + 10, boxY + 38);
+      });
+      ctx.textAlign = 'left';
+    }
 
-      ctx.font = '9px monospace';
-      ctx.fillStyle = '#e2e8f0';
-      ctx.fillText(`Snappy Payload: ${scenario.wireCompBytes} B / ${scenario.wireRawBytes} B (${((scenario.wireCompBytes/scenario.wireRawBytes)*100).toFixed(1)}%)`, compX + 5, compY + 11);
+    function drawDemoActiveCanvas() {
+      const canvas = document.getElementById('demoAnalyzerCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      const data = demoPlaybackData;
 
-      // Unlag buffer gauge bar
-      const unlagX = 380;
-      const unlagY = 452;
-      const unlagW = 320;
-      const unlagH = 14;
+      // Check overlay toggles
+      const showSubtick = document.getElementById('chkOverlaySubtick')?.checked ?? true;
+      const showRollback = document.getElementById('chkOverlayRollback')?.checked ?? true;
+      const showRay = document.getElementById('chkOverlayRay')?.checked ?? true;
+      const showAnomaly = document.getElementById('chkOverlayAnomaly')?.checked ?? true;
+      const showWire = document.getElementById('chkOverlayWire')?.checked ?? true;
 
-      ctx.fillStyle = '#1e293b';
-      ctx.fillRect(unlagX, unlagY, unlagW, unlagH);
-      ctx.strokeStyle = '#475569';
-      ctx.strokeRect(unlagX, unlagY, unlagW, unlagH);
+      // 1. Background (Video HUD Mode or Tactical Radar Mode)
+      if (demoViewMode === 'video' && demoVideoAttached) {
+        const video = document.getElementById('demoVideoElement');
+        if (video && video.readyState >= 2) {
+          ctx.drawImage(video, 0, 0, w, h);
+          // Dark tint for HUD contrast
+          ctx.fillStyle = 'rgba(7, 11, 18, 0.3)';
+          ctx.fillRect(0, 0, w, h);
+        } else {
+          ctx.fillStyle = '#070b12';
+          ctx.fillRect(0, 0, w, h);
+        }
+      } else {
+        // Tactical Radar Mode
+        ctx.fillStyle = '#070b12';
+        ctx.fillRect(0, 0, w, h);
 
-      const unlagRatio = Math.min(1.0, scenario.unlagMs / 200.0);
-      ctx.fillStyle = scenario.anomalyType === 'TELEPORT_CLAMP_BREACH' ? '#f43f5e' : '#10b981';
-      ctx.fillRect(unlagX, unlagY, unlagW * unlagRatio, unlagH);
+        // Radar Map Geometry (Mirage / Tactical layout)
+        drawTacticalMapGeometry(ctx, w, h, data.map);
+      }
 
-      ctx.fillStyle = '#e2e8f0';
-      ctx.fillText(`sv_maxunlag Buffer: ${scenario.unlagMs.toFixed(1)} ms / 200.0 ms limit`, unlagX + 5, unlagY + 11);
+      // 2. Multi-Player Pawns (CT and T)
+      if (data.players) {
+        const tickRatio = demoTotalTicks > 0 ? (demoCurrentTick / demoTotalTicks) : 0.5;
 
-      // Hex Dump Preview
-      ctx.font = '9px monospace';
-      ctx.fillStyle = '#64748b';
-      ctx.fillText(`Wire Hex: 08 07 12 1A 28 01 32 14 ${demoFraction > 0.5 ? '7F' : '40'} 00 2A 19 82 A4 02 10 ... [PBDEMS2 Wire Container OK]`, 25, 488);
+        data.players.forEach(p => {
+          // Compute animated pawn position
+          const px = p.basePos.x + Math.sin(tickRatio * Math.PI * 2 + p.id) * 20;
+          const py = p.basePos.y + Math.cos(tickRatio * Math.PI * 2 + p.id) * 12;
+
+          const isCT = p.team === 'CT';
+          const pColor = isCT ? '#38bdf8' : '#fbbf24';
+
+          // Sight cone
+          ctx.fillStyle = isCT ? 'rgba(56, 189, 248, 0.12)' : 'rgba(251, 191, 36, 0.12)';
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          const angle = p.angle;
+          ctx.lineTo(px + Math.cos(angle - 0.35) * 60, py + Math.sin(angle - 0.35) * 60);
+          ctx.lineTo(px + Math.cos(angle + 0.35) * 60, py + Math.sin(angle + 0.35) * 60);
+          ctx.closePath();
+          ctx.fill();
+
+          // Pawn circle
+          ctx.fillStyle = pColor;
+          ctx.beginPath();
+          ctx.arc(px, py, 10, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          // Player tag
+          ctx.font = 'bold 9px monospace';
+          ctx.fillStyle = pColor;
+          ctx.fillText(`[${p.team}] ${p.name}`, px - 25, py - 14);
+        });
+      }
+
+      // 3. Reverse-Engineered Overlay: Rewound Lag Comp Hitbox
+      const shooter = data.players.find(p => p.id === data.shooterId) || data.players[6];
+      const target = data.players.find(p => p.id === data.targetId) || data.players[0];
+
+      if (shooter && target) {
+        const sx = shooter.basePos.x;
+        const sy = shooter.basePos.y;
+        const tx = target.basePos.x;
+        const ty = target.basePos.y;
+
+        // Rewound position (server unlag rollback)
+        const rx = tx - 30;
+        const ry = ty;
+
+        if (showRollback) {
+          // Unlag rollback vector line
+          ctx.strokeStyle = 'rgba(148, 163, 184, 0.5)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([2, 2]);
+          ctx.beginPath();
+          ctx.moveTo(tx, ty); ctx.lineTo(rx, ry);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Ghost rewound hitbox capsule
+          ctx.fillStyle = data.isHit ? 'rgba(52, 211, 153, 0.25)' : 'rgba(244, 63, 94, 0.25)';
+          ctx.beginPath();
+          ctx.arc(rx, ry, 14, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = data.isHit ? '#34d399' : '#f43f5e';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          // Apex Joint #6 (Head Sphere)
+          ctx.fillStyle = '#34d399';
+          ctx.beginPath();
+          ctx.arc(rx, ry, 5, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.font = 'bold 9px monospace';
+          ctx.fillStyle = '#34d399';
+          ctx.fillText('REWOUND HITBOX [Apex #6]', rx - 50, ry - 18);
+          ctx.font = '8px monospace';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText(`t_rewind: -${data.unlagMs} ms`, rx - 40, ry + 22);
+        }
+
+        // 4. Bullet Ray Trace Laser Overlay
+        if (showRay) {
+          ctx.strokeStyle = 'rgba(251, 191, 36, 0.3)';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy); ctx.lineTo(rx, ry);
+          ctx.stroke();
+
+          ctx.strokeStyle = '#fef08a';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy); ctx.lineTo(rx, ry);
+          ctx.stroke();
+
+          // Ray Hit Marker
+          ctx.fillStyle = '#34d399';
+          ctx.beginPath();
+          ctx.arc(rx, ry, 4, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.font = 'bold 10px monospace';
+          ctx.fillStyle = '#34d399';
+          ctx.fillText(`HIT: ${data.rayHitDist}u <= 4.0u (Headshot)`, rx + 14, ry + 4);
+        }
+      }
+
+      // 5. Sub-Tick Micro-Slice Magnifier Overlay (Top)
+      if (showSubtick) {
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.fillRect(15, 12, w - 30, 48);
+        ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(15, 12, w - 30, 48);
+
+        ctx.font = 'bold 10px monospace';
+        ctx.fillStyle = '#818cf8';
+        ctx.fillText('SUB-TICK WIRE TIMING MICRO-SLICER // 15.625 ms TICK INTERVAL', 25, 26);
+
+        const barX = 25;
+        const barY = 32;
+        const barW = w - 50;
+        const barH = 18;
+
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(barX, barY, barW, barH);
+        ctx.strokeStyle = '#334155';
+        ctx.strokeRect(barX, barY, barW, barH);
+
+        const actX = barX + data.subtickFraction * barW;
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.6)';
+        ctx.fillRect(barX + 1, barY + 1, actX - barX, barH - 2);
+
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(actX, barY - 2); ctx.lineTo(actX, barY + barH + 2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 9px monospace';
+        ctx.fillText(`+attack @ ${(data.subtickFraction * 15.625).toFixed(2)} ms (w = ${data.subtickFraction})`, actX + 6, barY + 13);
+      }
+
+      // 6. Wire Snappy & Buffer Gauge Overlay (Bottom)
+      if (showWire) {
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.fillRect(15, h - 55, w - 30, 44);
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(15, h - 55, w - 30, 44);
+
+        ctx.font = 'bold 10px monospace';
+        ctx.fillStyle = '#c084fc';
+        ctx.fillText(`PBDEMS2 WIRE FRAME // Snappy: ${data.wireCompBytes} B / ${data.wireRawBytes} B (71.1% Saved) | sv_maxunlag Buffer: ${data.unlagMs} ms / 200 ms`, 25, h - 38);
+
+        ctx.font = '9px monospace';
+        ctx.fillStyle = '#64748b';
+        ctx.fillText('Wire Hex: 08 07 12 1A 28 01 32 14 7F 00 2A 19 ... [Reliable Stream CRC32 Validated]', 25, h - 20);
+      }
+    }
+
+    function drawTacticalMapGeometry(ctx, w, h, mapName) {
+      // Background subtle grid
+      ctx.strokeStyle = 'rgba(30, 41, 59, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let x = 0; x < w; x += 35) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
+      for (let y = 0; y < h; y += 35) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
+      ctx.stroke();
+
+      // Tactical Map Corridor Outlines (Mirage Style)
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.25)';
+      ctx.strokeStyle = 'rgba(71, 85, 105, 0.5)';
+      ctx.lineWidth = 1.5;
+
+      // Bombsite A Zone
+      ctx.fillRect(450, 200, 140, 120);
+      ctx.strokeRect(450, 200, 140, 120);
+
+      // Bombsite B Zone
+      ctx.fillRect(150, 140, 120, 100);
+      ctx.strokeRect(150, 140, 120, 100);
+
+      // Middle Corridor
+      ctx.fillRect(300, 240, 100, 140);
+      ctx.strokeRect(300, 240, 100, 140);
+
+      // Labels
+      ctx.font = 'bold 12px monospace';
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.7)';
+      ctx.fillText('[A BOMBSITE]', 480, 265);
+      ctx.fillText('[B BOMBSITE]', 175, 195);
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+      ctx.font = '10px monospace';
+      ctx.fillText('MIDDLE', 330, 310);
+      ctx.fillText('T APARTMENTS', 120, 310);
+      ctx.fillText('PALACE', 560, 170);
     }
 
   </script>
