@@ -238,6 +238,8 @@ def run_drag_and_drop_pipeline(demo_file: str, auto_launch: bool = True) -> None
         cs2_exe,
         "-insecure",
         "-novid",
+        "-windowed",
+        "-noborder",
         "-netconport", "2121",
         "+playdemo", "auto_record_match",
         "+exec", "cs2_auto_record.cfg"

@@ -14,6 +14,7 @@ echo   - Layer 2: 3D Rewound Lag Comp Hitbox (Capsule + Apex #6 Head Sphere)
 echo   - Layer 3: Bullet Ray-Trace and Trajectory Vector
 echo   - Layer 4: Desync and Anomaly Rollback Alerts
 echo   - Layer 5: Interactive Settings Menu (Press F1 or INSERT in-game)
+echo   - Quick Hotkeys: [F1] Menu | [SPACE] Pause | [Left/Right] Seek | [F11] Hide/Show
 echo.
 echo ==============================================================================
 echo.

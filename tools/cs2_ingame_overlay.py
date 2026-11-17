@@ -58,6 +58,8 @@ VK_F2 = 0x71
 VK_F3 = 0x72
 VK_F4 = 0x73
 VK_F5 = 0x74
+VK_F10 = 0x79
+VK_F11 = 0x7A
 VK_ESCAPE = 0x1B
 VK_INSERT = 0x2D
 VK_SPACE = 0x20
@@ -416,7 +418,9 @@ class CS2InGameOverlayApp:
 
         # Win32 Click-Through State
         self.is_transparent_clickthrough = True
-        self.hwnd: Optional[int] = None
+        self.top_hwnd: Optional[int] = None
+        self.master_visible = True
+        self.is_window_showing = False
 
         # Previous hotkey states for edge-detection
         self.prev_f1 = False
@@ -428,6 +432,7 @@ class CS2InGameOverlayApp:
         self.prev_f3 = False
         self.prev_f4 = False
         self.prev_f5 = False
+        self.prev_f11 = False
         self.prev_escape = False
 
         # Initialize Tkinter Window
@@ -438,6 +443,9 @@ class CS2InGameOverlayApp:
         self.trans_color = "#000001"
         self.root.wm_attributes("-transparentcolor", self.trans_color)
         self.root.config(bg=self.trans_color)
+
+        # Initially withdraw (hide) until CS2 game window is confirmed visible
+        self.root.withdraw()
 
         # Canvas for 60 FPS graphics
         self.screen_w = 1920
@@ -470,23 +478,24 @@ class CS2InGameOverlayApp:
         self.root.after(16, self._main_loop)
 
     def _init_win32_window(self):
-        """Locates overlay HWND and sets initial WS_EX_LAYERED | WS_EX_TRANSPARENT style."""
-        self.hwnd = user32.GetParent(self.canvas.winfo_id())
-        if not self.hwnd:
-            self.hwnd = self.root.winfo_id()
+        """Locates true top-level Win32 HWND and sets initial click-through style."""
+        try:
+            self.top_hwnd = int(self.root.wm_frame(), 16)
+        except Exception:
+            self.top_hwnd = user32.FindWindowW(None, "CS2 Sub-Tick Wire HUD Overlay")
 
         self._set_clickthrough(True)
 
     def _set_clickthrough(self, enable: bool):
-        """Toggles Win32 WS_EX_TRANSPARENT style on overlay window."""
-        if not self.hwnd:
+        """Toggles Win32 WS_EX_TRANSPARENT style on the top-level overlay window."""
+        if not self.top_hwnd:
             return
-        style = user32.GetWindowLongW(self.hwnd, GWL_EXSTYLE)
+        style = user32.GetWindowLongW(self.top_hwnd, GWL_EXSTYLE)
         if enable:
-            user32.SetWindowLongW(self.hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED | WS_EX_TRANSPARENT)
+            user32.SetWindowLongW(self.top_hwnd, GWL_EXSTYLE, style | WS_EX_TRANSPARENT)
             self.is_transparent_clickthrough = True
         else:
-            user32.SetWindowLongW(self.hwnd, GWL_EXSTYLE, (style | WS_EX_LAYERED) & ~WS_EX_TRANSPARENT)
+            user32.SetWindowLongW(self.top_hwnd, GWL_EXSTYLE, style & ~WS_EX_TRANSPARENT)
             self.is_transparent_clickthrough = False
 
     def _netcon_worker(self):
@@ -560,6 +569,13 @@ class CS2InGameOverlayApp:
             self.show_anomalies = not self.show_anomalies
         self.prev_f5 = cur_f5
 
+        # F11 or F10: Master Overlay Hide/Show Toggle
+        cur_f11 = bool((user32.GetAsyncKeyState(VK_F11) | user32.GetAsyncKeyState(VK_F10)) & 0x8000)
+        if cur_f11 and not self.prev_f11:
+            self.master_visible = not self.master_visible
+            print(f"[OVERLAY] Master overlay visibility: {'SHOWN' if self.master_visible else 'HIDDEN'}")
+        self.prev_f11 = cur_f11
+
     def toggle_menu(self):
         """Toggles the in-game settings menu and flips click-through mode."""
         self.menu_open = not self.menu_open
@@ -570,18 +586,30 @@ class CS2InGameOverlayApp:
             # Re-enable full pass-through so clicks go straight into CS2
             self._set_clickthrough(True)
 
-    def _sync_window_position(self):
-        """Snaps overlay window directly to CS2 client bounds."""
+    def _sync_window_position(self) -> bool:
+        """Snaps overlay window directly to CS2 client bounds and manages visibility."""
         cs2_rect = get_cs2_window_rect()
-        if cs2_rect:
-            x, y, w, h = cs2_rect
-            if (w != self.screen_w or h != self.screen_h or x != self.win_x or y != self.win_y):
-                self.screen_w = w
-                self.screen_h = h
-                self.win_x = x
-                self.win_y = y
-                self.root.geometry(f"{w}x{h}+{x}+{y}")
-                self.canvas.config(width=w, height=h)
+        if not cs2_rect or not self.master_visible:
+            if self.is_window_showing:
+                self.root.withdraw()
+                self.is_window_showing = False
+            return False
+
+        x, y, w, h = cs2_rect
+        if not self.is_window_showing:
+            self.root.deiconify()
+            self._set_clickthrough(not self.menu_open)
+            self.is_window_showing = True
+
+        if (w != self.screen_w or h != self.screen_h or x != self.win_x or y != self.win_y):
+            self.screen_w = w
+            self.screen_h = h
+            self.win_x = x
+            self.win_y = y
+            self.root.geometry(f"{w}x{h}+{x}+{y}")
+            self.canvas.config(width=w, height=h)
+
+        return True
 
     def _main_loop(self):
         """Master 60 FPS update and rendering loop."""
@@ -593,13 +621,14 @@ class CS2InGameOverlayApp:
         self._poll_global_hotkeys()
 
         # 2. Sync window geometry to CS2
-        self._sync_window_position()
+        active = self._sync_window_position()
 
-        # 3. Advance timeline
-        self.timeline.advance(dt)
-
-        # 4. Render graphics on Canvas
-        self._render_frame()
+        # 3. Only render if overlay is active and visible
+        if active:
+            # Advance timeline
+            self.timeline.advance(dt)
+            # Render graphics on Canvas
+            self._render_frame()
 
         # Schedule next frame (~60 FPS)
         self.root.after(16, self._main_loop)
