@@ -3575,6 +3575,98 @@ window.CS2_TOOLS_DATA = [
     "usage": "Ghidra Script Manager: Source2 -> Source2_BaseTypes.java",
     "exampleOutput": "[+] Successfully registered 11 Source 2 base types in /Source2/BaseTypes",
     "codeSnippet": "StructureDataType transform = new StructureDataType(cat, \"CTransform\", 32, dtm);\ntransform.replaceAtOffset(0, quat, 16, \"rot\", \"Rodrigues rotation quaternion\");\ntransform.replaceAtOffset(16, vec, 12, \"pos\", \"Translation world position\");\ndtm.addDataType(transform, DataTypeConflictHandler.REPLACE_HANDLER);"
+  },
+  {
+    "id": "generate_game_interfaces",
+    "name": "generate_game_interfaces.py",
+    "category": "SDK & Interface Codecs",
+    "language": "Python 3",
+    "targets": [
+      "data/vtables.json",
+      "data/function_signatures.json",
+      "game/interfaces/"
+    ],
+    "summary": "Automated C++20 virtual interface generator parsing 13,365 VTables and 101 canonical slots to emit type-safe abstract headers.",
+    "purpose": "Parses data/vtables.json and data/function_signatures.json to synthesize pure virtual abstract C++20 class headers in game/interfaces/ (INetworkServerService, INetworkClientService, ISource2Server, ISource2Client, IEngineCVar, ISchemaSystem, IMemAlloc, IInputSystem, IFileSystem, ITraceManager). Guarantees exact virtual function slot index alignment matching the MSVC x64 ABI layout.",
+    "usage": "python tools/generate_game_interfaces.py",
+    "exampleOutput": "=================================================================\n SOURCE 2 C++20 INTERFACE GENERATOR\n=================================================================\nLoaded 13,365 VTables from data/vtables.json\nGenerating interfaces for 10 canonical classes...\n  [+] Generated game/interfaces/network_server_service.h (51 slots)\n  [+] Generated game/interfaces/network_client_service.h (64 slots)\n  [+] Generated game/interfaces/source2_server.h (103 slots)\n  [+] Generated game/interfaces/source2_client.h (211 slots)\n  [+] Generated game/interfaces/cvar.h (46 slots)\n  [+] Generated game/interfaces/schema_interface.h (40 slots)\n  [+] Generated game/interfaces/memalloc.h (40 slots)\n  [+] Generated game/interfaces/input_system.h (106 slots)\n  [+] Generated game/interfaces/file_system.h (128 slots)\n  [+] Generated game/interfaces/trace_manager.h (6 slots)\n  [+] Updated game/interfaces/interfaces.h master registry\nAll 10 interface headers generated successfully!",
+    "codeSnippet": "def generate_interface(class_name, token, binary, target_header, total_slots, known_slots):\n    lines = ['#pragma once', '#include \"interfaces.h\"', 'namespace cs2::interfaces {', f'class {class_name} {\\npublic:\\n    virtual ~{class_name}() = default;']\n    for i in range(1, total_slots):\n        if i in known_slots:\n            lines.append(f'    virtual {known_slots[i][0]} {known_slots[i][1]} = 0; // slot {i}')\n        else:\n            lines.append(f'    virtual void Unk{i:02d}() = 0; // slot {i}')"
+  },
+  {
+    "id": "generate_schema_classes",
+    "name": "generate_schema_classes.py",
+    "category": "SDK & Interface Codecs",
+    "language": "Python 3",
+    "targets": [
+      "versions/profiles/schemas.json",
+      "game/shared/schema_classes/"
+    ],
+    "summary": "Automated C++20 SchemaSystem class generator emitting type-safe entity classes with zero-overhead offset accessors.",
+    "purpose": "Parses extracted schemas.json profiles (2,276 classes) to synthesize modern C++20 entity headers (C_CSPlayerPawn, CCSPlayerController, C_BaseEntity, C_SmokeGrenadeProjectile, C_PlantedC4). Resolves inheritance hierarchies, bit offsets, Hungarian type descriptors, and equips every property with lvalue-reference accessors (SCHEMA_FIELD) for safe zero-overhead memory inspection.",
+    "usage": "python tools/generate_schema_classes.py --schemas versions/profiles/2026-11-11_26598758/schemas.json",
+    "exampleOutput": "=================================================================\n SOURCE 2 C++20 SCHEMA CLASS GENERATOR\n=================================================================\nLoaded 2,276 classes from schemas.json\nGenerating C++20 classes for core entities...\n  [+] Generated game/shared/schema_classes/C_BaseEntity.h\n  [+] Generated game/shared/schema_classes/C_CSPlayerPawn.h\n  [+] Generated game/shared/schema_classes/CCSPlayerController.h\n  [+] Generated game/shared/schema_classes/C_SmokeGrenadeProjectile.h\n  [+] Generated game/shared/schema_classes/C_PlantedC4.h\n  [+] Generated game/shared/schema_classes/schema_classes.h master header\nSuccessfully generated schema entity classes!",
+    "codeSnippet": "#define SCHEMA_FIELD(type, name, offset) \\\n    [[nodiscard]] std::add_lvalue_reference_t<type> name() noexcept { \\\n        return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \\\n    }"
+  },
+  {
+    "id": "resolve_vtables",
+    "name": "resolve_vtables.py",
+    "category": "RTTI & VTable Crawlers",
+    "language": "Python 3",
+    "targets": [
+      "Universal (All 10 Core DLLs)",
+      "data/vtables.json"
+    ],
+    "summary": "Ultra-fast offline VTable scanner and Ghidra Headless orchestrator resolving 13,365 VTables and 101 canonical slots across CS2 binaries.",
+    "purpose": "Scans .rdata sections across PE binaries for MSVC x64 _RTTICompleteObjectLocator descriptors, demangles class hierarchies, extracts consecutive 64-bit function pointers pointing to executable .text code, and correlates slot indices against AlliedModders s2sdk interfaces. Runs at >2,000 vtables/second offline or headlessly drives Ghidra via Source2_VTableResolver.java.",
+    "usage": "python tools/ghidra/resolve_vtables.py --output data/vtables.json",
+    "exampleOutput": "Scanning 10 core binaries for Source 2 VTables...\nclient.dll: 4,120 vtables found\nserver.dll: 3,890 vtables found\nengine2.dll: 1,450 vtables found\nTotal VTables Resolved: 13,365 (101 canonical slots mapped)",
+    "codeSnippet": "for off in range(0, len(rdata) - 8, 8):\n    fn_ptr = struct.unpack_from('<Q', rdata, off)[0]\n    if is_executable_text(fn_ptr):\n        vtable_methods.append(fn_ptr)"
+  },
+  {
+    "id": "port_signatures_to_ghidra",
+    "name": "port_signatures_to_ghidra.py",
+    "category": "Ghidra Integration",
+    "language": "Python 3 & Java",
+    "targets": [
+      "CS2.gpr",
+      "data/function_signatures.json"
+    ],
+    "summary": "Headless Ghidra orchestrator synchronizing all 43 canonical function signatures, namespaces, labels, and bookmarks into Ghidra projects.",
+    "purpose": "Bridges the data/function_signatures.json registry with Ghidra. Dispatches analyzeHeadless across all binaries in the project, running Source2_PortSignatures.java to resolve ImageBase + current_rva, rename functions with proper C++ namespaces, disassemble missing instructions, and create bookmarks under category 'CS2 Canonical Signature'.",
+    "usage": "python tools/ghidra/port_signatures_to_ghidra.py --project-dir <CS2_DIR> --project-name CS2",
+    "exampleOutput": "Processing server.dll (14 signatures)...\n  [+] Renamed FUN_180a90280 -> EvaluateBulletPenetration\n  [+] Renamed FUN_180ed27d0 -> CLagCompensationManager::StartLagCompensation\n  [+] Bookmarked 14 canonical signatures under 'CS2 Canonical Signature'\nFinished porting across 34 binaries.",
+    "codeSnippet": "proc = subprocess.run([analyze_bat, project_dir, project_name, '-process', bin_name, '-noanalysis', '-postScript', 'Source2_PortSignatures.java', str(sigs_path)])"
+  },
+  {
+    "id": "generate_signature",
+    "name": "generate_signature.py",
+    "category": "Binary Scanning & Automation",
+    "language": "Python 3",
+    "targets": [
+      "versions/archive/",
+      "data/function_signatures.json"
+    ],
+    "summary": "Automated unique opcode discriminator and IDA/Ghidra signature pattern generator.",
+    "purpose": "Given a target binary and RVA/VA, disassembles machine instructions, identifies invariant opcodes while masking RIP-relative offsets, immediate addresses, and dynamic relocations into '??' wildcards, and iteratively expands the byte pattern until it matches exactly 1 time across the entire binary.",
+    "usage": "python tools/generate_signature.py --binary server.dll --rva 0x00ed27d0 --name CLagCompensationManager::StartLagCompensation",
+    "exampleOutput": "Generating signature for server.dll @ RVA 0x00ed27d0...\nCandidate (16 bytes): 48 89 5c 24 08 48 89 6c 24 10 48 89 74 24 18 57 (Matches: 14)\nExpanded  (28 bytes): 48 89 5c 24 08 48 89 6c 24 10 48 89 74 24 18 57 48 83 ec 20 48 8b f9 e8 ?? ?? ?? ?? (Matches: 1)\n[+] UNIQUE SIGNATURE GENERATED: 100% uniqueness verified!",
+    "codeSnippet": "pattern = generate_masked_pattern(data, rva, min_len=16)\nwhile count_matches(data, pattern) > 1:\n    pattern = expand_pattern(data, pattern)"
+  },
+  {
+    "id": "update_orchestrator",
+    "name": "update_orchestrator.py",
+    "category": "Binary Scanning & Automation",
+    "language": "Python 3",
+    "targets": [
+      "data/function_signatures.json",
+      "versions/profiles/",
+      "versions/diffs/"
+    ],
+    "summary": "Single-command master game update ingestion engine executing diffing, signature migration, and profile generation.",
+    "purpose": "Executes the authoritative Source 2 update protocol whenever Valve pushes a new build: archives binaries, diffs exports and PE geometry, scans all 43 function signatures with delta displacement calculation, regenerates profiles, and writes markdown release diff reports.",
+    "usage": "python tools/update_orchestrator.py --target-build 2026-11-11_26598758",
+    "exampleOutput": "=== Source 2 Game Update Ingestion Engine ===\nScanning 43 canonical signatures across 34 updated binaries...\n  [+] All 43 signatures successfully migrated! Zero broken signatures.\nGenerating markdown diff report in versions/diffs/2026-11-11_26598758.md...",
+    "codeSnippet": "def run_update_pipeline(build_tag):\n    run_patch_diff(build_tag)\n    run_signature_scan(build_tag, update_db=True)\n    run_portal_sync()"
   }
 ];
 

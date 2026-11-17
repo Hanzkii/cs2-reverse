@@ -17,6 +17,7 @@
  *  11. Multi-Material Bullet Penetration & 8-Way HitGroup Armor Mitigation (server.dll)
  *  12. Volumetric Smoke 3D Morton Voxel Grid & Carving (particles.dll)
  *  13. Multi-Binary Interfaces Registry & Dynamic Factory Dispatch (sdk/ & interfaces/)
+ *  14. Synthesized SchemaSystem C++20 Classes & Dynamic Lvalue Accessors (game/shared/schema_classes/)
  * 
  * Standards: Pure ISO C++20, Zero external dependencies, MSVC x64 compliant (/W4 /WX).
  */
@@ -32,6 +33,9 @@
 
 // Master SDK Header (automatically pulls in sdk/ and game/ through game_bridge.hpp)
 #include "sdk/cs2_sdk.hpp"
+
+// Reconstructed Schema Classes (C++20 Zero-Overhead Accessors)
+#include "game/shared/schema_classes/schema_classes.h"
 
 using namespace cs2;
 
@@ -753,8 +757,109 @@ int main() {
         std::cout << "  -> SUCCESS: Multi-binary interfaces registry and factory capture verified.\n";
     }
 
+    // -------------------------------------------------------------------------
+    // Test 14: Synthesized SchemaSystem C++20 Classes & Dynamic Accessors
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 14] Testing C++20 SchemaSystem Synthesized Classes & Dynamic Accessors...\n";
+    {
+        // 1. Compile-time sizeof guarantees matching Source 2 engine schema
+        static_assert(sizeof(schema::CEntityInstance) == 0x30);
+        static_assert(sizeof(schema::C_BaseEntity) == 0x600);
+        static_assert(sizeof(schema::C_CSPlayerPawnBase) == 0x1568);
+        static_assert(sizeof(schema::C_CSPlayerPawn) == 0x3750);
+        static_assert(sizeof(schema::CBasePlayerController) == 0x7D8);
+        static_assert(sizeof(schema::CCSPlayerController) == 0xAB8);
+        static_assert(sizeof(schema::C_BasePlayerWeapon) == 0x1950);
+        static_assert(sizeof(schema::C_CSWeaponBase) == 0x1F60);
+        static_assert(sizeof(schema::C_SmokeGrenadeProjectile) == 0x1500);
+        static_assert(sizeof(schema::C_PlantedC4) == 0x1958);
+        static_assert(sizeof(schema::CGameSceneNode) == 0x110);
+
+        // 2. C_BaseEntity instantiation, offset resolution & lvalue access
+        schema::C_BaseEntity entity{};
+        entity.m_iHealth() = 100;
+        entity.m_iMaxHealth() = 100;
+
+        // Verify exact byte offsets in memory (+0x348, +0x34C)
+        const uintptr_t entityBase = reinterpret_cast<uintptr_t>(&entity);
+        assert(reinterpret_cast<uintptr_t>(&entity.m_iHealth()) - entityBase == 0x34C);
+        assert(reinterpret_cast<uintptr_t>(&entity.m_iMaxHealth()) - entityBase == 0x348);
+
+        // Const lvalue reference access
+        const schema::C_BaseEntity& constEntity = entity;
+        assert(constEntity.m_iHealth() == 100);
+        assert(constEntity.m_iMaxHealth() == 100);
+
+        // 3. Pointer field accessor and hierarchical scene node traversal (+0x330)
+        schema::CGameSceneNode sceneNode{};
+        sceneNode.m_vecOrigin() = shared::Vector3D(128.0f, -256.0f, 64.0f);
+        entity.m_pGameSceneNode() = &sceneNode;
+        assert(constEntity.m_pGameSceneNode() == &sceneNode);
+        assert(constEntity.m_pGameSceneNode()->m_vecOrigin().x == 128.0f);
+        assert(reinterpret_cast<uintptr_t>(&entity.m_pGameSceneNode()) - entityBase == 0x330);
+
+        // 4. C_CSPlayerPawn pawn-specific fields (+0x15A8, +0x15CF)
+        schema::C_CSPlayerPawn pawn{};
+        pawn.m_flHealthShotBoostExpirationTime() = 12.5f;
+        pawn.m_bPrevHelmet() = true;
+
+        const uintptr_t pawnBase = reinterpret_cast<uintptr_t>(&pawn);
+        assert(reinterpret_cast<uintptr_t>(&pawn.m_flHealthShotBoostExpirationTime()) - pawnBase == 0x15A8);
+        assert(reinterpret_cast<uintptr_t>(&pawn.m_bPrevHelmet()) - pawnBase == 0x15CF);
+
+        const schema::C_CSPlayerPawn& constPawn = pawn;
+        assert(constPawn.m_flHealthShotBoostExpirationTime() == 12.5f);
+        assert(constPawn.m_bPrevHelmet() == true);
+
+        // 4. CCSPlayerController instantiation, ping, and handle linking
+        schema::CCSPlayerController controller{};
+        controller.m_iPing() = 24;
+        controller.m_hPawn() = shared::CEntityHandle(64, 2);
+        assert(controller.m_iPing() == 24);
+        assert(controller.m_hPawn().GetEntryIndex() == 64);
+        assert(controller.m_hPawn().GetSerialNumber() == 2);
+        assert(reinterpret_cast<uintptr_t>(&controller.m_iPing()) - reinterpret_cast<uintptr_t>(&controller) == 0x808);
+
+        // 5. C_CSWeaponBase ammunition and attack ticks
+        schema::C_CSWeaponBase weapon{};
+        weapon.m_iClip1() = 30;
+        weapon.m_iClip2() = 0;
+        weapon.m_nNextPrimaryAttackTick() = 2048;
+        assert(weapon.m_iClip1() == 30);
+        assert(weapon.m_nNextPrimaryAttackTick() == 2048);
+        assert(reinterpret_cast<uintptr_t>(&weapon.m_iClip1()) - reinterpret_cast<uintptr_t>(&weapon) == 0x1928);
+        assert(reinterpret_cast<uintptr_t>(&weapon.m_nNextPrimaryAttackTick()) - reinterpret_cast<uintptr_t>(&weapon) == 0x1918);
+
+        // 6. C_SmokeGrenadeProjectile detonation and volumetric color
+        schema::C_SmokeGrenadeProjectile smoke{};
+        smoke.m_bDidSmokeEffect() = true;
+        smoke.m_vSmokeColor() = shared::Vector3D(0.75f, 0.75f, 0.85f);
+        smoke.m_vSmokeDetonationPos() = shared::Vector3D(500.0f, 600.0f, 0.0f);
+        assert(smoke.m_bDidSmokeEffect() == true);
+        assert(smoke.m_vSmokeColor().z == 0.85f);
+        assert(reinterpret_cast<uintptr_t>(&smoke.m_vSmokeColor()) - reinterpret_cast<uintptr_t>(&smoke) == 0x136C);
+        assert(reinterpret_cast<uintptr_t>(&smoke.m_vSmokeDetonationPos()) - reinterpret_cast<uintptr_t>(&smoke) == 0x1378);
+
+        // 7. C_PlantedC4 bomb state & countdown timer
+        schema::C_PlantedC4 plantedC4{};
+        plantedC4.m_bBombTicking() = true;
+        plantedC4.m_nBombSite() = 1; // Site B
+        plantedC4.m_flC4Blow() = 40.0f;
+        assert(plantedC4.m_bBombTicking() == true);
+        assert(plantedC4.m_nBombSite() == 1);
+        assert(plantedC4.m_flC4Blow() == 40.0f);
+        assert(reinterpret_cast<uintptr_t>(&plantedC4.m_bBombTicking()) - reinterpret_cast<uintptr_t>(&plantedC4) == 0x1288);
+        assert(reinterpret_cast<uintptr_t>(&plantedC4.m_flC4Blow()) - reinterpret_cast<uintptr_t>(&plantedC4) == 0x12B8);
+
+        std::cout << "  Schema Footprint:   C_CSPlayerPawn (0x3750), CCSPlayerController (0xAB8), C_CSWeaponBase (0x1F60)\n";
+        std::cout << "  Offset Resolution:  m_iHealth (+0x34C), m_flHealthShotBoost (+0x15A8), m_iPing (+0x808), m_flC4Blow (+0x12B8)\n";
+        std::cout << "  C++20 Lvalue Refs:  Mutable assignment & const-qualified access verified\n";
+        std::cout << "  Scene Graph Link:   CGameSceneNode* (+0x330) hierarchical origin traversal verified\n";
+        std::cout << "  -> SUCCESS: Synthesized C++20 schema classes and dynamic accessors validated.\n";
+    }
+
     std::cout << "\n=================================================================\n";
-    std::cout << " ALL 13 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
+    std::cout << " ALL 14 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
     std::cout << "=================================================================\n";
     return 0;
 }
