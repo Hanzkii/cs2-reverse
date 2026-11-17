@@ -1353,6 +1353,18 @@ TOOLS_DATA = [
         "codeSnippet": "proc = subprocess.run([analyze_bat, project_dir, project_name, '-process', bin_name, '-noanalysis', '-postScript', 'Source2_PortSignatures.java', str(sigs_path)])"
     },
     {
+        "id": "sync_live_ghidra",
+        "name": "sync_live_ghidra.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3",
+        "targets": ["GhidraMCP (Port 8089)", "CS2.gpr", "data/function_signatures.json"],
+        "summary": "Live in-memory Ghidra project synchronizer annotating symbols, functions, and bookmarks directly via GhidraMCP without file-locking conflicts.",
+        "purpose": "Connects to active Ghidra GUI or headless server via the GhidraMCP HTTP REST bridge. Bypasses exclusive analyzeHeadless project locks (CS2.lock) to programmatically open target binaries, create and rename functions, apply Plate comments, and set bookmarks under 'CS2 Canonical Signature' across all update binaries in real time.",
+        "usage": "python tools/ghidra/sync_live_ghidra.py --port 8089 --version-folder /2026-11-11_26598758",
+        "exampleOutput": "[+] Connected to GhidraMCP: Connected with program 'server.dll'\n[*] Opening /2026-11-11_26598758/server.dll (12 signatures)...\n  [+] Synced server.dll: 12 functions created/renamed, 12 bookmarked\n  [+] Saved server.dll successfully\nAll 11 target binaries synced in 5.8s!",
+        "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nclient.open_program(f'{folder}/{binary_name}')\nclient.create_function(clean_va, name)\nclient.set_bookmark(clean_va, 'CS2 Canonical Signature', comment)\nclient.save_program(binary_name)"
+    },
+    {
         "id": "import_sdk_types",
         "name": "import_sdk_types.py & Source2_ImportSDKTypes.java",
         "category": "Ghidra Integration",
