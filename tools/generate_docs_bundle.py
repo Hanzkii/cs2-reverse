@@ -161,6 +161,13 @@ metadata_map = {
         "category": "Volumetric & Particles",
         "badge": "Particle Dynamics",
         "order": 22
+    },
+    "ghidra_mcp_extensions.md": {
+        "id": "ghidra-mcp-extensions",
+        "title": "GhidraMCP Architecture Extensions & Source 2 Analysis Toolkit",
+        "category": "Architecture & Tools",
+        "badge": "Ghidra Toolkit",
+        "order": 23
     }
 }
 

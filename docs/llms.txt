@@ -152,6 +152,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [19_hit_registration_and_armor_damage.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md)
 - [20_source2_reconstructed_sdk_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md)
 - [ballistic_penetration_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md)
+- [ghidra_mcp_extensions.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ghidra_mcp_extensions.md)
 - [inferno_combustion_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md)
 - [kv3_resource_system.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/kv3_resource_system.md)
 - [lag_compensation_rollback.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/lag_compensation_rollback.md)

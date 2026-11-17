@@ -1490,6 +1490,66 @@ TOOLS_DATA = [
         "codeSnippet": "dtm = currentProgram.getDataTypeManager()\nstruct = StructureDataType(CategoryPath('/Source2/Classes'), cls_name, cls_size, dtm)\nstruct.replaceAtOffset(offset, field_type, field_size, field_name, comment)\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER)"
     },
     {
+        "id": "cs2_ghidra_toolkit",
+        "name": "cs2_ghidra_toolkit.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3",
+        "targets": ["GhidraMCP (Port 8089)", "All Core DLLs"],
+        "summary": "Unified command-line orchestrator extending GhidraMCP with advanced type injection, prototype synchronization, RTTI scanning, and xref tracing.",
+        "purpose": "Provides a single master interface to automate Ghidra analysis across CS2 binaries without project lock collisions. Orchestrates status diagnostics, DataTypeManager injection, C++ prototype syncing, MSVC RTTI discovery, and caller/callee cross-reference inspection.",
+        "usage": "python tools/ghidra/cs2_ghidra_toolkit.py <command> [--binary <dll>] [--all]",
+        "exampleOutput": "==========================================================================================\n  GHIDRA MCP BRIDGE STATUS REPORT\n==========================================================================================\n[+] Status: ONLINE (Connected with program 'vphysics2.dll')\n  Function Count: 6,568 | Symbol Count: 7,125 | Data Type Count: 301",
+        "codeSnippet": "client = GhidraClient(port=8089)\nclient.open_program(path)\ninject_types_into_binary(client, binary)\nsync_prototypes_for_binary(client, binary, sigs)\nscan_binary_rtti(client, binary, annotate=True)\nclient.save_program(binary)"
+    },
+    {
+        "id": "inject_source2_types",
+        "name": "inject_source2_types.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3 & Java",
+        "targets": ["GhidraMCP (Port 8089)", "DataTypeManager"],
+        "summary": "Live in-memory Source 2 struct, vector, handle, container, and C99 integer injector for Ghidra.",
+        "purpose": "Injects Vector2D, Vector, Vector4D, QAngle, Quaternion, Matrix3x4_t, CTransform, CEntityIndex, CEntityHandle, CUtlStringToken, CUtlString, CUtlMemory, CUtlVector, Ray_t, and RaycastHit_t directly into Ghidra's DataTypeManager so disassembled code displays high-level member accesses instead of raw byte offsets.",
+        "usage": "python tools/ghidra/inject_source2_types.py --all",
+        "exampleOutput": "[+] Connected to Ghidra: Connected with program 'server.dll'\n[*] Executing Type Injection Script for server.dll...\n[+] Successfully injected types into server.dll!\n[+] Saved server.dll in Ghidra database.\nSource 2 Type Injection Complete: 11/11 binaries updated",
+        "codeSnippet": "StructureDataType vec3 = new StructureDataType(root, \"Vector\", 0);\nvec3.add(dtFloat, 4, \"x\", \"X coordinate\");\nvec3.add(dtFloat, 4, \"y\", \"Y coordinate\");\nvec3.add(dtFloat, 4, \"z\", \"Z coordinate\");\ndtm.addDataType(vec3, DataTypeConflictHandler.REPLACE_HANDLER);"
+    },
+    {
+        "id": "sync_function_prototypes",
+        "name": "sync_function_prototypes.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3",
+        "targets": ["GhidraMCP (Port 8089)", "data/function_signatures.json"],
+        "summary": "Live C++ function prototype and __fastcall calling convention synchronizer for all 46 canonical reversed functions.",
+        "purpose": "Replaces generic 'undefined8 FUN_180...()' signatures in Ghidra with accurate, typed C++ prototypes, argument types, return values, and calling conventions, converting low-level decompiler listings into clear C++ Source 2 code.",
+        "usage": "python tools/ghidra/sync_function_prototypes.py --all",
+        "exampleOutput": "[*] Target Binary: server.dll (15 signatures)\n  [+] CCSPlayerPawn::ApplyArmorDamageCalculation @ 0x180a81610 -> float ApplyArmorDamageCalculation(void* this, float flDamage, float flArmorRatio, int nHitGroup, bool* pbArmorAbsorbed) [__fastcall]\n  [+] CInferno::InfernoThink @ 0x180346090 -> void InfernoThink(void* this) [__fastcall]\n[+] Saved server.dll (15 prototypes applied)",
+        "codeSnippet": "payload = {'function_address': va, 'prototype': proto_str, 'calling_convention': conv_str}\nclient.post_json('/set_function_prototype', payload)"
+    },
+    {
+        "id": "scan_rtti_vtables",
+        "name": "scan_rtti_vtables.py",
+        "category": "RTTI & VTable Crawlers",
+        "language": "Python 3 & Java",
+        "targets": ["GhidraMCP (Port 8089)", "All Core DLLs"],
+        "summary": "Fast in-memory MSVC x64 RTTI crawler and VTable auto-discovery engine recovering polymorphic classes and slot counts.",
+        "purpose": "Scans PE .rdata sections for 64-bit Complete Object Locators (signature == 1 && pSelf == RVA), demangles class names from TypeDescriptors, locates referencing VTables in O(1) via an inverted pointer index, counts executable code pointers, and creates user-defined symbols and bookmarks.",
+        "usage": "python tools/ghidra/scan_rtti_vtables.py --binary server.dll --annotate",
+        "exampleOutput": "MSVC x64 RTTI & VTABLE SCAN REPORT: server.dll\nTotal Polymorphic Classes Recovered: 300\n  CPointEntity: 0x18176c508 (238 slots)\n  IGameSystem: 0x18176c290 (65 slots)\n  CBaseClientUIEntity: 0x18176d2d8 (256 slots)\n[+] Classes with Valid VTables: 300 / 300",
+        "codeSnippet": "if (sig == 1 && pSelf == (int)expectedRva) {\n    vtableAddr = ptrMap.get(locAddr.getOffset()).get(0).add(8);\n    symTable.createLabel(vtableAddr, \"vftable_\" + className, SourceType.USER_DEFINED);\n}"
+    },
+    {
+        "id": "trace_xrefs",
+        "name": "trace_xrefs.py",
+        "category": "Ghidra Integration",
+        "language": "Python 3 & Java",
+        "targets": ["GhidraMCP (Port 8089)", "Active Program"],
+        "summary": "Sub-second cross-reference and call graph analyzer tracing callers, callees, and string references in Ghidra.",
+        "purpose": "Queries Ghidra's ReferenceManager and Function call graphs to expose incoming code references, outgoing callee lists, and string literal cross-references in formatted CLI tables or machine-readable JSON.",
+        "usage": "python tools/ghidra/trace_xrefs.py --target ConvexPolyhedronRaycast\npython tools/ghidra/trace_xrefs.py --string \"Molotov extinguished\"",
+        "exampleOutput": "==========================================================================================\n  TARGET: ConvexPolyhedronRaycast\n  Address: 0x1802544a0 | RVA: 0x2544a0\n==========================================================================================\n[+] Incoming Cross-References (1 found):\n  0x180580554 | 0x580554 | unassigned | DATA",
+        "codeSnippet": "ReferenceIterator refsTo = refMgr.getReferencesTo(targetAddr);\nwhile (refsTo.hasNext()) {\n    Reference ref = refsTo.next();\n    Function caller = getFunctionContaining(ref.getFromAddress());\n}"
+    },
+    {
         "id": "generate_signature",
         "name": "generate_signature.py",
         "category": "Binary Scanning & Automation",
