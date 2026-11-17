@@ -1095,6 +1095,24 @@
         </div>
       </div>
 
+      <!-- Desktop 1-Click Drag-and-Drop Automation Callout -->
+      <div class="p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-indigo-950/60 via-slate-900 to-purple-950/40 border border-indigo-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono shadow-lg">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-indigo-600/30 border border-indigo-400/40 flex items-center justify-center text-indigo-300 font-extrabold text-sm shrink-0">
+            3D
+          </div>
+          <div>
+            <div class="font-bold text-white flex flex-wrap items-center gap-2">
+              <span>Desktop 1-Click 3D In-Game Movie Automation (HLAE / CS2 Engine)</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Zero Typing</span>
+            </div>
+            <div class="text-[11px] text-slate-400 mt-0.5">
+              Drag and drop any <code class="text-indigo-300">.dem</code> directly onto <code class="text-cyan-300 font-bold">DRAG_AND_DROP_DEMO_HERE.bat</code> in the repository root to automatically launch CS2, record 3D game frames, and composite reverse-engineered overlays into MP4.
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- File Drag-and-Drop Ingestion Zone -->
       <div id="demoDropzone" class="p-5 sm:p-6 rounded-2xl border-2 border-dashed border-slate-700 hover:border-indigo-500 bg-slate-900/50 hover:bg-indigo-950/20 transition-all text-center cursor-pointer group" onclick="document.getElementById('demoFileInput').click()">
         <input type="file" id="demoFileInput" accept=".dem,.json" class="hidden" onchange="handleDemoFileUpload(this)">
@@ -11587,6 +11605,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
             demoCurrentTick = 32;
             demoPlaybackData = generateDemoMatchTelemetry('de_dust2', 64, file.name, file.size);
             updateDemoAnalyzerView();
+            if (!demoIsPlaying) toggleDemoPlayback();
           }
         };
         reader.readAsArrayBuffer(file.slice(0, 32));
@@ -11608,6 +11627,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
               slider.value = demoCurrentTick;
             }
             updateDemoAnalyzerView();
+            if (!demoIsPlaying) toggleDemoPlayback();
           } catch (err) {
             if (statusEl) {
               statusEl.innerHTML = `<span class="text-rose-400 font-bold font-mono">JSON Parse Error:</span> ${err.message}`;
