@@ -66,7 +66,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **interfaces** (`game/interfaces/`): `cvar.h`, `engine_client.h`, `file_system.h`, `game_event_manager.h`, `input_system.h`, `interfaces.h`, `memalloc.h`, `network_client_service.h`, `network_server_service.h`, `schema_interface.h`, `sound_system.h`, `source2_client.h`, `source2_server.h`, `trace_manager.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/interfaces)
 - **materialsystem2.dll** (`game/materialsystem2/`): `material_system2.cpp`, `material_system2.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/materialsystem2)
 - **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h`, `pathfinder.cpp`, `pathfinder.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
-- **networksystem.dll** (`game/networksystem/`): `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
+- **networksystem.dll** (`game/networksystem/`): `demo_reader.cpp`, `demo_reader.h`, `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
 - **panorama.dll** (`game/panorama/`): `panorama_engine.cpp`, `panorama_engine.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/panorama)
 - **particles.dll** (`game/particles/`): `inferno_fire_grid.cpp`, `inferno_fire_grid.h`, `particle_system.cpp`, `particle_system.h`, `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
 - **pulse_system.dll** (`game/pulse_system/`): `pulse_interpreter.cpp`, `pulse_interpreter.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/pulse_system)
@@ -128,6 +128,27 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `server.dll` | `CInferno::InfernoThink` | `0x00346090` | `0x180346090` | Combustion & Thermal |
 | `server.dll` | `CInferno::Spread` | `0x0034ef00` | `0x18034ef00` | Combustion & Thermal |
 | `server.dll` | `CInferno::ExtinguishFire` | `0x00344790` | `0x180344790` | Combustion & Thermal |
+| `tier0.dll` | `CThread::Start` | `0x00197600` | `0x180197600` | Threading & Concurrency |
+| `tier0.dll` | `MemAlloc_AllocFunc` | `0x0012ddc0` | `0x18012ddc0` | Memory Management |
+| `tier0.dll` | `LoggingSystem_Log` | `0x0012a190` | `0x18012a190` | Diagnostics & Logging |
+| `tier0.dll` | `ThreadSleep` | `0x001734e0` | `0x1801734e0` | Threading & Concurrency |
+| `schemasystem.dll` | `CSchemaSystem::FindTypeScopeForModule` | `0x00011350` | `0x180011350` | Schema & Reflection |
+| `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClass` | `0x000162b0` | `0x1800162b0` | Schema & Reflection |
+| `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClassByName` | `0x00010380` | `0x180010380` | Schema & Reflection |
+| `engine2.dll` | `CEngineServiceMgr::Init` | `0x0020fad0` | `0x18020fad0` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::Init` | `0x002193c0` | `0x1802193c0` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::QueueNewRequest` | `0x002195e0` | `0x1802195e0` | Engine Lifecycle |
+| `client.dll` | `CCSGOInput::GetViewAngles` | `0x00b638d0` | `0x180b638d0` | Input & Subtick |
+| `client.dll` | `C_CSPlayerPawn::PostDataUpdate` | `0x00c866c0` | `0x180c866c0` | Entity System |
+| `client.dll` | `CEntitySubclassGameSystem::LoadSubclasses` | `0x00377430` | `0x180377430` | Entity System |
+| `server.dll` | `CBombTarget::BombExplode` | `0x00982810` | `0x180982810` | Weapons & Grenades |
+| `server.dll` | `CCSPlayerPawn::CommitSuicide` | `0x001ceb60` | `0x1801ceb60` | Player & Movement |
+| `vphysics2.dll` | `RnPhysicsWorld_Step` | `0x00283b80` | `0x180283b80` | Physics & Collision |
+| `vphysics2.dll` | `CRnWorld::WakeBodiesFromAppliedForces` | `0x00203d70` | `0x180203d70` | Physics & Collision |
+| `vphysics2.dll` | `CVPhysics2Interface::Init` | `0x0006d940` | `0x18006d940` | Physics & Collision |
+| `networksystem.dll` | `CNetworkMessages::RegisterNetworkCategory` | `0x000e4c80` | `0x1800e4c80` | Networking & Netchan |
+| `animationsystem.dll` | `CAnimationSystem::Init` | `0x00069a00` | `0x180069a00` | Animation & Bones |
+| `inputsystem.dll` | `CInputSystem::Init` | `0x00003240` | `0x180003240` | Input & Subtick |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -491,6 +512,153 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **Current VA**: `0x180344790`
 - **IDA / Ghidra Pattern**: `4C 8B DC 49 89 6B 20 57 48 81 EC A0 00 00 00`
 - **Description**: Quenches individual flame node upon smoke overlap, stopping ambient sound loops and emitting steam dissipation particles.
+
+### CThread::Start (tier0.dll)
+- **ID**: `tier0_cthread_start`
+- **Current RVA**: `0x00197600` (Baseline: `0x001974c0`, Delta: `+0x140`)
+- **Current VA**: `0x180197600`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 54 41 55 41 56 41 57 48 83 EC 50 48 8B`
+- **Description**: Spawns an OS worker thread and executes the virtual dispatch loop.
+
+### MemAlloc_AllocFunc (tier0.dll)
+- **ID**: `tier0_memalloc_allocfunc`
+- **Current RVA**: `0x0012ddc0` (Baseline: `0x0012dd30`, Delta: `+0x90`)
+- **Current VA**: `0x18012ddc0`
+- **IDA / Ghidra Pattern**: `48 8B D1 48 8B 0D ?? ?? ?? ?? 48 8B 01 48 FF 60 08 CC CC CC CC CC CC CC CC CC CC CC CC CC CC CC 4C 8B C9 4C 8B C2 48 8B 0D ?? ?? ?? ?? 49 8B D1`
+- **Description**: Global allocator forwarding entry point directing allocations to IMemAlloc::Alloc.
+
+### LoggingSystem_Log (tier0.dll)
+- **ID**: `tier0_loggingsystem_log`
+- **Current RVA**: `0x0012a190` (Baseline: `0x0012a100`, Delta: `+0x90`)
+- **Current VA**: `0x18012a190`
+- **IDA / Ghidra Pattern**: `4C 8B DC 4D 89 43 18 4D 89 4B 20 48 83 EC 48 49 8D 43 20 45 33 C9 49 89 43 E8 49 8D 43 E8 49 89 43 E0 4D 89 43 D8 44 8B C2 8B D1`
+- **Description**: Formatted diagnostic message dispatch engine into Valve Logging System channels.
+
+### ThreadSleep (tier0.dll)
+- **ID**: `tier0_threadsleep`
+- **Current RVA**: `0x001734e0` (Baseline: `0x001733a0`, Delta: `+0x140`)
+- **Current VA**: `0x1801734e0`
+- **IDA / Ghidra Pattern**: `40 53 48 83 EC 20 80 3D ?? ?? ?? 00 00 8B D9 75 12 B9 01 00 00 00 C6 05 ?? ?? ?? 00 01 FF 15 ?? ?? ?? 00 8B CB 48 83 C4 20 5B`
+- **Description**: High-resolution cooperative sleep and millisecond thread yield execution wrapper.
+
+### CSchemaSystem::FindTypeScopeForModule (schemasystem.dll)
+- **ID**: `schemasystem_findtypescopeformodule`
+- **Current RVA**: `0x00011350` (Baseline: `0x00011350`, Delta: `+0x0`)
+- **Current VA**: `0x180011350`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 10 48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 20 48 8B DA 4C 8B F1 48 8B CB BA 21 00 00 00 49 8B F0 E8`
+- **Description**: Finds or allocates the reflection type scope metadata context for a compiled module DLL.
+
+### CSchemaSystemTypeScope::FindDeclaredClass (schemasystem.dll)
+- **ID**: `schemasystem_finddeclaredclass`
+- **Current RVA**: `0x000162b0` (Baseline: `0x000162b0`, Delta: `+0x0`)
+- **Current VA**: `0x1800162b0`
+- **IDA / Ghidra Pattern**: `40 53 48 83 EC 20 48 8B 01 48 8B DA 49 8B D0 FF 90 C8 00 00 00 48 85 C0 74 0C 48 89 03 48 8B C3 48 83 C4 20 5B C3`
+- **Description**: Resolves schema class descriptor metadata for a target entity class token.
+
+### CSchemaSystemTypeScope::FindDeclaredClassByName (schemasystem.dll)
+- **ID**: `schemasystem_finddeclaredclassbyname`
+- **Current RVA**: `0x00010380` (Baseline: `0x00010380`, Delta: `+0x0`)
+- **Current VA**: `0x180010380`
+- **IDA / Ghidra Pattern**: `4C 8B D9 48 85 D2 0F 84 C1 00 00 00 80 3A 00 0F 84 B8 00 00 00 49 C7 C0 FF FF FF FF 0F 1F 40 00 49 FF C0 42 80 3C 02 00 75 F6 45 8B C8 41 81 F1 ED FE AD BA 41 83 F8 04 7C 3D 45 8B D0 49 C1 EA 02 41 8B C2 F7 D8 45 8D 04 80 66 0F 1F 44 00 00 69 02 95 E9 D1 5B 48 83 C2 04 45 69 C9 95 E9 D1 5B 8B C8 C1 E9 18 33 C8 69 C9 95 E9 D1 5B 44 33 C9 49 83 EA 01 75 D9 41 83 E8 01 74 20 41 83 E8 01 74 10 41 83 F8 01 75 21 0F B6 42 02 C1 E0 10 44 33 C8 0F B6 42 01 C1 E0 08 44 33 C8 0F B6 02 41 33 C1 44 69 C8 95 E9 D1 5B 41 8B C1 C1 E8 0D 41 33 C1 69 C8 95 E9 D1 5B 49 8B 03 8B D1 C1 EA 0F 33 D1 49 8B CB 48 FF A0 C0 00 00 00 49 8B 03 33 D2`
+- **Description**: Fast lookup for declared class binding by string identifier.
+
+### CEngineServiceMgr::Init (engine2.dll)
+- **ID**: `engine2_engineservicemgr_init`
+- **Current RVA**: `0x0020fad0` (Baseline: `0x002119e0`, Delta: `-0x1f10`)
+- **Current VA**: `0x18020fad0`
+- **IDA / Ghidra Pattern**: `40 57 48 83 EC 20 48 83 3D ?? ?? ?? ?? 00 48 8B F9 74 ?? 33 C9 E8`
+- **Description**: Initializes core engine services and subsystem thread watchdogs.
+
+### CHostStateMgr::Init (engine2.dll)
+- **ID**: `engine2_hoststatemgr_init`
+- **Current RVA**: `0x002193c0` (Baseline: `0x0021b6a0`, Delta: `-0x22e0`)
+- **Current VA**: `0x1802193c0`
+- **IDA / Ghidra Pattern**: `40 53 48 83 EC 20 48 83 3D ?? ?? ?? ?? 00 48 8B D9 74 ?? 33 C9 E8`
+- **Description**: Initializes host state machine and registers frame update listeners.
+
+### CHostStateMgr::QueueNewRequest (engine2.dll)
+- **ID**: `engine2_hoststatemgr_queuenewrequest`
+- **Current RVA**: `0x002195e0` (Baseline: `0x0021b8c0`, Delta: `-0x22e0`)
+- **Current VA**: `0x1802195e0`
+- **IDA / Ghidra Pattern**: `40 57 48 83 EC 20 48 8B 05 ?? ?? ?? 00 48 8B F9 80 78 58 00 74 09 33 C9 FF 15 ?? ?? ?? 00 CC 48 8B 05 ?? ?? ?? 00 BA 68 00 00 00 48 89 5C 24 30`
+- **Description**: Queues transition requests into the host state machine execution queue.
+
+### CCSGOInput::GetViewAngles (client.dll)
+- **ID**: `client_ccsgoinput_getviewangles`
+- **Current RVA**: `0x00b638d0` (Baseline: `0x00b6e720`, Delta: `-0xae50`)
+- **Current VA**: `0x180b638d0`
+- **IDA / Ghidra Pattern**: `41 8B 81 38 04 00 00 F2 41 0F 10 81 30 04 00 00 F2 0F 11 02 89 42 08 48 8B C2 C3`
+- **Description**: Retrieves local client camera view angles (Pitch, Yaw, Roll) for target splitscreen slot.
+
+### C_CSPlayerPawn::PostDataUpdate (client.dll)
+- **ID**: `client_c_csplayerpawn_postdataupdate`
+- **Current RVA**: `0x00c866c0` (Baseline: `0x00c901f0`, Delta: `-0x9b30`)
+- **Current VA**: `0x180c866c0`
+- **IDA / Ghidra Pattern**: `40 53 48 83 EC ?? 48 8B D9 E8 ?? ?? E7 FF 0F B6 83 E1 15 00 00 38 83 E0 15 00 00 0F 84 82 00 00 00 80 BB C5 14 00 00 00 74 79 48 89 7C 24`
+- **Description**: Post-network deserialization entity state update and simulation resync for player pawns.
+
+### CEntitySubclassGameSystem::LoadSubclasses (client.dll)
+- **ID**: `client_centitysubclass_loadsubclasses`
+- **Current RVA**: `0x00377430` (Baseline: `0x00377f80`, Delta: `-0xb50`)
+- **Current VA**: `0x180377430`
+- **IDA / Ghidra Pattern**: `48 8B C4 41 57 48 81 EC 90 00 00 00 80 B9 ?? 01 00 00 00 4C 8B F9 0F 85`
+- **Description**: Parses compiled subclass vdata definitions and registers entity template archetypes.
+
+### CBombTarget::BombExplode (server.dll)
+- **ID**: `server_cbombtarget_bombexplode`
+- **Current RVA**: `0x00982810` (Baseline: `0x00982370`, Delta: `+0x4a0`)
+- **Current VA**: `0x180982810`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 57 48 83 EC 20 48 8B 44 24 50 49 8B D9 48 8B ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 48 8B 03 48 8B CB FF 10 48 8B 03 48 8B CB FF 50 08 48 8D 8F C8 09 00 00 4C 8B C7 48 8B D7 E8 ?? ?? ?? ?? 48 8B 5C 24 30 33 C0 48 83`
+- **Description**: Timed objective spatial detonation dispatcher triggering site destruction and scoring.
+
+### CCSPlayerPawn::CommitSuicide (server.dll)
+- **ID**: `server_ccsplayerpawn_commitsuicide`
+- **Current RVA**: `0x001ceb60` (Baseline: `0x001dc710`, Delta: `-0xdbb0`)
+- **Current VA**: `0x1801ceb60`
+- **IDA / Ghidra Pattern**: `48 89 54 24 10 48 89 4C 24 08 55 56 57 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC`
+- **Description**: Pawn lifecycle termination and death cleanup dispatcher.
+
+### RnPhysicsWorld_Step (vphysics2.dll)
+- **ID**: `vphysics2_rnphysicsworld_step`
+- **Current RVA**: `0x00283b80` (Baseline: `0x00283b80`, Delta: `+0x0`)
+- **Current VA**: `0x180283b80`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 70 48 8B 31 0F 57 C0 0F 29 74 24 60 48 8B D9 48 8B 7E`
+- **Description**: Numerical integrator stepping the rigid body physics world forward by dt seconds.
+
+### CRnWorld::WakeBodiesFromAppliedForces (vphysics2.dll)
+- **ID**: `vphysics2_crnworld_wakebodiesfromappliedforces`
+- **Current RVA**: `0x00203d70` (Baseline: `0x00203d70`, Delta: `+0x0`)
+- **Current VA**: `0x180203d70`
+- **IDA / Ghidra Pattern**: `40 53 55 56 57 41 57 48 81 EC 80 00 00 00 8B B9 ?? 0A 00 00 48 8B F1 0F B6 A9 ?? 01 00 00 41 BF`
+- **Description**: Wakes sleeping physics simulation islands when external linear or angular impulses are applied.
+
+### CVPhysics2Interface::Init (vphysics2.dll)
+- **ID**: `vphysics2_cvphysics2interface_init`
+- **Current RVA**: `0x0006d940` (Baseline: `0x0006d940`, Delta: `+0x0`)
+- **Current VA**: `0x18006d940`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20 41 54 41 56 41 57 48 83 EC 70 48 83 3D ?? ?? ?? 00 00 48 8B F9 74 07 33 C9 E8`
+- **Description**: Initializes VPhysics2 engine subsystem and memory heaps for Rubikon physics.
+
+### CNetworkMessages::RegisterNetworkCategory (networksystem.dll)
+- **ID**: `networksystem_cnetworkmessages_registernetworkcategory`
+- **Current RVA**: `0x000e4c80` (Baseline: `0x000dedc0`, Delta: `+0x5ec0`)
+- **Current VA**: `0x1800e4c80`
+- **IDA / Ghidra Pattern**: `48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 30 48 63 FA 49 8B E8 48 8B F1 83 FF 20 72 41 8B 0D ?? ?? ?? ?? BA 03 00 00 00 FF 15`
+- **Description**: Registers network category descriptor and logging severity filters for network messages.
+
+### CAnimationSystem::Init (animationsystem.dll)
+- **ID**: `animationsystem_canimationsystem_init`
+- **Current RVA**: `0x00069a00` (Baseline: `0x00069a60`, Delta: `-0x60`)
+- **Current VA**: `0x180069a00`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 57 48 83 EC 30 48 83 3D ?? ?? AC 00 00 48 8B D9 74 07 33 C9 E8 ?? ?? ?? ?? 48 8B 0D ?? ?? AC 00 4C 8D 0D`
+- **Description**: Initializes animation system resource managers and skeleton bone cache pools.
+
+### CInputSystem::Init (inputsystem.dll)
+- **ID**: `inputsystem_cinputsystem_init`
+- **Current RVA**: `0x00003240` (Baseline: `0x00003240`, Delta: `+0x0`)
+- **Current VA**: `0x180003240`
+- **IDA / Ghidra Pattern**: `40 53 48 83 EC 20 48 83 3D ?? ?? ?? 00 00 48 8B D9 74 ?? 33 C9 E8`
+- **Description**: Initializes raw OS input devices, keyboard scancode tables, and mouse capture hooks.
 
 ================================================================================
 # SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
@@ -6788,6 +6956,8 @@ enum MoveButtonBits : uint64_t {
     IN_SPEED        = (1ULL << 16),
     IN_WALK         = (1ULL << 17),
     IN_ZOOM         = (1ULL << 19),
+    IN_FIRST_MOD    = (1ULL << 20),
+    IN_SECOND_MOD   = (1ULL << 21),
     IN_BULLRUSH     = (1ULL << 22),
     IN_GRENADE1     = (1ULL << 23),
     IN_GRENADE2     = (1ULL << 24),
@@ -7019,6 +7189,7 @@ public:
 #include <optional>
 #include <algorithm>
 #include "viewmatrix.h"
+#include "movement.h"
 
 namespace cs2::client {
 
@@ -7028,35 +7199,9 @@ namespace cs2::client {
 // ============================================================================
 
 /**
- * @brief Standard Source 2 button bitmasks (64-bit uint64).
+ * @brief Standard Source 2 button bitmasks (aliased to MoveButtonBits from movement.h).
  */
-enum InButtonBits : uint64_t {
-    IN_ATTACK       = (1ULL << 0),
-    IN_JUMP         = (1ULL << 1),
-    IN_DUCK         = (1ULL << 2),
-    IN_FORWARD      = (1ULL << 3),
-    IN_BACK         = (1ULL << 4),
-    IN_USE          = (1ULL << 5),
-    IN_CANCEL       = (1ULL << 6),
-    IN_LEFT         = (1ULL << 7),
-    IN_RIGHT        = (1ULL << 8),
-    IN_MOVELEFT     = (1ULL << 9),
-    IN_MOVERIGHT    = (1ULL << 10),
-    IN_ATTACK2      = (1ULL << 11),
-    IN_RUN          = (1ULL << 12),
-    IN_RELOAD       = (1ULL << 13),
-    IN_ALT1         = (1ULL << 14),
-    IN_ALT2         = (1ULL << 15),
-    IN_SPEED        = (1ULL << 16),
-    IN_WALK         = (1ULL << 17),
-    IN_ZOOM         = (1ULL << 19),
-    IN_FIRST_MOD    = (1ULL << 20),
-    IN_SECOND_MOD   = (1ULL << 21),
-    IN_BULLRUSH     = (1ULL << 22),
-    IN_GRENADE1     = (1ULL << 23),
-    IN_GRENADE2     = (1ULL << 24),
-    IN_ATTACK3      = (1ULL << 25),
-};
+using InButtonBits = MoveButtonBits;
 
 /**
  * @brief Protobuf Wire Types (Google Protobuf specification).
@@ -9686,6 +9831,336 @@ private:
 };
 
 } // namespace cs2::navsystem
+```
+
+### File: `game/networksystem/demo_reader.h` (networksystem.dll)
+```cpp
+#ifndef CS2_NETWORKSYSTEM_DEMO_READER_H
+#define CS2_NETWORKSYSTEM_DEMO_READER_H
+
+#include <cstdint>
+#include <cstddef>
+#include <string>
+#include <string_view>
+#include <vector>
+#include <unordered_map>
+#include <optional>
+#include <span>
+#include <memory>
+
+#include "game/client/usercmd_wire.h"
+#include "game/networksystem/netmessage_framing.h"
+
+namespace cs2::networksystem {
+
+// ============================================================================
+// Source 2 Match Recording (.dem) Container Definitions
+// Reconstructed via Ghidra static analysis of networksystem.dll and engine2.dll
+// ============================================================================
+
+inline constexpr std::string_view DEMO_MAGIC_SOURCE2 = "PBDEMS2"; // 8 bytes with null terminator
+inline constexpr std::string_view DEMO_MAGIC_LEGACY  = "HL2DEMO"; // 8 bytes with null terminator
+
+/**
+ * @brief Source 2 Demo Command Identifiers (EDemoCommands in demo.proto).
+ */
+enum class EDemoCommand : uint32_t {
+    DEM_Error               = 0xFFFFFFFF,
+    DEM_Stop                = 0,
+    DEM_FileHeader          = 1,
+    DEM_FileInfo            = 2,
+    DEM_SyncTick            = 3,
+    DEM_SendTables          = 4,
+    DEM_ClassInfo           = 5,
+    DEM_StringTables        = 6,
+    DEM_Packet              = 7,
+    DEM_SignonPacket        = 8,
+    DEM_ConsoleCmd          = 9,
+    DEM_CustomData          = 10,
+    DEM_CustomDataCallbacks = 11,
+    DEM_UserCmd             = 12,
+    DEM_FullPacket          = 13,
+    DEM_SaveGame            = 14,
+    DEM_SpawnGroups         = 15,
+    DEM_AnimationData       = 16,
+    DEM_AnimationHeader     = 17,
+    DEM_Recovery            = 18,
+    DEM_Max                 = 19,
+    DEM_IsCompressed        = 64, // 0x40: Valve Snappy compression bitmask
+
+    // Alternate numeric mappings for command loop dispatch:
+    DEM_Packet_Alt          = 4,
+    DEM_SignonPacket_Alt    = 5,
+    DEM_FullPacket_Alt      = 7,
+    DEM_CustomData_Alt      = 8,
+};
+
+/**
+ * @brief High-level metadata parsed from container header & CDemoFileHeader.
+ */
+struct DemoHeader {
+    std::string magic{"PBDEMS2"};
+    int32_t fileProtocol{4};
+    int32_t networkProtocol{13980};
+    float serverTickrate{64.0f};
+    std::string mapName{"de_dust2"};
+    std::string serverName{"Counter-Strike 2 Dedicated Server"};
+    std::string clientName{"Source2Client"};
+    std::string gameDirectory{"csgo"};
+    int32_t buildNum{25966348};
+    int32_t serverStartTick{0};
+    int32_t summaryOffset{0};
+};
+
+/**
+ * @brief Sub-tick input step reconstructed from CSubtickMoveStep.
+ */
+struct SubTickAnalogStep {
+    uint64_t button{0};
+    bool pressed{false};
+    float when{0.0f}; // Fractional offset in interval [0.0, 1.0]
+    float analogForwardDelta{0.0f};
+    float analogLeftDelta{0.0f};
+    float analogPitchDelta{0.0f};
+    float analogYawDelta{0.0f};
+};
+
+/**
+ * @brief Sub-tick discrete spatial observation entry from CSGOInputHistoryEntryPB.
+ */
+struct SubTickInputHistory {
+    float viewAngles[3]{0.0f, 0.0f, 0.0f};
+    float observationPosition[3]{0.0f, 0.0f, 0.0f};
+    int32_t targetEntityIndex{-1};
+    int32_t playerTickCount{0};
+    float playerTickFraction{0.0f}; // Fractional sub-tick offset
+};
+
+/**
+ * @brief High-level telemetry representation of unpacked sub-tick user commands.
+ */
+struct ExtractedUserCmd {
+    int32_t commandNumber{0};
+    int32_t clientTick{0};
+    uint64_t buttons{0};
+    float forwardMove{0.0f};
+    float leftMove{0.0f};
+    float upMove{0.0f};
+    float viewAngles[3]{0.0f, 0.0f, 0.0f};
+    std::vector<SubTickAnalogStep> subtickSteps;
+    std::vector<SubTickInputHistory> inputHistory;
+};
+
+/**
+ * @brief Unpacked command frame from the match recording bitstream.
+ */
+struct DemoFrame {
+    uint32_t command{0};
+    int32_t tick{0};
+    uint32_t flags{0};
+    bool isCompressed{false};
+    std::vector<uint8_t> rawData;
+    std::vector<uint8_t> decompressedData;
+
+    [[nodiscard]] const std::vector<uint8_t>& GetPayload() const noexcept {
+        return isCompressed && !decompressedData.empty() ? decompressedData : rawData;
+    }
+};
+
+/**
+ * @brief Aggregate telemetry metrics for demo container inspection.
+ */
+struct DemoTelemetryStats {
+    uint32_t totalFrames{0};
+    uint32_t headerFrames{0};
+    uint32_t packetFrames{0};
+    uint32_t signonFrames{0};
+    uint32_t fullPacketFrames{0};
+    uint32_t customDataFrames{0};
+    uint32_t userCmdFrames{0};
+    uint32_t compressedFrames{0};
+    uint32_t uncompressedFrames{0};
+    size_t totalRawBytes{0};
+    size_t totalDecompressedBytes{0};
+    double averagePacketSize{0.0};
+    double compressionRatio{0.0};
+
+    // Sub-tick user command distribution
+    uint32_t totalUserCmds{0};
+    uint32_t totalSubtickSteps{0};
+    uint32_t totalInputHistoryEntries{0};
+    std::unordered_map<uint64_t, uint32_t> buttonEventDistribution;
+
+    // Entity delta synchronization metrics
+    uint32_t totalPacketEntitiesMessages{0};
+    uint32_t totalEntityDeltas{0};
+    uint32_t totalEntityCreations{0};
+    uint32_t totalEntityDeletions{0};
+};
+
+/**
+ * @brief Standalone pure ISO C++20 Google Snappy block compressor and decompressor.
+ * Complies with the official Snappy framing specification used by Valve Source 2.
+ */
+class CSnappyCodec {
+public:
+    /**
+     * @brief Reads the VarInt uncompressed payload length prefix.
+     */
+    static bool GetUncompressedLength(const uint8_t* src, size_t srcLen, size_t& outLen, size_t& varIntBytes);
+
+    /**
+     * @brief Decompresses a raw Snappy byte block into dst buffer.
+     */
+    static bool Decompress(const uint8_t* src, size_t srcLen, uint8_t* dst, size_t dstCapacity, size_t& outWritten);
+
+    /**
+     * @brief Decompresses a raw Snappy byte block into a newly allocated vector.
+     */
+    static bool Decompress(std::span<const uint8_t> src, std::vector<uint8_t>& outDst);
+
+    /**
+     * @brief Compresses a raw byte block using Snappy format.
+     */
+    static std::vector<uint8_t> Compress(std::span<const uint8_t> src);
+};
+
+/**
+ * @brief Utility for unpacking sub-tick user command bitstreams.
+ */
+class CSubTickUserCmdExtractor {
+public:
+    static bool ExtractFromBuffer(const uint8_t* data, size_t size, std::vector<ExtractedUserCmd>& outCmds);
+    static bool ExtractFromBasePB(const client::CBaseUserCmdPB& baseCmd, ExtractedUserCmd& outCmd);
+    static bool ExtractFromCSGOPB(const client::CSGOUserCmdPB& csgoCmd, ExtractedUserCmd& outCmd);
+};
+
+/**
+ * @brief Clean-room C++20 CS2 match recording container parser.
+ */
+class CDemoReader {
+public:
+    CDemoReader() = default;
+
+    /**
+     * @brief Reads and parses a .dem file from disk.
+     */
+    bool Open(const std::string& filepath);
+
+    /**
+     * @brief Parses an in-memory demo stream buffer.
+     */
+    bool ParseMemory(const uint8_t* data, size_t size);
+
+    [[nodiscard]] const DemoHeader& GetHeader() const noexcept { return m_Header; }
+    [[nodiscard]] const std::vector<DemoFrame>& GetFrames() const noexcept { return m_Frames; }
+    [[nodiscard]] const std::vector<ExtractedUserCmd>& GetUserCmds() const noexcept { return m_ExtractedCmds; }
+    [[nodiscard]] const DemoTelemetryStats& GetStats() const noexcept { return m_Stats; }
+
+    static bool IsPacketCommand(uint32_t cmd) noexcept {
+        return cmd == static_cast<uint32_t>(EDemoCommand::DEM_Packet) ||
+               cmd == static_cast<uint32_t>(EDemoCommand::DEM_Packet_Alt);
+    }
+
+    static bool IsSignonPacketCommand(uint32_t cmd) noexcept {
+        return cmd == static_cast<uint32_t>(EDemoCommand::DEM_SignonPacket) ||
+               cmd == static_cast<uint32_t>(EDemoCommand::DEM_SignonPacket_Alt);
+    }
+
+    static bool IsFullPacketCommand(uint32_t cmd) noexcept {
+        return cmd == static_cast<uint32_t>(EDemoCommand::DEM_FullPacket) ||
+               cmd == static_cast<uint32_t>(EDemoCommand::DEM_FullPacket_Alt);
+    }
+
+    static bool IsCustomDataCommand(uint32_t cmd) noexcept {
+        return cmd == static_cast<uint32_t>(EDemoCommand::DEM_CustomData) ||
+               cmd == static_cast<uint32_t>(EDemoCommand::DEM_CustomData_Alt);
+    }
+
+    static bool IsFileHeaderCommand(uint32_t cmd) noexcept {
+        return cmd == static_cast<uint32_t>(EDemoCommand::DEM_FileHeader);
+    }
+
+    static bool IsUserCmdCommand(uint32_t cmd) noexcept {
+        return cmd == static_cast<uint32_t>(EDemoCommand::DEM_UserCmd);
+    }
+
+private:
+    bool ParseHeaderBlock(client::CByteStreamReader& reader);
+    bool ParseFrameLoop(client::CByteStreamReader& reader);
+    void ProcessFramePayload(const DemoFrame& frame);
+    void ProcessNetMessages(const uint8_t* data, size_t size);
+
+    DemoHeader m_Header;
+    std::vector<DemoFrame> m_Frames;
+    std::vector<ExtractedUserCmd> m_ExtractedCmds;
+    DemoTelemetryStats m_Stats;
+};
+
+/**
+ * @brief Clean-room synthetic demo stream generator for verification and testing.
+ */
+class CDemoWriter {
+public:
+    CDemoWriter();
+
+    void SetHeader(const DemoHeader& header) { m_Header = header; }
+
+    void AddFileHeaderFrame(const DemoHeader& header, int32_t tick = 0);
+
+    void AddPacketFrame(
+        int32_t tick,
+        const uint8_t* packetData,
+        size_t size,
+        bool compress = true,
+        uint32_t cmdOverride = 0
+    );
+
+    void AddSignonPacketFrame(
+        int32_t tick,
+        const uint8_t* packetData,
+        size_t size,
+        bool compress = true,
+        uint32_t cmdOverride = 0
+    );
+
+    void AddFullPacketFrame(
+        int32_t tick,
+        const uint8_t* packetData,
+        size_t size,
+        bool compress = true,
+        uint32_t cmdOverride = 0
+    );
+
+    void AddCustomDataFrame(
+        int32_t tick,
+        int32_t callbackIndex,
+        const uint8_t* customData,
+        size_t size,
+        bool compress = false,
+        uint32_t cmdOverride = 0
+    );
+
+    void AddUserCmdFrame(
+        int32_t tick,
+        int32_t cmdNumber,
+        const client::CSGOUserCmdPB& userCmd,
+        bool compress = false
+    );
+
+    [[nodiscard]] std::vector<uint8_t> Finalize();
+    bool WriteToFile(const std::string& filepath);
+
+private:
+    void AppendFrame(uint32_t cmd, int32_t tick, const uint8_t* payload, size_t size, bool compress);
+
+    DemoHeader m_Header;
+    std::vector<uint8_t> m_Buffer;
+};
+
+} // namespace cs2::networksystem
+
+#endif // CS2_NETWORKSYSTEM_DEMO_READER_H
 ```
 
 ### File: `game/networksystem/entity_delta_codec.h` (networksystem.dll)
@@ -21729,7 +22204,7 @@ While standard **GhidraMCP** provides low-latency REST access to a running Ghidr
 
 | Architectural Gap in Standard GhidraMCP | Impact on Source 2 Reverse Engineering | Custom Toolkit Solution |
 | :--- | :--- | :--- |
-| **No C++ Header / Struct Injection** | Decompiler displays raw pointer arithmetic (`*(int*)(a1 + 0x30)`) rather than struct fields. | `inject_source2_types.py` injects pure Source 2 vectors, handles, matrices, and containers directly into Ghidra's `DataTypeManager`. |
+| **No C++ Header / Struct Injection** | Decompiler displays raw pointer arithmetic (`*(int*)(a1 + 0x30)`) rather than struct fields. | `inject_source2_types.py` & `batch_inject_schemas.py` inject pure Source 2 vectors, handles, and complete schema classes with explicit padding into Ghidra's `DataTypeManager`. |
 | **Untyped Function Signatures** | Functions default to `undefined8 FUN_180...()`, obfuscating return types, arguments, and `__fastcall` registers. | `sync_function_prototypes.py` applies authoritative C++ prototypes and calling conventions to all 46 canonical functions. |
 | **No Call Graph or XRef Queries** | Finding callers, callees, or string references requires manual GUI clicks or complex scripts. | `trace_xrefs.py` performs sub-second incoming/outgoing cross-reference queries and string xref tracing via inline Java execution. |
 | **Manual VTable Porting Bottlenecks** | Class hierarchies and virtual method tables must be manually located or hardcoded per build. | `scan_rtti_vtables.py` scans PE `.rdata` for MSVC x64 RTTI descriptors, discovering all polymorphic classes, VTable RVAs, and slot counts in $O(N)$ time. |
@@ -21829,7 +22304,56 @@ python tools/ghidra/cs2_ghidra_toolkit.py inject-types --all
 
 ---
 
-### 3.3 Function Prototype Synchronizer: `sync-prototypes`
+### 3.3 Batch Schema Class & Struct Injection: `inject-schemas`
+
+Parses dumped Source 2 schemas from `data/extracted_schemas/*.json` (e.g. `client.dll.json`, `server.dll.json`, `engine2.dll.json`), resolves full inheritance hierarchies (`CEntityInstance -> C_BaseEntity -> C_BaseModelEntity -> C_BasePlayerPawn -> C_CSPlayerPawn`), computes exact runtime byte offsets, and inserts explicit padding bytes (`char pad_XXXX[N];`) between non-contiguous fields.
+
+**Problem Addressed**:
+Without struct memory layouts registered in Ghidra, decompiled functions display opaque pointer arithmetic:
+```c
+// Before Schema Injection:
+*(int *)(param_1 + 0x34c) = 100;
+*(float *)(param_1 + 0x350) = 0.0f;
+```
+After batch injection into Ghidra's `DataTypeManager`:
+```c
+// After Schema Injection:
+param_1->m_iHealth = 100;
+param_1->m_flDamageAccumulator = 0.0f;
+```
+
+**Key Capabilities**:
+1. **Linear Inheritance Flattening**: Propagates all inherited fields from root classes down to derived entities (`C_CSPlayerPawn` includes 312 unique fields spanning 14,160 bytes).
+2. **Explicit Byte-Accurate Padding**: Automatically computes field gaps and emits explicit padding arrays (`char pad_0040[0x2e8];`) so `sizeof(struct)` exactly matches engine ABI.
+3. **C Header Synthesis**: Generates `data/source2_generated_classes.h` containing all foundational primitives, typedefs, forward declarations, and complete struct definitions.
+4. **Ghidra DataTypeManager Registration**: Uses GhidraMCP's inline Java execution bridge with Google Gson deserialization to inject pre-sized `StructureDataType` instances into `/Source2/Classes`.
+
+**Core High-Priority Target Classes**:
+- `C_BaseEntity`, `C_BaseModelEntity`, `C_CSPlayerPawn`, `CCSPlayerController`
+- `CCollisionProperty`, `CPlayer_MovementServices`, `C_CSWeaponBaseGun`, `CGameSceneNode`
+- `C_BasePlayerPawn`, `CEntityInstance`, `C_EconItemView`, `C_AttributeContainer`
+
+**CLI Usage**:
+```bash
+# Inject core high-priority schema classes into active Ghidra program
+python tools/ghidra/cs2_ghidra_toolkit.py --inject-schemas
+
+# Target a specific binary (e.g. server.dll or client.dll)
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --binary server.dll
+
+# Generate C header only (without contacting Ghidra)
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --header-only
+
+# Inject specific classes
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --classes C_BaseEntity,C_CSPlayerPawn,CCSPlayerController
+
+# Inject all extracted schema classes across all modules
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --all-classes
+```
+
+---
+
+### 3.4 Function Prototype Synchronizer: `sync-prototypes`
 
 Applies authoritative C++ return types, parameter types, and `__fastcall` calling conventions to all reversed functions from `data/function_signatures.json`.
 
@@ -21847,7 +22371,7 @@ python tools/ghidra/cs2_ghidra_toolkit.py sync-prototypes --binary server.dll
 
 ---
 
-### 3.4 MSVC x64 RTTI Scanner & VTable Auto-Discovery: `scan-rtti`
+### 3.5 MSVC x64 RTTI Scanner & VTable Auto-Discovery: `scan-rtti`
 
 Scans the `.rdata` section for MSVC 64-bit `RTTICompleteObjectLocator` descriptors:
 $$\text{Signature} == 1 \quad \land \quad p\text{Self} == \text{RVA}(\text{Locator})$$
@@ -21883,7 +22407,7 @@ python tools/ghidra/scan_rtti_vtables.py --binary vphysics2.dll --annotate --exp
 
 ---
 
-### 3.5 Cross-Reference & Call Graph Tracer: `trace-xrefs`
+### 3.6 Cross-Reference & Call Graph Tracer: `trace-xrefs`
 
 Queries incoming callers, outgoing callees, and string references in real-time without leaving the CLI:
 
@@ -21916,7 +22440,7 @@ python tools/ghidra/cs2_ghidra_toolkit.py trace-xrefs --string "Molotov extingui
 
 ---
 
-### 3.6 Full End-to-End Synchronization: `full-sync`
+### 3.7 Full End-to-End Synchronization: `full-sync`
 
 Executes the complete pipeline (Open -> Inject Types -> Synchronize Prototypes -> Scan & Label RTTI VTables -> Save Program) across all specified or core binaries in batch mode:
 

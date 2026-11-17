@@ -1,0 +1,299 @@
+{
+  "AnimationDecodeDebugDumpElement_t": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_nEntityIndex",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_modelName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_poseParams",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_decodeOps",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_internalOps",
+        "type": "int32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_decodedAnims",
+        "type": "uint8_t[24]",
+        "offset": 88
+      }
+    ]
+  },
+  "AnimationDecodeDebugDump_t": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_processingType",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_elems",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "AnimationSnapshotBase_t": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 272,
+    "fields": [
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_rootToWorld",
+        "type": "uint8_t[48]",
+        "offset": 16
+      },
+      {
+        "name": "m_bBonesInWorldSpace",
+        "type": "bool",
+        "offset": 64
+      },
+      {
+        "name": "m_boneSetupMask",
+        "type": "bool",
+        "offset": 72
+      },
+      {
+        "name": "m_boneTransforms",
+        "type": "bool",
+        "offset": 96
+      },
+      {
+        "name": "m_flexControllers",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_SnapshotType",
+        "type": "uint32_t",
+        "offset": 144
+      },
+      {
+        "name": "m_bHasDecodeDump",
+        "type": "bool",
+        "offset": 148
+      },
+      {
+        "name": "m_DecodeDump",
+        "type": "uint8_t[120]",
+        "offset": 152
+      }
+    ]
+  },
+  "AnimationSnapshot_t": {
+    "binary": "scenesystem.dll",
+    "base": "AnimationSnapshotBase_t",
+    "size": 288,
+    "fields": [
+      {
+        "name": "m_nEntIndex",
+        "type": "int64_t",
+        "offset": 272
+      },
+      {
+        "name": "m_modelName",
+        "type": "uint64_t",
+        "offset": 280
+      }
+    ]
+  },
+  "CSSDSEndFrameViewInfo": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nViewId",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_ViewName",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CSSDSMsg_EndFrame": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_Views",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CSSDSMsg_LayerBase": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_viewId",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_ViewName",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nLayerId",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_LayerName",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_displayText",
+        "type": "uint64_t",
+        "offset": 40
+      }
+    ]
+  },
+  "CSSDSMsg_ViewRender": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_viewId",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_ViewName",
+        "type": "uint64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CSSDSMsg_ViewTarget": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_TextureId",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nWidth",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nHeight",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nRequestedWidth",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nRequestedHeight",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nNumMipLevels",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nDepth",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nMultisampleNumSamples",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_nFormat",
+        "type": "int32_t",
+        "offset": 44
+      }
+    ]
+  },
+  "CSSDSMsg_ViewTargetList": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_viewId",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_ViewName",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_Targets",
+        "type": "uint8_t[24]",
+        "offset": 24
+      }
+    ]
+  },
+  "SceneViewId_t": {
+    "binary": "scenesystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nViewId",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nFrameCount",
+        "type": "int64_t",
+        "offset": 8
+      }
+    ]
+  }
+}

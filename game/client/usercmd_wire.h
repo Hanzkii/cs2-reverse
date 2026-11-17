@@ -8,6 +8,7 @@
 #include <optional>
 #include <algorithm>
 #include "viewmatrix.h"
+#include "movement.h"
 
 namespace cs2::client {
 
@@ -17,35 +18,9 @@ namespace cs2::client {
 // ============================================================================
 
 /**
- * @brief Standard Source 2 button bitmasks (64-bit uint64).
+ * @brief Standard Source 2 button bitmasks (aliased to MoveButtonBits from movement.h).
  */
-enum InButtonBits : uint64_t {
-    IN_ATTACK       = (1ULL << 0),
-    IN_JUMP         = (1ULL << 1),
-    IN_DUCK         = (1ULL << 2),
-    IN_FORWARD      = (1ULL << 3),
-    IN_BACK         = (1ULL << 4),
-    IN_USE          = (1ULL << 5),
-    IN_CANCEL       = (1ULL << 6),
-    IN_LEFT         = (1ULL << 7),
-    IN_RIGHT        = (1ULL << 8),
-    IN_MOVELEFT     = (1ULL << 9),
-    IN_MOVERIGHT    = (1ULL << 10),
-    IN_ATTACK2      = (1ULL << 11),
-    IN_RUN          = (1ULL << 12),
-    IN_RELOAD       = (1ULL << 13),
-    IN_ALT1         = (1ULL << 14),
-    IN_ALT2         = (1ULL << 15),
-    IN_SPEED        = (1ULL << 16),
-    IN_WALK         = (1ULL << 17),
-    IN_ZOOM         = (1ULL << 19),
-    IN_FIRST_MOD    = (1ULL << 20),
-    IN_SECOND_MOD   = (1ULL << 21),
-    IN_BULLRUSH     = (1ULL << 22),
-    IN_GRENADE1     = (1ULL << 23),
-    IN_GRENADE2     = (1ULL << 24),
-    IN_ATTACK3      = (1ULL << 25),
-};
+using InButtonBits = MoveButtonBits;
 
 /**
  * @brief Protobuf Wire Types (Google Protobuf specification).

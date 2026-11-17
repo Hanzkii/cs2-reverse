@@ -1,0 +1,26 @@
+{
+  "CAnimScriptBase": {
+    "binary": "host.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_bIsValid",
+        "type": "bool",
+        "offset": 8
+      }
+    ]
+  },
+  "EmptyTestScript": {
+    "binary": "host.dll",
+    "base": "CAnimScriptBase",
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_hTest",
+        "type": "CEntityHandle",
+        "offset": 16
+      }
+    ]
+  }
+}

@@ -1,0 +1,390 @@
+{
+  "CPulseCell_ExampleCriteria__Criteria_t": {
+    "binary": "pulse_system.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_flFloatValue1",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flFloatValue2",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_bMyBool",
+        "type": "bool",
+        "offset": 8
+      }
+    ]
+  },
+  "CPulseCell_ExampleSelector": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_OutflowList",
+        "type": "uint8_t[24]",
+        "offset": 72
+      }
+    ]
+  },
+  "CPulseCell_Outflow_TestExplicitYesNo": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_Yes",
+        "type": "uint8_t[72]",
+        "offset": 72
+      },
+      {
+        "name": "m_No",
+        "type": "uint8_t[72]",
+        "offset": 144
+      }
+    ]
+  },
+  "CPulseCell_Outflow_TestRandomYesNo": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_Yes",
+        "type": "uint8_t[72]",
+        "offset": 72
+      },
+      {
+        "name": "m_No",
+        "type": "uint8_t[72]",
+        "offset": 144
+      }
+    ]
+  },
+  "CPulseCell_Step_TestDomainEntFire": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_Input",
+        "type": "uint64_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CPulseCell_TestEnums": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseValue",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_nReferenceColor",
+        "type": "int32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_nReferenceFlags",
+        "type": "int32_t",
+        "offset": 76
+      }
+    ]
+  },
+  "CPulseCell_TestWaitWithAutoTracepoints": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseYieldingInflow",
+    "size": 296,
+    "fields": [
+      {
+        "name": "m_TracePrefix",
+        "type": "uint64_t",
+        "offset": 216
+      },
+      {
+        "name": "m_WakeResume",
+        "type": "uint8_t[72]",
+        "offset": 224
+      }
+    ]
+  },
+  "CPulseCell_TestWaitWithCursorState": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseYieldingInflow",
+    "size": 360,
+    "fields": [
+      {
+        "name": "m_WakeResume",
+        "type": "uint8_t[72]",
+        "offset": 216
+      },
+      {
+        "name": "m_WakeFail",
+        "type": "uint8_t[72]",
+        "offset": 288
+      }
+    ]
+  },
+  "CPulseCell_TestWaitWithCursorState__CursorState_t": {
+    "binary": "pulse_system.dll",
+    "base": null,
+    "size": 36,
+    "fields": [
+      {
+        "name": "flWaitValue",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "bFail",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_hSelfCursor",
+        "type": "CEntityHandle",
+        "offset": 8
+      },
+      {
+        "name": "m_hSelfCellInstanceUntyped",
+        "type": "CEntityHandle",
+        "offset": 20
+      },
+      {
+        "name": "m_hSelfCellInstance",
+        "type": "CEntityHandle",
+        "offset": 28
+      }
+    ]
+  },
+  "CPulseCell_TestWaitWithCursorState__InstanceState_t": {
+    "binary": "pulse_system.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nDummy",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CPulseCell_TestYieldWithObservables": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseYieldingInflow",
+    "size": 592,
+    "fields": [
+      {
+        "name": "m_flWatchForFloatValue",
+        "type": "float",
+        "offset": 216
+      },
+      {
+        "name": "m_LiveFloatValue",
+        "type": "uint8_t[144]",
+        "offset": 224
+      },
+      {
+        "name": "m_WatchForStringValue",
+        "type": "uint64_t",
+        "offset": 368
+      },
+      {
+        "name": "m_LiveStringValue",
+        "type": "uint8_t[144]",
+        "offset": 376
+      },
+      {
+        "name": "m_WakeResume",
+        "type": "uint8_t[72]",
+        "offset": 520
+      }
+    ]
+  },
+  "CPulseCell_Test_MultiOutflow_WithParams": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_Out1",
+        "type": "uint8_t[72]",
+        "offset": 72
+      },
+      {
+        "name": "m_Out2",
+        "type": "uint8_t[72]",
+        "offset": 144
+      }
+    ]
+  },
+  "CPulseCell_Test_MultiOutflow_WithParams_Yielding": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseCell_BaseYieldingInflow",
+    "size": 576,
+    "fields": [
+      {
+        "name": "m_Out1",
+        "type": "uint8_t[72]",
+        "offset": 216
+      },
+      {
+        "name": "m_AsyncChild1",
+        "type": "uint8_t[72]",
+        "offset": 288
+      },
+      {
+        "name": "m_AsyncChild2",
+        "type": "uint8_t[72]",
+        "offset": 360
+      },
+      {
+        "name": "m_YieldResume1",
+        "type": "uint8_t[72]",
+        "offset": 432
+      },
+      {
+        "name": "m_YieldResume2",
+        "type": "uint8_t[72]",
+        "offset": 504
+      }
+    ]
+  },
+  "CPulseCell_Test_MultiOutflow_WithParams_Yielding__CursorState_t": {
+    "binary": "pulse_system.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "nTestStep",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CPulseGraphInstance_TestDomain": {
+    "binary": "pulse_system.dll",
+    "base": "CBasePulseGraphInstance",
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_bIsRunningUnitTests",
+        "type": "bool",
+        "offset": 160
+      },
+      {
+        "name": "m_bExplicitTimeStepping",
+        "type": "bool",
+        "offset": 161
+      },
+      {
+        "name": "m_bExpectingToDestroyWithYieldedCursors",
+        "type": "bool",
+        "offset": 162
+      },
+      {
+        "name": "m_bQuietTracepoints",
+        "type": "bool",
+        "offset": 163
+      },
+      {
+        "name": "m_bExpectingCursorTerminatedDueToMaxInstructions",
+        "type": "bool",
+        "offset": 164
+      },
+      {
+        "name": "m_nCursorsTerminatedDueToMaxInstructions",
+        "type": "int32_t",
+        "offset": 168
+      },
+      {
+        "name": "m_nNextValidateIndex",
+        "type": "int32_t",
+        "offset": 172
+      },
+      {
+        "name": "m_Tracepoints",
+        "type": "uint8_t[24]",
+        "offset": 176
+      },
+      {
+        "name": "m_bTestYesOrNoPath",
+        "type": "bool",
+        "offset": 200
+      }
+    ]
+  },
+  "CPulseGraphInstance_TestDomain_Derived": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseGraphInstance_TestDomain",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_nInstanceValueX",
+        "type": "int64_t",
+        "offset": 208
+      }
+    ]
+  },
+  "CPulseTurtleGraphicsCursor": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseExecCursor",
+    "size": 240,
+    "fields": [
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 216
+      },
+      {
+        "name": "m_vPos",
+        "type": "uint64_t",
+        "offset": 220
+      },
+      {
+        "name": "m_flHeadingDeg",
+        "type": "float",
+        "offset": 228
+      },
+      {
+        "name": "m_bPenUp",
+        "type": "bool",
+        "offset": 232
+      }
+    ]
+  },
+  "CTestDomainDerived_Cursor": {
+    "binary": "pulse_system.dll",
+    "base": "CPulseExecCursor",
+    "size": 224,
+    "fields": [
+      {
+        "name": "m_nCursorValueA",
+        "type": "int32_t",
+        "offset": 216
+      },
+      {
+        "name": "m_nCursorValueB",
+        "type": "int32_t",
+        "offset": 220
+      }
+    ]
+  },
+  "TestComponent_t": {
+    "binary": "pulse_system.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_ComponentData",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  }
+}

@@ -1,0 +1,501 @@
+{
+  "CSteamAudioAmbisonicsField": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_field",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CSteamAudioBakedDimensionsData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 296,
+    "fields": [
+      {
+        "name": "m_settings",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_probes",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_vecInOut",
+        "type": "Vector",
+        "offset": 32
+      },
+      {
+        "name": "m_vecSize",
+        "type": "Vector",
+        "offset": 56
+      },
+      {
+        "name": "m_vecOutsideField",
+        "type": "Vector",
+        "offset": 80
+      },
+      {
+        "name": "m_vecInsideSmallSizeField",
+        "type": "Vector",
+        "offset": 104
+      },
+      {
+        "name": "m_movables",
+        "type": "uint8_t[168]",
+        "offset": 128
+      }
+    ]
+  },
+  "CSteamAudioBakedMaterialsData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_probes",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_vecMaterialTokens",
+        "type": "Vector",
+        "offset": 8
+      },
+      {
+        "name": "m_vecMaterialWeights",
+        "type": "Vector",
+        "offset": 32
+      }
+    ]
+  },
+  "CSteamAudioBakedOcclusionData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_settings",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_probes",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_vecPathingRatio",
+        "type": "Vector",
+        "offset": 24
+      },
+      {
+        "name": "m_vecPathingDeviation",
+        "type": "Vector",
+        "offset": 48
+      },
+      {
+        "name": "m_vecReflectionEnergy",
+        "type": "Vector",
+        "offset": 72
+      }
+    ]
+  },
+  "CSteamAudioBakedPathingData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_nBands",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_probes",
+        "type": "void*",
+        "offset": 8
+      },
+      {
+        "name": "m_movables",
+        "type": "uint8_t[168]",
+        "offset": 16
+      }
+    ]
+  },
+  "CSteamAudioBakedReverbData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 552,
+    "fields": [
+      {
+        "name": "m_nBands",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_scene",
+        "type": "Vector4D",
+        "offset": 8
+      },
+      {
+        "name": "m_probes",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_grid",
+        "type": "uint8_t[88]",
+        "offset": 32
+      },
+      {
+        "name": "m_reverbSettings",
+        "type": "uint8_t[20]",
+        "offset": 120
+      },
+      {
+        "name": "m_reverbClusteringSettings",
+        "type": "Vector",
+        "offset": 140
+      },
+      {
+        "name": "m_reverbCompressionSettings",
+        "type": "uint64_t",
+        "offset": 152
+      },
+      {
+        "name": "m_clusteredProbes",
+        "type": "uint64_t",
+        "offset": 160
+      },
+      {
+        "name": "m_vecClusterForProbe",
+        "type": "Vector",
+        "offset": 168
+      },
+      {
+        "name": "m_compressedData",
+        "type": "uint8_t[96]",
+        "offset": 192
+      },
+      {
+        "name": "m_compressedClusteredData",
+        "type": "uint8_t[96]",
+        "offset": 288
+      },
+      {
+        "name": "m_movables",
+        "type": "uint8_t[168]",
+        "offset": 384
+      }
+    ]
+  },
+  "CSteamAudioCompressedReverb": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_nChannels",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nBands",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nBins",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nProbes",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_vecNumSingularValues",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_vecDictionary",
+        "type": "Vector",
+        "offset": 40
+      },
+      {
+        "name": "m_vecCompressedData",
+        "type": "Vector",
+        "offset": 64
+      },
+      {
+        "name": "m_pCompressedData",
+        "type": "void*",
+        "offset": 88
+      }
+    ]
+  },
+  "CSteamAudioProbeData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_pProbeBatch",
+        "type": "void*",
+        "offset": 0
+      }
+    ]
+  },
+  "CSteamAudioProbeGrid": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_aabb",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_flSpacing",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_nx",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_ny",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nz",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_vecLineSegments",
+        "type": "Vector",
+        "offset": 40
+      },
+      {
+        "name": "m_vecProbes",
+        "type": "Vector",
+        "offset": 64
+      }
+    ]
+  },
+  "CSteamAudioProbeLineSegment": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_vStart",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vEnd",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_vecIntervals",
+        "type": "Vector",
+        "offset": 24
+      },
+      {
+        "name": "m_vecProbeIndices",
+        "type": "Vector",
+        "offset": 48
+      }
+    ]
+  },
+  "CSteamAudioSceneData": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_pScene",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_pStaticMesh",
+        "type": "void*",
+        "offset": 8
+      }
+    ]
+  },
+  "SteamAudioCustomDataDimensionsSettings_t": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "m_nAmbisonicsOrderOutsideField",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nAmbisonicsOrderInsideSizeField",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flOutsideThreshold",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flSizeThreshold",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flInsideThreshold",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "SteamAudioCustomDataOcclusionSettings_t": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_bEnablePathing",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bEnableReflections",
+        "type": "bool",
+        "offset": 1
+      },
+      {
+        "name": "m_nReflectionRays",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nReflectionBounces",
+        "type": "int32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "SteamAudioPathSettings_t": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nNumVisSamples",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flProbeVisRadius",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flProbeVisThreshold",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flProbePathRange",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "SteamAudioReverbClusteringSettings_t": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_bEnableClustering",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_nCubeMapResolution",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flDepthThreshold",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "SteamAudioReverbCompressionSettings_t": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_bEnableCompression",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_flQuality",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "SteamAudioReverbSettings_t": {
+    "binary": "steamaudio.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "m_nNumRays",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNumBounces",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flIRDuration",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_nAmbisonicsOrder",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_bExportScene",
+        "type": "bool",
+        "offset": 16
+      }
+    ]
+  }
+}

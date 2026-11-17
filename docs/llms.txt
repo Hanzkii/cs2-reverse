@@ -66,7 +66,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **interfaces** (`game/interfaces/`): `cvar.h`, `engine_client.h`, `file_system.h`, `game_event_manager.h`, `input_system.h`, `interfaces.h`, `memalloc.h`, `network_client_service.h`, `network_server_service.h`, `schema_interface.h`, `sound_system.h`, `source2_client.h`, `source2_server.h`, `trace_manager.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/interfaces)
 - **materialsystem2.dll** (`game/materialsystem2/`): `material_system2.cpp`, `material_system2.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/materialsystem2)
 - **navsystem.dll** (`game/navsystem/`): `navmesh.cpp`, `navmesh.h`, `pathfinder.cpp`, `pathfinder.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/navsystem)
-- **networksystem.dll** (`game/networksystem/`): `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
+- **networksystem.dll** (`game/networksystem/`): `demo_reader.cpp`, `demo_reader.h`, `entity_delta_codec.cpp`, `entity_delta_codec.h`, `flattened_serializers.cpp`, `flattened_serializers.h`, `netmessage_framing.cpp`, `netmessage_framing.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/networksystem)
 - **panorama.dll** (`game/panorama/`): `panorama_engine.cpp`, `panorama_engine.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/panorama)
 - **particles.dll** (`game/particles/`): `inferno_fire_grid.cpp`, `inferno_fire_grid.h`, `particle_system.cpp`, `particle_system.h`, `smoke_voxels.cpp`, `smoke_voxels.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/particles)
 - **pulse_system.dll** (`game/pulse_system/`): `pulse_interpreter.cpp`, `pulse_interpreter.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/pulse_system)
@@ -128,6 +128,27 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `server.dll` | `CInferno::InfernoThink` | `0x00346090` | `0x180346090` | Combustion & Thermal |
 | `server.dll` | `CInferno::Spread` | `0x0034ef00` | `0x18034ef00` | Combustion & Thermal |
 | `server.dll` | `CInferno::ExtinguishFire` | `0x00344790` | `0x180344790` | Combustion & Thermal |
+| `tier0.dll` | `CThread::Start` | `0x00197600` | `0x180197600` | Threading & Concurrency |
+| `tier0.dll` | `MemAlloc_AllocFunc` | `0x0012ddc0` | `0x18012ddc0` | Memory Management |
+| `tier0.dll` | `LoggingSystem_Log` | `0x0012a190` | `0x18012a190` | Diagnostics & Logging |
+| `tier0.dll` | `ThreadSleep` | `0x001734e0` | `0x1801734e0` | Threading & Concurrency |
+| `schemasystem.dll` | `CSchemaSystem::FindTypeScopeForModule` | `0x00011350` | `0x180011350` | Schema & Reflection |
+| `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClass` | `0x000162b0` | `0x1800162b0` | Schema & Reflection |
+| `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClassByName` | `0x00010380` | `0x180010380` | Schema & Reflection |
+| `engine2.dll` | `CEngineServiceMgr::Init` | `0x0020fad0` | `0x18020fad0` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::Init` | `0x002193c0` | `0x1802193c0` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::QueueNewRequest` | `0x002195e0` | `0x1802195e0` | Engine Lifecycle |
+| `client.dll` | `CCSGOInput::GetViewAngles` | `0x00b638d0` | `0x180b638d0` | Input & Subtick |
+| `client.dll` | `C_CSPlayerPawn::PostDataUpdate` | `0x00c866c0` | `0x180c866c0` | Entity System |
+| `client.dll` | `CEntitySubclassGameSystem::LoadSubclasses` | `0x00377430` | `0x180377430` | Entity System |
+| `server.dll` | `CBombTarget::BombExplode` | `0x00982810` | `0x180982810` | Weapons & Grenades |
+| `server.dll` | `CCSPlayerPawn::CommitSuicide` | `0x001ceb60` | `0x1801ceb60` | Player & Movement |
+| `vphysics2.dll` | `RnPhysicsWorld_Step` | `0x00283b80` | `0x180283b80` | Physics & Collision |
+| `vphysics2.dll` | `CRnWorld::WakeBodiesFromAppliedForces` | `0x00203d70` | `0x180203d70` | Physics & Collision |
+| `vphysics2.dll` | `CVPhysics2Interface::Init` | `0x0006d940` | `0x18006d940` | Physics & Collision |
+| `networksystem.dll` | `CNetworkMessages::RegisterNetworkCategory` | `0x000e4c80` | `0x1800e4c80` | Networking & Netchan |
+| `animationsystem.dll` | `CAnimationSystem::Init` | `0x00069a00` | `0x180069a00` | Animation & Bones |
+| `inputsystem.dll` | `CInputSystem::Init` | `0x00003240` | `0x180003240` | Input & Subtick |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)

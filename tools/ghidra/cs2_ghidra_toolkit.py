@@ -4,11 +4,12 @@ cs2_ghidra_toolkit.py - Source 2 Ghidra Reverse Engineering Master Toolkit
 
 A unified command-line orchestrator that extends GhidraMCP with advanced static analysis:
   1. status           - Inspect active Ghidra program, memory blocks, and symbols.
-  2. inject-types     - Inject Source 2 data types into Ghidra's DataTypeManager.
-  3. sync-prototypes  - Apply typed C++ prototypes and calling conventions.
-  4. scan-rtti        - Discover and annotate MSVC x64 polymorphic classes and VTables.
-  5. trace-xrefs      - Deep cross-reference (caller/callee/string) tracer.
-  6. full-sync        - Run complete end-to-end type, prototype, and VTable synchronization.
+  2. inject-types     - Inject Source 2 core data types into DataTypeManager.
+  3. inject-schemas   - Batch inject Source 2 schema classes and generate padded C header.
+  4. sync-prototypes  - Apply typed C++ prototypes and calling conventions.
+  5. scan-rtti        - Discover and annotate MSVC x64 polymorphic classes and VTables.
+  6. trace-xrefs      - Deep cross-reference (caller/callee/string) tracer.
+  7. full-sync        - Run complete end-to-end type, schema, prototype, and VTable synchronization.
 """
 
 import os
@@ -160,8 +161,18 @@ def cmd_full_sync(client: GhidraClient, binaries: List[str], folder: str = DEFAU
     from tools.ghidra.inject_source2_types import inject_types_into_binary
     from tools.ghidra.sync_function_prototypes import sync_prototypes_for_binary, find_repo_root
     from tools.ghidra.scan_rtti_vtables import scan_binary_rtti
+    from tools.ghidra.batch_inject_schemas import (
+        load_all_schemas,
+        build_class_memory_layout,
+        inject_schemas_into_binary,
+        CORE_HIGH_PRIORITY_CLASSES,
+    )
 
     repo_root = find_repo_root()
+    all_schemas = load_all_schemas(repo_root / "data" / "extracted_schemas")
+    schema_layouts = [build_class_memory_layout(c, all_schemas) for c in CORE_HIGH_PRIORITY_CLASSES]
+    schema_layouts = [lay for lay in schema_layouts if lay]
+
     sigs_path = repo_root / "data" / "function_signatures.json"
     signatures = []
     if sigs_path.exists():
@@ -186,6 +197,9 @@ def cmd_full_sync(client: GhidraClient, binaries: List[str], folder: str = DEFAU
         # 2. Inject Types
         inject_types_into_binary(client, b, folder)
 
+        # 2b. Inject Padded Schema Classes
+        inject_schemas_into_binary(client, schema_layouts, b, folder)
+
         # 3. Prototypes
         if b in by_binary:
             sync_prototypes_for_binary(client, b, by_binary[b], folder)
@@ -204,6 +218,7 @@ def main():
     parser = argparse.ArgumentParser(description="Source 2 Ghidra Reverse Engineering Master Toolkit")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT, help="GhidraMCP HTTP port (default: 8089)")
     parser.add_argument("--folder", type=str, default=DEFAULT_VERSION_FOLDER, help="Project version folder")
+    parser.add_argument("--inject-schemas", action="store_true", help="Batch inject Source 2 schema classes and generate C header")
 
     subparsers = parser.add_subparsers(dest="command", help="Toolkit Command")
 
@@ -214,6 +229,16 @@ def main():
     p_inject = subparsers.add_parser("inject-types", help="Inject Source 2 core data types into DataTypeManager")
     p_inject.add_argument("--binary", type=str, default="vphysics2.dll", help="Binary to process")
     p_inject.add_argument("--all", action="store_true", help="Process all core binaries")
+
+    # inject-schemas
+    p_schemas = subparsers.add_parser("inject-schemas", help="Batch inject Source 2 schema classes with padding into DataTypeManager")
+    p_schemas.add_argument("--binary", type=str, default="", help="Specific binary to inject into (default: active program)")
+    p_schemas.add_argument("--all", action="store_true", help="Inject into all core binaries")
+    p_schemas.add_argument("--classes", type=str, default="", help="Comma-separated class names to inject")
+    p_schemas.add_argument("--all-classes", action="store_true", help="Inject ALL 2,000+ extracted classes")
+    p_schemas.add_argument("--module", type=str, default="", help="Filter classes by module name")
+    p_schemas.add_argument("--header-only", action="store_true", help="Generate C header without contacting Ghidra")
+    p_schemas.add_argument("--out-header", type=str, default="data/source2_generated_classes.h", help="Output header path")
 
     # sync-prototypes
     p_proto = subparsers.add_parser("sync-prototypes", help="Apply typed C++ prototypes to canonical functions")
@@ -239,6 +264,23 @@ def main():
     args = parser.parse_args()
 
     client = GhidraClient(port=args.port)
+
+    if args.inject_schemas or args.command == "inject-schemas":
+        from tools.ghidra.batch_inject_schemas import run_batch_inject_schemas
+        raw_classes = getattr(args, "classes", "") or ""
+        custom_classes = [c.strip() for c in raw_classes.split(",") if c.strip()] if raw_classes else None
+        run_batch_inject_schemas(
+            target_classes=custom_classes,
+            module_filter=getattr(args, "module", ""),
+            header_only=getattr(args, "header_only", False),
+            out_header=getattr(args, "out_header", "data/source2_generated_classes.h"),
+            port=args.port,
+            binary=getattr(args, "binary", ""),
+            all_binaries=getattr(args, "all", False),
+            folder=args.folder,
+            all_classes_flag=getattr(args, "all_classes", False),
+        )
+        return
 
     if not args.command or args.command == "status":
         cmd_status(client)

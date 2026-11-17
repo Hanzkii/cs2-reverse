@@ -23,6 +23,7 @@
  *  17. Surface Combustion Thermal Energy Grid & Smoke Extinguishment (particles.dll & server.dll)
  *  18. Data-Driven Particle Architecture, 64-byte SoA Storage & Curl Turbulence (particles.dll)
  *  19. KeyValues3 Dynamic AST Variant, LZ4 Block Codec & Compiled Containers (resourcesystem.dll)
+ *  20. CS2 Demo Container Format, Snappy Block Codec & Sub-Tick Bitstream Extractor (networksystem.dll)
  * 
  * Standards: Pure ISO C++20, Zero external dependencies, MSVC x64 compliant (/W4 /WX).
  */
@@ -41,6 +42,10 @@
 
 // Reconstructed Schema Classes (C++20 Zero-Overhead Accessors)
 #include "game/shared/schema_classes/schema_classes.h"
+
+// CS2 Demo Container & Sub-Tick Bitstream Extractor
+#include "game/networksystem/demo_reader.h"
+#include "game/client/usercmd_wire.h"
 
 using namespace cs2;
 
@@ -1116,8 +1121,215 @@ int main() {
         std::cout << "  -> SUCCESS: KeyValues3 AST variant tree and pure C++20 LZ4 codec validated.\n";
     }
 
+    // -------------------------------------------------------------------------
+    // Test 20: CS2 Demo Container, Snappy Block Codec & Sub-Tick Extractor (networksystem.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 20] Testing SDK Integration with CS2 Demo File Container & Sub-Tick Packet Extractor...\n";
+    {
+        using namespace networksystem;
+        using namespace client;
+
+        // 1. Validate Pure C++20 Snappy Block Codec Round-Trip
+        std::string rawPayload = "Valve_Source2_Demo_Protobuf_Packet_Snappy_Compression_Benchmark_String_1234567890_SubTick_UserCmd_Stream";
+        std::vector<uint8_t> testBytes(rawPayload.begin(), rawPayload.end());
+        for (int i = 0; i < 6; ++i) {
+            testBytes.insert(testBytes.end(), rawPayload.begin(), rawPayload.end());
+        }
+
+        std::vector<uint8_t> snappyCompressed = CSnappyCodec::Compress(testBytes);
+        assert(!snappyCompressed.empty());
+        assert(snappyCompressed.size() < testBytes.size());
+
+        std::vector<uint8_t> snappyDecompressed;
+        bool decompressSuccess = CSnappyCodec::Decompress(snappyCompressed, snappyDecompressed);
+        assert(decompressSuccess);
+        assert(snappyDecompressed == testBytes);
+
+        // 2. Synthesize Source 2 CS2 Demo Stream with CDemoWriter
+        CDemoWriter writer;
+        DemoHeader hdr;
+        hdr.magic = "PBDEMS2";
+        hdr.fileProtocol = 4;
+        hdr.networkProtocol = 13980;
+        hdr.serverTickrate = 64.0f;
+        hdr.mapName = "de_mirage";
+        hdr.serverName = "Valve CS2 Match Server";
+        hdr.clientName = "CompetitivePlayer";
+        hdr.gameDirectory = "csgo";
+        hdr.buildNum = 25966348;
+        writer.SetHeader(hdr);
+
+        // Frame 1: DEM_FileHeader (uncompressed)
+        writer.AddFileHeaderFrame(hdr, 0);
+
+        // Build a sub-tick CSGOUserCmdPB
+        CSGOUserCmdPB userCmd;
+        userCmd.m_Base.m_nCommandNumber = 1337;
+        userCmd.m_Base.m_nClientTick = 8192;
+        userCmd.m_Base.m_flForwardMove = 1.0f;
+        userCmd.m_Base.m_flLeftMove = 0.0f;
+        userCmd.m_Base.m_ButtonsPB.buttonstate1 = InButtonBits::IN_FORWARD | InButtonBits::IN_JUMP;
+        userCmd.m_Base.m_nHasBits = CBaseUserCmdPB::HAS_COMMAND_NUMBER |
+                                    CBaseUserCmdPB::HAS_CLIENT_TICK |
+                                    CBaseUserCmdPB::HAS_FORWARDMOVE |
+                                    CBaseUserCmdPB::HAS_BUTTONS_PB;
+
+        // SubtickMoveStep 1: Jump at tick fraction 0.35
+        CSubtickMoveStep stepJump;
+        stepJump.SetButton(InButtonBits::IN_JUMP);
+        stepJump.SetPressed(true);
+        stepJump.SetWhen(0.35f);
+        stepJump.SetAnalogForwardDelta(0.0f);
+        stepJump.SetAnalogLeftDelta(0.0f);
+        userCmd.m_Base.m_SubtickMoves.push_back(stepJump);
+
+        // SubtickMoveStep 2: Attack at tick fraction 0.72
+        CSubtickMoveStep stepAttack;
+        stepAttack.SetButton(InButtonBits::IN_ATTACK);
+        stepAttack.SetPressed(true);
+        stepAttack.SetWhen(0.72f);
+        stepAttack.SetAnalogForwardDelta(0.0f);
+        stepAttack.SetAnalogLeftDelta(0.0f);
+        userCmd.m_Base.m_SubtickMoves.push_back(stepAttack);
+
+        // Input History entry
+        CSGOInputHistoryEntryPB history;
+        history.player_tick_count = 8192;
+        history.player_tick_fraction = 0.72f;
+        history.view_angles = QAngle{ -2.14f, 45.8f, 0.0f };
+        history.shoot_position = Vector3{ 120.0f, -450.0f, 64.0f };
+        history.target_ent_index = 42;
+        userCmd.m_InputHistory.push_back(history);
+
+        // Frame 2: DEM_Packet (Snappy compressed, wrapping clc_Move wire bitstream)
+        std::vector<uint8_t> moveWireBuf = CSGOInputWireCodec::SerializeUserCmdToBitbuf(userCmd, 0, 1);
+        writer.AddPacketFrame(8192, moveWireBuf.data(), moveWireBuf.size(), true);
+
+        // Frame 3: DEM_SignonPacket (Snappy compressed)
+        const uint8_t signonData[] = { 0x08, 0x01, 0x10, 0x06 };
+        writer.AddSignonPacketFrame(8192, signonData, sizeof(signonData), true);
+
+        // Frame 4: DEM_FullPacket (Snappy compressed, containing svc_PacketEntities delta update)
+        // Encode synthetic svc_PacketEntities: field 1: max_entries=64, field 2: updated_entries=8
+        CByteStreamWriter entWriter;
+        entWriter.WriteTag(1, WireType::VarInt);
+        entWriter.WriteVarInt32(64);
+        entWriter.WriteTag(2, WireType::VarInt);
+        entWriter.WriteVarInt32(8); // 8 updated entity deltas
+        entWriter.WriteTag(7, WireType::LengthDelimited);
+        const uint8_t dummyDelta[] = { 0xDE, 0xAD, 0xBE, 0xEF };
+        entWriter.WriteLengthDelimited(dummyDelta, sizeof(dummyDelta));
+        const auto& entBytes = entWriter.GetData();
+
+        CBitWriteStream netMsgStream;
+        CNetMessageFraming::WriteHeader(netMsgStream, 55, static_cast<uint32_t>(entBytes.size()));
+        netMsgStream.WriteBytes(entBytes.data(), entBytes.size());
+        const auto& netMsgBytes = netMsgStream.GetData();
+        writer.AddFullPacketFrame(8193, netMsgBytes.data(), netMsgBytes.size(), true);
+
+        // Frame 5: DEM_CustomData (uncompressed)
+        const uint8_t customBytes[] = { 0xAA, 0xBB, 0xCC };
+        writer.AddCustomDataFrame(8194, 1, customBytes, sizeof(customBytes), false);
+
+        // Frame 6: DEM_UserCmd (direct UserCmd frame)
+        writer.AddUserCmdFrame(8195, 1338, userCmd, false);
+
+        // Finalize demo bitstream
+        std::vector<uint8_t> demoStream = writer.Finalize();
+        assert(!demoStream.empty());
+        assert(demoStream.size() > 64);
+
+        // 3. Parse in-memory demo stream with CDemoReader
+        CDemoReader reader;
+        bool parseSuccess = reader.ParseMemory(demoStream.data(), demoStream.size());
+        assert(parseSuccess);
+
+        // Validate Header Parsing
+        const auto& parsedHeader = reader.GetHeader();
+        assert(parsedHeader.magic == "PBDEMS2");
+        assert(parsedHeader.fileProtocol == 4);
+        assert(parsedHeader.networkProtocol == 13980);
+        assert(parsedHeader.serverTickrate == 64.0f);
+        assert(parsedHeader.mapName == "de_mirage");
+        assert(parsedHeader.serverName == "Valve CS2 Match Server");
+        assert(parsedHeader.clientName == "CompetitivePlayer");
+        assert(parsedHeader.buildNum == 25966348);
+
+        // Validate Frame Counts and Snappy Decompression
+        const auto& stats = reader.GetStats();
+        assert(stats.totalFrames == 6);
+        assert(stats.headerFrames == 1);
+        assert(stats.packetFrames == 1);
+        assert(stats.signonFrames == 1);
+        assert(stats.fullPacketFrames == 1);
+        assert(stats.customDataFrames == 1);
+        assert(stats.userCmdFrames == 1);
+        assert(stats.compressedFrames == 3); // Packet, SignonPacket, FullPacket
+        assert(stats.uncompressedFrames == 3); // Header, CustomData, UserCmd
+        assert(stats.totalRawBytes > 0);
+        assert(stats.totalDecompressedBytes > 0);
+        assert(stats.averagePacketSize > 0.0);
+
+        // Validate Sub-tick UserCmd Extraction
+        const auto& userCmds = reader.GetUserCmds();
+        assert(userCmds.size() >= 2); // Unpacked from clc_Move in packet + direct DEM_UserCmd
+
+        const auto& cmd0 = userCmds[0];
+        assert(cmd0.commandNumber == 1337);
+        assert(cmd0.clientTick == 8192);
+        assert(cmd0.forwardMove == 1.0f);
+        assert((cmd0.buttons & InButtonBits::IN_JUMP) != 0);
+        assert(cmd0.subtickSteps.size() == 2);
+        assert(cmd0.subtickSteps[0].button == InButtonBits::IN_JUMP);
+        assert(cmd0.subtickSteps[0].pressed == true);
+        assert(std::fabs(cmd0.subtickSteps[0].when - 0.35f) < 0.001f); // Sub-tick fraction
+        assert(cmd0.subtickSteps[1].button == InButtonBits::IN_ATTACK);
+        assert(std::fabs(cmd0.subtickSteps[1].when - 0.72f) < 0.001f);
+
+        assert(cmd0.inputHistory.size() == 1);
+        assert(cmd0.inputHistory[0].playerTickCount == 8192);
+        assert(std::fabs(cmd0.inputHistory[0].playerTickFraction - 0.72f) < 0.001f);
+        assert(cmd0.inputHistory[0].targetEntityIndex == 42);
+
+        // Validate Entity Delta Synchronization
+        assert(stats.totalPacketEntitiesMessages == 1);
+        assert(stats.totalEntityDeltas == 8);
+
+        // 4. Validate Legacy HL2DEMO compatibility header parsing
+        std::vector<uint8_t> legacyStream(2048, 0);
+        std::memcpy(legacyStream.data(), "HL2DEMO", 7);
+        *reinterpret_cast<uint32_t*>(legacyStream.data() + 8) = 4; // fileProtocol
+        *reinterpret_cast<uint32_t*>(legacyStream.data() + 12) = 13980; // netProtocol
+        std::memcpy(legacyStream.data() + 16, "HL2Server", 9);
+        std::memcpy(legacyStream.data() + 276, "HL2Client", 9);
+        std::memcpy(legacyStream.data() + 536, "de_dust2", 8);
+        *reinterpret_cast<float*>(legacyStream.data() + 1056) = 10.0f; // playback_time
+        *reinterpret_cast<uint32_t*>(legacyStream.data() + 1060) = 640; // playback_ticks (64Hz)
+
+        CDemoReader legacyReader;
+        bool legacySuccess = legacyReader.ParseMemory(legacyStream.data(), legacyStream.size());
+        assert(legacySuccess);
+        assert(legacyReader.GetHeader().magic == "HL2DEMO");
+        assert(legacyReader.GetHeader().fileProtocol == 4);
+        assert(legacyReader.GetHeader().serverTickrate == 64.0f);
+        assert(legacyReader.GetHeader().mapName == "de_dust2");
+
+        std::cout << "  Snappy Block Codec:   Decompressed " << testBytes.size() << " bytes with 100% round-trip fidelity\n";
+        std::cout << "  Demo Container Magic: " << parsedHeader.magic << " (Build " << parsedHeader.buildNum << ", "
+                  << parsedHeader.mapName << ", " << parsedHeader.serverTickrate << " Hz)\n";
+        std::cout << "  Frame Loop Parsing:   " << stats.totalFrames << " frames ("
+                  << stats.compressedFrames << " Snappy compressed, " << stats.uncompressedFrames << " raw)\n";
+        std::cout << "  Sub-Tick UserCmds:    Extracted " << userCmds.size() << " commands, "
+                  << stats.totalSubtickSteps << " sub-tick steps (when: "
+                  << cmd0.subtickSteps[0].when << ", " << cmd0.subtickSteps[1].when << ")\n";
+        std::cout << "  Entity Delta Sync:    " << stats.totalPacketEntitiesMessages << " svc_PacketEntities message(s), "
+                  << stats.totalEntityDeltas << " entity delta updates\n";
+        std::cout << "  Legacy Compatibility: HL2DEMO 8-byte header parsed cleanly at 64Hz\n";
+        std::cout << "  -> SUCCESS: CS2 demo container, Snappy block decompressor & sub-tick extractor validated.\n";
+    }
+
     std::cout << "\n=================================================================\n";
-    std::cout << " ALL 19 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
+    std::cout << " ALL 20 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
     std::cout << "=================================================================\n";
     return 0;
 }

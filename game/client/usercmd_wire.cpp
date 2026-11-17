@@ -523,19 +523,19 @@ size_t CBaseUserCmdPB::ByteSizeLong() const {
 
 void CBaseUserCmdPB::_InternalSerialize(CByteStreamWriter& writer) const {
     // 1. Field 1: command_number (tag 0x08, wire 0)
-    if (m_nHasBits & HAS_COMMAND_NUMBER) {
+    if ((m_nHasBits & HAS_COMMAND_NUMBER) || m_nCommandNumber != 0) {
         writer.WriteTag(1, WireType::VarInt);
         writer.WriteVarInt32(static_cast<uint32_t>(m_nCommandNumber));
     }
 
     // 2. Field 2: client_tick (tag 0x10, wire 0)
-    if (m_nHasBits & HAS_CLIENT_TICK) {
+    if ((m_nHasBits & HAS_CLIENT_TICK) || m_nClientTick != 0) {
         writer.WriteTag(2, WireType::VarInt);
         writer.WriteVarInt32(static_cast<uint32_t>(m_nClientTick));
     }
 
     // 3. Field 3: buttons_pb (tag 0x1A, wire 2)
-    if (m_nHasBits & HAS_BUTTONS_PB) {
+    if ((m_nHasBits & HAS_BUTTONS_PB) || m_ButtonsPB.buttonstate1 != 0 || m_ButtonsPB.buttonstate2 != 0 || m_ButtonsPB.buttonstate3 != 0) {
         CByteStreamWriter btnWriter;
         m_ButtonsPB._InternalSerialize(btnWriter);
         writer.WriteTag(3, WireType::LengthDelimited);
@@ -543,19 +543,19 @@ void CBaseUserCmdPB::_InternalSerialize(CByteStreamWriter& writer) const {
     }
 
     // 4. Field 5: forwardmove (tag 0x2D, wire 5)
-    if (m_nHasBits & HAS_FORWARDMOVE) {
+    if ((m_nHasBits & HAS_FORWARDMOVE) || m_flForwardMove != 0.0f) {
         writer.WriteTag(5, WireType::Fixed32);
         writer.WriteFloat(m_flForwardMove);
     }
 
     // 5. Field 6: leftmove (tag 0x35, wire 5)
-    if (m_nHasBits & HAS_LEFTMOVE) {
+    if ((m_nHasBits & HAS_LEFTMOVE) || m_flLeftMove != 0.0f) {
         writer.WriteTag(6, WireType::Fixed32);
         writer.WriteFloat(m_flLeftMove);
     }
 
     // 6. Field 7: upmove (tag 0x3D, wire 5)
-    if (m_nHasBits & HAS_UPMOVE) {
+    if ((m_nHasBits & HAS_UPMOVE) || m_flUpMove != 0.0f) {
         writer.WriteTag(7, WireType::Fixed32);
         writer.WriteFloat(m_flUpMove);
     }

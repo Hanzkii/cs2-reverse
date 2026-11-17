@@ -1,0 +1,4888 @@
+{
+  "CAudioEmphasisSample": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_flTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flValue",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "CAudioMorphData": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_times",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_nameHashCodes",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nameStrings",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_samples",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_flEaseIn",
+        "type": "float",
+        "offset": 96
+      },
+      {
+        "name": "m_flEaseOut",
+        "type": "float",
+        "offset": 100
+      }
+    ]
+  },
+  "CAudioPhonemeTag": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_flStartTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flEndTime",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_nPhonemeCode",
+        "type": "int32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CAudioSentence": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_bShouldVoiceDuck",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_RunTimePhonemes",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_EmphasisSamples",
+        "type": "uint8_t[24]",
+        "offset": 32
+      },
+      {
+        "name": "m_morphData",
+        "type": "uint8_t[104]",
+        "offset": 56
+      }
+    ]
+  },
+  "CDSPMixgroupModifier": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_mixgroup",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flModifier",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flModifierMin",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flSourceModifier",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flSourceModifierMin",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flListenerReverbModifierWhenSourceReverbIsActive",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "CDSPPresetMixgroupModifierTable": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_table",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CDspPresetModifierList": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_dspName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_modifiers",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CRandomPannerControls": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_panningControlInputName",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_volumeControlInputName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_flMinVolume",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flMaxVolume",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_strVectorStackParam",
+        "type": "char*",
+        "offset": 24
+      }
+    ]
+  },
+  "CSndBeatPattern": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flSyncPriority",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_syncStartType",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_syncType",
+        "type": "uint32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_timeSignature",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_flLength",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_bLooping",
+        "type": "bool",
+        "offset": 36
+      },
+      {
+        "name": "m_playEventType",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_flPlayBeatMult",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_playKeyType",
+        "type": "void*",
+        "offset": 48
+      },
+      {
+        "name": "m_vecPatternKeys",
+        "type": "Vector",
+        "offset": 56
+      },
+      {
+        "name": "m_vecPatternFloats",
+        "type": "Vector",
+        "offset": 80
+      },
+      {
+        "name": "m_vecPatternSndEvts",
+        "type": "Vector",
+        "offset": 104
+      },
+      {
+        "name": "m_vecPatternMidi",
+        "type": "Vector",
+        "offset": 128
+      },
+      {
+        "name": "m_syncEventType",
+        "type": "uint32_t",
+        "offset": 152
+      },
+      {
+        "name": "m_flSyncBeatMult",
+        "type": "float",
+        "offset": 156
+      },
+      {
+        "name": "m_vecSyncPatternKeys",
+        "type": "Vector",
+        "offset": 160
+      }
+    ]
+  },
+  "CSndBeatPatternManager": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_vecPatterns",
+        "type": "Vector",
+        "offset": 56
+      },
+      {
+        "name": "m_vecActiveTracks",
+        "type": "Vector",
+        "offset": 112
+      }
+    ]
+  },
+  "CSndBeatTrack": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_playbackType",
+        "type": "void*",
+        "offset": 32
+      },
+      {
+        "name": "m_nTranspose",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_bSyncToVoice",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_flBPM",
+        "type": "float",
+        "offset": 44
+      }
+    ]
+  },
+  "CSndSeqInstBaseSchema": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nType",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bStopCurrentEvents",
+        "type": "bool",
+        "offset": 14
+      },
+      {
+        "name": "m_flBPM",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flBPMFactor",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flBPMInvFactor",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "CSndSeqInstMidiSampler": {
+    "binary": "soundsystem.dll",
+    "base": "CSndSeqInstBaseSchema",
+    "size": 224,
+    "fields": [
+      {
+        "name": "m_bIsSoundEvent",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_bStopPrevious",
+        "type": "bool",
+        "offset": 33
+      },
+      {
+        "name": "m_nMinNote",
+        "type": "uint8_t",
+        "offset": 34
+      },
+      {
+        "name": "m_nMaxNote",
+        "type": "uint8_t",
+        "offset": 35
+      },
+      {
+        "name": "m_flMinVelocityAtten",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flMaxVelocityAtten",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flAttack",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flRelease",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_bBeatEnvelopes",
+        "type": "bool",
+        "offset": 52
+      },
+      {
+        "name": "m_nNextVoiceSlot",
+        "type": "int32_t",
+        "offset": 212
+      },
+      {
+        "name": "m_hSoundEventHash",
+        "type": "CEntityHandle",
+        "offset": 216
+      }
+    ]
+  },
+  "CSosGroupActionLimitSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nMaxCount",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nStopType",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nSortType",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_bStopImmediate",
+        "type": "bool",
+        "offset": 20
+      },
+      {
+        "name": "m_bCountStopped",
+        "type": "bool",
+        "offset": 21
+      }
+    ]
+  },
+  "CSosGroupActionMemberCountEnvelopeSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_nBaseCount",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nTargetCount",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_flBaseValue",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flTargetValue",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flAttack",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flDecay",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_resultVarName",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_bSaveToGroup",
+        "type": "bool",
+        "offset": 40
+      }
+    ]
+  },
+  "CSosGroupActionOcclusionSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_flCalculationInterval",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flRadius",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flOcclusionScale",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flOcclusionMin",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flOcclusionMax",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flTestDepth",
+        "type": "float",
+        "offset": 28
+      }
+    ]
+  },
+  "CSosGroupActionSetSoundeventParameterSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_nMaxCount",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_flMinValue",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flMaxValue",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_opvarName",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nSortType",
+        "type": "int64_t",
+        "offset": 32
+      }
+    ]
+  },
+  "CSosGroupActionSoundeventClusterSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_nMinNearby",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_flClusterEpsilon",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_shouldPlayOpvar",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_shouldPlayClusterChild",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_clusterSizeOpvar",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_groupBoundingBoxMinsOpvar",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_groupBoundingBoxMaxsOpvar",
+        "type": "uint8_t[32]",
+        "offset": 48
+      }
+    ]
+  },
+  "CSosGroupActionSoundeventCountSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_bExcludeStoppedSounds",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_strCountKeyName",
+        "type": "char*",
+        "offset": 16
+      }
+    ]
+  },
+  "CSosGroupActionSoundeventMinMaxValuesSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_strQueryPublicFieldName",
+        "type": "char*",
+        "offset": 8
+      },
+      {
+        "name": "m_strDelayPublicFieldName",
+        "type": "char*",
+        "offset": 16
+      },
+      {
+        "name": "m_bExcludeStoppedSounds",
+        "type": "bool",
+        "offset": 24
+      },
+      {
+        "name": "m_bExcludeDelayedSounds",
+        "type": "bool",
+        "offset": 25
+      },
+      {
+        "name": "m_bExcludeSoundsBelowThreshold",
+        "type": "bool",
+        "offset": 26
+      },
+      {
+        "name": "m_flExcludeSoundsMinThresholdValue",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_bExcludSoundsAboveThreshold",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_flExcludeSoundsMaxThresholdValue",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_strMinValueName",
+        "type": "char*",
+        "offset": 40
+      },
+      {
+        "name": "m_strMaxValueName",
+        "type": "char[16]",
+        "offset": 48
+      }
+    ]
+  },
+  "CSosGroupActionSoundeventPrioritySchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_priorityValue",
+        "type": "void*",
+        "offset": 8
+      },
+      {
+        "name": "m_priorityVolumeScalar",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_priorityContributeButDontRead",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_bPriorityReadButDontContribute",
+        "type": "bool",
+        "offset": 32
+      }
+    ]
+  },
+  "CSosGroupActionTimeBlockLimitSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nMaxCount",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_flMaxDuration",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "CSosGroupActionTimeLimitSchema": {
+    "binary": "soundsystem.dll",
+    "base": "CSosGroupActionSchema",
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_flMaxDuration",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "CSosSoundEventGroupSchema": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_nGroupType",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bBlocksEvents",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_nBlockMaxCount",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_flMemberLifespanTime",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_bInvertMatch",
+        "type": "bool",
+        "offset": 24
+      },
+      {
+        "name": "m_Behavior_EventName",
+        "type": "uint32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_matchSoundEventName",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_bMatchEventSubString",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_matchSoundEventSubString",
+        "type": "uint64_t",
+        "offset": 48
+      },
+      {
+        "name": "m_Behavior_EntIndex",
+        "type": "uint32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_flEntIndex",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_Behavior_Opvar",
+        "type": "uint32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_flOpvar",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_Behavior_String",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_opvarString",
+        "type": "uint64_t",
+        "offset": 80
+      },
+      {
+        "name": "m_vActions",
+        "type": "uint8_t[24]",
+        "offset": 88
+      }
+    ]
+  },
+  "CSoundContainerReference": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_namespace",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_bUseReference",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_sound",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_pSound",
+        "type": "void*",
+        "offset": 24
+      }
+    ]
+  },
+  "CSoundContainerReferenceArray": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_bUseReference",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_sounds",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_pSounds",
+        "type": "void*",
+        "offset": 32
+      }
+    ]
+  },
+  "CVMixAdditionalOutput": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixAudioMeter": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_displayName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nDebugId",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixAutoFilterProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[48]",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixAutomaticControlInput": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nGraphInputIndex",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nControlType",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixBaseGraphDescription": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nGraphOutputChannels",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bIsMainGraph",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_processorNodes",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_graphInputs",
+        "type": "Vector4D",
+        "offset": 32
+      },
+      {
+        "name": "m_controlTransientInputs",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "m_controlOutputs",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_impulseResponseInputs",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_mixCommands",
+        "type": "Vector4D",
+        "offset": 96
+      },
+      {
+        "name": "m_heap",
+        "type": "CEntityHandle",
+        "offset": 112
+      },
+      {
+        "name": "m_audioMeters",
+        "type": "Vector4D",
+        "offset": 128
+      },
+      {
+        "name": "m_controlMeters",
+        "type": "Vector4D",
+        "offset": 144
+      },
+      {
+        "name": "m_nameInputMeters",
+        "type": "int32_t",
+        "offset": 160
+      },
+      {
+        "name": "m_additionalOutputs",
+        "type": "Vector4D",
+        "offset": 176
+      },
+      {
+        "name": "m_automaticControlInputs",
+        "type": "Vector4D",
+        "offset": 192
+      }
+    ]
+  },
+  "CVMixBaseProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nDebugId",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_flxfade",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_nChannels",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_bDebugBypass",
+        "type": "bool",
+        "offset": 28
+      },
+      {
+        "name": "m_paramEnable",
+        "type": "void*",
+        "offset": 32
+      },
+      {
+        "name": "m_paramMix",
+        "type": "void*",
+        "offset": 36
+      }
+    ]
+  },
+  "CVMixBoxverb2ProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[80]",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixBoxverbProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[80]",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixCommand": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nCommand",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nParameterNameHash",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nOutputSubmix",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nInputSubmix0",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nInputSubmix1",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nProcessor",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nInputValue0",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nInputValue1",
+        "type": "int32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "CVMixControlInput": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixInputBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_flDefaultValue",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixControlMeter": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixInputBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nValueIndex",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixControlOutput": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixInputBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_flDefaultValue",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixConvolutionProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[32]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramImpulseResponse",
+        "type": "void*",
+        "offset": 72
+      }
+    ]
+  },
+  "CVMixDataOffset": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nOffset",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixDelayProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[40]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramCutoffFrequency",
+        "type": "void*",
+        "offset": 80
+      },
+      {
+        "name": "m_paramDelay",
+        "type": "void*",
+        "offset": 84
+      }
+    ]
+  },
+  "CVMixDescription": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseGraphDescription",
+    "size": 272,
+    "fields": [
+      {
+        "name": "m_submixList",
+        "type": "Vector4D",
+        "offset": 208
+      },
+      {
+        "name": "m_sources",
+        "type": "Vector4D",
+        "offset": 224
+      },
+      {
+        "name": "m_impulseResponseValues",
+        "type": "int32_t",
+        "offset": 240
+      },
+      {
+        "name": "m_nNameHashCode",
+        "type": "int32_t",
+        "offset": 256
+      }
+    ]
+  },
+  "CVMixDiffusorProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector4D",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixDualCompressorProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[52]",
+        "offset": 40
+      },
+      {
+        "name": "m_outParamLevel",
+        "type": "uint32_t",
+        "offset": 92
+      },
+      {
+        "name": "m_outParamdBLevel",
+        "type": "uint32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_outParamReduction",
+        "type": "uint32_t",
+        "offset": 100
+      }
+    ]
+  },
+  "CVMixDynamics3BandProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[144]",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixDynamicsCompressorProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[40]",
+        "offset": 40
+      },
+      {
+        "name": "m_outParamLevel",
+        "type": "uint32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_outParamdBLevel",
+        "type": "uint32_t",
+        "offset": 84
+      },
+      {
+        "name": "m_outParamReduction",
+        "type": "uint64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "CVMixDynamicsProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[48]",
+        "offset": 40
+      },
+      {
+        "name": "m_outParamLevel",
+        "type": "uint32_t",
+        "offset": 88
+      },
+      {
+        "name": "m_outParamdBLevel",
+        "type": "uint32_t",
+        "offset": 92
+      }
+    ]
+  },
+  "CVMixEQ8ProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[160]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramEQScale",
+        "type": "void*",
+        "offset": 200
+      }
+    ]
+  },
+  "CVMixEffectChainProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_paramEffectName",
+        "type": "void*",
+        "offset": 48
+      }
+    ]
+  },
+  "CVMixEnvelopeProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector",
+        "offset": 40
+      },
+      {
+        "name": "m_outParamLevel",
+        "type": "uint32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_outParamdBLevel",
+        "type": "uint64_t",
+        "offset": 56
+      }
+    ]
+  },
+  "CVMixFilterProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector4D",
+        "offset": 40
+      },
+      {
+        "name": "m_paramCutoffFreq",
+        "type": "void*",
+        "offset": 56
+      },
+      {
+        "name": "m_paramQ",
+        "type": "void*",
+        "offset": 60
+      }
+    ]
+  },
+  "CVMixFlangerProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[36]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramDelay",
+        "type": "void*",
+        "offset": 76
+      },
+      {
+        "name": "m_paramModRate",
+        "type": "void*",
+        "offset": 80
+      },
+      {
+        "name": "m_paramModDepth",
+        "type": "void*",
+        "offset": 84
+      }
+    ]
+  },
+  "CVMixFreeverbProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector4D",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixGraphInput": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixInputBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nOffset",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixHeap": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_storage",
+        "type": "Vector4D",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixInputBase": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixModDelayProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[48]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramCutoffFrequency",
+        "type": "void*",
+        "offset": 88
+      },
+      {
+        "name": "m_paramDelay",
+        "type": "void*",
+        "offset": 92
+      },
+      {
+        "name": "m_paramModRate",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_paramModDepth",
+        "type": "void*",
+        "offset": 100
+      }
+    ]
+  },
+  "CVMixNameInputMeter": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixInputBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nValueIndex",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CVMixOscProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector",
+        "offset": 40
+      },
+      {
+        "name": "m_paramFrequency",
+        "type": "void*",
+        "offset": 52
+      },
+      {
+        "name": "m_paramPhase",
+        "type": "void*",
+        "offset": 56
+      }
+    ]
+  },
+  "CVMixPannerProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_paramPan",
+        "type": "void*",
+        "offset": 48
+      }
+    ]
+  },
+  "CVMixParameterBool": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_offset",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixParameterEffectName": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_offset",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixParameterFloat": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_offset",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CVMixPitchShiftProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector4D",
+        "offset": 40
+      },
+      {
+        "name": "m_paramPitchScale",
+        "type": "void*",
+        "offset": 56
+      }
+    ]
+  },
+  "CVMixPlateReverbProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[32]",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixPresetDSPProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "Vector4D",
+        "offset": 40
+      },
+      {
+        "name": "m_paramEffectName",
+        "type": "void*",
+        "offset": 56
+      }
+    ]
+  },
+  "CVMixRuntimeGraph": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseGraphDescription",
+    "size": 296,
+    "fields": [
+      {
+        "name": "m_submixes",
+        "type": "Vector4D",
+        "offset": 208
+      },
+      {
+        "name": "m_impulseResponseValues",
+        "type": "int32_t",
+        "offset": 224
+      },
+      {
+        "name": "m_inputDefaultValues",
+        "type": "int32_t",
+        "offset": 240
+      },
+      {
+        "name": "m_sources",
+        "type": "Vector4D",
+        "offset": 256
+      },
+      {
+        "name": "m_fixups",
+        "type": "uint8_t[24]",
+        "offset": 272
+      }
+    ]
+  },
+  "CVMixShaperProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[20]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramDrive",
+        "type": "void*",
+        "offset": 60
+      }
+    ]
+  },
+  "CVMixSteamAudioDirectProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_paramPositionX",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_paramPositionY",
+        "type": "void*",
+        "offset": 44
+      },
+      {
+        "name": "m_paramPositionZ",
+        "type": "void*",
+        "offset": 48
+      },
+      {
+        "name": "m_paramRightX",
+        "type": "void*",
+        "offset": 52
+      },
+      {
+        "name": "m_paramRightY",
+        "type": "void*",
+        "offset": 56
+      },
+      {
+        "name": "m_paramRightZ",
+        "type": "void*",
+        "offset": 60
+      },
+      {
+        "name": "m_paramUpX",
+        "type": "void*",
+        "offset": 64
+      },
+      {
+        "name": "m_paramUpY",
+        "type": "void*",
+        "offset": 68
+      },
+      {
+        "name": "m_paramUpZ",
+        "type": "void*",
+        "offset": 72
+      },
+      {
+        "name": "m_paramAheadX",
+        "type": "void*",
+        "offset": 76
+      },
+      {
+        "name": "m_paramAheadY",
+        "type": "void*",
+        "offset": 80
+      },
+      {
+        "name": "m_paramAheadZ",
+        "type": "void*",
+        "offset": 84
+      },
+      {
+        "name": "m_paramApplyDistanceAttenuation",
+        "type": "void*",
+        "offset": 88
+      },
+      {
+        "name": "m_paramApplyAirAbsorption",
+        "type": "void*",
+        "offset": 92
+      },
+      {
+        "name": "m_paramApplyDirectivity",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_paramApplyOcclusion",
+        "type": "void*",
+        "offset": 100
+      },
+      {
+        "name": "m_paramApplyTransmission",
+        "type": "void*",
+        "offset": 104
+      },
+      {
+        "name": "m_paramDipoleWeight",
+        "type": "void*",
+        "offset": 108
+      },
+      {
+        "name": "m_paramDipolePower",
+        "type": "void*",
+        "offset": 112
+      },
+      {
+        "name": "m_paramOcclusion",
+        "type": "void*",
+        "offset": 116
+      },
+      {
+        "name": "m_paramTransmissionLow",
+        "type": "void*",
+        "offset": 120
+      },
+      {
+        "name": "m_paramTransmissionMid",
+        "type": "void*",
+        "offset": 124
+      },
+      {
+        "name": "m_paramTransmissionHigh",
+        "type": "void*",
+        "offset": 128
+      },
+      {
+        "name": "m_paramBand",
+        "type": "void*",
+        "offset": 132
+      },
+      {
+        "name": "m_paramTransmission",
+        "type": "void*",
+        "offset": 136
+      }
+    ]
+  },
+  "CVMixSteamAudioHRTFProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_paramPositionX",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_paramPositionY",
+        "type": "void*",
+        "offset": 44
+      },
+      {
+        "name": "m_paramPositionZ",
+        "type": "void*",
+        "offset": 48
+      },
+      {
+        "name": "m_paramInterpolation",
+        "type": "void*",
+        "offset": 52
+      },
+      {
+        "name": "m_paramDirectMixLevel",
+        "type": "void*",
+        "offset": 56
+      },
+      {
+        "name": "m_paramPerspectiveCorrection",
+        "type": "void*",
+        "offset": 60
+      },
+      {
+        "name": "m_paramRelativePosition",
+        "type": "void*",
+        "offset": 64
+      },
+      {
+        "name": "m_paramDelayLeft",
+        "type": "void*",
+        "offset": 68
+      },
+      {
+        "name": "m_paramDelayRight",
+        "type": "void*",
+        "offset": 72
+      }
+    ]
+  },
+  "CVMixSteamAudioHybridReverbProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_paramReverbTimeLow",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_paramReverbTimeMid",
+        "type": "void*",
+        "offset": 44
+      },
+      {
+        "name": "m_paramReverbTimeHigh",
+        "type": "void*",
+        "offset": 48
+      },
+      {
+        "name": "m_paramBand",
+        "type": "void*",
+        "offset": 52
+      },
+      {
+        "name": "m_paramReverbTime",
+        "type": "void*",
+        "offset": 56
+      }
+    ]
+  },
+  "CVMixSteamAudioPathingProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_paramPositionX",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_paramPositionY",
+        "type": "void*",
+        "offset": 44
+      },
+      {
+        "name": "m_paramPositionZ",
+        "type": "void*",
+        "offset": 48
+      },
+      {
+        "name": "m_paramPathingMixLevel",
+        "type": "void*",
+        "offset": 52
+      },
+      {
+        "name": "m_paramBand",
+        "type": "void*",
+        "offset": 56
+      },
+      {
+        "name": "m_paramArrayPathingEQ",
+        "type": "void*",
+        "offset": 60
+      },
+      {
+        "name": "m_paramArrayPathingCoefficients",
+        "type": "void*",
+        "offset": 64
+      }
+    ]
+  },
+  "CVMixStereoDelayProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_paramDelayLeft",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_paramDelayRight",
+        "type": "void*",
+        "offset": 44
+      }
+    ]
+  },
+  "CVMixSubgraphSwitchProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[56]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramEffectName",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_paramSelectionIndex",
+        "type": "void*",
+        "offset": 100
+      }
+    ]
+  },
+  "CVMixSubmix": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_SendNames",
+        "type": "uint8_t[36]",
+        "offset": 8
+      },
+      {
+        "name": "m_nSoloNameHash",
+        "type": "int32_t",
+        "offset": 44
+      },
+      {
+        "name": "m_nChannels",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_nSendOperator",
+        "type": "uint16_t",
+        "offset": 52
+      },
+      {
+        "name": "m_nMixDownRule",
+        "type": "uint8_t",
+        "offset": 54
+      },
+      {
+        "name": "m_nUpMixRule",
+        "type": "uint8_t",
+        "offset": 55
+      }
+    ]
+  },
+  "CVMixUtilityProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[24]",
+        "offset": 40
+      }
+    ]
+  },
+  "CVMixVocoderProcessorDesc": {
+    "binary": "soundsystem.dll",
+    "base": "CVMixBaseProcessorDesc",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_desc",
+        "type": "uint8_t[40]",
+        "offset": 40
+      },
+      {
+        "name": "m_paramBandwidth",
+        "type": "void*",
+        "offset": 80
+      }
+    ]
+  },
+  "CVMixVsndInput": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_defaultValue",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CVSound": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_Sentences",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_nRate",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nFormat",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nChannels",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nLoopStart",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nSampleCount",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_flDuration",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_nStreamingSize",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_nLoopEnd",
+        "type": "int32_t",
+        "offset": 44
+      }
+    ]
+  },
+  "CVoiceContainerAmpedDecayingSineWave": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerDecayingSineWave",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_flGainAmount",
+        "type": "float",
+        "offset": 128
+      }
+    ]
+  },
+  "CVoiceContainerAnalysisBase": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_curve",
+        "type": "uint8_t[64]",
+        "offset": 8
+      }
+    ]
+  },
+  "CVoiceContainerBase": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_bRegisteredVMix",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_nResourceName",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_vSound",
+        "type": "uint8_t[64]",
+        "offset": 48
+      },
+      {
+        "name": "m_pEnvelopeAnalyzer",
+        "type": "void*",
+        "offset": 112
+      }
+    ]
+  },
+  "CVoiceContainerBlender": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_firstSound",
+        "type": "uint8_t[32]",
+        "offset": 120
+      },
+      {
+        "name": "m_secondSound",
+        "type": "uint8_t[32]",
+        "offset": 152
+      },
+      {
+        "name": "m_flBlendFactor",
+        "type": "float",
+        "offset": 184
+      }
+    ]
+  },
+  "CVoiceContainerDecayingSineWave": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerGenerator",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_flFrequency",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flDecayTime",
+        "type": "float",
+        "offset": 124
+      }
+    ]
+  },
+  "CVoiceContainerEnum": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_soundsToPlay",
+        "type": "uint8_t[56]",
+        "offset": 120
+      },
+      {
+        "name": "m_iSelection",
+        "type": "int32_t",
+        "offset": 176
+      },
+      {
+        "name": "m_flCrossfadeTime",
+        "type": "float",
+        "offset": 180
+      }
+    ]
+  },
+  "CVoiceContainerEnvelopeAnalyzer": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerAnalysisBase",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_mode",
+        "type": "uint32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_fAnalysisWindowMs",
+        "type": "uint32_t",
+        "offset": 76
+      },
+      {
+        "name": "m_flThreshold",
+        "type": "float",
+        "offset": 80
+      }
+    ]
+  },
+  "CVoiceContainerGranulator": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerAsyncGenerator",
+    "size": 376,
+    "fields": [
+      {
+        "name": "m_flGrainLength",
+        "type": "float",
+        "offset": 136
+      },
+      {
+        "name": "m_flGrainCrossfadeAmount",
+        "type": "float",
+        "offset": 140
+      },
+      {
+        "name": "m_flStartJitter",
+        "type": "float",
+        "offset": 144
+      },
+      {
+        "name": "m_flPlaybackJitter",
+        "type": "float",
+        "offset": 148
+      },
+      {
+        "name": "m_bShouldWraparound",
+        "type": "bool",
+        "offset": 152
+      },
+      {
+        "name": "m_sourceAudio",
+        "type": "uint64_t",
+        "offset": 160
+      },
+      {
+        "name": "m_bDoubleBufferSourceAudio",
+        "type": "bool",
+        "offset": 168
+      },
+      {
+        "name": "m_flMaxSourceLength",
+        "type": "float",
+        "offset": 172
+      }
+    ]
+  },
+  "CVoiceContainerLoopTrigger": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 168,
+    "fields": [
+      {
+        "name": "m_flRetriggerTimeMin",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flRetriggerTimeMax",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_flFadeTime",
+        "type": "float",
+        "offset": 128
+      },
+      {
+        "name": "m_bCrossFade",
+        "type": "bool",
+        "offset": 132
+      },
+      {
+        "name": "m_sound",
+        "type": "uint8_t[32]",
+        "offset": 136
+      }
+    ]
+  },
+  "CVoiceContainerLoopTriggerWithRandomPanner": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerLoopTrigger",
+    "size": 200,
+    "fields": [
+      {
+        "name": "m_randomPannerControls",
+        "type": "uint8_t[32]",
+        "offset": 168
+      }
+    ]
+  },
+  "CVoiceContainerLoopXFade": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_sound",
+        "type": "uint8_t[32]",
+        "offset": 120
+      },
+      {
+        "name": "m_flLoopEnd",
+        "type": "float",
+        "offset": 152
+      },
+      {
+        "name": "m_flLoopStart",
+        "type": "float",
+        "offset": 156
+      },
+      {
+        "name": "m_flFadeOut",
+        "type": "float",
+        "offset": 160
+      },
+      {
+        "name": "m_flFadeIn",
+        "type": "float",
+        "offset": 164
+      },
+      {
+        "name": "m_bPlayHead",
+        "type": "bool",
+        "offset": 168
+      },
+      {
+        "name": "m_bPlayTail",
+        "type": "bool",
+        "offset": 169
+      },
+      {
+        "name": "m_bEqualPow",
+        "type": "bool",
+        "offset": 170
+      }
+    ]
+  },
+  "CVoiceContainerMultiBlender": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_soundsToPlay",
+        "type": "uint8_t[56]",
+        "offset": 120
+      },
+      {
+        "name": "m_flBlendFactor",
+        "type": "float",
+        "offset": 176
+      },
+      {
+        "name": "m_flCrossover",
+        "type": "float",
+        "offset": 180
+      }
+    ]
+  },
+  "CVoiceContainerParameterBlender": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 456,
+    "fields": [
+      {
+        "name": "m_firstSound",
+        "type": "uint8_t[32]",
+        "offset": 120
+      },
+      {
+        "name": "m_secondSound",
+        "type": "uint8_t[32]",
+        "offset": 152
+      },
+      {
+        "name": "m_bEnableOcclusionBlend",
+        "type": "bool",
+        "offset": 184
+      },
+      {
+        "name": "m_curve1",
+        "type": "uint8_t[64]",
+        "offset": 192
+      },
+      {
+        "name": "m_curve2",
+        "type": "uint8_t[64]",
+        "offset": 256
+      },
+      {
+        "name": "m_bEnableDistanceBlend",
+        "type": "bool",
+        "offset": 320
+      },
+      {
+        "name": "m_curve3",
+        "type": "uint8_t[64]",
+        "offset": 328
+      },
+      {
+        "name": "m_curve4",
+        "type": "uint8_t[64]",
+        "offset": 392
+      }
+    ]
+  },
+  "CVoiceContainerRandomSampler": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerAsyncGenerator",
+    "size": 432,
+    "fields": [
+      {
+        "name": "m_flAmplitude",
+        "type": "float",
+        "offset": 136
+      },
+      {
+        "name": "m_flAmplitudeJitter",
+        "type": "float",
+        "offset": 140
+      },
+      {
+        "name": "m_flTimeJitter",
+        "type": "float",
+        "offset": 144
+      },
+      {
+        "name": "m_flMaxLength",
+        "type": "float",
+        "offset": 148
+      },
+      {
+        "name": "m_nNumDelayVariations",
+        "type": "int64_t",
+        "offset": 152
+      },
+      {
+        "name": "m_grainResources",
+        "type": "uint8_t[272]",
+        "offset": 160
+      }
+    ]
+  },
+  "CVoiceContainerRealtimeFMSineWave": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerGenerator",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_flCarrierFrequency",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flModulatorFrequency",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_flModulatorAmount",
+        "type": "float",
+        "offset": 128
+      }
+    ]
+  },
+  "CVoiceContainerSelector": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 240,
+    "fields": [
+      {
+        "name": "m_mode",
+        "type": "uint64_t",
+        "offset": 120
+      },
+      {
+        "name": "m_soundsToPlay",
+        "type": "uint8_t[56]",
+        "offset": 128
+      },
+      {
+        "name": "m_fProbabilityWeights",
+        "type": "uint8_t[56]",
+        "offset": 184
+      }
+    ]
+  },
+  "CVoiceContainerSet": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 168,
+    "fields": [
+      {
+        "name": "m_soundsToPlay",
+        "type": "uint8_t[48]",
+        "offset": 120
+      }
+    ]
+  },
+  "CVoiceContainerSetElement": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_sound",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "m_flVolumeDB",
+        "type": "float",
+        "offset": 32
+      }
+    ]
+  },
+  "CVoiceContainerShapedNoise": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerGenerator",
+    "size": 336,
+    "fields": [
+      {
+        "name": "m_bUseCurveForFrequency",
+        "type": "bool",
+        "offset": 120
+      },
+      {
+        "name": "m_flFrequency",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_frequencySweep",
+        "type": "uint8_t[64]",
+        "offset": 128
+      },
+      {
+        "name": "m_bUseCurveForResonance",
+        "type": "bool",
+        "offset": 192
+      },
+      {
+        "name": "m_flResonance",
+        "type": "float",
+        "offset": 196
+      },
+      {
+        "name": "m_resonanceSweep",
+        "type": "uint8_t[64]",
+        "offset": 200
+      },
+      {
+        "name": "m_bUseCurveForAmplitude",
+        "type": "bool",
+        "offset": 264
+      },
+      {
+        "name": "m_flGainInDecibels",
+        "type": "float",
+        "offset": 268
+      },
+      {
+        "name": "m_gainSweep",
+        "type": "uint8_t[64]",
+        "offset": 272
+      }
+    ]
+  },
+  "CVoiceContainerStaticAdditiveSynth": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerAsyncGenerator",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_tones",
+        "type": "uint8_t[48]",
+        "offset": 136
+      }
+    ]
+  },
+  "CVoiceContainerStaticAdditiveSynth__CGainScalePerInstance": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_flMinVolume",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_nInstancesAtMinVolume",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flMaxVolume",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_nInstancesAtMaxVolume",
+        "type": "int32_t",
+        "offset": 12
+      }
+    ]
+  },
+  "CVoiceContainerStaticAdditiveSynth__CHarmonic": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_nWaveform",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nFundamental",
+        "type": "int32_t",
+        "offset": 1
+      },
+      {
+        "name": "m_nOctave",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flCents",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flPhase",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_curve",
+        "type": "uint8_t[64]",
+        "offset": 16
+      },
+      {
+        "name": "m_volumeScaling",
+        "type": "uint8_t[24]",
+        "offset": 80
+      }
+    ]
+  },
+  "CVoiceContainerStaticAdditiveSynth__CTone": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_harmonics",
+        "type": "CEntityHandle",
+        "offset": 0
+      },
+      {
+        "name": "m_curve",
+        "type": "uint8_t[64]",
+        "offset": 24
+      },
+      {
+        "name": "m_bSyncInstances",
+        "type": "bool",
+        "offset": 88
+      }
+    ]
+  },
+  "CVoiceContainerSwitch": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_soundsToPlay",
+        "type": "uint8_t[24]",
+        "offset": 120
+      }
+    ]
+  },
+  "CVoiceContainerTapePlayer": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerAsyncGenerator",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_bShouldWraparound",
+        "type": "bool",
+        "offset": 136
+      },
+      {
+        "name": "m_sourceAudio",
+        "type": "uint64_t",
+        "offset": 144
+      },
+      {
+        "name": "m_flTapeSpeedAttackTime",
+        "type": "float",
+        "offset": 152
+      },
+      {
+        "name": "m_flTapeSpeedReleaseTime",
+        "type": "float",
+        "offset": 156
+      }
+    ]
+  },
+  "CVoiceContainerVMixSnd": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 400,
+    "fields": [
+      {
+        "name": "m_resourceName",
+        "type": "uint64_t",
+        "offset": 392
+      }
+    ]
+  },
+  "CVoiceContainerVsndRadioButton": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 2304,
+    "fields": [
+      {
+        "name": "m_namespace",
+        "type": "int64_t",
+        "offset": 120
+      },
+      {
+        "name": "m_slot1",
+        "type": "uint8_t[136]",
+        "offset": 128
+      },
+      {
+        "name": "m_slot2",
+        "type": "uint8_t[136]",
+        "offset": 264
+      },
+      {
+        "name": "m_slot3",
+        "type": "uint8_t[136]",
+        "offset": 400
+      },
+      {
+        "name": "m_slot4",
+        "type": "uint8_t[136]",
+        "offset": 536
+      },
+      {
+        "name": "m_slot5",
+        "type": "uint8_t[136]",
+        "offset": 672
+      },
+      {
+        "name": "m_slot6",
+        "type": "uint8_t[136]",
+        "offset": 808
+      },
+      {
+        "name": "m_slot7",
+        "type": "uint8_t[136]",
+        "offset": 944
+      },
+      {
+        "name": "m_slot8",
+        "type": "uint8_t[136]",
+        "offset": 1080
+      },
+      {
+        "name": "m_slot9",
+        "type": "uint8_t[136]",
+        "offset": 1216
+      },
+      {
+        "name": "m_slot10",
+        "type": "uint8_t[136]",
+        "offset": 1352
+      },
+      {
+        "name": "m_slot11",
+        "type": "uint8_t[136]",
+        "offset": 1488
+      },
+      {
+        "name": "m_slot12",
+        "type": "uint8_t[136]",
+        "offset": 1624
+      },
+      {
+        "name": "m_slot13",
+        "type": "uint8_t[136]",
+        "offset": 1760
+      },
+      {
+        "name": "m_slot14",
+        "type": "uint8_t[136]",
+        "offset": 1896
+      },
+      {
+        "name": "m_slot15",
+        "type": "uint8_t[136]",
+        "offset": 2032
+      },
+      {
+        "name": "m_slot16",
+        "type": "uint8_t[136]",
+        "offset": 2168
+      }
+    ]
+  },
+  "CVoiceContainerVsndTrigger": {
+    "binary": "soundsystem.dll",
+    "base": "CVoiceContainerBase",
+    "size": 2304,
+    "fields": [
+      {
+        "name": "m_namespace",
+        "type": "int64_t",
+        "offset": 120
+      },
+      {
+        "name": "m_slot1",
+        "type": "uint8_t[136]",
+        "offset": 128
+      },
+      {
+        "name": "m_slot2",
+        "type": "uint8_t[136]",
+        "offset": 264
+      },
+      {
+        "name": "m_slot3",
+        "type": "uint8_t[136]",
+        "offset": 400
+      },
+      {
+        "name": "m_slot4",
+        "type": "uint8_t[136]",
+        "offset": 536
+      },
+      {
+        "name": "m_slot5",
+        "type": "uint8_t[136]",
+        "offset": 672
+      },
+      {
+        "name": "m_slot6",
+        "type": "uint8_t[136]",
+        "offset": 808
+      },
+      {
+        "name": "m_slot7",
+        "type": "uint8_t[136]",
+        "offset": 944
+      },
+      {
+        "name": "m_slot8",
+        "type": "uint8_t[136]",
+        "offset": 1080
+      },
+      {
+        "name": "m_slot9",
+        "type": "uint8_t[136]",
+        "offset": 1216
+      },
+      {
+        "name": "m_slot10",
+        "type": "uint8_t[136]",
+        "offset": 1352
+      },
+      {
+        "name": "m_slot11",
+        "type": "uint8_t[136]",
+        "offset": 1488
+      },
+      {
+        "name": "m_slot12",
+        "type": "uint8_t[136]",
+        "offset": 1624
+      },
+      {
+        "name": "m_slot13",
+        "type": "uint8_t[136]",
+        "offset": 1760
+      },
+      {
+        "name": "m_slot14",
+        "type": "uint8_t[136]",
+        "offset": 1896
+      },
+      {
+        "name": "m_slot15",
+        "type": "uint8_t[136]",
+        "offset": 2032
+      },
+      {
+        "name": "m_slot16",
+        "type": "uint8_t[136]",
+        "offset": 2168
+      }
+    ]
+  },
+  "CVsndRadioButtonSlot": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_bEnableVsnd",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_vsnd",
+        "type": "uint8_t[32]",
+        "offset": 8
+      },
+      {
+        "name": "m_bEnableEndcap",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_endcapVsnd",
+        "type": "uint8_t[32]",
+        "offset": 48
+      },
+      {
+        "name": "m_bEnableLoopcap",
+        "type": "bool",
+        "offset": 80
+      },
+      {
+        "name": "m_loopcapVsnd",
+        "type": "uint8_t[32]",
+        "offset": 88
+      },
+      {
+        "name": "m_group",
+        "type": "uint32_t",
+        "offset": 120
+      },
+      {
+        "name": "m_volume",
+        "type": "uint32_t",
+        "offset": 124
+      },
+      {
+        "name": "m_fadeOut",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_mode",
+        "type": "uint32_t",
+        "offset": 132
+      }
+    ]
+  },
+  "CVsndTriggerSlot": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_bEnableVsnd",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_vsnd",
+        "type": "uint8_t[32]",
+        "offset": 8
+      },
+      {
+        "name": "m_bEnableEndcap",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_endcapVsnd",
+        "type": "uint8_t[32]",
+        "offset": 48
+      },
+      {
+        "name": "m_bEnableLoopcap",
+        "type": "bool",
+        "offset": 80
+      },
+      {
+        "name": "m_loopcapVsnd",
+        "type": "uint8_t[32]",
+        "offset": 88
+      },
+      {
+        "name": "m_volume",
+        "type": "uint32_t",
+        "offset": 120
+      },
+      {
+        "name": "m_fadeOut",
+        "type": "uint32_t",
+        "offset": 124
+      },
+      {
+        "name": "m_mode",
+        "type": "uint64_t",
+        "offset": 128
+      }
+    ]
+  },
+  "EngineLoopState_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_nPlatWindowWidth",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nPlatWindowHeight",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nRenderWidth",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nRenderHeight",
+        "type": "int32_t",
+        "offset": 36
+      }
+    ]
+  },
+  "EventAdvanceTick_t": {
+    "binary": "soundsystem.dll",
+    "base": "EventSimulate_t",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_nCurrentTick",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_nCurrentTickThisFrame",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_nTotalTicksThisFrame",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_nTotalTicks",
+        "type": "int32_t",
+        "offset": 60
+      }
+    ]
+  },
+  "EventAppShutdown_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nDummy0",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "EventBugBugComplete_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_pPayload",
+        "type": "void*",
+        "offset": 0
+      }
+    ]
+  },
+  "EventClientFrameSimulate_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flFrameTime",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_bScheduleSendTickPacket",
+        "type": "bool",
+        "offset": 48
+      }
+    ]
+  },
+  "EventClientOutput_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRenderTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flRenderFrameTimeUnbounded",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_bRenderOnly",
+        "type": "bool",
+        "offset": 52
+      }
+    ]
+  },
+  "EventClientPollInput_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 40
+      }
+    ]
+  },
+  "EventClientPollNetworking_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nTickCount",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "EventClientPostOutput_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRenderTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flRenderFrameTime",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flRenderFrameTimeUnbounded",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_bRenderOnly",
+        "type": "bool",
+        "offset": 56
+      }
+    ]
+  },
+  "EventClientPreOutput_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRenderTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flRenderFrameTime",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flRenderFrameTimeUnbounded",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_bRenderOnly",
+        "type": "bool",
+        "offset": 68
+      }
+    ]
+  },
+  "EventClientProcessGameInput_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flFrameTime",
+        "type": "float",
+        "offset": 44
+      }
+    ]
+  },
+  "EventClientProcessInput_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flTickInterval",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flTickStartTime",
+        "type": "float",
+        "offset": 48
+      }
+    ]
+  },
+  "EventClientProcessNetworking_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nTickCount",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "EventClientSceneSystemThreadStateChange_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_bThreadsActive",
+        "type": "bool",
+        "offset": 0
+      }
+    ]
+  },
+  "EventFrameBoundary_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_flFrameTime",
+        "type": "float",
+        "offset": 0
+      }
+    ]
+  },
+  "EventPostAdvanceTick_t": {
+    "binary": "soundsystem.dll",
+    "base": "EventSimulate_t",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_nCurrentTick",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_nCurrentTickThisFrame",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_nTotalTicksThisFrame",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_nTotalTicks",
+        "type": "int32_t",
+        "offset": 60
+      }
+    ]
+  },
+  "EventPostDataUpdate_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nCount",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "EventPreDataUpdate_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nCount",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "EventProfileStorageAvailable_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nSplitScreenSlot",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "EventServerBeginAsyncPostTickWork_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_bIsOncePerFrameAsyncWorkPhase",
+        "type": "bool",
+        "offset": 0
+      }
+    ]
+  },
+  "EventServerEndSimulate_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_bLastTick",
+        "type": "bool",
+        "offset": 0
+      }
+    ]
+  },
+  "EventServerPostAdvanceTick_t": {
+    "binary": "soundsystem.dll",
+    "base": "EventPostAdvanceTick_t",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_bLastTickBeforeClientUpdate",
+        "type": "bool",
+        "offset": 64
+      }
+    ]
+  },
+  "EventServerPostSimulate_t": {
+    "binary": "soundsystem.dll",
+    "base": "EventSimulate_t",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_bLastTickBeforeClientUpdate",
+        "type": "bool",
+        "offset": 48
+      }
+    ]
+  },
+  "EventSetTime_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_nClientOutputFrames",
+        "type": "int64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flRenderTime",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flRenderFrameTime",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flRenderFrameTimeUnbounded",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_flRenderFrameTimeUnscaled",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_flTickRemainder",
+        "type": "float",
+        "offset": 88
+      }
+    ]
+  },
+  "EventSimpleLoopFrameUpdate_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flFrameTime",
+        "type": "float",
+        "offset": 44
+      }
+    ]
+  },
+  "EventSimulate_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_LoopState",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_bFirstTick",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_bLastTick",
+        "type": "bool",
+        "offset": 41
+      }
+    ]
+  },
+  "KeyGroup_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "nCenterNote",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "nMinNote",
+        "type": "uint8_t",
+        "offset": 1
+      },
+      {
+        "name": "nMaxNote",
+        "type": "uint8_t",
+        "offset": 2
+      },
+      {
+        "name": "nNumVelocityZones",
+        "type": "uint8_t[5]",
+        "offset": 3
+      },
+      {
+        "name": "pVelocityZones",
+        "type": "void*",
+        "offset": 8
+      }
+    ]
+  },
+  "SamplerVoice_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "nNoteNum",
+        "type": "uint64_t",
+        "offset": 0
+      }
+    ]
+  },
+  "SelectedEditItemInfo_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_EditItems",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "SndBeatEventKeyedFloats_t": {
+    "binary": "soundsystem.dll",
+    "base": "SndBeatEventKeys_t",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_flFloat",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "SndBeatEventKeyedMidiNotes_t": {
+    "binary": "soundsystem.dll",
+    "base": "SndBeatEventKeys_t",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nStatus",
+        "type": "uint8_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nNote",
+        "type": "uint8_t",
+        "offset": 17
+      },
+      {
+        "name": "m_nVelocity",
+        "type": "int32_t",
+        "offset": 18
+      }
+    ]
+  },
+  "SndBeatEventKeyedSndEvts_t": {
+    "binary": "soundsystem.dll",
+    "base": "SndBeatEventKeys_t",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_strSoundEventName",
+        "type": "char*",
+        "offset": 16
+      }
+    ]
+  },
+  "SndBeatEventKeys_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_flKey",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "SndBeatTimeSignature_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 2,
+    "fields": [
+      {
+        "name": "nNumerator",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "nDenominator",
+        "type": "uint8_t",
+        "offset": 1
+      }
+    ]
+  },
+  "SosEditItemInfo_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "itemType",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "itemName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "itemTypeName",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "itemKVString",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "itemPos",
+        "type": "uint64_t",
+        "offset": 40
+      }
+    ]
+  },
+  "VMixAutoFilterDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 44,
+    "fields": [
+      {
+        "name": "m_flEnvelopeAmount",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flAttackTimeMS",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flReleaseTimeMS",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_filter",
+        "type": "Vector4D",
+        "offset": 12
+      },
+      {
+        "name": "m_flLFOAmount",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flLFORate",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flPhase",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_nLFOShape",
+        "type": "int32_t",
+        "offset": 40
+      }
+    ]
+  },
+  "VMixBoxverbDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_flSizeMax",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flSizeMin",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flComplexity",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flDiffusion",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flModDepth",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flModRate",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_bParallel",
+        "type": "bool",
+        "offset": 24
+      },
+      {
+        "name": "m_filterType",
+        "type": "Vector4D",
+        "offset": 28
+      },
+      {
+        "name": "m_flWidth",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flHeight",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flDepth",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flFeedbackScale",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flFeedbackWidth",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flFeedbackHeight",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flFeedbackDepth",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_flOutputGain",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_flTaps",
+        "type": "float",
+        "offset": 76
+      }
+    ]
+  },
+  "VMixConvolutionDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_fldbGain",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flPreDelayMS",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flWetMix",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_fldbLow",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_fldbMid",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_fldbHigh",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flLowCutoffFreq",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flHighCutoffFreq",
+        "type": "float",
+        "offset": 28
+      }
+    ]
+  },
+  "VMixDelayDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_feedbackFilter",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_bEnableFilter",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_flDelay",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flDirectGain",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flDelayGain",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flFeedbackGain",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flWidth",
+        "type": "float",
+        "offset": 36
+      }
+    ]
+  },
+  "VMixDiffusorDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_flSize",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flComplexity",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flFeedback",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flOutputGain",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "VMixDualCompressorDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 52,
+    "fields": [
+      {
+        "name": "m_flRMSTimeMS",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_fldbKneeWidth",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flWetMix",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_bPeakMode",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_bandDesc",
+        "type": "bool",
+        "offset": 16
+      }
+    ]
+  },
+  "VMixDynamics3BandDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_fldbGainOutput",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flRMSTimeMS",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_fldbKneeWidth",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flDepth",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flWetMix",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flTimeScale",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flLowCutoffFreq",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flHighCutoffFreq",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_bPeakMode",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_bandDesc",
+        "type": "bool",
+        "offset": 36
+      }
+    ]
+  },
+  "VMixDynamicsBand_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 36,
+    "fields": [
+      {
+        "name": "m_fldbGainInput",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_fldbGainOutput",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_fldbThresholdBelow",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_fldbThresholdAbove",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flRatioBelow",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flRatioAbove",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flAttackTimeMS",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flReleaseTimeMS",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_bEnable",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_bSolo",
+        "type": "bool",
+        "offset": 33
+      }
+    ]
+  },
+  "VMixDynamicsCompressorDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_fldbOutputGain",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_fldbCompressionThreshold",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_fldbKneeWidth",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flCompressionRatio",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flAttackTimeMS",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flReleaseTimeMS",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flRMSTimeMS",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flWetMix",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flSCHighPassFreq",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_bPeakMode",
+        "type": "bool",
+        "offset": 36
+      },
+      {
+        "name": "m_bAutoMakeupGain",
+        "type": "bool",
+        "offset": 37
+      }
+    ]
+  },
+  "VMixDynamicsDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_fldbGain",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_fldbNoiseGateThreshold",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_fldbCompressionThreshold",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_fldbLimiterThreshold",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_fldbKneeWidth",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flRatio",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flLimiterRatio",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flAttackTimeMS",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flReleaseTimeMS",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flRMSTimeMS",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flWetMix",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_bPeakMode",
+        "type": "bool",
+        "offset": 44
+      }
+    ]
+  },
+  "VMixEQ8Desc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_stages",
+        "type": "uint8_t[160]",
+        "offset": 0
+      }
+    ]
+  },
+  "VMixEQFilterDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": "VMixFilterDesc_t",
+    "size": 20,
+    "fields": [
+      {
+        "name": "m_nChannelSet",
+        "type": "int32_t",
+        "offset": 16
+      }
+    ]
+  },
+  "VMixEffectChainDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_effectName",
+        "type": "uint64_t",
+        "offset": 0
+      }
+    ]
+  },
+  "VMixEnvelopeDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_flAttackTimeMS",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flHoldTimeMS",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flReleaseTimeMS",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "VMixFilterDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_fldbGain",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flCutoffFreq",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flQ",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_nFilterType",
+        "type": "uint8_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nFilterSlope",
+        "type": "uint8_t",
+        "offset": 13
+      },
+      {
+        "name": "m_bEnabled",
+        "type": "bool",
+        "offset": 14
+      }
+    ]
+  },
+  "VMixFlangerDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 36,
+    "fields": [
+      {
+        "name": "m_bPhaseInvert",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_flGlideTime",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flDelay",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flOutputGain",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flFeedbackGain",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flFeedforwardGain",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flModRate",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flModDepth",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_bApplyAntialiasing",
+        "type": "bool",
+        "offset": 32
+      }
+    ]
+  },
+  "VMixFreeverbDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_flRoomSize",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flDamp",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flWidth",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flLateReflections",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "VMixModDelayDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_feedbackFilter",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_bPhaseInvert",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_flGlideTime",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flDelay",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flOutputGain",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flFeedbackGain",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flModRate",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flModDepth",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_bApplyAntialiasing",
+        "type": "bool",
+        "offset": 44
+      }
+    ]
+  },
+  "VMixOscDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "oscType",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_freq",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flPhase",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "VMixPannerDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_type",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flStrength",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "VMixPitchShiftDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nGrainSampleCount",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flPitchShift",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_nQuality",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nProcType",
+        "type": "int32_t",
+        "offset": 12
+      }
+    ]
+  },
+  "VMixPlateverbDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_flPrefilter",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flInputDiffusion1",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flInputDiffusion2",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flDecay",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flDamp",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flFeedbackDiffusion1",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flFeedbackDiffusion2",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "VMixPointerFixupEntry_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_nIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_offset",
+        "type": "uint32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "VMixPresetDSPDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_effectName",
+        "type": "Vector4D",
+        "offset": 0
+      }
+    ]
+  },
+  "VMixShaperDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "m_nShape",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_fldbDrive",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_fldbOutputGain",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flWetMix",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_nOversampleFactor",
+        "type": "int32_t",
+        "offset": 16
+      }
+    ]
+  },
+  "VMixSubgraphSwitchDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_effectName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_subgraphs",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_interpolationMode",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_bOnlyTailsOnFadeOut",
+        "type": "bool",
+        "offset": 44
+      },
+      {
+        "name": "m_flInterpolationTime",
+        "type": "float",
+        "offset": 48
+      }
+    ]
+  },
+  "VMixUtilityDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nOp",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flInputPan",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flOutputBalance",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_fldbOutputGain",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_bBassMono",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_flBassFreq",
+        "type": "float",
+        "offset": 20
+      }
+    ]
+  },
+  "VMixVocoderDesc_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_nBandCount",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flBandwidth",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_fldBModGain",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flFreqRangeStart",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flFreqRangeEnd",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_fldBUnvoicedGain",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flAttackTimeMS",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flReleaseTimeMS",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_nDebugBand",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_bPeakMode",
+        "type": "bool",
+        "offset": 36
+      }
+    ]
+  },
+  "VelocityZone_t": {
+    "binary": "soundsystem.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "nMaxVel",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "nNextSelection",
+        "type": "uint8_t",
+        "offset": 1
+      },
+      {
+        "name": "nNumSamples",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "pSamples",
+        "type": "void*",
+        "offset": 4
+      }
+    ]
+  }
+}

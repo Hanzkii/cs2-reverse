@@ -1,0 +1,14 @@
+{
+  "ChangeAccessorFieldPathIndex_t": {
+    "binary": "networksystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  }
+}

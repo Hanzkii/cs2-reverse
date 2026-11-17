@@ -1,0 +1,130 @@
+{
+  "RsBlendStateDesc_t": {
+    "binary": "rendersystemvulkan.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_srcBlendBits",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_destBlendBits",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_srcBlendAlphaBits",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_destBlendAlphaBits",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_renderTargetWriteMaskBits",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_blendOpAlphaBits",
+        "type": "bool",
+        "offset": 24
+      },
+      {
+        "name": "m_blendEnableBits",
+        "type": "bool",
+        "offset": 28
+      },
+      {
+        "name": "m_srgbWriteEnableBits",
+        "type": "uint8_t[3]",
+        "offset": 29
+      }
+    ]
+  },
+  "RsDepthStencilStateDesc_t": {
+    "binary": "rendersystemvulkan.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_bDepthTestEnable",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_stencilState",
+        "type": "uint8_t[6]",
+        "offset": 2
+      }
+    ]
+  },
+  "RsRasterizerStateDesc_t": {
+    "binary": "rendersystemvulkan.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nFillMode",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nCullMode",
+        "type": "uint8_t",
+        "offset": 1
+      },
+      {
+        "name": "m_bDepthClipEnable",
+        "type": "bool",
+        "offset": 2
+      },
+      {
+        "name": "m_bMultisampleEnable",
+        "type": "bool",
+        "offset": 3
+      },
+      {
+        "name": "m_nDepthBias",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flDepthBiasClamp",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flSlopeScaledDepthBias",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "RsStencilStateDesc_t": {
+    "binary": "rendersystemvulkan.dll",
+    "base": null,
+    "size": 6,
+    "fields": [
+      {
+        "name": "m_frontStencilFunc",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nStencilReadMask",
+        "type": "uint8_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nStencilWriteMask",
+        "type": "uint8_t",
+        "offset": 5
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "ManifestTestResource_t": {
+    "binary": "resourcesystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_child",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  }
+}

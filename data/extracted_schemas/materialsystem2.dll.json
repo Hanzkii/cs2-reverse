@@ -1,0 +1,557 @@
+{
+  "MaterialParamBuffer_t": {
+    "binary": "materialsystem2.dll",
+    "base": "MaterialParam_t",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_value",
+        "type": "Vector4D",
+        "offset": 8
+      }
+    ]
+  },
+  "MaterialParamFloat_t": {
+    "binary": "materialsystem2.dll",
+    "base": "MaterialParam_t",
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_flValue",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "MaterialParamInt_t": {
+    "binary": "materialsystem2.dll",
+    "base": "MaterialParam_t",
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nValue",
+        "type": "int64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "MaterialParamString_t": {
+    "binary": "materialsystem2.dll",
+    "base": "MaterialParam_t",
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_value",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "MaterialParamTexture_t": {
+    "binary": "materialsystem2.dll",
+    "base": "MaterialParam_t",
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_pValue",
+        "type": "void*",
+        "offset": 8
+      }
+    ]
+  },
+  "MaterialParamVector_t": {
+    "binary": "materialsystem2.dll",
+    "base": "MaterialParam_t",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_value",
+        "type": "Vector4D",
+        "offset": 8
+      }
+    ]
+  },
+  "MaterialParam_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      }
+    ]
+  },
+  "MaterialResourceData_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 304,
+    "fields": [
+      {
+        "name": "m_materialName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_shaderName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_intParams",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_floatParams",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_vectorParams",
+        "type": "Vector",
+        "offset": 64
+      },
+      {
+        "name": "m_textureParams",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_dynamicParams",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_dynamicTextureParams",
+        "type": "uint8_t[24]",
+        "offset": 136
+      },
+      {
+        "name": "m_intAttributes",
+        "type": "int32_t",
+        "offset": 160
+      },
+      {
+        "name": "m_floatAttributes",
+        "type": "float",
+        "offset": 184
+      },
+      {
+        "name": "m_vectorAttributes",
+        "type": "Vector",
+        "offset": 208
+      },
+      {
+        "name": "m_textureAttributes",
+        "type": "uint8_t[24]",
+        "offset": 232
+      },
+      {
+        "name": "m_stringAttributes",
+        "type": "char[24]",
+        "offset": 256
+      },
+      {
+        "name": "m_renderAttributesUsed",
+        "type": "uint8_t[24]",
+        "offset": 280
+      }
+    ]
+  },
+  "PostProcessingBloomParameters_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_blendMode",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_flBloomStrength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flScreenBloomStrength",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flBlurBloomStrength",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flBloomThreshold",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flBloomThresholdWidth",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flSkyboxBloomStrength",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flBloomStartValue",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flComputeBloomStrength",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flComputeBloomThreshold",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flComputeBloomRadius",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flComputeBloomEffectsScale",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flComputeBloomLensDirtStrength",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flComputeBloomLensDirtBlackLevel",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flBlurWeight",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_vBlurTint",
+        "type": "uint8_t[60]",
+        "offset": 76
+      }
+    ]
+  },
+  "PostProcessingFogScatteringParameters_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_fRadius",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_fScale",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_fCubemapScale",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_fVolumetricScale",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_fGradientScale",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_fWaterScale",
+        "type": "uint32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_fWaterDensity",
+        "type": "uint32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_fWaterDepthBlurRadius",
+        "type": "uint32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "PostProcessingLocalContrastParameters_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "m_flLocalContrastStrength",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flLocalContrastEdgeStrength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flLocalContrastVignetteStart",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flLocalContrastVignetteEnd",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flLocalContrastVignetteBlur",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "PostProcessingLocalExposureParameters_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_fShadowOffsetEV",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_fHighlightOffsetEV",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_fSigma",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_fBoostLocalContrast",
+        "type": "uint32_t",
+        "offset": 12
+      }
+    ]
+  },
+  "PostProcessingResource_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 344,
+    "fields": [
+      {
+        "name": "m_bHasTonemapParams",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_toneMapParams",
+        "type": "uint8_t[60]",
+        "offset": 4
+      },
+      {
+        "name": "m_bHasBloomParams",
+        "type": "bool",
+        "offset": 64
+      },
+      {
+        "name": "m_bloomParams",
+        "type": "bool",
+        "offset": 68
+      },
+      {
+        "name": "m_bHasVignetteParams",
+        "type": "bool",
+        "offset": 204
+      },
+      {
+        "name": "m_vignetteParams",
+        "type": "uint8_t[36]",
+        "offset": 208
+      },
+      {
+        "name": "m_bHasLocalContrastParams",
+        "type": "bool",
+        "offset": 244
+      },
+      {
+        "name": "m_localConstrastParams",
+        "type": "uint8_t[20]",
+        "offset": 248
+      },
+      {
+        "name": "m_nColorCorrectionVolumeDim",
+        "type": "int32_t",
+        "offset": 268
+      },
+      {
+        "name": "m_colorCorrectionVolumeData",
+        "type": "Vector4D",
+        "offset": 272
+      },
+      {
+        "name": "m_bHasColorCorrection",
+        "type": "bool",
+        "offset": 288
+      },
+      {
+        "name": "m_bHasFogScatteringParams",
+        "type": "bool",
+        "offset": 289
+      },
+      {
+        "name": "m_fogScatteringParams",
+        "type": "uint8_t[32]",
+        "offset": 292
+      },
+      {
+        "name": "m_bHasLocalExposureParams",
+        "type": "bool",
+        "offset": 324
+      },
+      {
+        "name": "m_localExposureParams",
+        "type": "Vector4D",
+        "offset": 328
+      }
+    ]
+  },
+  "PostProcessingTonemapParameters_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 60,
+    "fields": [
+      {
+        "name": "m_flExposureBias",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flShoulderStrength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flLinearStrength",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flLinearAngle",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flToeStrength",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flToeNum",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flToeDenom",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flWhitePoint",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flLuminanceSource",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flExposureBiasShadows",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flExposureBiasHighlights",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flMinShadowLum",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flMaxShadowLum",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flMinHighlightLum",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flMaxHighlightLum",
+        "type": "float",
+        "offset": 56
+      }
+    ]
+  },
+  "PostProcessingVignetteParameters_t": {
+    "binary": "materialsystem2.dll",
+    "base": null,
+    "size": 36,
+    "fields": [
+      {
+        "name": "m_flVignetteStrength",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_vCenter",
+        "type": "uint64_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flRadius",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flRoundness",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flFeather",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_vColorTint",
+        "type": "Vector",
+        "offset": 24
+      }
+    ]
+  }
+}

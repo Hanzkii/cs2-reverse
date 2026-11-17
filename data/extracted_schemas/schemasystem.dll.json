@@ -1,0 +1,189 @@
+{
+  "CExampleSchemaVData_Monomorphic": {
+    "binary": "schemasystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_nExample1",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nExample2",
+        "type": "int32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "CExampleSchemaVData_PolymorphicBase": {
+    "binary": "schemasystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nBase",
+        "type": "int64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CExampleSchemaVData_PolymorphicDerivedA": {
+    "binary": "schemasystem.dll",
+    "base": "CExampleSchemaVData_PolymorphicBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nDerivedA",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CExampleSchemaVData_PolymorphicDerivedB": {
+    "binary": "schemasystem.dll",
+    "base": "CExampleSchemaVData_PolymorphicBase",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nDerivedB",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CSchemaSystemInternalRegistration": {
+    "binary": "schemasystem.dll",
+    "base": null,
+    "size": 384,
+    "fields": [
+      {
+        "name": "m_Vector2D",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_Vector",
+        "type": "Vector",
+        "offset": 8
+      },
+      {
+        "name": "m_VectorWS",
+        "type": "Vector",
+        "offset": 20
+      },
+      {
+        "name": "m_VectorAligned",
+        "type": "Vector4D",
+        "offset": 32
+      },
+      {
+        "name": "m_Quaternion",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "m_QAngle",
+        "type": "Vector",
+        "offset": 64
+      },
+      {
+        "name": "m_RotationVector",
+        "type": "Vector",
+        "offset": 76
+      },
+      {
+        "name": "m_RadianEuler",
+        "type": "Vector",
+        "offset": 88
+      },
+      {
+        "name": "m_DegreeEuler",
+        "type": "Vector",
+        "offset": 100
+      },
+      {
+        "name": "m_QuaternionStorage",
+        "type": "Vector4D",
+        "offset": 112
+      },
+      {
+        "name": "m_matrix3x4_t",
+        "type": "uint8_t[48]",
+        "offset": 128
+      },
+      {
+        "name": "m_matrix3x4a_t",
+        "type": "uint8_t[48]",
+        "offset": 176
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 224
+      },
+      {
+        "name": "m_Vector4D",
+        "type": "uint8_t[28]",
+        "offset": 228
+      },
+      {
+        "name": "m_CTransform",
+        "type": "uint8_t[32]",
+        "offset": 256
+      },
+      {
+        "name": "m_pKeyValues",
+        "type": "void*",
+        "offset": 288
+      },
+      {
+        "name": "m_CUtlBinaryBlock",
+        "type": "Vector4D",
+        "offset": 296
+      },
+      {
+        "name": "m_CUtlString",
+        "type": "uint64_t",
+        "offset": 312
+      },
+      {
+        "name": "m_CUtlSymbol",
+        "type": "uint32_t",
+        "offset": 320
+      },
+      {
+        "name": "m_stringToken",
+        "type": "char[4]",
+        "offset": 324
+      },
+      {
+        "name": "m_stringTokenWithStorage",
+        "type": "char[24]",
+        "offset": 328
+      },
+      {
+        "name": "m_ResourceTypes",
+        "type": "uint64_t",
+        "offset": 352
+      },
+      {
+        "name": "m_KV3",
+        "type": "uint8_t[24]",
+        "offset": 360
+      }
+    ]
+  },
+  "ResourceId_t": {
+    "binary": "schemasystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint64_t",
+        "offset": 0
+      }
+    ]
+  }
+}

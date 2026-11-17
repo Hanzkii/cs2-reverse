@@ -231,6 +231,92 @@ CANONICAL_PROTOTYPES: Dict[str, Dict[str, str]] = {
         "prototype": "bool ProcessPacket(void* this, void* pPacket, int nBytes)",
         "convention": "__fastcall",
     },
+
+    # Additional Canonical Subsystems (Expanded Registry)
+    "CThread::Start": {
+        "prototype": "bool Start(void* this, uint nStackSize, int nPriority)",
+        "convention": "__fastcall",
+    },
+    "MemAlloc_AllocFunc": {
+        "prototype": "void* MemAlloc_AllocFunc(size_t nSize)",
+        "convention": "__fastcall",
+    },
+    "LoggingSystem_Log": {
+        "prototype": "int LoggingSystem_Log(int channel, int severity, char* pFormat, ...)",
+        "convention": "__fastcall",
+    },
+    "ThreadSleep": {
+        "prototype": "void ThreadSleep(uint durationMs)",
+        "convention": "__fastcall",
+    },
+    "CSchemaSystem::FindTypeScopeForModule": {
+        "prototype": "void* FindTypeScopeForModule(void* this, char* m_pszModuleName, void* pBindingContext)",
+        "convention": "__fastcall",
+    },
+    "CSchemaSystemTypeScope::FindDeclaredClass": {
+        "prototype": "void* FindDeclaredClass(void* this, char* m_pszClassName)",
+        "convention": "__fastcall",
+    },
+    "CSchemaSystemTypeScope::FindDeclaredClassByName": {
+        "prototype": "void* FindDeclaredClassByName(void* this, char* pszName)",
+        "convention": "__fastcall",
+    },
+    "CEngineServiceMgr::Init": {
+        "prototype": "bool Init(void* this)",
+        "convention": "__fastcall",
+    },
+    "CHostStateMgr::Init": {
+        "prototype": "bool Init(void* this)",
+        "convention": "__fastcall",
+    },
+    "CHostStateMgr::QueueNewRequest": {
+        "prototype": "void QueueNewRequest(void* this, char* pszContext, uint nRequestType)",
+        "convention": "__fastcall",
+    },
+    "CCSGOInput::GetViewAngles": {
+        "prototype": "void* GetViewAngles(void* this, int nSlot, void* pOutAngles)",
+        "convention": "__fastcall",
+    },
+    "C_CSPlayerPawn::PostDataUpdate": {
+        "prototype": "void PostDataUpdate(void* this, int updateType)",
+        "convention": "__fastcall",
+    },
+    "CEntitySubclassGameSystem::LoadSubclasses": {
+        "prototype": "void LoadSubclasses(void* this)",
+        "convention": "__fastcall",
+    },
+    "CBombTarget::BombExplode": {
+        "prototype": "int BombExplode(void* this, void* pActivator)",
+        "convention": "__fastcall",
+    },
+    "CCSPlayerPawn::CommitSuicide": {
+        "prototype": "void CommitSuicide(void* this, bool bExplode, bool bForce)",
+        "convention": "__fastcall",
+    },
+    "RnPhysicsWorld_Step": {
+        "prototype": "void RnPhysicsWorld_Step(void* pWorld, float flDeltaTime)",
+        "convention": "__fastcall",
+    },
+    "CRnWorld::WakeBodiesFromAppliedForces": {
+        "prototype": "void WakeBodiesFromAppliedForces(void* this)",
+        "convention": "__fastcall",
+    },
+    "CVPhysics2Interface::Init": {
+        "prototype": "bool Init(void* this)",
+        "convention": "__fastcall",
+    },
+    "CNetworkMessages::RegisterNetworkCategory": {
+        "prototype": "void RegisterNetworkCategory(void* this, uint nCategory, char* pszName)",
+        "convention": "__fastcall",
+    },
+    "CAnimationSystem::Init": {
+        "prototype": "bool Init(void* this)",
+        "convention": "__fastcall",
+    },
+    "CInputSystem::Init": {
+        "prototype": "bool Init(void* this)",
+        "convention": "__fastcall",
+    },
 }
 
 

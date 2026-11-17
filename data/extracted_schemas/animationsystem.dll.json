@@ -1,0 +1,8107 @@
+{
+  "AimCameraOpFixedSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_nChainIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nCameraJointIndex",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nPelvisJointIndex",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nClavicleLeftJointIndex",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nClavicleRightJointIndex",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nDepenetrationJointIndex",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_propJoints",
+        "type": "void*",
+        "offset": 24
+      }
+    ]
+  },
+  "AimMatrixOpFixedSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 240,
+    "fields": [
+      {
+        "name": "m_attachment",
+        "type": "uint8_t[128]",
+        "offset": 0
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 128
+      },
+      {
+        "name": "m_poseCacheHandles",
+        "type": "void*",
+        "offset": 152
+      },
+      {
+        "name": "m_eBlendMode",
+        "type": "uint32_t",
+        "offset": 192
+      },
+      {
+        "name": "m_flMaxYawAngle",
+        "type": "float",
+        "offset": 196
+      },
+      {
+        "name": "m_flMaxPitchAngle",
+        "type": "float",
+        "offset": 200
+      },
+      {
+        "name": "m_nSequenceMaxFrame",
+        "type": "int32_t",
+        "offset": 204
+      },
+      {
+        "name": "m_nBoneMaskIndex",
+        "type": "int32_t",
+        "offset": 208
+      },
+      {
+        "name": "m_bTargetIsPosition",
+        "type": "bool",
+        "offset": 212
+      },
+      {
+        "name": "m_bUseBiasAndClamp",
+        "type": "bool",
+        "offset": 213
+      },
+      {
+        "name": "m_flBiasAndClampYawOffset",
+        "type": "float",
+        "offset": 216
+      },
+      {
+        "name": "m_flBiasAndClampPitchOffset",
+        "type": "float",
+        "offset": 220
+      },
+      {
+        "name": "m_biasAndClampBlendCurve",
+        "type": "bool",
+        "offset": 224
+      }
+    ]
+  },
+  "BlendItem_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_pChild",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 40
+      },
+      {
+        "name": "m_vPos",
+        "type": "uint64_t",
+        "offset": 44
+      },
+      {
+        "name": "m_flDuration",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_bUseCustomDuration",
+        "type": "bool",
+        "offset": 56
+      }
+    ]
+  },
+  "BoneDemoCaptureSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_boneName",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_flErrorSplineRotationMax",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flErrorSplineTranslationMax",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flErrorSplineScaleMax",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flErrorQuantizationRotationMax",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flErrorQuantizationTranslationMax",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flErrorQuantizationScaleMax",
+        "type": "float",
+        "offset": 28
+      }
+    ]
+  },
+  "CActionComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_actions",
+        "type": "uint8_t[24]",
+        "offset": 48
+      }
+    ]
+  },
+  "CAddUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CBinaryUpdateNode",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_footMotionTiming",
+        "type": "uint32_t",
+        "offset": 148
+      },
+      {
+        "name": "m_bApplyToFootMotion",
+        "type": "bool",
+        "offset": 152
+      },
+      {
+        "name": "m_bApplyChannelsSeparately",
+        "type": "bool",
+        "offset": 153
+      },
+      {
+        "name": "m_bUseModelSpace",
+        "type": "bool",
+        "offset": 154
+      },
+      {
+        "name": "m_bApplyScale",
+        "type": "bool",
+        "offset": 155
+      }
+    ]
+  },
+  "CAimCameraUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_hParameterPosition",
+        "type": "CEntityHandle",
+        "offset": 112
+      },
+      {
+        "name": "m_hParameterOrientation",
+        "type": "CEntityHandle",
+        "offset": 114
+      },
+      {
+        "name": "m_hParameterPelvisOffset",
+        "type": "CEntityHandle",
+        "offset": 116
+      },
+      {
+        "name": "m_hParameterCameraOnly",
+        "type": "CEntityHandle",
+        "offset": 118
+      },
+      {
+        "name": "m_hParameterWeaponDepenetrationDistance",
+        "type": "CEntityHandle",
+        "offset": 120
+      },
+      {
+        "name": "m_hParameterWeaponDepenetrationDelta",
+        "type": "CEntityHandle",
+        "offset": 122
+      },
+      {
+        "name": "m_hParameterCameraClearanceDistance",
+        "type": "CEntityHandle",
+        "offset": 124
+      },
+      {
+        "name": "m_opFixedSettings",
+        "type": "uint8_t[56]",
+        "offset": 128
+      }
+    ]
+  },
+  "CAimMatrixUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 384,
+    "fields": [
+      {
+        "name": "m_opFixedSettings",
+        "type": "uint8_t[248]",
+        "offset": 112
+      },
+      {
+        "name": "m_target",
+        "type": "uint32_t",
+        "offset": 360
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 364
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 368
+      },
+      {
+        "name": "m_bResetChild",
+        "type": "bool",
+        "offset": 372
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 373
+      }
+    ]
+  },
+  "CAnimActivity": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nActivity",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nWeight",
+        "type": "int64_t",
+        "offset": 24
+      }
+    ]
+  },
+  "CAnimBone": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_parent",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_pos",
+        "type": "void*",
+        "offset": 20
+      },
+      {
+        "name": "m_quat",
+        "type": "Quaternion",
+        "offset": 32
+      },
+      {
+        "name": "m_scale",
+        "type": "uint32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_qAlignment",
+        "type": "Quaternion",
+        "offset": 52
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 68
+      }
+    ]
+  },
+  "CAnimBoneDifference": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_parent",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_posError",
+        "type": "void*",
+        "offset": 32
+      },
+      {
+        "name": "m_bHasRotation",
+        "type": "bool",
+        "offset": 44
+      },
+      {
+        "name": "m_bHasMovement",
+        "type": "bool",
+        "offset": 45
+      }
+    ]
+  },
+  "CAnimComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_networkMode",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_bStartEnabled",
+        "type": "bool",
+        "offset": 40
+      }
+    ]
+  },
+  "CAnimData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_animArray",
+        "type": "uint8_t[24]",
+        "offset": 32
+      },
+      {
+        "name": "m_decoderArray",
+        "type": "uint8_t[24]",
+        "offset": 56
+      },
+      {
+        "name": "m_nMaxUniqueFrameIndex",
+        "type": "int64_t",
+        "offset": 80
+      },
+      {
+        "name": "m_segmentArray",
+        "type": "uint8_t[24]",
+        "offset": 88
+      }
+    ]
+  },
+  "CAnimDataChannelDesc": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_szChannelClass",
+        "type": "char[16]",
+        "offset": 0
+      },
+      {
+        "name": "m_szVariableName",
+        "type": "char[16]",
+        "offset": 16
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nType",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_szGrouping",
+        "type": "char[16]",
+        "offset": 40
+      },
+      {
+        "name": "m_szDescription",
+        "type": "char[16]",
+        "offset": 56
+      },
+      {
+        "name": "m_szElementNameArray",
+        "type": "char[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_nElementIndexArray",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_nElementMaskArray",
+        "type": "int32_t",
+        "offset": 120
+      }
+    ]
+  },
+  "CAnimDecoder": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_szName",
+        "type": "char[16]",
+        "offset": 0
+      },
+      {
+        "name": "m_nVersion",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nType",
+        "type": "int32_t",
+        "offset": 20
+      }
+    ]
+  },
+  "CAnimDemoCaptureSettings": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_vecErrorRangeSplineRotation",
+        "type": "Vector2D",
+        "offset": 0
+      },
+      {
+        "name": "m_vecErrorRangeSplineTranslation",
+        "type": "Vector2D",
+        "offset": 8
+      },
+      {
+        "name": "m_vecErrorRangeSplineScale",
+        "type": "Vector2D",
+        "offset": 16
+      },
+      {
+        "name": "m_flIkRotation_MaxSplineError",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flIkTranslation_MaxSplineError",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_vecErrorRangeQuantizationRotation",
+        "type": "Vector2D",
+        "offset": 32
+      },
+      {
+        "name": "m_vecErrorRangeQuantizationTranslation",
+        "type": "Vector2D",
+        "offset": 40
+      },
+      {
+        "name": "m_vecErrorRangeQuantizationScale",
+        "type": "Vector2D",
+        "offset": 48
+      },
+      {
+        "name": "m_flIkRotation_MaxQuantizationError",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flIkTranslation_MaxQuantizationError",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_baseSequence",
+        "type": "bool",
+        "offset": 64
+      },
+      {
+        "name": "m_nBaseSequenceFrame",
+        "type": "int32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_boneSelectionMode",
+        "type": "bool",
+        "offset": 76
+      },
+      {
+        "name": "m_bones",
+        "type": "bool",
+        "offset": 80
+      },
+      {
+        "name": "m_ikChains",
+        "type": "int32_t",
+        "offset": 104
+      }
+    ]
+  },
+  "CAnimDesc": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 464,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "fps",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_Data",
+        "type": "uint8_t[216]",
+        "offset": 32
+      },
+      {
+        "name": "m_movementArray",
+        "type": "uint8_t[24]",
+        "offset": 248
+      },
+      {
+        "name": "m_xInitialOffset",
+        "type": "uint8_t[32]",
+        "offset": 272
+      },
+      {
+        "name": "m_eventArray",
+        "type": "uint8_t[24]",
+        "offset": 304
+      },
+      {
+        "name": "m_activityArray",
+        "type": "uint8_t[24]",
+        "offset": 328
+      },
+      {
+        "name": "m_hierarchyArray",
+        "type": "CEntityHandle",
+        "offset": 352
+      },
+      {
+        "name": "framestalltime",
+        "type": "uint32_t",
+        "offset": 376
+      },
+      {
+        "name": "m_vecRootMin",
+        "type": "Vector",
+        "offset": 380
+      },
+      {
+        "name": "m_vecRootMax",
+        "type": "Vector4D",
+        "offset": 392
+      },
+      {
+        "name": "m_vecBoneWorldMin",
+        "type": "Vector",
+        "offset": 408
+      },
+      {
+        "name": "m_vecBoneWorldMax",
+        "type": "Vector",
+        "offset": 432
+      },
+      {
+        "name": "m_sequenceParams",
+        "type": "uint64_t",
+        "offset": 456
+      }
+    ]
+  },
+  "CAnimDesc_Flag": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_bLooping",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bAllZeros",
+        "type": "bool",
+        "offset": 1
+      },
+      {
+        "name": "m_bHidden",
+        "type": "bool",
+        "offset": 2
+      },
+      {
+        "name": "m_bDelta",
+        "type": "bool",
+        "offset": 3
+      },
+      {
+        "name": "m_bLegacyWorldspace",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_bModelDoc",
+        "type": "bool",
+        "offset": 5
+      },
+      {
+        "name": "m_bImplicitSeqIgnoreDelta",
+        "type": "bool",
+        "offset": 6
+      },
+      {
+        "name": "m_bAnimGraphAdditive",
+        "type": "bool",
+        "offset": 7
+      }
+    ]
+  },
+  "CAnimEncodeDifference": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 168,
+    "fields": [
+      {
+        "name": "m_boneArray",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_morphArray",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_userArray",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_bHasRotationBitArray",
+        "type": "bool",
+        "offset": 72
+      },
+      {
+        "name": "m_bHasMovementBitArray",
+        "type": "bool",
+        "offset": 96
+      },
+      {
+        "name": "m_bHasMorphBitArray",
+        "type": "bool",
+        "offset": 120
+      },
+      {
+        "name": "m_bHasUserBitArray",
+        "type": "bool",
+        "offset": 144
+      }
+    ]
+  },
+  "CAnimEncodedFrames": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_fileName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_nFrames",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nFramesPerBlock",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_frameblockArray",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_usageDifferences",
+        "type": "uint8_t[168]",
+        "offset": 48
+      }
+    ]
+  },
+  "CAnimEnum": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_value",
+        "type": "uint8_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CAnimEventDefinition": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_nFrame",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nEndFrame",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flDuration",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_EventData",
+        "type": "Vector4D",
+        "offset": 24
+      },
+      {
+        "name": "m_sLegacyOptions",
+        "type": "Vector4D",
+        "offset": 40
+      },
+      {
+        "name": "m_sEventName",
+        "type": "uint64_t",
+        "offset": 56
+      }
+    ]
+  },
+  "CAnimFrameBlockAnim": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nStartFrame",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nEndFrame",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_segmentIndexArray",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CAnimFrameSegment": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nUniqueFrameIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nLocalElementMasks",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nLocalChannel",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_container",
+        "type": "Vector4D",
+        "offset": 16
+      }
+    ]
+  },
+  "CAnimGraphDebugReplay": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_animGraphFileName",
+        "type": "uint64_t",
+        "offset": 64
+      },
+      {
+        "name": "m_frameList",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_startIndex",
+        "type": "uint32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_writeIndex",
+        "type": "uint32_t",
+        "offset": 100
+      },
+      {
+        "name": "m_frameCount",
+        "type": "uint64_t",
+        "offset": 104
+      }
+    ]
+  },
+  "CAnimGraphModelBinding": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_modelName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_pSharedData",
+        "type": "void*",
+        "offset": 16
+      }
+    ]
+  },
+  "CAnimGraphNetworkSettings": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimGraphSettingsGroup",
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_bNetworkingEnabled",
+        "type": "bool",
+        "offset": 32
+      }
+    ]
+  },
+  "CAnimGraphSettingsManager": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_settingsGroups",
+        "type": "uint8_t[24]",
+        "offset": 24
+      }
+    ]
+  },
+  "CAnimInputDamping": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_speedFunction",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_fSpeedScale",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_fFallingSpeedScale",
+        "type": "uint64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CAnimKeyData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_boneArray",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_userArray",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_morphArray",
+        "type": "uint8_t[24]",
+        "offset": 64
+      },
+      {
+        "name": "m_nChannelElements",
+        "type": "int64_t",
+        "offset": 88
+      },
+      {
+        "name": "m_dataChannelArray",
+        "type": "uint8_t[24]",
+        "offset": 96
+      }
+    ]
+  },
+  "CAnimLocalHierarchy": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_sBone",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_sNewParent",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "m_nStartFrame",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nPeakFrame",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nTailFrame",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_nEndFrame",
+        "type": "int32_t",
+        "offset": 44
+      }
+    ]
+  },
+  "CAnimMorphDifference": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CAnimMotorUpdaterBase": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_bDefault",
+        "type": "bool",
+        "offset": 24
+      }
+    ]
+  },
+  "CAnimMovement": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 44,
+    "fields": [
+      {
+        "name": "endframe",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "motionflags",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "v0",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "v1",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "angle",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "vector",
+        "type": "Vector",
+        "offset": 20
+      },
+      {
+        "name": "position",
+        "type": "Vector",
+        "offset": 32
+      }
+    ]
+  },
+  "CAnimNodePath": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_path",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_nCount",
+        "type": "int32_t",
+        "offset": 44
+      }
+    ]
+  },
+  "CAnimParamHandle": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 2,
+    "fields": [
+      {
+        "name": "m_type",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_index",
+        "type": "uint8_t",
+        "offset": 1
+      }
+    ]
+  },
+  "CAnimParamHandleMap": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_list",
+        "type": "uint8_t[32]",
+        "offset": 0
+      }
+    ]
+  },
+  "CAnimParameterBase": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_sComment",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_group",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_componentName",
+        "type": "uint8_t[32]",
+        "offset": 72
+      },
+      {
+        "name": "m_bNetworkingRequested",
+        "type": "bool",
+        "offset": 104
+      },
+      {
+        "name": "m_bIsReferenced",
+        "type": "bool",
+        "offset": 105
+      }
+    ]
+  },
+  "CAnimParameterManagerUpdater": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 256,
+    "fields": [
+      {
+        "name": "m_parameters",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_idToIndexMap",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_nameToIndexMap",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_indexToHandle",
+        "type": "int32_t",
+        "offset": 112
+      },
+      {
+        "name": "m_autoResetParams",
+        "type": "uint8_t[24]",
+        "offset": 136
+      },
+      {
+        "name": "m_autoResetMap",
+        "type": "uint8_t[96]",
+        "offset": 160
+      }
+    ]
+  },
+  "CAnimReplayFrame": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_inputDataBlocks",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_instanceData",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_startingLocalToWorldTransform",
+        "type": "uint8_t[32]",
+        "offset": 64
+      },
+      {
+        "name": "m_localToWorldTransform",
+        "type": "uint8_t[32]",
+        "offset": 96
+      },
+      {
+        "name": "m_timeStamp",
+        "type": "Vector4D",
+        "offset": 128
+      }
+    ]
+  },
+  "CAnimScriptComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_hScript",
+        "type": "CEntityHandle",
+        "offset": 48
+      }
+    ]
+  },
+  "CAnimScriptManager": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 416,
+    "fields": [
+      {
+        "name": "m_scriptInfo",
+        "type": "uint8_t[400]",
+        "offset": 16
+      }
+    ]
+  },
+  "CAnimSequenceParams": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_flFadeInTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flFadeOutTime",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "CAnimStateMachineUpdater": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_states",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_transitions",
+        "type": "uint8_t[48]",
+        "offset": 32
+      },
+      {
+        "name": "m_startStateIndex",
+        "type": "uint64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "CAnimTagBase": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_sComment",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_group",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_tagID",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_bIsReferenced",
+        "type": "bool",
+        "offset": 72
+      }
+    ]
+  },
+  "CAnimTagManagerUpdater": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_tags",
+        "type": "uint8_t[64]",
+        "offset": 56
+      }
+    ]
+  },
+  "CAnimUpdateNodeBase": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_nodePath",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_networkMode",
+        "type": "int64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "CAnimUpdateNodeRef": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nodeIndex",
+        "type": "int64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CAnimUpdateSharedData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 256,
+    "fields": [
+      {
+        "name": "m_nodes",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nodeIndexMap",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_components",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_pParamListUpdater",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_pTagManagerUpdater",
+        "type": "void*",
+        "offset": 104
+      },
+      {
+        "name": "m_scriptManager",
+        "type": "uint64_t",
+        "offset": 112
+      },
+      {
+        "name": "m_settings",
+        "type": "uint8_t[48]",
+        "offset": 120
+      },
+      {
+        "name": "m_pStaticPoseCache",
+        "type": "void*",
+        "offset": 168
+      },
+      {
+        "name": "m_pSkeleton",
+        "type": "void*",
+        "offset": 176
+      },
+      {
+        "name": "m_rootNodePath",
+        "type": "uint8_t[72]",
+        "offset": 184
+      }
+    ]
+  },
+  "CAnimUser": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nType",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CAnimUserDifference": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nType",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CAnimationGraphInstance": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 832,
+    "fields": [
+      {
+        "name": "m_bTagDispatchDirty",
+        "type": "bool",
+        "offset": 809
+      }
+    ]
+  },
+  "CAnimationGraphVisualizerAxis": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimationGraphVisualizerPrimitiveBase",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_xWsTransform",
+        "type": "uint8_t[32]",
+        "offset": 64
+      },
+      {
+        "name": "m_flAxisSize",
+        "type": "float",
+        "offset": 96
+      }
+    ]
+  },
+  "CAnimationGraphVisualizerLine": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimationGraphVisualizerPrimitiveBase",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_vWsPositionStart",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_vWsPositionEnd",
+        "type": "Vector4D",
+        "offset": 80
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 96
+      }
+    ]
+  },
+  "CAnimationGraphVisualizerPie": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimationGraphVisualizerPrimitiveBase",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_vWsCenter",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_vWsStart",
+        "type": "Vector4D",
+        "offset": 80
+      },
+      {
+        "name": "m_vWsEnd",
+        "type": "Vector4D",
+        "offset": 96
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 112
+      }
+    ]
+  },
+  "CAnimationGraphVisualizerPrimitiveBase": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_Type",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_OwningAnimNodePaths",
+        "type": "uint8_t[44]",
+        "offset": 12
+      },
+      {
+        "name": "m_nOwningAnimNodePathCount",
+        "type": "int64_t",
+        "offset": 56
+      }
+    ]
+  },
+  "CAnimationGraphVisualizerSphere": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimationGraphVisualizerPrimitiveBase",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_vWsPosition",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_flRadius",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 84
+      }
+    ]
+  },
+  "CAnimationGraphVisualizerText": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimationGraphVisualizerPrimitiveBase",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_vWsPosition",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_Text",
+        "type": "uint64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "CAnimationGroup": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 328,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "int64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_name",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_localHAnimArray_Handle",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_includedGroupArray_Handle",
+        "type": "int32_t",
+        "offset": 120
+      },
+      {
+        "name": "m_directHSeqGroup_Handle",
+        "type": "uint64_t",
+        "offset": 144
+      },
+      {
+        "name": "m_decodeKey",
+        "type": "uint8_t[120]",
+        "offset": 152
+      },
+      {
+        "name": "m_szScripts",
+        "type": "char[24]",
+        "offset": 272
+      },
+      {
+        "name": "m_AdditionalExtRefs",
+        "type": "uint8_t[32]",
+        "offset": 296
+      }
+    ]
+  },
+  "CAnimationLayer": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 76,
+    "fields": [
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 0
+      },
+      {
+        "name": "m_flPrevCycle",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flWeight",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_nOrder",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_bLooping",
+        "type": "bool",
+        "offset": 52
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_bSequenceFinished",
+        "type": "bool",
+        "offset": 60
+      },
+      {
+        "name": "m_flKillRate",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flKillDelay",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_nPriority",
+        "type": "int32_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CAudioAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_clipName",
+        "type": "uint64_t",
+        "offset": 88
+      },
+      {
+        "name": "m_attachmentName",
+        "type": "uint64_t",
+        "offset": 96
+      },
+      {
+        "name": "m_flVolume",
+        "type": "float",
+        "offset": 104
+      },
+      {
+        "name": "m_bStopWhenTagEnds",
+        "type": "bool",
+        "offset": 108
+      },
+      {
+        "name": "m_bStopWhenGraphEnds",
+        "type": "bool",
+        "offset": 109
+      },
+      {
+        "name": "m_bPlayOnServer",
+        "type": "bool",
+        "offset": 110
+      },
+      {
+        "name": "m_bPlayOnClient",
+        "type": "bool",
+        "offset": 111
+      }
+    ]
+  },
+  "CBinaryUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_pChild1",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_pChild2",
+        "type": "void*",
+        "offset": 112
+      },
+      {
+        "name": "m_timingBehavior",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_flTimingBlend",
+        "type": "float",
+        "offset": 132
+      },
+      {
+        "name": "m_bResetChild1",
+        "type": "bool",
+        "offset": 136
+      },
+      {
+        "name": "m_bResetChild2",
+        "type": "bool",
+        "offset": 137
+      }
+    ]
+  },
+  "CBlend2DInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_dampedValue",
+        "type": "uint8_t[60]",
+        "offset": 8
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_flPrevCycle",
+        "type": "float",
+        "offset": 72
+      }
+    ]
+  },
+  "CBlend2DUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 248,
+    "fields": [
+      {
+        "name": "m_items",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_paramSpans",
+        "type": "void*",
+        "offset": 144
+      },
+      {
+        "name": "m_nodeItemIndices",
+        "type": "int32_t",
+        "offset": 168
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 192
+      },
+      {
+        "name": "m_blendSourceX",
+        "type": "bool",
+        "offset": 216
+      },
+      {
+        "name": "m_paramX",
+        "type": "void*",
+        "offset": 220
+      },
+      {
+        "name": "m_blendSourceY",
+        "type": "bool",
+        "offset": 224
+      },
+      {
+        "name": "m_paramY",
+        "type": "void*",
+        "offset": 228
+      },
+      {
+        "name": "m_eBlendMode",
+        "type": "uint32_t",
+        "offset": 232
+      },
+      {
+        "name": "m_playbackSpeed",
+        "type": "void*",
+        "offset": 236
+      },
+      {
+        "name": "m_bLoop",
+        "type": "bool",
+        "offset": 240
+      },
+      {
+        "name": "m_bLockBlendOnReset",
+        "type": "bool",
+        "offset": 241
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 242
+      },
+      {
+        "name": "m_bAnimEventsAndTagsOnMostWeightedOnly",
+        "type": "bool",
+        "offset": 243
+      }
+    ]
+  },
+  "CBlendCurve": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_flControlPoint1",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flControlPoint2",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "CBlendNodeInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_dampedValue",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flCycleZeroTime",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flPlaybackRate",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flBlendValue",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flDuration",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_resetCount",
+        "type": "Vector4D",
+        "offset": 32
+      }
+    ]
+  },
+  "CBlendUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 224,
+    "fields": [
+      {
+        "name": "m_children",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_sortedOrder",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_targetValues",
+        "type": "uint8_t[28]",
+        "offset": 144
+      },
+      {
+        "name": "m_blendValueSource",
+        "type": "bool",
+        "offset": 172
+      },
+      {
+        "name": "m_eLinearRootMotionBlendMode",
+        "type": "uint32_t",
+        "offset": 176
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 180
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 184
+      },
+      {
+        "name": "m_blendKeyType",
+        "type": "bool",
+        "offset": 208
+      },
+      {
+        "name": "m_bLockBlendOnReset",
+        "type": "bool",
+        "offset": 212
+      },
+      {
+        "name": "m_bSyncCycles",
+        "type": "bool",
+        "offset": 213
+      },
+      {
+        "name": "m_bLoop",
+        "type": "bool",
+        "offset": 214
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 215
+      },
+      {
+        "name": "m_bIsAngle",
+        "type": "bool",
+        "offset": 216
+      }
+    ]
+  },
+  "CBodyGroupAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_nPriority",
+        "type": "int64_t",
+        "offset": 88
+      },
+      {
+        "name": "m_bodyGroupSettings",
+        "type": "bool",
+        "offset": 96
+      }
+    ]
+  },
+  "CBodyGroupSetting": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_BodyGroupName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nBodyGroupOption",
+        "type": "int64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CBoneMaskUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CBinaryUpdateNode",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_nWeightListIndex",
+        "type": "int32_t",
+        "offset": 148
+      },
+      {
+        "name": "m_flRootMotionBlend",
+        "type": "float",
+        "offset": 152
+      },
+      {
+        "name": "m_blendSpace",
+        "type": "bool",
+        "offset": 156
+      },
+      {
+        "name": "m_footMotionTiming",
+        "type": "uint32_t",
+        "offset": 160
+      },
+      {
+        "name": "m_bUseBlendScale",
+        "type": "bool",
+        "offset": 164
+      },
+      {
+        "name": "m_blendValueSource",
+        "type": "bool",
+        "offset": 168
+      },
+      {
+        "name": "m_hBlendParameter",
+        "type": "CEntityHandle",
+        "offset": 172
+      }
+    ]
+  },
+  "CBonePositionMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_nBoneIndex",
+        "type": "int64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "CBoneVelocityMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_nBoneIndex",
+        "type": "int64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "CBoolAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_bDefaultValue",
+        "type": "bool",
+        "offset": 128
+      }
+    ]
+  },
+  "CCPPScriptComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_scriptsToRun",
+        "type": "uint8_t[48]",
+        "offset": 48
+      }
+    ]
+  },
+  "CCachedPose": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_transforms",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_morphWeights",
+        "type": "uint8_t[24]",
+        "offset": 32
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 56
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 60
+      }
+    ]
+  },
+  "CChoiceInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 52,
+    "fields": [
+      {
+        "name": "m_currentChoice",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_previousChoice",
+        "type": "void*",
+        "offset": 28
+      },
+      {
+        "name": "m_flClipStartTime",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_choicePreviousCycle",
+        "type": "uint64_t",
+        "offset": 44
+      }
+    ]
+  },
+  "CChoiceUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_children",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_weights",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_blendTimes",
+        "type": "bool",
+        "offset": 144
+      },
+      {
+        "name": "m_choiceMethod",
+        "type": "uint32_t",
+        "offset": 168
+      },
+      {
+        "name": "m_choiceChangeMethod",
+        "type": "uint32_t",
+        "offset": 172
+      },
+      {
+        "name": "m_blendMethod",
+        "type": "bool",
+        "offset": 176
+      },
+      {
+        "name": "m_blendTime",
+        "type": "bool",
+        "offset": 180
+      },
+      {
+        "name": "m_bCrossFade",
+        "type": "bool",
+        "offset": 184
+      },
+      {
+        "name": "m_bResetChosen",
+        "type": "bool",
+        "offset": 185
+      },
+      {
+        "name": "m_bDontResetSameSelection",
+        "type": "bool",
+        "offset": 186
+      }
+    ]
+  },
+  "CChoreoInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 920,
+    "fields": [
+      {
+        "name": "m_AnimOverlay",
+        "type": "uint8_t[920]",
+        "offset": 0
+      }
+    ]
+  },
+  "CClothSettingsAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_flStiffness",
+        "type": "float",
+        "offset": 88
+      },
+      {
+        "name": "m_flEaseIn",
+        "type": "float",
+        "offset": 92
+      },
+      {
+        "name": "m_flEaseOut",
+        "type": "float",
+        "offset": 96
+      },
+      {
+        "name": "m_nVertexSet",
+        "type": "int64_t",
+        "offset": 104
+      }
+    ]
+  },
+  "CConcreteAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimParameterBase",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_previewButton",
+        "type": "void*",
+        "offset": 112
+      },
+      {
+        "name": "m_eNetworkSetting",
+        "type": "uint32_t",
+        "offset": 116
+      },
+      {
+        "name": "m_bUseMostRecentValue",
+        "type": "bool",
+        "offset": 120
+      },
+      {
+        "name": "m_bAutoReset",
+        "type": "bool",
+        "offset": 121
+      },
+      {
+        "name": "m_bGameWritable",
+        "type": "bool",
+        "offset": 122
+      },
+      {
+        "name": "m_bGraphWritable",
+        "type": "bool",
+        "offset": 123
+      }
+    ]
+  },
+  "CCycleClipInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flPrevCycle",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "CCycleControlClipUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_tags",
+        "type": "uint8_t[28]",
+        "offset": 96
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 124
+      },
+      {
+        "name": "m_duration",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_valueSource",
+        "type": "uint32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 136
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 138
+      }
+    ]
+  },
+  "CCycleControlUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_valueSource",
+        "type": "uint32_t",
+        "offset": 112
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 116
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 118
+      }
+    ]
+  },
+  "CDampedPathAnimMotorUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CPathAnimMotorUpdaterBase",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_flAnticipationTime",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flMinSpeedScale",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_hAnticipationPosParam",
+        "type": "CEntityHandle",
+        "offset": 52
+      },
+      {
+        "name": "m_hAnticipationHeadingParam",
+        "type": "CEntityHandle",
+        "offset": 54
+      },
+      {
+        "name": "m_flSpringConstant",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flMinSpringTension",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flMaxSpringTension",
+        "type": "float",
+        "offset": 64
+      }
+    ]
+  },
+  "CDampedValueComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_items",
+        "type": "int32_t",
+        "offset": 48
+      }
+    ]
+  },
+  "CDampedValueUpdateItem": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_damping",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "m_hParamIn",
+        "type": "CEntityHandle",
+        "offset": 32
+      },
+      {
+        "name": "m_hParamOut",
+        "type": "CEntityHandle",
+        "offset": 34
+      }
+    ]
+  },
+  "CDemoSettingsComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_settings",
+        "type": "uint8_t[128]",
+        "offset": 48
+      }
+    ]
+  },
+  "CDirectPlaybackInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 328,
+    "fields": [
+      {
+        "name": "m_vTargetPosition",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_flTargetFacing",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flInterpEndTime",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_weights",
+        "type": "Vector4D",
+        "offset": 20
+      },
+      {
+        "name": "m_sequences",
+        "type": "uint8_t[224]",
+        "offset": 36
+      },
+      {
+        "name": "m_currentSequenceIndex",
+        "type": "uint32_t",
+        "offset": 260
+      },
+      {
+        "name": "m_currentSequenceData",
+        "type": "Vector4D",
+        "offset": 264
+      },
+      {
+        "name": "m_flFadeInTime",
+        "type": "float",
+        "offset": 280
+      },
+      {
+        "name": "m_flFadeOutTime",
+        "type": "float",
+        "offset": 284
+      },
+      {
+        "name": "m_flForcedCycle",
+        "type": "float",
+        "offset": 288
+      },
+      {
+        "name": "m_bResetPending",
+        "type": "bool",
+        "offset": 304
+      },
+      {
+        "name": "m_SequenceCycleZeroTime",
+        "type": "Vector4D",
+        "offset": 312
+      }
+    ]
+  },
+  "CDirectPlaybackTagData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_sequenceName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CDirectPlaybackUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_bFinishEarly",
+        "type": "bool",
+        "offset": 116
+      },
+      {
+        "name": "m_bResetOnFinish",
+        "type": "bool",
+        "offset": 117
+      },
+      {
+        "name": "m_allTags",
+        "type": "uint8_t[24]",
+        "offset": 120
+      }
+    ]
+  },
+  "CDirectionalBlendInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_dampedValue",
+        "type": "uint8_t[20]",
+        "offset": 0
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flPrevCycle",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flPlaybackRate",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flCycleZeroTime",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_resetCycleValue",
+        "type": "Vector",
+        "offset": 52
+      },
+      {
+        "name": "m_resetCount",
+        "type": "Vector4D",
+        "offset": 64
+      }
+    ]
+  },
+  "CDirectionalBlendUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_hSequences",
+        "type": "CEntityHandle",
+        "offset": 92
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 128
+      },
+      {
+        "name": "m_blendValueSource",
+        "type": "bool",
+        "offset": 152
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 156
+      },
+      {
+        "name": "m_playbackSpeed",
+        "type": "void*",
+        "offset": 160
+      },
+      {
+        "name": "m_duration",
+        "type": "uint32_t",
+        "offset": 164
+      },
+      {
+        "name": "m_bLoop",
+        "type": "bool",
+        "offset": 168
+      },
+      {
+        "name": "m_bLockBlendOnReset",
+        "type": "bool",
+        "offset": 169
+      }
+    ]
+  },
+  "CDistanceRemainingMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_flMaxDistance",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_flMinDistance",
+        "type": "float",
+        "offset": 84
+      },
+      {
+        "name": "m_flStartGoalFilterDistance",
+        "type": "float",
+        "offset": 88
+      },
+      {
+        "name": "m_flMaxGoalOvershootScale",
+        "type": "float",
+        "offset": 92
+      },
+      {
+        "name": "m_bFilterFixedMinDistance",
+        "type": "bool",
+        "offset": 96
+      },
+      {
+        "name": "m_bFilterGoalDistance",
+        "type": "bool",
+        "offset": 97
+      },
+      {
+        "name": "m_bFilterGoalOvershoot",
+        "type": "bool",
+        "offset": 98
+      }
+    ]
+  },
+  "CEmitTagActionUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimActionUpdater",
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nTagIndex",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_bIsZeroDuration",
+        "type": "bool",
+        "offset": 28
+      }
+    ]
+  },
+  "CEnumAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_defaultValue",
+        "type": "uint64_t",
+        "offset": 136
+      },
+      {
+        "name": "m_enumOptions",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_vecEnumReferenced",
+        "type": "Vector",
+        "offset": 168
+      }
+    ]
+  },
+  "CExpressionActionUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimActionUpdater",
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_hParam",
+        "type": "CEntityHandle",
+        "offset": 24
+      },
+      {
+        "name": "m_eParamType",
+        "type": "uint16_t",
+        "offset": 26
+      },
+      {
+        "name": "m_hScript",
+        "type": "CEntityHandle",
+        "offset": 28
+      }
+    ]
+  },
+  "CFloatAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_fDefaultValue",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_fMinValue",
+        "type": "uint32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_fMaxValue",
+        "type": "uint32_t",
+        "offset": 136
+      },
+      {
+        "name": "m_bInterpolate",
+        "type": "bool",
+        "offset": 140
+      }
+    ]
+  },
+  "CFollowAttachmentUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 272,
+    "fields": [
+      {
+        "name": "m_opFixedData",
+        "type": "uint8_t[160]",
+        "offset": 112
+      }
+    ]
+  },
+  "CFollowPathInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 36,
+    "fields": [
+      {
+        "name": "m_xLastPredictedTransformsDeltas",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_dampedTurnValue",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_flTurnAmount",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flPredictionScale",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flLastPathTime",
+        "type": "float",
+        "offset": 28
+      }
+    ]
+  },
+  "CFollowPathUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_flBlendOutTime",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_bBlockNonPathMovement",
+        "type": "bool",
+        "offset": 120
+      },
+      {
+        "name": "m_bStopFeetAtGoal",
+        "type": "bool",
+        "offset": 121
+      },
+      {
+        "name": "m_bScaleSpeed",
+        "type": "bool",
+        "offset": 122
+      },
+      {
+        "name": "m_flScale",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_flMinAngle",
+        "type": "float",
+        "offset": 128
+      },
+      {
+        "name": "m_flMaxAngle",
+        "type": "float",
+        "offset": 132
+      },
+      {
+        "name": "m_flSpeedScaleBlending",
+        "type": "float",
+        "offset": 136
+      },
+      {
+        "name": "m_turnDamping",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_facingTarget",
+        "type": "uint32_t",
+        "offset": 168
+      },
+      {
+        "name": "m_hParam",
+        "type": "CEntityHandle",
+        "offset": 172
+      },
+      {
+        "name": "m_flTurnToFaceOffset",
+        "type": "float",
+        "offset": 176
+      },
+      {
+        "name": "m_bTurnToFace",
+        "type": "bool",
+        "offset": 180
+      }
+    ]
+  },
+  "CFollowTargetUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_opFixedData",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_hParameterPosition",
+        "type": "CEntityHandle",
+        "offset": 136
+      },
+      {
+        "name": "m_hParameterOrientation",
+        "type": "CEntityHandle",
+        "offset": 138
+      }
+    ]
+  },
+  "CFootAdjustmentInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_flStartTime",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flDuration",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flStartHeadingWS",
+        "type": "float",
+        "offset": 60
+      }
+    ]
+  },
+  "CFootAdjustmentUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_clips",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_hBasePoseCacheHandle",
+        "type": "CEntityHandle",
+        "offset": 144
+      },
+      {
+        "name": "m_facingTarget",
+        "type": "uint32_t",
+        "offset": 148
+      },
+      {
+        "name": "m_flTurnTimeMin",
+        "type": "float",
+        "offset": 152
+      },
+      {
+        "name": "m_flTurnTimeMax",
+        "type": "float",
+        "offset": 156
+      },
+      {
+        "name": "m_flStepHeightMax",
+        "type": "float",
+        "offset": 160
+      },
+      {
+        "name": "m_flStepHeightMaxAngle",
+        "type": "float",
+        "offset": 164
+      },
+      {
+        "name": "m_bResetChild",
+        "type": "bool",
+        "offset": 168
+      },
+      {
+        "name": "m_bAnimationDriven",
+        "type": "bool",
+        "offset": 169
+      }
+    ]
+  },
+  "CFootCycleMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_footIndices",
+        "type": "uint8_t[24]",
+        "offset": 80
+      }
+    ]
+  },
+  "CFootFallAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_foot",
+        "type": "uint64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "CFootLockUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 344,
+    "fields": [
+      {
+        "name": "m_opFixedSettings",
+        "type": "uint8_t[112]",
+        "offset": 112
+      },
+      {
+        "name": "m_footSettings",
+        "type": "uint8_t[24]",
+        "offset": 224
+      },
+      {
+        "name": "m_hipShiftDamping",
+        "type": "CEntityHandle",
+        "offset": 248
+      },
+      {
+        "name": "m_rootHeightDamping",
+        "type": "uint8_t[24]",
+        "offset": 272
+      },
+      {
+        "name": "m_flStrideCurveScale",
+        "type": "float",
+        "offset": 296
+      },
+      {
+        "name": "m_flStrideCurveLimitScale",
+        "type": "float",
+        "offset": 300
+      },
+      {
+        "name": "m_flStepHeightIncreaseScale",
+        "type": "float",
+        "offset": 304
+      },
+      {
+        "name": "m_flStepHeightDecreaseScale",
+        "type": "float",
+        "offset": 308
+      },
+      {
+        "name": "m_flHipShiftScale",
+        "type": "float",
+        "offset": 312
+      },
+      {
+        "name": "m_flBlendTime",
+        "type": "float",
+        "offset": 316
+      },
+      {
+        "name": "m_flMaxRootHeightOffset",
+        "type": "float",
+        "offset": 320
+      },
+      {
+        "name": "m_flMinRootHeightOffset",
+        "type": "float",
+        "offset": 324
+      },
+      {
+        "name": "m_flTiltPlanePitchSpringStrength",
+        "type": "float",
+        "offset": 328
+      },
+      {
+        "name": "m_flTiltPlaneRollSpringStrength",
+        "type": "float",
+        "offset": 332
+      },
+      {
+        "name": "m_bApplyFootRotationLimits",
+        "type": "bool",
+        "offset": 336
+      },
+      {
+        "name": "m_bApplyHipShift",
+        "type": "bool",
+        "offset": 337
+      },
+      {
+        "name": "m_bModulateStepHeight",
+        "type": "bool",
+        "offset": 338
+      },
+      {
+        "name": "m_bResetChild",
+        "type": "bool",
+        "offset": 339
+      },
+      {
+        "name": "m_bEnableVerticalCurvedPaths",
+        "type": "bool",
+        "offset": 340
+      },
+      {
+        "name": "m_bEnableRootHeightDamping",
+        "type": "bool",
+        "offset": 341
+      }
+    ]
+  },
+  "CFootPinningUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_poseOpFixedData",
+        "type": "void*",
+        "offset": 120
+      },
+      {
+        "name": "m_eTimingSource",
+        "type": "uint64_t",
+        "offset": 168
+      },
+      {
+        "name": "m_params",
+        "type": "void*",
+        "offset": 176
+      },
+      {
+        "name": "m_bResetChild",
+        "type": "bool",
+        "offset": 200
+      }
+    ]
+  },
+  "CFootPositionMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_footIndices",
+        "type": "uint8_t[24]",
+        "offset": 80
+      },
+      {
+        "name": "m_bIgnoreSlope",
+        "type": "bool",
+        "offset": 104
+      }
+    ]
+  },
+  "CFootStepTriggerUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_triggers",
+        "type": "uint8_t[28]",
+        "offset": 112
+      },
+      {
+        "name": "m_flTolerance",
+        "type": "float",
+        "offset": 140
+      }
+    ]
+  },
+  "CFootstepLandedAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_FootstepType",
+        "type": "uint64_t",
+        "offset": 88
+      },
+      {
+        "name": "m_OverrideSoundName",
+        "type": "uint64_t",
+        "offset": 96
+      },
+      {
+        "name": "m_DebugAnimSourceString",
+        "type": "uint64_t",
+        "offset": 104
+      },
+      {
+        "name": "m_BoneName",
+        "type": "uint64_t",
+        "offset": 112
+      },
+      {
+        "name": "m_footstepJumpPhase",
+        "type": "uint64_t",
+        "offset": 120
+      }
+    ]
+  },
+  "CFutureFacingMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_flDistance",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_flTime",
+        "type": "float",
+        "offset": 84
+      }
+    ]
+  },
+  "CFutureVelocityMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_flDistance",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_flStoppingDistance",
+        "type": "float",
+        "offset": 84
+      },
+      {
+        "name": "m_flTargetSpeed",
+        "type": "float",
+        "offset": 88
+      },
+      {
+        "name": "m_eMode",
+        "type": "uint32_t",
+        "offset": 92
+      }
+    ]
+  },
+  "CHandshakeAnimTagBase": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_bIsDisableTag",
+        "type": "bool",
+        "offset": 80
+      }
+    ]
+  },
+  "CHitReactUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_opFixedSettings",
+        "type": "uint8_t[76]",
+        "offset": 112
+      },
+      {
+        "name": "m_triggerParam",
+        "type": "uint16_t",
+        "offset": 188
+      },
+      {
+        "name": "m_hitBoneParam",
+        "type": "CEntityHandle",
+        "offset": 190
+      },
+      {
+        "name": "m_hitOffsetParam",
+        "type": "CEntityHandle",
+        "offset": 192
+      },
+      {
+        "name": "m_hitDirectionParam",
+        "type": "CEntityHandle",
+        "offset": 194
+      },
+      {
+        "name": "m_hitStrengthParam",
+        "type": "CEntityHandle",
+        "offset": 196
+      },
+      {
+        "name": "m_flMinDelayBetweenHits",
+        "type": "float",
+        "offset": 200
+      },
+      {
+        "name": "m_bResetChild",
+        "type": "bool",
+        "offset": 204
+      }
+    ]
+  },
+  "CIntAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_defaultValue",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_minValue",
+        "type": "uint32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_maxValue",
+        "type": "uint64_t",
+        "offset": 136
+      }
+    ]
+  },
+  "CJiggleBoneUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_opFixedData",
+        "type": "uint8_t[32]",
+        "offset": 112
+      }
+    ]
+  },
+  "CJumpHelperUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CSequenceUpdateNode",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_hTargetParam",
+        "type": "CEntityHandle",
+        "offset": 176
+      },
+      {
+        "name": "m_flOriginalJumpMovement",
+        "type": "float",
+        "offset": 180
+      },
+      {
+        "name": "m_flOriginalJumpDuration",
+        "type": "float",
+        "offset": 192
+      },
+      {
+        "name": "m_flJumpStartCycle",
+        "type": "float",
+        "offset": 196
+      },
+      {
+        "name": "m_flJumpEndCycle",
+        "type": "float",
+        "offset": 200
+      },
+      {
+        "name": "m_eCorrectionMethod",
+        "type": "uint32_t",
+        "offset": 204
+      },
+      {
+        "name": "m_bTranslationAxis",
+        "type": "bool",
+        "offset": 208
+      },
+      {
+        "name": "m_bScaleSpeed",
+        "type": "bool",
+        "offset": 211
+      }
+    ]
+  },
+  "CLODComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_nServerLOD",
+        "type": "int64_t",
+        "offset": 48
+      }
+    ]
+  },
+  "CLeanMatrixInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_flValueY",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flValueX",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "CLeanMatrixUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 240,
+    "fields": [
+      {
+        "name": "m_frameCorners",
+        "type": "uint8_t[36]",
+        "offset": 92
+      },
+      {
+        "name": "m_poses",
+        "type": "void*",
+        "offset": 128
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 168
+      },
+      {
+        "name": "m_blendSource",
+        "type": "bool",
+        "offset": 192
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 196
+      },
+      {
+        "name": "m_verticalAxis",
+        "type": "Vector",
+        "offset": 200
+      },
+      {
+        "name": "m_horizontalAxis",
+        "type": "CEntityHandle",
+        "offset": 212
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 224
+      },
+      {
+        "name": "m_flMaxValue",
+        "type": "float",
+        "offset": 228
+      },
+      {
+        "name": "m_nSequenceMaxFrame",
+        "type": "int64_t",
+        "offset": 232
+      }
+    ]
+  },
+  "CLookAtUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 352,
+    "fields": [
+      {
+        "name": "m_opFixedSettings",
+        "type": "uint8_t[216]",
+        "offset": 112
+      },
+      {
+        "name": "m_target",
+        "type": "uint32_t",
+        "offset": 328
+      },
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 332
+      },
+      {
+        "name": "m_weightParamIndex",
+        "type": "uint16_t",
+        "offset": 334
+      },
+      {
+        "name": "m_bResetChild",
+        "type": "bool",
+        "offset": 336
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 337
+      }
+    ]
+  },
+  "CLookComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_hLookHeading",
+        "type": "CEntityHandle",
+        "offset": 52
+      },
+      {
+        "name": "m_hLookHeadingNormalized",
+        "type": "CEntityHandle",
+        "offset": 54
+      },
+      {
+        "name": "m_hLookHeadingVelocity",
+        "type": "CEntityHandle",
+        "offset": 56
+      },
+      {
+        "name": "m_hLookPitch",
+        "type": "CEntityHandle",
+        "offset": 58
+      },
+      {
+        "name": "m_hLookDistance",
+        "type": "CEntityHandle",
+        "offset": 60
+      },
+      {
+        "name": "m_hLookDirection",
+        "type": "CEntityHandle",
+        "offset": 62
+      },
+      {
+        "name": "m_hLookTarget",
+        "type": "CEntityHandle",
+        "offset": 64
+      },
+      {
+        "name": "m_hLookTargetWorldSpace",
+        "type": "CEntityHandle",
+        "offset": 66
+      },
+      {
+        "name": "m_bNetworkLookTarget",
+        "type": "bool",
+        "offset": 68
+      }
+    ]
+  },
+  "CMaterialAttributeAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_AttributeName",
+        "type": "uint64_t",
+        "offset": 88
+      },
+      {
+        "name": "m_AttributeType",
+        "type": "uint32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_flValue",
+        "type": "float",
+        "offset": 100
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 104
+      }
+    ]
+  },
+  "CMoodVData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 256,
+    "fields": [
+      {
+        "name": "m_sModelName",
+        "type": "uint8_t[224]",
+        "offset": 0
+      },
+      {
+        "name": "m_nMoodType",
+        "type": "int64_t",
+        "offset": 224
+      },
+      {
+        "name": "m_animationLayers",
+        "type": "uint8_t[24]",
+        "offset": 232
+      }
+    ]
+  },
+  "CMotionDataSet": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_groups",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_nDimensionCount",
+        "type": "int64_t",
+        "offset": 24
+      }
+    ]
+  },
+  "CMotionGraph": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_paramSpans",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_pRootNode",
+        "type": "void*",
+        "offset": 64
+      },
+      {
+        "name": "m_nParameterCount",
+        "type": "int32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_nConfigStartIndex",
+        "type": "int32_t",
+        "offset": 76
+      },
+      {
+        "name": "m_nConfigCount",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_bLoop",
+        "type": "bool",
+        "offset": 84
+      }
+    ]
+  },
+  "CMotionGraphConfig": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_paramValues",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_flDuration",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_nMotionIndex",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nSampleStart",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nSampleCount",
+        "type": "int32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "CMotionGraphGroup": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 264,
+    "fields": [
+      {
+        "name": "m_searchDB",
+        "type": "uint8_t[184]",
+        "offset": 0
+      },
+      {
+        "name": "m_motionGraphs",
+        "type": "uint8_t[24]",
+        "offset": 184
+      },
+      {
+        "name": "m_motionGraphConfigs",
+        "type": "uint8_t[24]",
+        "offset": 208
+      },
+      {
+        "name": "m_sampleToConfig",
+        "type": "uint8_t[24]",
+        "offset": 232
+      },
+      {
+        "name": "m_hIsActiveScript",
+        "type": "CEntityHandle",
+        "offset": 256
+      }
+    ]
+  },
+  "CMotionGraphUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_pMotionGraph",
+        "type": "void*",
+        "offset": 88
+      }
+    ]
+  },
+  "CMotionMatchingUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 328,
+    "fields": [
+      {
+        "name": "m_dataSet",
+        "type": "uint8_t[32]",
+        "offset": 88
+      },
+      {
+        "name": "m_metrics",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_weights",
+        "type": "uint8_t[80]",
+        "offset": 144
+      },
+      {
+        "name": "m_bSearchEveryTick",
+        "type": "bool",
+        "offset": 224
+      },
+      {
+        "name": "m_flSearchInterval",
+        "type": "float",
+        "offset": 228
+      },
+      {
+        "name": "m_bSearchWhenClipEnds",
+        "type": "bool",
+        "offset": 232
+      },
+      {
+        "name": "m_bSearchWhenGoalChanges",
+        "type": "bool",
+        "offset": 233
+      },
+      {
+        "name": "m_blendCurve",
+        "type": "bool",
+        "offset": 236
+      },
+      {
+        "name": "m_flSampleRate",
+        "type": "float",
+        "offset": 244
+      },
+      {
+        "name": "m_flBlendTime",
+        "type": "float",
+        "offset": 248
+      },
+      {
+        "name": "m_bLockClipWhenWaning",
+        "type": "bool",
+        "offset": 252
+      },
+      {
+        "name": "m_flSelectionThreshold",
+        "type": "float",
+        "offset": 256
+      },
+      {
+        "name": "m_flReselectionTimeWindow",
+        "type": "float",
+        "offset": 260
+      },
+      {
+        "name": "m_bEnableRotationCorrection",
+        "type": "bool",
+        "offset": 264
+      },
+      {
+        "name": "m_bGoalAssist",
+        "type": "bool",
+        "offset": 265
+      },
+      {
+        "name": "m_flGoalAssistDistance",
+        "type": "float",
+        "offset": 268
+      },
+      {
+        "name": "m_flGoalAssistTolerance",
+        "type": "float",
+        "offset": 272
+      },
+      {
+        "name": "m_distanceScale_Damping",
+        "type": "uint8_t[24]",
+        "offset": 280
+      },
+      {
+        "name": "m_flDistanceScale_OuterRadius",
+        "type": "float",
+        "offset": 304
+      },
+      {
+        "name": "m_flDistanceScale_InnerRadius",
+        "type": "float",
+        "offset": 308
+      },
+      {
+        "name": "m_flDistanceScale_MaxScale",
+        "type": "float",
+        "offset": 312
+      },
+      {
+        "name": "m_flDistanceScale_MinScale",
+        "type": "float",
+        "offset": 316
+      },
+      {
+        "name": "m_bEnableDistanceScaling",
+        "type": "bool",
+        "offset": 320
+      }
+    ]
+  },
+  "CMotionMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_means",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_standardDeviations",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_flWeight",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_nDimensionStartIndex",
+        "type": "int32_t",
+        "offset": 76
+      }
+    ]
+  },
+  "CMotionNode": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_id",
+        "type": "int64_t",
+        "offset": 32
+      }
+    ]
+  },
+  "CMotionNodeBlend1D": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionNode",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_blendItems",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_nParamIndex",
+        "type": "int64_t",
+        "offset": 64
+      }
+    ]
+  },
+  "CMotionNodeSequence": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionNode",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 64
+      },
+      {
+        "name": "m_flPlaybackSpeed",
+        "type": "float",
+        "offset": 68
+      }
+    ]
+  },
+  "CMotionSearchDB": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_rootNode",
+        "type": "uint8_t[128]",
+        "offset": 0
+      },
+      {
+        "name": "m_residualQuantizer",
+        "type": "uint8_t[32]",
+        "offset": 128
+      },
+      {
+        "name": "m_codeIndices",
+        "type": "uint8_t[24]",
+        "offset": 160
+      }
+    ]
+  },
+  "CMotionSearchNode": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_children",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_quantizer",
+        "type": "Quaternion",
+        "offset": 24
+      },
+      {
+        "name": "m_sampleCodes",
+        "type": "uint8_t[24]",
+        "offset": 56
+      },
+      {
+        "name": "m_sampleIndices",
+        "type": "uint8_t[24]",
+        "offset": 80
+      },
+      {
+        "name": "m_selectableSamples",
+        "type": "uint8_t[24]",
+        "offset": 104
+      }
+    ]
+  },
+  "CMovementComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_motors",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_facingDamping",
+        "type": "uint8_t[32]",
+        "offset": 72
+      },
+      {
+        "name": "m_nDefaultMotorIndex",
+        "type": "int32_t",
+        "offset": 104
+      },
+      {
+        "name": "m_flDefaultRunSpeed",
+        "type": "float",
+        "offset": 108
+      },
+      {
+        "name": "m_bMoveVarsDisabled",
+        "type": "bool",
+        "offset": 112
+      },
+      {
+        "name": "m_bNetworkPath",
+        "type": "bool",
+        "offset": 113
+      },
+      {
+        "name": "m_bNetworkFacing",
+        "type": "bool",
+        "offset": 114
+      },
+      {
+        "name": "m_paramHandles",
+        "type": "void*",
+        "offset": 115
+      }
+    ]
+  },
+  "CMoverInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 44,
+    "fields": [
+      {
+        "name": "m_flDampedValue",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_vMovement",
+        "type": "uint8_t[24]",
+        "offset": 4
+      },
+      {
+        "name": "m_Rotation",
+        "type": "uint32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_TargetOrientation",
+        "type": "Vector",
+        "offset": 32
+      }
+    ]
+  },
+  "CMoverUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_facingTarget",
+        "type": "uint32_t",
+        "offset": 144
+      },
+      {
+        "name": "m_hMoveVecParam",
+        "type": "CEntityHandle",
+        "offset": 148
+      },
+      {
+        "name": "m_hMoveHeadingParam",
+        "type": "CEntityHandle",
+        "offset": 150
+      },
+      {
+        "name": "m_hTurnToFaceParam",
+        "type": "CEntityHandle",
+        "offset": 152
+      },
+      {
+        "name": "m_flTurnToFaceOffset",
+        "type": "float",
+        "offset": 156
+      },
+      {
+        "name": "m_flTurnToFaceLimit",
+        "type": "float",
+        "offset": 160
+      },
+      {
+        "name": "m_bAdditive",
+        "type": "bool",
+        "offset": 164
+      },
+      {
+        "name": "m_bApplyMovement",
+        "type": "bool",
+        "offset": 165
+      },
+      {
+        "name": "m_bOrientMovement",
+        "type": "bool",
+        "offset": 166
+      },
+      {
+        "name": "m_bApplyRotation",
+        "type": "bool",
+        "offset": 167
+      },
+      {
+        "name": "m_bLimitOnly",
+        "type": "bool",
+        "offset": 168
+      }
+    ]
+  },
+  "CNetworkedCycle": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 52,
+    "fields": [
+      {
+        "name": "m_flCycleUnclamped",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flPrevCycleUnclamped",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flCyclesPerSecond",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flCycleZeroTime",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_resetCount",
+        "type": "Vector",
+        "offset": 40
+      }
+    ]
+  },
+  "COrientationWarpUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_eMode",
+        "type": "uint32_t",
+        "offset": 116
+      },
+      {
+        "name": "m_hTargetParam",
+        "type": "CEntityHandle",
+        "offset": 120
+      },
+      {
+        "name": "m_hTargetPositionParam",
+        "type": "CEntityHandle",
+        "offset": 122
+      },
+      {
+        "name": "m_hFallbackTargetPositionParam",
+        "type": "CEntityHandle",
+        "offset": 124
+      },
+      {
+        "name": "m_eTargetOffsetMode",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_flTargetOffset",
+        "type": "float",
+        "offset": 132
+      },
+      {
+        "name": "m_hTargetOffsetParam",
+        "type": "CEntityHandle",
+        "offset": 136
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_eRootMotionSource",
+        "type": "uint32_t",
+        "offset": 168
+      },
+      {
+        "name": "m_flMaxRootMotionScale",
+        "type": "float",
+        "offset": 172
+      },
+      {
+        "name": "m_bEnablePreferredRotationDirection",
+        "type": "bool",
+        "offset": 176
+      },
+      {
+        "name": "m_ePreferredRotationDirection",
+        "type": "uint32_t",
+        "offset": 180
+      },
+      {
+        "name": "m_flPreferredRotationThreshold",
+        "type": "float",
+        "offset": 184
+      }
+    ]
+  },
+  "CPairedSequenceUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CSequenceUpdateNodeBase",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_sPairedSequenceRole",
+        "type": "Vector4D",
+        "offset": 120
+      }
+    ]
+  },
+  "CParamSpanUpdater": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_spans",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CParticleAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_hParticleSystem",
+        "type": "CEntityHandle",
+        "offset": 88
+      },
+      {
+        "name": "m_particleSystemName",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_configName",
+        "type": "uint64_t",
+        "offset": 104
+      },
+      {
+        "name": "m_bDetachFromOwner",
+        "type": "bool",
+        "offset": 112
+      },
+      {
+        "name": "m_bAggregate",
+        "type": "bool",
+        "offset": 113
+      },
+      {
+        "name": "m_bStopWhenTagEnds",
+        "type": "bool",
+        "offset": 114
+      },
+      {
+        "name": "m_bTagEndStopIsInstant",
+        "type": "bool",
+        "offset": 115
+      },
+      {
+        "name": "m_attachmentName",
+        "type": "uint64_t",
+        "offset": 120
+      },
+      {
+        "name": "m_attachmentType",
+        "type": "uint64_t",
+        "offset": 128
+      },
+      {
+        "name": "m_attachmentCP1Name",
+        "type": "uint64_t",
+        "offset": 136
+      },
+      {
+        "name": "m_attachmentCP1Type",
+        "type": "uint64_t",
+        "offset": 144
+      }
+    ]
+  },
+  "CPathAnimMotorUpdaterBase": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimMotorUpdaterBase",
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_bLockToPath",
+        "type": "bool",
+        "offset": 32
+      }
+    ]
+  },
+  "CPathHelperUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_flStoppingRadius",
+        "type": "float",
+        "offset": 112
+      },
+      {
+        "name": "m_flStoppingSpeedScale",
+        "type": "float",
+        "offset": 116
+      }
+    ]
+  },
+  "CPathMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_pathTimeSamples",
+        "type": "void*",
+        "offset": 80
+      },
+      {
+        "name": "m_flDistance",
+        "type": "float",
+        "offset": 104
+      },
+      {
+        "name": "m_bExtrapolateMovement",
+        "type": "bool",
+        "offset": 108
+      },
+      {
+        "name": "m_flMinExtrapolationSpeed",
+        "type": "float",
+        "offset": 112
+      }
+    ]
+  },
+  "CPlayerInputAnimMotorUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimMotorUpdaterBase",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_sampleTimes",
+        "type": "uint8_t[28]",
+        "offset": 32
+      },
+      {
+        "name": "m_flSpringConstant",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flAnticipationDistance",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_hAnticipationPosParam",
+        "type": "CEntityHandle",
+        "offset": 68
+      },
+      {
+        "name": "m_hAnticipationHeadingParam",
+        "type": "CEntityHandle",
+        "offset": 70
+      },
+      {
+        "name": "m_bUseAcceleration",
+        "type": "bool",
+        "offset": 72
+      }
+    ]
+  },
+  "CPoseHandle": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nIndex",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_eType",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "CProductQuantizer": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_subQuantizers",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_nDimensions",
+        "type": "int64_t",
+        "offset": 24
+      }
+    ]
+  },
+  "CQuaternionAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_defaultValue",
+        "type": "Vector4D",
+        "offset": 128
+      },
+      {
+        "name": "m_bInterpolate",
+        "type": "bool",
+        "offset": 144
+      }
+    ]
+  },
+  "CRagdollAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_profileName",
+        "type": "void*",
+        "offset": 88
+      }
+    ]
+  },
+  "CRagdollComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_ragdollNodePaths",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_followAttachmentNodePaths",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_boneIndices",
+        "type": "bool",
+        "offset": 96
+      },
+      {
+        "name": "m_boneNames",
+        "type": "bool",
+        "offset": 120
+      },
+      {
+        "name": "m_weightLists",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_boneToWeightIndices",
+        "type": "bool",
+        "offset": 168
+      },
+      {
+        "name": "m_flSpringFrequencyMin",
+        "type": "float",
+        "offset": 192
+      },
+      {
+        "name": "m_flSpringFrequencyMax",
+        "type": "float",
+        "offset": 196
+      },
+      {
+        "name": "m_flMaxStretch",
+        "type": "float",
+        "offset": 200
+      },
+      {
+        "name": "m_bSolidCollisionAtZeroWeight",
+        "type": "bool",
+        "offset": 204
+      }
+    ]
+  },
+  "CRagdollUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_nWeightListIndex",
+        "type": "int32_t",
+        "offset": 112
+      },
+      {
+        "name": "m_poseControlMethod",
+        "type": "void*",
+        "offset": 116
+      }
+    ]
+  },
+  "CRemapValueComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_items",
+        "type": "int32_t",
+        "offset": 48
+      }
+    ]
+  },
+  "CRemapValueUpdateItem": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "m_hParamIn",
+        "type": "CEntityHandle",
+        "offset": 0
+      },
+      {
+        "name": "m_hParamOut",
+        "type": "CEntityHandle",
+        "offset": 2
+      },
+      {
+        "name": "m_flMinInputValue",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flMaxInputValue",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flMinOutputValue",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flMaxOutputValue",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "CRootMotion": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_deltaTransform",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_vVelocityMS",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_vUpOverride",
+        "type": "Vector",
+        "offset": 28
+      }
+    ]
+  },
+  "CSelectorUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_children",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_tags",
+        "type": "uint8_t[28]",
+        "offset": 120
+      },
+      {
+        "name": "m_blendCurve",
+        "type": "bool",
+        "offset": 148
+      },
+      {
+        "name": "m_flBlendTime",
+        "type": "float",
+        "offset": 156
+      },
+      {
+        "name": "m_hParameter",
+        "type": "CEntityHandle",
+        "offset": 164
+      },
+      {
+        "name": "m_nTagIndex",
+        "type": "int32_t",
+        "offset": 168
+      },
+      {
+        "name": "m_eTagBehavior",
+        "type": "uint32_t",
+        "offset": 172
+      },
+      {
+        "name": "m_bResetOnChange",
+        "type": "bool",
+        "offset": 176
+      },
+      {
+        "name": "m_bLockWhenWaning",
+        "type": "bool",
+        "offset": 177
+      },
+      {
+        "name": "m_bSyncCyclesOnChange",
+        "type": "bool",
+        "offset": 178
+      }
+    ]
+  },
+  "CSeqAutoLayer": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_nLocalReference",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nLocalPose",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_start",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_peak",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_tail",
+        "type": "uint32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_end",
+        "type": "uint32_t",
+        "offset": 24
+      }
+    ]
+  },
+  "CSeqAutoLayerFlag": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_bPost",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bSpline",
+        "type": "bool",
+        "offset": 1
+      },
+      {
+        "name": "m_bXFade",
+        "type": "bool",
+        "offset": 2
+      },
+      {
+        "name": "m_bNoBlend",
+        "type": "bool",
+        "offset": 3
+      },
+      {
+        "name": "m_bLocal",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_bPose",
+        "type": "bool",
+        "offset": 5
+      },
+      {
+        "name": "m_bFetchFrame",
+        "type": "bool",
+        "offset": 6
+      },
+      {
+        "name": "m_bSubtract",
+        "type": "bool",
+        "offset": 7
+      }
+    ]
+  },
+  "CSeqBoneMaskList": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_nLocalBoneArray",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_flBoneWeightArray",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flDefaultMorphCtrlWeight",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_morphCtrlWeightArray",
+        "type": "uint8_t[24]",
+        "offset": 72
+      }
+    ]
+  },
+  "CSeqCmdLayer": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_cmd",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nLocalReference",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nLocalBonemask",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nDstResult",
+        "type": "uint16_t",
+        "offset": 6
+      },
+      {
+        "name": "m_nSrcResult",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bSpline",
+        "type": "bool",
+        "offset": 10
+      },
+      {
+        "name": "m_flVar1",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flVar2",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_nLineNumber",
+        "type": "int32_t",
+        "offset": 20
+      }
+    ]
+  },
+  "CSeqCmdSeqDesc": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_transition",
+        "type": "uint64_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nFrameRangeSequence",
+        "type": "uint16_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nFrameCount",
+        "type": "uint16_t",
+        "offset": 38
+      },
+      {
+        "name": "m_flFPS",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_nSubCycles",
+        "type": "uint16_t",
+        "offset": 44
+      },
+      {
+        "name": "m_numLocalResults",
+        "type": "uint16_t",
+        "offset": 46
+      },
+      {
+        "name": "m_cmdLayerArray",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_eventArray",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_activityArray",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_poseSettingArray",
+        "type": "void*",
+        "offset": 120
+      }
+    ]
+  },
+  "CSeqIKLock": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_flPosWeight",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flAngleWeight",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_nLocalBone",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bBonesOrientedAlongPositiveX",
+        "type": "bool",
+        "offset": 10
+      }
+    ]
+  },
+  "CSeqMultiFetch": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_localReferenceArray",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_nGroupSize",
+        "type": "int64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nLocalPose",
+        "type": "int64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_poseKeyArray0",
+        "type": "void*",
+        "offset": 48
+      },
+      {
+        "name": "m_poseKeyArray1",
+        "type": "void*",
+        "offset": 72
+      },
+      {
+        "name": "m_nLocalCyclePoseParameter",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_bCalculatePoseParameters",
+        "type": "bool",
+        "offset": 100
+      },
+      {
+        "name": "m_bFixedBlendWeight",
+        "type": "bool",
+        "offset": 101
+      },
+      {
+        "name": "m_flFixedBlendWeightVals",
+        "type": "float",
+        "offset": 104
+      }
+    ]
+  },
+  "CSeqMultiFetchFlag": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 6,
+    "fields": [
+      {
+        "name": "m_bRealtime",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bCylepose",
+        "type": "bool",
+        "offset": 1
+      },
+      {
+        "name": "m_b0D",
+        "type": "bool",
+        "offset": 2
+      },
+      {
+        "name": "m_b1D",
+        "type": "bool",
+        "offset": 3
+      },
+      {
+        "name": "m_b2D",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_b2D_TRI",
+        "type": "bool",
+        "offset": 5
+      }
+    ]
+  },
+  "CSeqPoseParamDesc": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_flStart",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flEnd",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flLoop",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_bLooping",
+        "type": "bool",
+        "offset": 28
+      }
+    ]
+  },
+  "CSeqPoseSetting": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_sPoseParameter",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_sAttachment",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "m_sReferenceSequence",
+        "type": "Vector4D",
+        "offset": 32
+      },
+      {
+        "name": "m_flValue",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_bX",
+        "type": "bool",
+        "offset": 52
+      },
+      {
+        "name": "m_bY",
+        "type": "bool",
+        "offset": 53
+      },
+      {
+        "name": "m_bZ",
+        "type": "bool",
+        "offset": 54
+      },
+      {
+        "name": "m_eType",
+        "type": "uint64_t",
+        "offset": 56
+      }
+    ]
+  },
+  "CSeqS1SeqDesc": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 288,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_fetch",
+        "type": "uint8_t[112]",
+        "offset": 32
+      },
+      {
+        "name": "m_nLocalWeightlist",
+        "type": "int64_t",
+        "offset": 144
+      },
+      {
+        "name": "m_autoLayerArray",
+        "type": "uint8_t[24]",
+        "offset": 152
+      },
+      {
+        "name": "m_IKLockArray",
+        "type": "uint8_t[24]",
+        "offset": 176
+      },
+      {
+        "name": "m_transition",
+        "type": "uint64_t",
+        "offset": 200
+      },
+      {
+        "name": "m_SequenceKeys",
+        "type": "Vector4D",
+        "offset": 208
+      },
+      {
+        "name": "m_LegacyKeyValueText",
+        "type": "Vector4D",
+        "offset": 224
+      },
+      {
+        "name": "m_activityArray",
+        "type": "uint8_t[24]",
+        "offset": 240
+      },
+      {
+        "name": "m_footMotion",
+        "type": "uint8_t[24]",
+        "offset": 264
+      }
+    ]
+  },
+  "CSeqScaleSet": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_bRootOffset",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_vRootOffset",
+        "type": "Vector",
+        "offset": 20
+      },
+      {
+        "name": "m_nLocalBoneArray",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_flBoneScaleArray",
+        "type": "float",
+        "offset": 56
+      }
+    ]
+  },
+  "CSeqSeqDescFlag": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 11,
+    "fields": [
+      {
+        "name": "m_bLooping",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bSnap",
+        "type": "bool",
+        "offset": 1
+      },
+      {
+        "name": "m_bAutoplay",
+        "type": "bool",
+        "offset": 2
+      },
+      {
+        "name": "m_bPost",
+        "type": "bool",
+        "offset": 3
+      },
+      {
+        "name": "m_bHidden",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_bMulti",
+        "type": "bool",
+        "offset": 5
+      },
+      {
+        "name": "m_bLegacyDelta",
+        "type": "bool",
+        "offset": 6
+      },
+      {
+        "name": "m_bLegacyWorldspace",
+        "type": "bool",
+        "offset": 7
+      },
+      {
+        "name": "m_bLegacyCyclepose",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_bLegacyRealtime",
+        "type": "bool",
+        "offset": 9
+      },
+      {
+        "name": "m_bModelDoc",
+        "type": "bool",
+        "offset": 10
+      }
+    ]
+  },
+  "CSeqSynthAnimDesc": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_transition",
+        "type": "uint64_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nLocalBaseReference",
+        "type": "uint16_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nLocalBoneMask",
+        "type": "uint16_t",
+        "offset": 38
+      },
+      {
+        "name": "m_activityArray",
+        "type": "uint8_t[24]",
+        "offset": 40
+      }
+    ]
+  },
+  "CSeqTransition": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_flFadeInTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flFadeOutTime",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "CSequenceFinishedAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimTagBase",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_sequenceName",
+        "type": "uint64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "CSequenceGroupData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 312,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_localSequenceNameArray",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_localS1SeqDescArray",
+        "type": "uint8_t[24]",
+        "offset": 64
+      },
+      {
+        "name": "m_localMultiSeqDescArray",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_localSynthAnimDescArray",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_localCmdSeqDescArray",
+        "type": "uint8_t[24]",
+        "offset": 136
+      },
+      {
+        "name": "m_localBoneMaskArray",
+        "type": "uint8_t[24]",
+        "offset": 160
+      },
+      {
+        "name": "m_localScaleSetArray",
+        "type": "uint8_t[24]",
+        "offset": 184
+      },
+      {
+        "name": "m_localBoneNameArray",
+        "type": "uint8_t[24]",
+        "offset": 208
+      },
+      {
+        "name": "m_localNodeName",
+        "type": "Vector4D",
+        "offset": 232
+      },
+      {
+        "name": "m_localPoseParamArray",
+        "type": "uint8_t[24]",
+        "offset": 248
+      },
+      {
+        "name": "m_keyValues",
+        "type": "Vector4D",
+        "offset": 272
+      },
+      {
+        "name": "m_localIKAutoplayLockArray",
+        "type": "uint8_t[24]",
+        "offset": 288
+      }
+    ]
+  },
+  "CSequenceTagSpans": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_sSequenceName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CSequenceUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CSequenceUpdateNodeBase",
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 120
+      },
+      {
+        "name": "m_duration",
+        "type": "uint32_t",
+        "offset": 124
+      },
+      {
+        "name": "m_paramSpans",
+        "type": "void*",
+        "offset": 128
+      },
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 152
+      }
+    ]
+  },
+  "CSequenceUpdateNodeBase": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_playbackSpeed",
+        "type": "void*",
+        "offset": 108
+      },
+      {
+        "name": "m_bLoop",
+        "type": "bool",
+        "offset": 112
+      }
+    ]
+  },
+  "CSetParameterActionUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimActionUpdater",
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_hParam",
+        "type": "CEntityHandle",
+        "offset": 24
+      },
+      {
+        "name": "m_value",
+        "type": "uint8_t[22]",
+        "offset": 26
+      }
+    ]
+  },
+  "CSingleFrameUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CLeafUpdateNode",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_actions",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_hPoseCacheHandle",
+        "type": "CEntityHandle",
+        "offset": 112
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 116
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 120
+      }
+    ]
+  },
+  "CSlopeComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_flTraceDistance",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_hSlopeAngle",
+        "type": "CEntityHandle",
+        "offset": 56
+      },
+      {
+        "name": "m_hSlopeAngleFront",
+        "type": "CEntityHandle",
+        "offset": 58
+      },
+      {
+        "name": "m_hSlopeAngleSide",
+        "type": "CEntityHandle",
+        "offset": 60
+      },
+      {
+        "name": "m_hSlopeHeading",
+        "type": "CEntityHandle",
+        "offset": 62
+      },
+      {
+        "name": "m_hSlopeNormal",
+        "type": "CEntityHandle",
+        "offset": 64
+      },
+      {
+        "name": "m_hSlopeNormal_WorldSpace",
+        "type": "CEntityHandle",
+        "offset": 66
+      }
+    ]
+  },
+  "CSlowDownOnSlopesUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_flSlowDownStrength",
+        "type": "float",
+        "offset": 112
+      }
+    ]
+  },
+  "CSolveIKChainUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 168,
+    "fields": [
+      {
+        "name": "m_targetHandles",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_opFixedData",
+        "type": "uint8_t[32]",
+        "offset": 136
+      }
+    ]
+  },
+  "CSolveIKTargetHandle_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_positionHandle",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_orientationHandle",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "CSpeedScaleUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_paramIndex",
+        "type": "void*",
+        "offset": 112
+      }
+    ]
+  },
+  "CStanceOverrideUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_footStanceInfo",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_pStanceSourceNode",
+        "type": "void*",
+        "offset": 136
+      },
+      {
+        "name": "m_hParameter",
+        "type": "CEntityHandle",
+        "offset": 152
+      },
+      {
+        "name": "m_eMode",
+        "type": "uint32_t",
+        "offset": 156
+      }
+    ]
+  },
+  "CStanceScaleUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_hParam",
+        "type": "CEntityHandle",
+        "offset": 112
+      }
+    ]
+  },
+  "CStateActionUpdater": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_pAction",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_eBehavior",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CStateMachineComponentUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimComponentUpdater",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_stateMachine",
+        "type": "uint8_t[88]",
+        "offset": 48
+      }
+    ]
+  },
+  "CStateMachineInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_flTimeInState",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_currentTransitionIndex",
+        "type": "Vector",
+        "offset": 4
+      },
+      {
+        "name": "m_prevStateIndex",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_scheduledTransitionIndex",
+        "type": "uint64_t",
+        "offset": 20
+      }
+    ]
+  },
+  "CStateMachineUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 256,
+    "fields": [
+      {
+        "name": "m_stateMachine",
+        "type": "uint8_t[88]",
+        "offset": 112
+      },
+      {
+        "name": "m_stateData",
+        "type": "uint8_t[24]",
+        "offset": 200
+      },
+      {
+        "name": "m_transitionData",
+        "type": "uint8_t[28]",
+        "offset": 224
+      },
+      {
+        "name": "m_bBlockWaningTags",
+        "type": "bool",
+        "offset": 252
+      },
+      {
+        "name": "m_bLockStateWhenWaning",
+        "type": "bool",
+        "offset": 253
+      },
+      {
+        "name": "m_bResetWhenActivated",
+        "type": "bool",
+        "offset": 254
+      }
+    ]
+  },
+  "CStateNodeInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 76,
+    "fields": [
+      {
+        "name": "m_stateWeights",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_vTransitionVelocityDeltaWS",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_currentStateStartTime",
+        "type": "uint8_t[28]",
+        "offset": 32
+      },
+      {
+        "name": "m_resetCount",
+        "type": "Vector4D",
+        "offset": 60
+      }
+    ]
+  },
+  "CStateNodeStateData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_pChild",
+        "type": "void*",
+        "offset": 0
+      }
+    ]
+  },
+  "CStateNodeTransitionData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_curve",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_blendDuration",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_resetCycleValue",
+        "type": "Vector",
+        "offset": 16
+      }
+    ]
+  },
+  "CStateUpdateData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_hScript",
+        "type": "CEntityHandle",
+        "offset": 8
+      },
+      {
+        "name": "m_transitionIndices",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_actions",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_stateID",
+        "type": "uint64_t",
+        "offset": 64
+      }
+    ]
+  },
+  "CStaticPoseCache": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_poses",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_nBoneCount",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_nMorphCount",
+        "type": "int32_t",
+        "offset": 44
+      }
+    ]
+  },
+  "CStepsRemainingMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_footIndices",
+        "type": "uint8_t[24]",
+        "offset": 80
+      },
+      {
+        "name": "m_flMinStepsRemaining",
+        "type": "float",
+        "offset": 104
+      }
+    ]
+  },
+  "CStopAtGoalUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_flOuterRadius",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_flInnerRadius",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flMaxScale",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_flMinScale",
+        "type": "float",
+        "offset": 128
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 136
+      }
+    ]
+  },
+  "CSubtractUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CBinaryUpdateNode",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_footMotionTiming",
+        "type": "uint32_t",
+        "offset": 148
+      },
+      {
+        "name": "m_bApplyToFootMotion",
+        "type": "bool",
+        "offset": 152
+      },
+      {
+        "name": "m_bApplyChannelsSeparately",
+        "type": "bool",
+        "offset": 153
+      },
+      {
+        "name": "m_bUseModelSpace",
+        "type": "bool",
+        "offset": 154
+      }
+    ]
+  },
+  "CSymbolAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_defaultValue",
+        "type": "uint64_t",
+        "offset": 128
+      }
+    ]
+  },
+  "CTargetSelectorUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_eAngleMode",
+        "type": "uint64_t",
+        "offset": 96
+      },
+      {
+        "name": "m_children",
+        "type": "uint8_t[28]",
+        "offset": 104
+      },
+      {
+        "name": "m_hTargetPosition",
+        "type": "CEntityHandle",
+        "offset": 132
+      },
+      {
+        "name": "m_hTargetFacePositionParameter",
+        "type": "CEntityHandle",
+        "offset": 134
+      },
+      {
+        "name": "m_hMoveHeadingParameter",
+        "type": "CEntityHandle",
+        "offset": 136
+      },
+      {
+        "name": "m_hDesiredMoveHeadingParameter",
+        "type": "CEntityHandle",
+        "offset": 138
+      },
+      {
+        "name": "m_bTargetPositionIsWorldSpace",
+        "type": "bool",
+        "offset": 140
+      },
+      {
+        "name": "m_bTargetFacePositionIsWorldSpace",
+        "type": "bool",
+        "offset": 141
+      },
+      {
+        "name": "m_bEnablePhaseMatching",
+        "type": "bool",
+        "offset": 142
+      },
+      {
+        "name": "m_flPhaseMatchingMaxRootMotionSkip",
+        "type": "float",
+        "offset": 144
+      }
+    ]
+  },
+  "CTargetWarpUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_eAngleMode",
+        "type": "uint32_t",
+        "offset": 116
+      },
+      {
+        "name": "m_hTargetPositionParameter",
+        "type": "CEntityHandle",
+        "offset": 120
+      },
+      {
+        "name": "m_hTargetUpVectorParameter",
+        "type": "CEntityHandle",
+        "offset": 122
+      },
+      {
+        "name": "m_hTargetFacePositionParameter",
+        "type": "CEntityHandle",
+        "offset": 124
+      },
+      {
+        "name": "m_hMoveHeadingParameter",
+        "type": "CEntityHandle",
+        "offset": 126
+      },
+      {
+        "name": "m_hDesiredMoveHeadingParameter",
+        "type": "CEntityHandle",
+        "offset": 128
+      },
+      {
+        "name": "m_eCorrectionMethod",
+        "type": "uint32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_eTargetWarpTimingMethod",
+        "type": "uint32_t",
+        "offset": 136
+      },
+      {
+        "name": "m_bTargetFacePositionIsWorldSpace",
+        "type": "bool",
+        "offset": 140
+      },
+      {
+        "name": "m_bTargetPositionIsWorldSpace",
+        "type": "bool",
+        "offset": 141
+      },
+      {
+        "name": "m_bOnlyWarpWhenTagIsFound",
+        "type": "bool",
+        "offset": 142
+      },
+      {
+        "name": "m_bWarpOrientationDuringTranslation",
+        "type": "bool",
+        "offset": 143
+      },
+      {
+        "name": "m_bWarpAroundCenter",
+        "type": "bool",
+        "offset": 144
+      },
+      {
+        "name": "m_flMaxAngle",
+        "type": "float",
+        "offset": 148
+      }
+    ]
+  },
+  "CTimeRemainingMetricEvaluator": {
+    "binary": "animationsystem.dll",
+    "base": "CMotionMetricEvaluator",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_bMatchByTimeRemaining",
+        "type": "bool",
+        "offset": 80
+      },
+      {
+        "name": "m_flMaxTimeRemaining",
+        "type": "float",
+        "offset": 84
+      },
+      {
+        "name": "m_bFilterByTimeRemaining",
+        "type": "bool",
+        "offset": 88
+      },
+      {
+        "name": "m_flMinTimeRemaining",
+        "type": "float",
+        "offset": 92
+      }
+    ]
+  },
+  "CToggleComponentActionUpdater": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimActionUpdater",
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_componentID",
+        "type": "uint32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_bSetEnabled",
+        "type": "bool",
+        "offset": 28
+      }
+    ]
+  },
+  "CTransitionUpdateData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 3,
+    "fields": [
+      {
+        "name": "m_srcStateIndex",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_destStateIndex",
+        "type": "uint16_t",
+        "offset": 1
+      }
+    ]
+  },
+  "CTurnHelperInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_turnAmount",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_turnStartTime",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_duration",
+        "type": "uint32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CTurnHelperUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_facingTarget",
+        "type": "uint32_t",
+        "offset": 116
+      },
+      {
+        "name": "m_turnStartTimeOffset",
+        "type": "uint32_t",
+        "offset": 120
+      },
+      {
+        "name": "m_turnDuration",
+        "type": "uint32_t",
+        "offset": 124
+      },
+      {
+        "name": "m_bMatchChildDuration",
+        "type": "bool",
+        "offset": 128
+      },
+      {
+        "name": "m_manualTurnOffset",
+        "type": "uint32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_bUseManualTurnOffset",
+        "type": "bool",
+        "offset": 136
+      }
+    ]
+  },
+  "CTwoBoneIKUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 480,
+    "fields": [
+      {
+        "name": "m_opFixedData",
+        "type": "uint8_t[368]",
+        "offset": 112
+      }
+    ]
+  },
+  "CUnaryUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimUpdateNodeBase",
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_pChildNode",
+        "type": "void*",
+        "offset": 96
+      }
+    ]
+  },
+  "CVectorAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CConcreteAnimParameter",
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_defaultValue",
+        "type": "Vector",
+        "offset": 128
+      },
+      {
+        "name": "m_bInterpolate",
+        "type": "bool",
+        "offset": 140
+      },
+      {
+        "name": "m_vectorType",
+        "type": "Vector2D",
+        "offset": 144
+      }
+    ]
+  },
+  "CVectorQuantizer": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_centroidVectors",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_nCentroids",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nDimensions",
+        "type": "int32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "CVirtualAnimParameter": {
+    "binary": "animationsystem.dll",
+    "base": "CAnimParameterBase",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_expressionString",
+        "type": "uint64_t",
+        "offset": 112
+      },
+      {
+        "name": "m_eParamType",
+        "type": "uint64_t",
+        "offset": 120
+      }
+    ]
+  },
+  "CWarpSectionAnimTag": {
+    "binary": "animationsystem.dll",
+    "base": "CWarpSectionAnimTagBase",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_bWarpPosition",
+        "type": "bool",
+        "offset": 80
+      },
+      {
+        "name": "m_bWarpOrientation",
+        "type": "bool",
+        "offset": 81
+      }
+    ]
+  },
+  "CWayPointHelperInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_vMovement",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vRotation",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_vWaypointPosWS",
+        "type": "Vector",
+        "offset": 24
+      },
+      {
+        "name": "m_bStopUpdatingWaypointPos",
+        "type": "bool",
+        "offset": 36
+      }
+    ]
+  },
+  "CWayPointHelperUpdateNode": {
+    "binary": "animationsystem.dll",
+    "base": "CUnaryUpdateNode",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_flStartCycle",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_flEndCycle",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_bOnlyGoals",
+        "type": "bool",
+        "offset": 124
+      },
+      {
+        "name": "m_bPreventOvershoot",
+        "type": "bool",
+        "offset": 125
+      },
+      {
+        "name": "m_bPreventUndershoot",
+        "type": "bool",
+        "offset": 126
+      }
+    ]
+  },
+  "ChainToSolveData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_nChainIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_SolverSettings",
+        "type": "Vector",
+        "offset": 4
+      },
+      {
+        "name": "m_TargetSettings",
+        "type": "uint8_t[40]",
+        "offset": 16
+      },
+      {
+        "name": "m_DebugSetting",
+        "type": "uint32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_flDebugNormalizedValue",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_vDebugOffset",
+        "type": "Vector4D",
+        "offset": 64
+      }
+    ]
+  },
+  "ConfigIndex": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nGroup",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nConfig",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "DampedPathMotorInstanceData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_vVelocity",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vAcceleration",
+        "type": "uint8_t[24]",
+        "offset": 12
+      },
+      {
+        "name": "m_bStopping",
+        "type": "bool",
+        "offset": 36
+      }
+    ]
+  },
+  "FollowAttachmentData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_boneIndex",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_attachmentHandle",
+        "type": "uint32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "FollowAttachmentSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_attachment",
+        "type": "uint8_t[128]",
+        "offset": 0
+      },
+      {
+        "name": "m_boneIndex",
+        "type": "bool",
+        "offset": 128
+      },
+      {
+        "name": "m_attachmentHandle",
+        "type": "uint8_t",
+        "offset": 132
+      },
+      {
+        "name": "m_bMatchTranslation",
+        "type": "bool",
+        "offset": 133
+      },
+      {
+        "name": "m_bMatchRotation",
+        "type": "bool",
+        "offset": 134
+      }
+    ]
+  },
+  "FollowTargetOpFixedSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_boneIndex",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bBoneTarget",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_boneTargetIndex",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_bWorldCoodinateTarget",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_bMatchTargetOrientation",
+        "type": "bool",
+        "offset": 13
+      }
+    ]
+  },
+  "FootFixedData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_vToeOffset",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_vHeelOffset",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "m_nTargetBoneIndex",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nAnkleBoneIndex",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nIKAnchorBoneIndex",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_ikChainIndex",
+        "type": "int32_t",
+        "offset": 44
+      },
+      {
+        "name": "m_flMaxIKLength",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_nFootIndex",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_nTagIndex",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_flMaxRotationLeft",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flMaxRotationRight",
+        "type": "float",
+        "offset": 64
+      }
+    ]
+  },
+  "FootFixedSettings": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_traceSettings",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_vFootBaseBindPosePositionMS",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "m_flFootBaseLength",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flMaxRotationLeft",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flMaxRotationRight",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_footstepLandedTagIndex",
+        "type": "uint32_t",
+        "offset": 44
+      },
+      {
+        "name": "m_bEnableTracing",
+        "type": "bool",
+        "offset": 48
+      },
+      {
+        "name": "m_flTraceAngleBlend",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_nDisableTagIndex",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_nFootIndex",
+        "type": "int32_t",
+        "offset": 60
+      }
+    ]
+  },
+  "FootLockPoseOpFixedSettings": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_footInfo",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_hipDampingSettings",
+        "type": "CEntityHandle",
+        "offset": 24
+      },
+      {
+        "name": "m_nHipBoneIndex",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_ikSolverType",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_bApplyTilt",
+        "type": "bool",
+        "offset": 56
+      },
+      {
+        "name": "m_bApplyHipDrop",
+        "type": "bool",
+        "offset": 57
+      },
+      {
+        "name": "m_bAlwaysUseFallbackHinge",
+        "type": "bool",
+        "offset": 58
+      },
+      {
+        "name": "m_bApplyFootRotationLimits",
+        "type": "bool",
+        "offset": 59
+      },
+      {
+        "name": "m_bApplyLegTwistLimits",
+        "type": "bool",
+        "offset": 60
+      },
+      {
+        "name": "m_flMaxFootHeight",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flExtensionScale",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_flMaxLegTwist",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_bEnableLockBreaking",
+        "type": "bool",
+        "offset": 76
+      },
+      {
+        "name": "m_flLockBreakTolerance",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_flLockBlendTime",
+        "type": "float",
+        "offset": 84
+      },
+      {
+        "name": "m_bEnableStretching",
+        "type": "bool",
+        "offset": 88
+      },
+      {
+        "name": "m_flMaxStretchAmount",
+        "type": "float",
+        "offset": 92
+      },
+      {
+        "name": "m_flStretchExtensionScale",
+        "type": "float",
+        "offset": 96
+      }
+    ]
+  },
+  "FootPinningPoseOpFixedData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_footInfo",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_flBlendTime",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flLockBreakDistance",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flMaxLegTwist",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_nHipBoneIndex",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_bApplyLegTwistLimits",
+        "type": "bool",
+        "offset": 40
+      },
+      {
+        "name": "m_bApplyFootRotationLimits",
+        "type": "bool",
+        "offset": 41
+      }
+    ]
+  },
+  "FootStepTrigger": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_tags",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_nFootIndex",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_triggerPhase",
+        "type": "uint32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "HSequence": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "HitReactFixedSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 68,
+    "fields": [
+      {
+        "name": "m_nWeightListIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nEffectedBoneCount",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_flMaxImpactForce",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flMinImpactForce",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flWhipImpactScale",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flCounterRotationScale",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flDistanceFadeScale",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flPropagationScale",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flWhipDelay",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flSpringStrength",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flWhipSpringStrength",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flMaxAngleRadians",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_nHipBoneIndex",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_flHipBoneTranslationScale",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flHipDipSpringStrength",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flHipDipImpactScale",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flHipDipDelay",
+        "type": "float",
+        "offset": 64
+      }
+    ]
+  },
+  "IKBoneNameAndIndex_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "Vector4D",
+        "offset": 0
+      }
+    ]
+  },
+  "IKDemoCaptureSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_parentBoneName",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_eMode",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_ikChainName",
+        "type": "int64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_oneBoneStart",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_oneBoneEnd",
+        "type": "uint64_t",
+        "offset": 32
+      }
+    ]
+  },
+  "IKSolverSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_SolverType",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNumIterations",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_EndEffectorRotationFixUpMode",
+        "type": "uint32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "IKTargetSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_TargetSource",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_Bone",
+        "type": "Vector4D",
+        "offset": 8
+      },
+      {
+        "name": "m_AnimgraphParameterNamePosition",
+        "type": "uint32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_AnimgraphParameterNameOrientation",
+        "type": "uint32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_TargetCoordSystem",
+        "type": "uint64_t",
+        "offset": 32
+      }
+    ]
+  },
+  "JiggleBoneSettingsList_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_boneSettings",
+        "type": "bool",
+        "offset": 0
+      }
+    ]
+  },
+  "JiggleBoneSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 44,
+    "fields": [
+      {
+        "name": "m_nBoneIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flSpringStrength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flMaxTimeStep",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flDamping",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_vBoundsMaxLS",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_vBoundsMinLS",
+        "type": "Vector",
+        "offset": 28
+      },
+      {
+        "name": "m_eSimSpace",
+        "type": "uint32_t",
+        "offset": 40
+      }
+    ]
+  },
+  "LookAtBone_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_index",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_weight",
+        "type": "uint32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "LookAtOpFixedSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_attachment",
+        "type": "uint8_t[128]",
+        "offset": 0
+      },
+      {
+        "name": "m_damping",
+        "type": "uint8_t[24]",
+        "offset": 128
+      },
+      {
+        "name": "m_bones",
+        "type": "bool",
+        "offset": 152
+      },
+      {
+        "name": "m_flYawLimit",
+        "type": "float",
+        "offset": 176
+      },
+      {
+        "name": "m_flPitchLimit",
+        "type": "float",
+        "offset": 180
+      },
+      {
+        "name": "m_flHysteresisInnerAngle",
+        "type": "float",
+        "offset": 184
+      },
+      {
+        "name": "m_flHysteresisOuterAngle",
+        "type": "float",
+        "offset": 188
+      },
+      {
+        "name": "m_bRotateYawForward",
+        "type": "bool",
+        "offset": 192
+      },
+      {
+        "name": "m_bMaintainUpDirection",
+        "type": "bool",
+        "offset": 193
+      },
+      {
+        "name": "m_bTargetIsPosition",
+        "type": "bool",
+        "offset": 194
+      },
+      {
+        "name": "m_bUseHysteresis",
+        "type": "bool",
+        "offset": 195
+      }
+    ]
+  },
+  "LookData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_vLookTarget",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "MoodAnimationLayer_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_bActiveListening",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_bActiveTalking",
+        "type": "bool",
+        "offset": 9
+      },
+      {
+        "name": "m_layerAnimations",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_flIntensity",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flDurationScale",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_bScaleWithInts",
+        "type": "bool",
+        "offset": 56
+      },
+      {
+        "name": "m_flNextStart",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flStartOffset",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_flEndOffset",
+        "type": "float",
+        "offset": 76
+      },
+      {
+        "name": "m_flFadeIn",
+        "type": "float",
+        "offset": 84
+      },
+      {
+        "name": "m_flFadeOut",
+        "type": "float",
+        "offset": 88
+      }
+    ]
+  },
+  "MoodAnimation_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flWeight",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "MotionBlendItem": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_pChild",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_flKeyValue",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "MotionDBIndex": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nIndex",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "MotionIndex": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nGroup",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nMotion",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "MotionMatchingInstanceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 288,
+    "fields": [
+      {
+        "name": "m_currentSelection",
+        "type": "uint8_t[88]",
+        "offset": 44
+      },
+      {
+        "name": "m_previousSelection",
+        "type": "void*",
+        "offset": 132
+      }
+    ]
+  },
+  "MotionSelection": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_nConfigIndex",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_flCycleZeroTime",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flPlaybackSpeed",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flStartTime",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_nSample",
+        "type": "int32_t",
+        "offset": 84
+      }
+    ]
+  },
+  "MovementData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 232,
+    "fields": [
+      {
+        "name": "m_goalWayPointPos",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vMoveDir",
+        "type": "uint8_t[20]",
+        "offset": 12
+      },
+      {
+        "name": "m_vAcceleration",
+        "type": "uint8_t[20]",
+        "offset": 32
+      },
+      {
+        "name": "m_flCurrentMoveSpeed",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flTargetMoveSpeed",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flGoalDistance",
+        "type": "float",
+        "offset": 76
+      },
+      {
+        "name": "m_flBoundaryRadius",
+        "type": "float",
+        "offset": 88
+      },
+      {
+        "name": "m_bGoalChanged",
+        "type": "bool",
+        "offset": 100
+      },
+      {
+        "name": "m_bHasPath",
+        "type": "bool",
+        "offset": 104
+      },
+      {
+        "name": "m_flFacingHeading",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_vManualFacingDirection",
+        "type": "Vector",
+        "offset": 128
+      },
+      {
+        "name": "m_vManualFacingTarget",
+        "type": "Vector",
+        "offset": 140
+      },
+      {
+        "name": "m_nFacingMode",
+        "type": "int32_t",
+        "offset": 152
+      },
+      {
+        "name": "m_bForceFacing",
+        "type": "bool",
+        "offset": 164
+      },
+      {
+        "name": "m_nActiveMotorIndex",
+        "type": "int32_t",
+        "offset": 176
+      },
+      {
+        "name": "m_bOnGround",
+        "type": "bool",
+        "offset": 188
+      },
+      {
+        "name": "m_vFacingPosition",
+        "type": "uint8_t[20]",
+        "offset": 200
+      },
+      {
+        "name": "m_vPrevFacingPosition",
+        "type": "Vector",
+        "offset": 220
+      }
+    ]
+  },
+  "NetVarConfigIndex": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_index",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "PairedSequenceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 256,
+    "fields": [
+      {
+        "name": "m_vecPairedSequences",
+        "type": "Vector",
+        "offset": 0
+      }
+    ]
+  },
+  "PairedSequence_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_sRole",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_sSequenceName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 16
+      }
+    ]
+  },
+  "ParamSpanSample_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_value",
+        "type": "uint8_t[20]",
+        "offset": 0
+      },
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 20
+      }
+    ]
+  },
+  "ParamSpan_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_samples",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_hParam",
+        "type": "CEntityHandle",
+        "offset": 24
+      },
+      {
+        "name": "m_eParamType",
+        "type": "uint16_t",
+        "offset": 26
+      },
+      {
+        "name": "m_flStartCycle",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flEndCycle",
+        "type": "float",
+        "offset": 32
+      }
+    ]
+  },
+  "PerTickSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 1728,
+    "fields": [
+      {
+        "name": "m_startingLocalToWorld",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "m_prevLocalToWorld",
+        "type": "void*",
+        "offset": 32
+      },
+      {
+        "name": "m_finalLocalToWorld",
+        "type": "uint8_t[32]",
+        "offset": 64
+      },
+      {
+        "name": "m_rootMotion",
+        "type": "uint8_t[1596]",
+        "offset": 96
+      },
+      {
+        "name": "m_updateID",
+        "type": "uint64_t",
+        "offset": 1692
+      },
+      {
+        "name": "m_flLastTimeStep",
+        "type": "float",
+        "offset": 1700
+      },
+      {
+        "name": "m_flPrevAnimTime",
+        "type": "float",
+        "offset": 1704
+      },
+      {
+        "name": "m_flNextAnimTime",
+        "type": "float",
+        "offset": 1708
+      },
+      {
+        "name": "m_bAwaken",
+        "type": "bool",
+        "offset": 1716
+      },
+      {
+        "name": "m_bTeleported",
+        "type": "bool",
+        "offset": 1717
+      },
+      {
+        "name": "m_bIsClient",
+        "type": "bool",
+        "offset": 1718
+      },
+      {
+        "name": "m_bIsPredicted",
+        "type": "bool",
+        "offset": 1719
+      }
+    ]
+  },
+  "PlayerInputMotorInstanceData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_vInputVectorWS",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vVelocityWS",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_vAccelerationWS",
+        "type": "Vector4D",
+        "offset": 24
+      }
+    ]
+  },
+  "SampleCode": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_subCode",
+        "type": "uint64_t",
+        "offset": 0
+      }
+    ]
+  },
+  "ScriptInfo_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_code",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_paramsModified",
+        "type": "void*",
+        "offset": 8
+      },
+      {
+        "name": "m_proxyReadParams",
+        "type": "void*",
+        "offset": 32
+      },
+      {
+        "name": "m_proxyWriteParams",
+        "type": "void*",
+        "offset": 56
+      },
+      {
+        "name": "m_eScriptType",
+        "type": "uint64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "SelectorInstanceData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 44,
+    "fields": [
+      {
+        "name": "m_weights",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_currentIndexStartTime",
+        "type": "Vector",
+        "offset": 8
+      },
+      {
+        "name": "m_currentIndex",
+        "type": "uint32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_previousIndex",
+        "type": "void*",
+        "offset": 24
+      }
+    ]
+  },
+  "SequenceData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_hSequence",
+        "type": "CEntityHandle",
+        "offset": 0
+      },
+      {
+        "name": "m_cycle",
+        "type": "uint8_t[52]",
+        "offset": 4
+      }
+    ]
+  },
+  "SlopeData": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_vSlopeNormal",
+        "type": "Vector",
+        "offset": 0
+      }
+    ]
+  },
+  "SolveIKChainPoseOpFixedSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_ChainsToSolveData",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "StanceInfo_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_vPosition",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_flDirection",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "TagSpan_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_tagIndex",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_startCycle",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_endCycle",
+        "type": "uint32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "TagStatus": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_TagStatus",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flTagStartAnimTime",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "TargetSelectorInstanceData_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_currentIndex",
+        "type": "uint8_t[28]",
+        "offset": 0
+      },
+      {
+        "name": "m_vMSRootMotionAnlyzerTarget",
+        "type": "uint8_t[20]",
+        "offset": 28
+      }
+    ]
+  },
+  "TraceSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_flTraceHeight",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flTraceRadius",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "TwoBoneIKSettings_t": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 352,
+    "fields": [
+      {
+        "name": "m_endEffectorType",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_endEffectorAttachment",
+        "type": "uint8_t[128]",
+        "offset": 16
+      },
+      {
+        "name": "m_targetType",
+        "type": "Vector4D",
+        "offset": 144
+      },
+      {
+        "name": "m_targetAttachment",
+        "type": "uint8_t[128]",
+        "offset": 160
+      },
+      {
+        "name": "m_targetBoneIndex",
+        "type": "uint32_t",
+        "offset": 288
+      },
+      {
+        "name": "m_hPositionParam",
+        "type": "CEntityHandle",
+        "offset": 292
+      },
+      {
+        "name": "m_hRotationParam",
+        "type": "CEntityHandle",
+        "offset": 294
+      },
+      {
+        "name": "m_bAlwaysUseFallbackHinge",
+        "type": "bool",
+        "offset": 296
+      },
+      {
+        "name": "m_vLsFallbackHingeAxis",
+        "type": "Vector4D",
+        "offset": 304
+      },
+      {
+        "name": "m_nFixedBoneIndex",
+        "type": "int32_t",
+        "offset": 320
+      },
+      {
+        "name": "m_nMiddleBoneIndex",
+        "type": "int32_t",
+        "offset": 324
+      },
+      {
+        "name": "m_nEndBoneIndex",
+        "type": "int32_t",
+        "offset": 328
+      },
+      {
+        "name": "m_bMatchTargetOrientation",
+        "type": "bool",
+        "offset": 332
+      },
+      {
+        "name": "m_bConstrainTwist",
+        "type": "bool",
+        "offset": 333
+      },
+      {
+        "name": "m_flMaxTwist",
+        "type": "float",
+        "offset": 336
+      }
+    ]
+  },
+  "WeightList": {
+    "binary": "animationsystem.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_weights",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  }
+}

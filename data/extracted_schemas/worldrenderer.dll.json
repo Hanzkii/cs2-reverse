@@ -1,0 +1,1426 @@
+{
+  "AggregateInstanceStreamOnDiskData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_DecodedSize",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_BufferData",
+        "type": "Vector4D",
+        "offset": 8
+      }
+    ]
+  },
+  "AggregateLODSetup_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_vLODOrigin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_fMaxObjectScale",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_fSwitchDistances",
+        "type": "uint8_t[24]",
+        "offset": 16
+      }
+    ]
+  },
+  "AggregateMeshInfo_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 44,
+    "fields": [
+      {
+        "name": "m_nVisClusterMemberOffset",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nVisClusterMemberCount",
+        "type": "uint8_t",
+        "offset": 4
+      },
+      {
+        "name": "m_bHasTransform",
+        "type": "bool",
+        "offset": 5
+      },
+      {
+        "name": "m_nLODGroupMask",
+        "type": "uint16_t",
+        "offset": 6
+      },
+      {
+        "name": "m_nDrawCallIndex",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nLODSetupIndex",
+        "type": "uint16_t",
+        "offset": 10
+      },
+      {
+        "name": "m_vTintColor",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_objectFlags",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nLightProbeVolumePrecomputedHandshake",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nInstanceStreamOffset",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nVertexAlbedoStreamOffset",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nVertexEmissiveStreamOffset",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_instanceStreams",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_fEmissiveFactor",
+        "type": "uint32_t",
+        "offset": 40
+      }
+    ]
+  },
+  "AggregateRTProxySceneObject_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_nLayer",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_BLASes",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_Instances",
+        "type": "uint8_t[24]",
+        "offset": 32
+      },
+      {
+        "name": "m_VBData",
+        "type": "Vector4D",
+        "offset": 56
+      },
+      {
+        "name": "m_IBData",
+        "type": "Vector4D",
+        "offset": 72
+      },
+      {
+        "name": "m_InstanceAlbedoData",
+        "type": "Vector4D",
+        "offset": 88
+      },
+      {
+        "name": "m_InstanceEmissiveData",
+        "type": "Vector4D",
+        "offset": 104
+      }
+    ]
+  },
+  "AggregateSceneObject_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 120,
+    "fields": [
+      {
+        "name": "m_allFlags",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_anyFlags",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nLayer",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "m_instanceStream",
+        "type": "uint16_t",
+        "offset": 10
+      },
+      {
+        "name": "m_vertexAlbedoStream",
+        "type": "uint16_t",
+        "offset": 12
+      },
+      {
+        "name": "m_vertexEmissiveStream",
+        "type": "uint16_t",
+        "offset": 14
+      },
+      {
+        "name": "m_aggregateMeshes",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_lodSetups",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_visClusterMembership",
+        "type": "uint8_t[24]",
+        "offset": 64
+      },
+      {
+        "name": "m_fragmentTransforms",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_renderableModel",
+        "type": "uint64_t",
+        "offset": 112
+      }
+    ]
+  },
+  "AggregateVertexAlbedoStreamOnDiskData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_BufferData",
+        "type": "Vector4D",
+        "offset": 0
+      }
+    ]
+  },
+  "AggregateVertexEmissiveStreamOnDiskData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_BufferData",
+        "type": "Vector4D",
+        "offset": 0
+      }
+    ]
+  },
+  "BakedLightingInfo_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_nLightmapVersionNumber",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nLightmapGameVersionNumber",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_vLightmapUvScale",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bHasLightmaps",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_bBakedShadowsGamma20",
+        "type": "bool",
+        "offset": 17
+      },
+      {
+        "name": "m_bCompressionEnabled",
+        "type": "bool",
+        "offset": 18
+      },
+      {
+        "name": "m_nLPVEncoding",
+        "type": "uint8_t",
+        "offset": 19
+      },
+      {
+        "name": "m_nLightmapEncoding",
+        "type": "uint8_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nChartPackIterations",
+        "type": "uint8_t",
+        "offset": 21
+      },
+      {
+        "name": "m_nVradQuality",
+        "type": "uint16_t",
+        "offset": 22
+      },
+      {
+        "name": "m_lightMaps",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_bakedShadows",
+        "type": "bool",
+        "offset": 48
+      }
+    ]
+  },
+  "BakedLightingInfo_t__BakedShadowAssignment_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_nLightHash",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nMapHash",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nShadowChannel",
+        "type": "int32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "BaseSceneObjectOverride_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nSceneObjectIndex",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CEntityAttributeTable": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_Attributes",
+        "type": "uint8_t[40]",
+        "offset": 0
+      },
+      {
+        "name": "m_Names",
+        "type": "uint8_t[40]",
+        "offset": 40
+      }
+    ]
+  },
+  "CEntityComponentHelper": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_pInfo",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_nPriority",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_pNext",
+        "type": "void*",
+        "offset": 32
+      }
+    ]
+  },
+  "CEntityIdentity": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_nameStringTableIndex",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_designerName",
+        "type": "Vector4D",
+        "offset": 32
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_worldGroupId",
+        "type": "uint32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_fDataObjectTypes",
+        "type": "uint32_t",
+        "offset": 60
+      },
+      {
+        "name": "m_PathIndex",
+        "type": "uint64_t",
+        "offset": 64
+      },
+      {
+        "name": "m_pAttributes",
+        "type": "void*",
+        "offset": 72
+      },
+      {
+        "name": "m_pPrev",
+        "type": "void*",
+        "offset": 80
+      },
+      {
+        "name": "m_pNext",
+        "type": "void*",
+        "offset": 88
+      },
+      {
+        "name": "m_pPrevByClass",
+        "type": "void*",
+        "offset": 96
+      },
+      {
+        "name": "m_pNextByClass",
+        "type": "void*",
+        "offset": 104
+      }
+    ]
+  },
+  "CEntityInstance": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_iszPrivateVScripts",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_pEntity",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_CScriptComponent",
+        "type": "uintptr_t",
+        "offset": 40
+      }
+    ]
+  },
+  "CNetworkVarChainer": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_PathIndex",
+        "type": "uint64_t",
+        "offset": 32
+      }
+    ]
+  },
+  "CPulseCell_Base": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_nEditorNodeID",
+        "type": "int32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CPulseCell_BaseYieldingInflow": {
+    "binary": "worldrenderer.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_BaseFlow_OnAfterCancel",
+        "type": "uint8_t[72]",
+        "offset": 72
+      },
+      {
+        "name": "m_BaseFlow_WhileActive",
+        "type": "uint8_t[72]",
+        "offset": 144
+      }
+    ]
+  },
+  "CPulseCell_Inflow_BaseEntrypoint": {
+    "binary": "worldrenderer.dll",
+    "base": "CPulseCell_BaseFlow",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_EntryChunk",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_RegisterMap",
+        "type": "uint8_t[48]",
+        "offset": 80
+      }
+    ]
+  },
+  "CPulseCell_Inflow_Method": {
+    "binary": "worldrenderer.dll",
+    "base": "CPulseCell_Inflow_BaseEntrypoint",
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_MethodName",
+        "type": "Vector4D",
+        "offset": 128
+      },
+      {
+        "name": "m_Description",
+        "type": "uint64_t",
+        "offset": 144
+      },
+      {
+        "name": "m_bIsPublic",
+        "type": "bool",
+        "offset": 152
+      },
+      {
+        "name": "m_Args",
+        "type": "Vector4D",
+        "offset": 160
+      },
+      {
+        "name": "m_ReturnValues",
+        "type": "Vector4D",
+        "offset": 176
+      }
+    ]
+  },
+  "CPulseCell_Inflow_Wait": {
+    "binary": "worldrenderer.dll",
+    "base": "CPulseCell_BaseYieldingInflow",
+    "size": 288,
+    "fields": [
+      {
+        "name": "m_WakeResume",
+        "type": "uint8_t[72]",
+        "offset": 216
+      }
+    ]
+  },
+  "CScriptComponent": {
+    "binary": "worldrenderer.dll",
+    "base": "CEntityComponent",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_scriptClassName",
+        "type": "uint64_t",
+        "offset": 48
+      }
+    ]
+  },
+  "CVoxelVisibility": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_nBaseClusterCount",
+        "type": "int32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_nPVSBytesPerCluster",
+        "type": "int32_t",
+        "offset": 68
+      },
+      {
+        "name": "m_vMinBounds",
+        "type": "Vector",
+        "offset": 72
+      },
+      {
+        "name": "m_vMaxBounds",
+        "type": "Vector",
+        "offset": 84
+      },
+      {
+        "name": "m_flGridSize",
+        "type": "float",
+        "offset": 96
+      },
+      {
+        "name": "m_nSkyVisibilityCluster",
+        "type": "int32_t",
+        "offset": 100
+      },
+      {
+        "name": "m_nSunVisibilityCluster",
+        "type": "int32_t",
+        "offset": 104
+      },
+      {
+        "name": "m_NodeBlock",
+        "type": "uint64_t",
+        "offset": 108
+      },
+      {
+        "name": "m_RegionBlock",
+        "type": "uint64_t",
+        "offset": 116
+      },
+      {
+        "name": "m_EnclosedClusterListBlock",
+        "type": "uint64_t",
+        "offset": 124
+      },
+      {
+        "name": "m_EnclosedClustersBlock",
+        "type": "uint64_t",
+        "offset": 132
+      },
+      {
+        "name": "m_MasksBlock",
+        "type": "uint64_t",
+        "offset": 140
+      },
+      {
+        "name": "m_nVisBlocks",
+        "type": "int32_t",
+        "offset": 148
+      }
+    ]
+  },
+  "ClutterSceneObject_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_Bounds",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_flags",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_nLayer",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_instancePositions",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_instanceScales",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_instanceTintSrgb",
+        "type": "int32_t",
+        "offset": 104
+      },
+      {
+        "name": "m_tiles",
+        "type": "uint8_t[24]",
+        "offset": 128
+      },
+      {
+        "name": "m_renderableModel",
+        "type": "uint64_t",
+        "offset": 152
+      },
+      {
+        "name": "m_materialGroup",
+        "type": "uint32_t",
+        "offset": 160
+      },
+      {
+        "name": "m_flBeginCullSize",
+        "type": "float",
+        "offset": 164
+      },
+      {
+        "name": "m_flEndCullSize",
+        "type": "float",
+        "offset": 168
+      }
+    ]
+  },
+  "ClutterTile_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nFirstInstance",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nLastInstance",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_BoundsWs",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "EntComponentInfo_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_pName",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_pCPPClassname",
+        "type": "void*",
+        "offset": 8
+      },
+      {
+        "name": "m_pNetworkDataReferencedDescription",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_pNetworkDataReferencedPtrPropDescription",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_nRuntimeIndex",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_pBaseClassComponentHelper",
+        "type": "void*",
+        "offset": 88
+      }
+    ]
+  },
+  "EntityIOConnectionData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_outputName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_targetType",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_targetName",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_inputName",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_overrideParam",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_flDelay",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_nTimesToFire",
+        "type": "int32_t",
+        "offset": 44
+      },
+      {
+        "name": "m_paramMap",
+        "type": "void*",
+        "offset": 48
+      }
+    ]
+  },
+  "EntityIOQueuePrioritizedEvent_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 248,
+    "fields": [
+      {
+        "name": "m_flFireTime",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_targetType",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_pTarget",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_pTargetInput",
+        "type": "void*",
+        "offset": 24
+      },
+      {
+        "name": "m_hActivator",
+        "type": "CEntityHandle",
+        "offset": 32
+      },
+      {
+        "name": "m_hCaller",
+        "type": "CEntityHandle",
+        "offset": 36
+      },
+      {
+        "name": "m_hEntTarget",
+        "type": "CEntityHandle",
+        "offset": 40
+      },
+      {
+        "name": "m_variantValue",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "m_PulseArguments",
+        "type": "uint8_t[144]",
+        "offset": 64
+      },
+      {
+        "name": "m_paramMap",
+        "type": "void*",
+        "offset": 208
+      }
+    ]
+  },
+  "EntityKeyValueData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_connections",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_keyValuesData",
+        "type": "uint8_t[24]",
+        "offset": 32
+      }
+    ]
+  },
+  "ExtraVertexStreamOverride_t": {
+    "binary": "worldrenderer.dll",
+    "base": "BaseSceneObjectOverride_t",
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_nSubSceneObject",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nDrawCallIndex",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nAdditionalMeshDrawPrimitiveFlags",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_extraBufferBinding",
+        "type": "uint8_t[32]",
+        "offset": 16
+      }
+    ]
+  },
+  "GameTick_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "GameTime_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "MaterialOverride_t": {
+    "binary": "worldrenderer.dll",
+    "base": "BaseSceneObjectOverride_t",
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_nSubSceneObject",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nDrawCallIndex",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_pMaterial",
+        "type": "void*",
+        "offset": 16
+      },
+      {
+        "name": "m_vLinearTintColor",
+        "type": "Vector4D",
+        "offset": 24
+      }
+    ]
+  },
+  "NodeData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_vOrigin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vMinBounds",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_vMaxBounds",
+        "type": "Vector4D",
+        "offset": 24
+      },
+      {
+        "name": "m_worldNodePrefix",
+        "type": "uint64_t",
+        "offset": 40
+      }
+    ]
+  },
+  "PermEntityLumpData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_childLumps",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_entityKeyValues",
+        "type": "Vector4D",
+        "offset": 40
+      }
+    ]
+  },
+  "RTProxyBLAS_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 68,
+    "fields": [
+      {
+        "name": "m_nFirstIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nIndexCount",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nVBByteOffset",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nBaseVertex",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nVertexCount",
+        "type": "uint16_t",
+        "offset": 16
+      },
+      {
+        "name": "m_albedoFormat",
+        "type": "uint16_t",
+        "offset": 18
+      },
+      {
+        "name": "m_boundLs",
+        "type": "bool",
+        "offset": 20
+      },
+      {
+        "name": "m_vVertexOriginLs",
+        "type": "Vector",
+        "offset": 44
+      },
+      {
+        "name": "m_vVertexExtentLs",
+        "type": "Vector",
+        "offset": 56
+      }
+    ]
+  },
+  "RTProxyInstanceInfo_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 76,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_albedoFormat",
+        "type": "uint8_t",
+        "offset": 1
+      },
+      {
+        "name": "m_emissiveFormat",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nBLASCount",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nBLASIndex",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nVertexAlbedoByteOffset",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nVertexEmissiveByteOffset",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_fEmissiveFactor",
+        "type": "uint32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_mWorldFromLocal",
+        "type": "uint8_t[48]",
+        "offset": 24
+      },
+      {
+        "name": "m_vTintColorSRGB",
+        "type": "uint32_t",
+        "offset": 72
+      }
+    ]
+  },
+  "SceneObject_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_nObjectID",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_vTransform",
+        "type": "uint8_t[48]",
+        "offset": 4
+      },
+      {
+        "name": "m_flFadeStartDistance",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flFadeEndDistance",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_vTintColor",
+        "type": "uint8_t[20]",
+        "offset": 60
+      },
+      {
+        "name": "m_skin",
+        "type": "uint64_t",
+        "offset": 80
+      },
+      {
+        "name": "m_nObjectTypeFlags",
+        "type": "int32_t",
+        "offset": 88
+      },
+      {
+        "name": "m_vLightingOrigin",
+        "type": "Vector",
+        "offset": 92
+      },
+      {
+        "name": "m_nOverlayRenderOrder",
+        "type": "uint16_t",
+        "offset": 104
+      },
+      {
+        "name": "m_nLODOverride",
+        "type": "uint16_t",
+        "offset": 106
+      },
+      {
+        "name": "m_nCubeMapPrecomputedHandshake",
+        "type": "int32_t",
+        "offset": 108
+      },
+      {
+        "name": "m_nLightProbeVolumePrecomputedHandshake",
+        "type": "int32_t",
+        "offset": 112
+      },
+      {
+        "name": "m_flEmissiveLightingBoost",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_renderableModel",
+        "type": "uint64_t",
+        "offset": 128
+      },
+      {
+        "name": "m_renderable",
+        "type": "uint64_t",
+        "offset": 136
+      }
+    ]
+  },
+  "VoxelVisBlockOffset_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_nOffset",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nElementCount",
+        "type": "int32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "WorldBuilderParams_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_flMinDrawVolumeSize",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_bBuildBakedLighting",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_bAggregateInstanceStreams",
+        "type": "bool",
+        "offset": 5
+      },
+      {
+        "name": "m_bakedLightingInfo",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_nCompileTimestamp",
+        "type": "int64_t",
+        "offset": 80
+      },
+      {
+        "name": "m_nCompileFingerprint",
+        "type": "int64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "WorldNodeOnDiskBufferData_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_nElementCount",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nElementSizeInBytes",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_inputLayoutFields",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_pData",
+        "type": "void*",
+        "offset": 32
+      }
+    ]
+  },
+  "WorldNode_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 400,
+    "fields": [
+      {
+        "name": "m_sceneObjects",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_visClusterMembership",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_aggregateSceneObjects",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_clutterSceneObjects",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_rtProxies",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_extraVertexStreamOverrides",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_materialOverrides",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_extraVertexStreams",
+        "type": "uint8_t[24]",
+        "offset": 168
+      },
+      {
+        "name": "m_aggregateInstanceStreams",
+        "type": "uint8_t[24]",
+        "offset": 192
+      },
+      {
+        "name": "m_vertexAlbedoStreams",
+        "type": "uint8_t[24]",
+        "offset": 216
+      },
+      {
+        "name": "m_vertexEmissiveStreams",
+        "type": "uint8_t[24]",
+        "offset": 240
+      },
+      {
+        "name": "m_layerNames",
+        "type": "uint8_t[24]",
+        "offset": 264
+      },
+      {
+        "name": "m_sceneObjectLayerIndices",
+        "type": "uint8_t[24]",
+        "offset": 288
+      },
+      {
+        "name": "m_grassFileName",
+        "type": "uint64_t",
+        "offset": 312
+      },
+      {
+        "name": "m_nodeLightingInfo",
+        "type": "int32_t",
+        "offset": 320
+      },
+      {
+        "name": "m_bHasBakedGeometryFlag",
+        "type": "bool",
+        "offset": 392
+      }
+    ]
+  },
+  "World_t": {
+    "binary": "worldrenderer.dll",
+    "base": null,
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_builderParams",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_worldNodes",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_worldLightingInfo",
+        "type": "uint8_t[72]",
+        "offset": 120
+      },
+      {
+        "name": "m_entityLumps",
+        "type": "uint8_t[24]",
+        "offset": 192
+      }
+    ]
+  }
+}

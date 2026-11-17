@@ -6,7 +6,7 @@ While standard **GhidraMCP** provides low-latency REST access to a running Ghidr
 
 | Architectural Gap in Standard GhidraMCP | Impact on Source 2 Reverse Engineering | Custom Toolkit Solution |
 | :--- | :--- | :--- |
-| **No C++ Header / Struct Injection** | Decompiler displays raw pointer arithmetic (`*(int*)(a1 + 0x30)`) rather than struct fields. | `inject_source2_types.py` injects pure Source 2 vectors, handles, matrices, and containers directly into Ghidra's `DataTypeManager`. |
+| **No C++ Header / Struct Injection** | Decompiler displays raw pointer arithmetic (`*(int*)(a1 + 0x30)`) rather than struct fields. | `inject_source2_types.py` & `batch_inject_schemas.py` inject pure Source 2 vectors, handles, and complete schema classes with explicit padding into Ghidra's `DataTypeManager`. |
 | **Untyped Function Signatures** | Functions default to `undefined8 FUN_180...()`, obfuscating return types, arguments, and `__fastcall` registers. | `sync_function_prototypes.py` applies authoritative C++ prototypes and calling conventions to all 46 canonical functions. |
 | **No Call Graph or XRef Queries** | Finding callers, callees, or string references requires manual GUI clicks or complex scripts. | `trace_xrefs.py` performs sub-second incoming/outgoing cross-reference queries and string xref tracing via inline Java execution. |
 | **Manual VTable Porting Bottlenecks** | Class hierarchies and virtual method tables must be manually located or hardcoded per build. | `scan_rtti_vtables.py` scans PE `.rdata` for MSVC x64 RTTI descriptors, discovering all polymorphic classes, VTable RVAs, and slot counts in $O(N)$ time. |
@@ -106,7 +106,56 @@ python tools/ghidra/cs2_ghidra_toolkit.py inject-types --all
 
 ---
 
-### 3.3 Function Prototype Synchronizer: `sync-prototypes`
+### 3.3 Batch Schema Class & Struct Injection: `inject-schemas`
+
+Parses dumped Source 2 schemas from `data/extracted_schemas/*.json` (e.g. `client.dll.json`, `server.dll.json`, `engine2.dll.json`), resolves full inheritance hierarchies (`CEntityInstance -> C_BaseEntity -> C_BaseModelEntity -> C_BasePlayerPawn -> C_CSPlayerPawn`), computes exact runtime byte offsets, and inserts explicit padding bytes (`char pad_XXXX[N];`) between non-contiguous fields.
+
+**Problem Addressed**:
+Without struct memory layouts registered in Ghidra, decompiled functions display opaque pointer arithmetic:
+```c
+// Before Schema Injection:
+*(int *)(param_1 + 0x34c) = 100;
+*(float *)(param_1 + 0x350) = 0.0f;
+```
+After batch injection into Ghidra's `DataTypeManager`:
+```c
+// After Schema Injection:
+param_1->m_iHealth = 100;
+param_1->m_flDamageAccumulator = 0.0f;
+```
+
+**Key Capabilities**:
+1. **Linear Inheritance Flattening**: Propagates all inherited fields from root classes down to derived entities (`C_CSPlayerPawn` includes 312 unique fields spanning 14,160 bytes).
+2. **Explicit Byte-Accurate Padding**: Automatically computes field gaps and emits explicit padding arrays (`char pad_0040[0x2e8];`) so `sizeof(struct)` exactly matches engine ABI.
+3. **C Header Synthesis**: Generates `data/source2_generated_classes.h` containing all foundational primitives, typedefs, forward declarations, and complete struct definitions.
+4. **Ghidra DataTypeManager Registration**: Uses GhidraMCP's inline Java execution bridge with Google Gson deserialization to inject pre-sized `StructureDataType` instances into `/Source2/Classes`.
+
+**Core High-Priority Target Classes**:
+- `C_BaseEntity`, `C_BaseModelEntity`, `C_CSPlayerPawn`, `CCSPlayerController`
+- `CCollisionProperty`, `CPlayer_MovementServices`, `C_CSWeaponBaseGun`, `CGameSceneNode`
+- `C_BasePlayerPawn`, `CEntityInstance`, `C_EconItemView`, `C_AttributeContainer`
+
+**CLI Usage**:
+```bash
+# Inject core high-priority schema classes into active Ghidra program
+python tools/ghidra/cs2_ghidra_toolkit.py --inject-schemas
+
+# Target a specific binary (e.g. server.dll or client.dll)
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --binary server.dll
+
+# Generate C header only (without contacting Ghidra)
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --header-only
+
+# Inject specific classes
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --classes C_BaseEntity,C_CSPlayerPawn,CCSPlayerController
+
+# Inject all extracted schema classes across all modules
+python tools/ghidra/cs2_ghidra_toolkit.py inject-schemas --all-classes
+```
+
+---
+
+### 3.4 Function Prototype Synchronizer: `sync-prototypes`
 
 Applies authoritative C++ return types, parameter types, and `__fastcall` calling conventions to all reversed functions from `data/function_signatures.json`.
 
@@ -124,7 +173,7 @@ python tools/ghidra/cs2_ghidra_toolkit.py sync-prototypes --binary server.dll
 
 ---
 
-### 3.4 MSVC x64 RTTI Scanner & VTable Auto-Discovery: `scan-rtti`
+### 3.5 MSVC x64 RTTI Scanner & VTable Auto-Discovery: `scan-rtti`
 
 Scans the `.rdata` section for MSVC 64-bit `RTTICompleteObjectLocator` descriptors:
 $$\text{Signature} == 1 \quad \land \quad p\text{Self} == \text{RVA}(\text{Locator})$$
@@ -160,7 +209,7 @@ python tools/ghidra/scan_rtti_vtables.py --binary vphysics2.dll --annotate --exp
 
 ---
 
-### 3.5 Cross-Reference & Call Graph Tracer: `trace-xrefs`
+### 3.6 Cross-Reference & Call Graph Tracer: `trace-xrefs`
 
 Queries incoming callers, outgoing callees, and string references in real-time without leaving the CLI:
 
@@ -193,7 +242,7 @@ python tools/ghidra/cs2_ghidra_toolkit.py trace-xrefs --string "Molotov extingui
 
 ---
 
-### 3.6 Full End-to-End Synchronization: `full-sync`
+### 3.7 Full End-to-End Synchronization: `full-sync`
 
 Executes the complete pipeline (Open -> Inject Types -> Synchronize Prototypes -> Scan & Label RTTI VTables -> Save Program) across all specified or core binaries in batch mode:
 

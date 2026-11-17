@@ -1,0 +1,7543 @@
+{
+  "AnimComponentID": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AnimNodeID": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AnimNodeOutputID": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AnimParamID": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AnimScriptHandle": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AnimStateID": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AnimTagID": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_id",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "AttachmentHandle_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint8_t",
+        "offset": 0
+      }
+    ]
+  },
+  "CAimConstraint": {
+    "binary": "vphysics2.dll",
+    "base": "CBaseConstraint",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_qAimOffset",
+        "type": "Quaternion",
+        "offset": 96
+      },
+      {
+        "name": "m_nUpType",
+        "type": "int32_t",
+        "offset": 112
+      }
+    ]
+  },
+  "CAnimAttachment": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_influenceRotations",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_influenceOffsets",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_influenceIndices",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_influenceWeights",
+        "type": "int32_t",
+        "offset": 108
+      },
+      {
+        "name": "m_numInfluences",
+        "type": "int64_t",
+        "offset": 120
+      }
+    ]
+  },
+  "CAnimFoot": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_vBallOffset",
+        "type": "Vector",
+        "offset": 8
+      },
+      {
+        "name": "m_vHeelOffset",
+        "type": "Vector",
+        "offset": 20
+      },
+      {
+        "name": "m_ankleBoneIndex",
+        "type": "uint32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_toeBoneIndex",
+        "type": "uint32_t",
+        "offset": 36
+      }
+    ]
+  },
+  "CAnimSkeleton": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_localSpaceTransforms",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_modelSpaceTransforms",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_boneNames",
+        "type": "bool",
+        "offset": 64
+      },
+      {
+        "name": "m_children",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_parents",
+        "type": "void*",
+        "offset": 112
+      },
+      {
+        "name": "m_feet",
+        "type": "uint8_t[24]",
+        "offset": 136
+      },
+      {
+        "name": "m_morphNames",
+        "type": "uint8_t[24]",
+        "offset": 160
+      },
+      {
+        "name": "m_lodBoneCounts",
+        "type": "uint8_t[24]",
+        "offset": 184
+      }
+    ]
+  },
+  "CAttachment": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_influenceNames",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_vInfluenceRotations",
+        "type": "uint8_t[48]",
+        "offset": 32
+      },
+      {
+        "name": "m_vInfluenceOffsets",
+        "type": "uint8_t[36]",
+        "offset": 80
+      },
+      {
+        "name": "m_influenceWeights",
+        "type": "int32_t",
+        "offset": 116
+      },
+      {
+        "name": "m_bInfluenceRootTransform",
+        "type": "bool",
+        "offset": 128
+      },
+      {
+        "name": "m_nInfluences",
+        "type": "uint8_t",
+        "offset": 131
+      },
+      {
+        "name": "m_bIgnoreRotation",
+        "type": "bool",
+        "offset": 132
+      }
+    ]
+  },
+  "CBaseConstraint": {
+    "binary": "vphysics2.dll",
+    "base": "CBoneConstraintBase",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_vUpVector",
+        "type": "Vector4D",
+        "offset": 40
+      },
+      {
+        "name": "m_slaves",
+        "type": "Vector4D",
+        "offset": 56
+      },
+      {
+        "name": "m_targets",
+        "type": "uint8_t[24]",
+        "offset": 72
+      }
+    ]
+  },
+  "CBoneConstraintDotToMorph": {
+    "binary": "vphysics2.dll",
+    "base": "CBoneConstraintBase",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_sBoneName",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_sTargetBoneName",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_sMorphChannelName",
+        "type": "uint64_t",
+        "offset": 48
+      },
+      {
+        "name": "m_flRemap",
+        "type": "float",
+        "offset": 56
+      }
+    ]
+  },
+  "CBoneConstraintPoseSpaceBone": {
+    "binary": "vphysics2.dll",
+    "base": "CBaseConstraint",
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_inputList",
+        "type": "int32_t",
+        "offset": 96
+      }
+    ]
+  },
+  "CBoneConstraintPoseSpaceBone__Input_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_inputValue",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_outputTransformList",
+        "type": "uint8_t[24]",
+        "offset": 16
+      }
+    ]
+  },
+  "CBoneConstraintPoseSpaceMorph": {
+    "binary": "vphysics2.dll",
+    "base": "CBoneConstraintBase",
+    "size": 160,
+    "fields": [
+      {
+        "name": "m_sBoneName",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_sAttachmentName",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_outputMorph",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_inputList",
+        "type": "int32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_bClamp",
+        "type": "bool",
+        "offset": 96
+      }
+    ]
+  },
+  "CBoneConstraintPoseSpaceMorph__Input_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_inputValue",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_outputWeightList",
+        "type": "uint8_t[24]",
+        "offset": 16
+      }
+    ]
+  },
+  "CBoneConstraintRbf": {
+    "binary": "vphysics2.dll",
+    "base": "CBoneConstraintBase",
+    "size": 200,
+    "fields": [
+      {
+        "name": "m_inputBones",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_outputBones",
+        "type": "uint8_t[144]",
+        "offset": 56
+      }
+    ]
+  },
+  "CConstraintSlave": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_qBaseOrientation",
+        "type": "Quaternion",
+        "offset": 0
+      },
+      {
+        "name": "m_vBasePosition",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_nBoneHash",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_flWeight",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_sName",
+        "type": "uint8_t[40]",
+        "offset": 40
+      }
+    ]
+  },
+  "CConstraintTarget": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_qOffset",
+        "type": "Quaternion",
+        "offset": 32
+      },
+      {
+        "name": "m_vOffset",
+        "type": "Vector",
+        "offset": 48
+      },
+      {
+        "name": "m_nBoneHash",
+        "type": "int32_t",
+        "offset": 60
+      },
+      {
+        "name": "m_sName",
+        "type": "uint64_t",
+        "offset": 64
+      },
+      {
+        "name": "m_flWeight",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_bIsAttachment",
+        "type": "bool",
+        "offset": 89
+      }
+    ]
+  },
+  "CCycleBase": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_flCycle",
+        "type": "float",
+        "offset": 0
+      }
+    ]
+  },
+  "CDrawCullingData": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_ConeAxis",
+        "type": "uint8_t[3]",
+        "offset": 0
+      },
+      {
+        "name": "m_ConeCutoff",
+        "type": "uint8_t",
+        "offset": 3
+      }
+    ]
+  },
+  "CFeIndexedJiggleBone": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 164,
+    "fields": [
+      {
+        "name": "m_nNode",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nJiggleParent",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_jiggleBone",
+        "type": "uint8_t[156]",
+        "offset": 8
+      }
+    ]
+  },
+  "CFeJiggleBone": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 156,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flLength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flTipMass",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flYawStiffness",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flYawDamping",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flPitchStiffness",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flPitchDamping",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flAlongStiffness",
+        "type": "float",
+        "offset": 28
+      },
+      {
+        "name": "m_flAlongDamping",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_flAngleLimit",
+        "type": "float",
+        "offset": 36
+      },
+      {
+        "name": "m_flMinYaw",
+        "type": "float",
+        "offset": 40
+      },
+      {
+        "name": "m_flMaxYaw",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flYawFriction",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flYawBounce",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flMinPitch",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flMaxPitch",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_flPitchFriction",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flPitchBounce",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_flBaseMass",
+        "type": "float",
+        "offset": 72
+      },
+      {
+        "name": "m_flBaseStiffness",
+        "type": "float",
+        "offset": 76
+      },
+      {
+        "name": "m_flBaseDamping",
+        "type": "float",
+        "offset": 80
+      },
+      {
+        "name": "m_flBaseMinLeft",
+        "type": "float",
+        "offset": 84
+      },
+      {
+        "name": "m_flBaseMaxLeft",
+        "type": "float",
+        "offset": 88
+      },
+      {
+        "name": "m_flBaseLeftFriction",
+        "type": "float",
+        "offset": 92
+      },
+      {
+        "name": "m_flBaseMinUp",
+        "type": "float",
+        "offset": 96
+      },
+      {
+        "name": "m_flBaseMaxUp",
+        "type": "float",
+        "offset": 100
+      },
+      {
+        "name": "m_flBaseUpFriction",
+        "type": "float",
+        "offset": 104
+      },
+      {
+        "name": "m_flBaseMinForward",
+        "type": "float",
+        "offset": 108
+      },
+      {
+        "name": "m_flBaseMaxForward",
+        "type": "float",
+        "offset": 112
+      },
+      {
+        "name": "m_flBaseForwardFriction",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_flRadius0",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flRadius1",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_vPoint0",
+        "type": "Vector",
+        "offset": 128
+      },
+      {
+        "name": "m_vPoint1",
+        "type": "Vector",
+        "offset": 140
+      },
+      {
+        "name": "m_nCollisionMask",
+        "type": "int32_t",
+        "offset": 152
+      }
+    ]
+  },
+  "CFeMorphLayer": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 136,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNameHash",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_Nodes",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_InitPos",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_Gravity",
+        "type": "uint8_t[24]",
+        "offset": 64
+      },
+      {
+        "name": "m_GoalStrength",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_GoalDamping",
+        "type": "uint8_t[24]",
+        "offset": 112
+      }
+    ]
+  },
+  "CFeNamedJiggleBone": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_strParentBone",
+        "type": "char[16]",
+        "offset": 0
+      },
+      {
+        "name": "m_transform",
+        "type": "uint8_t[32]",
+        "offset": 16
+      },
+      {
+        "name": "m_nJiggleParent",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_jiggleBone",
+        "type": "uint8_t[156]",
+        "offset": 52
+      }
+    ]
+  },
+  "CFeVertexMapBuildArray": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_Array",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CFlexController": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_szName",
+        "type": "char*",
+        "offset": 0
+      },
+      {
+        "name": "m_szType",
+        "type": "char*",
+        "offset": 8
+      },
+      {
+        "name": "min",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "max",
+        "type": "uint32_t",
+        "offset": 20
+      }
+    ]
+  },
+  "CFlexDesc": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_szFacs",
+        "type": "char*",
+        "offset": 0
+      }
+    ]
+  },
+  "CFlexOp": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_OpCode",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_Data",
+        "type": "uint32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "CFlexRule": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nFlex",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_FlexOps",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CFootCycleDefinition": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 60,
+    "fields": [
+      {
+        "name": "m_vStancePositionMS",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vMidpointPositionMS",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_flStanceDirectionMS",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_vToStrideStartPos",
+        "type": "Vector",
+        "offset": 28
+      },
+      {
+        "name": "m_stanceCycle",
+        "type": "uint32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_footLiftCycle",
+        "type": "uint32_t",
+        "offset": 44
+      },
+      {
+        "name": "m_footOffCycle",
+        "type": "uint32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_footStrikeCycle",
+        "type": "uint32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_footLandCycle",
+        "type": "uint32_t",
+        "offset": 56
+      }
+    ]
+  },
+  "CFootDefinition": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_ankleBoneName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_toeBoneName",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_vBallOffset",
+        "type": "Vector",
+        "offset": 24
+      },
+      {
+        "name": "m_vHeelOffset",
+        "type": "Vector",
+        "offset": 36
+      },
+      {
+        "name": "m_flFootLength",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flBindPoseDirectionMS",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_flTraceHeight",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flTraceRadius",
+        "type": "float",
+        "offset": 60
+      }
+    ]
+  },
+  "CFootMotion": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_strides",
+        "type": "char[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_bAdditive",
+        "type": "bool",
+        "offset": 32
+      }
+    ]
+  },
+  "CFootStride": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_definition",
+        "type": "uint8_t[64]",
+        "offset": 0
+      },
+      {
+        "name": "m_trajectories",
+        "type": "uint8_t[24]",
+        "offset": 64
+      }
+    ]
+  },
+  "CFootTrajectories": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_trajectories",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CFootTrajectory": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_vOffset",
+        "type": "Vector",
+        "offset": 8
+      },
+      {
+        "name": "m_flRotationOffset",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flProgression",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "CGenericShapeProxy": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_verts",
+        "type": "uint8_t[104]",
+        "offset": 48
+      }
+    ]
+  },
+  "CHitBox": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_sSurfaceProperty",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_sBoneName",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_vMinBounds",
+        "type": "Vector",
+        "offset": 24
+      },
+      {
+        "name": "m_vMaxBounds",
+        "type": "Vector",
+        "offset": 36
+      },
+      {
+        "name": "m_flShapeRadius",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_nBoneNameHash",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_nGroupId",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_nShapeType",
+        "type": "uint8_t",
+        "offset": 60
+      },
+      {
+        "name": "m_bTranslationOnly",
+        "type": "bool",
+        "offset": 61
+      },
+      {
+        "name": "m_CRC",
+        "type": "uint32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_cRenderColor",
+        "type": "uint32_t",
+        "offset": 68
+      },
+      {
+        "name": "m_nHitBoxIndex",
+        "type": "int32_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CHitBoxSet": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNameHash",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_HitBoxes",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_SourceFilename",
+        "type": "uint64_t",
+        "offset": 40
+      }
+    ]
+  },
+  "CHitBoxSetList": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_HitBoxSets",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CMaterialDrawDescriptor": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 288,
+    "fields": [
+      {
+        "name": "m_flUvDensity",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_vTintColor",
+        "type": "Vector",
+        "offset": 4
+      },
+      {
+        "name": "m_flAlpha",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_nNumMeshlets",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nFirstMeshlet",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nAppliedIndexOffset",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nEmissivePrimitiveCount",
+        "type": "int32_t",
+        "offset": 40
+      },
+      {
+        "name": "m_nDepthVertexBufferIndex",
+        "type": "uint8_t",
+        "offset": 44
+      },
+      {
+        "name": "m_nMeshletPackedIVBIndex",
+        "type": "int32_t",
+        "offset": 45
+      },
+      {
+        "name": "m_rigidMeshParts",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "m_rootBvhNodes",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_nPrimitiveType",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_nBaseVertex",
+        "type": "int32_t",
+        "offset": 84
+      },
+      {
+        "name": "m_nVertexCount",
+        "type": "int32_t",
+        "offset": 88
+      },
+      {
+        "name": "m_nStartIndex",
+        "type": "int32_t",
+        "offset": 92
+      },
+      {
+        "name": "m_nIndexCount",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_indexBuffer",
+        "type": "int32_t",
+        "offset": 200
+      },
+      {
+        "name": "m_meshletPackedIVB",
+        "type": "uint8_t[48]",
+        "offset": 232
+      },
+      {
+        "name": "m_material",
+        "type": "uint64_t",
+        "offset": 280
+      }
+    ]
+  },
+  "CMaterialDrawDescriptor__RigidMeshPart_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_nRigidBLASIndex",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nBoneIndex",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nStartIndexOffset",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nPrimitiveCount",
+        "type": "int32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CMeshletDescriptor": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_PackedAABB",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_CullingData",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nVertexOffset",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nTriangleOffset",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nVertexCount",
+        "type": "uint8_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nTriangleCount",
+        "type": "uint8_t",
+        "offset": 21
+      },
+      {
+        "name": "m_nBoneIndex",
+        "type": "uint16_t",
+        "offset": 22
+      }
+    ]
+  },
+  "CModelConfig": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_ConfigName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_Elements",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_bTopLevel",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_bActiveInEditorByDefault",
+        "type": "bool",
+        "offset": 33
+      }
+    ]
+  },
+  "CModelConfigElement": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_ElementName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_NestedElements",
+        "type": "uint8_t[56]",
+        "offset": 16
+      }
+    ]
+  },
+  "CModelConfigElement_AttachedModel": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 240,
+    "fields": [
+      {
+        "name": "m_InstanceName",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_EntityClass",
+        "type": "uint64_t",
+        "offset": 80
+      },
+      {
+        "name": "m_hModel",
+        "type": "CEntityHandle",
+        "offset": 88
+      },
+      {
+        "name": "m_vOffset",
+        "type": "Vector",
+        "offset": 96
+      },
+      {
+        "name": "m_aAngOffset",
+        "type": "Vector",
+        "offset": 108
+      },
+      {
+        "name": "m_AttachmentName",
+        "type": "uint64_t",
+        "offset": 120
+      },
+      {
+        "name": "m_LocalAttachmentOffsetName",
+        "type": "uint64_t",
+        "offset": 128
+      },
+      {
+        "name": "m_AttachmentType",
+        "type": "uint32_t",
+        "offset": 136
+      },
+      {
+        "name": "m_bBoneMergeFlex",
+        "type": "bool",
+        "offset": 140
+      },
+      {
+        "name": "m_bUserSpecifiedColor",
+        "type": "bool",
+        "offset": 141
+      },
+      {
+        "name": "m_bUserSpecifiedMaterialGroup",
+        "type": "bool",
+        "offset": 142
+      },
+      {
+        "name": "m_BodygroupOnOtherModels",
+        "type": "uint64_t",
+        "offset": 144
+      },
+      {
+        "name": "m_MaterialGroupOnOtherModels",
+        "type": "uint64_t",
+        "offset": 152
+      },
+      {
+        "name": "m_bCollideWithHierarchy",
+        "type": "bool",
+        "offset": 160
+      },
+      {
+        "name": "m_bCollideOutsideHierarchy",
+        "type": "bool",
+        "offset": 161
+      }
+    ]
+  },
+  "CModelConfigElement_Command": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_Command",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_Args",
+        "type": "Vector4D",
+        "offset": 80
+      }
+    ]
+  },
+  "CModelConfigElement_RandomColor": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_Gradient",
+        "type": "uint8_t[24]",
+        "offset": 72
+      }
+    ]
+  },
+  "CModelConfigElement_RandomPick": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_Choices",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_ChoiceWeights",
+        "type": "uint8_t[32]",
+        "offset": 96
+      }
+    ]
+  },
+  "CModelConfigElement_SetBodygroup": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_GroupName",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_nChoice",
+        "type": "int64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "CModelConfigElement_SetBodygroupOnAttachedModels": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_GroupName",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_nChoice",
+        "type": "int64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "CModelConfigElement_SetMaterialGroup": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_MaterialGroupName",
+        "type": "uint64_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CModelConfigElement_SetMaterialGroupOnAttachedModels": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_MaterialGroupName",
+        "type": "uint64_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CModelConfigElement_SetRenderColor": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CModelConfigElement_UserPick": {
+    "binary": "vphysics2.dll",
+    "base": "CModelConfigElement",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_Choices",
+        "type": "uint8_t[24]",
+        "offset": 72
+      }
+    ]
+  },
+  "CModelConfigList": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_bHideMaterialGroupInTools",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_bHideRenderColorInTools",
+        "type": "bool",
+        "offset": 1
+      },
+      {
+        "name": "m_Configs",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CMorphBundleData": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_flULeftSrc",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flVTopSrc",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_offsets",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_ranges",
+        "type": "uint8_t[24]",
+        "offset": 32
+      }
+    ]
+  },
+  "CMorphConstraint": {
+    "binary": "vphysics2.dll",
+    "base": "CBaseConstraint",
+    "size": 128,
+    "fields": [
+      {
+        "name": "m_sTargetMorph",
+        "type": "uint64_t",
+        "offset": 96
+      },
+      {
+        "name": "m_nSlaveChannel",
+        "type": "int32_t",
+        "offset": 104
+      },
+      {
+        "name": "m_flMin",
+        "type": "float",
+        "offset": 108
+      },
+      {
+        "name": "m_flMax",
+        "type": "float",
+        "offset": 112
+      }
+    ]
+  },
+  "CMorphData": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_morphRectDatas",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "CMorphRectData": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_nXLeftDst",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nYTopDst",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_flUWidthSrc",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flVHeightSrc",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_bundleDatas",
+        "type": "bool",
+        "offset": 16
+      }
+    ]
+  },
+  "CMorphSetData": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_nWidth",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nHeight",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_bundleTypes",
+        "type": "bool",
+        "offset": 24
+      },
+      {
+        "name": "m_morphDatas",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_pTextureAtlas",
+        "type": "void*",
+        "offset": 72
+      },
+      {
+        "name": "m_FlexDesc",
+        "type": "uint8_t[24]",
+        "offset": 80
+      },
+      {
+        "name": "m_FlexControllers",
+        "type": "uint8_t[24]",
+        "offset": 104
+      },
+      {
+        "name": "m_FlexRules",
+        "type": "uint8_t[24]",
+        "offset": 128
+      }
+    ]
+  },
+  "CNPCPhysicsHull": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_sName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_eType",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_flCapsuleHeight",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flCapsuleRadius",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_vCapsuleCenter1",
+        "type": "Vector",
+        "offset": 20
+      },
+      {
+        "name": "m_vCapsuleCenter2",
+        "type": "Vector",
+        "offset": 32
+      },
+      {
+        "name": "m_flGroundBoxHeight",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "m_flGroundBoxWidth",
+        "type": "float",
+        "offset": 48
+      }
+    ]
+  },
+  "CPhysSurfaceProperties": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 200,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nameHash",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_baseNameHash",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_bHidden",
+        "type": "bool",
+        "offset": 24
+      },
+      {
+        "name": "m_description",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_physics",
+        "type": "void*",
+        "offset": 40
+      },
+      {
+        "name": "m_vehicleParams",
+        "type": "uint64_t",
+        "offset": 64
+      },
+      {
+        "name": "m_audioSounds",
+        "type": "uint8_t[96]",
+        "offset": 72
+      },
+      {
+        "name": "m_audioParams",
+        "type": "uint8_t[32]",
+        "offset": 168
+      }
+    ]
+  },
+  "CPhysSurfacePropertiesAudio": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_reflectivity",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_hardnessFactor",
+        "type": "CEntityHandle",
+        "offset": 4
+      },
+      {
+        "name": "m_roughnessFactor",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_roughThreshold",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_hardThreshold",
+        "type": "CEntityHandle",
+        "offset": 16
+      },
+      {
+        "name": "m_hardVelocityThreshold",
+        "type": "CEntityHandle",
+        "offset": 20
+      },
+      {
+        "name": "m_flStaticImpactVolume",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_flOcclusionFactor",
+        "type": "float",
+        "offset": 28
+      }
+    ]
+  },
+  "CPhysSurfacePropertiesPhysics": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_friction",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_elasticity",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_density",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_thickness",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_softContactFrequency",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_softContactDampingRatio",
+        "type": "uint32_t",
+        "offset": 20
+      }
+    ]
+  },
+  "CPhysSurfacePropertiesSoundNames": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_impactSoft",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_impactHard",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_scrapeSmooth",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_scrapeRough",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_bulletImpact",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_rolling",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_break",
+        "type": "bool",
+        "offset": 48
+      },
+      {
+        "name": "m_strain",
+        "type": "char*",
+        "offset": 56
+      },
+      {
+        "name": "m_meleeImpact",
+        "type": "uint64_t",
+        "offset": 64
+      },
+      {
+        "name": "m_pushOff",
+        "type": "void*",
+        "offset": 72
+      },
+      {
+        "name": "m_skidStop",
+        "type": "uint64_t",
+        "offset": 80
+      },
+      {
+        "name": "m_resonant",
+        "type": "uint64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "CPhysSurfacePropertiesVehicle": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_wheelDrag",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_wheelFrictionScale",
+        "type": "uint32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "CRegionSVM": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_Planes",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_Nodes",
+        "type": "uint8_t[24]",
+        "offset": 24
+      }
+    ]
+  },
+  "CRenderBufferBinding": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_hBuffer",
+        "type": "CEntityHandle",
+        "offset": 0
+      },
+      {
+        "name": "m_nBindOffsetBytes",
+        "type": "int32_t",
+        "offset": 16
+      }
+    ]
+  },
+  "CRenderGroom": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 176,
+    "fields": [
+      {
+        "name": "m_hairs",
+        "type": "CEntityHandle",
+        "offset": 0
+      },
+      {
+        "name": "m_hairPositionOffsets",
+        "type": "CEntityHandle",
+        "offset": 24
+      },
+      {
+        "name": "m_hSimParamsMat",
+        "type": "CEntityHandle",
+        "offset": 64
+      },
+      {
+        "name": "m_strandSegmentCountHist",
+        "type": "char[48]",
+        "offset": 72
+      },
+      {
+        "name": "m_nMaxSegmentsPerHairStrand",
+        "type": "int32_t",
+        "offset": 120
+      },
+      {
+        "name": "m_nGuideHairCount",
+        "type": "int32_t",
+        "offset": 124
+      },
+      {
+        "name": "m_nHairCount",
+        "type": "int32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_nTotalVertexCount",
+        "type": "int32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_nTotalSegmentCount",
+        "type": "int32_t",
+        "offset": 136
+      },
+      {
+        "name": "m_nGroomGroupID",
+        "type": "int32_t",
+        "offset": 140
+      },
+      {
+        "name": "m_nAttachBoneIdx",
+        "type": "int32_t",
+        "offset": 144
+      },
+      {
+        "name": "m_nAttachMeshIdx",
+        "type": "int32_t",
+        "offset": 148
+      },
+      {
+        "name": "m_nAttachMeshDrawCallIdx",
+        "type": "int32_t",
+        "offset": 152
+      },
+      {
+        "name": "m_bEnableSimulation",
+        "type": "bool",
+        "offset": 172
+      }
+    ]
+  },
+  "CRenderMesh": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 568,
+    "fields": [
+      {
+        "name": "m_sceneObjects",
+        "type": "uint8_t[192]",
+        "offset": 16
+      },
+      {
+        "name": "m_constraints",
+        "type": "Vector4D",
+        "offset": 208
+      },
+      {
+        "name": "m_skeleton",
+        "type": "uint8_t[280]",
+        "offset": 224
+      },
+      {
+        "name": "m_bUseUV2ForCharting",
+        "type": "bool",
+        "offset": 504
+      },
+      {
+        "name": "m_bEmbeddedMapMesh",
+        "type": "bool",
+        "offset": 505
+      },
+      {
+        "name": "m_meshDeformParams",
+        "type": "Vector4D",
+        "offset": 544
+      },
+      {
+        "name": "m_pGroomData",
+        "type": "void*",
+        "offset": 560
+      }
+    ]
+  },
+  "CRenderSkeleton": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_bones",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_boneParents",
+        "type": "bool",
+        "offset": 48
+      },
+      {
+        "name": "m_nBoneWeightCount",
+        "type": "int64_t",
+        "offset": 72
+      }
+    ]
+  },
+  "CSceneObjectData": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 184,
+    "fields": [
+      {
+        "name": "m_vMinBounds",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vMaxBounds",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_drawCalls",
+        "type": "Vector4D",
+        "offset": 24
+      },
+      {
+        "name": "m_drawBounds",
+        "type": "Vector4D",
+        "offset": 40
+      },
+      {
+        "name": "m_meshlets",
+        "type": "Vector4D",
+        "offset": 56
+      },
+      {
+        "name": "m_rtProxyDrawCalls",
+        "type": "Vector4D",
+        "offset": 72
+      },
+      {
+        "name": "m_vTintColor",
+        "type": "uint8_t[96]",
+        "offset": 88
+      }
+    ]
+  },
+  "CSceneObjectData__RTProxyDrawDescriptor_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 360,
+    "fields": [
+      {
+        "name": "m_materialGroupToken",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nSrcDrawIndex",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_drawDesc",
+        "type": "uint8_t[288]",
+        "offset": 8
+      },
+      {
+        "name": "m_mWorldFromLocal",
+        "type": "uint8_t[48]",
+        "offset": 296
+      },
+      {
+        "name": "m_nVertexAlbedoFormat",
+        "type": "uint8_t",
+        "offset": 344
+      },
+      {
+        "name": "m_nVertexAlbedoVB",
+        "type": "uint8_t",
+        "offset": 345
+      },
+      {
+        "name": "m_nVertexAlbedoOffset",
+        "type": "uint16_t",
+        "offset": 346
+      },
+      {
+        "name": "m_nVertexAlbedoStride",
+        "type": "uint16_t",
+        "offset": 348
+      },
+      {
+        "name": "m_nVertexEmissiveFormat",
+        "type": "uint8_t",
+        "offset": 350
+      },
+      {
+        "name": "m_nVertexEmissiveVB",
+        "type": "uint8_t",
+        "offset": 351
+      },
+      {
+        "name": "m_nVertexEmissiveOffset",
+        "type": "uint16_t",
+        "offset": 352
+      },
+      {
+        "name": "m_nVertexEmissiveStride",
+        "type": "uint16_t",
+        "offset": 354
+      },
+      {
+        "name": "m_fEmissiveFactor",
+        "type": "uint32_t",
+        "offset": 356
+      }
+    ]
+  },
+  "CTiltTwistConstraint": {
+    "binary": "vphysics2.dll",
+    "base": "CBaseConstraint",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_nTargetAxis",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_nSlaveAxis",
+        "type": "int32_t",
+        "offset": 100
+      }
+    ]
+  },
+  "CTwistConstraint": {
+    "binary": "vphysics2.dll",
+    "base": "CBaseConstraint",
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_bInverse",
+        "type": "bool",
+        "offset": 96
+      },
+      {
+        "name": "m_qParentBindRotation",
+        "type": "Quaternion",
+        "offset": 112
+      },
+      {
+        "name": "m_qChildBindRotation",
+        "type": "Quaternion",
+        "offset": 128
+      }
+    ]
+  },
+  "CVPhysXSurfacePropertiesList": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_surfacePropertiesList",
+        "type": "uint8_t[24]",
+        "offset": 0
+      }
+    ]
+  },
+  "CollisionDetailLayerInfo_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_sDescription",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_sFriendlyName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bIsQueryOnly",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_sParentDetailLayer",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_vecSubtreeDetailLayers",
+        "type": "Vector",
+        "offset": 32
+      },
+      {
+        "name": "m_bNotPickable",
+        "type": "bool",
+        "offset": 56
+      }
+    ]
+  },
+  "CollisionDetailLayerInfo_t__Name_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nNameToken",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_sNameString",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "CovMatrix3": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_vDiag",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_flXY",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flXZ",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flYZ",
+        "type": "float",
+        "offset": 20
+      }
+    ]
+  },
+  "Dop26_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_flSupport",
+        "type": "float",
+        "offset": 0
+      }
+    ]
+  },
+  "DynamicMeshDeformParams_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_flTensionCompressScale",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flTensionStretchScale",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_bRecomputeSmoothNormalsAfterAnimation",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_bComputeDynamicMeshTensionAfterAnimation",
+        "type": "bool",
+        "offset": 9
+      },
+      {
+        "name": "m_bSmoothNormalsAcrossUvSeams",
+        "type": "bool",
+        "offset": 10
+      },
+      {
+        "name": "m_bEnableEyeBulgeDeformation",
+        "type": "bool",
+        "offset": 11
+      }
+    ]
+  },
+  "FeAnimStrayRadius_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "flMaxDist",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flRelaxationFactor",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "FeAntiTunnelGroupBuild_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_nVertexMapHash",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nCollisionMask",
+        "type": "int32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "FeAntiTunnelProbeBuild_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flActivationDistance",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flBias",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "flCurvature",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "nFlags",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "nProbeNode",
+        "type": "uint32_t",
+        "offset": 20
+      },
+      {
+        "name": "targetNodes",
+        "type": "uint8_t[24]",
+        "offset": 24
+      }
+    ]
+  },
+  "FeAntiTunnelProbe_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "nFlags",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "nProbeNode",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "nCount",
+        "type": "uint16_t",
+        "offset": 10
+      },
+      {
+        "name": "nBegin",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "flActivationDistance",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "flCurvatureRadius",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "flBias",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "FeAxialEdgeBend_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "te",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "tv",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "flDist",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "nNode",
+        "type": "Vector",
+        "offset": 28
+      }
+    ]
+  },
+  "FeBandBendLimit_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "flDistMin",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flDistMax",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "nNode",
+        "type": "Vector",
+        "offset": 8
+      }
+    ]
+  },
+  "FeBoneMergeLink_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_nParentHash",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nChildNode",
+        "type": "int32_t",
+        "offset": 4
+      }
+    ]
+  },
+  "FeBoxRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "tmFrame2",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 32
+      },
+      {
+        "name": "nCollisionMask",
+        "type": "uint16_t",
+        "offset": 34
+      },
+      {
+        "name": "vSize",
+        "type": "Vector",
+        "offset": 36
+      },
+      {
+        "name": "nVertexMapIndex",
+        "type": "uint16_t",
+        "offset": 48
+      },
+      {
+        "name": "nFlags",
+        "type": "uint8_t[14]",
+        "offset": 50
+      }
+    ]
+  },
+  "FeBuildBoxRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": "FeBoxRigid_t",
+    "size": 80,
+    "fields": [
+      {
+        "name": "m_nPriority",
+        "type": "int32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_nVertexMapHash",
+        "type": "int32_t",
+        "offset": 68
+      },
+      {
+        "name": "m_nAntitunnelGroupBits",
+        "type": "int64_t",
+        "offset": 72
+      }
+    ]
+  },
+  "FeBuildSDFRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": "FeSDFRigid_t",
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_nPriority",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_nVertexMapHash",
+        "type": "int32_t",
+        "offset": 84
+      },
+      {
+        "name": "m_nAntitunnelGroupBits",
+        "type": "int64_t",
+        "offset": 88
+      }
+    ]
+  },
+  "FeBuildSphereRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": "FeSphereRigid_t",
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_nPriority",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nVertexMapHash",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nAntitunnelGroupBits",
+        "type": "int64_t",
+        "offset": 40
+      }
+    ]
+  },
+  "FeBuildTaperedCapsuleRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": "FeTaperedCapsuleRigid_t",
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_nPriority",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_nVertexMapHash",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_nAntitunnelGroupBits",
+        "type": "int64_t",
+        "offset": 56
+      }
+    ]
+  },
+  "FeCollisionPlane_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "nCtrlParent",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nChildNode",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_Plane",
+        "type": "Vector4D",
+        "offset": 4
+      },
+      {
+        "name": "flStrength",
+        "type": "float",
+        "offset": 20
+      }
+    ]
+  },
+  "FeCtrlOffset_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "vOffset",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "nCtrlParent",
+        "type": "uint16_t",
+        "offset": 12
+      },
+      {
+        "name": "nCtrlChild",
+        "type": "uint16_t",
+        "offset": 14
+      }
+    ]
+  },
+  "FeCtrlOsOffset_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "nCtrlParent",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nCtrlChild",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "FeCtrlSoftOffset_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "nCtrlParent",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nCtrlChild",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "vOffset",
+        "type": "Vector",
+        "offset": 4
+      },
+      {
+        "name": "flAlpha",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "FeDynKinLink_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nParent",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nChild",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "FeEdgeDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "nEdge",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "nSide",
+        "type": "uint64_t",
+        "offset": 4
+      },
+      {
+        "name": "nVirtElem",
+        "type": "uint32_t",
+        "offset": 12
+      }
+    ]
+  },
+  "FeEffectDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "sName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "nNameHash",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "nType",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_Params",
+        "type": "Vector4D",
+        "offset": 16
+      }
+    ]
+  },
+  "FeFitInfluence_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "nVertexNode",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "nMatrixNode",
+        "type": "uint32_t",
+        "offset": 8
+      }
+    ]
+  },
+  "FeFitMatrix_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "bone",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "vCenter",
+        "type": "Vector",
+        "offset": 32
+      },
+      {
+        "name": "nEnd",
+        "type": "uint16_t",
+        "offset": 44
+      },
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 46
+      },
+      {
+        "name": "nBeginDynamic",
+        "type": "Vector4D",
+        "offset": 48
+      }
+    ]
+  },
+  "FeFitWeight_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "nDummy",
+        "type": "uint16_t",
+        "offset": 6
+      }
+    ]
+  },
+  "FeFollowNode_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "nParentNode",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nChildNode",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "FeHingeLimitBuild_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "nFlags",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "flLimitCW",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "flLimitCCW",
+        "type": "float",
+        "offset": 20
+      }
+    ]
+  },
+  "FeHingeLimit_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "nFlags",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "flWeight4",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "flWeight5",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "flAngleCenter",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "flAngleExtents",
+        "type": "float",
+        "offset": 28
+      }
+    ]
+  },
+  "FeKelagerBend2_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "flWeight",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flHeight0",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "nNode",
+        "type": "uint8_t[6]",
+        "offset": 16
+      },
+      {
+        "name": "nReserved",
+        "type": "uint16_t",
+        "offset": 22
+      }
+    ]
+  },
+  "FeModelSelfCollisionLayer_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_Nodes",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_flParentReaction",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 36
+      },
+      {
+        "name": "m_nEndIdx",
+        "type": "int32_t",
+        "offset": 40
+      }
+    ]
+  },
+  "FeMorphLayerDepr_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNameHash",
+        "type": "int64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_Nodes",
+        "type": "uint8_t[24]",
+        "offset": 16
+      },
+      {
+        "name": "m_InitPos",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_Gravity",
+        "type": "uint8_t[24]",
+        "offset": 64
+      },
+      {
+        "name": "m_GoalStrength",
+        "type": "uint8_t[24]",
+        "offset": 88
+      },
+      {
+        "name": "m_GoalDamping",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int64_t",
+        "offset": 136
+      }
+    ]
+  },
+  "FeNodeBase_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nDummy",
+        "type": "uint8_t[6]",
+        "offset": 2
+      },
+      {
+        "name": "nNodeX0",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "nNodeX1",
+        "type": "uint16_t",
+        "offset": 10
+      },
+      {
+        "name": "nNodeY0",
+        "type": "uint16_t",
+        "offset": 12
+      },
+      {
+        "name": "nNodeY1",
+        "type": "uint16_t",
+        "offset": 14
+      },
+      {
+        "name": "qAdjust",
+        "type": "Vector4D",
+        "offset": 16
+      }
+    ]
+  },
+  "FeNodeIntegrator_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "flPointDamping",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flAnimationForceAttraction",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flAnimationVertexAttraction",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "flGravity",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "FeNodeReverseOffset_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "vOffset",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "nBoneCtrl",
+        "type": "uint16_t",
+        "offset": 12
+      },
+      {
+        "name": "nTargetNode",
+        "type": "uint16_t",
+        "offset": 14
+      }
+    ]
+  },
+  "FeNodeStrayBox_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "vMin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "nFlags",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "vMax",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "nNode",
+        "type": "uint32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "FeNodeWindBase_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "nNodeX0",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nNodeX1",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "nNodeY0",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "nNodeY1",
+        "type": "uint16_t",
+        "offset": 6
+      }
+    ]
+  },
+  "FePrism_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "flVolume",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "FeProxyVertexMap_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flWeight",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "FeQuad_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 76,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "flSlack",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "vShape",
+        "type": "uint8_t[64]",
+        "offset": 12
+      }
+    ]
+  },
+  "FeRigidColliderIndices_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 10,
+    "fields": [
+      {
+        "name": "m_nTaperedCapsuleRigidIndex",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nSphereRigidIndex",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nBoxRigidIndex",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nSDFRigidIndex",
+        "type": "uint16_t",
+        "offset": 6
+      },
+      {
+        "name": "m_nCollisionPlaneIndex",
+        "type": "uint16_t",
+        "offset": 8
+      }
+    ]
+  },
+  "FeRodConstraint_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "flMaxDist",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flMinDist",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "flWeight0",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "flRelaxationFactor",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "FeSDFRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "vLocalMin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "vLocalMax",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "flBounciness",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 28
+      },
+      {
+        "name": "nCollisionMask",
+        "type": "uint16_t",
+        "offset": 30
+      },
+      {
+        "name": "nVertexMapIndex",
+        "type": "uint16_t",
+        "offset": 32
+      },
+      {
+        "name": "nFlags",
+        "type": "uint8_t[6]",
+        "offset": 34
+      },
+      {
+        "name": "m_Distances",
+        "type": "uint8_t[24]",
+        "offset": 40
+      },
+      {
+        "name": "m_nWidth",
+        "type": "int32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_nHeight",
+        "type": "int32_t",
+        "offset": 68
+      },
+      {
+        "name": "m_nDepth",
+        "type": "int64_t",
+        "offset": 72
+      }
+    ]
+  },
+  "FeSimdAnimStrayRadius_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "flMaxDist",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "flRelaxationFactor",
+        "type": "float",
+        "offset": 32
+      }
+    ]
+  },
+  "FeSimdNodeBase_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "nNodeX0",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "nNodeX1",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "nNodeY0",
+        "type": "uint64_t",
+        "offset": 24
+      },
+      {
+        "name": "nNodeY1",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "nDummy",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "qAdjust",
+        "type": "uint8_t[64]",
+        "offset": 48
+      }
+    ]
+  },
+  "FeSimdPrism_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint8_t[48]",
+        "offset": 0
+      },
+      {
+        "name": "flVolume",
+        "type": "float",
+        "offset": 48
+      }
+    ]
+  },
+  "FeSimdQuad_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 304,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "f4Slack",
+        "type": "Vector4D",
+        "offset": 32
+      },
+      {
+        "name": "vShape",
+        "type": "uint8_t[192]",
+        "offset": 48
+      },
+      {
+        "name": "f4Weights",
+        "type": "uint8_t[64]",
+        "offset": 240
+      }
+    ]
+  },
+  "FeSimdRodConstraintAnim_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "f4Weight0",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "f4RelaxationFactor",
+        "type": "Vector4D",
+        "offset": 32
+      }
+    ]
+  },
+  "FeSimdRodConstraint_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "f4MaxDist",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "f4MinDist",
+        "type": "Vector4D",
+        "offset": 32
+      },
+      {
+        "name": "f4Weight0",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "f4RelaxationFactor",
+        "type": "Vector4D",
+        "offset": 64
+      }
+    ]
+  },
+  "FeSimdSpringIntegrator_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 80,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "flSpringRestLength",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "flSpringConstant",
+        "type": "float",
+        "offset": 32
+      },
+      {
+        "name": "flSpringDamping",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "flNodeWeight0",
+        "type": "float",
+        "offset": 64
+      }
+    ]
+  },
+  "FeSimdTri_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 128,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint8_t[48]",
+        "offset": 0
+      },
+      {
+        "name": "w1",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "w2",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "v1x",
+        "type": "Vector4D",
+        "offset": 80
+      },
+      {
+        "name": "v2",
+        "type": "uint8_t[32]",
+        "offset": 96
+      }
+    ]
+  },
+  "FeSoftParent_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "nParent",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "flAlpha",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "FeSourceEdge_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "FeSphereRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "vSphere",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 16
+      },
+      {
+        "name": "nCollisionMask",
+        "type": "uint16_t",
+        "offset": 18
+      },
+      {
+        "name": "nVertexMapIndex",
+        "type": "uint16_t",
+        "offset": 20
+      },
+      {
+        "name": "nFlags",
+        "type": "uint8_t[10]",
+        "offset": 22
+      }
+    ]
+  },
+  "FeSpringIntegrator_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 20,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "flSpringRestLength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flSpringConstant",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "flSpringDamping",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "flNodeWeight0",
+        "type": "float",
+        "offset": 16
+      }
+    ]
+  },
+  "FeStiffHingeBuild_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "flMaxAngle",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flStrength",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flMotionBias",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "nNode",
+        "type": "uint64_t",
+        "offset": 20
+      }
+    ]
+  },
+  "FeTaperedCapsuleRigid_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "vSphere",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 32
+      },
+      {
+        "name": "nCollisionMask",
+        "type": "uint16_t",
+        "offset": 34
+      },
+      {
+        "name": "nVertexMapIndex",
+        "type": "uint16_t",
+        "offset": 36
+      },
+      {
+        "name": "nFlags",
+        "type": "uint8_t[10]",
+        "offset": 38
+      }
+    ]
+  },
+  "FeTaperedCapsuleStretch_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "nCollisionMask",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "nDummy",
+        "type": "uint16_t",
+        "offset": 6
+      },
+      {
+        "name": "flRadius",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "FeTreeChildren_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "nChild",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "FeTri_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "w1",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "w2",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "v1x",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "v2",
+        "type": "uint64_t",
+        "offset": 20
+      }
+    ]
+  },
+  "FeTwistConstraint_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "nNodeOrient",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nNodeEnd",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "flTwistRelax",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flSwingRelax",
+        "type": "float",
+        "offset": 8
+      }
+    ]
+  },
+  "FeVertexMapBuild_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_VertexMapName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNameHash",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_Color",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_flVolumetricSolveStrength",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_nScaleSourceNode",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_Weights",
+        "type": "uint8_t[24]",
+        "offset": 24
+      }
+    ]
+  },
+  "FeVertexMapDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "sName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "nNameHash",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "nColor",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "nFlags",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "nVertexBase",
+        "type": "uint16_t",
+        "offset": 20
+      },
+      {
+        "name": "nVertexCount",
+        "type": "uint16_t",
+        "offset": 22
+      },
+      {
+        "name": "nMapOffset",
+        "type": "uint32_t",
+        "offset": 24
+      },
+      {
+        "name": "nNodeListOffset",
+        "type": "uint32_t",
+        "offset": 28
+      },
+      {
+        "name": "vCenterOfMass",
+        "type": "Vector",
+        "offset": 32
+      },
+      {
+        "name": "flVolumetricSolveStrength",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "nScaleSourceNode",
+        "type": "uint16_t",
+        "offset": 48
+      },
+      {
+        "name": "nNodeListCount",
+        "type": "uint8_t[6]",
+        "offset": 50
+      }
+    ]
+  },
+  "FeWeightedNode_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "nNode",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "nWeight",
+        "type": "uint16_t",
+        "offset": 2
+      }
+    ]
+  },
+  "FeWorldCollisionParams_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "flWorldFriction",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flGroundFriction",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "nListBegin",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "nListEnd",
+        "type": "uint16_t",
+        "offset": 10
+      }
+    ]
+  },
+  "FourCovMatrices3": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_vDiag",
+        "type": "uint8_t[48]",
+        "offset": 0
+      },
+      {
+        "name": "m_flXY",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_flXZ",
+        "type": "float",
+        "offset": 64
+      },
+      {
+        "name": "m_flYZ",
+        "type": "float",
+        "offset": 80
+      }
+    ]
+  },
+  "FourVectors2D": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "x",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "y",
+        "type": "Vector4D",
+        "offset": 16
+      }
+    ]
+  },
+  "IPhysAggregateInstance": {
+    "binary": "vphysics2.dll",
+    "base": "IPhysicsBodyList",
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_pSkeleton",
+        "type": "void*",
+        "offset": 8
+      },
+      {
+        "name": "m_bIsAxisAligned",
+        "type": "bool",
+        "offset": 16
+      }
+    ]
+  },
+  "MaterialGroup_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_materials",
+        "type": "uint8_t[24]",
+        "offset": 8
+      }
+    ]
+  },
+  "ModelAnimGraph2Ref_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_sIdentifier",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_hGraph",
+        "type": "CEntityHandle",
+        "offset": 8
+      }
+    ]
+  },
+  "ModelBoneFlexDriverControl_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_nBoneComponent",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flexController",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_flexControllerToken",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_flMin",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "m_flMax",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "ModelBoneFlexDriver_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_boneName",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_boneNameToken",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_controls",
+        "type": "uint8_t[24]",
+        "offset": 16
+      }
+    ]
+  },
+  "ModelEmbeddedMesh_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 112,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_nMeshIndex",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nDataBlock",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nMorphBlock",
+        "type": "int64_t",
+        "offset": 24
+      },
+      {
+        "name": "m_vertexBuffers",
+        "type": "uint8_t[24]",
+        "offset": 32
+      },
+      {
+        "name": "m_indexBuffers",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_toolsBuffers",
+        "type": "uint8_t[24]",
+        "offset": 80
+      },
+      {
+        "name": "m_nVBIBBlock",
+        "type": "int32_t",
+        "offset": 104
+      },
+      {
+        "name": "m_nToolsVBBlock",
+        "type": "int32_t",
+        "offset": 108
+      }
+    ]
+  },
+  "ModelMeshBufferData_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_nBlockIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nElementCount",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nElementSizeInBytes",
+        "type": "int32_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bMeshoptCompressed",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_bMeshoptIndexSequence",
+        "type": "bool",
+        "offset": 13
+      },
+      {
+        "name": "m_nMeshoptMeshletEncodeVersion",
+        "type": "uint8_t",
+        "offset": 14
+      },
+      {
+        "name": "m_bCompressedZSTD",
+        "type": "bool",
+        "offset": 15
+      },
+      {
+        "name": "m_bCreateBufferSRV",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_bCreateBufferUAV",
+        "type": "bool",
+        "offset": 17
+      },
+      {
+        "name": "m_bCreateRawBuffer",
+        "type": "bool",
+        "offset": 18
+      },
+      {
+        "name": "m_bCreatePooledBuffer",
+        "type": "bool",
+        "offset": 19
+      },
+      {
+        "name": "m_nBufferUsage",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_inputLayoutFields",
+        "type": "int32_t",
+        "offset": 24
+      }
+    ]
+  },
+  "ModelSkeletonData_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 168,
+    "fields": [
+      {
+        "name": "m_boneName",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_nParent",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_boneSphere",
+        "type": "bool",
+        "offset": 48
+      },
+      {
+        "name": "m_nFlag",
+        "type": "int32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_bonePosParent",
+        "type": "bool",
+        "offset": 96
+      },
+      {
+        "name": "m_boneRotParent",
+        "type": "bool",
+        "offset": 120
+      },
+      {
+        "name": "m_boneScaleParent",
+        "type": "bool",
+        "offset": 144
+      }
+    ]
+  },
+  "OldFeEdge_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 72,
+    "fields": [
+      {
+        "name": "m_flK",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "invA",
+        "type": "uint32_t",
+        "offset": 12
+      },
+      {
+        "name": "t",
+        "type": "uint32_t",
+        "offset": 16
+      },
+      {
+        "name": "flThetaRelaxed",
+        "type": "float",
+        "offset": 20
+      },
+      {
+        "name": "flThetaFactor",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "c01",
+        "type": "uint32_t",
+        "offset": 28
+      },
+      {
+        "name": "c02",
+        "type": "uint32_t",
+        "offset": 32
+      },
+      {
+        "name": "c03",
+        "type": "uint32_t",
+        "offset": 36
+      },
+      {
+        "name": "c04",
+        "type": "uint32_t",
+        "offset": 40
+      },
+      {
+        "name": "flAxialModelDist",
+        "type": "float",
+        "offset": 44
+      },
+      {
+        "name": "flAxialModelWeights",
+        "type": "float",
+        "offset": 48
+      },
+      {
+        "name": "m_nNode",
+        "type": "int64_t",
+        "offset": 64
+      }
+    ]
+  },
+  "PermModelDataAnimatedMaterialAttribute_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_AttributeName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nNumChannels",
+        "type": "int64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "PermModelData_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 760,
+    "fields": [
+      {
+        "name": "m_name",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_modelInfo",
+        "type": "uint8_t[88]",
+        "offset": 8
+      },
+      {
+        "name": "m_ExtParts",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_refMeshes",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_refMeshGroupMasks",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_refPhysGroupMasks",
+        "type": "uint8_t[24]",
+        "offset": 168
+      },
+      {
+        "name": "m_refLODGroupMasks",
+        "type": "uint8_t[24]",
+        "offset": 192
+      },
+      {
+        "name": "m_lodGroupSwitchDistances",
+        "type": "uint8_t[24]",
+        "offset": 216
+      },
+      {
+        "name": "m_refPhysicsData",
+        "type": "uint8_t[24]",
+        "offset": 240
+      },
+      {
+        "name": "m_refPhysicsHitboxData",
+        "type": "uint8_t[24]",
+        "offset": 264
+      },
+      {
+        "name": "m_refAnimGroups",
+        "type": "uint8_t[24]",
+        "offset": 288
+      },
+      {
+        "name": "m_refSequenceGroups",
+        "type": "uint8_t[24]",
+        "offset": 312
+      },
+      {
+        "name": "m_meshGroups",
+        "type": "uint8_t[24]",
+        "offset": 336
+      },
+      {
+        "name": "m_materialGroups",
+        "type": "uint8_t[24]",
+        "offset": 360
+      },
+      {
+        "name": "m_nDefaultMeshGroupMask",
+        "type": "int64_t",
+        "offset": 384
+      },
+      {
+        "name": "m_modelSkeleton",
+        "type": "uint8_t[168]",
+        "offset": 392
+      },
+      {
+        "name": "m_remappingTable",
+        "type": "uint8_t[24]",
+        "offset": 560
+      },
+      {
+        "name": "m_remappingTableStarts",
+        "type": "uint8_t[24]",
+        "offset": 584
+      },
+      {
+        "name": "m_boneFlexDrivers",
+        "type": "bool",
+        "offset": 608
+      },
+      {
+        "name": "m_pModelConfigList",
+        "type": "void*",
+        "offset": 632
+      },
+      {
+        "name": "m_BodyGroupsHiddenInTools",
+        "type": "uint8_t[24]",
+        "offset": 640
+      },
+      {
+        "name": "m_refAnimIncludeModels",
+        "type": "uint8_t[24]",
+        "offset": 664
+      },
+      {
+        "name": "m_AnimatedMaterialAttributes",
+        "type": "uint8_t[24]",
+        "offset": 688
+      },
+      {
+        "name": "m_animGraph2Refs",
+        "type": "uint8_t[24]",
+        "offset": 712
+      },
+      {
+        "name": "m_vecNmSkeletonRefs",
+        "type": "Vector",
+        "offset": 736
+      }
+    ]
+  },
+  "PermModelExtPart_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_Transform",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "m_Name",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nParent",
+        "type": "int64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_refModel",
+        "type": "Vector4D",
+        "offset": 48
+      }
+    ]
+  },
+  "PermModelInfo_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 88,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_vHullMin",
+        "type": "Vector",
+        "offset": 4
+      },
+      {
+        "name": "m_vHullMax",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_vViewMin",
+        "type": "Vector",
+        "offset": 28
+      },
+      {
+        "name": "m_vViewMax",
+        "type": "Vector",
+        "offset": 40
+      },
+      {
+        "name": "m_flMass",
+        "type": "float",
+        "offset": 52
+      },
+      {
+        "name": "m_vEyePosition",
+        "type": "Vector",
+        "offset": 56
+      },
+      {
+        "name": "m_flMaxEyeDeflection",
+        "type": "float",
+        "offset": 68
+      },
+      {
+        "name": "m_sSurfaceProperty",
+        "type": "uint64_t",
+        "offset": 72
+      },
+      {
+        "name": "m_keyValueText",
+        "type": "uint64_t",
+        "offset": 80
+      }
+    ]
+  },
+  "PhysFeModelDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 1832,
+    "fields": [
+      {
+        "name": "m_CtrlHash",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_CtrlName",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_nStaticNodeFlags",
+        "type": "int32_t",
+        "offset": 48
+      },
+      {
+        "name": "m_nDynamicNodeFlags",
+        "type": "int32_t",
+        "offset": 52
+      },
+      {
+        "name": "m_flLocalForce",
+        "type": "float",
+        "offset": 56
+      },
+      {
+        "name": "m_flLocalRotation",
+        "type": "float",
+        "offset": 60
+      },
+      {
+        "name": "m_nNodeCount",
+        "type": "uint16_t",
+        "offset": 64
+      },
+      {
+        "name": "m_nStaticNodes",
+        "type": "uint16_t",
+        "offset": 66
+      },
+      {
+        "name": "m_nRotLockStaticNodes",
+        "type": "uint16_t",
+        "offset": 68
+      },
+      {
+        "name": "m_nFirstPositionDrivenNode",
+        "type": "uint16_t",
+        "offset": 70
+      },
+      {
+        "name": "m_nSimdTriCount1",
+        "type": "uint16_t",
+        "offset": 72
+      },
+      {
+        "name": "m_nSimdTriCount2",
+        "type": "uint16_t",
+        "offset": 74
+      },
+      {
+        "name": "m_nSimdQuadCount1",
+        "type": "uint16_t",
+        "offset": 76
+      },
+      {
+        "name": "m_nSimdQuadCount2",
+        "type": "uint16_t",
+        "offset": 78
+      },
+      {
+        "name": "m_nQuadCount1",
+        "type": "uint16_t",
+        "offset": 80
+      },
+      {
+        "name": "m_nQuadCount2",
+        "type": "uint16_t",
+        "offset": 82
+      },
+      {
+        "name": "m_nTreeDepth",
+        "type": "uint16_t",
+        "offset": 84
+      },
+      {
+        "name": "m_nNodeBaseJiggleboneDependsCount",
+        "type": "uint16_t",
+        "offset": 86
+      },
+      {
+        "name": "m_nRopeCount",
+        "type": "int64_t",
+        "offset": 88
+      },
+      {
+        "name": "m_Ropes",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_NodeBases",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_SimdNodeBases",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_Quads",
+        "type": "uint8_t[24]",
+        "offset": 168
+      },
+      {
+        "name": "m_SimdQuads",
+        "type": "uint8_t[24]",
+        "offset": 192
+      },
+      {
+        "name": "m_SimdTris",
+        "type": "uint8_t[24]",
+        "offset": 216
+      },
+      {
+        "name": "m_Prisms",
+        "type": "uint8_t[24]",
+        "offset": 240
+      },
+      {
+        "name": "m_SimdPrisms",
+        "type": "uint8_t[24]",
+        "offset": 264
+      },
+      {
+        "name": "m_SimdRods",
+        "type": "uint8_t[24]",
+        "offset": 288
+      },
+      {
+        "name": "m_SimdRodsAnim",
+        "type": "uint8_t[24]",
+        "offset": 312
+      },
+      {
+        "name": "m_InitPose",
+        "type": "uint8_t[24]",
+        "offset": 336
+      },
+      {
+        "name": "m_Rods",
+        "type": "uint8_t[24]",
+        "offset": 360
+      },
+      {
+        "name": "m_Twists",
+        "type": "uint8_t[24]",
+        "offset": 384
+      },
+      {
+        "name": "m_HingeLimits",
+        "type": "uint8_t[24]",
+        "offset": 408
+      },
+      {
+        "name": "m_AntiTunnelBytecode",
+        "type": "uint8_t[24]",
+        "offset": 432
+      },
+      {
+        "name": "m_DynKinLinks",
+        "type": "uint8_t[24]",
+        "offset": 456
+      },
+      {
+        "name": "m_BoneMergeLinks",
+        "type": "uint8_t[24]",
+        "offset": 480
+      },
+      {
+        "name": "m_AntiTunnelProbes",
+        "type": "uint8_t[24]",
+        "offset": 504
+      },
+      {
+        "name": "m_AntiTunnelTargetNodes",
+        "type": "uint8_t[24]",
+        "offset": 528
+      },
+      {
+        "name": "m_NodeStrayBoxes",
+        "type": "uint8_t[24]",
+        "offset": 552
+      },
+      {
+        "name": "m_AxialEdges",
+        "type": "uint8_t[24]",
+        "offset": 576
+      },
+      {
+        "name": "m_NodeInvMasses",
+        "type": "uint8_t[24]",
+        "offset": 600
+      },
+      {
+        "name": "m_CtrlOffsets",
+        "type": "uint8_t[24]",
+        "offset": 624
+      },
+      {
+        "name": "m_CtrlOsOffsets",
+        "type": "uint8_t[24]",
+        "offset": 648
+      },
+      {
+        "name": "m_FollowNodes",
+        "type": "uint8_t[24]",
+        "offset": 672
+      },
+      {
+        "name": "m_CollisionPlanes",
+        "type": "uint8_t[24]",
+        "offset": 696
+      },
+      {
+        "name": "m_NodeIntegrator",
+        "type": "uint8_t[24]",
+        "offset": 720
+      },
+      {
+        "name": "m_SpringIntegrator",
+        "type": "uint8_t[24]",
+        "offset": 744
+      },
+      {
+        "name": "m_SimdSpringIntegrator",
+        "type": "uint8_t[24]",
+        "offset": 768
+      },
+      {
+        "name": "m_WorldCollisionParams",
+        "type": "uint8_t[24]",
+        "offset": 792
+      },
+      {
+        "name": "m_LegacyStretchForce",
+        "type": "uint8_t[24]",
+        "offset": 816
+      },
+      {
+        "name": "m_NodeCollisionRadii",
+        "type": "uint8_t[24]",
+        "offset": 840
+      },
+      {
+        "name": "m_DynNodeFriction",
+        "type": "uint8_t[24]",
+        "offset": 864
+      },
+      {
+        "name": "m_LocalRotation",
+        "type": "uint8_t[24]",
+        "offset": 888
+      },
+      {
+        "name": "m_LocalForce",
+        "type": "uint8_t[24]",
+        "offset": 912
+      },
+      {
+        "name": "m_TaperedCapsuleStretches",
+        "type": "uint8_t[24]",
+        "offset": 936
+      },
+      {
+        "name": "m_TaperedCapsuleRigids",
+        "type": "uint8_t[24]",
+        "offset": 960
+      },
+      {
+        "name": "m_SphereRigids",
+        "type": "uint8_t[24]",
+        "offset": 984
+      },
+      {
+        "name": "m_WorldCollisionNodes",
+        "type": "uint8_t[24]",
+        "offset": 1008
+      },
+      {
+        "name": "m_TreeParents",
+        "type": "uint8_t[24]",
+        "offset": 1032
+      },
+      {
+        "name": "m_TreeCollisionMasks",
+        "type": "uint8_t[24]",
+        "offset": 1056
+      },
+      {
+        "name": "m_TreeChildren",
+        "type": "uint8_t[24]",
+        "offset": 1080
+      },
+      {
+        "name": "m_FreeNodes",
+        "type": "uint8_t[24]",
+        "offset": 1104
+      },
+      {
+        "name": "m_FitMatrices",
+        "type": "uint8_t[24]",
+        "offset": 1128
+      },
+      {
+        "name": "m_FitWeights",
+        "type": "uint8_t[24]",
+        "offset": 1152
+      },
+      {
+        "name": "m_ReverseOffsets",
+        "type": "uint8_t[24]",
+        "offset": 1176
+      },
+      {
+        "name": "m_AnimStrayRadii",
+        "type": "uint8_t[24]",
+        "offset": 1200
+      },
+      {
+        "name": "m_SimdAnimStrayRadii",
+        "type": "uint8_t[24]",
+        "offset": 1224
+      },
+      {
+        "name": "m_KelagerBends",
+        "type": "uint8_t[24]",
+        "offset": 1248
+      },
+      {
+        "name": "m_CtrlSoftOffsets",
+        "type": "uint8_t[24]",
+        "offset": 1272
+      },
+      {
+        "name": "m_JiggleBones",
+        "type": "uint8_t[24]",
+        "offset": 1296
+      },
+      {
+        "name": "m_SourceElems",
+        "type": "uint8_t[24]",
+        "offset": 1320
+      },
+      {
+        "name": "m_GoalDampedSpringIntegrators",
+        "type": "uint8_t[24]",
+        "offset": 1344
+      },
+      {
+        "name": "m_Tris",
+        "type": "uint8_t[24]",
+        "offset": 1368
+      },
+      {
+        "name": "m_nTriCount1",
+        "type": "uint16_t",
+        "offset": 1392
+      },
+      {
+        "name": "m_nTriCount2",
+        "type": "uint16_t",
+        "offset": 1394
+      },
+      {
+        "name": "m_nReservedUint8",
+        "type": "uint8_t",
+        "offset": 1396
+      },
+      {
+        "name": "m_nExtraPressureIterations",
+        "type": "uint8_t",
+        "offset": 1397
+      },
+      {
+        "name": "m_nExtraGoalIterations",
+        "type": "uint8_t",
+        "offset": 1398
+      },
+      {
+        "name": "m_nExtraIterations",
+        "type": "uint8_t",
+        "offset": 1399
+      },
+      {
+        "name": "m_SDFRigids",
+        "type": "uint8_t[24]",
+        "offset": 1400
+      },
+      {
+        "name": "m_BoxRigids",
+        "type": "uint8_t[24]",
+        "offset": 1424
+      },
+      {
+        "name": "m_DynNodeVertexSet",
+        "type": "uint8_t[24]",
+        "offset": 1448
+      },
+      {
+        "name": "m_VertexSetNames",
+        "type": "uint8_t[24]",
+        "offset": 1472
+      },
+      {
+        "name": "m_RigidColliderPriorities",
+        "type": "uint8_t[24]",
+        "offset": 1496
+      },
+      {
+        "name": "m_MorphLayers",
+        "type": "uint8_t[24]",
+        "offset": 1520
+      },
+      {
+        "name": "m_MorphSetData",
+        "type": "uint8_t[24]",
+        "offset": 1544
+      },
+      {
+        "name": "m_VertexMaps",
+        "type": "uint8_t[24]",
+        "offset": 1568
+      },
+      {
+        "name": "m_VertexMapValues",
+        "type": "uint8_t[24]",
+        "offset": 1592
+      },
+      {
+        "name": "m_Effects",
+        "type": "uint8_t[24]",
+        "offset": 1616
+      },
+      {
+        "name": "m_LockToParent",
+        "type": "uint8_t[24]",
+        "offset": 1640
+      },
+      {
+        "name": "m_LockToGoal",
+        "type": "uint8_t[24]",
+        "offset": 1664
+      },
+      {
+        "name": "m_SkelParents",
+        "type": "uint8_t[24]",
+        "offset": 1688
+      },
+      {
+        "name": "m_DynNodeWindBases",
+        "type": "uint8_t[24]",
+        "offset": 1712
+      },
+      {
+        "name": "m_SelfCollisionLayers",
+        "type": "uint8_t[24]",
+        "offset": 1736
+      },
+      {
+        "name": "m_flInternalPressure",
+        "type": "float",
+        "offset": 1760
+      },
+      {
+        "name": "m_flDefaultTimeDilation",
+        "type": "float",
+        "offset": 1764
+      },
+      {
+        "name": "m_flWindage",
+        "type": "float",
+        "offset": 1768
+      },
+      {
+        "name": "m_flWindDrag",
+        "type": "float",
+        "offset": 1772
+      },
+      {
+        "name": "m_flDefaultSurfaceStretch",
+        "type": "float",
+        "offset": 1776
+      },
+      {
+        "name": "m_flDefaultThreadStretch",
+        "type": "float",
+        "offset": 1780
+      },
+      {
+        "name": "m_flDefaultGravityScale",
+        "type": "float",
+        "offset": 1784
+      },
+      {
+        "name": "m_flDefaultVelAirDrag",
+        "type": "float",
+        "offset": 1788
+      },
+      {
+        "name": "m_flDefaultExpAirDrag",
+        "type": "float",
+        "offset": 1792
+      },
+      {
+        "name": "m_flDefaultVelQuadAirDrag",
+        "type": "float",
+        "offset": 1796
+      },
+      {
+        "name": "m_flDefaultExpQuadAirDrag",
+        "type": "float",
+        "offset": 1800
+      },
+      {
+        "name": "m_flRodVelocitySmoothRate",
+        "type": "float",
+        "offset": 1804
+      },
+      {
+        "name": "m_flQuadVelocitySmoothRate",
+        "type": "float",
+        "offset": 1808
+      },
+      {
+        "name": "m_flAddWorldCollisionRadius",
+        "type": "float",
+        "offset": 1812
+      },
+      {
+        "name": "m_flDefaultVolumetricSolveAmount",
+        "type": "float",
+        "offset": 1816
+      },
+      {
+        "name": "m_flMotionSmoothCDT",
+        "type": "float",
+        "offset": 1820
+      },
+      {
+        "name": "m_flLocalDrag1",
+        "type": "float",
+        "offset": 1824
+      },
+      {
+        "name": "m_nRodVelocitySmoothIterations",
+        "type": "uint16_t",
+        "offset": 1828
+      },
+      {
+        "name": "m_nQuadVelocitySmoothIterations",
+        "type": "uint16_t",
+        "offset": 1830
+      }
+    ]
+  },
+  "PhysShapeMarkup_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nBodyInAggregate",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nShapeInBody",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_sHitGroup",
+        "type": "uint64_t",
+        "offset": 8
+      }
+    ]
+  },
+  "PhysSoftbodyDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 144,
+    "fields": [
+      {
+        "name": "m_ParticleBoneHash",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_Particles",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_Springs",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_Capsules",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_InitPose",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_ParticleBoneName",
+        "type": "uint8_t[24]",
+        "offset": 120
+      }
+    ]
+  },
+  "PhysicsParticleId_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "RenderHairStrandInfo_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_nGuideHairIndices_nSurfaceTriIndex",
+        "type": "int64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_vGuideBary_vBaseBary",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_vRootOffset_flLengthScale",
+        "type": "uint64_t",
+        "offset": 16
+      },
+      {
+        "name": "m_nPackedBaseUv",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nPackedSurfaceNormalOs",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nPackedSurfaceTangentOs",
+        "type": "int32_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nDataOffset_Segments",
+        "type": "int32_t",
+        "offset": 36
+      }
+    ]
+  },
+  "RenderInputLayoutField_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 76,
+    "fields": [
+      {
+        "name": "m_pSemanticName",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_nSemanticIndex",
+        "type": "int64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_nOffset",
+        "type": "uint16_t",
+        "offset": 40
+      },
+      {
+        "name": "m_nSlot",
+        "type": "uint8_t",
+        "offset": 42
+      },
+      {
+        "name": "m_nSlotType",
+        "type": "uint8_t",
+        "offset": 43
+      },
+      {
+        "name": "m_szShaderSemantic",
+        "type": "char[32]",
+        "offset": 44
+      }
+    ]
+  },
+  "RenderSkeletonBone_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 96,
+    "fields": [
+      {
+        "name": "m_boneName",
+        "type": "bool",
+        "offset": 0
+      },
+      {
+        "name": "m_parentName",
+        "type": "void*",
+        "offset": 8
+      },
+      {
+        "name": "m_invBindPose",
+        "type": "int32_t",
+        "offset": 16
+      },
+      {
+        "name": "m_bbox",
+        "type": "bool",
+        "offset": 64
+      },
+      {
+        "name": "m_flSphereRadius",
+        "type": "float",
+        "offset": 88
+      }
+    ]
+  },
+  "RnBlendVertex_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_nWeight0",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nIndex0",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nWeight1",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nIndex1",
+        "type": "uint16_t",
+        "offset": 6
+      },
+      {
+        "name": "m_nWeight2",
+        "type": "uint16_t",
+        "offset": 8
+      },
+      {
+        "name": "m_nIndex2",
+        "type": "uint16_t",
+        "offset": 10
+      },
+      {
+        "name": "m_nFlags",
+        "type": "uint16_t",
+        "offset": 12
+      },
+      {
+        "name": "m_nTargetIndex",
+        "type": "uint16_t",
+        "offset": 14
+      }
+    ]
+  },
+  "RnBodyDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 224,
+    "fields": [
+      {
+        "name": "m_sDebugName",
+        "type": "uint64_t",
+        "offset": 0
+      },
+      {
+        "name": "m_vPosition",
+        "type": "Vector",
+        "offset": 8
+      },
+      {
+        "name": "m_qOrientation",
+        "type": "Quaternion",
+        "offset": 20
+      },
+      {
+        "name": "m_vLinearVelocity",
+        "type": "Vector",
+        "offset": 36
+      },
+      {
+        "name": "m_vAngularVelocity",
+        "type": "Vector",
+        "offset": 48
+      },
+      {
+        "name": "m_vLocalMassCenter",
+        "type": "Vector",
+        "offset": 60
+      },
+      {
+        "name": "m_LocalInertiaInv",
+        "type": "uint8_t[36]",
+        "offset": 72
+      },
+      {
+        "name": "m_flMassInv",
+        "type": "float",
+        "offset": 108
+      },
+      {
+        "name": "m_flGameMass",
+        "type": "float",
+        "offset": 112
+      },
+      {
+        "name": "m_flMassScaleInv",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_flInertiaScaleInv",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flLinearDamping",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_flAngularDamping",
+        "type": "float",
+        "offset": 128
+      },
+      {
+        "name": "m_flLinearDragScale",
+        "type": "float",
+        "offset": 132
+      },
+      {
+        "name": "m_flAngularDragScale",
+        "type": "float",
+        "offset": 136
+      },
+      {
+        "name": "m_flLinearFluidDragScale",
+        "type": "float",
+        "offset": 140
+      },
+      {
+        "name": "m_flAngularFluidDragScale",
+        "type": "float",
+        "offset": 144
+      },
+      {
+        "name": "m_vLastAwakeForceAccum",
+        "type": "Vector",
+        "offset": 148
+      },
+      {
+        "name": "m_vLastAwakeTorqueAccum",
+        "type": "Vector",
+        "offset": 160
+      },
+      {
+        "name": "m_flBuoyancyScale",
+        "type": "float",
+        "offset": 172
+      },
+      {
+        "name": "m_flGravityScale",
+        "type": "float",
+        "offset": 176
+      },
+      {
+        "name": "m_flTimeScale",
+        "type": "float",
+        "offset": 180
+      },
+      {
+        "name": "m_nBodyType",
+        "type": "int32_t",
+        "offset": 184
+      },
+      {
+        "name": "m_nGameIndex",
+        "type": "int32_t",
+        "offset": 188
+      },
+      {
+        "name": "m_nGameFlags",
+        "type": "int32_t",
+        "offset": 192
+      },
+      {
+        "name": "m_nMinVelocityIterations",
+        "type": "uint8_t",
+        "offset": 196
+      },
+      {
+        "name": "m_nMinPositionIterations",
+        "type": "uint8_t",
+        "offset": 197
+      },
+      {
+        "name": "m_nMassPriority",
+        "type": "uint8_t",
+        "offset": 198
+      },
+      {
+        "name": "m_bEnabled",
+        "type": "bool",
+        "offset": 199
+      },
+      {
+        "name": "m_bSleeping",
+        "type": "bool",
+        "offset": 200
+      },
+      {
+        "name": "m_bIsContinuousEnabled",
+        "type": "bool",
+        "offset": 201
+      },
+      {
+        "name": "m_bDragEnabled",
+        "type": "bool",
+        "offset": 202
+      },
+      {
+        "name": "m_vGravity",
+        "type": "Vector",
+        "offset": 204
+      },
+      {
+        "name": "m_bSpeculativeEnabled",
+        "type": "bool",
+        "offset": 216
+      },
+      {
+        "name": "m_bHasShadowController",
+        "type": "bool",
+        "offset": 217
+      },
+      {
+        "name": "m_nDynamicContinuousContactBehavior",
+        "type": "int32_t",
+        "offset": 218
+      }
+    ]
+  },
+  "RnCapsuleDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": "RnShapeDesc_t",
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_Capsule",
+        "type": "uint8_t[32]",
+        "offset": 24
+      }
+    ]
+  },
+  "RnCapsule_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_vCenter",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRadius",
+        "type": "float",
+        "offset": 24
+      }
+    ]
+  },
+  "RnCompoundDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": "RnShapeDesc_t",
+    "size": 376,
+    "fields": [
+      {
+        "name": "m_Compound",
+        "type": "uint8_t[352]",
+        "offset": 24
+      }
+    ]
+  },
+  "RnCompoundTreeNode_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_vMin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vMax",
+        "type": "Vector4D",
+        "offset": 12
+      }
+    ]
+  },
+  "RnCompoundTree_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_Nodes",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_nStartIterationIndex",
+        "type": "int64_t",
+        "offset": 16
+      }
+    ]
+  },
+  "RnCompound_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 352,
+    "fields": [
+      {
+        "name": "m_Tree",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_nHullBaseIndex",
+        "type": "int32_t",
+        "offset": 24
+      },
+      {
+        "name": "m_nMeshBaseIndex",
+        "type": "int32_t",
+        "offset": 28
+      },
+      {
+        "name": "m_nShapeCount",
+        "type": "int64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_Meshes",
+        "type": "uint8_t[200]",
+        "offset": 40
+      },
+      {
+        "name": "m_Hulls",
+        "type": "Vector4D",
+        "offset": 240
+      },
+      {
+        "name": "m_Capsules",
+        "type": "Vector4D",
+        "offset": 256
+      },
+      {
+        "name": "m_Spheres",
+        "type": "Vector4D",
+        "offset": 272
+      },
+      {
+        "name": "m_CompoundMaterialIndices",
+        "type": "Vector4D",
+        "offset": 288
+      },
+      {
+        "name": "m_Bounds",
+        "type": "uint8_t[24]",
+        "offset": 304
+      },
+      {
+        "name": "m_vOrthographicAreas",
+        "type": "Vector",
+        "offset": 328
+      },
+      {
+        "name": "m_flSurfaceArea",
+        "type": "float",
+        "offset": 340
+      },
+      {
+        "name": "m_flVolume",
+        "type": "float",
+        "offset": 344
+      }
+    ]
+  },
+  "RnFace_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_nEdge",
+        "type": "uint8_t",
+        "offset": 0
+      }
+    ]
+  },
+  "RnHalfEdge_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_nNext",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nTwin",
+        "type": "uint8_t",
+        "offset": 1
+      },
+      {
+        "name": "m_nOrigin",
+        "type": "uint8_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nFace",
+        "type": "uint8_t",
+        "offset": 3
+      }
+    ]
+  },
+  "RnHullDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": "RnShapeDesc_t",
+    "size": 272,
+    "fields": [
+      {
+        "name": "m_Hull",
+        "type": "uint8_t[248]",
+        "offset": 24
+      }
+    ]
+  },
+  "RnHull_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 248,
+    "fields": [
+      {
+        "name": "m_vCentroid",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_flMaxAngularRadius",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flMinCentroidRadius",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_Bounds",
+        "type": "uint8_t[24]",
+        "offset": 20
+      },
+      {
+        "name": "m_vOrthographicAreas",
+        "type": "Vector",
+        "offset": 44
+      },
+      {
+        "name": "m_MassProperties",
+        "type": "uint8_t[48]",
+        "offset": 56
+      },
+      {
+        "name": "m_flVolume",
+        "type": "float",
+        "offset": 104
+      },
+      {
+        "name": "m_flSurfaceArea",
+        "type": "float",
+        "offset": 108
+      },
+      {
+        "name": "m_VertexPositions",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_FacePlanes",
+        "type": "uint8_t[24]",
+        "offset": 136
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int64_t",
+        "offset": 160
+      },
+      {
+        "name": "m_pRegionSVM",
+        "type": "void*",
+        "offset": 168
+      },
+      {
+        "name": "m_Vertices",
+        "type": "uint8_t[24]",
+        "offset": 176
+      },
+      {
+        "name": "m_Edges",
+        "type": "uint8_t[24]",
+        "offset": 200
+      },
+      {
+        "name": "m_Faces",
+        "type": "uint8_t[24]",
+        "offset": 224
+      }
+    ]
+  },
+  "RnMeshDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": "RnShapeDesc_t",
+    "size": 216,
+    "fields": [
+      {
+        "name": "m_Mesh",
+        "type": "uint8_t[192]",
+        "offset": 24
+      }
+    ]
+  },
+  "RnMesh_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_vMin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vMax",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "m_Nodes",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_Vertices",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_Triangles",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_Wings",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_TriangleEdgeFlags",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_Materials",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_vOrthographicAreas",
+        "type": "Vector",
+        "offset": 168
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 180
+      },
+      {
+        "name": "m_nDebugFlags",
+        "type": "int32_t",
+        "offset": 184
+      },
+      {
+        "name": "m_flSurfaceArea",
+        "type": "float",
+        "offset": 188
+      }
+    ]
+  },
+  "RnNode_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_vMin",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_nChildren",
+        "type": "int32_t",
+        "offset": 12
+      },
+      {
+        "name": "m_vMax",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_nTriangleOffset",
+        "type": "int32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "RnPlane_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_vNormal",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_flOffset",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "RnShapeDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_nCollisionAttributeIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nSurfacePropertyIndex",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_UserFriendlyName",
+        "type": "uint64_t",
+        "offset": 8
+      },
+      {
+        "name": "m_bUserFriendlyNameSealed",
+        "type": "bool",
+        "offset": 16
+      },
+      {
+        "name": "m_bUserFriendlyNameLong",
+        "type": "bool",
+        "offset": 17
+      },
+      {
+        "name": "m_nToolMaterialHash",
+        "type": "int32_t",
+        "offset": 20
+      }
+    ]
+  },
+  "RnSoftbodyCapsule_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 32,
+    "fields": [
+      {
+        "name": "m_vCenter",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_flRadius",
+        "type": "float",
+        "offset": 24
+      },
+      {
+        "name": "m_nParticle",
+        "type": "int32_t",
+        "offset": 28
+      }
+    ]
+  },
+  "RnSoftbodyParticle_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_flMassInv",
+        "type": "float",
+        "offset": 0
+      }
+    ]
+  },
+  "RnSoftbodySpring_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_nParticle",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flLength",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "RnSphereDesc_t": {
+    "binary": "vphysics2.dll",
+    "base": "RnShapeDesc_t",
+    "size": 40,
+    "fields": [
+      {
+        "name": "m_Sphere",
+        "type": "Vector4D",
+        "offset": 24
+      }
+    ]
+  },
+  "RnTriangle_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_nIndex",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "RnVertex_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 1,
+    "fields": [
+      {
+        "name": "m_nEdge",
+        "type": "uint8_t",
+        "offset": 0
+      }
+    ]
+  },
+  "RnWing_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 12,
+    "fields": [
+      {
+        "name": "m_nIndex",
+        "type": "int32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "SheetSequenceIntegerId_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Value",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "SkeletonAnimCapture_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_nEntIndex",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nEntParent",
+        "type": "int32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_ImportedCollision",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_ModelName",
+        "type": "uint64_t",
+        "offset": 32
+      },
+      {
+        "name": "m_CaptureName",
+        "type": "uint64_t",
+        "offset": 40
+      },
+      {
+        "name": "m_ModelBindPose",
+        "type": "uint8_t[24]",
+        "offset": 48
+      },
+      {
+        "name": "m_FeModelInitPose",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_nFlexControllers",
+        "type": "int32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_bPredicted",
+        "type": "bool",
+        "offset": 100
+      },
+      {
+        "name": "m_Frames",
+        "type": "uint8_t[24]",
+        "offset": 168
+      }
+    ]
+  },
+  "SkeletonAnimCapture_t__Bone_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "m_Name",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_BindPose",
+        "type": "uint8_t[32]",
+        "offset": 16
+      },
+      {
+        "name": "m_nParent",
+        "type": "int32_t",
+        "offset": 48
+      }
+    ]
+  },
+  "SkeletonAnimCapture_t__Camera_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_tmCamera",
+        "type": "uint8_t[32]",
+        "offset": 0
+      },
+      {
+        "name": "m_flTime",
+        "type": "float",
+        "offset": 32
+      }
+    ]
+  },
+  "SkeletonAnimCapture_t__FrameStamp_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 28,
+    "fields": [
+      {
+        "name": "m_flTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flEntitySimTime",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_bTeleportTick",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_bPredicted",
+        "type": "bool",
+        "offset": 9
+      },
+      {
+        "name": "m_flCurTime",
+        "type": "float",
+        "offset": 12
+      },
+      {
+        "name": "m_flRealTime",
+        "type": "float",
+        "offset": 16
+      },
+      {
+        "name": "m_nFrameCount",
+        "type": "int32_t",
+        "offset": 20
+      },
+      {
+        "name": "m_nTickCount",
+        "type": "int32_t",
+        "offset": 24
+      }
+    ]
+  },
+  "SkeletonAnimCapture_t__Frame_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 192,
+    "fields": [
+      {
+        "name": "m_flTime",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_Stamp",
+        "type": "uint8_t[28]",
+        "offset": 4
+      },
+      {
+        "name": "m_Transform",
+        "type": "uint8_t[32]",
+        "offset": 32
+      },
+      {
+        "name": "m_bTeleport",
+        "type": "bool",
+        "offset": 64
+      },
+      {
+        "name": "m_CompositeBones",
+        "type": "uint8_t[24]",
+        "offset": 72
+      },
+      {
+        "name": "m_SimStateBones",
+        "type": "uint8_t[24]",
+        "offset": 96
+      },
+      {
+        "name": "m_FeModelAnims",
+        "type": "uint8_t[24]",
+        "offset": 120
+      },
+      {
+        "name": "m_FeModelPos",
+        "type": "uint8_t[24]",
+        "offset": 144
+      },
+      {
+        "name": "m_FlexControllerWeights",
+        "type": "uint8_t[24]",
+        "offset": 168
+      }
+    ]
+  },
+  "SkeletonBoneBounds_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_vecCenter",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vecSize",
+        "type": "Vector",
+        "offset": 12
+      }
+    ]
+  },
+  "SkeletonDemoDb_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_AnimCaptures",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_CameraTrack",
+        "type": "uint8_t[24]",
+        "offset": 24
+      },
+      {
+        "name": "m_flRecordingTime",
+        "type": "float",
+        "offset": 48
+      }
+    ]
+  },
+  "VPhysEntityId_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 4,
+    "fields": [
+      {
+        "name": "m_Id",
+        "type": "uint32_t",
+        "offset": 0
+      }
+    ]
+  },
+  "VPhysXAggregateData_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 336,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nRefCounter",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_bCompoundsPacked",
+        "type": "bool",
+        "offset": 4
+      },
+      {
+        "name": "m_bonesHash",
+        "type": "bool",
+        "offset": 8
+      },
+      {
+        "name": "m_boneNames",
+        "type": "bool",
+        "offset": 32
+      },
+      {
+        "name": "m_indexNames",
+        "type": "int32_t",
+        "offset": 56
+      },
+      {
+        "name": "m_indexHash",
+        "type": "int32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_bindPose",
+        "type": "bool",
+        "offset": 104
+      },
+      {
+        "name": "m_parts",
+        "type": "void*",
+        "offset": 128
+      },
+      {
+        "name": "m_shapeMarkups",
+        "type": "uint8_t[24]",
+        "offset": 152
+      },
+      {
+        "name": "m_constraints2",
+        "type": "uint8_t[24]",
+        "offset": 176
+      },
+      {
+        "name": "m_joints",
+        "type": "uint8_t[24]",
+        "offset": 200
+      },
+      {
+        "name": "m_pFeModel",
+        "type": "void*",
+        "offset": 224
+      },
+      {
+        "name": "m_boneParents",
+        "type": "bool",
+        "offset": 232
+      },
+      {
+        "name": "m_surfacePropertyHashes",
+        "type": "uint8_t[24]",
+        "offset": 256
+      },
+      {
+        "name": "m_collisionAttributes",
+        "type": "uint8_t[24]",
+        "offset": 280
+      },
+      {
+        "name": "m_debugPartNames",
+        "type": "uint8_t[24]",
+        "offset": 304
+      },
+      {
+        "name": "m_embeddedKeyvalues",
+        "type": "uint64_t",
+        "offset": 328
+      }
+    ]
+  },
+  "VPhysXBodyPart_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 152,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_flMass",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_rnShape",
+        "type": "uint8_t[104]",
+        "offset": 8
+      },
+      {
+        "name": "m_nCollisionAttributeIndex",
+        "type": "uint16_t",
+        "offset": 112
+      },
+      {
+        "name": "m_nReserved",
+        "type": "uint16_t",
+        "offset": 114
+      },
+      {
+        "name": "m_flInertiaScale",
+        "type": "float",
+        "offset": 116
+      },
+      {
+        "name": "m_flLinearDamping",
+        "type": "float",
+        "offset": 120
+      },
+      {
+        "name": "m_flAngularDamping",
+        "type": "float",
+        "offset": 124
+      },
+      {
+        "name": "m_flLinearDrag",
+        "type": "float",
+        "offset": 128
+      },
+      {
+        "name": "m_flAngularDrag",
+        "type": "float",
+        "offset": 132
+      },
+      {
+        "name": "m_bOverrideMassCenter",
+        "type": "bool",
+        "offset": 136
+      },
+      {
+        "name": "m_vMassCenterOverride",
+        "type": "Vector",
+        "offset": 140
+      }
+    ]
+  },
+  "VPhysXCollisionAttributes_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_nIncludeDetailLayerCount",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_CollisionGroup",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "m_InteractAs",
+        "type": "uint8_t[24]",
+        "offset": 8
+      },
+      {
+        "name": "m_InteractWith",
+        "type": "uint8_t[24]",
+        "offset": 32
+      },
+      {
+        "name": "m_InteractExclude",
+        "type": "uint8_t[24]",
+        "offset": 56
+      },
+      {
+        "name": "m_DetailLayers",
+        "type": "uint8_t[24]",
+        "offset": 80
+      },
+      {
+        "name": "m_CollisionGroupString",
+        "type": "uint64_t",
+        "offset": 104
+      },
+      {
+        "name": "m_InteractAsStrings",
+        "type": "uint8_t[24]",
+        "offset": 112
+      },
+      {
+        "name": "m_InteractWithStrings",
+        "type": "uint8_t[24]",
+        "offset": 136
+      },
+      {
+        "name": "m_InteractExcludeStrings",
+        "type": "uint8_t[24]",
+        "offset": 160
+      },
+      {
+        "name": "m_DetailLayerStrings",
+        "type": "uint8_t[24]",
+        "offset": 184
+      }
+    ]
+  },
+  "VPhysXConstraint2_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 256,
+    "fields": [
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nParent",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nChild",
+        "type": "uint16_t",
+        "offset": 6
+      },
+      {
+        "name": "m_params",
+        "type": "void*",
+        "offset": 8
+      }
+    ]
+  },
+  "VPhysXConstraintParams_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 248,
+    "fields": [
+      {
+        "name": "m_nType",
+        "type": "uint8_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nTranslateMotion",
+        "type": "uint8_t",
+        "offset": 1
+      },
+      {
+        "name": "m_nRotateMotion",
+        "type": "uint8_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nFlags",
+        "type": "uint8_t",
+        "offset": 3
+      },
+      {
+        "name": "m_anchor",
+        "type": "uint8_t[24]",
+        "offset": 4
+      },
+      {
+        "name": "m_axes",
+        "type": "uint8_t[32]",
+        "offset": 28
+      },
+      {
+        "name": "m_maxForce",
+        "type": "uint32_t",
+        "offset": 60
+      },
+      {
+        "name": "m_maxTorque",
+        "type": "uint32_t",
+        "offset": 64
+      },
+      {
+        "name": "m_linearLimitValue",
+        "type": "uint32_t",
+        "offset": 68
+      },
+      {
+        "name": "m_linearLimitRestitution",
+        "type": "uint32_t",
+        "offset": 72
+      },
+      {
+        "name": "m_linearLimitSpring",
+        "type": "uint32_t",
+        "offset": 76
+      },
+      {
+        "name": "m_linearLimitDamping",
+        "type": "uint32_t",
+        "offset": 80
+      },
+      {
+        "name": "m_twistLowLimitValue",
+        "type": "uint32_t",
+        "offset": 84
+      },
+      {
+        "name": "m_twistLowLimitRestitution",
+        "type": "uint32_t",
+        "offset": 88
+      },
+      {
+        "name": "m_twistLowLimitSpring",
+        "type": "uint32_t",
+        "offset": 92
+      },
+      {
+        "name": "m_twistLowLimitDamping",
+        "type": "uint32_t",
+        "offset": 96
+      },
+      {
+        "name": "m_twistHighLimitValue",
+        "type": "uint32_t",
+        "offset": 100
+      },
+      {
+        "name": "m_twistHighLimitRestitution",
+        "type": "uint32_t",
+        "offset": 104
+      },
+      {
+        "name": "m_twistHighLimitSpring",
+        "type": "uint32_t",
+        "offset": 108
+      },
+      {
+        "name": "m_twistHighLimitDamping",
+        "type": "uint32_t",
+        "offset": 112
+      },
+      {
+        "name": "m_swing1LimitValue",
+        "type": "uint32_t",
+        "offset": 116
+      },
+      {
+        "name": "m_swing1LimitRestitution",
+        "type": "uint32_t",
+        "offset": 120
+      },
+      {
+        "name": "m_swing1LimitSpring",
+        "type": "uint32_t",
+        "offset": 124
+      },
+      {
+        "name": "m_swing1LimitDamping",
+        "type": "uint32_t",
+        "offset": 128
+      },
+      {
+        "name": "m_swing2LimitValue",
+        "type": "uint32_t",
+        "offset": 132
+      },
+      {
+        "name": "m_swing2LimitRestitution",
+        "type": "uint32_t",
+        "offset": 136
+      },
+      {
+        "name": "m_swing2LimitSpring",
+        "type": "uint32_t",
+        "offset": 140
+      },
+      {
+        "name": "m_swing2LimitDamping",
+        "type": "uint32_t",
+        "offset": 144
+      },
+      {
+        "name": "m_goalPosition",
+        "type": "Vector",
+        "offset": 148
+      },
+      {
+        "name": "m_goalOrientation",
+        "type": "Vector4D",
+        "offset": 160
+      },
+      {
+        "name": "m_goalAngularVelocity",
+        "type": "Vector",
+        "offset": 176
+      },
+      {
+        "name": "m_driveSpringX",
+        "type": "uint32_t",
+        "offset": 188
+      },
+      {
+        "name": "m_driveSpringY",
+        "type": "uint32_t",
+        "offset": 192
+      },
+      {
+        "name": "m_driveSpringZ",
+        "type": "uint32_t",
+        "offset": 196
+      },
+      {
+        "name": "m_driveDampingX",
+        "type": "uint32_t",
+        "offset": 200
+      },
+      {
+        "name": "m_driveDampingY",
+        "type": "uint32_t",
+        "offset": 204
+      },
+      {
+        "name": "m_driveDampingZ",
+        "type": "uint32_t",
+        "offset": 208
+      },
+      {
+        "name": "m_driveSpringTwist",
+        "type": "uint32_t",
+        "offset": 212
+      },
+      {
+        "name": "m_driveSpringSwing",
+        "type": "uint32_t",
+        "offset": 216
+      },
+      {
+        "name": "m_driveSpringSlerp",
+        "type": "uint32_t",
+        "offset": 220
+      },
+      {
+        "name": "m_driveDampingTwist",
+        "type": "uint32_t",
+        "offset": 224
+      },
+      {
+        "name": "m_driveDampingSwing",
+        "type": "uint32_t",
+        "offset": 228
+      },
+      {
+        "name": "m_driveDampingSlerp",
+        "type": "uint32_t",
+        "offset": 232
+      },
+      {
+        "name": "m_solverIterationCount",
+        "type": "uint32_t",
+        "offset": 236
+      },
+      {
+        "name": "m_projectionLinearTolerance",
+        "type": "void*",
+        "offset": 240
+      },
+      {
+        "name": "m_projectionAngularTolerance",
+        "type": "void*",
+        "offset": 244
+      }
+    ]
+  },
+  "VPhysXJoint_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 208,
+    "fields": [
+      {
+        "name": "m_nType",
+        "type": "uint16_t",
+        "offset": 0
+      },
+      {
+        "name": "m_nBody1",
+        "type": "uint16_t",
+        "offset": 2
+      },
+      {
+        "name": "m_nBody2",
+        "type": "uint16_t",
+        "offset": 4
+      },
+      {
+        "name": "m_nFlags",
+        "type": "int32_t",
+        "offset": 6
+      },
+      {
+        "name": "m_Frame1",
+        "type": "uint8_t[32]",
+        "offset": 16
+      },
+      {
+        "name": "m_Frame2",
+        "type": "uint8_t[32]",
+        "offset": 48
+      },
+      {
+        "name": "m_bEnableCollision",
+        "type": "bool",
+        "offset": 80
+      },
+      {
+        "name": "m_bIsLinearConstraintDisabled",
+        "type": "bool",
+        "offset": 81
+      },
+      {
+        "name": "m_bIsAngularConstraintDisabled",
+        "type": "bool",
+        "offset": 82
+      },
+      {
+        "name": "m_bEnableLinearLimit",
+        "type": "bool",
+        "offset": 83
+      },
+      {
+        "name": "m_LinearLimit",
+        "type": "uint64_t",
+        "offset": 84
+      },
+      {
+        "name": "m_bEnableLinearMotor",
+        "type": "bool",
+        "offset": 92
+      },
+      {
+        "name": "m_vLinearTargetVelocity",
+        "type": "Vector",
+        "offset": 96
+      },
+      {
+        "name": "m_flMaxForce",
+        "type": "float",
+        "offset": 108
+      },
+      {
+        "name": "m_bEnableSwingLimit",
+        "type": "bool",
+        "offset": 112
+      },
+      {
+        "name": "m_SwingLimit",
+        "type": "uint64_t",
+        "offset": 116
+      },
+      {
+        "name": "m_bEnableTwistLimit",
+        "type": "bool",
+        "offset": 124
+      },
+      {
+        "name": "m_TwistLimit",
+        "type": "uint64_t",
+        "offset": 128
+      },
+      {
+        "name": "m_bEnableAngularMotor",
+        "type": "bool",
+        "offset": 136
+      },
+      {
+        "name": "m_vAngularTargetVelocity",
+        "type": "Vector",
+        "offset": 140
+      },
+      {
+        "name": "m_flMaxTorque",
+        "type": "float",
+        "offset": 152
+      },
+      {
+        "name": "m_flLinearFrequency",
+        "type": "float",
+        "offset": 156
+      },
+      {
+        "name": "m_flLinearDampingRatio",
+        "type": "float",
+        "offset": 160
+      },
+      {
+        "name": "m_flAngularFrequency",
+        "type": "float",
+        "offset": 164
+      },
+      {
+        "name": "m_flAngularDampingRatio",
+        "type": "float",
+        "offset": 168
+      },
+      {
+        "name": "m_flFriction",
+        "type": "float",
+        "offset": 172
+      },
+      {
+        "name": "m_flElasticity",
+        "type": "float",
+        "offset": 176
+      },
+      {
+        "name": "m_flElasticDamping",
+        "type": "float",
+        "offset": 180
+      },
+      {
+        "name": "m_flPlasticity",
+        "type": "float",
+        "offset": 184
+      },
+      {
+        "name": "m_Tag",
+        "type": "Vector4D",
+        "offset": 192
+      }
+    ]
+  },
+  "VPhysXRange_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 8,
+    "fields": [
+      {
+        "name": "m_flMin",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flMax",
+        "type": "float",
+        "offset": 4
+      }
+    ]
+  },
+  "VPhysics2ShapeDef_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 104,
+    "fields": [
+      {
+        "name": "m_spheres",
+        "type": "Vector4D",
+        "offset": 0
+      },
+      {
+        "name": "m_capsules",
+        "type": "Vector4D",
+        "offset": 16
+      },
+      {
+        "name": "m_hulls",
+        "type": "CEntityHandle",
+        "offset": 32
+      },
+      {
+        "name": "m_meshes",
+        "type": "Vector4D",
+        "offset": 48
+      },
+      {
+        "name": "m_compounds",
+        "type": "Vector4D",
+        "offset": 64
+      },
+      {
+        "name": "m_CollisionAttributeIndices",
+        "type": "uint8_t[24]",
+        "offset": 80
+      }
+    ]
+  },
+  "VertexPositionColor_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "m_vPosition",
+        "type": "Vector4D",
+        "offset": 0
+      }
+    ]
+  },
+  "VertexPositionNormal_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "m_vPosition",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "m_vNormal",
+        "type": "Vector",
+        "offset": 12
+      }
+    ]
+  },
+  "VsInputSignatureElement_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 196,
+    "fields": [
+      {
+        "name": "m_pName",
+        "type": "void*",
+        "offset": 0
+      },
+      {
+        "name": "m_pSemantic",
+        "type": "void*",
+        "offset": 64
+      },
+      {
+        "name": "m_pD3DSemanticName",
+        "type": "void*",
+        "offset": 128
+      },
+      {
+        "name": "m_nD3DSemanticIndex",
+        "type": "int32_t",
+        "offset": 192
+      }
+    ]
+  },
+  "VsInputSignature_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 48,
+    "fields": [
+      {
+        "name": "m_elems",
+        "type": "uint8_t[24]",
+        "offset": 0
+      },
+      {
+        "name": "m_depth_elems",
+        "type": "uint8_t[24]",
+        "offset": 24
+      }
+    ]
+  },
+  "constraint_axislimit_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 16,
+    "fields": [
+      {
+        "name": "flMinRotation",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "flMaxRotation",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "flMotorTargetAngSpeed",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "flMotorMaxTorque",
+        "type": "float",
+        "offset": 12
+      }
+    ]
+  },
+  "constraint_breakableparams_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 24,
+    "fields": [
+      {
+        "name": "strength",
+        "type": "uint32_t",
+        "offset": 0
+      },
+      {
+        "name": "forceLimit",
+        "type": "uint32_t",
+        "offset": 4
+      },
+      {
+        "name": "torqueLimit",
+        "type": "uint32_t",
+        "offset": 8
+      },
+      {
+        "name": "bodyMassScale",
+        "type": "uint64_t",
+        "offset": 12
+      },
+      {
+        "name": "isActive",
+        "type": "uint32_t",
+        "offset": 20
+      }
+    ]
+  },
+  "constraint_hingeparams_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 64,
+    "fields": [
+      {
+        "name": "worldPosition",
+        "type": "Vector",
+        "offset": 0
+      },
+      {
+        "name": "worldAxisDirection",
+        "type": "Vector",
+        "offset": 12
+      },
+      {
+        "name": "hingeAxis",
+        "type": "Vector4D",
+        "offset": 24
+      },
+      {
+        "name": "constraint",
+        "type": "uint8_t[24]",
+        "offset": 40
+      }
+    ]
+  },
+  "vphysics_save_cphysicsbody_t": {
+    "binary": "vphysics2.dll",
+    "base": "RnBodyDesc_t",
+    "size": 232,
+    "fields": [
+      {
+        "name": "m_nOldPointer",
+        "type": "int64_t",
+        "offset": 224
+      }
+    ]
+  },
+  "vphysics_save_ragdoll_control_t": {
+    "binary": "vphysics2.dll",
+    "base": null,
+    "size": 56,
+    "fields": [
+      {
+        "name": "m_flMinSpringFrequency",
+        "type": "float",
+        "offset": 0
+      },
+      {
+        "name": "m_flMaxSpringFrequency",
+        "type": "float",
+        "offset": 4
+      },
+      {
+        "name": "m_flMaxStretch",
+        "type": "float",
+        "offset": 8
+      },
+      {
+        "name": "m_bSolidCollisionAtZeroWeight",
+        "type": "bool",
+        "offset": 12
+      },
+      {
+        "name": "m_bRequiresDynamicBodies",
+        "type": "bool",
+        "offset": 13
+      },
+      {
+        "name": "m_bIgnoreTeleport",
+        "type": "bool",
+        "offset": 14
+      },
+      {
+        "name": "m_vLinearVelocityAccumulator",
+        "type": "Vector",
+        "offset": 16
+      },
+      {
+        "name": "m_vAngularVelocityAccumulator",
+        "type": "Vector",
+        "offset": 28
+      },
+      {
+        "name": "m_vForceAccumulator",
+        "type": "Vector",
+        "offset": 40
+      },
+      {
+        "name": "m_nBodyCount",
+        "type": "int32_t",
+        "offset": 52
+      }
+    ]
+  }
+}

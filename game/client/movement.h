@@ -30,6 +30,8 @@ enum MoveButtonBits : uint64_t {
     IN_SPEED        = (1ULL << 16),
     IN_WALK         = (1ULL << 17),
     IN_ZOOM         = (1ULL << 19),
+    IN_FIRST_MOD    = (1ULL << 20),
+    IN_SECOND_MOD   = (1ULL << 21),
     IN_BULLRUSH     = (1ULL << 22),
     IN_GRENADE1     = (1ULL << 23),
     IN_GRENADE2     = (1ULL << 24),
