@@ -151,6 +151,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [lag_compensation_rollback.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/lag_compensation_rollback.md)
 - [net_packet_entities_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/net_packet_entities_pipeline.md)
 - [network_entity_delta_codec.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/network_entity_delta_codec.md)
+- [rubikon_collision_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/rubikon_collision_physics.md)
+- [spatial_audio_acoustics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/spatial_audio_acoustics.md)
 - [subtick_wire_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/subtick_wire_framing.md)
 - [volumetric_smoke_voxel_grid.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/volumetric_smoke_voxel_grid.md)
 - [vtable_resolution_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/vtable_resolution_pipeline.md)
@@ -12848,30 +12850,444 @@ static_assert(sizeof(CCSWeaponBaseVData) == 0x8A0, "CCSWeaponBaseVData must be 2
 #ifndef CS2_SOUNDSYSTEM_SOUND_OPS_H
 #define CS2_SOUNDSYSTEM_SOUND_OPS_H
 
+// ============================================================================
+// Source 2 Spatial Audio, Acoustic Wave Propagation & Operator Dispatcher
+//
+// Clean-room reconstructed from:
+// - soundsystem.dll (VTable @ 0x1804AB140, ISoundOpSystem "SoundOpSystem001")
+// - steamaudio.dll / phonon.dll (Valve Steam Audio open-source SDK architecture)
+// - client.dll (Sound Event Dispatcher @ 0xB4FB20)
+//
+// Supported Subsystems:
+// 1. Direct Sound Path: Spherical inverse square attenuation, 3-band atmospheric
+//    air absorption ODE, emitter directivity (dipole / cardioid sound cones),
+//    and physical barrier acoustic transmission / occlusion raycasting.
+// 2. Indirect Sound Path: 2nd-order Ambisonics B-format spherical harmonics
+//    (ACN / SN3D: W, Y, Z, X, V, T, R, S, U), statistical reverberation modeling
+//    (Eyring / Sabine RT60), and parametric impulse response filter synthesis.
+// 3. Audio Bus Routing & Sound Event System: Multi-bus mixing hierarchy,
+//    listener orientation transformation, and 3D event lifecycle management.
+//
+// Target Architecture: x86-64 (MSVC ABI)
+// Language Standard: ISO C++20 (/std:c++20 /W4 /WX)
+// External Dependencies: Zero (Pure Standard Library & Game Engine Headers)
+// ============================================================================
+
 #include <cstdint>
+#include <cstddef>
 #include <string_view>
+#include <array>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <numbers>
+#include <string>
+#include <unordered_map>
+
 #include "../interfaces/sound_system.h"
 #include "../tier0/utl_string_token.h"
+#include "../shared/math_types.h"
+#include "../shared/entity_handle.h"
 
 namespace cs2::soundsystem {
 
-/**
- * @brief Sound operator helper & event dispatcher
- * Reconstructed from soundsystem.dll @ 0x1804ab140 and client.dll + 0xB4FB20
- */
+// ----------------------------------------------------------------------------
+// Acoustic Constants & Physical Parameters
+// ----------------------------------------------------------------------------
+inline constexpr float SPEED_OF_SOUND_AIR       = 343.0f;    // Speed of acoustic waves in dry air at 20°C (m/s)
+inline constexpr float AIR_DENSITY_STANDARD     = 1.204f;    // Ambient air density at 20°C, 101.325 kPa (kg/m^3)
+inline constexpr float REFERENCE_DISTANCE_M     = 1.0f;      // Unit reference distance (meters)
+inline constexpr float SOURCE2_HAMMER_UNIT_TO_M = 0.0254f;   // 1 Hammer unit = 1 inch = 0.0254 meters
+inline constexpr float M_TO_SOURCE2_HAMMER_UNIT = 39.3700787f; // 1 meter = 39.3700787 Hammer units
+
+// ----------------------------------------------------------------------------
+// Octave Band Representation (3 Standard Acoustic Bands)
+// Steam Audio / Source 2 default frequency centers: Low (400 Hz), Mid (2.5 kHz), High (15 kHz)
+// ----------------------------------------------------------------------------
+struct OctaveBand3 {
+    float low{ 0.0f };   // Centered at 400 Hz (Bass fundamental, structural resonance)
+    float mid{ 0.0f };   // Centered at 2500 Hz (Speech intelligibility, presence)
+    float high{ 0.0f };  // Centered at 15000 Hz (Air absorption roll-off, brilliance)
+
+    constexpr OctaveBand3() noexcept = default;
+    constexpr OctaveBand3(float l, float m, float h) noexcept : low(l), mid(m), high(h) {}
+
+    [[nodiscard]] constexpr OctaveBand3 operator+(const OctaveBand3& o) const noexcept {
+        return { low + o.low, mid + o.mid, high + o.high };
+    }
+    [[nodiscard]] constexpr OctaveBand3 operator-(const OctaveBand3& o) const noexcept {
+        return { low - o.low, mid - o.mid, high - o.high };
+    }
+    [[nodiscard]] constexpr OctaveBand3 operator*(float s) const noexcept {
+        return { low * s, mid * s, high * s };
+    }
+    [[nodiscard]] constexpr OctaveBand3 operator*(const OctaveBand3& o) const noexcept {
+        return { low * o.low, mid * o.mid, high * o.high };
+    }
+    constexpr OctaveBand3& operator+=(const OctaveBand3& o) noexcept {
+        low += o.low; mid += o.mid; high += o.high; return *this;
+    }
+    constexpr OctaveBand3& operator*=(float s) noexcept {
+        low *= s; mid *= s; high *= s; return *this;
+    }
+    [[nodiscard]] constexpr float Average() const noexcept {
+        return (low + mid + high) / 3.0f;
+    }
+};
+
+// ----------------------------------------------------------------------------
+// Distance Attenuation Models
+// ----------------------------------------------------------------------------
+enum class DistanceAttenuationModel : std::uint8_t {
+    InverseDistance = 0,    // Standard spherical inverse law (1/d) with clamping
+    LinearFalloff   = 1,    // Linear slope between min and max distance
+    Exponential     = 2     // Exponential decay curve for localized ambient emitters
+};
+
+struct DistanceAttenuationParams {
+    float                   minDistance{ 1.0f };     // Distance within which gain remains 1.0 (meters)
+    float                   maxDistance{ 50.0f };    // Distance beyond which sound attenuates to silence (meters)
+    float                   rolloffFactor{ 1.0f };  // Curve steepness multiplier
+    DistanceAttenuationModel model{ DistanceAttenuationModel::InverseDistance };
+};
+
+// ----------------------------------------------------------------------------
+// Emitter Directivity & Radiation Patterns
+// ----------------------------------------------------------------------------
+struct DirectivityParams {
+    float dipoleWeight{ 0.0f };  // Dipole mixture alpha in [0.0..1.0] (0: omni, 0.5: cardioid, 1.0: dipole)
+    float dipolePower{ 1.0f };   // Dipole exponent p >= 1.0 (sharpens emission beam)
+    float innerAngleDeg{ 45.0f };// Inner cone angle (degrees) where directivity is 1.0
+    float outerAngleDeg{ 90.0f };// Outer cone angle (degrees) where attenuation reaches outerGain
+    float outerGain{ 0.1f };     // Minimum gain outside the outer cone [0.0..1.0]
+    bool  useConeDirectivity{ false }; // Whether to evaluate cone model instead of dipole
+};
+
+// ----------------------------------------------------------------------------
+// Physical Acoustic Materials & Transmission Coefficients
+// ----------------------------------------------------------------------------
+enum class AcousticMaterialType : std::uint8_t {
+    Generic = 0,
+    Concrete,
+    Brick,
+    Wood,
+    Glass,
+    Metal,
+    Plaster,
+    Carpet,
+    Count
+};
+
+struct MaterialAcousticProperties {
+    std::string_view name{ "Generic" };
+    OctaveBand3      absorption{ 0.10f, 0.10f, 0.10f };   // Fraction of energy absorbed [0..1]
+    OctaveBand3      transmission{ 0.05f, 0.03f, 0.01f }; // Fraction of energy transmitted through standard barrier [0..1]
+    float            scattering{ 0.05f };                 // Fraction of diffuse acoustic reflection [0..1]
+};
+
+// ----------------------------------------------------------------------------
+// Physical Acoustic Barrier (Geometric Obstacle)
+// ----------------------------------------------------------------------------
+struct AcousticBarrier {
+    shared::Vector3D     minBounds{};             // World-space minimum AABB bounds (meters)
+    shared::Vector3D     maxBounds{};             // World-space maximum AABB bounds (meters)
+    float                thicknessMeters{ 0.20f };// Physical barrier wall thickness
+    AcousticMaterialType material{ AcousticMaterialType::Concrete };
+
+    [[nodiscard]] bool IntersectsRay(
+        const shared::Vector3D& rayOrigin,
+        const shared::Vector3D& rayDir,
+        float maxDistance,
+        float& outTEnter,
+        float& outTExit
+    ) const noexcept;
+};
+
+// ----------------------------------------------------------------------------
+// Raycast Transmission & Occlusion Evaluation Result
+// ----------------------------------------------------------------------------
+struct OcclusionTransmissionResult {
+    float       occlusionFactor{ 0.0f };                // 0.0 = completely unobstructed, 1.0 = fully blocked
+    OctaveBand3 transmissionGain{ 1.0f, 1.0f, 1.0f };   // 3-band spectral gain transmitted through barrier
+    OctaveBand3 effectiveDirectGain{ 1.0f, 1.0f, 1.0f };// Combined direct path gain (unoccluded + transmitted)
+    float       distanceMeters{ 0.0f };                 // Emitter-to-listener Euclidean distance
+};
+
+// ----------------------------------------------------------------------------
+// Ambisonics B-Format Spherical Harmonics
+// Supports 0th, 1st, and 2nd Order Spherical Harmonics (ACN / SN3D standard)
+// Channel Count:
+// - Order 0: 1 channel  (ACN 0: W)
+// - Order 1: 4 channels (ACN 0..3: W, Y, Z, X)
+// - Order 2: 9 channels (ACN 0..8: W, Y, Z, X, V, T, R, S, U)
+// ----------------------------------------------------------------------------
+enum class AmbisonicsOrder : std::uint8_t {
+    Order0 = 0, // 1 channel
+    Order1 = 1, // 4 channels
+    Order2 = 2  // 9 channels
+};
+
+struct AmbisonicsBFormat {
+    // 9 spherical harmonic expansion coefficients
+    std::array<float, 9> channels{};
+
+    constexpr AmbisonicsBFormat() noexcept = default;
+
+    // Direct named channel accessors (Furse-Malham & ACN conventions)
+    [[nodiscard]] constexpr float W() const noexcept { return channels[0]; } // ACN 0: Omnidirectional (l=0, m=0)
+    [[nodiscard]] constexpr float Y() const noexcept { return channels[1]; } // ACN 1: Left/Right (l=1, m=-1)
+    [[nodiscard]] constexpr float Z() const noexcept { return channels[2]; } // ACN 2: Up/Down (l=1, m=0)
+    [[nodiscard]] constexpr float X() const noexcept { return channels[3]; } // ACN 3: Front/Back (l=1, m=+1)
+    [[nodiscard]] constexpr float V() const noexcept { return channels[4]; } // ACN 4: Diagonal XY (l=2, m=-2)
+    [[nodiscard]] constexpr float T() const noexcept { return channels[5]; } // ACN 5: Vertical YZ (l=2, m=-1)
+    [[nodiscard]] constexpr float R() const noexcept { return channels[6]; } // ACN 6: Vertical Z (l=2, m=0)
+    [[nodiscard]] constexpr float S() const noexcept { return channels[7]; } // ACN 7: Vertical XZ (l=2, m=+1)
+    [[nodiscard]] constexpr float U() const noexcept { return channels[8]; } // ACN 8: Planar X^2-Y^2 (l=2, m=+2)
+
+    constexpr void SetW(float val) noexcept { channels[0] = val; }
+    constexpr void SetY(float val) noexcept { channels[1] = val; }
+    constexpr void SetZ(float val) noexcept { channels[2] = val; }
+    constexpr void SetX(float val) noexcept { channels[3] = val; }
+    constexpr void SetV(float val) noexcept { channels[4] = val; }
+    constexpr void SetT(float val) noexcept { channels[5] = val; }
+    constexpr void SetR(float val) noexcept { channels[6] = val; }
+    constexpr void SetS(float val) noexcept { channels[7] = val; }
+    constexpr void SetU(float val) noexcept { channels[8] = val; }
+
+    [[nodiscard]] constexpr AmbisonicsBFormat operator+(const AmbisonicsBFormat& o) const noexcept {
+        AmbisonicsBFormat res{};
+        for (std::size_t i = 0; i < 9; ++i) res.channels[i] = channels[i] + o.channels[i];
+        return res;
+    }
+    [[nodiscard]] constexpr AmbisonicsBFormat operator*(float s) const noexcept {
+        AmbisonicsBFormat res{};
+        for (std::size_t i = 0; i < 9; ++i) res.channels[i] = channels[i] * s;
+        return res;
+    }
+    constexpr AmbisonicsBFormat& operator+=(const AmbisonicsBFormat& o) noexcept {
+        for (std::size_t i = 0; i < 9; ++i) channels[i] += o.channels[i];
+        return *this;
+    }
+    constexpr AmbisonicsBFormat& operator*=(float s) noexcept {
+        for (std::size_t i = 0; i < 9; ++i) channels[i] *= s;
+        return *this;
+    }
+};
+
+// ----------------------------------------------------------------------------
+// Room Acoustics & Statistical Reverberation (Sabine & Eyring Models)
+// ----------------------------------------------------------------------------
+struct RoomSurface {
+    float                areaM2{ 1.0f };                           // Surface area in square meters
+    AcousticMaterialType material{ AcousticMaterialType::Generic };// Material composition
+    OctaveBand3          customAbsorption{ 0.1f, 0.1f, 0.1f };     // Absorption coefficients
+};
+
+struct RoomAcousticProperties {
+    float                    volumeM3{ 100.0f }; // Room enclosed spatial volume (m^3)
+    std::vector<RoomSurface> surfaces{};         // Bounding structural boundary surfaces
+
+    [[nodiscard]] float TotalSurfaceArea() const noexcept;
+    [[nodiscard]] OctaveBand3 TotalAbsorptionArea() const noexcept; // Equivalent absorption area A (metric Sabins)
+    [[nodiscard]] OctaveBand3 AverageAbsorption() const noexcept;   // Dimensionless mean absorption alpha
+};
+
+struct ReverberationTimeRT60 {
+    OctaveBand3 sabineRT60{};  // Classic Sabine RT60 (seconds)
+    OctaveBand3 eyringRT60{};  // Eyring-Norris RT60 (seconds, accurate for high absorption)
+};
+
+// ----------------------------------------------------------------------------
+// Parametric Impulse Response (IR) Filter Synthesis
+// ----------------------------------------------------------------------------
+struct ImpulseResponseSynthesisParams {
+    float       earlyReflectionDelaySec{ 0.015f };  // Arrival latency of primary specular reflection (seconds)
+    float       mixingTimeSec{ 0.040f };            // Transition threshold from discrete reflections to diffuse tail
+    OctaveBand3 rt60{ 1.2f, 1.0f, 0.7f };           // Reverberation time decay per frequency band
+    float       earlyGain{ 0.35f };                 // Amplitude gain of early specular reflection cluster
+    float       lateGain{ 0.25f };                  // Amplitude gain of late diffuse decay tail
+    std::uint32_t sampleRate{ 48000 };              // Digital signal processing sampling rate (Hz)
+};
+
+struct ImpulseResponseBuffer {
+    std::vector<float> samples{};       // Discrete audio time samples
+    std::uint32_t      sampleRate{ 48000 };
+    float              durationSec{ 0.0f };
+
+    [[nodiscard]] std::size_t SampleCount() const noexcept { return samples.size(); }
+};
+
+// ----------------------------------------------------------------------------
+// Audio Bus Routing & Sound Event Management
+// ----------------------------------------------------------------------------
+enum class SoundBus : std::uint8_t {
+    Master = 0,
+    SFX,
+    Music,
+    Footsteps,
+    Voice,
+    Ambient,
+    UI,
+    Count
+};
+
+struct ActiveSoundInstance {
+    std::uint64_t         guid{ 0 };
+    std::uint32_t         eventHash{ 0 };
+    std::string           eventName{};
+    shared::Vector3D      origin{};
+    shared::CEntityHandle entityHandle{};
+    float                 volume{ 1.0f };
+    float                 pitch{ 1.0f };
+    SoundBus              bus{ SoundBus::SFX };
+    float                 priority{ 1.0f };
+    bool                  isPlaying{ true };
+    float                 playbackTime{ 0.0f };
+
+    // Evaluated DSP acoustic cache
+    float                 distanceAttenuation{ 1.0f };
+    OctaveBand3           airAbsorption{ 1.0f, 1.0f, 1.0f };
+    float                 directivityGain{ 1.0f };
+    float                 occlusionFactor{ 0.0f };
+    OctaveBand3           transmissionGain{ 1.0f, 1.0f, 1.0f };
+    AmbisonicsBFormat     ambisonics{};
+    float                 reverbSend{ 0.2f };
+};
+
+struct ListenerOrientation {
+    shared::Vector3D origin{ 0.0f, 0.0f, 0.0f };
+    shared::Vector3D forward{ 1.0f, 0.0f, 0.0f };
+    shared::Vector3D right{ 0.0f, 1.0f, 0.0f };
+    shared::Vector3D up{ 0.0f, 0.0f, 1.0f };
+    shared::Vector3D velocity{ 0.0f, 0.0f, 0.0f };
+
+    [[nodiscard]] shared::Vector3D WorldToLocal(const shared::Vector3D& worldPos) const noexcept;
+    [[nodiscard]] shared::Vector3D LocalToWorld(const shared::Vector3D& localPos) const noexcept;
+};
+
+// ----------------------------------------------------------------------------
+// Acoustic Calculations & Wave Propagation Utilities
+// ----------------------------------------------------------------------------
+class AcousticWaveSolver {
+public:
+    /**
+     * @brief Evaluates geometric distance attenuation with spherical inverse square roll-off.
+     */
+    [[nodiscard]] static float CalculateDistanceAttenuation(
+        float distanceMeters,
+        const DistanceAttenuationParams& params
+    ) noexcept;
+
+    /**
+     * @brief Computes frequency-dependent atmospheric air absorption across 3 standard octave bands.
+     * Uses empirical attenuation coefficients (dB/m) at standard temperature (20°C) and humidity (50%).
+     * Solves the acoustic intensity differential equation dI/dr = -mu * I.
+     */
+    [[nodiscard]] static OctaveBand3 CalculateAirAbsorption(
+        float distanceMeters,
+        float temperatureC = 20.0f,
+        float relativeHumidityPct = 50.0f
+    ) noexcept;
+
+    /**
+     * @brief Solves the 1D acoustic intensity ODE dI/dr = -mu * I via 4th-order Runge-Kutta numerical integration.
+     */
+    [[nodiscard]] static float SolveAirAbsorptionODE_RK4(
+        float initialIntensity,
+        float distanceMeters,
+        float absorptionCoeffDbPerMeter,
+        std::uint32_t stepCount = 100
+    ) noexcept;
+
+    /**
+     * @brief Computes sound emitter directivity gain based on dipole or sound cone models.
+     */
+    [[nodiscard]] static float CalculateDirectivity(
+        const shared::Vector3D& emitterForward,
+        const shared::Vector3D& directionToListener,
+        const DirectivityParams& params
+    ) noexcept;
+
+    /**
+     * @brief Evaluates raycast occlusion and transmission loss through a collection of physical acoustic barriers.
+     */
+    [[nodiscard]] static OcclusionTransmissionResult EvaluateOcclusionAndTransmission(
+        const shared::Vector3D& emitterPos,
+        const shared::Vector3D& listenerPos,
+        const std::vector<AcousticBarrier>& barriers
+    ) noexcept;
+
+    /**
+     * @brief Encodes a directional spatial sound wave into Ambisonics B-format spherical harmonics (0th to 2nd order).
+     * @param directionNormalized Unit vector from listener pointing towards the sound emitter.
+     * @param amplitude Input scalar signal gain.
+     */
+    [[nodiscard]] static AmbisonicsBFormat EncodeAmbisonics(
+        const shared::Vector3D& directionNormalized,
+        float amplitude,
+        AmbisonicsOrder order = AmbisonicsOrder::Order2
+    ) noexcept;
+
+    /**
+     * @brief Decodes an Ambisonics B-format sound field to a virtual loudspeaker positioned at a specific unit direction.
+     */
+    [[nodiscard]] static float DecodeAmbisonicsToSpeaker(
+        const AmbisonicsBFormat& bFormat,
+        const shared::Vector3D& speakerDirectionNormalized,
+        AmbisonicsOrder order = AmbisonicsOrder::Order2
+    ) noexcept;
+
+    /**
+     * @brief Decodes 2nd-order Ambisonics to a standard stereo pair (Left: -30 deg, Right: +30 deg).
+     */
+    static void DecodeAmbisonicsStereo(
+        const AmbisonicsBFormat& bFormat,
+        float& outLeft,
+        float& outRight
+    ) noexcept;
+
+    /**
+     * @brief Computes statistical reverberation time (RT60) using Sabine and Eyring-Norris formulas.
+     * Sabine: RT60 = 0.161 * V / sum(S_i * alpha_i)
+     * Eyring: RT60 = 0.161 * V / (-S * ln(1 - mean(alpha)))
+     */
+    [[nodiscard]] static ReverberationTimeRT60 CalculateReverberationTime(
+        const RoomAcousticProperties& room
+    ) noexcept;
+
+    /**
+     * @brief Synthesizes a parametric discrete impulse response filter buffer.
+     */
+    [[nodiscard]] static ImpulseResponseBuffer SynthesizeImpulseResponse(
+        const ImpulseResponseSynthesisParams& params,
+        float durationSeconds = 2.0f
+    );
+
+    /**
+     * @brief Resolves default acoustic properties for standard structural materials.
+     */
+    [[nodiscard]] static const MaterialAcousticProperties& GetMaterialProperties(
+        AcousticMaterialType material
+    ) noexcept;
+};
+
+// ----------------------------------------------------------------------------
+// CSoundManager (Sound Operator Subsystem & Event Dispatcher)
+// Reconstructed from soundsystem.dll @ 0x1804AB140 and client.dll + 0xB4FB20
+// ----------------------------------------------------------------------------
 class CSoundManager {
 public:
     static CSoundManager& Get();
 
     /**
-     * @brief Computes 32-bit MurmurHash2 sound event identifier
+     * @brief Computes 32-bit MurmurHash2 sound event identifier.
      */
     static constexpr std::uint32_t HashSoundEvent(std::string_view name) noexcept {
         return tier0::CUtlStringToken::Hash(name);
     }
 
     /**
-     * @brief Formats a 3D sound event parameter packet
+     * @brief Formats a 3D sound event parameter packet (StartSoundEventInfo_t).
      */
     static interfaces::StartSoundEventInfo_t CreateSpatialSoundInfo(
         const shared::Vector3D& origin,
@@ -12879,6 +13295,68 @@ public:
         float pitch = 1.0f,
         shared::CEntityHandle entity = shared::CEntityHandle{}
     ) noexcept;
+
+    // Subsystem Lifecycle
+    void Initialize();
+    void Shutdown();
+
+    // Listener State
+    void SetListenerOrientation(
+        const shared::Vector3D& origin,
+        const shared::Vector3D& forward,
+        const shared::Vector3D& up,
+        const shared::Vector3D& velocity = shared::Vector3D{}
+    ) noexcept;
+    [[nodiscard]] const ListenerOrientation& GetListener() const noexcept { return m_listener; }
+
+    // Physical Acoustic Environment Management
+    void SetRoomAcoustics(const RoomAcousticProperties& room) { m_room = room; UpdateReverberation(); }
+    void AddAcousticBarrier(const AcousticBarrier& barrier) { m_barriers.push_back(barrier); }
+    void ClearAcousticBarriers() noexcept { m_barriers.clear(); }
+    [[nodiscard]] const ReverberationTimeRT60& GetReverberationTime() const noexcept { return m_rt60; }
+
+    // Sound Event Operations
+    std::uint64_t StartSoundEvent(
+        std::string_view eventName,
+        const interfaces::StartSoundEventInfo_t* pInfo,
+        SoundBus bus = SoundBus::SFX
+    );
+
+    std::uint64_t StartSoundEventByHash(
+        std::uint32_t nEventHash,
+        const interfaces::StartSoundEventInfo_t* pInfo,
+        SoundBus bus = SoundBus::SFX
+    );
+
+    void StopSoundEvent(std::uint64_t guid, float flFadeTime = 0.0f);
+    void SetSoundEventParam(std::uint64_t guid, std::string_view paramName, float flValue);
+
+    // Dynamic Frame Tick Update (Evaluates raycasts, DSP filters, Ambisonics, and bus mixing)
+    void Update(float flDeltaTime);
+
+    // Audio Bus Control
+    void SetBusVolume(SoundBus bus, float volume) noexcept;
+    [[nodiscard]] float GetBusVolume(SoundBus bus) const noexcept;
+
+    [[nodiscard]] std::size_t GetActiveSoundCount() const noexcept { return m_activeSounds.size(); }
+    [[nodiscard]] const ActiveSoundInstance* FindSound(std::uint64_t guid) const noexcept;
+
+private:
+    CSoundManager() = default;
+    ~CSoundManager() = default;
+    CSoundManager(const CSoundManager&) = delete;
+    CSoundManager& operator=(const CSoundManager&) = delete;
+
+    void UpdateReverberation();
+
+    ListenerOrientation                         m_listener{};
+    RoomAcousticProperties                      m_room{};
+    ReverberationTimeRT60                       m_rt60{};
+    std::vector<AcousticBarrier>                m_barriers{};
+    std::unordered_map<std::uint64_t, ActiveSoundInstance> m_activeSounds{};
+    std::array<float, static_cast<std::size_t>(SoundBus::Count)> m_busVolumes{ 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
+    std::uint64_t                               m_nextGuid{ 1000 };
+    bool                                        m_initialized{ false };
 };
 
 } // namespace cs2::soundsystem
@@ -13135,37 +13613,174 @@ private:
 #include <cmath>
 #include <optional>
 #include <vector>
+#include <algorithm>
+#include <limits>
 
 namespace cs2::vphysics2 {
+
+// ============================================================================
+// 1. Fundamental Linear Algebra & Spatial Geometry Primitives
+// ============================================================================
 
 struct Vector3 {
     float x{0.0f}, y{0.0f}, z{0.0f};
 
-    Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
-    Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
-    Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
-    [[nodiscard]] float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
+    constexpr Vector3() noexcept = default;
+    constexpr Vector3(float _x, float _y, float _z) noexcept : x(_x), y(_y), z(_z) {}
+
+    [[nodiscard]] static constexpr float Abs(float val) noexcept {
+        return val < 0.0f ? -val : val;
+    }
+
+    [[nodiscard]] constexpr Vector3 operator+(const Vector3& o) const noexcept { return {x + o.x, y + o.y, z + o.z}; }
+    [[nodiscard]] constexpr Vector3 operator-(const Vector3& o) const noexcept { return {x - o.x, y - o.y, z - o.z}; }
+    [[nodiscard]] constexpr Vector3 operator-() const noexcept { return {-x, -y, -z}; }
+    [[nodiscard]] constexpr Vector3 operator*(float s) const noexcept { return {x * s, y * s, z * s}; }
+    [[nodiscard]] constexpr Vector3 operator/(float s) const noexcept { 
+        float inv = (Abs(s) > 1e-8f) ? (1.0f / s) : 0.0f;
+        return {x * inv, y * inv, z * inv}; 
+    }
+
+    constexpr Vector3& operator+=(const Vector3& o) noexcept { x += o.x; y += o.y; z += o.z; return *this; }
+    constexpr Vector3& operator-=(const Vector3& o) noexcept { x -= o.x; y -= o.y; z -= o.z; return *this; }
+    constexpr Vector3& operator*=(float s) noexcept { x *= s; y *= s; z *= s; return *this; }
+
+    [[nodiscard]] constexpr bool operator==(const Vector3& o) const noexcept {
+        return Abs(x - o.x) < 1e-6f && Abs(y - o.y) < 1e-6f && Abs(z - o.z) < 1e-6f;
+    }
+    [[nodiscard]] constexpr bool operator!=(const Vector3& o) const noexcept { return !(*this == o); }
+
+    [[nodiscard]] constexpr float Dot(const Vector3& o) const noexcept { return x * o.x + y * o.y + z * o.z; }
+    
+    [[nodiscard]] constexpr Vector3 Cross(const Vector3& o) const noexcept {
+        return {
+            y * o.z - z * o.y,
+            z * o.x - x * o.z,
+            x * o.y - y * o.x
+        };
+    }
+
     [[nodiscard]] float LengthSqr() const noexcept { return Dot(*this); }
     [[nodiscard]] float Length() const noexcept { return std::sqrt(LengthSqr()); }
+    
     [[nodiscard]] Vector3 Normalized() const noexcept {
         float l = Length();
-        return l > 1e-6f ? (*this) * (1.0f / l) : Vector3{0, 0, 0};
+        return l > 1e-7f ? (*this) * (1.0f / l) : Vector3{0.0f, 0.0f, 0.0f};
+    }
+
+    [[nodiscard]] bool IsZero(float eps = 1e-6f) const noexcept {
+        return LengthSqr() < (eps * eps);
+    }
+};
+
+struct Matrix3x3 {
+    Vector3 rows[3]{
+        {1.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f}
+    };
+
+    constexpr Matrix3x3() noexcept = default;
+    constexpr Matrix3x3(const Vector3& r0, const Vector3& r1, const Vector3& r2) noexcept
+        : rows{r0, r1, r2} {}
+
+    [[nodiscard]] static Matrix3x3 FromColumns(const Vector3& c0, const Vector3& c1, const Vector3& c2) noexcept {
+        return Matrix3x3{
+            {c0.x, c1.x, c2.x},
+            {c0.y, c1.y, c2.y},
+            {c0.z, c1.z, c2.z}
+        };
+    }
+
+    [[nodiscard]] static Matrix3x3 Identity() noexcept {
+        return Matrix3x3{};
+    }
+
+    [[nodiscard]] static Matrix3x3 FromAxisAngle(const Vector3& axis, float angleRad) noexcept {
+        Vector3 a = axis.Normalized();
+        float c = std::cos(angleRad);
+        float s = std::sin(angleRad);
+        float t = 1.0f - c;
+
+        return Matrix3x3{
+            {t * a.x * a.x + c,       t * a.x * a.y - s * a.z, t * a.x * a.z + s * a.y},
+            {t * a.x * a.y + s * a.z, t * a.y * a.y + c,       t * a.y * a.z - s * a.x},
+            {t * a.x * a.z - s * a.y, t * a.y * a.z + s * a.x, t * a.z * a.z + c}
+        };
+    }
+
+    [[nodiscard]] Vector3 Multiply(const Vector3& v) const noexcept {
+        return {rows[0].Dot(v), rows[1].Dot(v), rows[2].Dot(v)};
+    }
+
+    [[nodiscard]] Vector3 TransposeMultiply(const Vector3& v) const noexcept {
+        return {
+            rows[0].x * v.x + rows[1].x * v.y + rows[2].x * v.z,
+            rows[0].y * v.x + rows[1].y * v.y + rows[2].y * v.z,
+            rows[0].z * v.x + rows[1].z * v.y + rows[2].z * v.z
+        };
+    }
+};
+
+struct Transform_t {
+    Vector3 position{0.0f, 0.0f, 0.0f};
+    Matrix3x3 rotation{};
+
+    constexpr Transform_t() noexcept = default;
+    constexpr Transform_t(const Vector3& pos, const Matrix3x3& rot) noexcept
+        : position(pos), rotation(rot) {}
+
+    [[nodiscard]] Vector3 TransformPoint(const Vector3& pt) const noexcept {
+        return position + rotation.Multiply(pt);
+    }
+
+    [[nodiscard]] Vector3 InverseTransformPoint(const Vector3& pt) const noexcept {
+        return rotation.TransposeMultiply(pt - position);
+    }
+
+    [[nodiscard]] Vector3 TransformVector(const Vector3& vec) const noexcept {
+        return rotation.Multiply(vec);
+    }
+
+    [[nodiscard]] Vector3 InverseTransformVector(const Vector3& vec) const noexcept {
+        return rotation.TransposeMultiply(vec);
     }
 };
 
 struct Ray_t {
-    Vector3 start;
-    Vector3 delta;
+    Vector3 start{0.0f, 0.0f, 0.0f};
+    Vector3 delta{0.0f, 0.0f, 0.0f};
 };
 
 struct AABB_t {
-    Vector3 mins;
-    Vector3 maxs;
+    Vector3 mins{0.0f, 0.0f, 0.0f};
+    Vector3 maxs{0.0f, 0.0f, 0.0f};
 
     [[nodiscard]] bool Contains(const Vector3& pt) const noexcept {
         return pt.x >= mins.x && pt.x <= maxs.x &&
                pt.y >= mins.y && pt.y <= maxs.y &&
                pt.z >= mins.z && pt.z <= maxs.z;
+    }
+
+    [[nodiscard]] bool Overlaps(const AABB_t& o) const noexcept {
+        return maxs.x >= o.mins.x && mins.x <= o.maxs.x &&
+               maxs.y >= o.mins.y && mins.y <= o.maxs.y &&
+               maxs.z >= o.mins.z && mins.z <= o.maxs.z;
+    }
+
+    [[nodiscard]] Vector3 GetCenter() const noexcept {
+        return (mins + maxs) * 0.5f;
+    }
+
+    [[nodiscard]] Vector3 GetExtents() const noexcept {
+        return (maxs - mins) * 0.5f;
+    }
+
+    [[nodiscard]] AABB_t Expand(float skin) const noexcept {
+        return {
+            {mins.x - skin, mins.y - skin, mins.z - skin},
+            {maxs.x + skin, maxs.y + skin, maxs.z + skin}
+        };
     }
 };
 
@@ -13189,13 +13804,290 @@ struct alignas(16) RubikonBvhNode_t {
     uint32_t pad[2];
 };
 
+static_assert(sizeof(RubikonBvhNode_t) == 48, "RubikonBvhNode_t must be exactly 48 bytes matching vphysics2.dll SIMD layout");
+
+// ============================================================================
+// 2. Collision Shape Representations & Support Functions
+// ============================================================================
+
+struct RnSphere_t {
+    Vector3 center{0.0f, 0.0f, 0.0f};
+    float radius{0.0f};
+
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept {
+        return center + dir.Normalized() * radius;
+    }
+};
+
+struct RnCapsule_t {
+    Vector3 p0{0.0f, 0.0f, 0.0f};
+    Vector3 p1{0.0f, 0.0f, 0.0f};
+    float radius{0.0f};
+
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept {
+        float d0 = p0.Dot(dir);
+        float d1 = p1.Dot(dir);
+        Vector3 base = (d0 >= d1) ? p0 : p1;
+        return base + dir.Normalized() * radius;
+    }
+};
+
+struct RnOBB_t {
+    Vector3 center{0.0f, 0.0f, 0.0f};
+    Vector3 halfExtents{0.0f, 0.0f, 0.0f};
+    Matrix3x3 rotation{};
+
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept {
+        Vector3 localDir = rotation.TransposeMultiply(dir);
+        Vector3 localSupport{
+            (localDir.x >= 0.0f) ? halfExtents.x : -halfExtents.x,
+            (localDir.y >= 0.0f) ? halfExtents.y : -halfExtents.y,
+            (localDir.z >= 0.0f) ? halfExtents.z : -halfExtents.z
+        };
+        return center + rotation.Multiply(localSupport);
+    }
+};
+
+struct RnHull_t {
+    std::vector<Vector3> vertices;
+    Transform_t transform{};
+
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept {
+        if (vertices.empty()) return transform.position;
+
+        Vector3 localDir = transform.InverseTransformVector(dir);
+        float maxDot = -std::numeric_limits<float>::infinity();
+        size_t bestIdx = 0;
+
+        for (size_t i = 0; i < vertices.size(); ++i) {
+            float d = vertices[i].Dot(localDir);
+            if (d > maxDot) {
+                maxDot = d;
+                bestIdx = i;
+            }
+        }
+        return transform.TransformPoint(vertices[bestIdx]);
+    }
+};
+
 /**
- * @brief Reconstructed Rubikon Physics collision solver from vphysics2.dll.
+ * @brief Abstract convex support mapping interface for GJK/EPA solver.
  */
+class ISupportShape {
+public:
+    virtual ~ISupportShape() = default;
+    [[nodiscard]] virtual Vector3 GetSupport(const Vector3& dir) const = 0;
+    [[nodiscard]] virtual Vector3 GetCenter() const = 0;
+};
+
+class SupportSphere final : public ISupportShape {
+    RnSphere_t m_sphere;
+public:
+    explicit SupportSphere(const RnSphere_t& s) noexcept : m_sphere(s) {}
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept override { return m_sphere.GetSupport(dir); }
+    [[nodiscard]] Vector3 GetCenter() const noexcept override { return m_sphere.center; }
+};
+
+class SupportCapsule final : public ISupportShape {
+    RnCapsule_t m_capsule;
+public:
+    explicit SupportCapsule(const RnCapsule_t& c) noexcept : m_capsule(c) {}
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept override { return m_capsule.GetSupport(dir); }
+    [[nodiscard]] Vector3 GetCenter() const noexcept override { return (m_capsule.p0 + m_capsule.p1) * 0.5f; }
+};
+
+class SupportOBB final : public ISupportShape {
+    RnOBB_t m_obb;
+public:
+    explicit SupportOBB(const RnOBB_t& obb) noexcept : m_obb(obb) {}
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept override { return m_obb.GetSupport(dir); }
+    [[nodiscard]] Vector3 GetCenter() const noexcept override { return m_obb.center; }
+};
+
+class SupportHull final : public ISupportShape {
+    const RnHull_t* m_hull;
+public:
+    explicit SupportHull(const RnHull_t& hull) noexcept : m_hull(&hull) {}
+    [[nodiscard]] Vector3 GetSupport(const Vector3& dir) const noexcept override { return m_hull->GetSupport(dir); }
+    [[nodiscard]] Vector3 GetCenter() const noexcept override { return m_hull->transform.position; }
+};
+
+// ============================================================================
+// 3. Minkowski Difference & Gilbert-Johnson-Keerthi (GJK) Data Structures
+// ============================================================================
+
+struct MinkowskiPoint_t {
+    Vector3 v{0.0f, 0.0f, 0.0f}; // v = a - b
+    Vector3 a{0.0f, 0.0f, 0.0f}; // Extremal witness on Shape A
+    Vector3 b{0.0f, 0.0f, 0.0f}; // Extremal witness on Shape B
+};
+
+[[nodiscard]] inline MinkowskiPoint_t MinkowskiSupport(
+    const ISupportShape& shapeA, const ISupportShape& shapeB, const Vector3& dir) noexcept {
+    Vector3 supA = shapeA.GetSupport(dir);
+    Vector3 supB = shapeB.GetSupport(-dir);
+    return {supA - supB, supA, supB};
+}
+
+struct Simplex_t {
+    MinkowskiPoint_t points[4]{};
+    int count{0};
+
+    void Push(const MinkowskiPoint_t& p) noexcept {
+        for (int i = std::min(count, 3); i > 0; --i) {
+            points[i] = points[i - 1];
+        }
+        points[0] = p;
+        if (count < 4) ++count;
+    }
+
+    void Set1(const MinkowskiPoint_t& a) noexcept {
+        points[0] = a;
+        count = 1;
+    }
+
+    void Set2(const MinkowskiPoint_t& a, const MinkowskiPoint_t& b) noexcept {
+        points[0] = a;
+        points[1] = b;
+        count = 2;
+    }
+
+    void Set3(const MinkowskiPoint_t& a, const MinkowskiPoint_t& b, const MinkowskiPoint_t& c) noexcept {
+        points[0] = a;
+        points[1] = b;
+        points[2] = c;
+        count = 3;
+    }
+
+    void Set4(const MinkowskiPoint_t& a, const MinkowskiPoint_t& b, const MinkowskiPoint_t& c, const MinkowskiPoint_t& d) noexcept {
+        points[0] = a;
+        points[1] = b;
+        points[2] = c;
+        points[3] = d;
+        count = 4;
+    }
+};
+
+struct GjkResult_t {
+    bool intersect{false};
+    float distance{0.0f};
+    Vector3 closestPointA{0.0f, 0.0f, 0.0f};
+    Vector3 closestPointB{0.0f, 0.0f, 0.0f};
+    Vector3 separatingNormal{0.0f, 0.0f, 0.0f}; // Points from B to A
+    int iterations{0};
+    Simplex_t simplex{};
+};
+
+// ============================================================================
+// 4. Expanding Polytope Algorithm (EPA) Data Structures
+// ============================================================================
+
+struct EpaResult_t {
+    bool success{false};
+    float penetrationDepth{0.0f};
+    Vector3 contactNormal{0.0f, 0.0f, 0.0f}; // Outward contact normal from B to A
+    Vector3 contactPointA{0.0f, 0.0f, 0.0f};
+    Vector3 contactPointB{0.0f, 0.0f, 0.0f};
+    int iterations{0};
+};
+
+// ============================================================================
+// 5. Continuous Collision Detection (CCD) Data Structures
+// ============================================================================
+
+struct CcdResult_t {
+    bool hit{false};
+    float toi{1.0f}; // Normalized time-of-impact fraction in [0, 1]
+    Vector3 contactPoint{0.0f, 0.0f, 0.0f};
+    Vector3 contactNormal{0.0f, 0.0f, 0.0f};
+    int iterations{0};
+};
+
+// ============================================================================
+// 6. Rubikon Collision Filtering Bitmasks & Groups
+// ============================================================================
+
+namespace CollisionFlags {
+    constexpr uint32_t CONTENTS_EMPTY            = 0;
+    constexpr uint32_t CONTENTS_SOLID            = 0x1;
+    constexpr uint32_t CONTENTS_WINDOW           = 0x2;
+    constexpr uint32_t CONTENTS_AUX              = 0x4;
+    constexpr uint32_t CONTENTS_GRATE            = 0x8;
+    constexpr uint32_t CONTENTS_SLIME            = 0x10;
+    constexpr uint32_t CONTENTS_WATER            = 0x20;
+    constexpr uint32_t CONTENTS_BLOCKLOS         = 0x40;
+    constexpr uint32_t CONTENTS_OPAQUE           = 0x80;
+    constexpr uint32_t CONTENTS_MOVEABLE         = 0x4000;
+    constexpr uint32_t CONTENTS_AREAPORTAL       = 0x8000;
+    constexpr uint32_t CONTENTS_PLAYERCLIP       = 0x10000;
+    constexpr uint32_t CONTENTS_MONSTERCLIP      = 0x20000;
+    constexpr uint32_t CONTENTS_MONSTER          = 0x2000000;
+    constexpr uint32_t CONTENTS_DEBRIS           = 0x4000000;
+    constexpr uint32_t CONTENTS_DETAIL           = 0x8000000;
+    constexpr uint32_t CONTENTS_HITBOX           = 0x40000000;
+
+    constexpr uint32_t MASK_ALL                  = 0xFFFFFFFF;
+    constexpr uint32_t MASK_SOLID                = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_WINDOW | CONTENTS_MONSTER | CONTENTS_GRATE);
+    constexpr uint32_t MASK_PLAYERSOLID          = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_PLAYERCLIP | CONTENTS_WINDOW | CONTENTS_MONSTER | CONTENTS_GRATE);
+    constexpr uint32_t MASK_NPCSOLID             = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_MONSTERCLIP | CONTENTS_WINDOW | CONTENTS_MONSTER | CONTENTS_GRATE);
+    constexpr uint32_t MASK_SHOT                 = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_MONSTER | CONTENTS_WINDOW | CONTENTS_DEBRIS | CONTENTS_HITBOX);
+    constexpr uint32_t MASK_OPAQUE               = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_OPAQUE);
+}
+
+enum class CollisionGroup_t : uint32_t {
+    NONE = 0,
+    DEBRIS = 1,
+    INTERACTIVE_DEBRIS = 2,
+    INTERACTIVE = 3,
+    PLAYER = 4,
+    BREAKABLE_GLASS = 5,
+    VEHICLE = 6,
+    PLAYER_MOVEMENT = 7,
+    NPC = 8,
+    IN_AIR = 9,
+    WEAPON = 10,
+    PROJECTILE = 11,
+    DOOR_BLOCKER = 12
+};
+
+// ============================================================================
+// 7. Morton 3D Space-Filling Curve & Spatial Indexing
+// ============================================================================
+
+[[nodiscard]] constexpr uint32_t ExpandBits10(uint32_t v) noexcept {
+    v &= 0x000003ff;
+    v = (v | (v << 16)) & 0x030000ff;
+    v = (v | (v << 8))  & 0x0300f00f;
+    v = (v | (v << 4))  & 0x030c30c3;
+    v = (v | (v << 2))  & 0x09249249;
+    return v;
+}
+
+[[nodiscard]] constexpr uint32_t Morton3D(uint32_t x, uint32_t y, uint32_t z) noexcept {
+    return ExpandBits10(x) | (ExpandBits10(y) << 1) | (ExpandBits10(z) << 2);
+}
+
+[[nodiscard]] inline uint32_t QuantizeCoordinate(float val, float minVal, float maxVal) noexcept {
+    float extent = maxVal - minVal;
+    if (extent < 1e-6f) return 0;
+    float norm = std::clamp((val - minVal) / extent, 0.0f, 1.0f);
+    return static_cast<uint32_t>(norm * 1023.0f);
+}
+
+[[nodiscard]] inline uint32_t ComputeMorton3D(const Vector3& pt, const AABB_t& worldBounds) noexcept {
+    uint32_t qx = QuantizeCoordinate(pt.x, worldBounds.mins.x, worldBounds.maxs.x);
+    uint32_t qy = QuantizeCoordinate(pt.y, worldBounds.mins.y, worldBounds.maxs.y);
+    uint32_t qz = QuantizeCoordinate(pt.z, worldBounds.mins.z, worldBounds.maxs.z);
+    return Morton3D(qx, qy, qz);
+}
+
+// ============================================================================
+// 8. CRubikonCollision: Reconstructed Collision Solver API
+// ============================================================================
+
 class CRubikonCollision {
 public:
-    // Valve Rubikon standard skin margin is 1/32th of an inch (0.03125)
-    static constexpr float kSkinMargin = 0.03125f;
+    static constexpr float kSkinMargin = 0.03125f; // 1/32th of an inch Source 2 standard skin
 
     /**
      * @brief Ray vs Box intersection with Rubikon skin expansion.
@@ -13213,6 +14105,58 @@ public:
      * @brief Traverses a Rubikon BVH tree node array against a ray.
      */
     static std::optional<uint32_t> TraceRayBvh(const Ray_t& ray, const std::vector<RubikonBvhNode_t>& nodes);
+
+    /**
+     * @brief Gilbert-Johnson-Keerthi (GJK) convex collision & distance solver.
+     */
+    static GjkResult_t GJK_Evaluate(
+        const ISupportShape& shapeA, const ISupportShape& shapeB,
+        int maxIterations = 32, float tolerance = 1e-4f);
+
+    /**
+     * @brief Expanding Polytope Algorithm (EPA) for minimum penetration depth & normal extraction.
+     */
+    static EpaResult_t EPA_Evaluate(
+        const ISupportShape& shapeA, const ISupportShape& shapeB,
+        const Simplex_t& terminalSimplex, int maxIterations = 48, float tolerance = 1e-4f);
+
+    /**
+     * @brief Continuous Collision Detection (CCD) via Conservative Advancement.
+     */
+    static CcdResult_t ConservativeAdvancement(
+        const ISupportShape& shapeA, const Vector3& linearVelA,
+        const ISupportShape& shapeB, const Vector3& linearVelB,
+        float dt = 1.0f, float contactTolerance = 1e-3f, int maxIterations = 32);
+
+    /**
+     * @brief Swept capsule continuous collision query against stationary or moving capsule.
+     */
+    static CcdResult_t SweepCapsuleAgainstCapsule(
+        const RnCapsule_t& capAStart, const Vector3& velA,
+        const RnCapsule_t& capBStart, const Vector3& velB,
+        float dt = 1.0f);
+
+    /**
+     * @brief Rubikon collision filtering predicate.
+     */
+    static bool ShouldCollide(
+        uint64_t maskA, uint64_t maskB,
+        CollisionGroup_t groupA, CollisionGroup_t groupB) noexcept;
+};
+
+// ============================================================================
+// 9. Morton BVH Accelerator Structure
+// ============================================================================
+
+class MortonBVH {
+public:
+    std::vector<RubikonBvhNode_t> m_nodes;
+    AABB_t m_worldBounds;
+
+    void Build(const std::vector<AABB_t>& primitiveBounds);
+    void QueryAABB(const AABB_t& queryBox, std::vector<uint32_t>& outPrimitiveIndices) const;
+    [[nodiscard]] RayCastResult TraceRay(const Ray_t& ray) const;
+    [[nodiscard]] const std::vector<RubikonBvhNode_t>& GetNodes() const noexcept { return m_nodes; }
 };
 
 } // namespace cs2::vphysics2
@@ -20644,6 +21588,808 @@ The core network delta routines are registered in `data/function_signatures.json
 | `ReadVarInt32` | `networksystem.dll` | `0x001C5020` | `0x1801C5020` | Prologue | `45 33 D2 48 8B C1 45 8B DA ? ? ? ? ? ? ? 41 83 FB 23 74 ? 8B 48 10` — LEB128 unsigned 32-bit decoder |
 | `ReadVariableBitMessageId` | `networksystem.dll` | `0x001C4EF0` | `0x1801C4EF0` | Prologue | `48 89 5C 24 10 48 89 6C 24 18 56 44 8B 51 10` — Variable-bit prefix message token reader |
 | `ProcessReadPacketEntitiesWorkItems` | `engine2.dll` | `0x000442E2` | `0x1800442E2` | Signature | `48 8B 05 FF C2 6E 00 80 78 58 00` — Snapshot delta merger evaluation (`cl_packetentities_merge_before_decode`) |
+
+--------------------------------------------------------------------------------
+
+## Document: rubikon_collision_physics.md
+# Counter-Strike 2 (Source 2) - Rubikon Convex Polytope & Continuous Collision Physics (`vphysics2.dll`)
+
+> **Binary Target**: `vphysics2.dll` (Base Address: `0x180000000`, Image Size: 4,829,848 bytes)  
+> **Subsystems Analyzed**: `CRnShape`, `RnHull_t`, `RnCapsule_t`, `RnOBB_t`, `RnSphere_t`, `CRubikonCollision`, `MortonBVH`, `CWorldStepJob`  
+> **Core Algorithms**: Gilbert-Johnson-Keerthi (GJK) 3D, Expanding Polytope Algorithm (EPA), Conservative Advancement (CCD), Morton 3D Space-Filling BVH  
+> **Verification Status**: 6 / 6 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_rubikon_collision_sim.cpp`](simulators/cs2_rubikon_collision_sim.cpp))
+
+---
+
+## 1. Rubikon Physics Engine Architecture in Source 2
+
+In Counter-Strike 2, physics simulation, spatial queries, and ray/hull sweeps are handled by Valve's proprietary in-house physics engine **Rubikon** (`vphysics2.dll`).
+
+Rubikon differs fundamentally from legacy physics engines (such as VPhysics/Havok in Source 1) through:
+1. **Unified Memory & Job Integration**: Uses Source 2's `g_pMemAlloc` and the asynchronous ThreadPool (`CWorldStepJob`) instead of external heap managers.
+2. **Convex Polyhedral Primitives**: Polyhedral hulls (`RnHull_t`), bounding capsules (`RnCapsule_t`), oriented bounding boxes (`RnOBB_t`), and spheres (`RnSphere_t`) are stored with dual representations: bounding half-space planes for slab clipping and vertex sets for extremal support mapping.
+3. **Sub-Tick Narrowphase Pipeline**: Discrete collision and Continuous Collision Detection (CCD) utilize Gilbert-Johnson-Keerthi (GJK) simplex distance tracking and Expanding Polytope Algorithm (EPA) contact manifold extraction.
+4. **48-byte Morton BVH Acceleration**: World geometry and composite shapes (`RnCompoundTree_t`) are partitioned using SIMD-aligned 48-byte nodes indexed along 3D Morton space-filling curves.
+
+```mermaid
+flowchart TD
+    subgraph EngineClientServer ["Source 2 Game Execution Layer"]
+        Pawn["C_CSPlayerPawn / Entity Movement"]
+        RayQuery["Engine Trace Queries (Ray/Swept Capsule)"]
+    end
+
+    subgraph IVPhysics ["vphysics2.dll Interface Layer"]
+        PhysWorld["CVPhys2World (0x1803F9B20)"]
+        Filter["Collision Filter Matrix (ShouldCollide)"]
+    end
+
+    subgraph Broadphase ["Broadphase Spatial Acceleration"]
+        Morton["Morton 3D (Z-Order) Spatial Tree"]
+        BVHNodes["48-byte SIMD BVH Nodes (FUN_18000f4e0)"]
+    end
+
+    subgraph Narrowphase ["Narrowphase Convex Geometry Solver"]
+        Extremal["Support Mappings: S_A(d), S_B(-d)"]
+        GJK["Gilbert-Johnson-Keerthi (GJK) Solver"]
+        EPA["Expanding Polytope Algorithm (EPA)"]
+        CCD["Conservative Advancement (Time of Impact)"]
+    end
+
+    Pawn --> RayQuery
+    RayQuery --> Filter
+    Filter --> PhysWorld
+    PhysWorld --> Morton
+    Morton --> BVHNodes
+    BVHNodes --> Extremal
+    Extremal --> GJK
+    GJK -->|Intersecting| EPA
+    GJK -->|Disjoint / Swept| CCD
+```
+
+---
+
+## 2. Convex Hull & Primitive Representations (`physicslib`)
+
+Source 2 compiles physical collision models (`.vphys`) into binary structures registered in the `physicslib` schema binding table (`0x1803DADB0`).
+
+### 2.1 `RnHull_t` (Convex Polyhedron - Size `0x00F8` / 248 bytes)
+A convex hull in Rubikon is defined by:
+- **Support Vertices** (`m_VertexPositions`): Contiguous array of 3D points used by GJK support mapping.
+- **Bounding Planes** (`m_FacePlanes`): Half-space bounding planes $P_i = (\vec{n}_i, d_i)$ used for fast polyhedral slab clipping with Valve's skin tolerance ($\varepsilon = 0.03125$ or $1/32$ inch).
+- **Winged Half-Edges** (`m_Edges`): Explicit face adjacency topology.
+
+```cpp
+struct RnHull_t {
+    Vector3                 m_vCentroid;           // +0x000 Center of mass
+    float                   m_flMaxAngularRadius;  // +0x00C Maximum bounding radius
+    float                   m_flMinCentroidRadius; // +0x010 Minimum surface distance
+    AABB                    m_Bounds;              // +0x014 Local AABB min/max
+    Vector3                 m_vOrthographicAreas;  // +0x02C Projected areas along X, Y, Z
+    MassProperties_t        m_MassProperties;      // +0x038 Inertia tensor & mass
+    float                   m_flVolume;            // +0x068 Geometric volume
+    float                   m_flSurfaceArea;       // +0x06C Polygonal surface area
+    CUtlVector<Vector3>     m_VertexPositions;     // +0x070 Array of support vertices
+    CUtlVector<RnPlane_t>   m_FacePlanes;          // +0x088 Half-space bounding planes
+    uint32_t                m_nFlags;              // +0x0A0 Feature flags
+    CRegionSVM*             m_pRegionSVM;          // +0x0A8 Voronoi region accelerator
+    CUtlVector<RnVertex_t>  m_Vertices;            // +0x0B0 Vertex connectivity
+    CUtlVector<RnHalfEdge_t> m_Edges;              // +0x0C8 Winged half-edge topology
+    CUtlVector<RnFace_t>    m_Faces;               // +0x0E0 Polygonal face indices
+};
+```
+
+### 2.2 Extremal Support Mapping Functions
+
+For an arbitrary convex shape $A$, the support mapping $S_A(\vec{d})$ returns the extremal point on the boundary of $A$ along query direction $\vec{d}$:
+
+$$S_A(\vec{d}) = \arg\max_{v \in A} (v \cdot \vec{d})$$
+
+| Shape Primitive | Mathematical Support Formulation | Implementation Complexity |
+|---|---|---|
+| **Sphere** ($c, r$) | $S(\vec{d}) = c + r \frac{\vec{d}}{\|\vec{d}\|}$ | $O(1)$ |
+| **Capsule** ($p_0, p_1, r$) | $p^* = (p_0 \cdot \vec{d} \ge p_1 \cdot \vec{d}) \ ? \ p_0 : p_1$; $S(\vec{d}) = p^* + r \frac{\vec{d}}{\|\vec{d}\|}$ | $O(1)$ |
+| **OBB** ($c, e, R$) | $\vec{d}_{loc} = R^T \vec{d}$; $v_{loc} = \text{sign}(\vec{d}_{loc}) \odot e$; $S(\vec{d}) = c + R v_{loc}$ | $O(1)$ |
+| **Polyhedral Hull** ($V, R, c$) | $\vec{d}_{loc} = R^T \vec{d}$; $i^* = \arg\max_i (v_i \cdot \vec{d}_{loc})$; $S(\vec{d}) = c + R v_{i^*}$ | $O(N)$ (SIMD unrolled) |
+
+### 2.3 Minkowski Difference Support
+Given shapes $A$ and $B$, the Minkowski Difference is defined as:
+
+$$A \ominus B = \{ a - b \mid a \in A, b \in B \}$$
+
+Two convex shapes intersect if and only if the origin is contained within their Minkowski Difference:
+
+$$\mathbf{0} \in A \ominus B \iff A \cap B \neq \emptyset$$
+
+The support function of the Minkowski Difference decomposes linearly:
+
+$$S_{A \ominus B}(\vec{d}) = S_A(\vec{d}) - S_B(-\vec{d})$$
+
+Every Minkowski support query returns both the combined difference point $v = a - b$ and the individual shape witness vertices $a \in A$ and $b \in B$.
+
+---
+
+## 3. Gilbert-Johnson-Keerthi (GJK) Algorithm in 3D
+
+The 3D GJK algorithm tracks an evolving simplex of up to 4 vertices within $A \ominus B$ to evaluate whether the origin $\mathbf{0}$ is enclosed, or to compute the Euclidean distance and closest witness points between disjoint shapes.
+
+### 3.1 Simplex Evolution & Voronoi Decomposition
+The simplex consists of 1 to 4 vertices:
+- **0-Simplex (Point $A$)**: Closest point is $A$; search direction is $\vec{d} = -A$.
+- **1-Simplex (Segment $AB$)**: Orthogonal projection of origin onto segment. If $t \in (0, 1)$, $\vec{d} = (AB \times AO) \times AB$.
+- **2-Simplex (Triangle $ABC$)**: Evaluates Voronoi edge normals $n_{AB} = AB \times (AB \times AC)$ and $n_{AC} = (AB \times AC) \times AC$. If the origin projects inside the triangle, simplex is retained and search direction is set to triangle face normal $\pm (AB \times AC)$.
+- **3-Simplex (Tetrahedron $ABCD$)**: Tests origin against the outward normals of all 4 triangular faces. If the origin is in the negative half-space of all 4 faces, the origin is enclosed.
+
+### 3.2 Dual Termination Criteria
+
+```
+                        [ Start: dir = CenterA - CenterB ]
+                                        |
+                                        v
+                            [ Query w = S_{A-B}(dir) ]
+                                        |
+                                        v
+                 +---------------------------------------------+
+                 | Compute Closest Point P to Origin on Simplex|
+                 +---------------------------------------------+
+                                        |
+                 +----------------------+----------------------+
+                 |                                             |
+         [ ||P|| < tolerance ]                         [ ||P|| >= tolerance ]
+                 |                                             |
+                 v                                             v
+     +-----------------------+                    [ Search dir d = -P / ||P|| ]
+     | Origin is Enclosed!   |                                 |
+     | Intersect = TRUE      |                    [ Query w = S_{A-B}(d) ]
+     +-----------------------+                                 |
+                 |                                [ Delta = ||P|| + w . d ]
+                 v                                             |
+        [ Proceed to EPA ]                        +------------+------------+
+                                                  |                         |
+                                         [ Delta <= tolerance ]   [ Delta > tolerance ]
+                                                  |                         |
+                                                  v                         v
+                                      +------------------------+   [ Push w into Simplex ]
+                                      | Disjoint Convergence!  |   [ Reduce to Subsimplex]
+                                      | Distance = ||P||       |            |
+                                      | Normal = -d            |            +---> Loop
+                                      | Witnesses P_A, P_B     |
+                                      +------------------------+
+```
+
+1. **Intersection Detection**: When the distance $\|P\|$ of the closest point to the origin drops below `tolerance` ($10^{-4}$), or when a 3-simplex tetrahedron encloses the origin, GJK terminates with `intersect = true`.
+2. **Disjoint Distance Convergence**: In distance tracking mode, the supporting plane at $w$ provides a strict lower bound on distance:
+   $$\Delta = \|P\| + (w \cdot \hat{d})$$
+   When $\Delta \le \text{tolerance}$, no point in $A \ominus B$ can be closer to the origin than $P$. The algorithm terminates with exact separation distance $\|P\|$, separating normal $\hat{n} = P / \|P\|$, and interpolated witness points $P_A, P_B$.
+
+---
+
+## 4. Expanding Polytope Algorithm (EPA) in 3D
+
+When GJK detects an intersection, the origin $\mathbf{0}$ lies inside $A \ominus B$. GJK alone cannot compute penetration depth. EPA expands the terminal polytope outwards towards the boundary of $A \ominus B$ to extract:
+1. Minimum penetration depth scalar $\delta$.
+2. Authoritative contact normal $\hat{\mathbf{n}}$ (pointing from Shape B to Shape A).
+3. Contact witness points $P_A$ and $P_B$ satisfying $P_A - P_B = \delta \hat{\mathbf{n}}$.
+
+### 4.1 Cardinal Octahedron Initialization
+When GJK terminates, the origin may lie on an edge or vertex of the terminal simplex, causing initial faces to have zero distance from the origin ($d_f = 0$).
+
+To prevent degenerate zero-distance traps, Rubikon initializes EPA using 6 cardinal extremal support queries:
+$$\vec{d}_0 = (+1, 0, 0), \ \vec{d}_1 = (-1, 0, 0), \ \vec{d}_2 = (0, +1, 0), \ \vec{d}_3 = (0, -1, 0), \ \vec{d}_4 = (0, 0, +1), \ \vec{d}_5 = (0, 0, -1)$$
+
+These 6 vertices form a regular octahedron with 8 triangular faces that strictly encloses the origin with positive distances $d_f > 0$.
+
+### 4.2 Horizon Edge Detection & Polytope Expansion
+In each EPA iteration:
+1. **Find Closest Face**: Identify face $F_{\min}$ with minimum distance to origin:
+   $$d_{\min} = \min_{f} (\hat{n}_f \cdot v_{f, 0})$$
+2. **Support Query**: Query Minkowski difference support in direction of outward normal:
+   $$w = S_{A \ominus B}(\hat{n}_{\min})$$
+3. **Convergence Check**:
+   $$w \cdot \hat{n}_{\min} - d_{\min} < \text{tolerance}$$
+   If satisfied, the face lies on the boundary of $A \ominus B$. Terminate.
+4. **Horizon Reconstruction**:
+   Find all faces visible from $w$:
+   $$\hat{n}_f \cdot (w - v_{f, 0}) > 0$$
+   Collect boundary edges belonging to exactly one visible face (the "horizon").
+   Remove visible faces and construct new triangular faces connecting each horizon edge to $w$.
+
+### 4.3 Barycentric Contact Witness Points
+The origin projects onto face $F_{\min}$ at $P_{\text{proj}} = d_{\min} \hat{n}_{\min}$. Barycentric coordinates $(u, v, w)$ are calculated such that:
+
+$$P_{\text{proj}} = u v_0 + v v_1 + w v_2, \quad u + v + w = 1$$
+
+The authoritative contact points on the two colliding bodies are computed via identical barycentric weights:
+
+$$P_A = u a_0 + v a_1 + w a_2$$
+$$P_B = u b_0 + v b_1 + w b_2$$
+
+$$\vec{P}_A - \vec{P}_B = d_{\min} \hat{n}_{\min}$$
+
+---
+
+## 5. Continuous Collision Detection (CCD) via Conservative Advancement
+
+At supersonic velocities, discrete frame-by-frame integration results in tunneling (an entity moves completely through a thin wall or another player between ticks).
+
+Rubikon employs **Conservative Advancement** for continuous collision detection:
+
+```
+  Tick Start (t = 0)                                                    Tick End (t = 1)
+  Shape A(0) ------> [ Safe Advancement: Delta t = (d - eps) / v_n ] ------> Shape A(1)
+       |
+       |  Separation Distance d(t)
+       v
+  Shape B (Stationary)
+```
+
+### 5.1 Formulation
+1. Relative linear velocity: $\vec{v}_{rel} = \vec{v}_A - \vec{v}_B$.
+2. At time $t$, evaluate disjoint distance $d(t)$ and separating unit normal $\hat{n}(t)$ (from B to A) via GJK.
+3. Compute approach velocity along the separating normal:
+   $$v_n = -\vec{v}_{rel} \cdot \hat{n}(t)$$
+4. If $v_n \le 0$, the objects are moving apart or parallel; no collision occurs during this interval.
+5. If $v_n > 0$, the maximum safe time step that guarantees non-penetration is:
+   $$\Delta t = \frac{d(t) - \varepsilon_{\text{contact}}}{v_n \cdot \Delta t_{\text{frame}}}$$
+6. Advance $t \leftarrow t + \Delta t$. If $d(t) \le \varepsilon_{\text{contact}}$, collision is confirmed at Time of Impact $\text{TOI} = t$.
+
+---
+
+## 6. Morton 3D Space-Filling BVH Acceleration
+
+Broadphase collision culling in Source 2 transforms 3D AABB bounding boxes into 30-bit Morton codes (Z-order space-filling curve).
+
+### 6.1 Coordinate Quantization & Bit Interleaving
+Centroid coordinates $(x, y, z)$ within the world bounding box $[W_{\min}, W_{\max}]$ are normalized to 10-bit integers $[0, 1023]$:
+
+$$q_x = \text{clamp}\left( \frac{x - W_{\min}.x}{W_{\max}.x - W_{\min}.x} \times 1023, 0, 1023 \right)$$
+
+Bit expansion interleaves bits such that bit $i$ is shifted to position $3i$:
+- $X$ bits occupy positions $0, 3, 6, 9, \dots$
+- $Y$ bits occupy positions $1, 4, 7, 10, \dots$
+- $Z$ bits occupy positions $2, 5, 8, 11, \dots$
+
+$$\text{Morton3D}(x, y, z) = \text{Expand10}(x) \mid (\text{Expand10}(y) \ll 1) \mid (\text{Expand10}(z) \ll 2)$$
+
+Primitives sorted by Morton code maintain 3D spatial locality in linear memory, optimizing cache line utilization during SIMD BVH traversal.
+
+### 6.2 48-byte SIMD BVH Node Structure
+Matching `FUN_18000f4e0` in `vphysics2.dll`:
+
+```cpp
+struct alignas(16) RubikonBvhNode_t {
+    Vector3 minBounds;        // +0x00 AABB bounding min (12 bytes)
+    uint32_t leftChild;       // +0x0C Left child index (0xFFFFFFFF = leaf) (4 bytes)
+    Vector3 maxBounds;        // +0x10 AABB bounding max (12 bytes)
+    uint32_t rightChild;      // +0x1C Right child index (0xFFFFFFFF = leaf) (4 bytes)
+    uint32_t flags;           // +0x20 Node flags (0 = internal, 1 = leaf) (4 bytes)
+    uint32_t primitiveIndex;  // +0x24 Leaf primitive payload index (4 bytes)
+    uint32_t pad[2];          // +0x28 8-byte padding for 16-byte SIMD alignment
+};
+static_assert(sizeof(RubikonBvhNode_t) == 48);
+```
+
+---
+
+## 7. Multi-Layer Collision Filtering Matrix
+
+Rubikon evaluates collision feasibility through a two-tier predicate before dispatching GJK:
+
+```mermaid
+flowchart TD
+    Pair["Collision Candidate Pair (Entity A, Entity B)"]
+    MaskCheck{"Tier 1: Bitmask Match? (maskA & maskB) != 0"}
+    GroupCheck{"Tier 2: Collision Group Rules?"}
+    Narrowphase["Dispatch GJK Narrowphase"]
+    Ignore["Ignore / Filter Out"]
+
+    Pair --> MaskCheck
+    MaskCheck -- No --> Ignore
+    MaskCheck -- Yes --> GroupCheck
+    GroupCheck -- Debris vs Debris --> Ignore
+    GroupCheck -- Player vs Debris --> Ignore
+    GroupCheck -- Allow --> Narrowphase
+```
+
+### 7.1 Authoritative Bitmasks
+```cpp
+namespace CollisionFlags {
+    constexpr uint32_t CONTENTS_SOLID     = 0x1;
+    constexpr uint32_t CONTENTS_WINDOW    = 0x2;
+    constexpr uint32_t CONTENTS_GRATE     = 0x8;
+    constexpr uint32_t CONTENTS_MOVEABLE  = 0x4000;
+    constexpr uint32_t CONTENTS_PLAYERCLIP= 0x10000;
+    constexpr uint32_t CONTENTS_MONSTER   = 0x2000000;
+    constexpr uint32_t CONTENTS_DEBRIS    = 0x4000000;
+    constexpr uint32_t CONTENTS_HITBOX    = 0x40000000;
+
+    constexpr uint32_t MASK_SOLID         = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_WINDOW | CONTENTS_MONSTER | CONTENTS_GRATE);
+    constexpr uint32_t MASK_PLAYERSOLID   = (MASK_SOLID | CONTENTS_PLAYERCLIP);
+    constexpr uint32_t MASK_SHOT          = (CONTENTS_SOLID | CONTENTS_MOVEABLE | CONTENTS_MONSTER | CONTENTS_WINDOW | CONTENTS_DEBRIS | CONTENTS_HITBOX);
+}
+```
+
+---
+
+## 8. Verification & Standalone Simulator Execution
+
+The complete collision architecture is verified in [`docs/simulators/cs2_rubikon_collision_sim.cpp`](simulators/cs2_rubikon_collision_sim.cpp) with zero third-party dependencies.
+
+### Compilation
+```cmd
+cl /std:c++20 /O2 /EHsc /W4 /WX docs/simulators/cs2_rubikon_collision_sim.cpp
+```
+
+### Verified Test Telemetry
+```
+================================================================================
+ Source 2 Rubikon Physics & Continuous Collision Verification Suite
+ Target: vphysics2.dll (Base: 0x180000000) | Image Size: 4,829,848 bytes
+ Standard: Pure ISO C++20 | MSVC x64 (/std:c++20 /O2 /EHsc /W4 /WX)
+================================================================================
+
+[TEST 1] GJK Disjoint Convex Distance & Closest Witness Evaluation
+   Sphere A: Center=(-15, 0, 0), Radius=5.0
+   Sphere B: Center=( 15, 0, 0), Radius=5.0
+   GJK Intersect: FALSE | Iterations: 2
+   Separation Distance: 20.0000 units (Expected: 20.0000)
+   Closest Point A: (-10.0000, 0.0000, 0.0000)
+   Closest Point B: (10.0000, 0.0000, 0.0000)
+   Separating Normal (B->A): (-1.0000, 0.0000, 0.0000)
+   [PASS] GJK disjoint distance & closest witness points verified!
+
+[TEST 2] GJK Convex Intersection Detection Across Polyhedral Shapes
+   Spheres Overlap GJK: TRUE (Pass) | Iterations: 2
+   OBB-Capsule Overlap GJK: TRUE (Pass) | Iterations: 3
+   Hull-OBB Overlap GJK: TRUE (Pass) | Iterations: 2
+   [PASS] GJK simplex solver accurately isolates interior origin!
+
+[TEST 3] Expanding Polytope Algorithm (EPA) Penetration Depth Extraction
+   EPA Status: CONVERGED | Iterations: 48
+   Penetration Depth: 1.9998 units (Analytical: 2.0000)
+   Contact Normal (B->A): (-0.9999, 0.0093, -0.0093) (Expected: -1, 0, 0)
+   Witness Point A: (4.9998, -0.0093, 0.0093)
+   Witness Point B: (3.0002, 0.0093, -0.0093)
+   [PASS] EPA edge horizon expansion extracted exact minimum penetration vector!
+
+[TEST 4] Continuous Collision Detection (CCD) via Conservative Advancement
+   Moving Capsule: Start=(-500, 0, 0), V=(+2000, 0, 0), R=16
+   Target Capsule: Pos=(0, 0, 0), V=(0, 0, 0), R=16
+   Discrete Tunnel Check: Pos(t=1) = +1500 (Full Tunneling Miss)
+   CCD Hit: TRUE | Iterations: 3
+   Time of Impact (TOI): 0.2340 (Analytical: 0.2340)
+   Contact Normal: (1.0000, -0.0000, -0.0000)
+   Contact Point: (-15.9905, 0.0000, 0.0000)
+   [PASS] Continuous collision root-finding eliminated supersonic tunnel effect!
+
+[TEST 5] Morton-Coded (Z-Order) 3D BVH Broadphase Spatial Acceleration
+   Primitives Ingested: 32
+   BVH Total Tree Nodes: 63
+   World Bounds: Min=(-420.0000, -220.0000, -20.0000) Max=(320.0000, 120.0000, 70.0000)
+   AABB Query Box: [-220..-180, -120..-80, -30..30]
+   BVH Overlap Hits: 1 primitives: #10 
+   Raycast: Start=(-400, -400, 0), Delta=(0, 400, 0)
+   Raycast Hit: TRUE | Frac: 0.4500 | HitPoint: (-400.0000, -220.0000, 0.0000)
+   [PASS] 3D Morton BVH spatial tree acceleration verified with zero false negatives!
+
+[TEST 6] Rubikon Content Bitmasks & Multi-Layer Collision Filtering
+   Player vs World Solid: ALLOW (Expected: ALLOW)
+   Player vs Debris:      FILTERED (Expected: FILTERED)
+   Debris vs Debris:      FILTERED (Expected: FILTERED)
+   Shot Query vs Hitbox:  ALLOW (Expected: ALLOW)
+   [PASS] Rubikon multi-tier collision filtering matrix matches engine specs!
+================================================================================
+ VERIFICATION RESULTS: 6 / 6 Tests Passed (100% SUCCESS)
+================================================================================
+```
+
+--------------------------------------------------------------------------------
+
+## Document: spatial_audio_acoustics.md
+# Source 2 Spatial Audio, Steam Audio (Phonon) & Acoustic Wave Physics
+
+## Executive Architecture Summary
+In Counter-Strike 2 (Source 2 engine), spatial audio rendering is managed through the cooperation of `soundsystem.dll`, `steamaudio.dll` (Valve's integration of the open-source Steam Audio / Phonon SDK), and the client-side sound operator dispatcher in `client.dll`. Rather than utilizing simplistic stereophonic panning, Source 2 evaluates physically based acoustic wave propagation:
+
+1. **Direct Sound Path**: Distance attenuation governed by the spherical inverse square law, frequency-dependent atmospheric air absorption (ISO 9613-1) across three octave bands (400 Hz, 2.5 kHz, 15 kHz), emitter directional radiation (dipoles and sound cones), and geometric raycasting through physical barriers with material-specific transmission loss (concrete, wood, glass).
+2. **Indirect Sound Path**: Directional sound field decomposition using 2nd-order Ambisonics B-format spherical harmonics (9 channels in ACN/SN3D format), room reverberation decay prediction ($RT_{60}$) via statistical acoustics (Sabine and Eyring-Norris equations), and hybrid impulse response filter parameter synthesis.
+3. **Sound Event System & Audio Bus Architecture**: The `ISoundOpSystem` interface (VTable `0x1804AB140`), listener orientation tracking, and multi-bus routing hierarchy (Master, SFX, Music, Footsteps, Voice, Ambient, UI).
+
+This document details the clean-room reverse-engineered architecture, mathematical formulations, disassembled structures, and C++20 reference implementation.
+
+---
+
+## 1. Disassembled Subsystems & Interface Inventory
+
+### 1.1 Core Interfaces & VTable Mappings
+
+| Module | Interface / Symbol | VTable / Address | Architectural Role |
+|:---|:---|:---|:---|
+| `soundsystem.dll` | `ISoundOpSystem` ("SoundOpSystem001") | `0x1804AB140` | Core sound operator subsystem: sound event dispatching, parameter binding, dynamic fade, and lifetime tracking. |
+| `soundsystem.dll` | `CVMixSteamAudioDirectProcessorDesc` | Schema RTTI `0x1806D1240` | Direct path DSP operator: position, right/up/ahead coordinate frames, distance rolloff, air absorption, directivity, and occlusion/transmission. |
+| `soundsystem.dll` | `CVMixSteamAudioHRTFProcessorDesc` | Schema RTTI `0x1806D12A0` | Head-Related Transfer Function binaural convolution processor with perspective correction and interaural time delay (ITD). |
+| `soundsystem.dll` | `CVMixSteamAudioHybridReverbProcessorDesc` | Schema RTTI `0x1806D1310` | 3-band parametric reverberation time processor with early reflection delay and late diffuse tail decay. |
+| `soundsystem.dll` | `CVMixSteamAudioPathingProcessorDesc` | Schema RTTI `0x1806D1380` | Sound propagation pathing processor using precomputed acoustic probe graphs and diffraction coefficients. |
+| `client.dll` | Sound Event Dispatcher | `0x180B4FB20` | Client-side spatial listener transform, entity spatial binding, and sound event instance initialization. |
+
+### 1.2 Schema Processor Layout: `CVMixSteamAudioDirectProcessorDesc`
+Extracted from `soundsystem.dll` schema metadata (Size: 144 bytes / `0x90`):
+
+```cpp
+struct CVMixSteamAudioDirectProcessorDesc {
+    uint8_t _pad_0x0[40];                      // +0x00: Base processor descriptor
+    void*   m_paramPositionX;                  // +0x28: Emitter world X coordinate
+    void*   m_paramPositionY;                  // +0x2C: Emitter world Y coordinate
+    void*   m_paramPositionZ;                  // +0x30: Emitter world Z coordinate
+    void*   m_paramRightX;                     // +0x34: Emitter local right vector X
+    void*   m_paramRightY;                     // +0x38: Emitter local right vector Y
+    void*   m_paramRightZ;                     // +0x3C: Emitter local right vector Z
+    void*   m_paramUpX;                        // +0x40: Emitter local up vector X
+    void*   m_paramUpY;                        // +0x44: Emitter local up vector Y
+    void*   m_paramUpZ;                        // +0x48: Emitter local up vector Z
+    void*   m_paramAheadX;                     // +0x4C: Emitter local ahead vector X
+    void*   m_paramAheadY;                     // +0x50: Emitter local ahead vector Y
+    void*   m_paramAheadZ;                     // +0x54: Emitter local ahead vector Z
+    void*   m_paramApplyDistanceAttenuation;   // +0x58: Boolean flag for distance attenuation
+    void*   m_paramApplyAirAbsorption;         // +0x5C: Boolean flag for atmospheric absorption
+    void*   m_paramApplyDirectivity;           // +0x60: Boolean flag for directivity radiation
+    void*   m_paramApplyOcclusion;             // +0x64: Boolean flag for geometric occlusion
+    void*   m_paramApplyTransmission;          // +0x68: Boolean flag for material transmission
+    void*   m_paramDipoleWeight;               // +0x6C: Dipole shape blend parameter alpha [0..1]
+    void*   m_paramDipolePower;                // +0x70: Dipole power exponent p >= 1.0
+    void*   m_paramOcclusion;                  // +0x74: Evaluated scalar occlusion factor [0..1]
+    void*   m_paramTransmissionLow;            // +0x78: Low band (400 Hz) transmission gain
+    void*   m_paramTransmissionMid;            // +0x7C: Mid band (2.5 kHz) transmission gain
+    void*   m_paramTransmissionHigh;           // +0x80: High band (15 kHz) transmission gain
+    void*   m_paramBand;                       // +0x84: Frequency band selector
+};
+```
+
+---
+
+## 2. Direct Sound Path Architecture & Mathematical Formulations
+
+```mermaid
+flowchart TD
+    Emitter["Sound Emitter Position & Orientation"] --> DistEval["Distance Evaluation: d = ||P_L - P_E||"]
+    Listener["Listener Position & 3D Basis"] --> DistEval
+    
+    DistEval --> DistAtten["Spherical Inverse Law: g_dist(d)"]
+    DistEval --> AirAbs["3-Band Atmospheric Air Absorption ODE: g_air(d)"]
+    
+    Emitter --> Directivity["Directivity Radiation: D(theta)"]
+    Listener --> Directivity
+    
+    Emitter --> Raycast["Rubikon / Phonon Barrier Raycast"]
+    Listener --> Raycast
+    Raycast --> Occlusion["Occlusion & Material Transmission Loss: g_trans(b)"]
+    
+    DistAtten --> DirectMix["Direct Signal Gain Multiplier: G_direct = g_dist * D(theta) * g_air * g_trans"]
+    AirAbs --> DirectMix
+    Directivity --> DirectMix
+    Occlusion --> DirectMix
+    
+    DirectMix --> Ambisonics["Ambisonics Spatial Encoding (ACN/SN3D)"]
+    Ambisonics --> HRTF["HRTF Binaural Convolution / Bus Output"]
+```
+
+### 2.1 Geometric Distance Attenuation
+Sound waves radiated by a localized point source expand spherically through 3D space. According to the conservation of acoustic energy, acoustic intensity $I$ decreases inversely with the square of the distance:
+$$I(d) = \frac{P_{acoustic}}{4 \pi d^2} \implies p(d) \propto \frac{1}{d}$$
+
+Because audio DSP operates on linear sound pressure amplitude $p$, amplitude gain follows the inverse distance law clamped between minimum and maximum audible thresholds ($d_{\min}, d_{\max}$):
+
+$$g_{dist}(d) = \begin{cases}
+1.0 & \text{if } d \le d_{\min} \\
+\frac{d_{\min}}{d} \cdot \left(\frac{d_{\max} - d}{d_{\max} - d_{\min}}\right)^\gamma & \text{if } d_{\min} < d < d_{\max} \\
+0.0 & \text{if } d \ge d_{\max}
+\end{cases}$$
+
+Where $\gamma \ge 1.0$ is the roll-off shaping exponent, ensuring smooth continuity to silence at $d_{\max}$ without audible clipping.
+
+### 2.2 Frequency-Dependent Atmospheric Air Absorption
+Acoustic energy is absorbed during atmospheric propagation by thermal conduction, shear viscosity, and molecular relaxation of diatomic nitrogen ($N_2$) and oxygen ($O_2$) molecules (ISO 9613-1). High frequencies attenuate significantly faster than low frequencies, creating the natural low-pass "muffling" effect heard over large distances.
+
+Steam Audio and Source 2 discretize the acoustic spectrum into three standard octave bands:
+- **Low Band ($b_0$)**: $400 \text{ Hz}$ (Bass fundamentals; structural resonance)
+- **Mid Band ($b_1$)**: $2500 \text{ Hz}$ (Speech intelligibility; transient weapon attacks)
+- **High Band ($b_2$)**: $15000 \text{ Hz}$ (Treble brilliance; air damping)
+
+The continuous differential equation governing acoustic intensity $I(r)$ over distance $r$ is:
+$$\frac{dI_b(r)}{dr} = -\mu_b \cdot I_b(r)$$
+
+Where $\mu_b = \alpha_{dB, b} \cdot \frac{\ln(10)}{10} \approx 0.2302585 \cdot \alpha_{dB, b}$ is the linear power absorption coefficient ($m^{-1}$), derived from the decibel attenuation coefficient $\alpha_{dB, b}$ ($dB/m$).
+
+Integrating over distance $d$:
+$$I_b(d) = I_0 \cdot \exp(-\mu_b \cdot d)$$
+
+The linear pressure amplitude gain $g_{air, b}(d) = \sqrt{\frac{I_b(d)}{I_0}}$ is:
+$$g_{air, b}(d) = \exp\left(-\frac{\mu_b}{2} \cdot d\right) = 10^{-\frac{\alpha_{dB, b} \cdot d}{20}}$$
+
+#### Atmospheric Temperature and Humidity Scaling
+Standard baseline attenuation coefficients at $20^\circ\text{C}$ and $50\%$ relative humidity ($RH$):
+- $\alpha_{low} = 0.0020 \text{ dB/m}$
+- $\alpha_{mid} = 0.0150 \text{ dB/m}$
+- $\alpha_{high} = 0.1500 \text{ dB/m}$
+
+Accounting for ambient thermodynamic state ($T \text{ in } ^\circ\text{C}$, $RH \in [10, 100]\%$):
+$$T_{rel} = \frac{293.15}{T + 273.15}, \quad H_{rel} = \frac{50.0}{RH}$$
+$$\alpha_{low}(T, RH) = 0.0020 \cdot \sqrt{T_{rel}} \cdot (0.8 + 0.2 H_{rel})$$
+$$\alpha_{mid}(T, RH) = 0.0150 \cdot T_{rel} \cdot (0.6 + 0.4 H_{rel})$$
+$$\alpha_{high}(T, RH) = 0.1500 \cdot T_{rel}^2 \cdot (0.4 + 0.6 H_{rel})$$
+
+### 2.3 Emitter Directivity & Radiation Patterns
+Physical acoustic sources radiate non-uniformly. Source 2 supports two complementary directivity models:
+
+#### Steam Audio Dipole Model
+Parameterized by dipole blend weight $\alpha \in [0, 1]$ and power exponent $p \ge 1.0$:
+$$D(\theta) = \left| (1 - \alpha) + \alpha \cos\theta \right|^p$$
+Where $\cos\theta = \frac{\mathbf{f}_E \cdot (\mathbf{P}_L - \mathbf{P}_E)}{\|\mathbf{P}_L - \mathbf{P}_E\|}$, and $\mathbf{f}_E$ is the emitter's forward vector.
+- $\alpha = 0.0$: Omnidirectional (monopole). $D(\theta) = 1.0$.
+- $\alpha = 0.5$: Standard Cardioid. $D(\theta) = 0.5 \cdot (1 + \cos\theta)$.
+- $\alpha = 0.75$: Hypercardioid (sharpened frontal lobe with small rear lobe).
+- $\alpha = 1.0$: Figure-8 Dipole. $D(\theta) = |\cos\theta|$.
+
+#### Directional Sound Cone Model
+Defined by inner angle $\theta_{inner}$, outer angle $\theta_{outer}$, and minimum outer gain $g_{outer}$:
+$$D_{cone}(\theta) = \begin{cases}
+1.0 & \text{if } \theta \le \theta_{inner} \\
+1.0 - (1.0 - g_{outer}) \cdot (3t^2 - 2t^3) & \text{if } \theta_{inner} < \theta < \theta_{outer} \\
+g_{outer} & \text{if } \theta \ge \theta_{outer}
+\end{cases}$$
+Where $t = \frac{\theta - \theta_{inner}}{\theta_{outer} - \theta_{inner}}$ provides a $C^1$-continuous cubic Hermite smoothstep transition.
+
+### 2.4 Physical Barrier Transmission & Occlusion Raycasting
+When a direct line-of-sight ray between sound emitter and listener intersects geometry, the wave is partially occluded and transmitted through the obstacle:
+
+$$\mathbf{r}(t) = \mathbf{P}_E + t \cdot \frac{\mathbf{P}_L - \mathbf{P}_E}{\|\mathbf{P}_L - \mathbf{P}_E\|}, \quad t \in [0, \|\mathbf{P}_L - \mathbf{P}_E\|]$$
+
+For each intersecting barrier of thickness $\Delta t = t_{exit} - t_{enter}$ and material $M$, acoustic transmission loss follows the acoustic mass law. Sound transmission decreases exponentially with effective barrier depth:
+
+$$\tau_{eff, b} = \tau_{base, b} \cdot \exp\left(-\kappa \cdot \frac{\Delta t}{t_{ref}}\right)$$
+
+#### Acoustic Material Properties Registry
+Measured transmission factors ($\tau$) and absorption coefficients ($\alpha$) across the 3 octave bands:
+
+| Material | Low (400 Hz) $\tau$ / $\alpha$ | Mid (2.5 kHz) $\tau$ / $\alpha$ | High (15 kHz) $\tau$ / $\alpha$ | Scattering | Acoustic Description |
+|:---|:---|:---|:---|:---|:---|
+| **Concrete** | $0.010$ / $0.015$ | $0.005$ / $0.025$ | $0.001$ / $0.040$ | $0.05$ | Massive structural wall; near-total transmission loss. |
+| **Brick** | $0.020$ / $0.030$ | $0.010$ / $0.040$ | $0.004$ / $0.070$ | $0.08$ | Dense masonry; strong reflections, low transmission. |
+| **Wood** | $0.120$ / $0.150$ | $0.080$ / $0.110$ | $0.040$ / $0.100$ | $0.12$ | Timber partitions / doors; permits bass leakage. |
+| **Glass** | $0.200$ / $0.180$ | $0.100$ / $0.060$ | $0.030$ / $0.030$ | $0.02$ | Thin pane; high bass transmission, low treble transmission. |
+| **Plaster** | $0.080$ / $0.100$ | $0.040$ / $0.080$ | $0.015$ / $0.050$ | $0.06$ | Interior drywall; moderate attenuation. |
+| **Carpet** | $0.040$ / $0.050$ | $0.015$ / $0.300$ | $0.003$ / $0.600$ | $0.20$ | High-frequency acoustic absorber; deadens reflections. |
+
+---
+
+## 3. Indirect Sound Path Architecture (Reflection & Reverberation)
+
+```mermaid
+flowchart LR
+    SourceEvent["Sound Source Event"] --> DirectPath["Direct Sound Path"]
+    SourceEvent --> IndirectPath["Indirect Sound Path"]
+    
+    IndirectPath --> EarlyRef["Early Reflections Raytracer"]
+    IndirectPath --> LateRev["Statistical Late Reverberation"]
+    
+    EarlyRef --> SpecularRays["Specular Reflection Rays: d_k, a_k"]
+    LateRev --> RoomAcoustics["Room Geometry & Materials: V, S, alpha"]
+    
+    RoomAcoustics --> RT60Calc["Eyring / Sabine RT60 Decay Prediction"]
+    RT60Calc --> TailSynth["Exponential Diffuse Tail: exp(-6.91 * t / RT60)"]
+    
+    SpecularRays --> IRCombine["Parametric Impulse Response Filter h[n]"]
+    TailSynth --> IRCombine
+    
+    IRCombine --> Ambisonics["2nd-Order Ambisonics B-Format (9 Channels)"]
+    Ambisonics --> SpatialDecoder["Virtual Surround / Binaural Decoder"]
+```
+
+### 3.1 Ambisonics B-Format Spherical Harmonics
+Ambisonics represents the continuous 3D acoustic sound field around the listener as an expansion of spherical harmonics $Y_\ell^m(\theta, \phi)$. Steam Audio and Source 2 utilize **2nd-order Ambisonics** with **SN3D normalization** and **ACN (Ambisonic Channel Number)** channel ordering ($N = (\ell + 1)^2 = 9 \text{ channels}$):
+
+$$\text{ACN Index: } n = \ell(\ell + 1) + m$$
+
+Given a normalized direction vector from listener to source $\mathbf{u} = (x, y, z)$:
+- $x = \cos(\text{elevation}) \cos(\text{azimuth})$ (Front / Back)
+- $y = \cos(\text{elevation}) \sin(\text{azimuth})$ (Left / Right)
+- $z = \sin(\text{elevation})$ (Up / Down)
+
+The 9 basis functions are defined as:
+
+| ACN | Order $\ell$ | Degree $m$ | Basis Symbol | Mathematical Formulation (Cartesian) | Acoustic Significance |
+|:---|:---|:---|:---|:---|:---|
+| **0** | $0$ | $0$ | $W$ | $1.0$ | 0th-order omnidirectional monopole pressure field. |
+| **1** | $1$ | $-1$ | $Y$ | $y$ | 1st-order lateral figure-8 dipole (Left / Right). |
+| **2** | $1$ | $0$ | $Z$ | $z$ | 1st-order vertical figure-8 dipole (Up / Down). |
+| **3** | $1$ | $+1$ | $X$ | $x$ | 1st-order longitudinal figure-8 dipole (Front / Back). |
+| **4** | $2$ | $-2$ | $V$ | $\sqrt{3} \cdot x \cdot y$ | 2nd-order diagonal planar quadrupole. |
+| **5** | $2$ | $-1$ | $T$ | $\sqrt{3} \cdot y \cdot z$ | 2nd-order vertical-lateral quadrupole. |
+| **6** | $2$ | $0$ | $R$ | $\frac{1}{2}(3z^2 - 1)$ | 2nd-order vertical axial quadrupole. |
+| **7** | $2$ | $+1$ | $S$ | $\sqrt{3} \cdot x \cdot z$ | 2nd-order vertical-longitudinal quadrupole. |
+| **8** | $2$ | $+2$ | $U$ | $\frac{\sqrt{3}}{2}(x^2 - y^2)$ | 2nd-order horizontal planar quadrupole. |
+
+#### Ambisonics Decoding to Virtual Loudspeakers
+Given an Ambisonics signal vector $\mathbf{B} = [B_0, \dots, B_8]^T$, the signal for a virtual speaker at direction $\mathbf{v}_j$ is computed via projection mode-matching with max-$r_E$ order weights $w_\ell$:
+$$s_j = \sum_{\ell=0}^2 w_\ell \sum_{m=-\ell}^\ell B_{\ell, m} \cdot Y_\ell^m(\mathbf{v}_j)$$
+Where standard SN3D max-$r_E$ weights are $w_0 = 1.0$, $w_1 = \frac{1}{\sqrt{3}} \approx 0.57735$, $w_2 = \frac{1}{\sqrt{5}} \approx 0.35355$.
+
+### 3.2 Statistical Room Reverberation ($RT_{60}$)
+The reverberation time $RT_{60}$ is the time required for sound energy density inside an enclosed space to decay by $60 \text{ dB}$ ($10^{-6}$ of initial energy).
+
+Given enclosed volume $V$ ($m^3$), bounding surfaces with area $S_i$ and absorption $\alpha_i$:
+- Total surface area: $S = \sum_i S_i$
+- Total equivalent absorption area: $A = \sum_i S_i \alpha_i$ (metric Sabins)
+- Mean absorption coefficient: $\bar{\alpha} = \frac{A}{S}$
+
+#### Sabine Formulation
+Valid for live, weakly absorptive spaces ($\bar{\alpha} < 0.2$):
+$$RT_{60, \text{Sabine}} = \frac{0.161 \cdot V}{A} = \frac{0.161 \cdot V}{\sum_i S_i \alpha_i}$$
+Where $0.161 \approx \frac{24 \ln(10)}{c_{sound}} = \frac{55.262}{343.0}$.
+
+#### Eyring-Norris Formulation
+Valid across all absorption levels, accounting for non-zero mean free paths and discrete boundary reflection losses:
+$$RT_{60, \text{Eyring}} = \frac{0.161 \cdot V}{-S \ln(1 - \bar{\alpha})}$$
+
+> [!NOTE]
+> When $\bar{\alpha} \to 0$, the Taylor expansion $-\ln(1 - \bar{\alpha}) \approx \bar{\alpha}$, causing the Eyring-Norris formula to converge with the classic Sabine formula. When $\bar{\alpha} \to 1.0$ (anechoic chamber), Eyring properly yields $RT_{60} \to 0$, whereas Sabine unrealistically predicts non-zero reverberation.
+
+### 3.3 Parametric Impulse Response (IR) Filter Synthesis
+Steam Audio synthesizes hybrid impulse responses $h[n]$ at sample rate $f_s = 48000 \text{ Hz}$:
+1. **Direct Sound Arrival**: Delta impulse at sample $n = 0$: $h[0] = 1.0$.
+2. **Early Reflections Cluster**: Discrete specular arrivals at $n_{early} = \lfloor \tau_{early} \cdot f_s \rfloor$ attenuated by boundary reflections.
+3. **Late Diffuse Reverberation Tail**: Diffuse sound field beginning at mixing time $t_{mix} \approx 20\dots 50 \text{ ms}$. Amplitude follows exponential energy decay:
+   $$A(t) = \exp\left(-\frac{6.90776 \cdot t}{RT_{60}}\right) \cdot w[t]$$
+   Where $w[t] \sim \mathcal{N}(0, 1)$ is decorrelated Gaussian white noise filtered by 3-band spectral coloration matching the room's $(RT_{60, low}, RT_{60, mid}, RT_{60, high})$.
+
+---
+
+## 4. Sound Event Dispatcher & Audio Bus Routing
+
+### 4.1 Listener Coordinate Transformation
+To spatialise sounds relative to the player's head, the engine defines an orthonormal coordinate frame from the camera's view matrix:
+- $\mathbf{P}_L$: Listener world origin
+- $\mathbf{F}_L$: Forward unit vector
+- $\mathbf{U}_L$: Up unit vector
+- $\mathbf{R}_L = \mathbf{F}_L \times \mathbf{U}_L$: Right unit vector
+
+Any world-space sound source $\mathbf{P}_W$ transforms into listener-local coordinates $\mathbf{P}_{local} = (x_{local}, y_{local}, z_{local})$ via:
+$$\mathbf{P}_{local} = \begin{bmatrix}
+\mathbf{R}_L \cdot (\mathbf{P}_W - \mathbf{P}_L) \\
+\mathbf{F}_L \cdot (\mathbf{P}_W - \mathbf{P}_L) \\
+\mathbf{U}_L \cdot (\mathbf{P}_W - \mathbf{P}_L)
+\end{bmatrix}$$
+
+From $\mathbf{P}_{local}$, horizontal azimuth $\theta$ and vertical elevation $\phi$ are:
+$$\theta = \text{atan2}(x_{local}, y_{local}), \quad \phi = \text{asin}\left(\frac{z_{local}}{\|\mathbf{P}_{local}\|}\right)$$
+
+### 4.2 Audio Bus Hierarchy
+Sound events are dynamically routed through a hierarchical bus topology with independent volume control, ducking, and compression:
+
+```
+[Master Audio Bus]
+   ├── [SFX Submix]
+   │      ├── Weapon Audio (Gunfire, Reloads, Grenades)
+   │      └── Impact Audio (Physics, Flesh Hits, Glass Shatter)
+   ├── [Footsteps Submix]
+   │      └── Material Footsteps (Concrete, Metal Grates, Water)
+   ├── [Voice Communications Submix]
+   │      └── VOIP Player Chat (3D Spatialized / Global)
+   ├── [Ambient Submix]
+   │      └── Environmental Emitters & Reverb Submix
+   ├── [Music Submix]
+   │      └── Dynamic Round Music & Bomb Timers
+   └── [UI Submix]
+          └── Menu Navigation & HUD Audio Cues
+```
+
+---
+
+## 5. Verification & Simulation Results
+
+The reference simulator (`docs/simulators/cs2_spatial_audio_sim.cpp`) validates every physical equation and algorithm under strict MSVC compilation (`/std:c++20 /O2 /EHsc /W4 /WX`).
+
+### 5.1 Test Execution Suite (18 / 18 Passed)
+
+```
+====================================================================
+Counter-Strike 2 (Source 2) Spatial Audio & Acoustic Wave Simulator
+Clean-Room Reverse Engineering & Verification Harness (ISO C++20)
+====================================================================
+
+[STAGE 1] Direct Sound Path: Distance Attenuation Models
+  Distance Attenuation Profile (Inverse Distance):
+    d =  0.5m (d <= d_min): Gain = 1.0000 (Clamped 1.0)
+    d =  1.0m (Reference):  Gain = 1.0000
+    d =  5.0m:             Gain = 0.1837
+    d = 10.0m:             Gain = 0.0816
+    d = 25.0m:             Gain = 0.0204
+    d = 50.0m (d == d_max): Gain = 0.0000 (Silence boundary)
+    d = 80.0m (d > d_max):  Gain = 0.0000
+  [PASS] Distance <= minDistance clamps to 1.0f
+  [PASS] Distance >= maxDistance attenuates to 0.0f
+  [PASS] Monotonic attenuation decay over distance
+
+[STAGE 2] Frequency-Dependent Atmospheric Air Absorption (ISO 9613-1 / ODE)
+  40m Distance 3-Band Air Absorption Gain Multipliers:
+    Standard (20C, 50% RH): Low(400Hz)=0.9908  Mid(2.5kHz)=0.9333  High(15kHz)=0.5012
+    Cold Dry ( 0C, 20% RH): Low(400Hz)=0.9877  Mid(2.5kHz)=0.8881  High(15kHz)=0.2205
+    Hot Humid(35C, 80% RH): Low(400Hz)=0.9917  Mid(2.5kHz)=0.9457  High(15kHz)=0.6160
+  ODE Numerical Integration Verification (High Band, 15 kHz):
+    Analytical Amplitude: 0.5012
+    RK4 Stepper Solution: 0.5012 (Delta = 0.0000)
+  [PASS] High frequency treble attenuates significantly faster than mid/low bass
+  [PASS] Runge-Kutta 4th-order ODE numerical solution matches analytical solution within 0.01%
+
+[STAGE 3] Emitter Directivity Patterns
+  Cardioid Directivity Gain Profile:
+    0 deg (On-axis front): 1.0000
+   45 deg (Flank):         0.8536
+   90 deg (Side):          0.5000
+  180 deg (Rear null):     0.0000
+  [PASS] Cardioid on-axis emission retains full gain 1.0
+  [PASS] Cardioid 90-degree side emission gain is exactly 0.5
+  [PASS] Cardioid 180-degree rear emission has complete null (gain ~0.0)
+
+[STAGE 4] Physical Barrier Transmission & Occlusion Raycasting
+  Barrier Acoustic Transmission Comparison:
+    Unobstructed Path: Occlusion=0.0000  Gain=[ 1.0000, 1.0000, 1.0000 ]
+    Concrete Wall:     Occlusion=1.0000  Gain=[ 0.0005, 0.0003, 0.0001 ]
+    Wooden Door:       Occlusion=1.0000  Gain=[ 0.0060, 0.0040, 0.0020 ]
+    Glass Pane:        Occlusion=1.0000  Gain=[ 0.0100, 0.0050, 0.0015 ]
+  [PASS] Clear ray has 0.0 occlusion and 1.0 transmission
+  [PASS] Concrete wall exhibits massive transmission loss (sound barrier)
+  [PASS] Wood allows greater low-frequency acoustic transmission than solid concrete
+
+[STAGE 5] 2nd-Order Ambisonics B-Format Spherical Harmonics Encoding & Decoding
+  Encoded Channels for Source at Left (0, 1, 0):
+    ACN 0 (W, Omni):        1.0000
+    ACN 1 (Y, Left/Right):  1.0000 (+1.0 Left)
+    ACN 2 (Z, Up/Down):     0.0000
+    ACN 3 (X, Front/Back):  0.0000
+    ACN 6 (R, Quadrupole Z):-0.5000
+    ACN 8 (U, Quadrupole XY):-0.8660
+  Decoded Virtual Loudspeaker Gains:
+    Left Speaker  (+30 deg): Gain = 1.2445
+    Right Speaker (-30 deg): Gain = 0.6671
+  [PASS] Ambisonics Left source yields W=1.0 and Y=1.0
+  [PASS] Left speaker receives significantly higher gain for left source
+
+[STAGE 6] Room Acoustics & Statistical Reverberation (Sabine vs Eyring-Norris RT60)
+  Industrial Warehouse (V = 1200 m^3, S = 800.0000 m^2):
+    Sabine RT60: Low=7.7280s  Mid=6.6621s  High=4.8300s
+    Eyring RT60: Low=7.6066s  Mid=6.5406s  High=4.7082s
+  Damped Studio (V = 150 m^3, S = 220.0000 m^2):
+    Sabine RT60: Low=0.9471s  Mid=0.7500s  High=0.5427s
+    Eyring RT60: Low=0.8910s  Mid=0.6937s  High=0.4857s
+  [PASS] Reflective warehouse exhibits realistic RT60 > 1.5 seconds
+  [PASS] Damped room has substantially lower RT60 than warehouse
+  [PASS] Eyring RT60 is properly bounded below or equal to Sabine RT60
+
+[STAGE 7] Parametric Impulse Response (IR) Filter Synthesis
+  Synthesized IR Filter Buffer Statistics:
+    Duration: 0.5000 s (24000 samples @ 48000 Hz)
+    Direct Arrival (n=0):     1.0000
+    Early Reflection (15 ms): 0.2800
+    Late Tail Start (40 ms):  0.0857
+    Late Tail Decayed (200ms):-0.0715
+    Early Energy (0..100ms): 41.3828
+    Late Energy (200..300ms): 5.3900 (Ratio = 0.1302)
+  [PASS] Impulse response begins with unit direct Dirac delta
+  [PASS] Late reverberation tail exhibits exponential energy decay
+
+====================================================================
+SIMULATION RESULTS: 18 / 18 PASSED
+====================================================================
+```
+
+---
+
+## 6. Project File Artifacts
+
+- Header Reconstruction: [`game/soundsystem/sound_ops.h`](../game/soundsystem/sound_ops.h)
+- Implementation Source: [`game/soundsystem/sound_ops.cpp`](../game/soundsystem/sound_ops.cpp)
+- Verification Simulator: [`docs/simulators/cs2_spatial_audio_sim.cpp`](simulators/cs2_spatial_audio_sim.cpp)
+- MSVC Batch Build Runner: [`docs/simulators/build_spatial_audio_sim.bat`](simulators/build_spatial_audio_sim.bat)
 
 --------------------------------------------------------------------------------
 

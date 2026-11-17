@@ -18,6 +18,8 @@
  *  12. Volumetric Smoke 3D Morton Voxel Grid & Carving (particles.dll)
  *  13. Multi-Binary Interfaces Registry & Dynamic Factory Dispatch (sdk/ & interfaces/)
  *  14. Synthesized SchemaSystem C++20 Classes & Dynamic Lvalue Accessors (game/shared/schema_classes/)
+ *  15. Steam Audio Spatial Acoustics, 3-Band Air Absorption ODE & Ambisonics B-Format (soundsystem.dll)
+ *  16. Rubikon Convex Collision, GJK Simplex Solver, EPA Manifold & CCD Swept Capsule (vphysics2.dll)
  * 
  * Standards: Pure ISO C++20, Zero external dependencies, MSVC x64 compliant (/W4 /WX).
  */
@@ -858,8 +860,134 @@ int main() {
         std::cout << "  -> SUCCESS: Synthesized C++20 schema classes and dynamic accessors validated.\n";
     }
 
+    // -------------------------------------------------------------------------
+    // Test 15: Steam Audio Spatial Acoustics & Ambisonics B-Format (soundsystem.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 15] Testing SDK Integration with Steam Audio Spatial Acoustics Engine...\n";
+    {
+        using namespace soundsystem;
+
+        // 1. Distance Attenuation (Inverse distance roll-off)
+        DistanceAttenuationParams distParams{};
+        distParams.minDistance = 1.0f;
+        distParams.maxDistance = 50.0f;
+        distParams.rolloffFactor = 1.0f;
+        distParams.model = DistanceAttenuationModel::InverseDistance;
+
+        const float gain1m = AcousticWaveSolver::CalculateDistanceAttenuation(1.0f, distParams);
+        const float gain10m = AcousticWaveSolver::CalculateDistanceAttenuation(10.0f, distParams);
+        assert(gain1m == 1.0f);
+        assert(gain10m < gain1m);
+        assert(gain10m > 0.05f && gain10m < 0.2f);
+
+        // 2. 3-Band Frequency-Dependent Atmospheric Air Absorption ODE
+        const auto airAtten = AcousticWaveSolver::CalculateAirAbsorption(50.0f, 20.0f, 50.0f);
+        assert(airAtten.low > airAtten.mid);
+        assert(airAtten.mid > airAtten.high); // High frequencies attenuate more severely
+
+        // 3. Emitter Directivity (Cardioid sound cone)
+        DirectivityParams dirParams{};
+        dirParams.dipoleWeight = 0.5f; // Cardioid
+        dirParams.dipolePower = 1.0f;
+        const shared::Vector3D forward{ 1.0f, 0.0f, 0.0f };
+        const shared::Vector3D frontListener{ 1.0f, 0.0f, 0.0f };
+        const shared::Vector3D rearListener{ -1.0f, 0.0f, 0.0f };
+        const float frontGain = AcousticWaveSolver::CalculateDirectivity(forward, frontListener, dirParams);
+        const float rearGain = AcousticWaveSolver::CalculateDirectivity(forward, rearListener, dirParams);
+        assert(frontGain > 0.99f);
+        assert(rearGain < 0.01f);
+
+        // 4. Ambisonics 2nd-Order Spherical Harmonics
+        const shared::Vector3D soundDir{ 0.0f, 1.0f, 0.0f }; // Pure left (Y)
+        const auto bFormat = AcousticWaveSolver::EncodeAmbisonics(soundDir, 1.0f, AmbisonicsOrder::Order2);
+        assert(bFormat.W() == 1.0f); // Omnidirectional W
+        assert(std::abs(bFormat.Y() - 1.0f) < 1e-4f); // Dipole Y
+
+        float leftGain = 0.0f, rightGain = 0.0f;
+        AcousticWaveSolver::DecodeAmbisonicsStereo(bFormat, leftGain, rightGain);
+        assert(leftGain > rightGain); // Left speaker dominance
+
+        // 5. Eyring & Sabine Room Acoustics RT60 Reverberation
+        RoomAcousticProperties room{};
+        room.volumeM3 = 1200.0f; // m^3
+        room.surfaces.push_back(RoomSurface{ 800.0f, AcousticMaterialType::Concrete });
+        const auto rt60 = AcousticWaveSolver::CalculateReverberationTime(room);
+        assert(rt60.sabineRT60.mid > 2.0f);
+        assert(rt60.eyringRT60.mid > 2.0f);
+
+        std::cout << "  Distance Rolloff:  1m = " << gain1m << ", 10m = " << gain10m << "\n";
+        std::cout << "  3-Band Air Atten:  Low (400Hz) = " << airAtten.low << ", Mid (2.5kHz) = " << airAtten.mid << ", High (15kHz) = " << airAtten.high << "\n";
+        std::cout << "  Cardioid Gain:     Front = " << frontGain << ", Rear = " << rearGain << "\n";
+        std::cout << "  Ambisonics Stereo: Left = " << leftGain << ", Right = " << rightGain << "\n";
+        std::cout << "  Eyring RT60 Decay: Mid band = " << rt60.eyringRT60.mid << " seconds\n";
+        std::cout << "  -> SUCCESS: Steam Audio spatial acoustics, atmospheric ODE & Ambisonics validated.\n";
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 16: Rubikon Convex Collision, GJK Simplex & EPA Manifold (vphysics2.dll)
+    // -------------------------------------------------------------------------
+    std::cout << "\n[Test 16] Testing SDK Integration with Rubikon GJK/EPA Collision Engine...\n";
+    {
+        using namespace vphysics2;
+
+        // 1. GJK Disjoint Separation Distance & Closest Points
+        RnSphere_t sphereA{ Vector3{-15.0f, 0.0f, 0.0f}, 5.0f };
+        RnSphere_t sphereB{ Vector3{ 15.0f, 0.0f, 0.0f}, 5.0f };
+        SupportSphere suppA{ sphereA };
+        SupportSphere suppB{ sphereB };
+
+        const auto gjkDisjoint = CRubikonCollision::GJK_Evaluate(suppA, suppB);
+        assert(!gjkDisjoint.intersect);
+        assert(std::abs(gjkDisjoint.distance - 20.0f) < 1e-3f);
+
+        // 2. GJK Convex Intersection
+        RnSphere_t sphereC{ Vector3{ 4.0f, 0.0f, 0.0f}, 5.0f };
+        SupportSphere suppC{ sphereC };
+        RnSphere_t sphereD{ Vector3{ 0.0f, 0.0f, 0.0f}, 5.0f };
+        SupportSphere suppD{ sphereD };
+
+        const auto gjkOverlap = CRubikonCollision::GJK_Evaluate(suppC, suppD);
+        assert(gjkOverlap.intersect);
+
+        // 3. Expanding Polytope Algorithm (EPA) Penetration Depth & Normal
+        const auto epaResult = CRubikonCollision::EPA_Evaluate(suppC, suppD, gjkOverlap.simplex);
+        assert(epaResult.success);
+        assert(epaResult.penetrationDepth > 0.0f);
+        assert(epaResult.contactNormal.Length() > 0.95f);
+
+        // 4. Continuous Collision Detection (CCD) Conservative Advancement
+        RnCapsule_t movingCap{ Vector3{-100.0f, 0.0f, 0.0f}, Vector3{-100.0f, 0.0f, 32.0f}, 8.0f };
+        Vector3 velA{ 400.0f, 0.0f, 0.0f }; // High velocity tunneling candidate
+        RnCapsule_t targetCap{ Vector3{0.0f, 0.0f, 0.0f}, Vector3{0.0f, 0.0f, 32.0f}, 8.0f };
+        Vector3 velB{ 0.0f, 0.0f, 0.0f };
+
+        const auto ccdResult = CRubikonCollision::SweepCapsuleAgainstCapsule(movingCap, velA, targetCap, velB, 1.0f);
+        assert(ccdResult.hit);
+        assert(ccdResult.toi > 0.15f && ccdResult.toi < 0.35f);
+
+        // 5. Broadphase Morton 3D BVH Query
+        std::vector<AABB_t> boxes;
+        boxes.push_back(AABB_t{ Vector3{-10.0f, -10.0f, -10.0f}, Vector3{10.0f, 10.0f, 10.0f} });
+        boxes.push_back(AABB_t{ Vector3{ 50.0f,  50.0f,  50.0f}, Vector3{70.0f, 70.0f, 70.0f} });
+
+        MortonBVH bvh;
+        bvh.Build(boxes);
+        std::vector<uint32_t> overlap;
+        bvh.QueryAABB(AABB_t{ Vector3{-5.0f, -5.0f, -5.0f}, Vector3{5.0f, 5.0f, 5.0f} }, overlap);
+        assert(overlap.size() == 1);
+        assert(overlap[0] == 0);
+
+        std::cout << "  GJK Disjoint Distance: " << gjkDisjoint.distance << " units (Expected: 20.0)\n";
+        std::cout << "  GJK Intersection:      OVERLAP = " << (gjkOverlap.intersect ? "TRUE" : "FALSE") << "\n";
+        std::cout << "  EPA Penetration Depth: " << epaResult.penetrationDepth << " units, Normal: ("
+                  << epaResult.contactNormal.x << ", " << epaResult.contactNormal.y << ", " << epaResult.contactNormal.z << ")\n";
+        std::cout << "  CCD Swept TOI:         " << ccdResult.toi << " (Zero Tunneling)\n";
+        std::cout << "  Morton 3D BVH Overlap: " << overlap.size() << " primitive(s) hit\n";
+        std::cout << "  -> SUCCESS: Rubikon convex GJK/EPA solver, CCD advancement & Morton BVH validated.\n";
+    }
+
     std::cout << "\n=================================================================\n";
-    std::cout << " ALL 14 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
+    std::cout << " ALL 16 SDK & GAME SUBSYSTEM INTEGRATION TESTS PASSED (100% C++20)!\n";
     std::cout << "=================================================================\n";
     return 0;
 }

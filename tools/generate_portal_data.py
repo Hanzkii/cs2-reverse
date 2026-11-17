@@ -248,6 +248,45 @@ SIMULATORS_METADATA = [
             {"name": "cl_parallel_readpacketentities", "addr": "0x1807305b8", "desc": "Cached ConVar pointer controlling dynamic parallel dispatch"}
         ],
         "docId": "packet-entities-merge"
+    },
+    {
+        "id": "17",
+        "name": "cs2_spatial_audio_sim.cpp",
+        "title": "Steam Audio Spatial Acoustics, Atmospheric Air Absorption ODE & Ambisonics",
+        "target": "soundsystem.dll & steamaudio.dll",
+        "runner": "build_spatial_audio_sim.bat",
+        "category": "Audio & Acoustics",
+        "badge": "Steam Audio Acoustics",
+        "checks": "Spherical inverse distance law with Hermite roll-off, 3-band ISO 9613-1 air absorption ODE (400 Hz, 2.5 kHz, 15 kHz), cardioid/dipole emitter directivity, physical acoustic barrier transmission loss, 2nd-order Ambisonics spherical harmonics (9 channels), and Eyring/Sabine RT60 room reverberation.",
+        "description": "Simulates Valve's Source 2 Steam Audio (IPL/Phonon) acoustic wave simulation engine in soundsystem.dll and steamaudio.dll. Models continuous distance rolloff, frequency-dependent atmospheric attenuation, acoustic barrier mass law transmission, 2nd-order Ambisonics spherical harmonics B-format encoding/decoding, and Sabine/Eyring statistical reverberation decay.",
+        "addresses": [
+            {"name": "CSoundOpSystem VTable", "addr": "0x1804ab140", "desc": "Sound operator system virtual method table in soundsystem.dll"},
+            {"name": "CVMixSteamAudioDirectProcessorDesc", "addr": "0x1804f2100", "desc": "Steam Audio direct path processor descriptor (distance, air absorption, directivity)"},
+            {"name": "CVMixSteamAudioHRTFProcessorDesc", "addr": "0x1804f2800", "desc": "Steam Audio binaural HRTF spatialization processor descriptor"},
+            {"name": "CVMixSteamAudioHybridReverbProcessorDesc", "addr": "0x1804f3200", "desc": "Steam Audio hybrid IR and statistical reverberation processor descriptor"},
+            {"name": "CVMixSteamAudioPathingProcessorDesc", "addr": "0x1804f3b00", "desc": "Steam Audio acoustic occlusion and diffraction pathing processor"}
+        ],
+        "docId": "spatial_audio_acoustics"
+    },
+    {
+        "id": "18",
+        "name": "cs2_rubikon_collision_sim.cpp",
+        "title": "Rubikon Convex Collision, GJK Simplex Solver & EPA Manifold Extraction",
+        "target": "vphysics2.dll (0x180000000)",
+        "runner": "build_rubikon_collision_sim.bat",
+        "category": "Physics & Collision",
+        "badge": "Rubikon GJK/EPA",
+        "checks": "Support mapping functions for Convex Polyhedra, Capsules, Spheres and OBBs, Minkowski difference S_{A-B}(d), 3D GJK simplex intersection detector & separating distance solver, Expanding Polytope Algorithm (EPA) contact manifold & penetration depth extraction, continuous collision detection (CCD) conservative advancement, and 30-bit Morton 3D BVH broadphase.",
+        "description": "Simulates Valve's proprietary Rubikon narrowphase collision detection and continuous collision physics engine in vphysics2.dll. Implements 3D GJK simplex distance and intersection solvers, EPA edge-horizon expansion for exact penetration normal manifolds, swept capsule conservative advancement eliminating tunneling, and Morton Z-order BVH broadphase spatial queries.",
+        "addresses": [
+            {"name": "CVPhysics2Interface VTable", "addr": "0x1803fbf50", "desc": "80-slot IVPhysics2 master interface jump table"},
+            {"name": "CVPhys2World VTable", "addr": "0x1803f9b20", "desc": "80-slot IVPhysics2World simulation world jump table"},
+            {"name": "RnSupportMapping", "addr": "0x1802ea210", "desc": "Polyhedral support mapping argmax vertex evaluator"},
+            {"name": "RnGJK_Intersection", "addr": "0x1802544a0", "desc": "3D GJK simplex termination and separating axis solver"},
+            {"name": "RnEPA_Penetration", "addr": "0x18016caf0", "desc": "Expanding Polytope Algorithm contact normal and penetration depth extractor"},
+            {"name": "RnMortonBVH_Query", "addr": "0x18000f4e0", "desc": "30-bit Morton curve 3D BVH spatial tree acceleration query"}
+        ],
+        "docId": "rubikon_collision_physics"
     }
 ]
 

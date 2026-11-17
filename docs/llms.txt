@@ -151,6 +151,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [lag_compensation_rollback.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/lag_compensation_rollback.md)
 - [net_packet_entities_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/net_packet_entities_pipeline.md)
 - [network_entity_delta_codec.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/network_entity_delta_codec.md)
+- [rubikon_collision_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/rubikon_collision_physics.md)
+- [spatial_audio_acoustics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/spatial_audio_acoustics.md)
 - [subtick_wire_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/subtick_wire_framing.md)
 - [volumetric_smoke_voxel_grid.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/volumetric_smoke_voxel_grid.md)
 - [vtable_resolution_pipeline.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/vtable_resolution_pipeline.md)
