@@ -148,26 +148,124 @@ metadata_map = {
         "badge": "HitReg & Armor Math",
         "order": 19
     },
+    "20_source2_reconstructed_sdk_architecture.md": {
+        "id": "reconstructed-sdk-architecture",
+        "title": "Reconstructed Pure C++20 SDK Architecture & Module Mapping",
+        "category": "Architecture & Tools",
+        "badge": "C++20 SDK",
+        "order": 20
+    },
+    "21_panorama_ui_architecture_and_decompilation.md": {
+        "id": "panorama-ui-architecture",
+        "title": "Source 2 Panorama UI Architecture & Runtime Decompilation",
+        "category": "Engine Core",
+        "badge": "Panorama UI",
+        "order": 21
+    },
+    "22_engine_clockdrift_and_packetentities_merge.md": {
+        "id": "engine-clockdrift-packetentities-merge",
+        "title": "Sub-Tick Clock Drift Sync & Packet Entities Pre-Decode Coalescer",
+        "category": "Networking",
+        "badge": "Sub-Tick Clock Drift",
+        "order": 22
+    },
+    "ballistic_penetration_physics.md": {
+        "id": "ballistic-penetration-physics",
+        "title": "Ballistic Penetration & Kinetic Energy Dissipation",
+        "category": "Weapons & Ballistics",
+        "badge": "Ballistics",
+        "order": 24
+    },
+    "inferno_combustion_physics.md": {
+        "id": "inferno-combustion-physics",
+        "title": "Surface Combustion Dynamics & Thermal Fire Spread",
+        "category": "Physics & Collision",
+        "badge": "Combustion",
+        "order": 25
+    },
+    "kv3_resource_system.md": {
+        "id": "kv3-resource-system",
+        "title": "KeyValues3 (KV3) Resource System & Serialization",
+        "category": "Engine Core",
+        "badge": "KV3 System",
+        "order": 26
+    },
+    "lag_compensation_rollback.md": {
+        "id": "lag-compensation-rollback",
+        "title": "Lag Compensation Rollback & Historical State Snapping",
+        "category": "Gameplay & Physics",
+        "badge": "Lag Rollback",
+        "order": 27
+    },
+    "network_entity_delta_codec.md": {
+        "id": "network-entity-delta-codec",
+        "title": "Network Entity Delta Compression Codec",
+        "category": "Networking",
+        "badge": "Delta Codec",
+        "order": 28
+    },
     "net_packet_entities_pipeline.md": {
         "id": "packet-entities-merge",
         "title": "Network Packet Entities Pipeline & Delta Consolidation Architecture",
         "category": "Networking",
         "badge": "Packet Entities",
-        "order": 21
+        "order": 29
     },
     "particle_system_architecture.md": {
         "id": "particle-system-architecture",
         "title": "Data-Driven Particle Architecture & Compute Operators",
         "category": "Volumetric & Particles",
         "badge": "Particle Dynamics",
-        "order": 22
+        "order": 30
+    },
+    "rubikon_collision_physics.md": {
+        "id": "rubikon-collision-physics",
+        "title": "Rubikon Convex Polytope & Continuous Collision Physics",
+        "category": "Physics & Collision",
+        "badge": "Rubikon Polytope",
+        "order": 31
+    },
+    "spatial_audio_acoustics.md": {
+        "id": "spatial-audio-acoustics",
+        "title": "Spatial Audio Acoustics & Steam Audio Propagation",
+        "category": "Audio & Acoustics",
+        "badge": "Spatial Audio",
+        "order": 32
+    },
+    "subtick_wire_framing.md": {
+        "id": "subtick-wire-framing",
+        "title": "Sub-Tick UserCmd Wire Framing & Timing Architecture",
+        "category": "Networking",
+        "badge": "Wire Framing",
+        "order": 33
+    },
+    "volumetric_smoke_voxel_grid.md": {
+        "id": "volumetric-smoke-voxel-grid",
+        "title": "Volumetric Smoke Voxel Grid & 3D Morton Carving",
+        "category": "Volumetric & Particles",
+        "badge": "Smoke Voxel",
+        "order": 34
+    },
+    "vtable_resolution_pipeline.md": {
+        "id": "vtable-resolution-pipeline",
+        "title": "Virtual Table Resolution & RTTI Inspection Pipeline",
+        "category": "Architecture & Tools",
+        "badge": "VTable Pipeline",
+        "order": 35
+    },
+    "weapon_spread_recoil_physics.md": {
+        "id": "weapon-spread-recoil-physics",
+        "title": "Weapon Spread, Recoil Springs & Accuracy Decay",
+        "category": "Weapons & Ballistics",
+        "badge": "Recoil & Spread",
+        "order": 36
     },
     "ghidra_mcp_extensions.md": {
         "id": "ghidra-mcp-extensions",
         "title": "GhidraMCP Architecture Extensions & Source 2 Analysis Toolkit",
         "category": "Architecture & Tools",
         "badge": "Ghidra Toolkit",
-        "order": 23
+        "order": 37
     }
 }
 
@@ -175,14 +273,31 @@ for fname in files:
     fpath = os.path.join(docs_dir, fname)
     with open(fpath, "r", encoding="utf-8") as f:
         content = f.read()
-    
-    meta = metadata_map.get(fname, {
-        "id": fname.replace(".md", ""),
-        "title": fname,
-        "category": "General",
-        "badge": "Doc",
-        "order": 99
-    })
+
+    meta = metadata_map.get(fname)
+    if not meta:
+        # Robust dynamic extraction if new doc added
+        doc_id = re.sub(r'^\d+_', '', fname.replace(".md", "")).replace("_", "-")
+        # Extract title from first H1
+        first_h1 = None
+        for line in content.splitlines():
+            line_str = line.strip()
+            if line_str.startswith("# "):
+                first_h1 = re.sub(r'^#\s+', '', line_str).strip()
+                break
+        doc_title = first_h1 if first_h1 else fname.replace(".md", "").replace("_", " ").title()
+        
+        # Extract numeric prefix if present
+        m = re.match(r'^(\d+)_', fname)
+        doc_order = int(m.group(1)) if m else 50
+        
+        meta = {
+            "id": doc_id,
+            "title": doc_title,
+            "category": "Architecture & Tools",
+            "badge": "Architecture Spec",
+            "order": doc_order
+        }
 
     docs_catalog.append({
         "filename": fname,

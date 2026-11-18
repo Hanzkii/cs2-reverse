@@ -81,8 +81,8 @@
   </script>
 
   <!-- Embedded Bundled Documentation & Portal Data -->
-  <script src="docs-data.js"></script>
-  <script src="portal-data.js"></script>
+  <script src="docs-data.js?v=20261119_03"></script>
+  <script src="portal-data.js?v=20261119_03"></script>
 
   <!-- Three.js (r128) & OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -309,7 +309,7 @@
 
         <!-- Sidebar Footer -->
         <div class="p-3 border-t border-cs2-border bg-slate-900/50 text-[11px] text-slate-400 flex items-center justify-between shrink-0">
-          <span>14 Subsystems Documented</span>
+          <span id="docCatalogFooterCount">37 Architecture Specs</span>
           <span class="text-emerald-400 font-mono">100% Verified</span>
         </div>
       </aside>
@@ -1332,6 +1332,11 @@
       const clearBtn = document.getElementById('docSearchClearBtn');
       const statsEl = document.getElementById('docSearchStats');
       const statsText = document.getElementById('docSearchStatsText');
+      const footerCountEl = document.getElementById('docCatalogFooterCount');
+
+      if (footerCountEl && typeof DOCS !== 'undefined') {
+        footerCountEl.innerText = `${DOCS.length} Architecture Specs`;
+      }
 
       if (q.length > 0) {
         clearBtn.classList.remove('hidden');
@@ -1347,15 +1352,15 @@
       DOCS.forEach(d => {
         // Category check
         let matchesCat = true;
-        const catLower = d.category.toLowerCase();
+        const catLower = (d.category || '').toLowerCase();
         if (category === 'core') {
-          matchesCat = catLower.includes('network') || catLower.includes('sub-tick') || catLower.includes('usercmd') || catLower.includes('protocol') || catLower.includes('framing');
+          matchesCat = catLower.includes('network') || catLower.includes('sub-tick') || catLower.includes('usercmd') || catLower.includes('protocol') || catLower.includes('framing') || catLower.includes('core') || catLower.includes('engine');
         } else if (category === 'entity') {
-          matchesCat = catLower.includes('entity') || catLower.includes('schema') || catLower.includes('convar') || catLower.includes('event');
+          matchesCat = catLower.includes('entity') || catLower.includes('schema') || catLower.includes('convar') || catLower.includes('event') || catLower.includes('scripting');
         } else if (category === 'physics') {
-          matchesCat = catLower.includes('physics') || catLower.includes('rubikon') || catLower.includes('smoke') || catLower.includes('voxel') || catLower.includes('collision');
+          matchesCat = catLower.includes('physics') || catLower.includes('rubikon') || catLower.includes('smoke') || catLower.includes('voxel') || catLower.includes('collision') || catLower.includes('ballistics') || catLower.includes('weapon');
         } else if (category === 'anim') {
-          matchesCat = catLower.includes('anim') || catLower.includes('ik') || catLower.includes('skeleton') || catLower.includes('camera') || catLower.includes('view') || catLower.includes('render');
+          matchesCat = catLower.includes('anim') || catLower.includes('ik') || catLower.includes('skeleton') || catLower.includes('camera') || catLower.includes('view') || catLower.includes('render') || catLower.includes('audio');
         }
 
         if (!matchesCat) return;
