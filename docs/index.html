@@ -22,6 +22,14 @@
 
   
   <!-- Tailwind CSS -->
+  <script>
+    // Silence Tailwind CDN production notice in browser console
+    const _origWarn = console.warn;
+    console.warn = function(...args) {
+      if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+      _origWarn.apply(console, args);
+    };
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -9224,8 +9232,6 @@
       if (lbl) lbl.innerText = parseInt(count).toLocaleString() + ' entities';
       renderSimVisualizer('21');
     }
-
-    let _packetPipelineAnimId = null;
 
     let _packetPipelineAnimId = null;
 
