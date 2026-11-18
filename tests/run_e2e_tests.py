@@ -64,6 +64,13 @@ def verify_build_pipeline(repo_root):
         print("[FAIL] docs/docs-data.js missing or undersized")
         return False
 
+    # 4. verify_vtable_completeness.py
+    vtable_script = repo_root / "tools" / "verify_vtable_completeness.py"
+    res3 = subprocess.run([sys.executable, str(vtable_script)], cwd=str(repo_root), capture_output=True, text=True)
+    if res3.returncode != 0:
+        print(f"[FAIL] tools/verify_vtable_completeness.py failed:\n{res3.stdout}\n{res3.stderr}")
+        return False
+
     return True
 
 def verify_guardrails(repo_root):

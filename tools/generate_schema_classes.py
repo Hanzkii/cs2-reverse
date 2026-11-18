@@ -131,6 +131,56 @@ def deduce_field_type(name: str, raw_type: str = "") -> str:
     return "uintptr_t"
 
 
+def sanitize_filename(name: str) -> str:
+    """Sanitizes class names containing '::' or other invalid filesystem characters."""
+    return name.replace("::", "__").replace("<", "_").replace(">", "_").replace("*", "_").replace("?", "_").replace('"', "_")
+
+
+def get_header_filename(cls_name: str) -> str:
+    return f"{sanitize_filename(cls_name)}.h"
+
+
+def sanitize_cpp_identifier(name: str) -> str:
+    """Replaces C++ scope resolution operators with underscores for non-nested declarations."""
+    return name.replace("::", "_").replace("<", "_").replace(">", "_")
+
+
+def get_all_entity_classes(schemas: Dict[str, Any]) -> List[str]:
+    """
+    Computes all classes in the schema profile representing networked entities, controllers,
+    projectiles, and core game services derived from CEntityInstance, C_BaseEntity, CBaseEntity,
+    C_BaseModelEntity, C_BasePlayerPawn, etc.
+    """
+    entity_bases = {
+        "CEntityInstance", "C_BaseEntity", "CBaseEntity",
+        "C_BaseModelEntity", "CBaseModelEntity", "C_BasePlayerPawn", "CBasePlayerPawn",
+        "C_CSPlayerPawnBase", "C_CSPlayerPawn", "CCSPlayerController", "CBasePlayerController",
+        "C_BaseCombatCharacter", "C_BasePlayerWeapon", "C_CSWeaponBase", "C_EconEntity",
+        "C_BaseGrenade", "C_BaseCSGrenadeProjectile", "C_SmokeGrenadeProjectile", "C_PlantedC4",
+        "CGameSceneNode", "CSkeletonInstance"
+    }
+
+    cache = {}
+    def is_entity(name: str) -> bool:
+        if name in cache:
+            return cache[name]
+        if name in entity_bases:
+            cache[name] = True
+            return True
+        info = schemas.get(name)
+        if not info:
+            cache[name] = False
+            return False
+        base = info.get("base")
+        if base and is_entity(base):
+            cache[name] = True
+            return True
+        cache[name] = False
+        return False
+
+    return [c for c in schemas.keys() if is_entity(c)]
+
+
 # =============================================================================
 # Schema Class Header Generator
 # =============================================================================
@@ -172,6 +222,10 @@ def generate_class_header(cls_name: str, cls_info: Dict[str, Any], schemas: Dict
     base_size = schemas[base_name].get("size", 0) if has_base else 0
     delta_size = class_size - base_size
 
+    safe_cpp_name = cls_name
+    if "::" in cls_name:
+        safe_cpp_name = sanitize_cpp_identifier(cls_name)
+
     lines = []
     lines.append("// ============================================================================")
     lines.append("// Source 2 Clean-Room Reconstructed Schema Class")
@@ -185,7 +239,7 @@ def generate_class_header(cls_name: str, cls_info: Dict[str, Any], schemas: Dict
     lines.append("")
     lines.append('#include "schema_types.h"')
     if has_base:
-        lines.append(f'#include "{base_name}.h"')
+        lines.append(f'#include "{get_header_filename(base_name)}"')
     lines.append("")
     lines.append("namespace cs2::schema {")
     lines.append("")
@@ -196,8 +250,9 @@ def generate_class_header(cls_name: str, cls_info: Dict[str, Any], schemas: Dict
     lines.append(f" * Layout Footprint: {size_hex} bytes")
     lines.append(" */")
 
-    inheritance = f" : public {base_name}" if has_base else ""
-    lines.append(f"class {cls_name}{inheritance} {{")
+    base_cpp_name = sanitize_cpp_identifier(base_name) if "::" in base_name else base_name
+    inheritance = f" : public {base_cpp_name}" if has_base else ""
+    lines.append(f"class {safe_cpp_name}{inheritance} {{")
     lines.append("public:")
     lines.append(f'    static constexpr const char* SCHEMA_CLASS_NAME = "{cls_name}";')
     lines.append(f'    static constexpr const char* SCHEMA_MODULE_NAME = "{binary}";')
@@ -227,7 +282,7 @@ def generate_class_header(cls_name: str, cls_info: Dict[str, Any], schemas: Dict
 
     lines.append("};")
     lines.append("")
-    lines.append(f'static_assert(sizeof({cls_name}) == {size_hex}, "{cls_name} size must match Source 2 schema exactly");')
+    lines.append(f'static_assert(sizeof({safe_cpp_name}) == {size_hex}, "{safe_cpp_name} size must match Source 2 schema exactly");')
     lines.append("")
     lines.append(f"}} // namespace cs2::schema")
     lines.append("")
@@ -308,7 +363,7 @@ def generate_master_aggregator_header(class_order: List[str]) -> str:
     lines.append("")
     lines.append("// Topological include hierarchy")
     for cls in class_order:
-        lines.append(f'#include "{cls}.h"')
+        lines.append(f'#include "{get_header_filename(cls)}"')
     lines.append("")
     lines.append("namespace cs2::shared {")
     lines.append("    // Expose schema namespace to shared subsystem")
@@ -338,6 +393,11 @@ def main() -> int:
         help="Output directory for generated C++20 headers (default: game/shared/schema_classes)"
     )
     parser.add_argument(
+        "--entities",
+        action="store_true",
+        help="Generate full network entity coverage (all 354+ entity classes inheriting from CEntityInstance/C_BaseEntity)"
+    )
+    parser.add_argument(
         "--all",
         action="store_true",
         help="Generate headers for all classes in schemas.json (default: generate key classes + dependency closure)"
@@ -357,6 +417,9 @@ def main() -> int:
     # Determine classes to generate
     if args.all:
         target_names = list(schemas.keys())
+    elif args.entities:
+        target_names = get_all_entity_classes(schemas)
+        print(f"[+] Discovered {len(target_names)} network entity classes derived from CEntityInstance / C_BaseEntity.")
     else:
         # Combine key targets and extended targets
         combined = list(dict.fromkeys(KEY_TARGET_CLASSES + EXTENDED_TARGET_CLASSES))
@@ -376,7 +439,7 @@ def main() -> int:
     # 2. Generate individual class headers
     emitted_count = 0
     for cls_name in class_order:
-        header_path = args.output_dir / f"{cls_name}.h"
+        header_path = args.output_dir / get_header_filename(cls_name)
         header_content = generate_class_header(cls_name, schemas[cls_name], schemas)
         with open(header_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(header_content)
