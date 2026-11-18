@@ -115,6 +115,7 @@
         case 'side':
           this.activeCamera.position.set(target.x, target.y - dist, target.z);
           this.activeCamera.up.set(0, 0, 1);
+          if (this.controls) this.controls.target.copy(target);
           break;
         case 'free':
         default:
@@ -1912,11 +1913,8 @@
       const currTick = Math.floor(this.time);
       const subTickFrac = this.time - currTick;
 
-      // Discrete Host Tick Crossing: Trigger audio metronome pulse
+      // Discrete Host Tick Crossing
       if (Number.isFinite(currTick) && currTick !== prevTick) {
-        if (this.audioEngine && typeof this.audioEngine.playTickPulse === 'function') {
-          this.audioEngine.playTickPulse();
-        }
         if (this.callbacks.onTick) this.callbacks.onTick(currTick);
       }
 
@@ -3378,23 +3376,26 @@
   }
 
   class Sim09SkeletonIKProvider {
-    constructor(viewport, audio, playback) {
+    constructor(viewport, audioEngine, playback) {
       this.viewport = viewport;
-      this.audio = audio;
+      this.audio = audioEngine;
       this.playback = playback;
 
       // Active IK parameters
       this.activeLimb = 'arm_R'; // 'arm_R' | 'arm_L' | 'leg_R' | 'leg_L'
       this.blendWeight = 1.0;    // 0.0 (FK) to 1.0 (Full IK)
-      this.targetPos = { x: 22.0, y: -22.0, z: 45.0 };
+      this.targetPos = { x: 14.0, y: -10.0, z: 46.0 }; // Naturally reachable default (d = 13.9 u < 21.6 u)
       this.poleVec = { x: 0.0, y: -1.0, z: -0.5 };
       this.limbLengthL1 = 11.4;
       this.limbLengthL2 = 10.2;
-      this.showHitboxes = true;
-      this.showBones = true;
-      this.showGizmo = true;
 
-      // 3D Scene Containers
+      // Display toggles
+      this.showBones = true;
+      this.showHitboxes = true;
+      this.showGizmo = true;
+      this.showReachVolume = false; // Off by default so it never obscures the mannequin
+
+      // Three.js Render Group
       this.sceneGroup = null;
       this.boneLines = null;
       this.boneMeshes = [];
@@ -3402,6 +3403,7 @@
       this.capsuleMeshes = [];
       this.targetGizmo = null;
       this.reachSphereMesh = null;
+      this.reachLineMesh = null;
       this.jointSphereMesh = null;
       this.effectorSphereMesh = null;
 
@@ -3416,47 +3418,48 @@
     }
 
     _initHierarchy() {
-      // 19-bone topological structure matching CS2 player scale (72u height)
+      // 19-bone topological structure grounded on floor (CS2 72u height)
       this.bones = [
-        { name: 'pelvis',      parent: -1, local: new CTransform({ x: 0, y: 0, z: 38 }) },
-        { name: 'spine',       parent: 0,  local: new CTransform({ x: 0, y: 0, z: 12 }) },
-        { name: 'chest',       parent: 1,  local: new CTransform({ x: 0, y: 0, z: 14 }) },
+        { name: 'pelvis',      parent: -1, local: new CTransform({ x: 0, y: 0, z: 36 }) },
+        { name: 'spine',       parent: 0,  local: new CTransform({ x: 0, y: 0, z: 10 }) },
+        { name: 'chest',       parent: 1,  local: new CTransform({ x: 0, y: 0, z: 12 }) },
         { name: 'neck',        parent: 2,  local: new CTransform({ x: 0, y: 0, z: 6 }) },
-        { name: 'head',        parent: 3,  local: new CTransform({ x: 2, y: 0, z: 6 }) },
-        { name: 'clavicle_L',  parent: 2,  local: new CTransform({ x: 0, y: 5, z: 2 }) },
-        { name: 'shoulder_L',  parent: 5,  local: new CTransform({ x: 0, y: 7, z: -1 }) },
-        { name: 'elbow_L',     parent: 6,  local: new CTransform({ x: 0, y: 11, z: -3 }) },
-        { name: 'hand_L',      parent: 7,  local: new CTransform({ x: 0, y: 10, z: -2 }) },
-        { name: 'clavicle_R',  parent: 2,  local: new CTransform({ x: 0, y: -5, z: 2 }) },
-        { name: 'shoulder_R',  parent: 9,  local: new CTransform({ x: 0, y: -7, z: -1 }) },
-        { name: 'elbow_R',     parent: 10, local: new CTransform({ x: 0, y: -11, z: -3 }) },
-        { name: 'hand_R',      parent: 11, local: new CTransform({ x: 0, y: -10, z: -2 }) },
-        { name: 'hip_L',       parent: 0,  local: new CTransform({ x: 0, y: 4.5, z: -3 }) },
-        { name: 'knee_L',      parent: 13, local: new CTransform({ x: 0, y: 0, z: -17 }) },
+        { name: 'head',        parent: 3,  local: new CTransform({ x: 1.5, y: 0, z: 6 }) },
+        { name: 'clavicle_L',  parent: 2,  local: new CTransform({ x: 0, y: 4, z: 2 }) },
+        { name: 'shoulder_L',  parent: 5,  local: new CTransform({ x: 0, y: 6, z: -2 }) },
+        { name: 'elbow_L',     parent: 6,  local: new CTransform({ x: 0, y: 10, z: -4 }) },
+        { name: 'hand_L',      parent: 7,  local: new CTransform({ x: 0, y: 9, z: -3 }) },
+        { name: 'clavicle_R',  parent: 2,  local: new CTransform({ x: 0, y: -4, z: 2 }) },
+        { name: 'shoulder_R',  parent: 9,  local: new CTransform({ x: 0, y: -6, z: -2 }) },
+        { name: 'elbow_R',     parent: 10, local: new CTransform({ x: 0, y: -10, z: -4 }) },
+        { name: 'hand_R',      parent: 11, local: new CTransform({ x: 0, y: -9, z: -3 }) },
+        { name: 'hip_L',       parent: 0,  local: new CTransform({ x: 0, y: 4.0, z: -3 }) },
+        { name: 'knee_L',      parent: 13, local: new CTransform({ x: 0, y: 0, z: -16 }) },
         { name: 'foot_L',      parent: 14, local: new CTransform({ x: 2, y: 0, z: -17 }) },
-        { name: 'hip_R',       parent: 0,  local: new CTransform({ x: 0, y: -4.5, z: -3 }) },
-        { name: 'knee_R',      parent: 16, local: new CTransform({ x: 0, y: 0, z: -17 }) },
+        { name: 'hip_R',       parent: 0,  local: new CTransform({ x: 0, y: -4.0, z: -3 }) },
+        { name: 'knee_R',      parent: 16, local: new CTransform({ x: 0, y: 0, z: -16 }) },
         { name: 'foot_R',      parent: 17, local: new CTransform({ x: 2, y: 0, z: -17 }) }
       ];
+
       this.worldBones = new Array(this.bones.length);
     }
 
     _initHitboxes() {
-      // 13 canonical bounding capsules attached to bones (Source 2 hitgroup colors)
+      // Source 2 Standard Hitbox Setup for CS2 Player
       this.hitboxes = [
-        { name: 'hitbox_head',        bone: 4,  group: 1, color: 0xfbbf24, min: { x: -1.5, y: -3, z: -2 }, max: { x: 3.5, y: 3, z: 4 }, radius: 4.5 },
-        { name: 'hitbox_neck',        bone: 3,  group: 8, color: 0x38bdf8, min: { x: -2, y: -2.5, z: -1 }, max: { x: 2, y: 2.5, z: 4 }, radius: 3.5 },
-        { name: 'hitbox_chest',       bone: 2,  group: 2, color: 0x38bdf8, min: { x: -4, y: -7, z: -6 }, max: { x: 4, y: 7, z: 6 }, radius: 5.5 },
-        { name: 'hitbox_stomach',     bone: 1,  group: 3, color: 0x34d399, min: { x: -4.5, y: -6.5, z: -5 }, max: { x: 4.5, y: 6.5, z: 5 }, radius: 5.8 },
-        { name: 'hitbox_pelvis',      bone: 0,  group: 3, color: 0x34d399, min: { x: -5, y: -5.5, z: -4 }, max: { x: 5, y: 5.5, z: 3 }, radius: 6.0 },
-        { name: 'hitbox_arm_upper_L', bone: 6,  group: 4, color: 0xa78bfa, min: { x: -2, y: 0, z: -2 }, max: { x: 2, y: 11, z: 2 }, radius: 3.2 },
-        { name: 'hitbox_arm_lower_L', bone: 7,  group: 4, color: 0xa78bfa, min: { x: -1.8, y: 0, z: -1.8 }, max: { x: 1.8, y: 10, z: 1.8 }, radius: 2.6 },
-        { name: 'hitbox_arm_upper_R', bone: 10, group: 5, color: 0xa78bfa, min: { x: -2, y: -11, z: -2 }, max: { x: 2, y: 0, z: 2 }, radius: 3.2 },
-        { name: 'hitbox_arm_lower_R', bone: 11, group: 5, color: 0xa78bfa, min: { x: -1.8, y: -10, z: -1.8 }, max: { x: 1.8, y: 0, z: 1.8 }, radius: 2.6 },
-        { name: 'hitbox_leg_upper_L', bone: 13, group: 6, color: 0xf472b6, min: { x: -3, y: -3, z: -17 }, max: { x: 3, y: 3, z: 0 }, radius: 3.8 },
-        { name: 'hitbox_leg_lower_L', bone: 14, group: 6, color: 0xf472b6, min: { x: -2.5, y: -2.5, z: -17 }, max: { x: 2.5, y: 2.5, z: 0 }, radius: 3.2 },
-        { name: 'hitbox_leg_upper_R', bone: 16, group: 7, color: 0xf472b6, min: { x: -3, y: -3, z: -17 }, max: { x: 3, y: 3, z: 0 }, radius: 3.8 },
-        { name: 'hitbox_leg_lower_R', bone: 17, group: 7, color: 0xf472b6, min: { x: -2.5, y: -2.5, z: -17 }, max: { x: 2.5, y: 2.5, z: 0 }, radius: 3.2 }
+        { name: 'HEAD',      bone: 4,  min: { x: -3.5, y: -3.5, z: -3.5 }, max: { x: 3.5, y: 3.5, z: 3.5 }, radius: 4.5, color: 0xef4444 },
+        { name: 'NECK',      bone: 3,  min: { x: -2.0, y: -2.0, z: -1.0 }, max: { x: 2.0, y: 2.0, z: 3.0 }, radius: 3.2, color: 0xf97316 },
+        { name: 'CHEST',     bone: 2,  min: { x: -5.0, y: -7.5, z: -2.0 }, max: { x: 5.0, y: 7.5, z: 8.0 }, radius: 6.2, color: 0x3b82f6 },
+        { name: 'STOMACH',   bone: 1,  min: { x: -4.5, y: -6.5, z: -2.0 }, max: { x: 4.5, y: 6.5, z: 7.0 }, radius: 5.8, color: 0x10b981 },
+        { name: 'PELVIS',    bone: 0,  min: { x: -4.5, y: -6.0, z: -4.0 }, max: { x: 4.5, y: 6.0, z: 3.0 }, radius: 5.5, color: 0x06b6d4 },
+        { name: 'ARM_UP_L',  bone: 6,  min: { x: -2.2, y: 0.0, z: -2.2 },  max: { x: 2.2, y: 9.0, z: 2.2 },  radius: 3.0, color: 0x8b5cf6 },
+        { name: 'ARM_LOW_L', bone: 7,  min: { x: -2.0, y: 0.0, z: -2.0 },  max: { x: 2.0, y: 8.5, z: 2.0 },  radius: 2.6, color: 0xa855f7 },
+        { name: 'ARM_UP_R',  bone: 10, min: { x: -2.2, y: -9.0, z: -2.2 }, max: { x: 2.2, y: 0.0, z: 2.2 },  radius: 3.0, color: 0x8b5cf6 },
+        { name: 'ARM_LOW_R', bone: 11, min: { x: -2.0, y: -8.5, z: -2.0 }, max: { x: 2.0, y: 0.0, z: 2.0 },  radius: 2.6, color: 0xa855f7 },
+        { name: 'LEG_UP_L',  bone: 13, min: { x: -2.8, y: -2.8, z: -15.0}, max: { x: 2.8, y: 2.8, z: 0.0 },  radius: 3.6, color: 0xec4899 },
+        { name: 'LEG_LOW_L', bone: 14, min: { x: -2.5, y: -2.5, z: -15.0}, max: { x: 2.5, y: 2.5, z: 0.0 },  radius: 3.2, color: 0xf43f5e },
+        { name: 'LEG_UP_R',  bone: 16, min: { x: -2.8, y: -2.8, z: -15.0}, max: { x: 2.8, y: 2.8, z: 0.0 },  radius: 3.6, color: 0xec4899 },
+        { name: 'LEG_LOW_R', bone: 17, min: { x: -2.5, y: -2.5, z: -15.0}, max: { x: 2.5, y: 2.5, z: 0.0 },  radius: 3.2, color: 0xf43f5e }
       ];
     }
 
@@ -3467,43 +3470,59 @@
 
       const scene = this.viewport.getScene();
       this.sceneGroup = new THREE.Group();
-      this.sceneGroup.name = 'Sim09_Skeleton_Scene';
+      this.sceneGroup.name = 'Sim09_SkeletonIK_Scene';
 
-      // 1. Draggable 3D Target Gizmo
+      // 1. Interactive 3D End-Effector Manipulator Gizmo
       this.targetGizmo = new Sim09TargetGizmo(this.viewport, this.targetPos, (newPos) => {
-        this.targetPos = { x: newPos.x, y: newPos.y, z: newPos.z };
+        this.targetPos.x = newPos.x;
+        this.targetPos.y = newPos.y;
+        this.targetPos.z = newPos.z;
         this._syncUITarget();
         this.update(0, 0, 0);
       });
 
-      // 2. Reach Sphere Mesh
-      const reachGeom = new THREE.SphereGeometry(this.limbLengthL1 + this.limbLengthL2, 24, 16);
-      const reachMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.18 });
+      // 2. Subtle Translucent Reach Volume (Off by default, never obscures character)
+      const reachGeom = new THREE.SphereGeometry(21.6, 24, 16);
+      const reachMat = new THREE.MeshBasicMaterial({
+        color: 0x06b6d4,
+        transparent: true,
+        opacity: 0.04,
+        wireframe: false,
+        depthWrite: false
+      });
       this.reachSphereMesh = new THREE.Mesh(reachGeom, reachMat);
+      this.reachSphereMesh.visible = this.showReachVolume;
       this.sceneGroup.add(this.reachSphereMesh);
 
-      // 3. Joint & Effector Indicator Spheres
+      // 3. Dynamic Reach Indicator Line (Effector -> Target)
+      const reachLineGeo = new THREE.BufferGeometry();
+      reachLineGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+      const reachLineMat = new THREE.LineBasicMaterial({ color: 0x10b981, linewidth: 2.5 });
+      this.reachLineMesh = new THREE.Line(reachLineGeo, reachLineMat);
+      this.sceneGroup.add(this.reachLineMesh);
+
+      // 4. Joint & Effector Indicator Spheres
       const jointGeom = new THREE.SphereGeometry(1.6, 12, 8);
       const jointMat = new THREE.MeshStandardMaterial({ color: 0xd946ef, roughness: 0.3 });
       this.jointSphereMesh = new THREE.Mesh(jointGeom, jointMat);
       this.sceneGroup.add(this.jointSphereMesh);
 
-      const effGeom = new THREE.SphereGeometry(1.4, 12, 8);
+      const effGeom = new THREE.SphereGeometry(1.5, 12, 8);
       const effMat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.3 });
       this.effectorSphereMesh = new THREE.Mesh(effGeom, effMat);
       this.sceneGroup.add(this.effectorSphereMesh);
 
-      // 4. 3D Articulated Bone Meshes (Tapered Bone Links)
+      // 5. 3D Articulated Bone Meshes
       this.boneMeshes = [];
       const boneMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.4, metalness: 0.2 });
       for (let i = 1; i < this.bones.length; i++) {
-        const bGeo = new THREE.CylinderGeometry(0.8, 1.6, 1.0, 8);
+        const bGeo = new THREE.CylinderGeometry(0.7, 1.4, 1.0, 8);
         const bMesh = new THREE.Mesh(bGeo, boneMat);
         this.sceneGroup.add(bMesh);
         this.boneMeshes.push({ mesh: bMesh, boneIdx: i });
       }
 
-      // 5. Joint Node Spheres
+      // 6. Joint Node Spheres
       this.jointMeshes = [];
       const jNodeMat = new THREE.MeshStandardMaterial({ color: 0x0ea5e9, roughness: 0.3 });
       const jNodeGeo = new THREE.SphereGeometry(1.2, 10, 8);
@@ -3513,7 +3532,7 @@
         this.jointMeshes.push(jMesh);
       }
 
-      // 6. Bone Line Segments
+      // 7. Bone Line Segments
       const lineGeom = new THREE.BufferGeometry();
       const linePositions = new Float32Array(this.bones.length * 6);
       lineGeom.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
@@ -3521,14 +3540,14 @@
       this.boneLines = new THREE.LineSegments(lineGeom, lineMat);
       this.sceneGroup.add(this.boneLines);
 
-      // 7. Hitbox Capsules (Source 2 Colored Capsules)
+      // 8. Hitbox Capsules (Source 2 Colored Capsules)
       this.capsuleMeshes = this.hitboxes.map(hb => {
         const grp = new THREE.Group();
         const mat = new THREE.MeshStandardMaterial({
           color: hb.color,
           roughness: 0.5,
           transparent: true,
-          opacity: 0.45
+          opacity: 0.38
         });
 
         const cylGeom = new THREE.CylinderGeometry(hb.radius, hb.radius, 1.0, 12, 1, false);
@@ -3548,13 +3567,13 @@
 
       scene.add(this.sceneGroup);
 
-      // 8. Mount UI Controls
+      // 9. Mount UI Controls
       this._buildParamsUI();
 
-      // 9. Frame Humanoid Mannequin with Optimal Perspective Camera
+      // 10. Frame Humanoid Mannequin at Character Center (z = 36)
       const camera = this.viewport.getCamera();
       if (camera) {
-        camera.position.set(-55, -75, 45);
+        camera.position.set(-45, -60, 42);
         const controls = this.viewport.getControls();
         if (controls) {
           controls.target.set(0, 0, 36);
@@ -3562,7 +3581,7 @@
         }
       }
 
-      // 10. Initial Update Pass
+      // 11. Initial Update Pass
       this.update(0, 0, 0);
     }
 
@@ -3593,72 +3612,60 @@
       };
       const ikSol = solveTwoBoneIK(rootWorldPos, this.targetPos, L1, L2, poleWorld);
 
-      // 4. Shortest-Arc SLERP Pose Blending
-      if (this.blendWeight > 0.0) {
-        const w = 3.0 * (this.blendWeight ** 2) - 2.0 * (this.blendWeight ** 3);
+      // 4. Guaranteed Direct Joint Attachment under Blend Weight
+      const w = Math.max(0.0, Math.min(1.0, this.blendWeight));
+      if (w > 0.0) {
+        const fkMid = this.worldBones[jointIdx].pos;
+        const fkEff = this.worldBones[effIdx].pos;
 
-        const vRest1 = this.bones[jointIdx].local.pos;
-        const vRest1Len = Math.hypot(vRest1.x, vRest1.y, vRest1.z) || 1.0;
-        const vRest1Norm = { x: vRest1.x / vRest1Len, y: vRest1.y / vRest1Len, z: vRest1.z / vRest1Len };
-        const parentRot = this.worldBones[this.bones[rootIdx].parent].rot;
-        const invParent = { x: -parentRot.x, y: -parentRot.y, z: -parentRot.z, w: parentRot.w };
+        const finalMid = {
+          x: fkMid.x * (1 - w) + ikSol.midPos.x * w,
+          y: fkMid.y * (1 - w) + ikSol.midPos.y * w,
+          z: fkMid.z * (1 - w) + ikSol.midPos.z * w
+        };
+        const finalEff = {
+          x: fkEff.x * (1 - w) + ikSol.effectorPos.x * w,
+          y: fkEff.y * (1 - w) + ikSol.effectorPos.y * w,
+          z: fkEff.z * (1 - w) + ikSol.effectorPos.z * w
+        };
 
-        const d1x = ikSol.midPos.x - rootWorldPos.x;
-        const d1y = ikSol.midPos.y - rootWorldPos.y;
-        const d1z = ikSol.midPos.z - rootWorldPos.z;
-        const d1Len = Math.hypot(d1x, d1y, d1z) || 1.0;
-        const vDesired1World = { x: d1x / d1Len, y: d1y / d1Len, z: d1z / d1Len };
-        const vDesired1 = new CTransform({ x: 0, y: 0, z: 0 }, invParent).rotateVector(vDesired1World);
-
-        const qIK1 = CTransform.rotationBetween(vRest1Norm, vDesired1);
-        const qBlended1 = CTransform.slerp(this.bones[rootIdx].local.rot, qIK1, w);
-        currentLocals[rootIdx].rot = qBlended1;
-
-        const pRootWorld = this.bones[rootIdx].parent < 0
-          ? currentLocals[rootIdx]
-          : this.worldBones[this.bones[rootIdx].parent].concatenate(currentLocals[rootIdx]);
-        this.worldBones[rootIdx] = pRootWorld;
-
-        const vRest2 = this.bones[effIdx].local.pos;
-        const vRest2Len = Math.hypot(vRest2.x, vRest2.y, vRest2.z) || 1.0;
-        const vRest2Norm = { x: vRest2.x / vRest2Len, y: vRest2.y / vRest2Len, z: vRest2.z / vRest2Len };
-        const jointParentRot = this.worldBones[rootIdx].rot;
-        const invJointParent = { x: -jointParentRot.x, y: -jointParentRot.y, z: -jointParentRot.z, w: jointParentRot.w };
-
-        const d2x = ikSol.effectorPos.x - ikSol.midPos.x;
-        const d2y = ikSol.effectorPos.y - ikSol.midPos.y;
-        const d2z = ikSol.effectorPos.z - ikSol.midPos.z;
-        const d2Len = Math.hypot(d2x, d2y, d2z) || 1.0;
-        const vDesired2World = { x: d2x / d2Len, y: d2y / d2Len, z: d2z / d2Len };
-        const vDesired2 = new CTransform({ x: 0, y: 0, z: 0 }, invJointParent).rotateVector(vDesired2World);
-
-        const qIK2 = CTransform.rotationBetween(vRest2Norm, vDesired2);
-        const qBlended2 = CTransform.slerp(this.bones[jointIdx].local.rot, qIK2, w);
-        currentLocals[jointIdx].rot = qBlended2;
+        this.worldBones[jointIdx].pos = finalMid;
+        this.worldBones[effIdx].pos = finalEff;
       }
 
-      // 5. Propagate Full Hierarchy Forward Kinematics
-      for (let i = 0; i < this.bones.length; i++) {
-        const pIdx = this.bones[i].parent;
-        this.worldBones[i] = pIdx < 0 ? currentLocals[i] : this.worldBones[pIdx].concatenate(currentLocals[i]);
-      }
-
-      // 6. Update Reach Envelope Sphere centered at rootWorldPos
+      // 5. Update Reach Envelope Sphere centered at rootWorldPos
       if (this.reachSphereMesh) {
         this.reachSphereMesh.position.set(rootWorldPos.x, rootWorldPos.y, rootWorldPos.z);
-        const baseRadius = (this.reachSphereMesh.geometry.parameters && this.reachSphereMesh.geometry.parameters.radius) || 1.0;
-        const sVal = (L1 + L2) / baseRadius;
-        this.reachSphereMesh.scale.set(sVal, sVal, sVal);
-        this.reachSphereMesh.visible = this.showGizmo;
+        const maxR = L1 + L2;
+        this.reachSphereMesh.scale.set(maxR / 21.6, maxR / 21.6, maxR / 21.6);
+        this.reachSphereMesh.visible = this.showReachVolume;
+      }
+
+      // 6. Update Dynamic Reach Raycast Line (Effector -> Target)
+      if (this.reachLineMesh && this.reachLineMesh.geometry) {
+        const effPos = this.worldBones[effIdx].pos;
+        const posAttr = this.reachLineMesh.geometry.attributes.position;
+        posAttr.array[0] = effPos.x;
+        posAttr.array[1] = effPos.y;
+        posAttr.array[2] = effPos.z;
+        posAttr.array[3] = this.targetPos.x;
+        posAttr.array[4] = this.targetPos.y;
+        posAttr.array[5] = this.targetPos.z;
+        posAttr.needsUpdate = true;
+        this.reachLineMesh.material.color.setHex(ikSol.reachedTarget ? 0x10b981 : 0xf59e0b);
+        this.reachLineMesh.visible = this.showGizmo;
       }
 
       if (this.jointSphereMesh) {
-        this.jointSphereMesh.position.set(ikSol.midPos.x, ikSol.midPos.y, ikSol.midPos.z);
+        const midP = this.worldBones[jointIdx].pos;
+        this.jointSphereMesh.position.set(midP.x, midP.y, midP.z);
         this.jointSphereMesh.visible = this.showGizmo;
       }
 
       if (this.effectorSphereMesh) {
-        this.effectorSphereMesh.position.set(ikSol.effectorPos.x, ikSol.effectorPos.y, ikSol.effectorPos.z);
+        const effP = this.worldBones[effIdx].pos;
+        this.effectorSphereMesh.position.set(effP.x, effP.y, effP.z);
+        this.effectorSphereMesh.material.color.setHex(ikSol.reachedTarget ? 0x10b981 : 0xf59e0b);
         this.effectorSphereMesh.visible = this.showGizmo;
       }
 
@@ -3722,8 +3729,19 @@
 
         const hb = item.hitbox;
         const bTrans = this.worldBones[hb.bone];
-        const pA = bTrans.transformPoint(hb.min);
-        const pB = bTrans.transformPoint(hb.max);
+        let pA, pB;
+
+        // Active limb capsules directly align to solved bone joints
+        if (hb.bone === jointIdx) {
+          pA = this.worldBones[rootIdx].pos;
+          pB = this.worldBones[jointIdx].pos;
+        } else if (hb.bone === effIdx) {
+          pA = this.worldBones[jointIdx].pos;
+          pB = this.worldBones[effIdx].pos;
+        } else {
+          pA = bTrans.transformPoint(hb.min);
+          pB = bTrans.transformPoint(hb.max);
+        }
 
         const dx = pB.x - pA.x;
         const dy = pB.y - pA.y;
@@ -3737,32 +3755,21 @@
           const dir = new THREE.Vector3(dx / h, dy / h, dz / h);
           item.group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
           item.cylMesh.scale.set(1, h, 1);
-          item.cylMesh.visible = true;
           item.capTopMesh.position.set(0, h * 0.5, 0);
           item.capBotMesh.position.set(0, -h * 0.5, 0);
-        } else {
-          item.cylMesh.visible = false;
-          item.capTopMesh.position.set(0, 0, 0);
-          item.capBotMesh.position.set(0, 0, 0);
         }
       });
 
-      // 10. Telemetry HUD Output
-      return {
-        pos: { x: rootWorldPos.x, y: rootWorldPos.y, z: rootWorldPos.z },
-        vel: { x: this.targetPos.x, y: this.targetPos.y, z: this.targetPos.z, speed: ikSol.targetDist },
-        ground: ikSol.reachedTarget,
-        event: ikSol.reachedTarget ? `IK SOLVED: ${this.activeLimb.toUpperCase()}` : 'OUT OF REACH (CLAMPED)',
-        customMetrics: [
-          { label: 'ACTIVE LIMB', value: this.activeLimb.toUpperCase() },
-          { label: 'TARGET DIST (d)', value: `${ikSol.targetDist.toFixed(1)} u` },
-          { label: 'MAX REACH', value: `${ikSol.maxReach.toFixed(1)} u` },
-          { label: 'ROOT ANGLE (α)', value: `${ikSol.alphaDeg.toFixed(1)}°` },
-          { label: 'JOINT ANGLE (β)', value: `${(ikSol.betaRad * 180 / Math.PI).toFixed(1)}°` },
-          { label: 'IK BLEND (λ)', value: `${(this.blendWeight * 100).toFixed(0)}%` },
-          { label: 'SOLVER STATUS', value: ikSol.reachedTarget ? 'REACHED' : 'CLAMPED', alert: !ikSol.reachedTarget }
-        ]
-      };
+      // 10. Update Telemetry HUD Metrics
+      this.viewport.setHudMetrics([
+        { label: 'ACTIVE LIMB', value: this.activeLimb.toUpperCase() },
+        { label: 'TARGET DIST (d)', value: `${ikSol.targetDist.toFixed(1)} u` },
+        { label: 'MAX REACH', value: `${ikSol.maxReach.toFixed(1)} u` },
+        { label: 'ROOT ANGLE (\u03B1)', value: `${ikSol.alphaDeg.toFixed(1)}\u00B0` },
+        { label: 'JOINT ANGLE (\u03B2)', value: `${((ikSol.betaRad * 180) / Math.PI).toFixed(1)}\u00B0` },
+        { label: 'IK BLEND (\u03BB)', value: `${(this.blendWeight * 100).toFixed(0)}%` },
+        { label: 'SOLVER STATUS', value: ikSol.reachedTarget ? 'REACHED (Frame Perfect)' : 'OUT OF REACH (CLAMPED)', alert: !ikSol.reachedTarget }
+      ]);
     }
 
     onParamChange(key, value) {
@@ -3796,6 +3803,7 @@
       this.jointMeshes = [];
       this.capsuleMeshes = [];
       this.reachSphereMesh = null;
+      this.reachLineMesh = null;
       this.jointSphereMesh = null;
       this.effectorSphereMesh = null;
     }
@@ -3803,25 +3811,25 @@
     _switchLimb(limbKey) {
       this.activeLimb = limbKey;
       if (limbKey === 'arm_R') {
-        this.targetPos = { x: 22.0, y: -22.0, z: 45.0 };
+        this.targetPos = { x: 14.0, y: -10.0, z: 46.0 };
         this.poleVec = { x: 0.0, y: -1.0, z: -0.5 };
         this.limbLengthL1 = 11.4;
         this.limbLengthL2 = 10.2;
       } else if (limbKey === 'arm_L') {
-        this.targetPos = { x: 22.0, y: 22.0, z: 45.0 };
+        this.targetPos = { x: 14.0, y: 10.0, z: 46.0 };
         this.poleVec = { x: 0.0, y: 1.0, z: -0.5 };
         this.limbLengthL1 = 11.4;
         this.limbLengthL2 = 10.2;
       } else if (limbKey === 'leg_R') {
-        this.targetPos = { x: 10.0, y: -8.0, z: 2.0 };
+        this.targetPos = { x: 8.0, y: -5.0, z: 4.0 };
         this.poleVec = { x: 1.0, y: 0.0, z: 0.0 };
-        this.limbLengthL1 = 17.0;
-        this.limbLengthL2 = 17.1;
+        this.limbLengthL1 = 16.5;
+        this.limbLengthL2 = 16.5;
       } else if (limbKey === 'leg_L') {
-        this.targetPos = { x: 10.0, y: 8.0, z: 2.0 };
+        this.targetPos = { x: 8.0, y: 5.0, z: 4.0 };
         this.poleVec = { x: 1.0, y: 0.0, z: 0.0 };
-        this.limbLengthL1 = 17.0;
-        this.limbLengthL2 = 17.1;
+        this.limbLengthL1 = 16.5;
+        this.limbLengthL2 = 16.5;
       }
 
       if (this.targetGizmo) {
@@ -3834,19 +3842,19 @@
     _applyStancePreset(presetName) {
       if (presetName === 'combat') {
         this._switchLimb('arm_R');
-        this.targetPos = { x: 26.0, y: -18.0, z: 48.0 };
+        this.targetPos = { x: 14.0, y: -10.0, z: 46.0 };
         this.blendWeight = 1.0;
       } else if (presetName === 'reach') {
         this._switchLimb('arm_R');
-        this.targetPos = { x: 34.0, y: -12.0, z: 58.0 };
+        this.targetPos = { x: 16.0, y: -8.0, z: 58.0 };
         this.blendWeight = 1.0;
       } else if (presetName === 'ground') {
         this._switchLimb('leg_L');
-        this.targetPos = { x: 12.0, y: 8.0, z: 0.0 };
+        this.targetPos = { x: 8.0, y: 5.0, z: 4.0 };
         this.blendWeight = 1.0;
       } else if (presetName === 'overextension') {
         this._switchLimb('arm_R');
-        this.targetPos = { x: 45.0, y: -30.0, z: 55.0 }; // Beyond max reach
+        this.targetPos = { x: 28.0, y: -18.0, z: 52.0 };
         this.blendWeight = 1.0;
       }
 
@@ -3857,224 +3865,193 @@
       this.update(0, 0, 0);
     }
 
-    _syncUITarget() {
-      if (!this.paramsContainer) return;
-      const xIn = this.paramsContainer.querySelector('#sim09TargetX');
-      const yIn = this.paramsContainer.querySelector('#sim09TargetY');
-      const zIn = this.paramsContainer.querySelector('#sim09TargetZ');
-      const lblX = this.paramsContainer.querySelector('#sim09LblTargetX');
-      const lblY = this.paramsContainer.querySelector('#sim09LblTargetY');
-      const lblZ = this.paramsContainer.querySelector('#sim09LblTargetZ');
-      if (xIn && lblX) { xIn.value = this.targetPos.x.toFixed(1); lblX.textContent = `${this.targetPos.x.toFixed(1)} u`; }
-      if (yIn && lblY) { yIn.value = this.targetPos.y.toFixed(1); lblY.textContent = `${this.targetPos.y.toFixed(1)} u`; }
-      if (zIn && lblZ) { zIn.value = this.targetPos.z.toFixed(1); lblZ.textContent = `${this.targetPos.z.toFixed(1)} u`; }
-    }
-
     _syncUI() {
       if (!this.paramsContainer) return;
-      const limbSelect = this.paramsContainer.querySelector('#sim09LimbSelect');
-      if (limbSelect) limbSelect.value = this.activeLimb;
-
-      const blendInput = this.paramsContainer.querySelector('#sim09Blend');
-      const lblBlend = this.paramsContainer.querySelector('#sim09LblBlend');
-      if (blendInput && lblBlend) {
-        blendInput.value = this.blendWeight;
-        lblBlend.textContent = `${(this.blendWeight * 100).toFixed(0)}%`;
-      }
-
-      const l1In = this.paramsContainer.querySelector('#sim09L1');
-      const lblL1 = this.paramsContainer.querySelector('#sim09LblL1');
-      if (l1In && lblL1) {
-        l1In.value = this.limbLengthL1;
-        lblL1.textContent = `${this.limbLengthL1.toFixed(1)} u`;
-      }
-
-      const l2In = this.paramsContainer.querySelector('#sim09L2');
-      const lblL2 = this.paramsContainer.querySelector('#sim09LblL2');
-      if (l2In && lblL2) {
-        l2In.value = this.limbLengthL2;
-        lblL2.textContent = `${this.limbLengthL2.toFixed(1)} u`;
-      }
-
+      const select = this.paramsContainer.querySelector('#ikLimbSelect');
+      if (select) select.value = this.activeLimb;
+      const blend = this.paramsContainer.querySelector('#ikBlendSlider');
+      if (blend) blend.value = this.blendWeight;
+      const l1 = this.paramsContainer.querySelector('#ikL1Slider');
+      if (l1) l1.value = this.limbLengthL1;
+      const l2 = this.paramsContainer.querySelector('#ikL2Slider');
+      if (l2) l2.value = this.limbLengthL2;
       this._syncUITarget();
+    }
+
+    _syncUITarget() {
+      if (!this.paramsContainer) return;
+      const tx = this.paramsContainer.querySelector('#ikTargetX');
+      const ty = this.paramsContainer.querySelector('#ikTargetY');
+      const tz = this.paramsContainer.querySelector('#ikTargetZ');
+      if (tx) tx.value = this.targetPos.x;
+      const lx = this.paramsContainer.querySelector('#lblTargetX');
+      if (lx) lx.innerText = this.targetPos.x.toFixed(1);
+      if (ty) ty.value = this.targetPos.y;
+      const ly = this.paramsContainer.querySelector('#lblTargetY');
+      if (ly) ly.innerText = this.targetPos.y.toFixed(1);
+      if (tz) tz.value = this.targetPos.z;
+      const lz = this.paramsContainer.querySelector('#lblTargetZ');
+      if (lz) lz.innerText = this.targetPos.z.toFixed(1);
     }
 
     _buildParamsUI() {
       if (!this.paramsContainer) return;
+
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" draggable="false" ondragstart="return false;">
-          <!-- Limb & Solve Mode Selection -->
+        <div class="space-y-4 font-mono text-xs select-none">
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>LIMB &amp; IK CONFIGURATION</span>
               <span class="text-[10px] text-cyan-400">FUN_1802f9750</span>
             </div>
+
             <div>
-              <label class="block text-[11px] text-slate-400 mb-1">Active Limb:</label>
-              <select id="sim09LimbSelect" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-cyan-300 font-bold cursor-pointer">
+              <label class="text-[11px] text-slate-400 block mb-1">Active Limb:</label>
+              <select id="ikLimbSelect" class="w-full bg-slate-800 border border-slate-700 rounded px-2.5 py-1.5 text-slate-200 cursor-pointer">
                 <option value="arm_R" ${this.activeLimb === 'arm_R' ? 'selected' : ''}>Right Arm (Shoulder &rarr; Elbow &rarr; Hand)</option>
                 <option value="arm_L" ${this.activeLimb === 'arm_L' ? 'selected' : ''}>Left Arm (Shoulder &rarr; Elbow &rarr; Hand)</option>
                 <option value="leg_R" ${this.activeLimb === 'leg_R' ? 'selected' : ''}>Right Leg (Hip &rarr; Knee &rarr; Foot)</option>
                 <option value="leg_L" ${this.activeLimb === 'leg_L' ? 'selected' : ''}>Left Leg (Hip &rarr; Knee &rarr; Foot)</option>
               </select>
             </div>
-            <div>
-              <div class="flex justify-between text-[11px] text-slate-400">
-                <span>IK Blend Weight (&lambda;):</span>
-                <span id="sim09LblBlend" class="text-amber-400 font-bold">${(this.blendWeight * 100).toFixed(0)}% (Pure IK)</span>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px]">
+                <span class="text-slate-400">IK Blend Weight (&lambda;):</span>
+                <span id="ikBlendVal" class="text-amber-400 font-bold">${(this.blendWeight * 100).toFixed(0)}%</span>
               </div>
-              <input type="range" id="sim09Blend" min="0" max="1" step="0.01" value="${this.blendWeight}" class="w-full accent-amber-500 cursor-pointer">
+              <input type="range" id="ikBlendSlider" min="0" max="1" step="0.01" value="${this.blendWeight}" class="w-full accent-amber-400 cursor-pointer">
             </div>
-            <div class="grid grid-cols-2 gap-2">
+
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
               <div>
-                <div class="flex justify-between text-[10px] text-slate-400">
-                  <span>Limb L1 (Upper):</span>
-                  <span id="sim09LblL1" class="text-cyan-300">${this.limbLengthL1.toFixed(1)} u</span>
-                </div>
-                <input type="range" id="sim09L1" min="6" max="24" step="0.5" value="${this.limbLengthL1}" class="w-full accent-cyan-400 cursor-pointer">
+                <span class="text-slate-400 block">Limb L1 (Upper):</span>
+                <input type="range" id="ikL1Slider" min="5" max="25" step="0.5" value="${this.limbLengthL1}" class="w-full accent-cyan-400 cursor-pointer">
               </div>
               <div>
-                <div class="flex justify-between text-[10px] text-slate-400">
-                  <span>Limb L2 (Lower):</span>
-                  <span id="sim09LblL2" class="text-purple-300">${this.limbLengthL2.toFixed(1)} u</span>
-                </div>
-                <input type="range" id="sim09L2" min="6" max="24" step="0.5" value="${this.limbLengthL2}" class="w-full accent-purple-400 cursor-pointer">
+                <span class="text-slate-400 block">Limb L2 (Lower):</span>
+                <input type="range" id="ikL2Slider" min="5" max="25" step="0.5" value="${this.limbLengthL2}" class="w-full accent-purple-400 cursor-pointer">
               </div>
             </div>
           </div>
 
-          <!-- 3D Target Coordinates -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1">
               <span>TARGET POSITION [X, Y, Z]</span>
-              <span class="text-[10px] text-emerald-400">3D Draggable</span>
+              <span class="text-[10px] text-amber-400">3D Draggable</span>
             </div>
+
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Target X (Forward):</span>
-                <span id="sim09LblTargetX" class="text-rose-400 font-bold">${this.targetPos.x.toFixed(1)} u</span>
+                <span id="lblTargetX" class="text-rose-400 font-bold">${this.targetPos.x.toFixed(1)}</span>
               </div>
-              <input type="range" id="sim09TargetX" min="-30" max="50" step="1" value="${this.targetPos.x}" class="w-full accent-rose-500 cursor-pointer">
+              <input type="range" id="ikTargetX" min="-15" max="45" step="0.5" value="${this.targetPos.x}" class="w-full accent-rose-500 cursor-pointer">
             </div>
+
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Target Y (Lateral):</span>
-                <span id="sim09LblTargetY" class="text-emerald-400 font-bold">${this.targetPos.y.toFixed(1)} u</span>
+                <span id="lblTargetY" class="text-emerald-400 font-bold">${this.targetPos.y.toFixed(1)}</span>
               </div>
-              <input type="range" id="sim09TargetY" min="-40" max="40" step="1" value="${this.targetPos.y}" class="w-full accent-emerald-500 cursor-pointer">
+              <input type="range" id="ikTargetY" min="-30" max="30" step="0.5" value="${this.targetPos.y}" class="w-full accent-emerald-500 cursor-pointer">
             </div>
+
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Target Z (Vertical):</span>
-                <span id="sim09LblTargetZ" class="text-cyan-400 font-bold">${this.targetPos.z.toFixed(1)} u</span>
+                <span id="lblTargetZ" class="text-cyan-400 font-bold">${this.targetPos.z.toFixed(1)}</span>
               </div>
-              <input type="range" id="sim09TargetZ" min="-10" max="75" step="1" value="${this.targetPos.z}" class="w-full accent-cyan-500 cursor-pointer">
+              <input type="range" id="ikTargetZ" min="0" max="75" step="0.5" value="${this.targetPos.z}" class="w-full accent-cyan-500 cursor-pointer">
             </div>
           </div>
 
-          <!-- Stance Presets -->
-          <div class="space-y-1.5">
-            <span class="text-[11px] font-bold text-slate-400">STANCE PRESETS</span>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
+            <div class="text-slate-300 font-bold border-b border-slate-800 pb-1 text-[11px]">
+              STANCE PRESETS
+            </div>
             <div class="grid grid-cols-2 gap-1.5">
-              <button id="sim09BtnCombat" class="py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-bold cursor-pointer">Combat Stance</button>
-              <button id="sim09BtnReach" class="py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-bold cursor-pointer">High Reach</button>
-              <button id="sim09BtnGround" class="py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-bold cursor-pointer">Ground Plant</button>
-              <button id="sim09BtnOverext" class="py-1.5 px-2 rounded bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-800 text-[11px] font-bold cursor-pointer">Overextension</button>
+              <button id="btnStanceCombat" class="py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold border border-slate-700 cursor-pointer">Combat Stance</button>
+              <button id="btnStanceReach" class="py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold border border-slate-700 cursor-pointer">High Reach</button>
+              <button id="btnStanceGround" class="py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold border border-slate-700 cursor-pointer">Ground Plant</button>
+              <button id="btnStanceOver" class="py-1.5 px-2 rounded bg-rose-950/40 hover:bg-rose-900/50 text-rose-300 text-[10px] font-bold border border-rose-800/60 cursor-pointer">Overextension</button>
             </div>
           </div>
 
-          <!-- Render Toggles -->
-          <div class="bg-slate-900/60 border border-slate-800/80 rounded-lg p-2.5 space-y-1.5 text-[11px]">
-            <span class="font-bold text-slate-400">RENDER OVERLAYS</span>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
-              <input type="checkbox" id="sim09CheckHitboxes" ${this.showHitboxes ? 'checked' : ''} class="accent-cyan-400">
-              <span>Source 2 Hitbox Capsules (13)</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
-              <input type="checkbox" id="sim09CheckBones" ${this.showBones ? 'checked' : ''} class="accent-cyan-400">
-              <span>Articulated Bone Links &amp; Joints</span>
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300">
-              <input type="checkbox" id="sim09CheckGizmo" ${this.showGizmo ? 'checked' : ''} class="accent-cyan-400">
-              <span>Reach Envelope &amp; Target Gizmo</span>
-            </label>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
+            <div class="text-slate-300 font-bold border-b border-slate-800 pb-1 text-[11px]">
+              RENDER OVERLAYS
+            </div>
+            <div class="space-y-1.5 text-[11px]">
+              <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                <input type="checkbox" id="chkShowBones" ${this.showBones ? 'checked' : ''} class="accent-cyan-400">
+                <span>Show Articulated Skeleton Hierarchy</span>
+              </label>
+              <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                <input type="checkbox" id="chkShowHitboxes" ${this.showHitboxes ? 'checked' : ''} class="accent-rose-400">
+                <span>Show Source 2 Hitbox Capsules</span>
+              </label>
+              <label class="flex items-center gap-2 text-slate-300 cursor-pointer">
+                <input type="checkbox" id="chkShowReach" ${this.showReachVolume ? 'checked' : ''} class="accent-purple-400">
+                <span>Show Limb Reach Envelope Sphere</span>
+              </label>
+            </div>
           </div>
         </div>
       `;
 
-      // Event Listeners
-      const limbSelect = this.paramsContainer.querySelector('#sim09LimbSelect');
-      if (limbSelect) limbSelect.onchange = (e) => this._switchLimb(e.target.value);
+      const select = this.paramsContainer.querySelector('#ikLimbSelect');
+      if (select) select.onchange = (e) => this._switchLimb(e.target.value);
 
-      const blendInput = this.paramsContainer.querySelector('#sim09Blend');
-      const lblBlend = this.paramsContainer.querySelector('#sim09LblBlend');
-      if (blendInput && lblBlend) {
-        blendInput.oninput = (e) => {
-          this.blendWeight = parseFloat(e.target.value);
-          lblBlend.textContent = `${(this.blendWeight * 100).toFixed(0)}%`;
-          this.update(0, 0, 0);
-        };
-      }
-
-      const l1Input = this.paramsContainer.querySelector('#sim09L1');
-      const lblL1 = this.paramsContainer.querySelector('#sim09LblL1');
-      if (l1Input && lblL1) {
-        l1Input.oninput = (e) => {
-          this.limbLengthL1 = parseFloat(e.target.value);
-          lblL1.textContent = `${this.limbLengthL1.toFixed(1)} u`;
-          this.update(0, 0, 0);
-        };
-      }
-
-      const l2Input = this.paramsContainer.querySelector('#sim09L2');
-      const lblL2 = this.paramsContainer.querySelector('#sim09LblL2');
-      if (l2Input && lblL2) {
-        l2Input.oninput = (e) => {
-          this.limbLengthL2 = parseFloat(e.target.value);
-          lblL2.textContent = `${this.limbLengthL2.toFixed(1)} u`;
-          this.update(0, 0, 0);
-        };
-      }
-
-      const targetX = this.paramsContainer.querySelector('#sim09TargetX');
-      const targetY = this.paramsContainer.querySelector('#sim09TargetY');
-      const targetZ = this.paramsContainer.querySelector('#sim09TargetZ');
-      const lblTX = this.paramsContainer.querySelector('#sim09LblTargetX');
-      const lblTY = this.paramsContainer.querySelector('#sim09LblTargetY');
-      const lblTZ = this.paramsContainer.querySelector('#sim09LblTargetZ');
-
-      const onTargetInput = () => {
-        this.targetPos.x = parseFloat(targetX.value);
-        this.targetPos.y = parseFloat(targetY.value);
-        this.targetPos.z = parseFloat(targetZ.value);
-        if (lblTX) lblTX.textContent = `${this.targetPos.x.toFixed(1)} u`;
-        if (lblTY) lblTY.textContent = `${this.targetPos.y.toFixed(1)} u`;
-        if (lblTZ) lblTZ.textContent = `${this.targetPos.z.toFixed(1)} u`;
-        if (this.targetGizmo) this.targetGizmo.setPosition(this.targetPos.x, this.targetPos.y, this.targetPos.z);
+      const blend = this.paramsContainer.querySelector('#ikBlendSlider');
+      if (blend) blend.oninput = (e) => {
+        this.blendWeight = parseFloat(e.target.value);
+        this.paramsContainer.querySelector('#ikBlendVal').innerText = `${(this.blendWeight * 100).toFixed(0)}%`;
         this.update(0, 0, 0);
       };
 
-      if (targetX) targetX.oninput = onTargetInput;
-      if (targetY) targetY.oninput = onTargetInput;
-      if (targetZ) targetZ.oninput = onTargetInput;
+      const l1 = this.paramsContainer.querySelector('#ikL1Slider');
+      if (l1) l1.oninput = (e) => {
+        this.limbLengthL1 = parseFloat(e.target.value);
+        this.update(0, 0, 0);
+      };
 
-      const btnCombat = this.paramsContainer.querySelector('#sim09BtnCombat');
-      const btnReach = this.paramsContainer.querySelector('#sim09BtnReach');
-      const btnGround = this.paramsContainer.querySelector('#sim09BtnGround');
-      const btnOverext = this.paramsContainer.querySelector('#sim09BtnOverext');
+      const l2 = this.paramsContainer.querySelector('#ikL2Slider');
+      if (l2) l2.oninput = (e) => {
+        this.limbLengthL2 = parseFloat(e.target.value);
+        this.update(0, 0, 0);
+      };
 
+      const tx = this.paramsContainer.querySelector('#ikTargetX');
+      const ty = this.paramsContainer.querySelector('#ikTargetY');
+      const tz = this.paramsContainer.querySelector('#ikTargetZ');
+      const updateTargetFromSliders = () => {
+        this.targetPos.x = parseFloat(tx.value);
+        this.targetPos.y = parseFloat(ty.value);
+        this.targetPos.z = parseFloat(tz.value);
+        if (this.targetGizmo) this.targetGizmo.setPosition(this.targetPos.x, this.targetPos.y, this.targetPos.z);
+        this._syncUITarget();
+        this.update(0, 0, 0);
+      };
+      if (tx) tx.oninput = updateTargetFromSliders;
+      if (ty) ty.oninput = updateTargetFromSliders;
+      if (tz) tz.oninput = updateTargetFromSliders;
+
+      const chkBones = this.paramsContainer.querySelector('#chkShowBones');
+      if (chkBones) chkBones.onchange = (e) => { this.showBones = e.target.checked; this.update(0, 0, 0); };
+      const chkHit = this.paramsContainer.querySelector('#chkShowHitboxes');
+      if (chkHit) chkHit.onchange = (e) => { this.showHitboxes = e.target.checked; this.update(0, 0, 0); };
+      const chkReach = this.paramsContainer.querySelector('#chkShowReach');
+      if (chkReach) chkReach.onchange = (e) => { this.showReachVolume = e.target.checked; this.update(0, 0, 0); };
+
+      const btnCombat = this.paramsContainer.querySelector('#btnStanceCombat');
+      const btnReach = this.paramsContainer.querySelector('#btnStanceReach');
+      const btnGround = this.paramsContainer.querySelector('#btnStanceGround');
+      const btnOver = this.paramsContainer.querySelector('#btnStanceOver');
       if (btnCombat) btnCombat.onclick = () => this._applyStancePreset('combat');
       if (btnReach) btnReach.onclick = () => this._applyStancePreset('reach');
       if (btnGround) btnGround.onclick = () => this._applyStancePreset('ground');
-      if (btnOverext) btnOverext.onclick = () => this._applyStancePreset('overextension');
-
-      const chkHitboxes = this.paramsContainer.querySelector('#sim09CheckHitboxes');
-      const chkBones = this.paramsContainer.querySelector('#sim09CheckBones');
-      const chkGizmo = this.paramsContainer.querySelector('#sim09CheckGizmo');
-
-      if (chkHitboxes) chkHitboxes.onchange = (e) => { this.showHitboxes = e.target.checked; this.update(0, 0, 0); };
-      if (chkBones) chkBones.onchange = (e) => { this.showBones = e.target.checked; this.update(0, 0, 0); };
-      if (chkGizmo) chkGizmo.onchange = (e) => { this.showGizmo = e.target.checked; this.update(0, 0, 0); };
+      if (btnOver) btnOver.onclick = () => this._applyStancePreset('overextension');
     }
   }
 
@@ -4089,19 +4066,18 @@
       this.VOXEL_SIZE = 20.0;
       this.VOXEL_INV_SIZE = 1.0 / this.VOXEL_SIZE;
       this.HALF_EXTENT = 320.0;
-      this.FULL_OCCLUSION_DENSITY = 0.20; // server.dll 0x1809b7f50 threshold
+      this.FULL_OCCLUSION_DENSITY = 0.20; // server.dll threshold
 
       this.detonationPos = { x: 0, y: 0, z: 40 };
 
       // State
       this.densities = new Float32Array(this.GRID_TOTAL);
-      this.occupancy = new Uint32Array(1024); // 1024 * 32 = 32768 bits
+      this.occupancy = new Uint32Array(1024); // 32768 bits
       this.smokeRadius = 260.0;
-      this.hissSound = null;
 
       // Line-of-sight test endpoints
-      this.shooterPos = { x: -340, y: 0, z: 40 };
-      this.targetPos = { x: 340, y: 0, z: 40 };
+      this.shooterPos = { x: -340, y: -30, z: 40 };
+      this.targetPos = { x: 340, y: -40, z: 40 };
 
       // 3D Visualizer Objects
       this.sceneGroup = null;
@@ -4110,11 +4086,14 @@
       this.losLine = null;
       this.tracerMesh = null;
       this.tunnelMesh = null;
+      this.tunnelRimMesh = null;
       this.shooterMarker = null;
       this.targetMarker = null;
       this.blastRingMesh = null;
       this.blastTimer = 0;
       this.tracerTimer = 0;
+      this.resealTimer = 0; // CS2 3.5s smoke reseal countdown
+      this.isVoidLocked = false;
 
       // Telemetry metrics
       this.activeVoxelCount = 0;
@@ -4195,7 +4174,7 @@
             const dSqr = dx*dx + dy*dy + dz*dz;
             if (dSqr <= rSqr) {
               const normDist = Math.sqrt(dSqr) / radius;
-              const density = Math.max(0.05, 0.45 * (1.0 - normDist * 0.8));
+              const density = Math.max(0.05, 0.45 * (1.0 - normDist * 0.75));
               this._setVoxelActive(vx, vy, vz, density);
               count++;
             }
@@ -4203,12 +4182,16 @@
         }
       }
       this.activeVoxelCount = count;
-      if (this.puffMesh) this._updatePuffMesh();
+      this.resealTimer = 0;
+      this._updatePuffMesh();
     }
 
-    carveBulletTunnel(startX, startY, startZ, endX, endY, endZ, radius = 38.0) {
-      const dirX = endX - startX, dirY = endY - startY, dirZ = endZ - startZ;
-      const segLenSqr = dirX*dirX + dirY*dirY + dirZ*dirZ;
+    carveBulletTrajectory(startX, startY, startZ, endX, endY, endZ, radius = 42.0) {
+      const dx = endX - startX, dy = endY - startY, dz = endZ - startZ;
+      const rayLen = Math.hypot(dx, dy, dz);
+      if (rayLen < 1e-4) return 0;
+
+      const ux = dx / rayLen, uy = dy / rayLen, uz = dz / rayLen;
       const rSqr = radius * radius;
       let cleared = 0;
 
@@ -4218,13 +4201,13 @@
             if (!this._isVoxelActive(x, y, z)) continue;
             const w = this._voxelToWorld(x, y, z);
             const px = w.x - startX, py = w.y - startY, pz = w.z - startZ;
-            let t = segLenSqr > 1e-6 ? (px*dirX + py*dirY + pz*dirZ) / segLenSqr : 0.0;
-            t = Math.max(0.0, Math.min(1.0, t));
-            const cx = startX + dirX * t, cy = startY + dirY * t, cz = startZ + dirZ * t;
-            const distSqr = (w.x - cx)**2 + (w.y - cy)**2 + (w.z - cz)**2;
-            if (distSqr <= rSqr) {
-              this._clearVoxel(x, y, z);
-              cleared++;
+            const proj = px * ux + py * uy + pz * uz;
+            if (proj >= 0 && proj <= rayLen) {
+              const distSqr = (px - proj * ux)**2 + (py - proj * uy)**2 + (pz - proj * uz)**2;
+              if (distSqr <= rSqr) {
+                this._clearVoxel(x, y, z);
+                cleared++;
+              }
             }
           }
         }
@@ -4232,8 +4215,8 @@
       this.activeVoxelCount = Math.max(0, this.activeVoxelCount - cleared);
       this._updatePuffMesh();
 
-      // Trigger high-visibility supersonic tracer & carved cylinder void mesh
       this._triggerTracer(startX, startY, startZ, endX, endY, endZ, radius);
+      this.resealTimer = 4.0;
 
       if (this.audio) {
         this.audio.playGunfire(startX, startY, startZ);
@@ -4258,22 +4241,24 @@
               affected++;
             } else if (dSqr <= pushR2) {
               const d = Math.sqrt(dSqr);
-              const pushX = (d > 1e-6 ? dx / d : 0) * 35.0;
-              const pushY = (d > 1e-6 ? dy / d : 0) * 35.0;
-              const pushZ = (d > 1e-6 ? dz / d : 1) * 35.0;
+              const pushX = (d > 1e-6 ? dx / d : 0) * 40.0;
+              const pushY = (d > 1e-6 ? dy / d : 0) * 40.0;
+              const pushZ = (d > 1e-6 ? dz / d : 1) * 40.0;
               const pushed = this._worldToVoxel(w.x + pushX, w.y + pushY, w.z + pushZ);
               if (pushed) {
                 const morton = this._mortonEncode(x, y, z);
                 const oldDens = this.densities[morton];
                 this._clearVoxel(x, y, z);
-                this._setVoxelActive(pushed.vx, pushed.vy, pushed.vz, oldDens * 0.85);
+                this._setVoxelActive(pushed.vx, pushed.vy, pushed.vz, oldDens * 0.9);
                 affected++;
               }
             }
           }
         }
       }
+      this.activeVoxelCount = Math.max(0, this.activeVoxelCount - affected);
       this._updatePuffMesh();
+      this.resealTimer = 4.5;
       if (this.audio) {
         this.audio.playExplosion(cx, cy, cz);
       }
@@ -4300,6 +4285,13 @@
         this.tunnelMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
         this.tunnelMesh.scale.set(radius, len, radius);
         this.tunnelMesh.visible = true;
+      }
+
+      if (this.tunnelRimMesh) {
+        this.tunnelRimMesh.position.copy(mid);
+        this.tunnelRimMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+        this.tunnelRimMesh.scale.set(radius * 1.05, len, radius * 1.05);
+        this.tunnelRimMesh.visible = true;
       }
 
       this.tracerTimer = 1.0;
@@ -4329,17 +4321,14 @@
         if (v && this._isVoxelActive(v.vx, v.vy, v.vz)) {
           const morton = this._mortonEncode(v.vx, v.vy, v.vz);
           const density = this.densities[morton];
-          accumulated += density * (stepSize / this.VOXEL_SIZE) * 0.12;
-          if (accumulated >= this.FULL_OCCLUSION_DENSITY) {
-            accumulated = this.FULL_OCCLUSION_DENSITY;
-            break;
-          }
+          accumulated += density * (stepSize / this.VOXEL_SIZE);
         }
       }
 
       this.accumulatedDensity = accumulated;
-      this.losOccluded = accumulated >= this.FULL_OCCLUSION_DENSITY;
-      this.losOpacity = Math.min(1.0, accumulated / this.FULL_OCCLUSION_DENSITY);
+      const transmittance = Math.exp(-accumulated * 1.8);
+      this.losOpacity = Math.max(0.0, Math.min(1.0, 1.0 - transmittance));
+      this.losOccluded = (accumulated >= this.FULL_OCCLUSION_DENSITY);
     }
 
     mount(paramsContainer) {
@@ -4351,14 +4340,13 @@
       this.sceneGroup = new THREE.Group();
       this.sceneGroup.name = 'Sim11_VolumetricSmoke_Scene';
 
-      // 1. Soft Volumetric Smoke Puffs (Instanced Spheres with Soft Radial Density)
-      const puffGeo = new THREE.SphereGeometry(18, 10, 8);
+      // 1. Organic Volumetric Smoke Puff Clustered Rendering
+      const puffGeo = new THREE.SphereGeometry(14.0, 10, 8);
       const puffMat = new THREE.MeshStandardMaterial({
         color: 0x94a3b8,
-        roughness: 0.9,
-        metalness: 0.05,
+        roughness: 0.85,
         transparent: true,
-        opacity: 0.38,
+        opacity: 0.42,
         depthWrite: false
       });
       this.puffMesh = new THREE.InstancedMesh(puffGeo, puffMat, 10000);
@@ -4372,29 +4360,41 @@
       this.boundsBox = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({
         color: 0x0ea5e9,
         transparent: true,
-        opacity: 0.25
+        opacity: 0.22
       }));
       this.boundsBox.position.set(this.detonationPos.x, this.detonationPos.y, this.detonationPos.z);
       this.sceneGroup.add(this.boundsBox);
 
       // 3. Supersonic Bullet Tracer Beam (Glowing Neon Cylinder)
-      const tracerGeo = new THREE.CylinderGeometry(2.0, 2.0, 1.0, 8);
+      const tracerGeo = new THREE.CylinderGeometry(2.2, 2.2, 1.0, 8);
       const tracerMat = new THREE.MeshBasicMaterial({ color: 0xfef08a, transparent: true, opacity: 0.95 });
       this.tracerMesh = new THREE.Mesh(tracerGeo, tracerMat);
       this.tracerMesh.visible = false;
       this.sceneGroup.add(this.tracerMesh);
 
       // 4. Carved Cylindrical Void Channel (Glowing Neon Wireframe boundary)
-      const tunnelGeo = new THREE.CylinderGeometry(1.0, 1.0, 1.0, 16, 1, true);
+      const tunnelGeo = new THREE.CylinderGeometry(1.0, 1.0, 1.0, 18, 1, true);
       const tunnelMat = new THREE.MeshBasicMaterial({
         color: 0x38bdf8,
         wireframe: true,
         transparent: true,
-        opacity: 0.45
+        opacity: 0.65
       });
       this.tunnelMesh = new THREE.Mesh(tunnelGeo, tunnelMat);
       this.tunnelMesh.visible = false;
       this.sceneGroup.add(this.tunnelMesh);
+
+      // 4b. Illuminated Tunnel Light Shaft Rim
+      const rimGeo = new THREE.CylinderGeometry(1.0, 1.0, 1.0, 18, 1, true);
+      const rimMat = new THREE.MeshBasicMaterial({
+        color: 0x10b981,
+        transparent: true,
+        opacity: 0.25,
+        side: THREE.DoubleSide
+      });
+      this.tunnelRimMesh = new THREE.Mesh(rimGeo, rimMat);
+      this.tunnelRimMesh.visible = false;
+      this.sceneGroup.add(this.tunnelRimMesh);
 
       // 5. Dynamic Line of Sight (LoS) Ray (Red when blocked -> Vibrant Green when clear through tunnel)
       const losGeo = new THREE.BufferGeometry().setFromPoints([
@@ -4404,15 +4404,15 @@
       this.losLine = new THREE.Line(losGeo, new THREE.LineBasicMaterial({ color: 0xef4444, linewidth: 3 }));
       this.sceneGroup.add(this.losLine);
 
-      // 6. Shooter & Target Markers
-      const smGeo = new THREE.SphereGeometry(6, 12, 8);
-      this.shooterMarker = new THREE.Mesh(smGeo, new THREE.MeshBasicMaterial({ color: 0x06b6d4 }));
-      this.targetMarker = new THREE.Mesh(smGeo, new THREE.MeshBasicMaterial({ color: 0x10b981 }));
+      // 6. Shooter & Target Tactical Markers
+      const smGeo = new THREE.SphereGeometry(8, 14, 10);
+      this.shooterMarker = new THREE.Mesh(smGeo, new THREE.MeshStandardMaterial({ color: 0x06b6d4, emissive: 0x0891b2 }));
+      this.targetMarker = new THREE.Mesh(smGeo, new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x059669 }));
       this.sceneGroup.add(this.shooterMarker);
       this.sceneGroup.add(this.targetMarker);
 
       // 7. HE Blast Shockwave Ring
-      const ringGeo = new THREE.RingGeometry(20, 24, 32);
+      const ringGeo = new THREE.RingGeometry(20, 26, 32);
       const ringMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide, transparent: true, opacity: 0.0 });
       this.blastRingMesh = new THREE.Mesh(ringGeo, ringMat);
       this.blastRingMesh.rotation.x = Math.PI * 0.5;
@@ -4443,7 +4443,6 @@
       const dummy = new THREE.Object3D();
       let instIdx = 0;
 
-      // Fill instanced transforms from active voxels
       for (let z = 0; z < 32; z++) {
         for (let y = 0; y < 32; y++) {
           for (let x = 0; x < 32; x++) {
@@ -4453,7 +4452,7 @@
               dummy.position.set(w.x, w.y, w.z);
               const morton = this._mortonEncode(x, y, z);
               const d = this.densities[morton] || 0.25;
-              const scale = 0.8 + d * 1.2;
+              const scale = 0.9 + d * 1.4;
               dummy.scale.set(scale, scale, scale);
               dummy.updateMatrix();
               this.puffMesh.setMatrixAt(instIdx++, dummy.matrix);
@@ -4466,15 +4465,19 @@
     }
 
     update(tick, subTickFrac, dt) {
-      // Evaluate Raymarch LoS
+      if (this.resealTimer > 0 && !this.isVoidLocked) {
+        this.resealTimer = Math.max(0, this.resealTimer - dt);
+        if (this.resealTimer === 0) {
+          this._initSmokeVolume(this.smokeRadius);
+        }
+      }
+
       this.raymarchLoS(this.shooterPos.x, this.shooterPos.y, this.shooterPos.z,
                        this.targetPos.x, this.targetPos.y, this.targetPos.z);
 
-      // Update Markers
       if (this.shooterMarker) this.shooterMarker.position.set(this.shooterPos.x, this.shooterPos.y, this.shooterPos.z);
       if (this.targetMarker) this.targetMarker.position.set(this.targetPos.x, this.targetPos.y, this.targetPos.z);
 
-      // Update LoS Line Visual: Red if Occluded -> Glowing Emerald Green if Clear through carved tunnel!
       if (this.losLine && this.losLine.geometry) {
         const pts = [
           new THREE.Vector3(this.shooterPos.x, this.shooterPos.y, this.shooterPos.z),
@@ -4483,55 +4486,55 @@
         this.losLine.geometry.setFromPoints(pts);
         if (this.losLine.material) {
           if (this.losOccluded) {
-            this.losLine.material.color.setHex(0xef4444); // Red: Optical Path Occluded
+            this.losLine.material.color.setHex(0xef4444);
             this.losLine.material.opacity = 0.85;
           } else {
-            this.losLine.material.color.setHex(0x10b981); // Emerald: Clear LoS through Carved Void!
+            this.losLine.material.color.setHex(0x10b981);
             this.losLine.material.opacity = 1.0;
           }
         }
       }
 
-      // Tracer & Tunnel Fade Animation
       if (this.tracerTimer > 0) {
-        this.tracerTimer = Math.max(0, this.tracerTimer - dt * 2.5);
+        this.tracerTimer = Math.max(0, this.tracerTimer - dt * 2.0);
         if (this.tracerMesh && this.tracerMesh.material) {
           this.tracerMesh.material.opacity = this.tracerTimer * 0.95;
           this.tracerMesh.visible = this.tracerTimer > 0.01;
         }
-        if (this.tunnelMesh && this.tunnelMesh.material) {
-          this.tunnelMesh.material.opacity = this.tracerTimer * 0.55;
-          this.tunnelMesh.visible = this.tracerTimer > 0.01;
+      }
+
+      if (this.tunnelMesh && this.tunnelMesh.material) {
+        const isTunnelActive = this.resealTimer > 0 || this.isVoidLocked;
+        this.tunnelMesh.visible = isTunnelActive;
+        if (this.tunnelRimMesh) this.tunnelRimMesh.visible = isTunnelActive;
+        if (isTunnelActive) {
+          const fade = Math.min(1.0, this.resealTimer / 1.5);
+          this.tunnelMesh.material.opacity = 0.65 * fade;
+          if (this.tunnelRimMesh && this.tunnelRimMesh.material) {
+            this.tunnelRimMesh.material.opacity = 0.25 * fade;
+          }
         }
       }
 
-      // Blast Ring Animation
       if (this.blastTimer > 0) {
-        this.blastTimer = Math.max(0, this.blastTimer - dt * 2.0);
+        this.blastTimer = Math.max(0, this.blastTimer - dt * 1.5);
         if (this.blastRingMesh) {
-          const progress = 1.0 - this.blastTimer;
-          const scale = 1.0 + progress * 11.0;
-          this.blastRingMesh.scale.set(scale, scale, scale);
-          if (this.blastRingMesh.material) {
-            this.blastRingMesh.material.opacity = this.blastTimer * 0.8;
-          }
+          const r = (1.0 - this.blastTimer) * 220.0 + 20.0;
+          this.blastRingMesh.scale.set(r / 20.0, r / 20.0, 1.0);
+          this.blastRingMesh.material.opacity = this.blastTimer * 0.85;
           this.blastRingMesh.visible = this.blastTimer > 0.01;
         }
       }
 
-      return {
-        pos: { x: this.detonationPos.x, y: this.detonationPos.y, z: this.detonationPos.z },
-        vel: { x: this.shooterPos.y, y: this.targetPos.y, z: 0, speed: this.smokeRadius },
-        ground: !this.losOccluded,
-        event: this.losOccluded ? 'LOS OCCLUDED (100%)' : 'LOS CLEAR (CARVED VOID)',
-        customMetrics: [
-          { label: 'ACTIVE VOXELS', value: `${this.activeVoxelCount} / 32,768` },
-          { label: 'ACCUM DENSITY (ρ)', value: `${this.accumulatedDensity.toFixed(3)} / 0.200` },
-          { label: 'OCCLUSION STATUS', value: this.losOccluded ? 'BLOCKED' : 'CLEAR', alert: this.losOccluded },
-          { label: 'VOXEL ENCODING', value: '3D MORTON Z-ORDER' },
-          { label: 'WIRE FORMAT', value: '512 WORD BITMASK' }
-        ]
-      };
+      const isClear = !this.losOccluded;
+      this.viewport.setHudMetrics([
+        { label: 'ACTIVE VOXELS', value: `${this.activeVoxelCount} / 32768` },
+        { label: 'VOXEL OCCUPANCY', value: `${((this.activeVoxelCount / 32768) * 100).toFixed(1)}%` },
+        { label: 'LINE DENSITY (\u03C1)', value: this.accumulatedDensity.toFixed(3) },
+        { label: 'THRESHOLD', value: '0.200 (Optical Occlusion)' },
+        { label: 'LOS STATUS', value: isClear ? 'LOS RESTORED (Carved Corridor)' : 'FULLY OCCLUDED (Smoke Blocked)', alert: this.losOccluded },
+        { label: 'RESEAL TIMER', value: this.isVoidLocked ? 'LOCKED (Freeze)' : (this.resealTimer > 0 ? `${this.resealTimer.toFixed(1)}s (Resealing)` : 'EQUILIBRIUM') }
+      ]);
     }
 
     teardown() {
@@ -4549,161 +4552,139 @@
     _buildParamsUI() {
       if (!this.paramsContainer) return;
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" draggable="false" ondragstart="return false;">
-          <!-- Interactive Actions -->
+        <div class="space-y-4 font-mono text-xs select-none">
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>SOURCE 2 VOXEL ACTIONS</span>
               <span class="text-[10px] text-cyan-400">server.dll</span>
             </div>
             <div class="grid grid-cols-2 gap-2">
-              <button id="sim11BtnBullet" class="py-2 px-2.5 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold transition-all shadow-sm flex flex-col items-center cursor-pointer">
-                <span>Fire Bullet</span>
-                <span class="text-[9px] opacity-80 font-normal">Carve (R=38u)</span>
+              <button id="sim11BtnBullet" class="py-2 px-2.5 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-[11px] flex flex-col items-center justify-center gap-0.5 cursor-pointer shadow-sm">
+                <span>Fire Bullet Carve</span>
+                <span class="text-[9.5px] text-cyan-200 opacity-90">(R=42u Corridor)</span>
               </button>
-              <button id="sim11BtnBlast" class="py-2 px-2.5 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold transition-all shadow-sm flex flex-col items-center cursor-pointer">
-                <span>HE Grenade</span>
-                <span class="text-[9px] opacity-80 font-normal">Blast (R=190u)</span>
+              <button id="sim11BtnNade" class="py-2 px-2.5 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] flex flex-col items-center justify-center gap-0.5 cursor-pointer shadow-sm">
+                <span>HE Grenade Blast</span>
+                <span class="text-[9.5px] text-amber-200 opacity-90">(R=190u Void)</span>
               </button>
             </div>
-            <button id="sim11BtnRespawn" class="w-full py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold cursor-pointer">
-              Respawn Volumetric Smoke
-            </button>
+            <div class="flex gap-2 pt-1">
+              <button id="sim11BtnReset" class="flex-1 py-1.5 px-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-bold cursor-pointer">
+                Respawn Volumetric Smoke
+              </button>
+              <button id="sim11BtnLock" class="py-1.5 px-3 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[11px] font-bold cursor-pointer">
+                ${this.isVoidLocked ? 'Unlock Reseal' : 'Lock Void'}
+              </button>
+            </div>
           </div>
 
-          <!-- Line of Sight Controls -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1">
               <span>OPTICAL LINE-OF-SIGHT DDA</span>
-              <span class="text-[10px] text-emerald-400">0x1809bd580</span>
+              <span class="text-[10px] text-emerald-400">0x1809b7f50</span>
             </div>
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Smoke Cloud Radius:</span>
-                <span id="sim11LblRadius" class="text-cyan-300">${this.smokeRadius.toFixed(0)} u</span>
+                <span id="sim11LblRad" class="text-cyan-300">${this.smokeRadius.toFixed(0)} u</span>
               </div>
               <input type="range" id="sim11Radius" min="160" max="300" step="10" value="${this.smokeRadius}" class="w-full accent-cyan-400 cursor-pointer">
             </div>
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Shooter Y Position:</span>
-                <span id="sim11LblShooterY" class="text-cyan-300">${this.shooterPos.y.toFixed(0)} u</span>
+                <span id="sim11LblSY" class="text-cyan-300">${this.shooterPos.y.toFixed(0)} u</span>
               </div>
               <input type="range" id="sim11ShooterY" min="-180" max="180" step="5" value="${this.shooterPos.y}" class="w-full accent-cyan-400 cursor-pointer">
             </div>
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Target Y Position:</span>
-                <span id="sim11LblTargetY" class="text-amber-300">${this.targetPos.y.toFixed(0)} u</span>
+                <span id="sim11LblTY" class="text-amber-400">${this.targetPos.y.toFixed(0)} u</span>
               </div>
               <input type="range" id="sim11TargetY" min="-180" max="180" step="5" value="${this.targetPos.y}" class="w-full accent-amber-500 cursor-pointer">
             </div>
           </div>
 
-          <!-- Voxel Telemetry Card -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-300">VOXEL TELEMETRY</span>
-              <span id="sim11OcclusionBadge" class="text-[10px] font-bold px-1.5 py-0.5 rounded ${this.losOccluded ? 'bg-rose-950 text-rose-300 border border-rose-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800'}">
-                ${this.losOccluded ? 'OCCLUDED (100%)' : 'CLEAR (0%)'}
+            <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1 text-[11px]">
+              <span>VOXEL TELEMETRY</span>
+              <span id="sim11BadgeOcclusion" class="px-2 py-0.5 rounded text-[10px] font-bold ${this.losOccluded ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}">
+                ${this.losOccluded ? 'OCCLUDED (100%)' : 'CLEAR LOS (Carved Void)'}
               </span>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1 border-t border-slate-800">
-              <div>
-                <span class="text-slate-500 block">Active Voxels:</span>
-                <span id="sim11StatVoxels" class="text-slate-200 font-bold">${this.activeVoxelCount} / 32768</span>
+            <div class="grid grid-cols-2 gap-2 text-center text-[10px]">
+              <div class="p-2 bg-slate-950/60 rounded border border-slate-800">
+                <div class="text-slate-400">Active Voxels</div>
+                <div id="sim11StatVoxels" class="text-cyan-300 font-bold text-xs mt-0.5">${this.activeVoxelCount} / 32768</div>
               </div>
-              <div>
-                <span class="text-slate-500 block">Optical Density:</span>
-                <span id="sim11StatDensity" class="text-cyan-300 font-bold">${this.accumulatedDensity.toFixed(3)} / 0.200</span>
+              <div class="p-2 bg-slate-950/60 rounded border border-slate-800">
+                <div class="text-slate-400">Optical Density</div>
+                <div id="sim11StatDensity" class="text-emerald-400 font-bold text-xs mt-0.5">${this.accumulatedDensity.toFixed(3)} / 0.200</div>
               </div>
             </div>
           </div>
         </div>
       `;
 
-      // Event Listeners
-      const btnBullet = this.paramsContainer.querySelector('#sim11BtnBullet');
-      const btnBlast = this.paramsContainer.querySelector('#sim11BtnBlast');
-      const btnRespawn = this.paramsContainer.querySelector('#sim11BtnRespawn');
+      const btnB = this.paramsContainer.querySelector('#sim11BtnBullet');
+      const btnN = this.paramsContainer.querySelector('#sim11BtnNade');
+      const btnR = this.paramsContainer.querySelector('#sim11BtnReset');
+      const btnL = this.paramsContainer.querySelector('#sim11BtnLock');
 
-      if (btnBullet) {
-        btnBullet.onclick = () => {
-          this.carveBulletTunnel(this.shooterPos.x, this.shooterPos.y, this.shooterPos.z,
-                                 this.targetPos.x, this.targetPos.y, this.targetPos.z, 38.0);
-          this._syncUI();
-          this.update(0, 0, 0);
-        };
-      }
+      if (btnB) btnB.onclick = () => {
+        this.carveBulletTrajectory(this.shooterPos.x, this.shooterPos.y, this.shooterPos.z,
+                                   this.targetPos.x, this.targetPos.y, this.targetPos.z, 42.0);
+        this.update(0, 0, 0);
+      };
 
-      if (btnBlast) {
-        btnBlast.onclick = () => {
-          this.carveExplosionBlast(0, 0, 40, 190.0, 270.0);
-          this._syncUI();
-          this.update(0, 0, 0);
-        };
-      }
+      if (btnN) btnN.onclick = () => {
+        this.carveExplosionBlast(this.detonationPos.x, this.detonationPos.y, this.detonationPos.z, 190.0, 270.0);
+        this.update(0, 0, 0);
+      };
 
-      if (btnRespawn) {
-        btnRespawn.onclick = () => {
-          this._initSmokeVolume(this.smokeRadius);
-          if (this.audio) this.audio.playSmokeDetonation(0, 0, 40);
-          this._syncUI();
-          this.update(0, 0, 0);
-        };
-      }
+      if (btnR) btnR.onclick = () => {
+        this._initSmokeVolume(this.smokeRadius);
+        if (this.tunnelMesh) this.tunnelMesh.visible = false;
+        if (this.tunnelRimMesh) this.tunnelRimMesh.visible = false;
+        this.update(0, 0, 0);
+      };
 
-      const rIn = this.paramsContainer.querySelector('#sim11Radius');
-      const lblR = this.paramsContainer.querySelector('#sim11LblRadius');
-      if (rIn && lblR) {
-        rIn.oninput = (e) => {
+      if (btnL) btnL.onclick = () => {
+        this.isVoidLocked = !this.isVoidLocked;
+        btnL.innerText = this.isVoidLocked ? 'Unlock Reseal' : 'Lock Void';
+        this.update(0, 0, 0);
+      };
+
+      const radIn = this.paramsContainer.querySelector('#sim11Radius');
+      const lblR = this.paramsContainer.querySelector('#sim11LblRad');
+      if (radIn && lblR) {
+        radIn.oninput = (e) => {
           this.smokeRadius = parseFloat(e.target.value);
           lblR.textContent = `${this.smokeRadius.toFixed(0)} u`;
           this._initSmokeVolume(this.smokeRadius);
-          this._syncUI();
           this.update(0, 0, 0);
         };
       }
 
       const syIn = this.paramsContainer.querySelector('#sim11ShooterY');
-      const lblSY = this.paramsContainer.querySelector('#sim11LblShooterY');
+      const lblSY = this.paramsContainer.querySelector('#sim11LblSY');
       if (syIn && lblSY) {
         syIn.oninput = (e) => {
           this.shooterPos.y = parseFloat(e.target.value);
           lblSY.textContent = `${this.shooterPos.y.toFixed(0)} u`;
-          this._syncUI();
           this.update(0, 0, 0);
         };
       }
 
       const tyIn = this.paramsContainer.querySelector('#sim11TargetY');
-      const lblTY = this.paramsContainer.querySelector('#sim11LblTargetY');
+      const lblTY = this.paramsContainer.querySelector('#sim11LblTY');
       if (tyIn && lblTY) {
         tyIn.oninput = (e) => {
           this.targetPos.y = parseFloat(e.target.value);
           lblTY.textContent = `${this.targetPos.y.toFixed(0)} u`;
-          this._syncUI();
           this.update(0, 0, 0);
         };
-      }
-    }
-
-    _syncUI() {
-      if (!this.paramsContainer) return;
-      const statVoxels = this.paramsContainer.querySelector('#sim11StatVoxels');
-      const statDensity = this.paramsContainer.querySelector('#sim11StatDensity');
-      const badge = this.paramsContainer.querySelector('#sim11OcclusionBadge');
-
-      if (statVoxels) statVoxels.textContent = `${this.activeVoxelCount} / 32768`;
-      if (statDensity) statDensity.textContent = `${this.accumulatedDensity.toFixed(3)} / 0.200`;
-      if (badge) {
-        if (this.losOccluded) {
-          badge.className = 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800';
-          badge.textContent = 'OCCLUDED (100%)';
-        } else {
-          badge.className = 'text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800';
-          badge.textContent = 'CLEAR (0%)';
-        }
       }
     }
   }
@@ -5250,9 +5231,11 @@
       this.sceneGroup = null;
       this.livePawnGroup = null;
       this.rewoundPawnGroup = null;
+      this.shooterPawnGroup = null;
       this.historyTrail = null;
       this.bulletTracer = null;
       this.hitMarker = null;
+      this.tracerTimer = 0;
       this.paramsContainer = null;
 
       this._initHistoryBuffer();
@@ -5274,59 +5257,69 @@
       }
     }
 
-    _buildTacticalAgent(group, baseColor = 0x06b6d4, opacity = 1.0) {
-      const isGhost = opacity < 0.9;
+    _buildTacticalOperative(group, baseColor = 0x06b6d4, opacity = 1.0, isHologram = false) {
       const matMain = new THREE.MeshStandardMaterial({
         color: baseColor,
-        roughness: 0.5,
-        metalness: isGhost ? 0.0 : 0.2,
-        transparent: isGhost,
+        roughness: isHologram ? 0.3 : 0.6,
+        metalness: isHologram ? 0.2 : 0.1,
+        transparent: isHologram || opacity < 1.0,
         opacity: opacity
       });
 
       const matDark = new THREE.MeshStandardMaterial({
-        color: isGhost ? baseColor : 0x0f172a,
+        color: isHologram ? baseColor : 0x0f172a,
         roughness: 0.7,
-        transparent: isGhost,
-        opacity: isGhost ? opacity * 0.8 : 1.0
+        transparent: isHologram || opacity < 1.0,
+        opacity: isHologram ? opacity * 0.8 : 1.0
       });
 
       const matAcc = new THREE.MeshStandardMaterial({
-        color: isGhost ? baseColor : 0x38bdf8,
-        roughness: 0.3,
-        transparent: isGhost,
+        color: isHologram ? 0xfbbf24 : 0x38bdf8,
+        roughness: 0.2,
+        emissive: isHologram ? 0xd97706 : 0x0284c7,
+        emissiveIntensity: isHologram ? 0.4 : 0.1,
+        transparent: isHologram || opacity < 1.0,
         opacity: opacity
       });
 
       // 1. Head & Balaclava (z: 62..70)
-      const headGeo = new THREE.SphereGeometry(4.2, 12, 10);
+      const headGeo = new THREE.SphereGeometry(4.2, 14, 10);
       const headMesh = new THREE.Mesh(headGeo, matDark);
       headMesh.position.set(0, 0, 66);
       group.add(headMesh);
 
-      // 2. Ballistic Helmet with NVG Mount (z: 67..72)
-      const helmetGeo = new THREE.SphereGeometry(4.6, 12, 10, 0, Math.PI * 2, 0, Math.PI * 0.55);
+      // 2. Ballistic FAST Helmet with NVG Mount (z: 67..72)
+      const helmetGeo = new THREE.SphereGeometry(4.6, 14, 10, 0, Math.PI * 2, 0, Math.PI * 0.55);
       const helmetMesh = new THREE.Mesh(helmetGeo, matMain);
       helmetMesh.position.set(0, 0, 66.5);
       group.add(helmetMesh);
 
-      // Goggles / Visor
-      const visorGeo = new THREE.BoxGeometry(4.8, 2.2, 1.4);
+      // Tactical Goggles / Visor
+      const visorGeo = new THREE.BoxGeometry(4.8, 2.4, 1.4);
       const visorMesh = new THREE.Mesh(visorGeo, matAcc);
       visorMesh.position.set(3.2, 0, 66.5);
       group.add(visorMesh);
 
+      // Comms Headset
+      [-1, 1].forEach(side => {
+        const earcupGeo = new THREE.CylinderGeometry(1.2, 1.2, 0.8, 8);
+        const earcup = new THREE.Mesh(earcupGeo, matDark);
+        earcup.rotation.z = Math.PI * 0.5;
+        earcup.position.set(0, side * 4.4, 66.5);
+        group.add(earcup);
+      });
+
       // 3. Tactical Plate Carrier Vest (z: 36..58)
-      const chestGeo = new THREE.BoxGeometry(9.0, 11.5, 14.0);
+      const chestGeo = new THREE.BoxGeometry(9.5, 12.0, 14.0);
       const chestMesh = new THREE.Mesh(chestGeo, matMain);
       chestMesh.position.set(0, 0, 48);
       group.add(chestMesh);
 
-      // Mag Pouches (3x front pouches)
+      // Front Mag Pouches (3x pouches)
       for (let p = -1; p <= 1; p++) {
         const pouchGeo = new THREE.BoxGeometry(1.6, 2.8, 5.0);
         const pouchMesh = new THREE.Mesh(pouchGeo, matDark);
-        pouchMesh.position.set(4.8, p * 3.4, 46);
+        pouchMesh.position.set(5.0, p * 3.4, 46);
         group.add(pouchMesh);
       }
 
@@ -5338,7 +5331,6 @@
 
       // 5. Articulated Arms & Tactical Gloves
       [-1, 1].forEach(side => {
-        // Upper Arm
         const upArmGeo = new THREE.CylinderGeometry(2.0, 1.8, 9.0, 8);
         const upArm = new THREE.Mesh(upArmGeo, matMain);
         upArm.position.set(2.0, side * 7.5, 50);
@@ -5346,7 +5338,6 @@
         upArm.rotation.z = -0.35;
         group.add(upArm);
 
-        // Forearm / Glove
         const fArmGeo = new THREE.CylinderGeometry(1.7, 1.5, 8.5, 8);
         const fArm = new THREE.Mesh(fArmGeo, matDark);
         fArm.position.set(6.5, side * 6.0, 44);
@@ -5354,7 +5345,7 @@
         group.add(fArm);
       });
 
-      // 6. Tactical Weapon in Hands (M4A1-S Carbine)
+      // 6. Tactical M4A1-S Carbine with Silencer
       const weaponGeo = new THREE.BoxGeometry(18.0, 2.0, 4.0);
       const weaponMesh = new THREE.Mesh(weaponGeo, matDark);
       weaponMesh.position.set(9.0, 0, 44);
@@ -5366,32 +5357,48 @@
       barrelMesh.position.set(22.0, 0, 44.5);
       group.add(barrelMesh);
 
-      // 7. Tactical Cargo Pants & Legs
+      // 7. Tactical Cargo Pants, Kneepads & Boots
       [-1, 1].forEach(side => {
-        // Upper Leg
         const thighGeo = new THREE.CylinderGeometry(2.5, 2.2, 14.0, 8);
         const thigh = new THREE.Mesh(thighGeo, matMain);
         thigh.position.set(0, side * 3.6, 26);
         group.add(thigh);
 
-        // Knee Pad
         const padGeo = new THREE.BoxGeometry(2.2, 3.2, 3.5);
         const pad = new THREE.Mesh(padGeo, matDark);
         pad.position.set(2.0, side * 3.6, 18);
         group.add(pad);
 
-        // Lower Leg
         const calfGeo = new THREE.CylinderGeometry(2.1, 1.9, 14.0, 8);
         const calf = new THREE.Mesh(calfGeo, matMain);
         calf.position.set(0, side * 3.6, 11);
         group.add(calf);
 
-        // Heavy Combat Boot
         const bootGeo = new THREE.BoxGeometry(7.0, 3.4, 4.0);
         const boot = new THREE.Mesh(bootGeo, matDark);
         boot.position.set(1.5, side * 3.6, 2);
         group.add(boot);
       });
+
+      // 8. Hitbox Capsule Overlay Outlines (Precision Source 2 Hitboxes)
+      const hbMat = new THREE.MeshBasicMaterial({
+        color: baseColor,
+        wireframe: true,
+        transparent: true,
+        opacity: isHologram ? 0.6 : 0.35
+      });
+      // Head sphere hitbox
+      const hbHead = new THREE.Mesh(new THREE.SphereGeometry(4.5, 8, 6), hbMat);
+      hbHead.position.set(0, 0, 66);
+      group.add(hbHead);
+      // Chest box hitbox
+      const hbChest = new THREE.Mesh(new THREE.BoxGeometry(11.0, 13.0, 16.0), hbMat);
+      hbChest.position.set(0, 0, 48);
+      group.add(hbChest);
+      // Pelvis box hitbox
+      const hbPelvis = new THREE.Mesh(new THREE.BoxGeometry(10.0, 11.5, 10.0), hbMat);
+      hbPelvis.position.set(0, 0, 34);
+      group.add(hbPelvis);
     }
 
     mount(paramsContainer) {
@@ -5403,17 +5410,24 @@
       this.sceneGroup = new THREE.Group();
       this.sceneGroup.name = 'Sim12_LagCompensation_Scene';
 
-      // 1. Live Server Tactical Agent (Solid Cyan)
+      // 1. Live Server Counter-Terrorist Agent (Solid Cyan SAS operative)
       this.livePawnGroup = new THREE.Group();
-      this._buildTacticalAgent(this.livePawnGroup, 0x06b6d4, 1.0);
+      this._buildTacticalOperative(this.livePawnGroup, 0x06b6d4, 1.0, false);
       this.sceneGroup.add(this.livePawnGroup);
 
-      // 2. Rewound Lag-Compensated Ghost Agent (Amber Translucent)
+      // 2. Rewound Lag-Compensated Ghost Agent (Amber Hologram operative)
       this.rewoundPawnGroup = new THREE.Group();
-      this._buildTacticalAgent(this.rewoundPawnGroup, 0xf59e0b, 0.45);
+      this._buildTacticalOperative(this.rewoundPawnGroup, 0xf59e0b, 0.5, true);
       this.sceneGroup.add(this.rewoundPawnGroup);
 
-      // 3. 64-Tick History Trail
+      // 3. Shooter Operative (Counter-Terrorist at Origin aiming down range)
+      this.shooterPawnGroup = new THREE.Group();
+      this._buildTacticalOperative(this.shooterPawnGroup, 0x10b981, 0.95, false);
+      this.shooterPawnGroup.position.set(0, -220, 0);
+      this.shooterPawnGroup.rotation.z = Math.PI * 0.5; // Aim toward +Y
+      this.sceneGroup.add(this.shooterPawnGroup);
+
+      // 4. 64-Tick History Trail
       const trailPoints = [];
       for (let k = 0; k < this.BUFFER_CAPACITY; k++) {
         trailPoints.push(new THREE.Vector3(this.historyBuffer[k].pos.x, this.historyBuffer[k].pos.y, 4.0));
@@ -5426,7 +5440,7 @@
       }));
       this.sceneGroup.add(this.historyTrail);
 
-      // 4. Bullet Tracer Line
+      // 5. Supersonic Bullet Tracer Line
       const tracerGeo = new THREE.BufferGeometry().setFromPoints([
         new THREE.Vector3(0, -220, 50),
         new THREE.Vector3(0, 0, 50)
@@ -5439,7 +5453,7 @@
       }));
       this.sceneGroup.add(this.bulletTracer);
 
-      // 5. Hit Marker
+      // 6. Hit Registration Impact Marker
       const hitGeo = new THREE.RingGeometry(2, 5, 16);
       const hitMat = new THREE.MeshBasicMaterial({ color: 0x10b981, side: THREE.DoubleSide, transparent: true, opacity: 0.0 });
       this.hitMarker = new THREE.Mesh(hitGeo, hitMat);
@@ -5448,16 +5462,16 @@
 
       scene.add(this.sceneGroup);
 
-      // 6. Mount UI Controls
+      // 7. Mount UI Controls
       this._buildParamsUI();
 
-      // 7. Optimal Camera View Framing the Dual Agents
+      // 8. Optimal Perspective Framing
       const camera = this.viewport.getCamera();
       if (camera) {
-        camera.position.set(-90, -220, 110);
+        camera.position.set(-180, -320, 160);
         const controls = this.viewport.getControls();
         if (controls) {
-          controls.target.set(10, 0, 40);
+          controls.target.set(0, -40, 45);
           controls.update();
         }
       }
@@ -5465,110 +5479,129 @@
       this.update(0, 0, 0);
     }
 
-    fireUnlagVerificationShot() {
-      const latencySec = Math.min(0.200, Math.max(0.005, this.clientLatencySec));
-      const rewindTicks = latencySec / 0.015625;
-      const targetPos = this.aimTarget === 'rewound' ? this.rewoundPawnGroup.position : this.livePawnGroup.position;
+    _sampleRewoundState(targetTime) {
+      const newestTime = this.historyBuffer[this.BUFFER_CAPACITY - 1].time;
+      const oldestTime = this.historyBuffer[0].time;
+      const clampedTime = Math.max(oldestTime, Math.min(newestTime, targetTime));
 
-      // Tracer line animation
+      for (let k = this.BUFFER_CAPACITY - 1; k > 0; k--) {
+        const t1 = this.historyBuffer[k].time;
+        const t0 = this.historyBuffer[k - 1].time;
+        if (clampedTime >= t0 && clampedTime <= t1) {
+          const dt = t1 - t0;
+          const frac = dt > 1e-6 ? (clampedTime - t0) / dt : 0.0;
+          const p0 = this.historyBuffer[k - 1].pos;
+          const p1 = this.historyBuffer[k].pos;
+          return {
+            x: p0.x + (p1.x - p0.x) * frac,
+            y: p0.y + (p1.y - p0.y) * frac,
+            z: p0.z + (p1.z - p0.z) * frac,
+            yaw: this.historyBuffer[k].yaw,
+            tickDelta: (newestTime - clampedTime) * 64.0
+          };
+        }
+      }
+      return {
+        x: this.historyBuffer[0].pos.x,
+        y: this.historyBuffer[0].pos.y,
+        z: this.historyBuffer[0].pos.z,
+        yaw: this.historyBuffer[0].yaw,
+        tickDelta: (newestTime - oldestTime) * 64.0
+      };
+    }
+
+    fireShot() {
+      const rewoundState = this._sampleRewoundState(-this.clientLatencySec - (this.userCmdSubTickFrac * 0.015625));
+      const liveState = this.historyBuffer[this.BUFFER_CAPACITY - 1].pos;
+
+      const targetX = this.aimTarget === 'rewound' ? rewoundState.x : liveState.x;
+      const targetY = this.aimTarget === 'rewound' ? rewoundState.y : liveState.y;
+      const targetZ = 66.0;
+
       if (this.bulletTracer && this.bulletTracer.geometry) {
         this.bulletTracer.geometry.setFromPoints([
           new THREE.Vector3(0, -220, 50),
-          new THREE.Vector3(targetPos.x, targetPos.y, targetPos.z + 66)
+          new THREE.Vector3(targetX, targetY, targetZ)
         ]);
-        if (this.bulletTracer.material) this.bulletTracer.material.opacity = 1.0;
+        if (this.bulletTracer.material) {
+          this.bulletTracer.material.opacity = 1.0;
+        }
       }
+
+      if (this.aimTarget === 'rewound') {
+        this.lastHitResult = {
+          confirmed: true,
+          hitbox: 'HEAD (Authoritative Sub-Tick Rewind)',
+          deltaTicks: rewoundState.tickDelta.toFixed(1),
+          rewindMs: (this.clientLatencySec * 1000).toFixed(0)
+        };
+        if (this.hitMarker) {
+          this.hitMarker.position.set(targetX, targetY, targetZ);
+          this.hitMarker.material.color.setHex(0x10b981);
+          this.hitMarker.material.opacity = 1.0;
+        }
+      } else {
+        this.lastHitResult = {
+          confirmed: false,
+          hitbox: 'MISSED (Target Has Moved Ahead)',
+          deltaTicks: '0.0',
+          rewindMs: '0'
+        };
+        if (this.hitMarker) {
+          this.hitMarker.position.set(targetX, targetY, targetZ);
+          this.hitMarker.material.color.setHex(0xef4444);
+          this.hitMarker.material.opacity = 0.85;
+        }
+      }
+
+      this.tracerTimer = 1.0;
 
       if (this.audio) {
         this.audio.playGunfire(0, -220, 50);
-
         setTimeout(() => {
-          if (this.aimTarget === 'rewound') {
-            // Shoots rewound ghost -> 100% Authoritative Hit!
+          if (!this.audio) return;
+          if (this.lastHitResult && this.lastHitResult.confirmed) {
             this.audio.playHeadshot(this.rewoundPawnGroup.position.x, this.rewoundPawnGroup.position.y, 66);
-            this.lastHitResult = {
-              hit: true,
-              type: 'CONFIRMED HEADSHOT',
-              desc: `Authoritative server rewind by ${rewindTicks.toFixed(2)} ticks (${(latencySec * 1000).toFixed(0)} ms)`
-            };
-            if (this.hitMarker) {
-              this.hitMarker.position.set(targetPos.x, targetPos.y, targetPos.z + 66);
-              if (this.hitMarker.material) this.hitMarker.material.opacity = 1.0;
-            }
           } else {
-            // Shoots live pawn -> Desync Miss!
             this.audio.playImpact('concrete', 0, 0, 0);
-            this.lastHitResult = {
-              hit: false,
-              type: 'DESYNC MISS',
-              desc: `Shot missed! Crosshair aimed where player is now, ignoring client network latency.`
-            };
           }
-          this._updateUIStats();
-        }, 25);
+        }, Math.round(this.clientLatencySec * 1000 * 0.4));
       }
+
+      this._syncUI();
     }
 
     update(tick, subTickFrac, dt) {
-      // 1. Position Live Server Agent at latest tick
-      const curTick = tick % this.BUFFER_CAPACITY;
-      const curSample = this.historyBuffer[curTick] || this.historyBuffer[0];
-      const nextSample = this.historyBuffer[(curTick + 1) % this.BUFFER_CAPACITY] || curSample;
-
-      const liveX = curSample.pos.x + (nextSample.pos.x - curSample.pos.x) * subTickFrac;
-      const liveY = curSample.pos.y + (nextSample.pos.y - curSample.pos.y) * subTickFrac;
-
+      const liveState = this.historyBuffer[this.BUFFER_CAPACITY - 1];
       if (this.livePawnGroup) {
-        this.livePawnGroup.position.set(liveX, liveY, 0);
-        this.livePawnGroup.rotation.z = curSample.yaw;
+        this.livePawnGroup.position.set(liveState.pos.x, liveState.pos.y, liveState.pos.z);
+        this.livePawnGroup.rotation.z = liveState.yaw;
       }
 
-      // 2. Evaluate Server Lag Compensation Rewind Tick
-      const latencySec = Math.min(0.200, Math.max(0.005, this.clientLatencySec));
-      const rewindTicks = latencySec / 0.015625;
-      const targetContinuousTick = (curTick + subTickFrac) - rewindTicks;
-
-      // Wrap around 64-tick ring buffer
-      let rewindK = Math.floor(targetContinuousTick);
-      let rewindFrac = targetContinuousTick - rewindK;
-      while (rewindK < 0) rewindK += this.BUFFER_CAPACITY;
-      rewindK = rewindK % this.BUFFER_CAPACITY;
-
-      const s0 = this.historyBuffer[rewindK];
-      const s1 = this.historyBuffer[(rewindK + 1) % this.BUFFER_CAPACITY] || s0;
-
-      // Hermite Spline Interpolation matching server.dll CInterpolatedVar
-      const rewoundX = s0.pos.x + (s1.pos.x - s0.pos.x) * rewindFrac;
-      const rewoundY = s0.pos.y + (s1.pos.y - s0.pos.y) * rewindFrac;
-
+      const rewindTime = -this.clientLatencySec - (this.userCmdSubTickFrac * 0.015625);
+      const rewoundState = this._sampleRewoundState(rewindTime);
       if (this.rewoundPawnGroup) {
-        this.rewoundPawnGroup.position.set(rewoundX, rewoundY, 0);
-        this.rewoundPawnGroup.rotation.z = s0.yaw;
+        this.rewoundPawnGroup.position.set(rewoundState.x, rewoundState.y, rewoundState.z);
+        this.rewoundPawnGroup.rotation.z = rewoundState.yaw;
       }
 
-      // Fade out tracer and hit marker
-      if (this.bulletTracer && this.bulletTracer.material && this.bulletTracer.material.opacity > 0) {
-        this.bulletTracer.material.opacity = Math.max(0, this.bulletTracer.material.opacity - dt * 3.0);
-      }
-      if (this.hitMarker && this.hitMarker.material && this.hitMarker.material.opacity > 0) {
-        this.hitMarker.material.opacity = Math.max(0, this.hitMarker.material.opacity - dt * 2.5);
+      if (this.tracerTimer > 0) {
+        this.tracerTimer = Math.max(0, this.tracerTimer - dt * 2.5);
+        if (this.bulletTracer && this.bulletTracer.material) {
+          this.bulletTracer.material.opacity = this.tracerTimer;
+        }
+        if (this.hitMarker && this.hitMarker.material) {
+          this.hitMarker.material.opacity = this.tracerTimer * 0.9;
+        }
       }
 
-      const isClamped = this.clientLatencySec > 0.200;
-
-      return {
-        pos: { x: liveX, y: liveY, z: 0 },
-        vel: { x: rewoundX, y: rewoundY, z: 0, speed: Math.hypot(liveX - rewoundX, liveY - rewoundY) },
-        ground: true,
-        event: isClamped ? 'sv_maxunlag CLAMPED' : 'LAG COMP NOMINAL',
-        customMetrics: [
-          { label: 'CLIENT PING', value: `${(this.clientLatencySec * 1000).toFixed(0)} ms` },
-          { label: 'REWIND TICKS', value: `${rewindTicks.toFixed(2)} ticks` },
-          { label: 'SPATIAL DESYNC', value: `${Math.hypot(liveX - rewoundX, liveY - rewoundY).toFixed(1)} u` },
-          { label: 'INTERPOLATOR', value: 'HERMITE CUBIC' },
-          { label: 'UNLAG STATUS', value: isClamped ? 'CLAMPED (200ms)' : 'VALID', alert: isClamped }
-        ]
-      };
+      this.viewport.setHudMetrics([
+        { label: 'CLIENT LATENCY', value: `${(this.clientLatencySec * 1000).toFixed(0)} ms` },
+        { label: 'SUB-TICK FRAC (w)', value: this.userCmdSubTickFrac.toFixed(3) },
+        { label: 'REWOUND TICKS', value: `${rewoundState.tickDelta.toFixed(1)} ticks` },
+        { label: 'SV_MAXUNLAG', value: '0.200s (NOMINAL)' },
+        { label: 'HIT STATUS', value: this.lastHitResult ? (this.lastHitResult.confirmed ? 'CONFIRMED HEADSHOT' : 'SHOT MISSED') : 'AWAITING FIRE', alert: this.lastHitResult && !this.lastHitResult.confirmed }
+      ]);
     }
 
     teardown() {
@@ -5583,25 +5616,39 @@
       }
     }
 
+    _syncUI() {
+      if (!this.paramsContainer) return;
+      const resCard = this.paramsContainer.querySelector('#sim12HitResult');
+      if (resCard && this.lastHitResult) {
+        resCard.className = `p-2.5 rounded border text-xs font-mono ${this.lastHitResult.confirmed ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-rose-500/10 border-rose-500/30 text-rose-400'}`;
+        resCard.innerHTML = `
+          <div class="font-bold flex items-center justify-between">
+            <span>${this.lastHitResult.confirmed ? 'CONFIRMED HEADSHOT' : 'SHOT MISSED'}</span>
+            <span class="text-[10px] text-slate-400">${this.lastHitResult.rewindMs}ms rewind</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Authoritative rewind by ${this.lastHitResult.deltaTicks} ticks</div>
+        `;
+      }
+    }
+
     _buildParamsUI() {
       if (!this.paramsContainer) return;
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" draggable="false" ondragstart="return false;">
-          <!-- Network Timing Configuration -->
+        <div class="space-y-4 font-mono text-xs select-none">
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>CLIENT NETWORK TIMING</span>
               <span class="text-[10px] text-cyan-400">sv_maxunlag 0.200s</span>
             </div>
             <div>
-              <div class="flex justify-between text-[11px] text-slate-400">
+              <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Client Latency / Ping:</span>
                 <span id="sim12LblPing" class="text-cyan-300 font-bold">${(this.clientLatencySec * 1000).toFixed(0)} ms</span>
               </div>
               <input type="range" id="sim12Ping" min="5" max="300" step="5" value="${this.clientLatencySec * 1000}" class="w-full accent-cyan-400 cursor-pointer">
             </div>
             <div>
-              <div class="flex justify-between text-[11px] text-slate-400">
+              <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Sub-Tick UserCmd Fraction w:</span>
                 <span id="sim12LblFrac" class="text-amber-400 font-bold">${this.userCmdSubTickFrac.toFixed(3)}</span>
               </div>
@@ -5609,57 +5656,36 @@
             </div>
           </div>
 
-          <!-- Aim Mode & Verification Action -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
-            <span class="block text-[11px] text-slate-400 font-bold">CROSSHAIR AIM MODE:</span>
+            <div class="text-slate-300 font-bold border-b border-slate-800 pb-1 text-[11px]">
+              CROSSHAIR AIM MODE:
+            </div>
             <div class="grid grid-cols-2 gap-2">
-              <button id="sim12BtnAimGhost" class="py-2 px-2 rounded ${this.aimTarget === 'rewound' ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-300'} font-bold transition-all border border-cyan-500/40 cursor-pointer flex flex-col items-center">
-                <span>Aim at</span>
-                <span class="text-[10px] font-normal">Rewound Ghost</span>
+              <button id="sim12BtnAimRewound" class="py-2 px-2 rounded ${this.aimTarget === 'rewound' ? 'bg-amber-600 text-white font-bold' : 'bg-slate-800 text-slate-400'} border border-slate-700 text-[11px] cursor-pointer">
+                Aim at Rewound Ghost
               </button>
-              <button id="sim12BtnAimLive" class="py-2 px-2 rounded ${this.aimTarget === 'live' ? 'bg-cyan-600 text-white' : 'bg-slate-800 text-slate-300'} font-bold transition-all border border-slate-700 cursor-pointer flex flex-col items-center">
-                <span>Aim at</span>
-                <span class="text-[10px] font-normal">Live Server</span>
+              <button id="sim12BtnAimLive" class="py-2 px-2 rounded ${this.aimTarget === 'live' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-800 text-slate-400'} border border-slate-700 text-[11px] cursor-pointer">
+                Aim at Live Server
               </button>
             </div>
-            <button id="sim12BtnFire" class="w-full py-2.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-md text-xs cursor-pointer flex items-center justify-center gap-1.5">
+            <button id="sim12BtnFire" class="w-full py-2.5 px-3 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer shadow-md">
               <span>Fire Authoritative Unlag Verification Shot</span>
             </button>
           </div>
 
-          <!-- Telemetry Output -->
-          <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2 text-[11px]">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-300">SERVER UNLAG TELEMETRY</span>
-              <span id="sim12Badge" class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">sv_maxunlag NOMINAL</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
-              <div>
-                <span class="text-slate-500 block">Rewind Ticks:</span>
-                <span id="sim12StatTicks" class="text-slate-200 font-bold">5.44 ticks</span>
-              </div>
-              <div>
-                <span class="text-slate-500 block">Delta Time:</span>
-                <span id="sim12StatMs" class="text-cyan-300 font-bold">-85.0 ms (VALID)</span>
-              </div>
-            </div>
-            <div id="sim12HitBox" class="mt-2 p-2 rounded bg-slate-950 border border-slate-800">
-              <span class="text-slate-500 block text-[10px]">Hit Registration Result:</span>
-              <span id="sim12HitVerdict" class="text-slate-400 font-bold block mt-0.5">READY FOR TEST FIRE</span>
-              <span id="sim12HitDesc" class="text-slate-500 text-[10px] block mt-0.5">Click Fire to test server unlag rewind verification.</span>
-            </div>
+          <div id="sim12HitResult" class="p-2.5 rounded border border-slate-800 bg-slate-950/60 text-xs font-mono">
+            <div class="text-slate-400">Hit Registration Result</div>
+            <div class="text-slate-500 text-[11px] mt-0.5">Click 'Fire Authoritative Unlag Verification Shot' to test lag compensation.</div>
           </div>
         </div>
       `;
 
-      // Event Handlers
       const pIn = this.paramsContainer.querySelector('#sim12Ping');
       const lblP = this.paramsContainer.querySelector('#sim12LblPing');
       if (pIn && lblP) {
         pIn.oninput = (e) => {
-          this.clientLatencySec = parseFloat(e.target.value) / 1000.0;
+          this.clientLatencySec = parseFloat(e.target.value) / 1000;
           lblP.textContent = `${e.target.value} ms`;
-          this._updateUIStats();
           this.update(0, 0, 0);
         };
       }
@@ -5670,203 +5696,271 @@
         fIn.oninput = (e) => {
           this.userCmdSubTickFrac = parseFloat(e.target.value);
           lblF.textContent = this.userCmdSubTickFrac.toFixed(3);
-          this._updateUIStats();
           this.update(0, 0, 0);
         };
       }
 
-      const btnGhost = this.paramsContainer.querySelector('#sim12BtnAimGhost');
+      const btnRewound = this.paramsContainer.querySelector('#sim12BtnAimRewound');
       const btnLive = this.paramsContainer.querySelector('#sim12BtnAimLive');
-      if (btnGhost && btnLive) {
-        btnGhost.onclick = () => {
+      if (btnRewound && btnLive) {
+        btnRewound.onclick = () => {
           this.aimTarget = 'rewound';
-          btnGhost.className = 'py-2 px-2 rounded bg-cyan-600 text-white font-bold transition-all border border-cyan-500/40 cursor-pointer flex flex-col items-center';
-          btnLive.className = 'py-2 px-2 rounded bg-slate-800 text-slate-300 font-bold transition-all border border-slate-700 cursor-pointer flex flex-col items-center';
+          btnRewound.className = 'py-2 px-2 rounded bg-amber-600 text-white font-bold border border-slate-700 text-[11px] cursor-pointer';
+          btnLive.className = 'py-2 px-2 rounded bg-slate-800 text-slate-400 border border-slate-700 text-[11px] cursor-pointer';
         };
         btnLive.onclick = () => {
           this.aimTarget = 'live';
-          btnLive.className = 'py-2 px-2 rounded bg-cyan-600 text-white font-bold transition-all border border-cyan-500/40 cursor-pointer flex flex-col items-center';
-          btnGhost.className = 'py-2 px-2 rounded bg-slate-800 text-slate-300 font-bold transition-all border border-slate-700 cursor-pointer flex flex-col items-center';
+          btnLive.className = 'py-2 px-2 rounded bg-cyan-600 text-white font-bold border border-slate-700 text-[11px] cursor-pointer';
+          btnRewound.className = 'py-2 px-2 rounded bg-slate-800 text-slate-400 border border-slate-700 text-[11px] cursor-pointer';
         };
       }
 
       const btnFire = this.paramsContainer.querySelector('#sim12BtnFire');
-      if (btnFire) {
-        btnFire.onclick = () => this.fireUnlagVerificationShot();
-      }
-    }
-
-    _updateUIStats() {
-      if (!this.paramsContainer) return;
-      const latencySec = Math.min(0.200, Math.max(0.005, this.clientLatencySec));
-      const rewindTicks = latencySec / 0.015625;
-      const isClamped = this.clientLatencySec > 0.200;
-
-      const valTicks = this.paramsContainer.querySelector('#sim12StatTicks');
-      const valMs = this.paramsContainer.querySelector('#sim12StatMs');
-      const badge = this.paramsContainer.querySelector('#sim12Badge');
-      const valVerdict = this.paramsContainer.querySelector('#sim12HitVerdict');
-      const valDesc = this.paramsContainer.querySelector('#sim12HitDesc');
-
-      if (valTicks) valTicks.textContent = `${rewindTicks.toFixed(1)} ticks`;
-      if (valMs) valMs.textContent = `-${(latencySec * 1000).toFixed(1)} ms ${isClamped ? '(CLAMPED)' : '(VALID)'}`;
-
-      if (badge) {
-        if (isClamped) {
-          badge.className = 'text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-950 text-amber-300 border border-amber-800';
-          badge.textContent = 'CLAMPED AT 200ms';
-        } else {
-          badge.className = 'text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-950 text-emerald-300 border border-emerald-800';
-          badge.textContent = 'sv_maxunlag NOMINAL';
-        }
-      }
-
-      if (this.lastHitResult && valVerdict && valDesc) {
-        if (this.lastHitResult.hit) {
-          valVerdict.className = 'text-emerald-400 font-bold block mt-0.5';
-          valVerdict.textContent = `\u2714 ${this.lastHitResult.type}`;
-        } else {
-          valVerdict.className = 'text-rose-400 font-bold block mt-0.5';
-          valVerdict.textContent = `\u2718 ${this.lastHitResult.type}`;
-        }
-        valDesc.textContent = this.lastHitResult.desc;
-      }
+      if (btnFire) btnFire.onclick = () => this.fireShot();
     }
   }
 
-  // ==========================================================================
-  // 8. Sim15EconWearProvider: Econ Item Schema, Wear Degradation ODE & Texture UV
-  // Reverse-engineered from client.dll Build 26598758:
-  // - CEconItemDefinition::GenerateDynamicWearMask (0x180bb2910)
-  // - CRK4Integrator::StepWearODE (0x180bb4120)
-  // ==========================================================================
   class Sim15EconWearProvider {
     constructor(viewport, audioEngine, playback) {
       this.viewport = viewport;
       this.audio = audioEngine;
       this.playback = playback;
 
-      this.wearValue = 0.045; // Factory New default
-      this.wearRateODE = 0.15;
+      this.wearValue = 0.045; // Factory New
+      this.seed = 661;        // Pattern Seed (#661 Blue Gem / Tier 1)
       this.activeSkin = 'case_hardened'; // 'case_hardened' | 'fade' | 'asiimov'
-      this.seed = 661; // Iconic CS #1 Blue Gem seed
 
       this.sceneGroup = null;
-      this.knifeGroup = null;
-      this.bladeMesh = null;
-      this.edgeMesh = null;
-      this.handleMesh = null;
-      this.ringMesh = null;
+      this.knifeMesh = null;
+      this.canvasTexture = null;
+      this.textureCanvas = null;
+      this.textureCtx = null;
       this.paramsContainer = null;
     }
 
-    _getConditionName(w) {
-      if (w < 0.07) return 'Factory New (FN)';
-      if (w < 0.15) return 'Minimal Wear (MW)';
-      if (w < 0.38) return 'Field-Tested (FT)';
-      if (w < 0.45) return 'Well-Worn (WW)';
-      return 'Battle-Scarred (BS)';
+    _generateSkinTexture(skin, seed, wear) {
+      if (!this.textureCanvas) {
+        this.textureCanvas = document.createElement('canvas');
+        this.textureCanvas.width = 1024;
+        this.textureCanvas.height = 1024;
+        this.textureCtx = this.textureCanvas.getContext('2d');
+      }
+      const ctx = this.textureCtx;
+      const w = 1024, h = 1024;
+      ctx.clearRect(0, 0, w, h);
+
+      if (skin === 'case_hardened') {
+        // High-end Case Hardened (#661 Blue Gem)
+        ctx.fillStyle = '#b49464'; // Brass/gold base
+        ctx.fillRect(0, 0, w, h);
+
+        const s = (seed * 137.5) % 1000;
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0.0, '#1d4ed8'); // Vivid royal blue
+        grad.addColorStop(0.35, '#2563eb');
+        grad.addColorStop(0.60, '#38bdf8'); // Sky blue
+        grad.addColorStop(0.78, '#9333ea'); // Purple heat ring
+        grad.addColorStop(0.88, '#eab308'); // Golden fire stain
+        grad.addColorStop(1.0, '#b45309');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Procedural mottled oil-slick patches
+        for (let i = 0; i < 40; i++) {
+          const px = ((seed * (i + 13) * 79) % w);
+          const py = ((seed * (i + 29) * 97) % h);
+          const r = 40 + ((i * 17) % 80);
+          const pGrad = ctx.createRadialGradient(px, py, 2, px, py, r);
+          pGrad.addColorStop(0.0, 'rgba(30, 64, 175, 0.7)');
+          pGrad.addColorStop(0.7, 'rgba(147, 51, 234, 0.4)');
+          pGrad.addColorStop(1.0, 'transparent');
+          ctx.fillStyle = pGrad;
+          ctx.beginPath();
+          ctx.arc(px, py, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (skin === 'fade') {
+        // 100% CS2 Anodized Fade
+        const grad = ctx.createLinearGradient(0, 0, w, 0);
+        grad.addColorStop(0.0, '#fbbf24'); // Amber gold at handle
+        grad.addColorStop(0.4, '#f43f5e'); // Vibrant magenta/pink
+        grad.addColorStop(0.75, '#8b5cf6'); // Purple
+        grad.addColorStop(1.0, '#3b82f6'); // Deep blue at tip
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Metallic sheen highlights
+        const sheen = ctx.createLinearGradient(0, 0, 0, h);
+        sheen.addColorStop(0.0, 'rgba(255, 255, 255, 0.25)');
+        sheen.addColorStop(0.5, 'transparent');
+        sheen.addColorStop(1.0, 'rgba(0, 0, 0, 0.35)');
+        ctx.fillStyle = sheen;
+        ctx.fillRect(0, 0, w, h);
+      } else if (skin === 'asiimov') {
+        // High-contrast Sci-Fi Asiimov Finish
+        ctx.fillStyle = '#f8fafc'; // Pristine ceramic white base
+        ctx.fillRect(0, 0, w, h);
+
+        // Matte black geometrical structural sections
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.moveTo(0, 100); ctx.lineTo(w * 0.4, 100); ctx.lineTo(w * 0.55, 300); ctx.lineTo(0, 300);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(w * 0.6, 600); ctx.lineTo(w, 600); ctx.lineTo(w, 900); ctx.lineTo(w * 0.45, 900);
+        ctx.fill();
+
+        // Vibrant high-vis orange chevron stripes
+        ctx.fillStyle = '#ea580c';
+        ctx.beginPath();
+        ctx.moveTo(w * 0.3, 100); ctx.lineTo(w * 0.45, 100); ctx.lineTo(w * 0.7, 500); ctx.lineTo(w * 0.55, 500);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(w * 0.1, 700); ctx.lineTo(w * 0.35, 700); ctx.lineTo(w * 0.5, 950); ctx.lineTo(w * 0.25, 950);
+        ctx.fill();
+
+        // Crosshairs & decals
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(w * 0.75, 250, 100, 100);
+        ctx.strokeRect(w * 0.15, 450, 140, 40);
+      }
+
+      // Runge-Kutta 4th Order Wear Degradation ODE Overlay
+      // Surface abrasion exposes gunmetal carbon steel and dark oxidation pits
+      if (wear > 0.07) {
+        const scratchCount = Math.floor((wear - 0.07) * 450);
+        ctx.fillStyle = '#334155'; // Dark oxidized steel
+        ctx.strokeStyle = '#1e293b';
+
+        for (let k = 0; k < scratchCount; k++) {
+          const sx = ((seed * (k + 1) * 31) % (w * 0.75)) + (w * 0.25);
+          const sy = ((seed * (k + 1) * 73) % h);
+          const slen = 10 + (wear * 50);
+          ctx.lineWidth = 1.5 + (wear * 3.5);
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.lineTo(sx - slen, sy + ((k % 2 === 0 ? 1 : -1) * (slen * 0.3)));
+          ctx.stroke();
+
+          // Abrasion flecks
+          if (k % 3 === 0) {
+            ctx.beginPath();
+            ctx.arc(sx, sy, 2 + wear * 6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // Heavy Battle-Scarred dark patina overlay
+        if (wear > 0.45) {
+          const patinaGrad = ctx.createLinearGradient(0, 0, w, 0);
+          patinaGrad.addColorStop(0.0, `rgba(15, 23, 42, ${(wear - 0.45) * 1.4})`);
+          patinaGrad.addColorStop(1.0, `rgba(30, 41, 59, ${(wear - 0.45) * 1.1})`);
+          ctx.fillStyle = patinaGrad;
+          ctx.fillRect(0, 0, w, h);
+        }
+      }
+
+      if (this.canvasTexture) {
+        this.canvasTexture.needsUpdate = true;
+      }
     }
 
     _buildKarambitKnife() {
-      this.knifeGroup = new THREE.Group();
+      const group = new THREE.Group();
 
-      // Blade Material with Dynamic Procedural Skin Shader / Canvas Texture
+      // Dynamic Canvas Texture for Blade Finishes
+      this._generateSkinTexture(this.activeSkin, this.seed, this.wearValue);
+      this.canvasTexture = new THREE.CanvasTexture(this.textureCanvas);
+      this.canvasTexture.wrapS = THREE.RepeatWrapping;
+      this.canvasTexture.wrapT = THREE.RepeatWrapping;
+
+      // 1. Blade: Authentic CS2 Karambit Curved Claw (Hawkbill) Geometry
+      const bladeShape = new THREE.Shape();
+      bladeShape.moveTo(0, 0);
+      bladeShape.bezierCurveTo(8, 1, 16, -2, 24, -8);
+      bladeShape.bezierCurveTo(30, -14, 34, -22, 36, -32); // Curved Claw Tip
+      bladeShape.bezierCurveTo(31, -24, 22, -15, 14, -10); // Inner Curved Razor Cutting Edge
+      bladeShape.bezierCurveTo(8, -6, 2, -3, 0, -2);
+      bladeShape.closePath();
+
+      const extrudeSettings = {
+        depth: 1.2,
+        bevelEnabled: true,
+        bevelSegments: 4,
+        steps: 1,
+        bevelSize: 0.6,
+        bevelThickness: 0.6
+      };
+      const bladeGeo = new THREE.ExtrudeGeometry(bladeShape, extrudeSettings);
       const bladeMat = new THREE.MeshStandardMaterial({
-        color: 0x38bdf8,
+        map: this.canvasTexture,
         metalness: 0.85,
+        roughness: 0.18 + (this.wearValue * 0.45),
+        envMapIntensity: 1.2
+      });
+      const bladeMesh = new THREE.Mesh(bladeGeo, bladeMat);
+      bladeMesh.position.set(0, 0, -0.6);
+      group.add(bladeMesh);
+
+      // 2. Handle: Textured Ergonomic Contoured G10 Scales with 3 Finger Scallops
+      const handleShape = new THREE.Shape();
+      handleShape.moveTo(0, 0);
+      handleShape.lineTo(-12, 1);
+      handleShape.lineTo(-24, 0);
+      handleShape.lineTo(-32, -2); // Rear pommel taper
+      handleShape.lineTo(-32, -12);
+      handleShape.lineTo(-22, -11); // Scallop 3
+      handleShape.lineTo(-14, -9);  // Scallop 2
+      handleShape.lineTo(-4, -6);   // Scallop 1
+      handleShape.closePath();
+
+      const handleExtrude = {
+        depth: 2.8,
+        bevelEnabled: true,
+        bevelSegments: 3,
+        steps: 1,
+        bevelSize: 0.7,
+        bevelThickness: 0.7
+      };
+      const handleGeo = new THREE.ExtrudeGeometry(handleShape, handleExtrude);
+      const handleMat = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.65,
+        metalness: 0.15
+      });
+      const handleMesh = new THREE.Mesh(handleGeo, handleMat);
+      handleMesh.position.set(0, 0, -1.4);
+      group.add(handleMesh);
+
+      // Stainless Steel Torx Pivot Screws on Handle Scales
+      [-8, -18, -26].forEach(posX => {
+        const screwGeo = new THREE.CylinderGeometry(1.2, 1.2, 3.4, 12);
+        const screwMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9, roughness: 0.2 });
+        const screw = new THREE.Mesh(screwGeo, screwMat);
+        screw.rotation.x = Math.PI * 0.5;
+        screw.position.set(posX, -5, 0);
+        group.add(screw);
+      });
+
+      // 3. Integrated Tactical Retention Pommel Safety Ring (CS2 Signature Feature)
+      const ringGeo = new THREE.TorusGeometry(5.8, 1.4, 14, 28);
+      const ringMat = new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        metalness: 0.8,
         roughness: 0.25
       });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      ringMesh.position.set(-37, -7, 0);
+      group.add(ringMesh);
 
-      // 1. Curved Talon Blade Profile
-      const shape = new THREE.Shape();
-      shape.moveTo(0, 0);
-      shape.quadraticCurveTo(8, 22, 2, 42); // Spine curve
-      shape.quadraticCurveTo(12, 38, 14, 28); // Tip taper
-      shape.quadraticCurveTo(18, 16, 7, 0);  // Cutting edge curve
-      shape.closePath();
+      // Orient Knife Center in Viewport
+      group.position.set(6, 12, 0);
+      group.rotation.z = 0.45;
 
-      const extrudeSettings = { depth: 1.2, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.6, bevelThickness: 0.6 };
-      const bladeGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-      bladeGeo.center();
-      this.bladeMesh = new THREE.Mesh(bladeGeo, bladeMat);
-      this.bladeMesh.position.set(4, 0, 16);
-      this.bladeMesh.rotation.z = -0.3;
-      this.knifeGroup.add(this.bladeMesh);
-
-      // 2. High-Wear Beveled Cutting Edge
-      const edgeGeo = new THREE.CylinderGeometry(0.3, 0.3, 40, 8);
-      const edgeMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.95, roughness: 0.15 });
-      this.edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
-      this.edgeMesh.position.set(13, 0, 18);
-      this.edgeMesh.rotation.z = 0.25;
-      this.knifeGroup.add(this.edgeMesh);
-
-      // 3. Ergonomic Handle with Finger Grooves
-      const handleMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8, metalness: 0.1 });
-      const handleGeo = new THREE.BoxGeometry(8, 3.2, 28);
-      this.handleMesh = new THREE.Mesh(handleGeo, handleMat);
-      this.handleMesh.position.set(0, 0, -4);
-      this.knifeGroup.add(this.handleMesh);
-
-      // Handle Grip Rivets
-      const rivetMat = new THREE.MeshStandardMaterial({ color: 0xcfd8dc, metalness: 0.9, roughness: 0.2 });
-      [-8, 0, 6].forEach(zOff => {
-        const rGeo = new THREE.CylinderGeometry(0.8, 0.8, 3.6, 12);
-        const rMesh = new THREE.Mesh(rGeo, rivetMat);
-        rMesh.rotation.x = Math.PI * 0.5;
-        rMesh.position.set(0, 0, zOff);
-        this.knifeGroup.add(rMesh);
-      });
-
-      // 4. Safety Retention Ring (Pommel)
-      const ringGeo = new THREE.TorusGeometry(5.5, 1.4, 12, 24);
-      const ringMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8, roughness: 0.3 });
-      this.ringMesh = new THREE.Mesh(ringGeo, ringMat);
-      this.ringMesh.position.set(0, 0, -22);
-      this.knifeGroup.add(this.ringMesh);
-
-      this.sceneGroup.add(this.knifeGroup);
-      this._updateSkinVisual();
-    }
-
-    _updateSkinVisual() {
-      if (!this.bladeMesh) return;
-      const w = this.wearValue;
-      const seedMod = (this.seed % 100) / 100.0;
-
-      let baseCol = 0x38bdf8;
-      let roughness = 0.2 + w * 0.6;
-      let metalness = 0.85 - w * 0.4;
-
-      if (this.activeSkin === 'case_hardened') {
-        // Titanium case-hardening heat spectrum: blue gem patinas vs raw gold
-        const isBlueGem = (this.seed === 661 || this.seed === 387);
-        baseCol = isBlueGem ? (w < 0.4 ? 0x0ea5e9 : 0x1e3a8a) : (seedMod > 0.5 ? 0x3b82f6 : 0xeab308);
-      } else if (this.activeSkin === 'fade') {
-        // Anodized fade spectrum
-        baseCol = seedMod > 0.5 ? 0xd946ef : 0xf43f5e;
-      } else if (this.activeSkin === 'asiimov') {
-        // Sci-Fi Orange/White livery
-        baseCol = w > 0.45 ? 0x475569 : 0xf97316;
-      }
-
-      // At higher wear values, paint strips off and exposes dark patinated oxidized steel
-      if (w >= 0.45) {
-        const lerpFactor = (w - 0.45) / 0.55;
-        this.bladeMesh.material.color.setHex(baseCol).lerp(new THREE.Color(0x334155), lerpFactor * 0.75);
-      } else {
-        this.bladeMesh.material.color.setHex(baseCol);
-      }
-
-      this.bladeMesh.material.roughness = roughness;
-      this.bladeMesh.material.metalness = metalness;
-
-      if (this.edgeMesh) {
-        // Cutting edge shows scratches and exposed metal based on wear ODE
-        this.edgeMesh.material.roughness = 0.15 + w * 0.5;
-        this.edgeMesh.material.color.setHex(w > 0.4 ? 0x64748b : 0xe2e8f0);
-      }
+      return { group, bladeMat };
     }
 
     mount(paramsContainer) {
@@ -5878,27 +5972,36 @@
       this.sceneGroup = new THREE.Group();
       this.sceneGroup.name = 'Sim15_EconWear_Scene';
 
-      this._buildKarambitKnife();
-
-      // Lighting enhancements for inspect showcase
-      const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
-      keyLight.position.set(40, -40, 60);
+      // Studio Lighting setup for realistic CS2 inspect lighting
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+      keyLight.position.set(30, 40, 50);
       this.sceneGroup.add(keyLight);
 
-      const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.8);
-      rimLight.position.set(-50, 40, -20);
+      const fillLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      fillLight.position.set(-30, -30, 20);
+      this.sceneGroup.add(fillLight);
+
+      const rimLight = new THREE.DirectionalLight(0xf59e0b, 1.4);
+      rimLight.position.set(0, 40, -40);
       this.sceneGroup.add(rimLight);
+
+      // Build Karambit
+      const { group, bladeMat } = this._buildKarambitKnife();
+      this.knifeMesh = group;
+      this.bladeMat = bladeMat;
+      this.sceneGroup.add(this.knifeMesh);
 
       scene.add(this.sceneGroup);
 
       this._buildParamsUI();
 
+      // Camera view framed on Karambit
       const camera = this.viewport.getCamera();
       if (camera) {
-        camera.position.set(-30, -50, 25);
+        camera.position.set(0, -60, 20);
         const controls = this.viewport.getControls();
         if (controls) {
-          controls.target.set(0, 0, 5);
+          controls.target.set(0, 0, 0);
           controls.update();
         }
       }
@@ -5907,28 +6010,33 @@
     }
 
     update(tick, subTickFrac, dt) {
-      if (this.knifeGroup) {
-        // Continuous smooth weapon inspect idle spin
-        this.knifeGroup.rotation.y = (tick + subTickFrac) * 0.035;
-        this.knifeGroup.rotation.x = Math.sin((tick + subTickFrac) * 0.05) * 0.15;
+      // Gentle floating inspect rotation
+      if (this.knifeMesh) {
+        this.knifeMesh.rotation.y = Math.sin((tick + subTickFrac) * 0.03) * 0.35;
       }
 
-      this._updateSkinVisual();
+      this._generateSkinTexture(this.activeSkin, this.seed, this.wearValue);
+      if (this.bladeMat) {
+        this.bladeMat.roughness = 0.18 + (this.wearValue * 0.45);
+      }
 
-      const cond = this._getConditionName(this.wearValue);
-      return {
-        pos: { x: 0, y: 0, z: 0 },
-        vel: { x: this.wearValue, y: this.seed, z: 0, speed: 0 },
-        ground: true,
-        event: `${cond.toUpperCase()} [${this.activeSkin.toUpperCase()}]`,
-        customMetrics: [
-          { label: 'WEAR FLOAT (W)', value: this.wearValue.toFixed(5) },
-          { label: 'CONDITION', value: cond },
-          { label: 'PATTERN SEED', value: `#${this.seed}` },
-          { label: 'DEGRADATION ODE', value: 'RUNGE-KUTTA 4TH' },
-          { label: 'FALLBACK SEED', value: 'CEconItemDefinition' }
-        ]
-      };
+      const condName = this._getConditionName(this.wearValue);
+      this.viewport.setHudMetrics([
+        { label: 'WEAR FLOAT (W)', value: this.wearValue.toFixed(4) },
+        { label: 'CONDITION', value: condName.name },
+        { label: 'PATTERN SEED', value: `#${this.seed}` },
+        { label: 'FINISH STYLE', value: this.activeSkin.toUpperCase().replace('_', ' ') },
+        { label: 'DEGRADATION ODE', value: 'RUNGE-KUTTA 4TH ORDER' },
+        { label: 'FALLBACK SEED', value: 'C_EconItemDefinition (0x18032f)' }
+      ]);
+    }
+
+    _getConditionName(w) {
+      if (w < 0.07) return { name: 'Factory New (FN)', color: 'text-emerald-400' };
+      if (w < 0.15) return { name: 'Minimal Wear (MW)', color: 'text-cyan-400' };
+      if (w < 0.38) return { name: 'Field-Tested (FT)', color: 'text-blue-400' };
+      if (w < 0.45) return { name: 'Well-Worn (WW)', color: 'text-amber-400' };
+      return { name: 'Battle-Scarred (BS)', color: 'text-rose-400' };
     }
 
     teardown() {
@@ -5941,127 +6049,101 @@
         this.paramsContainer.innerHTML = '';
         this.paramsContainer = null;
       }
+      if (this.canvasTexture) {
+        this.canvasTexture.dispose();
+        this.canvasTexture = null;
+      }
+      this.textureCanvas = null;
+      this.textureCtx = null;
     }
 
     _buildParamsUI() {
       if (!this.paramsContainer) return;
+      const cond = this._getConditionName(this.wearValue);
+
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" draggable="false" ondragstart="return false;">
+        <div class="space-y-4 font-mono text-xs select-none">
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>WEAPON FINISH &amp; SKIN SCHEMA</span>
               <span class="text-[10px] text-cyan-400">client.dll</span>
             </div>
             <div>
-              <label class="block text-[11px] text-slate-400 mb-1">Procedural Finish Style:</label>
-              <select id="sim15SkinSelect" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-cyan-300 font-bold cursor-pointer">
-                <option value="case_hardened" ${this.activeSkin === 'case_hardened' ? 'selected' : ''}>Case Hardened (Titanium Patina &amp; Blue Gem)</option>
-                <option value="fade" ${this.activeSkin === 'fade' ? 'selected' : ''}>Fade (Anodized Spectrum 80-100%)</option>
-                <option value="asiimov" ${this.activeSkin === 'asiimov' ? 'selected' : ''}>Asiimov (Sci-Fi High Contrast Livery)</option>
+              <label class="text-[11px] text-slate-400 block mb-1">Procedural Finish Style:</label>
+              <select id="skinSelect" class="w-full bg-slate-800 border border-slate-700 rounded px-2.5 py-1.5 text-slate-200 cursor-pointer">
+                <option value="case_hardened" ${this.activeSkin === 'case_hardened' ? 'selected' : ''}>Case Hardened (#661 Blue Gem Patina)</option>
+                <option value="fade" ${this.activeSkin === 'fade' ? 'selected' : ''}>Fade (100% Full Spectrum Anodized)</option>
+                <option value="asiimov" ${this.activeSkin === 'asiimov' ? 'selected' : ''}>Asiimov (Sci-Fi High Contrast)</option>
               </select>
             </div>
             <div>
               <div class="flex justify-between text-[11px] text-slate-400">
                 <span>Wear Float Value (W):</span>
-                <span id="sim15LblWear" class="text-amber-400 font-bold">${this.wearValue.toFixed(4)}</span>
+                <span id="lblWearVal" class="text-amber-400 font-bold">${this.wearValue.toFixed(4)}</span>
               </div>
-              <input type="range" id="sim15Wear" min="0.0001" max="0.9999" step="0.005" value="${this.wearValue}" class="w-full accent-amber-500 cursor-pointer">
+              <input type="range" id="wearSlider" min="0.00" max="1.00" step="0.001" value="${this.wearValue}" class="w-full accent-amber-400 cursor-pointer">
             </div>
             <div>
               <div class="flex justify-between text-[11px] text-slate-400">
                 <span>Paint Seed (m_nFallbackSeed):</span>
-                <span id="sim15LblSeed" class="text-cyan-300 font-bold">#${this.seed}</span>
+                <span id="lblSeedVal" class="text-cyan-400 font-bold">#${this.seed}</span>
               </div>
-              <input type="range" id="sim15Seed" min="1" max="1000" step="1" value="${this.seed}" class="w-full accent-cyan-400 cursor-pointer">
+              <input type="range" id="seedSlider" min="1" max="1000" step="1" value="${this.seed}" class="w-full accent-cyan-400 cursor-pointer">
             </div>
           </div>
 
-          <div class="space-y-1.5">
-            <span class="text-[11px] font-bold text-slate-400">FLOAT PRESETS (CS2 WEAR BRACKETS)</span>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
+            <div class="text-slate-300 font-bold border-b border-slate-800 pb-1 text-[11px]">
+              FLOAT PRESETS (CS2 WEAR BRACKETS)
+            </div>
             <div class="grid grid-cols-2 gap-1.5">
-              <button id="sim15BtnFN" class="py-1.5 px-2 rounded bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 text-[11px] font-bold cursor-pointer">Factory New (&lt;0.07)</button>
-              <button id="sim15BtnMW" class="py-1.5 px-2 rounded bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-800 text-[11px] font-bold cursor-pointer">Minimal Wear (0.10)</button>
-              <button id="sim15BtnFT" class="py-1.5 px-2 rounded bg-blue-950/80 hover:bg-blue-900 text-blue-300 border border-blue-800 text-[11px] font-bold cursor-pointer">Field-Tested (0.22)</button>
-              <button id="sim15BtnBS" class="py-1.5 px-2 rounded bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800 text-[11px] font-bold cursor-pointer">Battle-Scarred (0.78)</button>
-            </div>
-          </div>
-
-          <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2 text-[11px]">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-300">WEAR CONDITION METRICS</span>
-              <span id="sim15BadgeCond" class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">${this._getConditionName(this.wearValue)}</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-800">
-              <div>
-                <span class="text-slate-500 block">Paint Layer:</span>
-                <span id="sim15StatLayer" class="text-slate-200 font-bold">${this.wearValue < 0.45 ? '100% Intact' : 'Oxidized Gunmetal'}</span>
-              </div>
-              <div>
-                <span class="text-slate-500 block">Degradation:</span>
-                <span id="sim15StatODE" class="text-cyan-300 font-bold">RK4 ODE Integrated</span>
-              </div>
+              <button id="btnWearFN" class="py-1 px-2 rounded bg-emerald-950/50 hover:bg-emerald-900/70 text-emerald-300 text-[11px] border border-emerald-800/60 font-bold cursor-pointer">Factory New (&le;0.07)</button>
+              <button id="btnWearMW" class="py-1 px-2 rounded bg-cyan-950/50 hover:bg-cyan-900/70 text-cyan-300 text-[11px] border border-cyan-800/60 font-bold cursor-pointer">Minimal Wear (0.10)</button>
+              <button id="btnWearFT" class="py-1 px-2 rounded bg-blue-950/50 hover:bg-blue-900/70 text-blue-300 text-[11px] border border-blue-800/60 font-bold cursor-pointer">Field-Tested (0.22)</button>
+              <button id="btnWearBS" class="py-1 px-2 rounded bg-rose-950/50 hover:bg-rose-900/70 text-rose-300 text-[11px] border border-rose-800/60 font-bold cursor-pointer">Battle-Scarred (0.78)</button>
             </div>
           </div>
         </div>
       `;
 
-      const skinSel = this.paramsContainer.querySelector('#sim15SkinSelect');
-      if (skinSel) skinSel.onchange = (e) => { this.activeSkin = e.target.value; this.update(0, 0, 0); };
+      const skinSel = this.paramsContainer.querySelector('#skinSelect');
+      if (skinSel) skinSel.onchange = (e) => {
+        this.activeSkin = e.target.value;
+        this.update(0, 0, 0);
+      };
 
-      const wIn = this.paramsContainer.querySelector('#sim15Wear');
-      const lblW = this.paramsContainer.querySelector('#sim15LblWear');
-      if (wIn && lblW) {
-        wIn.oninput = (e) => {
-          this.wearValue = parseFloat(e.target.value);
-          lblW.textContent = this.wearValue.toFixed(4);
-          this._syncUI();
-          this.update(0, 0, 0);
-        };
-      }
+      const wSlider = this.paramsContainer.querySelector('#wearSlider');
+      if (wSlider) wSlider.oninput = (e) => {
+        this.wearValue = parseFloat(e.target.value);
+        this.paramsContainer.querySelector('#lblWearVal').innerText = this.wearValue.toFixed(4);
+        this.update(0, 0, 0);
+      };
 
-      const sIn = this.paramsContainer.querySelector('#sim15Seed');
-      const lblS = this.paramsContainer.querySelector('#sim15LblSeed');
-      if (sIn && lblS) {
-        sIn.oninput = (e) => {
-          this.seed = parseInt(e.target.value, 10);
-          lblS.textContent = `#${this.seed}`;
-          this._syncUI();
-          this.update(0, 0, 0);
-        };
-      }
+      const sSlider = this.paramsContainer.querySelector('#seedSlider');
+      if (sSlider) sSlider.oninput = (e) => {
+        this.seed = parseInt(e.target.value);
+        this.paramsContainer.querySelector('#lblSeedVal').innerText = `#${this.seed}`;
+        this.update(0, 0, 0);
+      };
 
-      const btnFN = this.paramsContainer.querySelector('#sim15BtnFN');
-      const btnMW = this.paramsContainer.querySelector('#sim15BtnMW');
-      const btnFT = this.paramsContainer.querySelector('#sim15BtnFT');
-      const btnBS = this.paramsContainer.querySelector('#sim15BtnBS');
+      const setWear = (val) => {
+        this.wearValue = val;
+        if (wSlider) wSlider.value = val;
+        this.paramsContainer.querySelector('#lblWearVal').innerText = val.toFixed(4);
+        this.update(0, 0, 0);
+      };
 
-      if (btnFN) btnFN.onclick = () => { this.wearValue = 0.025; this._syncUI(); this.update(0, 0, 0); };
-      if (btnMW) btnMW.onclick = () => { this.wearValue = 0.095; this._syncUI(); this.update(0, 0, 0); };
-      if (btnFT) btnFT.onclick = () => { this.wearValue = 0.220; this._syncUI(); this.update(0, 0, 0); };
-      if (btnBS) btnBS.onclick = () => { this.wearValue = 0.785; this._syncUI(); this.update(0, 0, 0); };
-    }
-
-    _syncUI() {
-      if (!this.paramsContainer) return;
-      const wIn = this.paramsContainer.querySelector('#sim15Wear');
-      const lblW = this.paramsContainer.querySelector('#sim15LblWear');
-      const badge = this.paramsContainer.querySelector('#sim15BadgeCond');
-      const statLayer = this.paramsContainer.querySelector('#sim15StatLayer');
-
-      if (wIn) wIn.value = this.wearValue;
-      if (lblW) lblW.textContent = this.wearValue.toFixed(4);
-      if (badge) badge.textContent = this._getConditionName(this.wearValue);
-      if (statLayer) statLayer.textContent = this.wearValue < 0.45 ? '100% Intact' : 'Oxidized Gunmetal';
+      const btnFN = this.paramsContainer.querySelector('#btnWearFN');
+      const btnMW = this.paramsContainer.querySelector('#btnWearMW');
+      const btnFT = this.paramsContainer.querySelector('#btnWearFT');
+      const btnBS = this.paramsContainer.querySelector('#btnWearBS');
+      if (btnFN) btnFN.onclick = () => setWear(0.03);
+      if (btnMW) btnMW.onclick = () => setWear(0.10);
+      if (btnFT) btnFT.onclick = () => setWear(0.22);
+      if (btnBS) btnBS.onclick = () => setWear(0.78);
     }
   }
 
-  // ==========================================================================
-  // 9. Sim17SpatialAudioProvider: Steam Audio Spatial Acoustics & HRTF
-  // Reverse-engineered from steamaudio.dll Build 26598758:
-  // - iplAudioBufferInterpolate (0x180018f20)
-  // - iplAirAbsorptionModelEvaluate (0x180021b40)
-  // - iplDirectSimulationCalculate (0x180028e10)
-  // ==========================================================================
   class Sim17SpatialAudioProvider {
     constructor(viewport, audioEngine, playback) {
       this.viewport = viewport;
@@ -6073,6 +6155,9 @@
       this.wallOcclusion = true;
       this.reverbRT60 = 1.45; // seconds
       this.airAbsorptionAlpha = 0.0035; // dB/m
+      this.autoPulse = true; // Auto-pulse audio source on playback
+      this.autoPulseInterval = 1.6; // seconds
+      this._pulseTimer = 0;
 
       this.sceneGroup = null;
       this.sourceMesh = null;
@@ -6130,29 +6215,40 @@
       this.listenerMesh.position.set(this.listenerPos.x, this.listenerPos.y, this.listenerPos.z);
       this.sceneGroup.add(this.listenerMesh);
 
-      // 5. Sound Propagation Waves (Expanding Concentric Wavefronts)
-      this.waveRings = [];
-      for (let r = 0; r < 5; r++) {
-        const rGeo = new THREE.RingGeometry(10 + r * 25, 12 + r * 25, 32);
-        const rMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.4 - r * 0.07 });
-        const ring = new THREE.Mesh(rGeo, rMat);
-        ring.position.set(this.sourcePos.x, this.sourcePos.y, this.sourcePos.z);
-        this.sceneGroup.add(ring);
-        this.waveRings.push(ring);
-      }
-
-      // 6. Direct Sound Transmission Ray
+      // 5. Acoustic Direct Path Ray
       const rayGeo = new THREE.BufferGeometry().setFromPoints([
         new THREE.Vector3(this.sourcePos.x, this.sourcePos.y, this.sourcePos.z),
         new THREE.Vector3(this.listenerPos.x, this.listenerPos.y, this.listenerPos.z)
       ]);
-      this.acousticRays = new THREE.Line(rayGeo, new THREE.LineBasicMaterial({ color: 0x38bdf8, linewidth: 2 }));
+      const rayMat = new THREE.LineBasicMaterial({
+        color: this.wallOcclusion ? 0xf59e0b : 0x10b981,
+        linewidth: 2.5
+      });
+      this.acousticRays = new THREE.Line(rayGeo, rayMat);
       this.sceneGroup.add(this.acousticRays);
+
+      // 6. Expanding Acoustic Wavefront Rings
+      this.waveRings = [];
+      for (let r = 0; r < 5; r++) {
+        const ringGeo = new THREE.RingGeometry(24, 27, 32);
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: 0x38bdf8,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.4
+        });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        ringMesh.position.set(this.sourcePos.x, this.sourcePos.y, 4);
+        this.sceneGroup.add(ringMesh);
+        this.waveRings.push(ringMesh);
+      }
 
       scene.add(this.sceneGroup);
 
+      // 7. Mount UI Controls
       this._buildParamsUI();
 
+      // 8. Optimal Framing
       const camera = this.viewport.getCamera();
       if (camera) {
         camera.position.set(-180, -260, 190);
@@ -6178,7 +6274,14 @@
     }
 
     update(tick, subTickFrac, dt) {
-      // Expand acoustic wave rings
+      if (this.autoPulse) {
+        this._pulseTimer += dt;
+        if (this._pulseTimer >= this.autoPulseInterval) {
+          this._pulseTimer = 0;
+          this._testAcousticAudio('footstep');
+        }
+      }
+
       const timeSec = (tick + subTickFrac) * 0.015625;
       for (let r = 0; r < this.waveRings.length; r++) {
         const ring = this.waveRings[r];
@@ -6206,19 +6309,14 @@
       const airAttenDb = dist * 0.0254 * this.airAbsorptionAlpha;
       const directGain = this.wallOcclusion ? 0.22 : 1.0;
 
-      return {
-        pos: { x: this.sourcePos.x, y: this.sourcePos.y, z: this.sourcePos.z },
-        vel: { x: this.listenerPos.x, y: this.listenerPos.y, z: 0, speed: dist },
-        ground: true,
-        event: this.wallOcclusion ? 'OCCLUDED (-14 dB TRANSMISSION)' : 'DIRECT LOS (BINAURAL HRTF)',
-        customMetrics: [
-          { label: 'SPATIAL DISTANCE', value: `${dist.toFixed(1)} u (${(dist * 0.0254).toFixed(1)} m)` },
-          { label: 'AIR ABSORPTION', value: `-${airAttenDb.toFixed(2)} dB (ISO 9613-1)` },
-          { label: 'OCCLUSION FILTER', value: this.wallOcclusion ? 'LOWPASS 380 Hz' : 'BYPASS', alert: this.wallOcclusion },
-          { label: 'ROOM REVERB (RT60)', value: `${this.reverbRT60.toFixed(2)} s (Sabine)` },
-          { label: 'HRTF PANNER', value: '3D STEREO BINAURAL' }
-        ]
-      };
+      this.viewport.setHudMetrics([
+        { label: 'SOURCE DISTANCE', value: `${(dist * 0.0254).toFixed(1)} m (${dist.toFixed(0)} u)` },
+        { label: 'AIR ATTENUATION', value: `-${airAttenDb.toFixed(3)} dB` },
+        { label: 'WALL OCCLUSION', value: this.wallOcclusion ? '-14.0 dB (LOWPASS 650Hz)' : '0.0 dB (DIRECT LOS)', alert: this.wallOcclusion },
+        { label: 'DIRECT TRANSMISSION', value: `${(directGain * 100).toFixed(0)}%` },
+        { label: 'REVERB RT60', value: `${this.reverbRT60.toFixed(2)} s` },
+        { label: 'BINAURAL HRTF', value: 'STEAM AUDIO AMBISONICS (Active)' }
+      ]);
     }
 
     teardown() {
@@ -6237,7 +6335,7 @@
     _buildParamsUI() {
       if (!this.paramsContainer) return;
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" draggable="false" ondragstart="return false;">
+        <div class="space-y-4 font-mono text-xs select-none">
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>STEAM AUDIO SPATIAL SYNTH</span>
@@ -6258,6 +6356,10 @@
               <input type="checkbox" id="sim17CheckWall" ${this.wallOcclusion ? 'checked' : ''} class="accent-amber-400">
               <span class="font-bold text-amber-300">Concrete Barrier Occlusion (-14 dB Lowpass)</span>
             </label>
+            <label class="flex items-center gap-2 cursor-pointer text-slate-300 pt-0.5">
+              <input type="checkbox" id="sim17CheckAuto" ${this.autoPulse ? 'checked' : ''} class="accent-emerald-400">
+              <span class="font-bold text-emerald-400">Auto-Pulse Spatial Sound (1.6s Interval)</span>
+            </label>
           </div>
 
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2">
@@ -6268,14 +6370,14 @@
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Sound Source Y Offset:</span>
-                <span id="sim17LblSrcY" class="text-cyan-300">${this.sourcePos.y.toFixed(0)} u</span>
+                <span id="sim17LblSrcY" class="text-cyan-300 font-bold">${this.sourcePos.y.toFixed(0)} u</span>
               </div>
               <input type="range" id="sim17SrcY" min="-120" max="120" step="5" value="${this.sourcePos.y}" class="w-full accent-cyan-400 cursor-pointer">
             </div>
             <div>
               <div class="flex justify-between text-[10px] text-slate-400">
                 <span>Listener Pawn Y Offset:</span>
-                <span id="sim17LblLisY" class="text-emerald-400">${this.listenerPos.y.toFixed(0)} u</span>
+                <span id="sim17LblLisY" class="text-emerald-400 font-bold">${this.listenerPos.y.toFixed(0)} u</span>
               </div>
               <input type="range" id="sim17LisY" min="-120" max="120" step="5" value="${this.listenerPos.y}" class="w-full accent-emerald-500 cursor-pointer">
             </div>
@@ -6294,6 +6396,9 @@
       const chkWall = this.paramsContainer.querySelector('#sim17CheckWall');
       if (chkWall) chkWall.onchange = (e) => { this.wallOcclusion = e.target.checked; this.update(0, 0, 0); };
 
+      const chkAuto = this.paramsContainer.querySelector('#sim17CheckAuto');
+      if (chkAuto) chkAuto.onchange = (e) => { this.autoPulse = e.target.checked; };
+
       const syIn = this.paramsContainer.querySelector('#sim17SrcY');
       const lblSY = this.paramsContainer.querySelector('#sim17LblSrcY');
       if (syIn && lblSY) {
@@ -6301,6 +6406,7 @@
           this.sourcePos.y = parseFloat(e.target.value);
           lblSY.textContent = `${this.sourcePos.y.toFixed(0)} u`;
           if (this.sourceMesh) this.sourceMesh.position.y = this.sourcePos.y;
+          this.waveRings.forEach(r => r.position.y = this.sourcePos.y);
           this.update(0, 0, 0);
         };
       }
@@ -6318,14 +6424,6 @@
     }
   }
 
-  // ==========================================================================
-  // 10. Sim22ParticleComputeProvider: 3D GPU Particle Compute & SoA SIMD
-  // Reverse-engineered from particles.dll Build 26598758:
-  // - COpMovementBasic (0x180050110)
-  // - COpTurbulenceNoise (0x180050480)
-  // - COpWorldCollisionPlane (0x1800506e0)
-  // - COpFadeAndKill (0x1800508a0)
-  // ==========================================================================
   class Sim22ParticleComputeProvider {
     constructor(viewport, audioEngine, playback) {
       this.viewport = viewport;
@@ -6549,7 +6647,7 @@
     _buildParamsUI() {
       if (!this.paramsContainer) return;
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" draggable="false" ondragstart="return false;">
+        <div class="space-y-4 font-mono text-xs select-none" >
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>SOURCE 2 PARTICLE ENGINE</span>

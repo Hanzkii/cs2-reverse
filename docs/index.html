@@ -83,17 +83,26 @@
   <script src="assets/cs2_lab.js"></script>
 
   <style>
-    /* Range Slider User-Select & Pointer Fixes */
+    /* Range Slider User-Select & Pointer Fixes (Prevent 🚫 drag drop cursor) */
     input[type="range"] {
+      touch-action: none !important;
       cursor: pointer !important;
       user-select: none !important;
       -webkit-user-select: none !important;
+      -webkit-user-drag: none !important;
     }
     input[type="range"]::-webkit-slider-thumb {
-      cursor: pointer !important;
+      cursor: grab !important;
+      -webkit-user-drag: none !important;
+    }
+    input[type="range"]:active::-webkit-slider-thumb {
+      cursor: grabbing !important;
     }
     input[type="range"]::-moz-range-thumb {
-      cursor: pointer !important;
+      cursor: grab !important;
+    }
+    input[type="range"]:active::-moz-range-thumb {
+      cursor: grabbing !important;
     }
 
     /* CS2 Lab Theater Mode Overlay */
@@ -5099,20 +5108,20 @@
         `;
       } else if (simId === '05') {
         container.innerHTML = `
-          <div class="space-y-3 select-none" draggable="false" ondragstart="return false;">
+          <div class="space-y-3 select-none">
             <div class="space-y-1">
               <div class="flex justify-between text-xs text-slate-300 font-mono">
                 <span>Ray Aim Yaw Angle:</span>
                 <span id="lblParam05Yaw" class="text-cyan-300 font-bold">0.0&deg;</span>
               </div>
-              <input type="range" id="param05Yaw" min="-35" max="35" step="1" value="0" draggable="false" class="w-full accent-cyan-400 cursor-pointer select-none" oninput="document.getElementById('lblParam05Yaw').innerText = this.value + '&deg;'; renderSimVisualizer('05');">
+              <input type="range" id="param05Yaw" min="-35" max="35" step="1" value="0" class="w-full accent-cyan-400 cursor-pointer select-none" oninput="document.getElementById('lblParam05Yaw').innerText = this.value + '&deg;'; renderSimVisualizer('05');">
             </div>
             <div class="space-y-1">
               <div class="flex justify-between text-xs text-slate-300 font-mono">
                 <span>Target Player Distance:</span>
                 <span id="lblParam05Dist" class="text-emerald-300 font-bold">340 units</span>
               </div>
-              <input type="range" id="param05Dist" min="180" max="440" step="10" value="340" draggable="false" class="w-full accent-emerald-400 cursor-pointer select-none" oninput="document.getElementById('lblParam05Dist').innerText = this.value + ' units'; renderSimVisualizer('05');">
+              <input type="range" id="param05Dist" min="180" max="440" step="10" value="340" class="w-full accent-emerald-400 cursor-pointer select-none" oninput="document.getElementById('lblParam05Dist').innerText = this.value + ' units'; renderSimVisualizer('05');">
             </div>
             <div class="space-y-1">
               <label class="text-xs text-slate-300 font-mono">World Solid Obstacle:</label>
@@ -9216,241 +9225,292 @@
       renderSimVisualizer('21');
     }
 
+    let _packetPipelineAnimId = null;
+
+    let _packetPipelineAnimId = null;
+
     function drawPacketPipelineCanvas(canvasId, isMerge, isThreaded, allocatedThreads, N) {
-      const cvs = document.getElementById(canvasId);
-      if (!cvs) return;
-      const ctx = cvs.getContext('2d');
-      const w = cvs.width;
-      const h = cvs.height;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // Dark background with subtle cyber grid
-      ctx.fillStyle = '#070b12';
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.strokeStyle = '#101927';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 28) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 28) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      if (_packetPipelineAnimId) {
+        cancelAnimationFrame(_packetPipelineAnimId);
+        _packetPipelineAnimId = null;
       }
 
-      // Stage 1: Ingress Box (Left: x 25, w 135, y 25, h 370)
-      const inX = 25, inY = 25, inW = 135, inH = 370;
-      ctx.fillStyle = '#0e1626';
-      ctx.strokeStyle = '#1e293b';
-      ctx.lineWidth = 1.5;
-      if (ctx.roundRect) ctx.roundRect(inX, inY, inW, inH, 10); else ctx.rect(inX, inY, inW, inH);
-      ctx.fill(); ctx.stroke();
+      function renderFrame() {
+        const cvs = document.getElementById(canvasId);
+        if (!cvs) return;
+        const ctx = cvs.getContext('2d');
+        const w = cvs.width;
+        const h = cvs.height;
+        const time = performance.now() * 0.001;
 
-      ctx.fillStyle = '#38bdf8';
-      ctx.font = 'bold 11px monospace';
-      ctx.fillText('CSVCMsg_Packet', inX + 14, inY + 24);
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '9.5px monospace';
-      ctx.fillText('Entities Ingress', inX + 14, inY + 38);
+        ctx.clearRect(0, 0, w, h);
 
-      // Simulated packet blocks
-      const packetCount = 4;
-      for (let p = 0; p < packetCount; p++) {
-        const py = inY + 54 + (p * 58);
+        // Dark background with subtle cyber grid
+        ctx.fillStyle = '#070b12';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = '#101927';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 28) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y < h; y += 28) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        // Stage 1: Ingress Box (Left: x 25, w 135, y 25, h 370)
+        const inX = 25, inY = 25, inW = 135, inH = 370;
+        ctx.fillStyle = '#0e1626';
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1.5;
+        if (ctx.roundRect) ctx.roundRect(inX, inY, inW, inH, 10); else ctx.rect(inX, inY, inW, inH);
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('CSVCMsg_Packet', inX + 14, inY + 24);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '9.5px monospace';
+        ctx.fillText('Entities Ingress', inX + 14, inY + 38);
+
+        // Simulated packet blocks with animated pulsing ingress flow
+        const packetCount = 4;
+        for (let p = 0; p < packetCount; p++) {
+          const py = inY + 54 + (p * 58);
+          const pulse = (Math.sin(time * 4.0 + p * 1.5) + 1.0) * 0.5;
+          ctx.fillStyle = pulse > 0.6 ? '#1e2d42' : '#141e2e';
+          if (ctx.roundRect) ctx.roundRect(inX + 10, py, inW - 20, 48, 6); else ctx.rect(inX + 10, py, inW - 20, 48);
+          ctx.fill();
+
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = 'bold 9.5px monospace';
+          ctx.fillText(`PacketChunk #${p + 1}`, inX + 16, py + 16);
+          ctx.fillStyle = '#38bdf8';
+          ctx.font = '8.5px monospace';
+          const startEnt = Math.round(p * (N / packetCount));
+          const endEnt = Math.round(Math.min((p + 1) * (N / packetCount), N)) - 1;
+          ctx.fillText(`Ents [${startEnt}..${endEnt}]`, inX + 16, py + 30);
+          ctx.fillStyle = '#10b981';
+          ctx.fillText(`BitStream: 0xb0`, inX + 16, py + 42);
+
+          // Flow dot moving into worker lanes
+          const dotT = (time * 1.2 + p * 0.25) % 1.0;
+          const dotX = inX + inW - 8 + dotT * 40;
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(dotX, py + 24, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Stage 2: Swimlanes (Center: x 195, w 495, y 25, h 370)
+        const lanesX = 195, lanesW = 495;
+        const visibleLanes = Math.min(allocatedThreads, 6);
+        const laneH = Math.min(54, (inH - 20) / visibleLanes);
+        const laneSpacing = 6;
+        const totalLanesH = (visibleLanes * laneH) + ((visibleLanes - 1) * laneSpacing);
+        const startLaneY = inY + (inH - totalLanesH) / 2;
+
+        for (let t = 0; t < visibleLanes; t++) {
+          const ly = startLaneY + (t * (laneH + laneSpacing));
+          const chunkStart = Math.round(t * (N / allocatedThreads));
+          const chunkEnd = Math.round(Math.min((t + 1) * (N / allocatedThreads), N)) - 1;
+
+          // Ingress connector line
+          ctx.strokeStyle = isThreaded ? '#3b82f6' : '#334155';
+          ctx.lineWidth = 1.2;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(inX + inW, inY + inH / 2);
+          ctx.bezierCurveTo(inX + inW + 18, inY + inH / 2, lanesX - 18, ly + laneH / 2, lanesX, ly + laneH / 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Animated particle moving along the ingress cable
+          const cablePhase = (time * 1.8 + t * 0.3) % 1.0;
+          const cableX = inX + inW + cablePhase * (lanesX - (inX + inW));
+          const cableY = (inY + inH / 2) + cablePhase * ((ly + laneH / 2) - (inY + inH / 2));
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(cableX, cableY, 2.0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Lane Box with subtle active worker glow
+          const lanePulse = (Math.sin(time * 3.0 + t * 1.2) + 1.0) * 0.5;
+          ctx.fillStyle = lanePulse > 0.7 ? '#101c30' : '#0c1424';
+          ctx.strokeStyle = isThreaded ? (lanePulse > 0.7 ? '#a855f7' : '#581c87') : '#1e293b';
+          ctx.lineWidth = 1.5;
+          if (ctx.roundRect) ctx.roundRect(lanesX, ly, lanesW, laneH, 8); else ctx.rect(lanesX, ly, lanesW, laneH);
+          ctx.fill(); ctx.stroke();
+
+          // Lane thread header
+          ctx.fillStyle = isThreaded ? '#c084fc' : '#94a3b8';
+          ctx.font = 'bold 10px monospace';
+          const threadName = isThreaded ? `CJobThread #${t}` : 'Main Network Thread';
+          ctx.fillText(threadName, lanesX + 10, ly + 18);
+          ctx.fillStyle = '#38bdf8';
+          ctx.font = '9px monospace';
+          ctx.fillText(`Slice [${chunkStart}..${chunkEnd}]`, lanesX + 10, ly + 34);
+
+          // Sub-boxes inside swimlane
+          const subX = lanesX + 155;
+          const subW = lanesW - 170;
+
+          if (isMerge) {
+            // Pre-Decode Scratch Consolidation
+            const scratchW = subW * 0.45;
+            ctx.fillStyle = '#101c2e';
+            ctx.strokeStyle = '#0284c7';
+            if (ctx.roundRect) ctx.roundRect(subX, ly + 8, scratchW, laneH - 16, 5); else ctx.rect(subX, ly + 8, scratchW, laneH - 16);
+            ctx.fill(); ctx.stroke();
+
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 8.5px monospace';
+            ctx.fillText('Scratch Merge (0x44386)', subX + 6, ly + 20);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '8px monospace';
+            ctx.fillText('32 Base + 16 Delta', subX + 6, ly + 31);
+
+            // Animated progress bar inside scratch merge
+            const barPct = ((time * 2.0 + t * 0.25) % 1.0);
+            ctx.fillStyle = 'rgba(2, 132, 199, 0.4)';
+            ctx.fillRect(subX + 2, ly + laneH - 11, (scratchW - 4) * barPct, 2);
+
+            // Arrow to single decode pass
+            const arrowX1 = subX + scratchW + 4;
+            const arrowX2 = subX + scratchW + 18;
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(arrowX1, ly + laneH / 2);
+            ctx.lineTo(arrowX2, ly + laneH / 2);
+            ctx.stroke();
+
+            // Single-pass decode box with emerald pulse
+            const decX = subX + scratchW + 22;
+            const decW = subW - scratchW - 26;
+            ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
+            ctx.strokeStyle = '#10b981';
+            if (ctx.roundRect) ctx.roundRect(decX, ly + 8, decW, laneH - 16, 5); else ctx.rect(decX, ly + 8, decW, laneH - 16);
+            ctx.fill(); ctx.stroke();
+
+            ctx.fillStyle = '#34d399';
+            ctx.font = 'bold 9px monospace';
+            ctx.fillText('1-Pass Decode', decX + 6, ly + 20);
+            ctx.fillStyle = '#6ee7b7';
+            ctx.font = '8px monospace';
+            ctx.fillText('0 Redundant Calls!', decX + 6, ly + 31);
+
+          } else {
+            // Legacy Two-Pass Deserialization
+            const pass1W = subW * 0.44;
+            ctx.fillStyle = 'rgba(244, 63, 94, 0.1)';
+            ctx.strokeStyle = '#e11d48';
+            if (ctx.roundRect) ctx.roundRect(subX, ly + 8, pass1W, laneH - 16, 5); else ctx.rect(subX, ly + 8, pass1W, laneH - 16);
+            ctx.fill(); ctx.stroke();
+
+            ctx.fillStyle = '#fb7185';
+            ctx.font = 'bold 8.5px monospace';
+            ctx.fillText('Pass 1: Baseline', subX + 6, ly + 20);
+            ctx.fillStyle = '#f87171';
+            ctx.font = '7.5px monospace';
+            ctx.fillText('Fires Stale Callback!', subX + 6, ly + 31);
+
+            // Arrow to pass 2
+            const arrowX1 = subX + pass1W + 4;
+            const arrowX2 = subX + pass1W + 16;
+            ctx.strokeStyle = '#fb7185';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(arrowX1, ly + laneH / 2);
+            ctx.lineTo(arrowX2, ly + laneH / 2);
+            ctx.stroke();
+
+            // Pass 2 box
+            const pass2X = subX + pass1W + 20;
+            const pass2W = subW - pass1W - 24;
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.12)';
+            ctx.strokeStyle = '#f59e0b';
+            if (ctx.roundRect) ctx.roundRect(pass2X, ly + 8, pass2W, laneH - 16, 5); else ctx.rect(pass2X, ly + 8, pass2W, laneH - 16);
+            ctx.fill(); ctx.stroke();
+
+            ctx.fillStyle = '#fbbf24';
+            ctx.font = 'bold 8.5px monospace';
+            ctx.fillText('Pass 2: Wire Delta', pass2X + 6, ly + 20);
+            ctx.fillStyle = '#fca5a5';
+            ctx.font = '7.5px monospace';
+            ctx.fillText('Overwrites Stale Val', pass2X + 6, ly + 31);
+          }
+
+          // Connector to Barrier
+          const barX = 720;
+          ctx.strokeStyle = '#334155';
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(lanesX + lanesW, ly + laneH / 2);
+          ctx.bezierCurveTo(lanesX + lanesW + 14, ly + laneH / 2, barX - 14, inY + inH / 2, barX, inY + inH / 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Animated particle stream flowing into Barrier Sync
+          const outPhase = (time * 2.2 + t * 0.4) % 1.0;
+          const outX = (lanesX + lanesW) + outPhase * (barX - (lanesX + lanesW));
+          const outY = (ly + laneH / 2) + outPhase * ((inY + inH / 2) - (ly + laneH / 2));
+          ctx.fillStyle = isMerge ? '#10b981' : '#f59e0b';
+          ctx.beginPath();
+          ctx.arc(outX, outY, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Stage 3: Barrier & Chunk Commit Box (Right: x 720, w 105, y 25, h 370)
+        const barX = 720, barW = 105;
+        ctx.fillStyle = '#0e1626';
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 1.5;
+        if (ctx.roundRect) ctx.roundRect(barX, inY, barW, inH, 10); else ctx.rect(barX, inY, barW, inH);
+        ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = '#10b981';
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('Barrier Sync', barX + 12, inY + 24);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '9px monospace';
+        ctx.fillText('CParallel::Wait', barX + 12, inY + 38);
+
+        // Entity Chunk Table
+        const tblY = inY + 60;
         ctx.fillStyle = '#1e293b';
-        if (ctx.roundRect) ctx.roundRect(inX + 10, py, inW - 20, 48, 6); else ctx.rect(inX + 10, py, inW - 20, 48);
+        if (ctx.roundRect) ctx.roundRect(barX + 8, tblY, barW - 16, 120, 6); else ctx.rect(barX + 8, tblY, barW - 16, 120);
         ctx.fill();
 
         ctx.fillStyle = '#f8fafc';
         ctx.font = 'bold 9.5px monospace';
-        ctx.fillText(`PacketChunk #${p + 1}`, inX + 16, py + 16);
+        ctx.fillText('Entity Chunks', barX + 14, tblY + 20);
         ctx.fillStyle = '#38bdf8';
         ctx.font = '8.5px monospace';
-        const startEnt = Math.round(p * (N / packetCount));
-        const endEnt = Math.round(Math.min((p + 1) * (N / packetCount), N)) - 1;
-        ctx.fillText(`Ents [${startEnt}..${endEnt}]`, inX + 16, py + 30);
-        ctx.fillStyle = '#10b981';
-        ctx.fillText(`BitStream: 0xb0`, inX + 16, py + 42);
+        const chunkCount = Math.ceil(N / 512);
+        ctx.fillText(`Pages: ${chunkCount}`, barX + 14, tblY + 38);
+        ctx.fillText('Slots: 512/pg', barX + 14, tblY + 54);
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('PostDataUpdate', barX + 14, tblY + 76);
+        ctx.fillStyle = '#a7f3d0';
+        ctx.fillText('Batch Done', barX + 14, tblY + 92);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText(`${N} Entities`, barX + 14, tblY + 108);
+
+        // Barrier Green Pulse Line
+        const barGlow = (Math.sin(time * 5.0) + 1.0) * 0.5;
+        ctx.strokeStyle = `rgba(16, 185, 129, ${0.4 + barGlow * 0.6})`;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(barX + 2, inY + 8);
+        ctx.lineTo(barX + 2, inY + inH - 8);
+        ctx.stroke();
+
+        // Continue high-fidelity animation loop
+        _packetPipelineAnimId = requestAnimationFrame(renderFrame);
       }
 
-      // Stage 2: Swimlanes (Center: x 195, w 495, y 25, h 370)
-      const lanesX = 195, lanesW = 495;
-      const visibleLanes = Math.min(allocatedThreads, 6);
-      const laneH = Math.min(54, (inH - 20) / visibleLanes);
-      const laneSpacing = 6;
-      const totalLanesH = (visibleLanes * laneH) + ((visibleLanes - 1) * laneSpacing);
-      const startLaneY = inY + (inH - totalLanesH) / 2;
-
-      for (let t = 0; t < visibleLanes; t++) {
-        const ly = startLaneY + (t * (laneH + laneSpacing));
-        const chunkStart = Math.round(t * (N / allocatedThreads));
-        const chunkEnd = Math.round(Math.min((t + 1) * (N / allocatedThreads), N)) - 1;
-
-        // Ingress connector line
-        ctx.strokeStyle = '#334155';
-        ctx.lineWidth = 1.2;
-        ctx.setLineDash([3, 3]);
-        ctx.beginPath();
-        ctx.moveTo(inX + inW, inY + inH / 2);
-        ctx.bezierCurveTo(inX + inW + 18, inY + inH / 2, lanesX - 18, ly + laneH / 2, lanesX, ly + laneH / 2);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        // Lane Box
-        ctx.fillStyle = '#0c1424';
-        ctx.strokeStyle = isThreaded ? '#581c87' : '#1e293b';
-        ctx.lineWidth = 1.5;
-        if (ctx.roundRect) ctx.roundRect(lanesX, ly, lanesW, laneH, 8); else ctx.rect(lanesX, ly, lanesW, laneH);
-        ctx.fill(); ctx.stroke();
-
-        // Lane thread header
-        ctx.fillStyle = isThreaded ? '#c084fc' : '#94a3b8';
-        ctx.font = 'bold 10px monospace';
-        const threadName = isThreaded ? `CJobThread #${t}` : 'Main Network Thread';
-        ctx.fillText(threadName, lanesX + 10, ly + 18);
-        ctx.fillStyle = '#38bdf8';
-        ctx.font = '9px monospace';
-        ctx.fillText(`Slice [${chunkStart}..${chunkEnd}]`, lanesX + 10, ly + 34);
-
-        // Sub-boxes inside swimlane
-        const subX = lanesX + 155;
-        const subW = lanesW - 170;
-
-        if (isMerge) {
-          // Pre-Decode Scratch Consolidation
-          const scratchW = subW * 0.45;
-          ctx.fillStyle = '#101c2e';
-          ctx.strokeStyle = '#0284c7';
-          if (ctx.roundRect) ctx.roundRect(subX, ly + 8, scratchW, laneH - 16, 5); else ctx.rect(subX, ly + 8, scratchW, laneH - 16);
-          ctx.fill(); ctx.stroke();
-
-          ctx.fillStyle = '#38bdf8';
-          ctx.font = 'bold 8.5px monospace';
-          ctx.fillText('Scratch Merge (0x44386)', subX + 6, ly + 20);
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = '8px monospace';
-          ctx.fillText('32 Base + 16 Delta', subX + 6, ly + 31);
-
-          // Arrow to single decode pass
-          const arrowX1 = subX + scratchW + 4;
-          const arrowX2 = subX + scratchW + 18;
-          ctx.strokeStyle = '#10b981';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.moveTo(arrowX1, ly + laneH / 2);
-          ctx.lineTo(arrowX2, ly + laneH / 2);
-          ctx.stroke();
-
-          // Single-pass decode box
-          const decX = subX + scratchW + 22;
-          const decW = subW - scratchW - 26;
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
-          ctx.strokeStyle = '#10b981';
-          if (ctx.roundRect) ctx.roundRect(decX, ly + 8, decW, laneH - 16, 5); else ctx.rect(decX, ly + 8, decW, laneH - 16);
-          ctx.fill(); ctx.stroke();
-
-          ctx.fillStyle = '#34d399';
-          ctx.font = 'bold 9px monospace';
-          ctx.fillText('1-Pass Decode', decX + 6, ly + 20);
-          ctx.fillStyle = '#6ee7b7';
-          ctx.font = '8px monospace';
-          ctx.fillText('0 Redundant Calls!', decX + 6, ly + 31);
-
-        } else {
-          // Legacy Two-Pass Deserialization
-          const pass1W = subW * 0.44;
-          ctx.fillStyle = 'rgba(244, 63, 94, 0.1)';
-          ctx.strokeStyle = '#e11d48';
-          if (ctx.roundRect) ctx.roundRect(subX, ly + 8, pass1W, laneH - 16, 5); else ctx.rect(subX, ly + 8, pass1W, laneH - 16);
-          ctx.fill(); ctx.stroke();
-
-          ctx.fillStyle = '#fb7185';
-          ctx.font = 'bold 8.5px monospace';
-          ctx.fillText('Pass 1: Baseline', subX + 6, ly + 20);
-          ctx.fillStyle = '#f87171';
-          ctx.font = '7.5px monospace';
-          ctx.fillText('Fires Stale Callback!', subX + 6, ly + 31);
-
-          // Arrow to pass 2
-          const arrowX1 = subX + pass1W + 4;
-          const arrowX2 = subX + pass1W + 16;
-          ctx.strokeStyle = '#fb7185';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.moveTo(arrowX1, ly + laneH / 2);
-          ctx.lineTo(arrowX2, ly + laneH / 2);
-          ctx.stroke();
-
-          // Pass 2 box
-          const pass2X = subX + pass1W + 20;
-          const pass2W = subW - pass1W - 24;
-          ctx.fillStyle = 'rgba(245, 158, 11, 0.12)';
-          ctx.strokeStyle = '#f59e0b';
-          if (ctx.roundRect) ctx.roundRect(pass2X, ly + 8, pass2W, laneH - 16, 5); else ctx.rect(pass2X, ly + 8, pass2W, laneH - 16);
-          ctx.fill(); ctx.stroke();
-
-          ctx.fillStyle = '#fbbf24';
-          ctx.font = 'bold 8.5px monospace';
-          ctx.fillText('Pass 2: Wire Delta', pass2X + 6, ly + 20);
-          ctx.fillStyle = '#fca5a5';
-          ctx.font = '7.5px monospace';
-          ctx.fillText('Overwrites Stale Val', pass2X + 6, ly + 31);
-        }
-
-        // Connector to Barrier
-        const barX = 720;
-        ctx.strokeStyle = '#334155';
-        ctx.setLineDash([3, 3]);
-        ctx.beginPath();
-        ctx.moveTo(lanesX + lanesW, ly + laneH / 2);
-        ctx.bezierCurveTo(lanesX + lanesW + 14, ly + laneH / 2, barX - 14, inY + inH / 2, barX, inY + inH / 2);
-        ctx.stroke();
-        ctx.setLineDash([]);
-      }
-
-      // Stage 3: Barrier & Chunk Commit Box (Right: x 720, w 105, y 25, h 370)
-      const barX = 720, barW = 105;
-      ctx.fillStyle = '#0e1626';
-      ctx.strokeStyle = '#10b981';
-      ctx.lineWidth = 1.5;
-      if (ctx.roundRect) ctx.roundRect(barX, inY, barW, inH, 10); else ctx.rect(barX, inY, barW, inH);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = '#10b981';
-      ctx.font = 'bold 11px monospace';
-      ctx.fillText('Barrier Sync', barX + 12, inY + 24);
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '9px monospace';
-      ctx.fillText('CParallel::Wait', barX + 12, inY + 38);
-
-      // Entity Chunk Table
-      const tblY = inY + 60;
-      ctx.fillStyle = '#1e293b';
-      if (ctx.roundRect) ctx.roundRect(barX + 8, tblY, barW - 16, 120, 6); else ctx.rect(barX + 8, tblY, barW - 16, 120);
-      ctx.fill();
-
-      ctx.fillStyle = '#f8fafc';
-      ctx.font = 'bold 9.5px monospace';
-      ctx.fillText('Entity Chunks', barX + 14, tblY + 20);
-      ctx.fillStyle = '#38bdf8';
-      ctx.font = '8.5px monospace';
-      const chunkCount = Math.ceil(N / 512);
-      ctx.fillText(`Pages: ${chunkCount}`, barX + 14, tblY + 38);
-      ctx.fillText('Slots: 512/pg', barX + 14, tblY + 54);
-      ctx.fillStyle = '#34d399';
-      ctx.fillText('PostDataUpdate', barX + 14, tblY + 76);
-      ctx.fillStyle = '#a7f3d0';
-      ctx.fillText('Batch Done', barX + 14, tblY + 92);
-      ctx.fillStyle = '#cbd5e1';
-      ctx.fillText(`${N} Entities`, barX + 14, tblY + 108);
-
-      // Barrier Green Pulse Line
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.7)';
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(barX + 2, inY + 8);
-      ctx.lineTo(barX + 2, inY + inH - 8);
-      ctx.stroke();
+      renderFrame();
     }
 
     function setSubtickMode(mode) {
