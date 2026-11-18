@@ -27,8 +27,7 @@ SIMULATOR_FILES = {
     "19": "cs2_inferno_fire_sim.cpp",
     "20": "cs2_kv3_deserializer_sim.cpp",
     "21": "packet_entities_merge_sim.cpp",
-    "22": "cs2_particle_engine_sim.cpp",
-    "23": "cs2_demo_replay_sim.cpp",
+    "22": "cs2_particle_engine_sim.cpp"
 }
 
 SIMULATORS_METADATA = [
@@ -367,23 +366,6 @@ SIMULATORS_METADATA = [
             {"name": "COpFadeAndKill::Operate", "addr": "0x1800508a0", "desc": "Normalized age piecewise alpha envelope and O(1) compaction"}
         ],
         "docId": "particle-system-architecture"
-    },
-    {
-        "id": "23",
-        "name": "cs2_demo_replay_sim.cpp",
-        "title": "CS2 Demo Container Sub-Tick Wire Parser & Replay Validator",
-        "target": "networksystem.dll & engine2.dll",
-        "runner": "build_demo_replay_sim.bat",
-        "category": "Network & Wire Protocol",
-        "badge": "Sub-Tick Demo Replay",
-        "checks": "PBDEMS2 Snappy decompression, Protobuf demo frame demuxing, CUserCmdBasePB sub-tick fraction timing validation against 15.625 ms tick interval, and trajectory verification.",
-        "description": "Simulates Valve's modern CS2 .dem recording container (PBDEMS2). Implements pure client-side Snappy decompression, Protobuf demo command framing, sub-tick input fraction extraction (+attack, +jump at microsecond intervals), and spatial trajectory replay against authoritative server snapshots.",
-        "addresses": [
-            {"name": "CDemoFile::ReadPacket", "addr": "0x1800de120", "desc": "Demuxes Snappy-compressed demo packet frames and protobuf net messages"},
-            {"name": "CNetworkMessages::ProcessNetMessage", "addr": "0x1800e4c80", "desc": "Dispatches protobuf net messages (clc_Move, svc_PacketEntities)"},
-            {"name": "CSGOInput::UnpackUserCmdPB", "addr": "0x181a4b200", "desc": "Unpacks CUserCmdBasePB sub-tick timing fractions and button impulses"}
-        ],
-        "docId": "demo-subtick-replay"
     }
 ]
 
