@@ -118,11 +118,11 @@ When combining a parent transform $\mathbf{T}_{parent} = (\mathbf{q}_p, \mathbf{
 
 ```mermaid
 sequenceDiagram
-    participant Engine as Animation Loop / Renderer
-    participant Mutex as CAtomicMutex (+0x0114)
-    participant SInst as CSkeletonInstance
-    participant Bitmask as Lazy Mask (+0x0458)
-    participant BoneArray as Bone Array (+0x01c0)
+    participant Engine as "Animation Loop / Renderer"
+    participant Mutex as "CAtomicMutex (+0x0114)"
+    participant SInst as "CSkeletonInstance"
+    participant Bitmask as "Lazy Mask (+0x0458)"
+    participant BoneArray as "Bone Array (+0x01c0)"
 
     Engine->>SInst: CalculateWorldBones(flags)
     SInst->>Bitmask: Check if already calculated for tick

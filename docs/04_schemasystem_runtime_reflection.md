@@ -58,9 +58,9 @@ During engine startup, `schemasystem.dll` calls this export across all loaded li
 ```mermaid
 sequenceDiagram
     autonumber
-    participant SchemaSystem as schemasystem.dll (CSchemaSystem)
-    participant Module as client.dll (InstallSchemaBindings)
-    participant TypeScope as CSchemaSystemTypeScope ("client.dll")
+    participant SchemaSystem as "schemasystem.dll (CSchemaSystem)"
+    participant Module as "client.dll (InstallSchemaBindings)"
+    participant TypeScope as "CSchemaSystemTypeScope ("client.dll")"
 
     Note over SchemaSystem,Module: Engine Module Initialization
     SchemaSystem->>Module: InstallSchemaBindings("SchemaSystem_001", pSchemaSystem)

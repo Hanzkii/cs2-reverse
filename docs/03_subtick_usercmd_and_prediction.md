@@ -94,11 +94,11 @@ In Source 2 (`CCSPlayerController` and `CCSPlayerPawn` movement code), each 15.6
 ```mermaid
 sequenceDiagram
     autonumber
-    participant ClientOS as Raw Input / OS
-    participant CSGOInput as CSGOInput / Move Engine
-    participant GroundPhysics as Ground Slice [0.0 .. when]
-    participant Impulse as Jump Impulse (t = when)
-    participant AirPhysics as Air Slice [when .. 1.0]
+    participant ClientOS as "Raw Input / OS"
+    participant CSGOInput as "CSGOInput / Move Engine"
+    participant GroundPhysics as "Ground Slice [0.0 .. when]"
+    participant Impulse as "Jump Impulse (t = when)"
+    participant AirPhysics as "Air Slice [when .. 1.0]"
 
     ClientOS->>CSGOInput: KeyPress (+jump) at t = 6.25ms (when = 0.40)
     Note over CSGOInput: Sub-Tick Step Recorded: button=IN_JUMP, when=0.40

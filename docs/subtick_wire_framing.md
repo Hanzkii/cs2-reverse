@@ -361,10 +361,10 @@ When `server.dll` receives `clc_Move`, it unpacks the command stream and invokes
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Client as Client CSGOInput
-    participant Net as SDR / networksystem.dll
-    participant Server as Server Simulation Loop
-    participant Phys as Physics Sub-Slice Integrator
+    participant Client as "Client CSGOInput"
+    participant Net as "SDR / networksystem.dll"
+    participant Server as "Server Simulation Loop"
+    participant Phys as "Physics Sub-Slice Integrator"
 
     Client->>Client: Key event +jump pressed at w = 0.40
     Client->>Client: Construct CSubtickMoveStep (button=IN_JUMP, pressed=true, when=0.40)

@@ -323,10 +323,10 @@ The authoritative lag compensation transaction follows a strict 5-stage lifecycl
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as server.dll Physics Engine
-    participant LagComp as CLagCompensationManager
-    participant Entity as Target Player Pawn
-    participant Buffer as 64-Tick Ring Buffer
+    participant Server as "server.dll Physics Engine"
+    participant LagComp as "CLagCompensationManager"
+    participant Entity as "Target Player Pawn"
+    participant Buffer as "64-Tick Ring Buffer"
 
     Server->>LagComp: StartLagCompensation(pAttacker, pUserCmd)
     activate LagComp

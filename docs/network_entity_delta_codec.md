@@ -255,9 +255,9 @@ The complete snapshot replication lifecycle between `server.dll` and `client.dll
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as server.dll / engine2.dll
-    participant Wire as UDP Bitstream
-    participant Client as client.dll (Worker Pool)
+    participant Server as "server.dll / engine2.dll"
+    participant Wire as "UDP Bitstream"
+    participant Client as "client.dll (Worker Pool)"
 
     Note over Server: Tick N Frame Update
     Server->>Server: Evaluate CNetworkPropertyDirtyBitmask<br/>Compute difference from baseline / previous tick

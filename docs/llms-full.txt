@@ -23429,11 +23429,11 @@ In Source 2 (`CCSPlayerController` and `CCSPlayerPawn` movement code), each 15.6
 ```mermaid
 sequenceDiagram
     autonumber
-    participant ClientOS as Raw Input / OS
-    participant CSGOInput as CSGOInput / Move Engine
-    participant GroundPhysics as Ground Slice [0.0 .. when]
-    participant Impulse as Jump Impulse (t = when)
-    participant AirPhysics as Air Slice [when .. 1.0]
+    participant ClientOS as "Raw Input / OS"
+    participant CSGOInput as "CSGOInput / Move Engine"
+    participant GroundPhysics as "Ground Slice [0.0 .. when]"
+    participant Impulse as "Jump Impulse (t = when)"
+    participant AirPhysics as "Air Slice [when .. 1.0]"
 
     ClientOS->>CSGOInput: KeyPress (+jump) at t = 6.25ms (when = 0.40)
     Note over CSGOInput: Sub-Tick Step Recorded: button=IN_JUMP, when=0.40
@@ -23589,9 +23589,9 @@ During engine startup, `schemasystem.dll` calls this export across all loaded li
 ```mermaid
 sequenceDiagram
     autonumber
-    participant SchemaSystem as schemasystem.dll (CSchemaSystem)
-    participant Module as client.dll (InstallSchemaBindings)
-    participant TypeScope as CSchemaSystemTypeScope ("client.dll")
+    participant SchemaSystem as "schemasystem.dll (CSchemaSystem)"
+    participant Module as "client.dll (InstallSchemaBindings)"
+    participant TypeScope as "CSchemaSystemTypeScope ("client.dll")"
 
     Note over SchemaSystem,Module: Engine Module Initialization
     SchemaSystem->>Module: InstallSchemaBindings("SchemaSystem_001", pSchemaSystem)
@@ -23930,11 +23930,11 @@ In networked multiplayer, high-frequency spatial updates (bone positions, ragdol
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as server.dll Game Engine
-    participant HumanCtrl as CCSPlayerController (s1mple)
-    participant HumanPawn as CCSPlayerPawn (Physical Body)
-    participant BotCtrl as CCSPlayerController (Bot Yuri)
-    participant BotPawn as CCSPlayerPawn (Bot Body)
+    participant Server as "server.dll Game Engine"
+    participant HumanCtrl as "CCSPlayerController (s1mple)"
+    participant HumanPawn as "CCSPlayerPawn (Physical Body)"
+    participant BotCtrl as "CCSPlayerController (Bot Yuri)"
+    participant BotPawn as "CCSPlayerPawn (Bot Body)"
 
     Note over Server,HumanCtrl: 1. Round Start Spawn
     Server->>HumanPawn: Instantiate at spawn point
@@ -24119,11 +24119,11 @@ message CNETMsg_SetConVar {
 ```mermaid
 sequenceDiagram
     autonumber
-    participant ServerAdmin as Server / Admin Console
-    participant ServerCVar as Server CCvar Registry
-    participant Wire as Reliable Network Stream
-    participant ClientNet as engine2.dll (SetConVar Handler)
-    participant ClientCVar as Client CCvar Registry
+    participant ServerAdmin as "Server / Admin Console"
+    participant ServerCVar as "Server CCvar Registry"
+    participant Wire as "Reliable Network Stream"
+    participant ClientNet as "engine2.dll (SetConVar Handler)"
+    participant ClientCVar as "Client CCvar Registry"
 
     ServerAdmin->>ServerCVar: sv_gravity 500
     Note over ServerCVar: FCVAR_REPLICATED detected -> Queue for network broadcast
@@ -24320,10 +24320,10 @@ classDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Pawn as C_CSPlayerPawn & AimPunch
-    participant AngleMath as FUN_1817402a0 (AngleVectors)
-    participant ViewSetup as CViewRender::SetUpView (0x180c147b0)
-    participant Viewport as Screen Viewport (1920x1080)
+    participant Pawn as "C_CSPlayerPawn & AimPunch"
+    participant AngleMath as "FUN_1817402a0 (AngleVectors)"
+    participant ViewSetup as "CViewRender::SetUpView (0x180c147b0)"
+    participant Viewport as "Screen Viewport (1920x1080)"
 
     Pawn->>AngleMath: Eye Angles + (Punch Angle * 2.0)
     Note over AngleMath: Converts deg -> rad (0.017453292)<br/>Computes Forward, Right, Up vectors
@@ -24577,12 +24577,12 @@ Extracted from `server.dll` string tables:
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Weapon as C_CSWeaponBase / Damage Engine
-    participant ServerGEM as server.dll (IGameEventManager2)
-    participant NetChannel as Reliable Network Stream
-    participant ClientDispatcher as engine2.dll (CGameEventDispatcher)
-    participant Killfeed as Panorama UI (Killfeed)
-    participant AudioEngine as soundsystem.dll
+    participant Weapon as "C_CSWeaponBase / Damage Engine"
+    participant ServerGEM as "server.dll (IGameEventManager2)"
+    participant NetChannel as "Reliable Network Stream"
+    participant ClientDispatcher as "engine2.dll (CGameEventDispatcher)"
+    participant Killfeed as "Panorama UI (Killfeed)"
+    participant AudioEngine as "soundsystem.dll"
 
     Weapon->>ServerGEM: Emit "player_death" (s1mple kills ZywOo with ak47, headshot=true)
     ServerGEM->>ServerGEM: Lookup EventId (100) from Registry
@@ -24754,11 +24754,11 @@ When combining a parent transform $\mathbf{T}_{parent} = (\mathbf{q}_p, \mathbf{
 
 ```mermaid
 sequenceDiagram
-    participant Engine as Animation Loop / Renderer
-    participant Mutex as CAtomicMutex (+0x0114)
-    participant SInst as CSkeletonInstance
-    participant Bitmask as Lazy Mask (+0x0458)
-    participant BoneArray as Bone Array (+0x01c0)
+    participant Engine as "Animation Loop / Renderer"
+    participant Mutex as "CAtomicMutex (+0x0114)"
+    participant SInst as "CSkeletonInstance"
+    participant Bitmask as "Lazy Mask (+0x0458)"
+    participant BoneArray as "Bone Array (+0x01c0)"
 
     Engine->>SInst: CalculateWorldBones(flags)
     SInst->>Bitmask: Check if already calculated for tick
@@ -25215,10 +25215,10 @@ To maintain high tickrate fidelity without blocking rendering or networking, `CV
 
 ```mermaid
 sequenceDiagram
-    participant Engine as engine2.dll (Host State)
-    participant World as CVPhys2World (0x1803F9B20)
-    participant ThreadPool as g_pThreadPool (tier0.dll)
-    participant Job as CWorldStepJob (0x1803FA418)
+    participant Engine as "engine2.dll (Host State)"
+    participant World as "CVPhys2World (0x1803F9B20)"
+    participant ThreadPool as "g_pThreadPool (tier0.dll)"
+    participant Job as "CWorldStepJob (0x1803FA418)"
 
     Engine->>World: StepWorld(flDeltaTime)
     World->>World: Accumulate external forces & player inputs
@@ -25429,11 +25429,11 @@ float LineOfSightThroughSmoke(Vector* start, Vector* end, Vector* hitPoint) {
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Weapon as Bullet Ray / HE Grenade
-    participant Server as server.dll (Tick Loop)
-    participant VoxelGrid as CVoxelGridController (+0x0bc0)
-    participant Net as Network Serializer (+0x0b90)
-    participant Client as client.dll (Renderer)
+    participant Weapon as "Bullet Ray / HE Grenade"
+    participant Server as "server.dll (Tick Loop)"
+    participant VoxelGrid as "CVoxelGridController (+0x0bc0)"
+    participant Net as "Network Serializer (+0x0b90)"
+    participant Client as "client.dll (Renderer)"
 
     Weapon->>Server: Bullet Traced / HE Detonation Event
     Server->>VoxelGrid: Ray / Sphere Intersection Query
@@ -25822,10 +25822,10 @@ The core execution unit of Pulse is the **`PulseCursor`**. Unlike an OS thread o
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Engine as Source 2 Tick Engine
-    participant VM as CPulseGraphInstance
-    participant C0 as Root Cursor (Chunk 0)
-    participant C1 as Child Cursor (Chunk 1)
+    participant Engine as "Source 2 Tick Engine"
+    participant VM as "CPulseGraphInstance"
+    participant C0 as "Root Cursor (Chunk 0)"
+    participant C1 as "Child Cursor (Chunk 1)"
 
     Engine->>VM: ExecuteTick(dt = 0.0156s)
     VM->>C0: ExecuteCursor()
@@ -26819,11 +26819,11 @@ The transmission sequence from `CSGOInput` to SDR socket transport follows stric
 ```mermaid
 sequenceDiagram
     autonumber
-    participant OS as OS / Raw Input
-    participant Input as CSGOInput (client.dll)
-    participant PB as Protobuf Serialization
-    participant Net as networksystem.dll
-    participant SDR as SteamNetworkingSockets
+    participant OS as "OS / Raw Input"
+    participant Input as "CSGOInput (client.dll)"
+    participant PB as "Protobuf Serialization"
+    participant Net as "networksystem.dll"
+    participant SDR as "SteamNetworkingSockets"
 
     OS->>Input: KeyDown (+jump) @ t = 6.25ms (w = 0.40)
     Note over Input: CreateSubtickMoveStep(button=IN_JUMP, pressed=true, when=0.40)
@@ -30027,10 +30027,10 @@ The authoritative lag compensation transaction follows a strict 5-stage lifecycl
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as server.dll Physics Engine
-    participant LagComp as CLagCompensationManager
-    participant Entity as Target Player Pawn
-    participant Buffer as 64-Tick Ring Buffer
+    participant Server as "server.dll Physics Engine"
+    participant LagComp as "CLagCompensationManager"
+    participant Entity as "Target Player Pawn"
+    participant Buffer as "64-Tick Ring Buffer"
 
     Server->>LagComp: StartLagCompensation(pAttacker, pUserCmd)
     activate LagComp
@@ -30641,9 +30641,9 @@ The complete snapshot replication lifecycle between `server.dll` and `client.dll
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as server.dll / engine2.dll
-    participant Wire as UDP Bitstream
-    participant Client as client.dll (Worker Pool)
+    participant Server as "server.dll / engine2.dll"
+    participant Wire as "UDP Bitstream"
+    participant Client as "client.dll (Worker Pool)"
 
     Note over Server: Tick N Frame Update
     Server->>Server: Evaluate CNetworkPropertyDirtyBitmask<br/>Compute difference from baseline / previous tick
@@ -32208,10 +32208,10 @@ When `server.dll` receives `clc_Move`, it unpacks the command stream and invokes
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Client as Client CSGOInput
-    participant Net as SDR / networksystem.dll
-    participant Server as Server Simulation Loop
-    participant Phys as Physics Sub-Slice Integrator
+    participant Client as "Client CSGOInput"
+    participant Net as "SDR / networksystem.dll"
+    participant Server as "Server Simulation Loop"
+    participant Phys as "Physics Sub-Slice Integrator"
 
     Client->>Client: Key event +jump pressed at w = 0.40
     Client->>Client: Construct CSubtickMoveStep (button=IN_JUMP, pressed=true, when=0.40)

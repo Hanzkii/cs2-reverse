@@ -135,12 +135,12 @@ Extracted from `server.dll` string tables:
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Weapon as C_CSWeaponBase / Damage Engine
-    participant ServerGEM as server.dll (IGameEventManager2)
-    participant NetChannel as Reliable Network Stream
-    participant ClientDispatcher as engine2.dll (CGameEventDispatcher)
-    participant Killfeed as Panorama UI (Killfeed)
-    participant AudioEngine as soundsystem.dll
+    participant Weapon as "C_CSWeaponBase / Damage Engine"
+    participant ServerGEM as "server.dll (IGameEventManager2)"
+    participant NetChannel as "Reliable Network Stream"
+    participant ClientDispatcher as "engine2.dll (CGameEventDispatcher)"
+    participant Killfeed as "Panorama UI (Killfeed)"
+    participant AudioEngine as "soundsystem.dll"
 
     Weapon->>ServerGEM: Emit "player_death" (s1mple kills ZywOo with ak47, headshot=true)
     ServerGEM->>ServerGEM: Lookup EventId (100) from Registry

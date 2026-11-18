@@ -66,10 +66,10 @@ classDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Pawn as C_CSPlayerPawn & AimPunch
-    participant AngleMath as FUN_1817402a0 (AngleVectors)
-    participant ViewSetup as CViewRender::SetUpView (0x180c147b0)
-    participant Viewport as Screen Viewport (1920x1080)
+    participant Pawn as "C_CSPlayerPawn & AimPunch"
+    participant AngleMath as "FUN_1817402a0 (AngleVectors)"
+    participant ViewSetup as "CViewRender::SetUpView (0x180c147b0)"
+    participant Viewport as "Screen Viewport (1920x1080)"
 
     Pawn->>AngleMath: Eye Angles + (Punch Angle * 2.0)
     Note over AngleMath: Converts deg -> rad (0.017453292)<br/>Computes Forward, Right, Up vectors

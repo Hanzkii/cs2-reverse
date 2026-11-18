@@ -271,10 +271,10 @@ To maintain high tickrate fidelity without blocking rendering or networking, `CV
 
 ```mermaid
 sequenceDiagram
-    participant Engine as engine2.dll (Host State)
-    participant World as CVPhys2World (0x1803F9B20)
-    participant ThreadPool as g_pThreadPool (tier0.dll)
-    participant Job as CWorldStepJob (0x1803FA418)
+    participant Engine as "engine2.dll (Host State)"
+    participant World as "CVPhys2World (0x1803F9B20)"
+    participant ThreadPool as "g_pThreadPool (tier0.dll)"
+    participant Job as "CWorldStepJob (0x1803FA418)"
 
     Engine->>World: StepWorld(flDeltaTime)
     World->>World: Accumulate external forces & player inputs

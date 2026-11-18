@@ -132,11 +132,11 @@ In networked multiplayer, high-frequency spatial updates (bone positions, ragdol
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Server as server.dll Game Engine
-    participant HumanCtrl as CCSPlayerController (s1mple)
-    participant HumanPawn as CCSPlayerPawn (Physical Body)
-    participant BotCtrl as CCSPlayerController (Bot Yuri)
-    participant BotPawn as CCSPlayerPawn (Bot Body)
+    participant Server as "server.dll Game Engine"
+    participant HumanCtrl as "CCSPlayerController (s1mple)"
+    participant HumanPawn as "CCSPlayerPawn (Physical Body)"
+    participant BotCtrl as "CCSPlayerController (Bot Yuri)"
+    participant BotPawn as "CCSPlayerPawn (Bot Body)"
 
     Note over Server,HumanCtrl: 1. Round Start Spawn
     Server->>HumanPawn: Instantiate at spawn point

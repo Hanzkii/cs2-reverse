@@ -213,11 +213,11 @@ The transmission sequence from `CSGOInput` to SDR socket transport follows stric
 ```mermaid
 sequenceDiagram
     autonumber
-    participant OS as OS / Raw Input
-    participant Input as CSGOInput (client.dll)
-    participant PB as Protobuf Serialization
-    participant Net as networksystem.dll
-    participant SDR as SteamNetworkingSockets
+    participant OS as "OS / Raw Input"
+    participant Input as "CSGOInput (client.dll)"
+    participant PB as "Protobuf Serialization"
+    participant Net as "networksystem.dll"
+    participant SDR as "SteamNetworkingSockets"
 
     OS->>Input: KeyDown (+jump) @ t = 6.25ms (w = 0.40)
     Note over Input: CreateSubtickMoveStep(button=IN_JUMP, pressed=true, when=0.40)

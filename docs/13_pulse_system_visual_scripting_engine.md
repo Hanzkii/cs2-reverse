@@ -130,10 +130,10 @@ The core execution unit of Pulse is the **`PulseCursor`**. Unlike an OS thread o
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Engine as Source 2 Tick Engine
-    participant VM as CPulseGraphInstance
-    participant C0 as Root Cursor (Chunk 0)
-    participant C1 as Child Cursor (Chunk 1)
+    participant Engine as "Source 2 Tick Engine"
+    participant VM as "CPulseGraphInstance"
+    participant C0 as "Root Cursor (Chunk 0)"
+    participant C1 as "Child Cursor (Chunk 1)"
 
     Engine->>VM: ExecuteTick(dt = 0.0156s)
     VM->>C0: ExecuteCursor()

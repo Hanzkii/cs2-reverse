@@ -141,11 +141,11 @@ float LineOfSightThroughSmoke(Vector* start, Vector* end, Vector* hitPoint) {
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Weapon as Bullet Ray / HE Grenade
-    participant Server as server.dll (Tick Loop)
-    participant VoxelGrid as CVoxelGridController (+0x0bc0)
-    participant Net as Network Serializer (+0x0b90)
-    participant Client as client.dll (Renderer)
+    participant Weapon as "Bullet Ray / HE Grenade"
+    participant Server as "server.dll (Tick Loop)"
+    participant VoxelGrid as "CVoxelGridController (+0x0bc0)"
+    participant Net as "Network Serializer (+0x0b90)"
+    participant Client as "client.dll (Renderer)"
 
     Weapon->>Server: Bullet Traced / HE Detonation Event
     Server->>VoxelGrid: Ray / Sphere Intersection Query

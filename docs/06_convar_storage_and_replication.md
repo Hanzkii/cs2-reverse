@@ -99,11 +99,11 @@ message CNETMsg_SetConVar {
 ```mermaid
 sequenceDiagram
     autonumber
-    participant ServerAdmin as Server / Admin Console
-    participant ServerCVar as Server CCvar Registry
-    participant Wire as Reliable Network Stream
-    participant ClientNet as engine2.dll (SetConVar Handler)
-    participant ClientCVar as Client CCvar Registry
+    participant ServerAdmin as "Server / Admin Console"
+    participant ServerCVar as "Server CCvar Registry"
+    participant Wire as "Reliable Network Stream"
+    participant ClientNet as "engine2.dll (SetConVar Handler)"
+    participant ClientCVar as "Client CCvar Registry"
 
     ServerAdmin->>ServerCVar: sv_gravity 500
     Note over ServerCVar: FCVAR_REPLICATED detected -> Queue for network broadcast
