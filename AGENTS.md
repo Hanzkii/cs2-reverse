@@ -25,6 +25,7 @@
 ## 4. Engineering & Verification Standards
 - **Static Analysis Only**: No live game process hooks, DLL injection, or dynamic memory modification.
 - **Reconstructed SDK & Simulator Standards**: Pure C++20 across `sdk/`, `game/` (`game/interfaces/` and `game/shared/`), and reference simulation runners under `docs/simulators/`, compiled with MSVC x64 (`/O2 /std:c++20 /EHsc /W4`), zero third-party pip/vcpkg runtime dependencies.
+- **Continuous Simulation Evolution**: As reverse engineering progresses and internal functions, math routines, or execution paths are deeper decompiled or discovered, corresponding C++ simulators under `docs/simulators/` and interactive web visualizers under `docs/js/cs2lab/` MUST be updated to incorporate the newly uncovered parameters, algorithms, and ground-truth engine logic.
 - **Portal Data Sync**: Whenever `docs/*.md` are modified or added, always regenerate portal data via `python tools/generate_docs_bundle.py; python tools/generate_portal_data.py`.
 
 ## 5. Canonical Function Signatures & Game Update Protocol

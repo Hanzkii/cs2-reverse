@@ -97,3 +97,15 @@ Transformed the static 2D canvas representations into a high-fidelity **Interact
   - Static JSON data endpoints (`docs/api/v1/`) providing machine-readable schema dictionaries, signature tables, and ConVar listings.
 - [x] **Simulators Suite 2.0**:
   - Full audio-visual interactive lab rewrite with Three.js WebGL 3D rendering, Web Audio API procedural sound engine, sub-tick timeline playback, and 18 high-fidelity physical simulators.
+
+---
+
+## 🔄 Continuous Maintenance & Ongoing Simulation Evolution Protocol
+
+As Counter-Strike 2 receives engine updates and internal reversing uncovers further mechanics:
+1. **Iterative Simulator Refinement**:
+   - As decompilation of internal game functions progresses (e.g. precise floating-point damping curves, sub-tick command aggregation order, or Rubikon narrowphase collision heuristics), update the corresponding C++ simulators in `docs/simulators/` and web providers in `docs/js/cs2lab/` immediately.
+2. **Deterministic Parity Checks**:
+   - Run the E2E verification suite (`python tests/run_e2e_tests.py`) whenever simulation math or visualizers are updated to maintain 100% test passing rate and zero regression.
+3. **Portal Synchronization**:
+   - Keep `docs/portal-data.js` and static API endpoints in sync via `python tools/generate_docs_bundle.py; python tools/generate_portal_data.py`.
