@@ -76,7 +76,26 @@
   <script src="docs-data.js"></script>
   <script src="portal-data.js"></script>
 
+  <!-- Three.js (r128) & OrbitControls -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- CS2 Lab Core Workstation & Simulators -->
+  <script src="assets/cs2_lab.js"></script>
+
   <style>
+    /* CS2 Lab Theater Mode Overlay */
+    .cs2lab-theater {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 9999 !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      max-width: none !important;
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0b0f19; }
@@ -1112,6 +1131,9 @@
         }
       }
       activeTab = tab;
+      if (tab !== 'simulators' && window.CS2Lab && typeof window.CS2Lab.unmount === 'function') {
+        window.CS2Lab.unmount();
+      }
       const tabIds = ['Docs', 'Binaries', 'Diff', 'Tools', 'Simulators', 'Signatures', 'Convars'];
       tabIds.forEach(t => {
         const view = document.getElementById('tab' + t + 'View');
@@ -4903,11 +4925,19 @@
         `;
       }
 
-      // Render custom parameter controls for this simulation
-      renderSimParamsControls(simId);
+      // If switching from an active CS2Lab simulation session, unmount cleanly
+      if (window.CS2Lab && typeof window.CS2Lab.unmount === 'function') {
+        window.CS2Lab.unmount();
+      }
 
-      // Render interactive visualizer for this simulation
-      renderSimVisualizer(simId);
+      // Check if upgraded CS2Lab provider exists for this simulator
+      if (window.CS2Lab && typeof window.CS2Lab.isSimSupported === 'function' && window.CS2Lab.isSimSupported(simId)) {
+        window.CS2Lab.mount(simId, '#simVisualizerContainer', '#simParamsContainer');
+      } else {
+        // Fallback to legacy 2D visualizer & parameter controls
+        renderSimParamsControls(simId);
+        renderSimVisualizer(simId);
+      }
 
       // Render Verified Disassembly Addresses & C++20 Reference Code panel
       renderSimAddressesAndCode(s);
@@ -4982,6 +5012,9 @@
 
     function closeSimulator(updateHash = true) {
       if (updateHash) setUrlHash('simulators');
+      if (window.CS2Lab && typeof window.CS2Lab.unmount === 'function') {
+        window.CS2Lab.unmount();
+      }
       document.getElementById('simulatorDetailView').classList.add('hidden');
       document.getElementById('simulatorsMatrixView').classList.remove('hidden');
     }

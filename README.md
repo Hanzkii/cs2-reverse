@@ -11,6 +11,8 @@
 
 > 🌐 **Interactive Documentation & Visualizers Portal**: [**https://hanzkii.github.io/cs2-reverse/**](https://hanzkii.github.io/cs2-reverse/)  
 > Features 10 live interactive Web visualizers (Sub-Tick prediction, Multi-Material Bullet Penetration, Lag Compensation Unlag, Rubikon BVH Raymarching, Volumetric Smoke Voxel Carving, Two-Bone IK, and Recoil Decay), 34-binary Source 2 module catalog, canonical function signature registry, dual-mode C++20 SDK viewer, and full architecture reports with KaTeX math and Mermaid diagrams.
+>
+> 🗺️ **Active Development Roadmap**: See [ROADMAP.md](ROADMAP.md) for current engineering tracks, including the **Simulators Suite 2.0 Web Visualizer Rewrite (Audio, 3D Animations & Lab Controls)**.
 
 ---
 
