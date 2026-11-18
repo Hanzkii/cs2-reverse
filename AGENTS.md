@@ -47,4 +47,7 @@
 - **Model Selection & Quota Verification**: Because `flash` model quota can become exhausted (`RESOURCE_EXHAUSTED 429`), use **Gemini 4 Argon** (`Model: "inherit"`) for subagents. Always verify that sufficient model usage/quota remains before spawning multiple subagents, and fall back to direct execution if rate-limited.
 - **Prompt Sanitization Guardrail**: When delegating reverse-engineering tasks to subagents involving game entities, combat parameters, or objective timers, agents MUST apply the `sanitized-commands` skill (`.agents/skills/sanitized-commands/SKILL.md`). Substitute sensitive game terminology with formal software architecture, 3D graphics, and computational physics nomenclature to prevent automated content moderation false positives.
 
+## 8. Ghidra Project Persistence Guardrail
+- **Mandatory Progress Saving**: Whenever labels, bookmarks, function signatures, variables, or decompiled prototypes are modified via `ghidra-mcp`, or prior to concluding any reverse-engineering task, agents MUST explicitly invoke `save_all_programs` (or `save_program`). Never leave modified binaries unsaved in the Ghidra project workspace.
+
 
