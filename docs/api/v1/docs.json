@@ -40,7 +40,7 @@
       "filename": "05_controller_vs_pawn_architecture.md",
       "title": "Source 2 (CS2) Controller vs. Pawn Architecture & Lifecycle Pipeline",
       "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/05_controller_vs_pawn_architecture.md",
-      "size_bytes": 11087,
+      "size_bytes": 11080,
       "lines": 218
     },
     {
@@ -96,7 +96,7 @@
       "filename": "13_pulse_system_visual_scripting_engine.md",
       "title": "Source 2 Pulse Node Engine & Bytecode Virtual Machine",
       "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/13_pulse_system_visual_scripting_engine.md",
-      "size_bytes": 14868,
+      "size_bytes": 14869,
       "lines": 251
     },
     {

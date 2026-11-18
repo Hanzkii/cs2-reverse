@@ -23942,17 +23942,17 @@ sequenceDiagram
     Server->>HumanPawn: Set m_hController = HumanCtrl
     Server->>HumanCtrl: Sync Telemetry (m_iPawnHealth = 100, Alive = TRUE)
 
-    Note over Server,HumanPawn: 2. Combat & Death
+    Note over Server,HumanPawn: 2. Combat and Death
     HumanPawn->>HumanPawn: Take 100 lethal damage
     HumanPawn-->>HumanCtrl: Sync Telemetry (m_iPawnHealth = 0, Alive = FALSE)
-    Server->>HumanPawn: Destroy entity & spawn ragdoll
+    Server->>HumanPawn: Destroy entity and spawn ragdoll
     Server->>HumanCtrl: Instantiate m_hObserverPawn (Spectator Camera)
-    Note over HumanCtrl: Player enters spectator mode; Score & Money preserved
+    Note over HumanCtrl: Player enters spectator mode - Score and Money preserved
 
     Note over Server,BotPawn: 3. Bot Takeover (+use)
     HumanCtrl->>Server: User requests bot takeover on Bot Yuri
     Server->>HumanCtrl: m_hOriginalControllerOfCurrentPawn = BotCtrl
-    Server->>BotPawn: Detach Bot AI (m_pBot->SetInactive(true))
+    Server->>BotPawn: Detach Bot AI (SetInactive)
     Server->>HumanCtrl: m_hPlayerPawn = BotPawn
     Server->>BotPawn: m_hController = HumanCtrl
     Server->>HumanCtrl: m_bControllingBot = true
@@ -25839,7 +25839,7 @@ sequenceDiagram
 
     Engine->>VM: ExecuteTick(dt = 2.0000s, Time = 2.0156s)
     VM->>C1: Check WakeTime (2.0156s < 3.5156s)
-    Note over C1: Still sleeping; tick skips C1
+    Note over C1: Still sleeping - tick skips C1
 
     Engine->>VM: ExecuteTick(dt = 1.6000s, Time = 3.6156s)
     VM->>C1: Check WakeTime (3.6156s >= 3.5156s)

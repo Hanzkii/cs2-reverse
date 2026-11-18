@@ -147,7 +147,7 @@ sequenceDiagram
 
     Engine->>VM: ExecuteTick(dt = 2.0000s, Time = 2.0156s)
     VM->>C1: Check WakeTime (2.0156s < 3.5156s)
-    Note over C1: Still sleeping; tick skips C1
+    Note over C1: Still sleeping - tick skips C1
 
     Engine->>VM: ExecuteTick(dt = 1.6000s, Time = 3.6156s)
     VM->>C1: Check WakeTime (3.6156s >= 3.5156s)
