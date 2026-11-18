@@ -292,8 +292,8 @@ struct SparseVoxelWordPB {
 ## 6. Standalone C++20 Verification Simulator
 
 A standalone C++20 reference simulation validating the exact bit-dilation, 3D Morton encoding, line-of-sight raymarching, bullet carving, blast displacement, and sparse wire serialization is maintained at:
-- **Simulation Source**: [`../simulators/cs2_volumetric_smoke_sim.cpp`](../simulators/cs2_volumetric_smoke_sim.cpp)
-- **Build Script**: [`../simulators/build_smoke_sim.bat`](../simulators/build_smoke_sim.bat)
+- **Simulation Source**: [`simulators/cs2_volumetric_smoke_sim.cpp`](simulators/cs2_volumetric_smoke_sim.cpp)
+- **Build Script**: [`simulators/build_smoke_sim.bat`](simulators/build_smoke_sim.bat)
 - **Verification Assertions**:
   1. `MortonEncode3D` $\leftrightarrow$ `MortonDecode3D` round-trip bijection across $32^3$ coordinate space.
   2. Dense detonation voxel volume population ($640^3$ bounding extent).

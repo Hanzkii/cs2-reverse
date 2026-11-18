@@ -5,7 +5,7 @@
 > - `EvaluateBulletPenetration` (RVA `0x00a90280` / VA `0x180a90280`)
 > - `CCSPlayerPawn::ApplyArmorDamageCalculation` (RVA `0x00a81610` / VA `0x180a81610`)
 > - `CCSPlayerPawn::IsArmored` (RVA `0x00acaca0` / VA `0x180acaca0`)  
-> **Verification Simulator**: [`../simulators/cs2_bullet_penetration_sim.cpp`](../simulators/cs2_bullet_penetration_sim.cpp)  
+> **Verification Simulator**: [`simulators/cs2_bullet_penetration_sim.cpp`](simulators/cs2_bullet_penetration_sim.cpp)  
 > **Target Platform**: Windows x64 ABI (`__fastcall`), SSE/AVX Floating-Point Registers (`XMM0`-`XMM14`)
 
 ---
@@ -315,7 +315,7 @@ The hitgroup coverage check employs an optimized 8-way indirect jump table dispa
 
 ## 7. Verification & Parity Test Suite
 
-The pure C++20 simulation harness [`docs/simulators/cs2_bullet_penetration_sim.cpp`](../simulators/cs2_bullet_penetration_sim.cpp) models 100% of the reversed mathematical formulas and control flow branches without any external runtime dependencies.
+The pure C++20 simulation harness [`docs/simulators/cs2_bullet_penetration_sim.cpp`](simulators/cs2_bullet_penetration_sim.cpp) models 100% of the reversed mathematical formulas and control flow branches without any external runtime dependencies.
 
 ### 7.1 Verified Test Execution Summary
 ```text

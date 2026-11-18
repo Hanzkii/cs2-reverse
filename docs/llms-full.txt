@@ -23132,7 +23132,7 @@ Extracted directly from the protobuf descriptors in `networksystem.dll`:
 ## 4. Standalone Simulator & Verification
 
 We wrote and compiled a standalone MSVC x64 C++20 (`/std:c++20 /O2 /EHsc /W4`) test harness:
-[`cs2_netmessage_framing_sim.cpp`](../simulators/cs2_netmessage_framing_sim.cpp)
+[`cs2_netmessage_framing_sim.cpp`](simulators/cs2_netmessage_framing_sim.cpp)
 
 ### Execution Output:
 ```text
@@ -23270,7 +23270,7 @@ $$
 ## 4. Standalone Simulator Execution Results
 
 We compiled and verified this entire pipeline in:
-[`cs2_flattened_serializer_sim.cpp`](../simulators/cs2_flattened_serializer_sim.cpp)
+[`cs2_flattened_serializer_sim.cpp`](simulators/cs2_flattened_serializer_sim.cpp)
 
 ```text
 ========================================================================
@@ -23486,7 +23486,7 @@ When `server.dll`'s `CLagCompensationManager::StartLagCompensation` receives a `
 
 ## 4. Verification Simulation
 
-The multi-slice physics model and sub-tick UserCmd packing were validated in a standalone C++20 simulator ([`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)) compiled with MSVC x64 (`/std:c++20 /O2 /EHsc /W4`):
+The multi-slice physics model and sub-tick UserCmd packing were validated in a standalone C++20 simulator ([`cs2_subtick_usercmd_prediction_sim.cpp`](simulators/cs2_subtick_usercmd_prediction_sim.cpp)) compiled with MSVC x64 (`/std:c++20 /O2 /EHsc /W4`):
 
 ```
 [Step 1] Constructing Sub-Tick User Command (CSGOUserCmdPB):
@@ -23739,7 +23739,7 @@ Using our automated schema parser script, we extracted real field layouts from `
 
 ## 6. Verification Simulation Results
 
-A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim.cpp`](../simulators/cs2_schemasystem_reflection_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and executed:
+A complete standalone verification simulation ([`cs2_schemasystem_reflection_sim.cpp`](simulators/cs2_schemasystem_reflection_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and executed:
 
 ```
 [Step 1] Verifying MurmurHash2 Algorithm Ground Truth:
@@ -23972,7 +23972,7 @@ When an eliminated player spectates a live bot teammate and presses `+use`:
 
 ## 6. Standalone Verification Simulation
 
-Our standalone C++20 simulator ([`cs2_controller_pawn_lifecycle_sim.cpp`](../simulators/cs2_controller_pawn_lifecycle_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
+Our standalone C++20 simulator ([`cs2_controller_pawn_lifecycle_sim.cpp`](simulators/cs2_controller_pawn_lifecycle_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Client Connects & Initializes Persistent Controller:
@@ -24215,7 +24215,7 @@ To ensure clients do not bypass replication using memory hooks or local modifica
 
 ## 6. Standalone Verification Simulation
 
-Our standalone C++20 simulator ([`simulators/cs2_convar_replication_sim.cpp`](../simulators/cs2_convar_replication_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
+Our standalone C++20 simulator ([`simulators/cs2_convar_replication_sim.cpp`](simulators/cs2_convar_replication_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Initialized CVar Registries (Hash Seed: 0x31415926):
@@ -24404,7 +24404,7 @@ For any 3D world coordinate $\mathbf{P}_{\text{world}} = (x, y, z)$:
 
 ## 4. Standalone Verification Simulation
 
-Our standalone C++20 simulator ([`simulators/cs2_view_matrix_sim.cpp`](../simulators/cs2_view_matrix_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
+Our standalone C++20 simulator ([`simulators/cs2_view_matrix_sim.cpp`](simulators/cs2_view_matrix_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Initializing Player Camera and Base View Angles:
@@ -24600,7 +24600,7 @@ sequenceDiagram
 
 ## 5. Standalone Verification Simulation
 
-Our standalone C++20 simulator ([`simulators/cs2_game_events_sim.cpp`](../simulators/cs2_game_events_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
+Our standalone C++20 simulator ([`simulators/cs2_game_events_sim.cpp`](simulators/cs2_game_events_sim.cpp)) was compiled with MSVC 64-bit C++20 (`/std:c++20 /O2 /EHsc /W4`) and verified:
 
 ```
 [Step 1] Server Declares Game Events & Typed Keys:
@@ -24920,8 +24920,8 @@ $$\mathbf{q}_2 \leftarrow \begin{cases} -\mathbf{q}_2 & \text{if } \mathbf{q}_1 
 ## 8. Verification Simulator
 
 The standalone C++20 verification simulator is available in:
-- Code: [`simulators/cs2_skeleton_animation_sim.cpp`](../simulators/cs2_skeleton_animation_sim.cpp)
-- Build Script: [`simulators/build_skeleton_anim_sim.bat`](../simulators/build_skeleton_anim_sim.bat)
+- Code: [`simulators/cs2_skeleton_animation_sim.cpp`](simulators/cs2_skeleton_animation_sim.cpp)
+- Build Script: [`simulators/build_skeleton_anim_sim.bat`](simulators/build_skeleton_anim_sim.bat)
 
 ```cmd
 cd simulators
@@ -25237,7 +25237,7 @@ sequenceDiagram
 
 ## 7. Standalone Reference Simulator & Test Suite
 
-The simulator is implemented in [`simulators/cs2_rubikon_physics_sim.cpp`](../simulators/cs2_rubikon_physics_sim.cpp) with zero external dependencies.
+The simulator is implemented in [`simulators/cs2_rubikon_physics_sim.cpp`](simulators/cs2_rubikon_physics_sim.cpp) with zero external dependencies.
 
 ### Compilation & Execution
 ```cmd
@@ -25479,8 +25479,8 @@ struct SparseVoxelWordPB {
 ## 5. Standalone Verification Simulator
 
 A complete standalone C++20 verification simulator implementing the exact Morton encoding, 32x32x32 voxel grid, bullet carving, HE grenade shockwave displacement, 0.20 density raymarcher, and sparse wire delta serializer is provided in:
-- **Source**: [`../simulators/cs2_volumetric_smoke_sim.cpp`](../simulators/cs2_volumetric_smoke_sim.cpp)
-- **Compilation**: Compiled with MSVC x64 `/O2 /std:c++20 /EHsc` via [`../simulators/build_smoke_sim.bat`](../simulators/build_smoke_sim.bat)
+- **Source**: [`simulators/cs2_volumetric_smoke_sim.cpp`](simulators/cs2_volumetric_smoke_sim.cpp)
+- **Compilation**: Compiled with MSVC x64 `/O2 /std:c++20 /EHsc` via [`simulators/build_smoke_sim.bat`](simulators/build_smoke_sim.bat)
 - **Validation**: All 6 verification assertions pass with zero external dependencies.
 
 --------------------------------------------------------------------------------
@@ -27859,8 +27859,8 @@ Rather than maintaining disconnected parallel implementations, `sdk/game_bridge.
 
 ### 9.2 Verification Harness
 The full end-to-end integration is verified via:
-- **Test Runner**: [`docs/simulators/test_sdk_game_integration.cpp`](../simulators/test_sdk_game_integration.cpp)
-- **Build Script**: [`docs/simulators/build_sdk_game_integration.bat`](../simulators/build_sdk_game_integration.bat)
+- **Test Runner**: [`docs/simulators/test_sdk_game_integration.cpp`](simulators/test_sdk_game_integration.cpp)
+- **Build Script**: [`docs/simulators/build_sdk_game_integration.bat`](simulators/build_sdk_game_integration.bat)
 
 ```cmd
 cd docs/simulators
@@ -28409,7 +28409,7 @@ ret
 > - `EvaluateBulletPenetration` (RVA `0x00a90280` / VA `0x180a90280`)
 > - `CCSPlayerPawn::ApplyArmorDamageCalculation` (RVA `0x00a81610` / VA `0x180a81610`)
 > - `CCSPlayerPawn::IsArmored` (RVA `0x00acaca0` / VA `0x180acaca0`)  
-> **Verification Simulator**: [`../simulators/cs2_bullet_penetration_sim.cpp`](../simulators/cs2_bullet_penetration_sim.cpp)  
+> **Verification Simulator**: [`simulators/cs2_bullet_penetration_sim.cpp`](simulators/cs2_bullet_penetration_sim.cpp)  
 > **Target Platform**: Windows x64 ABI (`__fastcall`), SSE/AVX Floating-Point Registers (`XMM0`-`XMM14`)
 
 ---
@@ -28719,7 +28719,7 @@ The hitgroup coverage check employs an optimized 8-way indirect jump table dispa
 
 ## 7. Verification & Parity Test Suite
 
-The pure C++20 simulation harness [`docs/simulators/cs2_bullet_penetration_sim.cpp`](../simulators/cs2_bullet_penetration_sim.cpp) models 100% of the reversed mathematical formulas and control flow branches without any external runtime dependencies.
+The pure C++20 simulation harness [`docs/simulators/cs2_bullet_penetration_sim.cpp`](simulators/cs2_bullet_penetration_sim.cpp) models 100% of the reversed mathematical formulas and control flow branches without any external runtime dependencies.
 
 ### 7.1 Verified Test Execution Summary
 ```text
@@ -30687,8 +30687,8 @@ Entity indices are sorted ascending. The delta $\Delta E = E_{\text{curr}} - E_{
 
 To verify this architecture without game binaries or third-party dependencies, we authored a standalone C++20 simulator:
 
-- **Simulator Source**: [`docs/simulators/cs2_network_delta_sim.cpp`](../simulators/cs2_network_delta_sim.cpp)
-- **Build Script**: [`docs/simulators/build_network_delta_sim.bat`](../simulators/build_network_delta_sim.bat)
+- **Simulator Source**: [`docs/simulators/cs2_network_delta_sim.cpp`](simulators/cs2_network_delta_sim.cpp)
+- **Build Script**: [`docs/simulators/build_network_delta_sim.bat`](simulators/build_network_delta_sim.bat)
 
 ### Execution Output & Verification Results
 
@@ -31853,7 +31853,7 @@ SIMULATION RESULTS: 18 / 18 PASSED
 > - `CSubtickMoveStep::_InternalParse` (`client.dll` @ RVA `0x004f33f0` / VA `0x1804f33f0`)  
 > - `CSubtickMoveStep::_InternalSerialize` (`client.dll` @ RVA `0x004f36e0` / VA `0x1804f36e0`)  
 > - `CSGOInput::CreateMove` sub-tick history recorder (`client.dll` @ RVA `0x00cf2250` / VA `0x180cf2250`, caller @ RVA `0x00cf9cd0` / VA `0x180cf9cd0`)  
-> **Reference Simulator**: [`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)  
+> **Reference Simulator**: [`cs2_subtick_usercmd_prediction_sim.cpp`](simulators/cs2_subtick_usercmd_prediction_sim.cpp)  
 > **Verification Status**: Bit-for-bit opcode and wire tag conformance verified against build `26598758`.
 
 ---
@@ -32249,7 +32249,7 @@ This ensures that jumping at 40% through a tick applies vertical velocity at exa
 
 ## 6. Reference Simulation Verification
 
-The verified C++20 simulator [`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp) models both the exact byte-level Protobuf wire codec and the multi-slice physics integrator:
+The verified C++20 simulator [`cs2_subtick_usercmd_prediction_sim.cpp`](simulators/cs2_subtick_usercmd_prediction_sim.cpp) models both the exact byte-level Protobuf wire codec and the multi-slice physics integrator:
 
 - **Compilation**: Compiled with MSVC x64 `/std:c++20 /O2 /EHsc /W4`.
 - **Wire Codec Conformity**: Serializes `CBaseUserCmdPB` containing nested `CSubtickMoveStep` instances into binary wire streams, verifies exact wire tags (`0x08`, `0x10`, `0x1D`, `0x25`, `0x2D`, `0x45`, `0x4D`, and `0x92 0x01`), and validates lossless deserialization via `_InternalParse`.
@@ -32552,8 +32552,8 @@ struct SparseVoxelWordPB {
 ## 6. Standalone C++20 Verification Simulator
 
 A standalone C++20 reference simulation validating the exact bit-dilation, 3D Morton encoding, line-of-sight raymarching, bullet carving, blast displacement, and sparse wire serialization is maintained at:
-- **Simulation Source**: [`../simulators/cs2_volumetric_smoke_sim.cpp`](../simulators/cs2_volumetric_smoke_sim.cpp)
-- **Build Script**: [`../simulators/build_smoke_sim.bat`](../simulators/build_smoke_sim.bat)
+- **Simulation Source**: [`simulators/cs2_volumetric_smoke_sim.cpp`](simulators/cs2_volumetric_smoke_sim.cpp)
+- **Build Script**: [`simulators/build_smoke_sim.bat`](simulators/build_smoke_sim.bat)
 - **Verification Assertions**:
   1. `MortonEncode3D` $\leftrightarrow$ `MortonDecode3D` round-trip bijection across $32^3$ coordinate space.
   2. Dense detonation voxel volume population ($640^3$ bounding extent).

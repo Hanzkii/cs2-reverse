@@ -284,8 +284,8 @@ $$\mathbf{q}_2 \leftarrow \begin{cases} -\mathbf{q}_2 & \text{if } \mathbf{q}_1 
 ## 8. Verification Simulator
 
 The standalone C++20 verification simulator is available in:
-- Code: [`simulators/cs2_skeleton_animation_sim.cpp`](../simulators/cs2_skeleton_animation_sim.cpp)
-- Build Script: [`simulators/build_skeleton_anim_sim.bat`](../simulators/build_skeleton_anim_sim.bat)
+- Code: [`simulators/cs2_skeleton_animation_sim.cpp`](simulators/cs2_skeleton_animation_sim.cpp)
+- Build Script: [`simulators/build_skeleton_anim_sim.bat`](simulators/build_skeleton_anim_sim.bat)
 
 ```cmd
 cd simulators

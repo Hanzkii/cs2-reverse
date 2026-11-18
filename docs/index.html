@@ -81,8 +81,8 @@
   </script>
 
   <!-- Embedded Bundled Documentation & Portal Data -->
-  <script src="docs-data.js?v=20261119_05"></script>
-  <script src="portal-data.js?v=20261119_05"></script>
+  <script src="docs-data.js?v=20261119_06"></script>
+  <script src="portal-data.js?v=20261119_06"></script>
 
   <!-- Three.js (r128) & OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -1603,6 +1603,22 @@
     // ========================================================================
     // 3B.2 Automatic Repository File & Architecture Spec Linking
     // ========================================================================
+    function normalizeRepoPath(rawPath) {
+      if (!rawPath) return '';
+      let clean = rawPath.replace(/^file:\/\/\/?/, '').replace(/^(\.\.\/|\.\/)+/, '').replace(/\\/g, '/');
+      // If it starts with simulators/, prepend docs/ because simulators reside under docs/simulators/
+      if (clean.startsWith('simulators/')) {
+        clean = 'docs/' + clean;
+      }
+      // If it's a standalone simulator file or runner script without a folder
+      if ((clean.endsWith('_sim.cpp') || clean.endsWith('_sim.bat')) && !clean.includes('/')) {
+        clean = 'docs/simulators/' + clean;
+      }
+      // Eliminate any duplicate docs/docs/
+      clean = clean.replace(/^docs\/docs\//, 'docs/');
+      return clean;
+    }
+
     function enhanceDocLinks(container) {
       if (!container) return;
       const repoBaseUrl = "https://github.com/Hanzkii/cs2-reverse/blob/main";
@@ -1610,8 +1626,8 @@
       // 1. Rewrite any existing <a> tags that point to relative paths or files
       container.querySelectorAll('a').forEach(a => {
         let href = a.getAttribute('href') || '';
-        if (href.startsWith('../') || href.startsWith('./') || href.startsWith('game/') || href.startsWith('sdk/') || href.startsWith('tools/') || href.startsWith('data/') || href.startsWith('docs/simulators/')) {
-          const cleanPath = href.replace(/^(\.\.\/|\.\/)+/, '');
+        if (href.startsWith('../') || href.startsWith('./') || href.startsWith('game/') || href.startsWith('sdk/') || href.startsWith('tools/') || href.startsWith('data/') || href.startsWith('docs/') || href.startsWith('simulators/') || href.startsWith('file:///')) {
+          const cleanPath = normalizeRepoPath(href);
           const isDoc = (cleanPath.endsWith('.md') && typeof DOCS !== 'undefined') ? DOCS.find(d => d.filename === cleanPath || d.filename === cleanPath.replace(/^docs\//, '')) : null;
           if (isDoc) {
             a.onclick = (e) => {
@@ -1639,7 +1655,7 @@
         
         // Match standard file paths or filenames
         const match = rawText.match(/^([a-zA-Z0-9_\-\.\/]+?\.(h|hpp|cpp|c|py|json|bat|sh|proto|md|txt))([,:;)]*)$/);
-        const prefixMatch = rawText.match(/^(game|sdk|tools|data|tests|docs\/simulators)\/([a-zA-Z0-9_\-\.\/]+)([,:;)]*)$/);
+        const prefixMatch = rawText.match(/^(game|sdk|tools|data|tests|docs|simulators)\/([a-zA-Z0-9_\-\.\/]+)([,:;)]*)$/);
         
         let filePath = null;
         let suffix = '';
@@ -1655,7 +1671,8 @@
         if (filePath.includes('*') || filePath.includes('?') || filePath.includes('<') || filePath.includes('>')) return;
         if (filePath.endsWith('.dll') || filePath.endsWith('.exe')) return;
         
-        const isDoc = (filePath.endsWith('.md') && typeof DOCS !== 'undefined') ? DOCS.find(d => d.filename === filePath || d.filename === filePath.replace(/^docs\//, '')) : null;
+        const cleanPath = normalizeRepoPath(filePath);
+        const isDoc = (cleanPath.endsWith('.md') && typeof DOCS !== 'undefined') ? DOCS.find(d => d.filename === cleanPath || d.filename === cleanPath.replace(/^docs\//, '')) : null;
         
         const a = document.createElement('a');
         a.className = 'doc-file-link';
@@ -1669,14 +1686,10 @@
           };
           a.innerHTML = `<code>${filePath}</code><svg class="file-link-icon inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`;
         } else {
-          let resolvedPath = filePath;
-          if (resolvedPath.endsWith('_sim.cpp') && !resolvedPath.includes('/')) {
-            resolvedPath = `docs/simulators/${resolvedPath}`;
-          }
-          a.href = `${repoBaseUrl}/${resolvedPath}`;
+          a.href = `${repoBaseUrl}/${cleanPath}`;
           a.target = '_blank';
           a.rel = 'noopener noreferrer';
-          a.title = `Open ${resolvedPath} on GitHub`;
+          a.title = `Open ${cleanPath} on GitHub`;
           a.innerHTML = `<code>${filePath}</code><svg class="file-link-icon inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`;
         }
         

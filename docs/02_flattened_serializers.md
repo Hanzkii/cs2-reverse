@@ -85,7 +85,7 @@ $$
 ## 4. Standalone Simulator Execution Results
 
 We compiled and verified this entire pipeline in:
-[`cs2_flattened_serializer_sim.cpp`](../simulators/cs2_flattened_serializer_sim.cpp)
+[`cs2_flattened_serializer_sim.cpp`](simulators/cs2_flattened_serializer_sim.cpp)
 
 ```text
 ========================================================================

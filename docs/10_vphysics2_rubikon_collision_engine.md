@@ -293,7 +293,7 @@ sequenceDiagram
 
 ## 7. Standalone Reference Simulator & Test Suite
 
-The simulator is implemented in [`simulators/cs2_rubikon_physics_sim.cpp`](../simulators/cs2_rubikon_physics_sim.cpp) with zero external dependencies.
+The simulator is implemented in [`simulators/cs2_rubikon_physics_sim.cpp`](simulators/cs2_rubikon_physics_sim.cpp) with zero external dependencies.
 
 ### Compilation & Execution
 ```cmd

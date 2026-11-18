@@ -502,8 +502,8 @@ Rather than maintaining disconnected parallel implementations, `sdk/game_bridge.
 
 ### 9.2 Verification Harness
 The full end-to-end integration is verified via:
-- **Test Runner**: [`docs/simulators/test_sdk_game_integration.cpp`](../simulators/test_sdk_game_integration.cpp)
-- **Build Script**: [`docs/simulators/build_sdk_game_integration.bat`](../simulators/build_sdk_game_integration.bat)
+- **Test Runner**: [`docs/simulators/test_sdk_game_integration.cpp`](simulators/test_sdk_game_integration.cpp)
+- **Build Script**: [`docs/simulators/build_sdk_game_integration.bat`](simulators/build_sdk_game_integration.bat)
 
 ```cmd
 cd docs/simulators

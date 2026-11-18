@@ -6,7 +6,7 @@
 > - `CSubtickMoveStep::_InternalParse` (`client.dll` @ RVA `0x004f33f0` / VA `0x1804f33f0`)  
 > - `CSubtickMoveStep::_InternalSerialize` (`client.dll` @ RVA `0x004f36e0` / VA `0x1804f36e0`)  
 > - `CSGOInput::CreateMove` sub-tick history recorder (`client.dll` @ RVA `0x00cf2250` / VA `0x180cf2250`, caller @ RVA `0x00cf9cd0` / VA `0x180cf9cd0`)  
-> **Reference Simulator**: [`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp)  
+> **Reference Simulator**: [`cs2_subtick_usercmd_prediction_sim.cpp`](simulators/cs2_subtick_usercmd_prediction_sim.cpp)  
 > **Verification Status**: Bit-for-bit opcode and wire tag conformance verified against build `26598758`.
 
 ---
@@ -402,7 +402,7 @@ This ensures that jumping at 40% through a tick applies vertical velocity at exa
 
 ## 6. Reference Simulation Verification
 
-The verified C++20 simulator [`cs2_subtick_usercmd_prediction_sim.cpp`](../simulators/cs2_subtick_usercmd_prediction_sim.cpp) models both the exact byte-level Protobuf wire codec and the multi-slice physics integrator:
+The verified C++20 simulator [`cs2_subtick_usercmd_prediction_sim.cpp`](simulators/cs2_subtick_usercmd_prediction_sim.cpp) models both the exact byte-level Protobuf wire codec and the multi-slice physics integrator:
 
 - **Compilation**: Compiled with MSVC x64 `/std:c++20 /O2 /EHsc /W4`.
 - **Wire Codec Conformity**: Serializes `CBaseUserCmdPB` containing nested `CSubtickMoveStep` instances into binary wire streams, verifies exact wire tags (`0x08`, `0x10`, `0x1D`, `0x25`, `0x2D`, `0x45`, `0x4D`, and `0x92 0x01`), and validates lossless deserialization via `_InternalParse`.

@@ -301,8 +301,8 @@ Entity indices are sorted ascending. The delta $\Delta E = E_{\text{curr}} - E_{
 
 To verify this architecture without game binaries or third-party dependencies, we authored a standalone C++20 simulator:
 
-- **Simulator Source**: [`docs/simulators/cs2_network_delta_sim.cpp`](../simulators/cs2_network_delta_sim.cpp)
-- **Build Script**: [`docs/simulators/build_network_delta_sim.bat`](../simulators/build_network_delta_sim.bat)
+- **Simulator Source**: [`docs/simulators/cs2_network_delta_sim.cpp`](simulators/cs2_network_delta_sim.cpp)
+- **Build Script**: [`docs/simulators/build_network_delta_sim.bat`](simulators/build_network_delta_sim.bat)
 
 ### Execution Output & Verification Results
 
