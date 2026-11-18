@@ -61,8 +61,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 ## Reconstructed C++20 Modding SDK (`sdk/` & `game/`)
 - **cs2_sdk** (`sdk/`): `client_classes.hpp`, `cs2_sdk.hpp`, `entity_system.hpp`, `game_bridge.hpp`, `input_usercmd.hpp`, `interfaces_registry.hpp`, `item_schema.hpp`, `navmesh.hpp`, `netmessages.hpp`, `panorama.hpp`, `render_scene_material.hpp`, `schema_system.hpp`, `trace_events_aux.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk)
 - **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
-- **client.dll** (`game/client/`): `bone_setup.cpp`, `bone_setup.h`, `entity_system.cpp`, `entity_system.h`, `inventory_schema.cpp`, `inventory_schema.h`, `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
-- **engine.dll** (`game/engine/`): `clock_drift.cpp`, `clock_drift.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine)
+- **client.dll** (`game/client/`): `bone_setup.cpp`, `bone_setup.h`, `entity_system.cpp`, `entity_system.h`, `gpu_culling.h`, `inventory_schema.cpp`, `inventory_schema.h`, `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
+- **engine.dll** (`game/engine/`): `clock_drift.cpp`, `clock_drift.h`, `parallel_snapshot.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine)
 - **engine2.dll** (`game/engine2/`): `cvar_engine.cpp`, `cvar_engine.h`, `game_events.cpp`, `game_events.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine2)
 - **interfaces** (`game/interfaces/`): `cvar.h`, `engine_client.h`, `file_system.h`, `game_event_manager.h`, `input_system.h`, `interfaces.h`, `memalloc.h`, `network_client_service.h`, `network_server_service.h`, `schema_interface.h`, `sound_system.h`, `source2_client.h`, `source2_server.h`, `trace_manager.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/interfaces)
 - **materialsystem2.dll** (`game/materialsystem2/`): `material_system2.cpp`, `material_system2.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/materialsystem2)
@@ -160,6 +160,17 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `engine2.dll` | `CPacketEntitiesProcessor::ProcessEntityDeltaStream` | `0x000441a0` | `0x1800441a0` | Networking & Wire Protocol |
 | `engine2.dll` | `CPacketEntitiesProcessor::ProcessEntityPacket` | `0x00044600` | `0x180044600` | Networking & Wire Protocol |
 | `engine2.dll` | `CParallelPacketEntitiesJob::Run` | `0x000475c0` | `0x1800475c0` | Networking & Multi-Threaded Execution |
+| `engine2.dll` | `CNetworkGameServer::SendSnapshots` | `0x001dec40` | `0x1801dec40` | Networking |
+| `engine2.dll` | `CServerSideClient::SetupParallelSnapshotDependencies` | `0x000beb00` | `0x1800beb00` | Networking |
+| `engine2.dll` | `CFrameSnapshotManager::CreateFrameSnapshot` | `0x000d4f60` | `0x1800d4f60` | Networking |
+| `engine2.dll` | `CFrameSnapshotManager::DeleteFrameSnapshot` | `0x000d5320` | `0x1800d5320` | Networking |
+| `engine2.dll` | `CFrameSnapshot::ReleaseReference` | `0x000d9ce0` | `0x1800d9ce0` | Networking |
+| `engine2.dll` | `CServerSideClient::CSendJob_Regular::Execute` | `0x000b8e30` | `0x1800b8e30` | Networking |
+| `client.dll` | `CViewRender::SetupGpuCullingView` | `0x011d17b0` | `0x1811d17b0` | Rendering & Math |
+| `client.dll` | `CRenderingPipelineCsgo::AddGpuCullingLayer` | `0x011d3d50` | `0x1811d3d50` | Rendering & Math |
+| `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01210ca0` | `0x181210ca0` | Rendering & Math |
+| `rendersystemdx11.dll` | `CRenderContextDx11::DrawIndexedInstancedIndirect` | `0x00026cb0` | `0x180026cb0` | Rendering & Math |
+| `rendersystemdx11.dll` | `CD3D11DeviceContext::DrawIndexedInstancedIndirect` | `0x0001c760` | `0x18001c760` | Rendering & Math |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -185,6 +196,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [20_source2_reconstructed_sdk_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md)
 - [21_panorama_ui_architecture_and_decompilation.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/21_panorama_ui_architecture_and_decompilation.md)
 - [22_engine_clockdrift_and_packetentities_merge.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/22_engine_clockdrift_and_packetentities_merge.md)
+- [23_server_parallel_snapshots.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/23_server_parallel_snapshots.md)
+- [24_gpu_driven_occlusion_culling.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/24_gpu_driven_occlusion_culling.md)
 - [ballistic_penetration_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md)
 - [ghidra_mcp_extensions.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ghidra_mcp_extensions.md)
 - [inferno_combustion_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md)
