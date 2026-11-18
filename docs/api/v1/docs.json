@@ -1,0 +1,285 @@
+{
+  "count": 40,
+  "documents": [
+    {
+      "filename": "00_tooling_and_methodology.md",
+      "title": "Tooling & Methodology Guide",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md",
+      "size_bytes": 24106,
+      "lines": 266
+    },
+    {
+      "filename": "01_network_framing.md",
+      "title": "Source 2 (CS2) Network Framing & Protobuf Serialization Deep Dive",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/01_network_framing.md",
+      "size_bytes": 9212,
+      "lines": 208
+    },
+    {
+      "filename": "02_flattened_serializers.md",
+      "title": "Source 2 (CS2) Flattened Serializers & Huffman FieldPath Delta Compression",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/02_flattened_serializers.md",
+      "size_bytes": 7314,
+      "lines": 146
+    },
+    {
+      "filename": "03_subtick_usercmd_and_prediction.md",
+      "title": "Source 2 (CS2) Sub-Tick UserCmd, Multi-Slice Physics & Prediction Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/03_subtick_usercmd_and_prediction.md",
+      "size_bytes": 10131,
+      "lines": 192
+    },
+    {
+      "filename": "04_schemasystem_runtime_reflection.md",
+      "title": "Valve Source 2 (CS2) Schema System & Dynamic Runtime Reflection Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/04_schemasystem_runtime_reflection.md",
+      "size_bytes": 12519,
+      "lines": 263
+    },
+    {
+      "filename": "05_controller_vs_pawn_architecture.md",
+      "title": "Source 2 (CS2) Controller vs. Pawn Architecture & Lifecycle Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/05_controller_vs_pawn_architecture.md",
+      "size_bytes": 11080,
+      "lines": 218
+    },
+    {
+      "filename": "06_convar_storage_and_replication.md",
+      "title": "Valve Source 2 (CS2) ConVar Registration, Flags & Networked Replication Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/06_convar_storage_and_replication.md",
+      "size_bytes": 11124,
+      "lines": 230
+    },
+    {
+      "filename": "07_camera_and_view_matrix_pipeline.md",
+      "title": "Valve Source 2 (CS2) Camera, View Matrix & Recoil Punch Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/07_camera_and_view_matrix_pipeline.md",
+      "size_bytes": 9430,
+      "lines": 184
+    },
+    {
+      "filename": "08_game_events_pipeline.md",
+      "title": "Valve Source 2 (CS2) Game Event System & Protobuf Dispatch Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/08_game_events_pipeline.md",
+      "size_bytes": 9063,
+      "lines": 190
+    },
+    {
+      "filename": "09_skeleton_bone_hierarchy_and_animgraph.md",
+      "title": "Valve Source 2 Skeleton Bone Hierarchy & Animation Graph Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/09_skeleton_bone_hierarchy_and_animgraph.md",
+      "size_bytes": 15785,
+      "lines": 304
+    },
+    {
+      "filename": "10_vphysics2_rubikon_collision_engine.md",
+      "title": "Counter-Strike 2 (Source 2) - Rubikon Physics Engine & Collision Detection (`vphysics2.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/10_vphysics2_rubikon_collision_engine.md",
+      "size_bytes": 16444,
+      "lines": 340
+    },
+    {
+      "filename": "11_volumetric_smoke_and_3d_voxel_grids.md",
+      "title": "Source 2 (CS2) Volumetric Smoke Grenade & 3D Voxel Grid Simulation",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/11_volumetric_smoke_and_3d_voxel_grids.md",
+      "size_bytes": 11113,
+      "lines": 196
+    },
+    {
+      "filename": "12_binary_patch_diffing_and_version_archiving.md",
+      "title": "Automated Binary Patch Diffing & Multi-Version Archiving",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/12_binary_patch_diffing_and_version_archiving.md",
+      "size_bytes": 11499,
+      "lines": 200
+    },
+    {
+      "filename": "13_pulse_system_visual_scripting_engine.md",
+      "title": "Source 2 Pulse Node Engine & Bytecode Virtual Machine",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/13_pulse_system_visual_scripting_engine.md",
+      "size_bytes": 14860,
+      "lines": 251
+    },
+    {
+      "filename": "14_bullet_penetration_and_surface_physics.md",
+      "title": "Counter-Strike 2 (Source 2) - Authoritative Bullet Penetration & Surface Physics (`server.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/14_bullet_penetration_and_surface_physics.md",
+      "size_bytes": 11318,
+      "lines": 204
+    },
+    {
+      "filename": "15_navigation_mesh_and_pathfinding.md",
+      "title": "Counter-Strike 2 (Source 2) - Navigation Mesh & AI Pathfinding Architecture (`navsystem.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/15_navigation_mesh_and_pathfinding.md",
+      "size_bytes": 9085,
+      "lines": 169
+    },
+    {
+      "filename": "16_weapon_inaccuracy_and_recoil_decay.md",
+      "title": "Counter-Strike 2 (Source 2) - Weapon Inaccuracy, Spread Cone & Recoil Punch Decay Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/16_weapon_inaccuracy_and_recoil_decay.md",
+      "size_bytes": 16568,
+      "lines": 274
+    },
+    {
+      "filename": "17_subtick_usercmd_wire_format.md",
+      "title": "Counter-Strike 2 (Source 2) - Sub-Tick UserCmd Wire Serialization & Unpacking Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/17_subtick_usercmd_wire_format.md",
+      "size_bytes": 14366,
+      "lines": 289
+    },
+    {
+      "filename": "18_lag_compensation_and_hitbox_backtracking.md",
+      "title": "Counter-Strike 2 (Source 2) - Authoritative Lag Compensation & Hitbox Backtracking (`server.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/18_lag_compensation_and_hitbox_backtracking.md",
+      "size_bytes": 16344,
+      "lines": 322
+    },
+    {
+      "filename": "19_hit_registration_and_armor_damage.md",
+      "title": "19. Hit Registration, HitGroup Multipliers & Kevlar/Helmet Damage Formulas",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/19_hit_registration_and_armor_damage.md",
+      "size_bytes": 8307,
+      "lines": 128
+    },
+    {
+      "filename": "20_source2_reconstructed_sdk_architecture.md",
+      "title": "Valve Source 2 Reconstructed SDK Architecture & C++20 Header Suite",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/20_source2_reconstructed_sdk_architecture.md",
+      "size_bytes": 32121,
+      "lines": 531
+    },
+    {
+      "filename": "21_panorama_ui_architecture_and_decompilation.md",
+      "title": "Chapter 21: Panorama UI Architecture, Resource Decompilation & Demo Overlays",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/21_panorama_ui_architecture_and_decompilation.md",
+      "size_bytes": 6260,
+      "lines": 142
+    },
+    {
+      "filename": "22_engine_clockdrift_and_packetentities_merge.md",
+      "title": "Engine Clock Drift Synchronization & Pre-Decode Packet Entities Coalescer",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/22_engine_clockdrift_and_packetentities_merge.md",
+      "size_bytes": 9234,
+      "lines": 143
+    },
+    {
+      "filename": "23_server_parallel_snapshots.md",
+      "title": "Chapter 23: Server Parallel Snapshot Pipeline & Asynchronous Dispatch Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/23_server_parallel_snapshots.md",
+      "size_bytes": 4541,
+      "lines": 64
+    },
+    {
+      "filename": "24_gpu_driven_occlusion_culling.md",
+      "title": "Chapter 24: GPU-Driven Occlusion Culling & Indirect Draw Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/24_gpu_driven_occlusion_culling.md",
+      "size_bytes": 3519,
+      "lines": 44
+    },
+    {
+      "filename": "25_entity_and_pawn_architecture.md",
+      "title": "Chapter 25: Entity System Architecture, CBaseEntity & Controller-Pawn Linkage",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/25_entity_and_pawn_architecture.md",
+      "size_bytes": 5656,
+      "lines": 99
+    },
+    {
+      "filename": "ballistic_penetration_physics.md",
+      "title": "Counter-Strike 2 (Source 2) - Ballistic Penetration & Multi-Surface Material Physics Architecture (`server.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md",
+      "size_bytes": 21489,
+      "lines": 380
+    },
+    {
+      "filename": "ghidra_mcp_extensions.md",
+      "title": "GhidraMCP Architecture Extensions & Source 2 Analysis Toolkit",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ghidra_mcp_extensions.md",
+      "size_bytes": 12480,
+      "lines": 264
+    },
+    {
+      "filename": "inferno_combustion_physics.md",
+      "title": "Source 2 CS2 Surface Combustion & Thermal Energy Grid Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md",
+      "size_bytes": 18968,
+      "lines": 291
+    },
+    {
+      "filename": "kv3_resource_system.md",
+      "title": "Counter-Strike 2 (Source 2) - KeyValues3 (KV3) & Resource Container Architecture (`resourcesystem.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/kv3_resource_system.md",
+      "size_bytes": 17864,
+      "lines": 349
+    },
+    {
+      "filename": "lag_compensation_rollback.md",
+      "title": "Source 2 CS2 Authoritative Temporal Rollback & Lag Compensation (`server.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/lag_compensation_rollback.md",
+      "size_bytes": 22399,
+      "lines": 413
+    },
+    {
+      "filename": "net_packet_entities_pipeline.md",
+      "title": "Source 2 (CS2) Network Packet Entities Pipeline & Delta Consolidation Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/net_packet_entities_pipeline.md",
+      "size_bytes": 15570,
+      "lines": 261
+    },
+    {
+      "filename": "network_entity_delta_codec.md",
+      "title": "Source 2 (CS2) Network State Synchronization Engine & Entity Delta Codec",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/network_entity_delta_codec.md",
+      "size_bytes": 24579,
+      "lines": 374
+    },
+    {
+      "filename": "particle_system_architecture.md",
+      "title": "Counter-Strike 2 (Source 2) - Data-Driven Particle Architecture & Compute Operators (`particles.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/particle_system_architecture.md",
+      "size_bytes": 16523,
+      "lines": 277
+    },
+    {
+      "filename": "rubikon_collision_physics.md",
+      "title": "Counter-Strike 2 (Source 2) - Rubikon Convex Polytope & Continuous Collision Physics (`vphysics2.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/rubikon_collision_physics.md",
+      "size_bytes": 20871,
+      "lines": 389
+    },
+    {
+      "filename": "spatial_audio_acoustics.md",
+      "title": "Source 2 Spatial Audio, Steam Audio (Phonon) & Acoustic Wave Physics",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/spatial_audio_acoustics.md",
+      "size_bytes": 24788,
+      "lines": 405
+    },
+    {
+      "filename": "subtick_wire_framing.md",
+      "title": "Counter-Strike 2 (Source 2) - Sub-Tick UserCmd Wire Framing & Timing Architecture",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/subtick_wire_framing.md",
+      "size_bytes": 23770,
+      "lines": 409
+    },
+    {
+      "filename": "volumetric_smoke_voxel_grid.md",
+      "title": "Source 2 CS2 Volumetric Smoke & 3D Morton Voxel Carving",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/volumetric_smoke_voxel_grid.md",
+      "size_bytes": 17037,
+      "lines": 303
+    },
+    {
+      "filename": "vtable_resolution_pipeline.md",
+      "title": "Source 2 VTable & RTTI Auto-Resolution Pipeline",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/vtable_resolution_pipeline.md",
+      "size_bytes": 14896,
+      "lines": 291
+    },
+    {
+      "filename": "weapon_spread_recoil_physics.md",
+      "title": "Counter-Strike 2 (Source 2) - Weapon Inaccuracy, Recoil Punch Decay & Dual-Disk Dispersion Physics (`client.dll` & `server.dll`)",
+      "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/weapon_spread_recoil_physics.md",
+      "size_bytes": 28489,
+      "lines": 496
+    }
+  ]
+}

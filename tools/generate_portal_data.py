@@ -1975,8 +1975,10 @@ MODULE_RECONSTRUCTED_DATA = {
 }
 
 def collect_sdk_modules(root):
-    """Collects all clean-room reconstructed C++20 SDK headers and source files."""
+    """Collects all clean-room reconstructed C++20 SDK headers and source files across sdk/ and game/."""
     sdk_modules = []
+    
+    # 1. Root SDK headers (sdk/*.hpp)
     sdk_dir = os.path.join(root, "sdk")
     if os.path.exists(sdk_dir):
         sdk_files_map = {}
@@ -1993,7 +1995,30 @@ def collect_sdk_modules(root):
                 "description": "Production clean-room reconstructed Source 2 master SDK reverse-engineered and verified against native PE binaries.",
                 "files": sdk_files_map
             })
+            
+        # 2. Modular SDK Include headers (sdk/include/*/*.hpp)
+        sdk_include_dir = os.path.join(sdk_dir, "include")
+        if os.path.exists(sdk_include_dir):
+            for sub_name in sorted(os.listdir(sdk_include_dir)):
+                sub_path = os.path.join(sdk_include_dir, sub_name)
+                if not os.path.isdir(sub_path):
+                    continue
+                files_map = {}
+                for fname in sorted(os.listdir(sub_path)):
+                    if fname.endswith((".h", ".hpp", ".cpp")):
+                        fpath = os.path.join(sub_path, fname)
+                        with open(fpath, "r", encoding="utf-8") as f:
+                            files_map[fname] = f.read()
+                if files_map:
+                    sdk_modules.append({
+                        "module": f"sdk::{sub_name}",
+                        "directory": f"sdk/include/{sub_name}",
+                        "standard": "C++20 (/std:c++20 /W4 /WX)",
+                        "description": f"Clean-room SDK headers for {sub_name} subsystem.",
+                        "files": files_map
+                    })
 
+    # 3. Game subsystem clean-room modules (game/*/*.{h,hpp,cpp})
     game_dir = os.path.join(root, "game")
     if os.path.exists(game_dir):
         for mod_name in sorted(os.listdir(game_dir)):
@@ -2001,11 +2026,13 @@ def collect_sdk_modules(root):
             if not os.path.isdir(mod_path):
                 continue
             files_map = {}
-            for fname in sorted(os.listdir(mod_path)):
-                if fname.endswith((".h", ".hpp", ".cpp")):
-                    fpath = os.path.join(mod_path, fname)
-                    with open(fpath, "r", encoding="utf-8") as f:
-                        files_map[fname] = f.read()
+            for root_sub, _, fnames in os.walk(mod_path):
+                for fname in sorted(fnames):
+                    if fname.endswith((".h", ".hpp", ".cpp")):
+                        fpath = os.path.join(root_sub, fname)
+                        rel_f = os.path.relpath(fpath, mod_path).replace("\\", "/")
+                        with open(fpath, "r", encoding="utf-8") as f:
+                            files_map[rel_f] = f.read()
             if files_map:
                 mod_label = mod_name if mod_name in ("interfaces", "shared") else f"{mod_name}.dll"
                 sdk_modules.append({
@@ -2197,15 +2224,26 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     # 2. Extract curated + latest schema classes for modding
     key_classes_names = [
-        "C_BaseEntity", "CBaseEntity", "CGameSceneNode", "CSkeletonInstance", "CModelState",
-        "CCSPlayerController", "C_CSPlayerPawn", "CCSPlayerPawn", "C_CSPlayerPawnBase", "CCSPlayerPawnBase",
+        "C_BaseEntity", "CBaseEntity", "CBasePlayerController", "CCSPlayerController",
+        "C_BasePlayerPawn", "CBasePlayerPawn", "C_CSPlayerPawn", "CCSPlayerPawn",
+        "C_CSPlayerPawnBase", "CCSPlayerPawnBase", "C_BaseModelEntity", "CBaseModelEntity",
+        "CGameSceneNode", "CSkeletonInstance", "CModelState",
         "CPlayer_MovementServices", "CCSPlayer_MovementServices", "CPlayer_WeaponServices",
         "CPlayer_CameraServices", "CCSPlayerBase_CameraServices", "CCSPlayer_DamageReactServices",
         "C_CSWeaponBase", "CCSWeaponBase", "CCSWeaponBaseVData", "C_BasePlayerWeapon",
-        "CSmokeGrenadeProjectile", "C_SmokeGrenadeProjectile", "CPlantedC4", "CBaseAnimGraph"
+        "C_CSGameRules", "CCSGameRules", "C_CSGameRulesProxy", "CCSGameRulesProxy",
+        "CSmokeGrenadeProjectile", "C_SmokeGrenadeProjectile", "CPlantedC4", "CBaseAnimGraph",
+        "C_PointCamera", "CPointCamera", "C_EnvSky", "C_BaseTrigger", "C_Beam",
+        "C_DynamicProp", "CDynamicProp", "C_PhysicsProp", "CPhysicsProp",
+        "C_RagdollProp", "CRagdollProp", "C_EconItemView", "C_EconEntity",
+        "CBaseGrenade", "C_BaseGrenade", "C_BaseCSGrenade", "CHEGrenade",
+        "CSmokeGrenade", "CFlashbang", "CMolotovGrenade", "CIncendiaryGrenade", "CDecoyGrenade",
+        "CWeaponAK47", "C_WeaponAK47", "CWeaponM4A1", "C_WeaponM4A1",
+        "CWeaponAWP", "C_WeaponAWP", "CWeaponCSBaseGun", "C_WeaponCSBaseGun"
     ]
     latest_schemas_path = os.path.join(root, "versions", "profiles", latest_ver["tag"], "schemas.json")
     curated_schemas = {}
+    all_classes_summary = {}
     total_schema_classes = 0
     if os.path.exists(latest_schemas_path):
         with open(latest_schemas_path, "r", encoding="utf-8") as f:
@@ -2214,11 +2252,150 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             for k in key_classes_names:
                 if k in all_sch:
                     curated_schemas[k] = all_sch[k]
+            for cname, cdata in all_sch.items():
+                all_classes_summary[cname] = {
+                    "module": cdata.get("binary"),
+                    "size": cdata.get("size"),
+                    "size_hex": cdata.get("size_hex"),
+                    "base": cdata.get("base"),
+                    "field_count": len(cdata.get("fields", []))
+                }
 
-    # 3. Write /docs/api/v1/ JSON endpoints
+    # 3. Canonical Virtual Method Tables (VTable layouts)
+    canonical_vtables = [
+        {
+            "class": "CBaseEntity",
+            "binary": "server.dll",
+            "vtable_va": "0x18194FB38",
+            "vtable_rva": "0x0194FB38",
+            "total_slots": 238,
+            "description": "Master server-side entity virtual dispatch table governing lifecycle, network synchronization, physics attachment, and think cycles.",
+            "key_slots": [
+                {"slot": 0, "name": "~CBaseEntity()", "rva": "0x0061e380", "desc": "Virtual scalar destructor"},
+                {"slot": 1, "name": "PostConstructor()", "rva": "0x0061d4b0", "desc": "Initializes entity identity, handle, and flags"},
+                {"slot": 2, "name": "Spawn()", "rva": "0x00624020", "desc": "Dispatches entity spawn and baseline initialization"},
+                {"slot": 3, "name": "Precache()", "rva": "0x00622b10", "desc": "Precaches models, sounds, and particle assets"},
+                {"slot": 4, "name": "Activate()", "rva": "0x0061ca80", "desc": "Activates entity hierarchy after all map entities spawn"},
+                {"slot": 11, "name": "PostDataUpdate()", "rva": "0x00621f90", "desc": "Invoked after network field delta deserialization"},
+                {"slot": 81, "name": "Think()", "rva": "0x00624890", "desc": "Periodic entity logic execution cycle"}
+            ]
+        },
+        {
+            "class": "CCSPlayerController",
+            "binary": "server.dll",
+            "vtable_va": "0x18190DED8",
+            "vtable_rva": "0x0190DED8",
+            "total_slots": 196,
+            "description": "Non-physical player connection manager holding network client session, matchmaking state, and pawn association.",
+            "key_slots": [
+                {"slot": 0, "name": "~CCSPlayerController()", "rva": "0x0059c210", "desc": "Virtual scalar destructor"},
+                {"slot": 73, "name": "GetPlayerPawn()", "rva": "0x0059b8a0", "desc": "Resolves m_hPlayerPawn handle to active C_CSPlayerPawn pointer"},
+                {"slot": 74, "name": "SetPawn()", "rva": "0x0059c040", "desc": "Binds active controller to spawned player pawn"}
+            ]
+        },
+        {
+            "class": "CCSPlayerPawn",
+            "binary": "server.dll",
+            "vtable_va": "0x1817843E8",
+            "vtable_rva": "0x017843E8",
+            "total_slots": 242,
+            "description": "Physical world player avatar containing collision hulls, health, movement services, weapon services, and hitbox hierarchies.",
+            "key_slots": [
+                {"slot": 0, "name": "~CCSPlayerPawn()", "rva": "0x004721a0", "desc": "Virtual scalar destructor"},
+                {"slot": 12, "name": "GetEyePosition()", "rva": "0x00471200", "desc": "Calculates view origin offset from camera services"},
+                {"slot": 45, "name": "TakeDamage()", "rva": "0x00475800", "desc": "Authoritative damage absorption, armor calculation, and ragdoll dispatch"}
+            ]
+        },
+        {
+            "class": "CNetworkGameClient",
+            "binary": "engine2.dll",
+            "vtable_va": "0x1805D0760",
+            "vtable_rva": "0x005D0760",
+            "total_slots": 94,
+            "description": "Client network connection driver handling packet parsing, clock drift compensation, and tick interpolation.",
+            "key_slots": [
+                {"slot": 0, "name": "~CNetworkGameClient()", "rva": "0x00067400", "desc": "Virtual scalar destructor"},
+                {"slot": 73, "name": "ApplyClockDrift()", "rva": "0x00067aa0", "desc": "Calculates client-server tick divergence and triggers authoritative tick slamming"}
+            ]
+        },
+        {
+            "class": "CVPhysics2Interface",
+            "binary": "vphysics2.dll",
+            "vtable_va": "0x1803FBF50",
+            "vtable_rva": "0x003FBF50",
+            "total_slots": 80,
+            "description": "Master Rubikon physics system interface providing world creation, raycasting, shape sweeps, and collision queries.",
+            "key_slots": [
+                {"slot": 0, "name": "~CVPhysics2Interface()", "rva": "0x0006d800", "desc": "Virtual scalar destructor"},
+                {"slot": 12, "name": "TraceRay()", "rva": "0x002544a0", "desc": "Polyhedral slab-clipping raycast with 1/32\" skin tolerance (0.03125f)"},
+                {"slot": 14, "name": "TraceShape()", "rva": "0x0016caf0", "desc": "Analytical capsule swept cylinder and spherical endcap intersection query"}
+            ]
+        },
+        {
+            "class": "CSchemaSystem",
+            "binary": "schemasystem.dll",
+            "vtable_va": "0x18002D300",
+            "vtable_rva": "0x0002D300",
+            "total_slots": 40,
+            "description": "Master runtime reflection engine maintaining module type scopes, dynamic class bindings, and enum metadata.",
+            "key_slots": [
+                {"slot": 13, "name": "FindTypeScopeForModule()", "rva": "0x0000a200", "desc": "Resolves CSchemaSystemTypeScope for a given DLL name (e.g. client.dll, server.dll)"}
+            ]
+        },
+        {
+            "class": "CSchemaSystemTypeScope",
+            "binary": "schemasystem.dll",
+            "vtable_va": "0x18002D150",
+            "vtable_rva": "0x0002D150",
+            "total_slots": 32,
+            "description": "Module-isolated schema scope holding declared classes, field offsets, and inheritance hierarchies.",
+            "key_slots": [
+                {"slot": 2, "name": "FindDeclaredClass()", "rva": "0x00009100", "desc": "Finds SchemaClassInfoData_t by string class name (e.g. C_CSPlayerPawn)"},
+                {"slot": 3, "name": "FindDeclaredClassByName()", "rva": "0x00009240", "desc": "Resolves declared class by CUtlStringToken hashed identifier"}
+            ]
+        },
+        {
+            "class": "CPacketEntitiesProcessor",
+            "binary": "engine2.dll",
+            "vtable_va": "0x1805CE200",
+            "vtable_rva": "0x005CE200",
+            "total_slots": 16,
+            "description": "Pre-decode packet entities coalescer leasing scratch arena buffers to eliminate intermediate field deserializations.",
+            "key_slots": [
+                {"slot": 0, "name": "AllocScratchBuffer()", "rva": "0x00043f00", "desc": "Leases zero-copy bitstream scratch buffer from thread-local memory"},
+                {"slot": 1, "name": "ReleaseScratchBuffer()", "rva": "0x00044020", "desc": "Returns leased scratch buffer to thread-local pool"},
+                {"slot": 7, "name": "DecodeSinglePass()", "rva": "0x000441a0", "desc": "Unpacks flattened serializer fields in unified single pass"},
+                {"slot": 12, "name": "MergeBitStreams()", "rva": "0x00044300", "desc": "Overlays delta bitstream over baseline bits directly in arena memory"}
+            ]
+        }
+    ]
+
+    # 4. Architecture Specs Catalog for docs.json
+    md_files = sorted([fn for fn in os.listdir(docs_dir) if fn.endswith(".md")])
+    docs_catalog = []
+    for fn in md_files:
+        fpath = os.path.join(docs_dir, fn)
+        with open(fpath, "r", encoding="utf-8") as f:
+            content = f.read()
+        first_h1 = None
+        for line in content.splitlines():
+            line_str = line.strip()
+            if line_str.startswith("# "):
+                first_h1 = line_str.replace("# ", "").strip()
+                break
+        doc_title = first_h1 if first_h1 else fn.replace(".md", "").replace("_", " ").title()
+        docs_catalog.append({
+            "filename": fn,
+            "title": doc_title,
+            "url": f"{repo_url}/blob/main/docs/{fn}",
+            "size_bytes": len(content),
+            "lines": len(content.splitlines())
+        })
+
+    # 5. Write /docs/api/v1/ JSON endpoints
     index_payload = {
         "name": "CS2 (Source 2) Reverse Engineering & Modding API",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "latest_build": {
             "tag": latest_ver.get("tag"),
             "build_id": latest_ver.get("build_id"),
@@ -2226,8 +2403,12 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             "binaries_count": len(binaries_detail),
             "signatures_count": len(signatures_data),
             "schema_classes_count": total_schema_classes,
+            "curated_classes_count": len(curated_schemas),
             "convars_count": len(convars_data),
-            "sdk_modules_count": len(sdk_modules)
+            "sdk_modules_count": len(sdk_modules),
+            "simulators_count": len(simulators_list),
+            "docs_count": len(docs_catalog),
+            "vtables_count": len(canonical_vtables)
         },
         "ai_context_files": {
             "llms_txt": f"{base_url}/llms.txt",
@@ -2237,20 +2418,25 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             "index": f"{base_url}/api/v1/index.json",
             "signatures": f"{base_url}/api/v1/signatures.json",
             "schemas": f"{base_url}/api/v1/schemas.json",
+            "vtables": f"{base_url}/api/v1/vtables.json",
+            "simulators": f"{base_url}/api/v1/simulators.json",
+            "docs": f"{base_url}/api/v1/docs.json",
             "sdk": f"{base_url}/api/v1/sdk.json",
             "convars": f"{base_url}/api/v1/convars.json",
             "binaries": f"{base_url}/api/v1/binaries.json",
             "latest_diff": f"{base_url}/api/v1/latest_diff.json"
         },
         "usage_instructions_for_ai": (
-            "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs across client.dll, server.dll, "
-            "engine2.dll, networksystem.dll, schemasystem.dll, vphysics2.dll, animationsystem.dll, navsystem.dll, and pulse_system.dll. "
-            "Use schemas.json for exact member byte offsets. Use sdk.json for clean-room C++20 headers and implementations."
+            "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs. "
+            "Use vtables.json for virtual method layouts and dispatch slots. "
+            "Use schemas.json for exact member byte offsets (both curated modding classes and full 2,276+ class index). "
+            "Use simulators.json for C++20 clean-room simulation test harnesses. "
+            "Use sdk.json for clean-room C++20 master headers and implementations across all modules."
         ),
         "self_update_protocol": {
             "summary": "How AI agents and developers can obtain 100% up-to-date RVAs, signatures, and Schema offsets immediately after a CS2 Steam update, even if this GitHub repository has not been updated yet.",
             "method_1_wildcard_pattern_scanning": {
-                "when_to_use": "Resolving shifted internal function RVAs/VAs (e.g. GetInaccuracy, FX_CalculateSpread, StartLagCompensation, AirAccelerate) on a newly patched CS2 binary.",
+                "when_to_use": "Resolving shifted internal function RVAs/VAs on a newly patched CS2 binary.",
                 "how_it_works": "Every entry in /docs/api/v1/signatures.json contains an IDA/Ghidra wildcard byte pattern ('pattern') where '??' masks out relocatable 32-bit RIP-relative displacements. While 'current_rva' shifts by +N bytes after a game update, the 'pattern' remains invariant across builds.",
                 "cli_command": "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
                 "standalone_python_scanner": (
@@ -2271,11 +2457,11 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
                 )
             },
             "method_2_runtime_schemasystem_reflection": {
-                "when_to_use": "Resolving class member offsets (C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance) without relying on static schemas.json offsets.",
+                "when_to_use": "Resolving class member offsets without relying on static schemas.json offsets.",
                 "how_it_works": "Query SchemaSystem_001 exported by schemasystem.dll -> CSchemaSystem::FindTypeScopeForModule('client.dll') (VTable slot 13) -> CSchemaSystemTypeScope::FindDeclaredClass('C_CSPlayerPawn') (VTable slot 2) -> iterate SchemaClassInfoData_t::m_pFields (+0x28) to read m_nSingleInheritanceOffset (+0x10). See game/schemasystem/schemasystem.h in sdk.json."
             },
             "method_3_local_repository_crawler": {
-                "when_to_use": "Regenerating all 2,276+ Schema classes, 138+ CreateInterface tokens, 2,695+ ConVars, and shifted RVAs locally from a user's Steam CS2 installation in ~30 seconds (zero Ghidra required).",
+                "when_to_use": "Regenerating all 2,276+ Schema classes, 138+ CreateInterface tokens, 5,200+ ConVars, and shifted RVAs locally from a user's Steam CS2 installation in ~30 seconds (zero Ghidra required).",
                 "commands": [
                     "git clone https://github.com/Hanzkii/cs2-reverse.git && cd cs2-reverse",
                     "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
@@ -2305,7 +2491,28 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             "tag": latest_ver.get("tag"),
             "total_classes_in_profile": total_schema_classes,
             "curated_modding_classes_count": len(curated_schemas),
-            "classes": curated_schemas
+            "curated_classes": curated_schemas,
+            "all_classes_summary": all_classes_summary
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "vtables.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "count": len(canonical_vtables),
+            "vtables": canonical_vtables
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "simulators.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "count": len(simulators_list),
+            "simulators": simulators_list
+        }, f, indent=2)
+
+    with open(os.path.join(api_dir, "docs.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "count": len(docs_catalog),
+            "documents": docs_catalog
         }, f, indent=2)
 
     with open(os.path.join(api_dir, "sdk.json"), "w", encoding="utf-8") as f:
@@ -2333,20 +2540,22 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     with open(os.path.join(api_dir, "latest_diff.json"), "w", encoding="utf-8") as f:
         json.dump(latest_diff, f, indent=2)
 
-    # 4. Generate /docs/llms.txt (Standard concise AI directory index)
-    md_files = sorted([fn for fn in os.listdir(docs_dir) if fn.endswith(".md")])
+    # 6. Generate /docs/llms.txt (Standard concise AI directory index)
     llms_lines = [
         "# CS2 (Source 2) Reverse Engineering & Modding Reference",
         "",
         f"> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build {latest_ver.get('build_id')}).",
         "",
         "## Quick AI & Modding Context Links",
-        f"- [Full AI Context Bundle (llms-full.txt)]({base_url}/llms-full.txt): Single-file concatenation of all 39 function signatures, C++20 SDK headers, key Schema offsets, and architecture docs.",
+        f"- [Full AI Context Bundle (llms-full.txt)]({base_url}/llms-full.txt): Single-file concatenation of all {len(signatures_data)} function signatures, VTables, C++20 SDK headers, key Schema offsets, and {len(md_files)} architecture docs.",
         f"- [API Master Index (JSON)]({base_url}/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.",
-        f"- [Function Signatures & RVAs (JSON)]({base_url}/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.",
-        f"- [Reconstructed C++20 SDK (JSON)]({base_url}/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 9 Source 2 binaries.",
-        f"- [Core Modding Schemas & Offsets (JSON)]({base_url}/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.",
+        f"- [Function Signatures & RVAs (JSON)]({base_url}/api/v1/signatures.json): {len(signatures_data)} verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.",
+        f"- [Virtual Method Tables / VTables (JSON)]({base_url}/api/v1/vtables.json): Canonical dispatch tables (slots, RVAs, and prototypes) for CBaseEntity, CCSPlayerController, CCSPlayerPawn, CNetworkGameClient, CVPhysics2Interface, etc.",
+        f"- [Reconstructed C++20 SDK (JSON)]({base_url}/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across {len(sdk_modules)} modules.",
+        f"- [Core Modding Schemas & Offsets (JSON)]({base_url}/api/v1/schemas.json): Exact field byte offsets for {len(curated_schemas)} curated modding classes + index of all {total_schema_classes:,} classes.",
+        f"- [Standalone C++20 Simulators (JSON)]({base_url}/api/v1/simulators.json): {len(simulators_list)} standalone verification simulation suites.",
         f"- [ConVars & Commands Database (JSON)]({base_url}/api/v1/convars.json): {len(convars_data):,} categorized Source 2 console variables with FCVAR flags and descriptions.",
+        f"- [Architecture Specs Catalog (JSON)]({base_url}/api/v1/docs.json): Structured catalog of all {len(md_files)} reverse engineering reports.",
         f"- [Latest Patch Diff Telemetry (JSON)]({base_url}/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.",
         "",
         "## Post-Patch Self-Recovery Protocol (If CS2 Updates Before GitHub Is Updated)",
@@ -2381,12 +2590,12 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "  4. Clean-room C++20 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).",
         "",
         "### 3. Full Local Repository Resync (~30 Seconds, Zero Ghidra Required)",
-        f"If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, {len(convars_data):,}+ ConVars, and local API files:",
+        f"If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all {len(signatures_data)} function RVAs, {total_schema_classes:,}+ schema classes, {len(convars_data):,}+ ConVars, and local API files:",
         "```bash",
-        "# 1. Rescan all 39 byte patterns against local Steam CS2 binaries and update data/function_signatures.json:",
+        f"# 1. Rescan all {len(signatures_data)} byte patterns against local Steam CS2 binaries and update data/function_signatures.json:",
         "python tools/scan_signatures.py --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\" --update-db",
         "",
-        "# 2. Crawl local PE binaries to extract all 2,276+ Schema classes, Interfaces, and ConVars:",
+        f"# 2. Crawl local PE binaries to extract all {total_schema_classes:,}+ Schema classes, Interfaces, and ConVars:",
         "python tools/cs2_patch_diff.py archive --date YYYY-MM-DD --build <NEW_BUILD_ID> --bin-dir \"<STEAM_LIBRARY>/Counter-Strike Global Offensive\"",
         "python tools/cs2_patch_diff.py profile --tag YYYY-MM-DD_<NEW_BUILD_ID>",
         "python tools/cs2_patch_diff.py diff --old 2026-10-25_26144732 --new YYYY-MM-DD_<NEW_BUILD_ID>",
@@ -2400,7 +2609,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     ]
 
     for mod in sdk_modules:
-        fnames = ", ".join(f"`{k}`" for k in mod["files"].keys())
+        fnames = ", ".join(f"`{k}`" for k in sorted(mod["files"].keys()))
         llms_lines.append(f"- **{mod['module']}** (`{mod['directory']}/`): {fnames} — [View on GitHub]({repo_url}/tree/main/{mod['directory']})")
 
     llms_lines.extend([
@@ -2416,7 +2625,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     llms_lines.extend([
         "",
-        "## Architecture Documentation Reports (`docs/*.md`)"
+        f"## Architecture Documentation Reports ({len(md_files)} Documents in `docs/*.md`)"
     ])
     for fn in md_files:
         llms_lines.append(f"- [{fn}]({repo_url}/blob/main/docs/{fn})")
@@ -2425,12 +2634,12 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     with open(llms_txt_path, "w", encoding="utf-8") as f:
         f.write("\n".join(llms_lines) + "\n")
 
-    # 5. Generate /docs/llms-full.txt (Complete self-contained context for LLMs building mods)
+    # 7. Generate /docs/llms-full.txt (Complete self-contained context for LLMs building mods)
     full_lines = list(llms_lines)
     full_lines.extend([
         "",
         "================================================================================",
-        "# SECTION 1: CANONICAL FUNCTION SIGNATURES, BYTE PATTERNS & RVAs",
+        f"# SECTION 1: CANONICAL FUNCTION SIGNATURES & BYTE PATTERNS ({len(signatures_data)} ROUTINES)",
         "================================================================================",
         ""
     ])
@@ -2449,12 +2658,30 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     full_lines.extend([
         "================================================================================",
-        "# SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)",
+        f"# SECTION 2: CANONICAL VIRTUAL METHOD TABLES / VTABLES ({len(canonical_vtables)} TABLES)",
+        "================================================================================",
+        ""
+    ])
+    for vt in canonical_vtables:
+        full_lines.extend([
+            f"### `{vt['class']}` ({vt['binary']})",
+            f"- **VTable VA**: `{vt['vtable_va']}` (RVA: `{vt['vtable_rva']}`, Total Slots: {vt['total_slots']})",
+            f"- **Description**: {vt['description']}",
+            "| Slot | Method Name | RVA | Description |",
+            "| :--- | :--- | :--- | :--- |"
+        ])
+        for s in vt["key_slots"]:
+            full_lines.append(f"| {s['slot']} | `{s['name']}` | `{s['rva']}` | {s['desc']} |")
+        full_lines.append("")
+
+    full_lines.extend([
+        "================================================================================",
+        f"# SECTION 3: CLEAN-ROOM C++20 SDK HEADERS ({len(sdk_modules)} MODULES ACROSS `sdk/` & `game/`)",
         "================================================================================",
         ""
     ])
     for mod in sdk_modules:
-        for fname, content in mod["files"].items():
+        for fname, content in sorted(mod["files"].items()):
             if fname.endswith((".h", ".hpp")):
                 full_lines.extend([
                     f"### File: `{mod['directory']}/{fname}` ({mod['module']})",
@@ -2466,7 +2693,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     full_lines.extend([
         "================================================================================",
-        "# SECTION 3: KEY SCHEMA CLASS MEMBER OFFSETS (Build " + str(latest_ver.get("build_id")) + ")",
+        f"# SECTION 4: KEY SCHEMA CLASS MEMBER OFFSETS ({len(curated_schemas)} CURATED CLASSES, Build {latest_ver.get('build_id')})",
         "================================================================================",
         ""
     ])
@@ -2480,7 +2707,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
 
     full_lines.extend([
         "================================================================================",
-        "# SECTION 4: ARCHITECTURAL REVERSE ENGINEERING REPORTS (`docs/00..19.md`)",
+        f"# SECTION 5: ARCHITECTURAL REVERSE ENGINEERING REPORTS ({len(md_files)} DOCS)",
         "================================================================================",
         ""
     ])

@@ -3,12 +3,15 @@
 > Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26598758).
 
 ## Quick AI & Modding Context Links
-- [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 39 function signatures, C++20 SDK headers, key Schema offsets, and architecture docs.
+- [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 92 function signatures, VTables, C++20 SDK headers, key Schema offsets, and 40 architecture docs.
 - [API Master Index (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.
-- [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 39 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
-- [Reconstructed C++20 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 9 Source 2 binaries.
-- [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for C_CSPlayerPawn, CCSPlayerController, C_CSWeaponBase, CSkeletonInstance, and CSmokeGrenadeProjectile.
+- [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 92 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
+- [Virtual Method Tables / VTables (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/vtables.json): Canonical dispatch tables (slots, RVAs, and prototypes) for CBaseEntity, CCSPlayerController, CCSPlayerPawn, CNetworkGameClient, CVPhysics2Interface, etc.
+- [Reconstructed C++20 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 27 modules.
+- [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for 48 curated modding classes + index of all 2,276 classes.
+- [Standalone C++20 Simulators (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/simulators.json): 18 standalone verification simulation suites.
 - [ConVars & Commands Database (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json): 4,802 categorized Source 2 console variables with FCVAR flags and descriptions.
+- [Architecture Specs Catalog (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/docs.json): Structured catalog of all 40 reverse engineering reports.
 - [Latest Patch Diff Telemetry (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.
 
 ## Post-Patch Self-Recovery Protocol (If CS2 Updates Before GitHub Is Updated)
@@ -43,9 +46,9 @@ def resolve_new_rva(dll_path: str, ida_pattern: str):
   4. Clean-room C++20 headers are provided in `game/schemasystem/schemasystem.h` and `game/interfaces/schemasystem_interface.h` (inside `sdk.json` and `llms-full.txt`).
 
 ### 3. Full Local Repository Resync (~30 Seconds, Zero Ghidra Required)
-If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 39 function RVAs, 2,276+ schema classes, 4,802+ ConVars, and local API files:
+If you have shell access to the user's machine with CS2 installed (`<STEAM_LIBRARY>/Counter-Strike Global Offensive`), clone the repo and run the static PE crawlers to regenerate all 92 function RVAs, 2,276+ schema classes, 4,802+ ConVars, and local API files:
 ```bash
-# 1. Rescan all 39 byte patterns against local Steam CS2 binaries and update data/function_signatures.json:
+# 1. Rescan all 92 byte patterns against local Steam CS2 binaries and update data/function_signatures.json:
 python tools/scan_signatures.py --bin-dir "<STEAM_LIBRARY>/Counter-Strike Global Offensive" --update-db
 
 # 2. Crawl local PE binaries to extract all 2,276+ Schema classes, Interfaces, and ConVars:
@@ -60,6 +63,12 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ## Reconstructed C++20 Modding SDK (`sdk/` & `game/`)
 - **cs2_sdk** (`sdk/`): `client_classes.hpp`, `cs2_sdk.hpp`, `entity_system.hpp`, `game_bridge.hpp`, `input_usercmd.hpp`, `interfaces_registry.hpp`, `item_schema.hpp`, `navmesh.hpp`, `netmessages.hpp`, `panorama.hpp`, `render_scene_material.hpp`, `schema_system.hpp`, `trace_events_aux.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk)
+- **sdk::client** (`sdk/include/client/`): `gpu_culling.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk/include/client)
+- **sdk::engine** (`sdk/include/engine/`): `clock_drift.hpp`, `parallel_snapshot.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk/include/engine)
+- **sdk::network** (`sdk/include/network/`): `packet_entities_coalescer.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk/include/network)
+- **sdk::panorama** (`sdk/include/panorama/`): `cuiengine.hpp`, `cuipanel.hpp`, `event_pipeline.hpp`, `js_bridge.hpp`, `panorama.hpp`, `ui_components.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk/include/panorama)
+- **sdk::physics** (`sdk/include/physics/`): `rubikon_ccd.hpp`, `rubikon_gjk.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk/include/physics)
+- **sdk::server** (`sdk/include/server/`): `baseentity.hpp`, `player_controller.hpp` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/sdk/include/server)
 - **animationsystem.dll** (`game/animationsystem/`): `animgraph_blender.cpp`, `animgraph_blender.h`, `two_bone_ik.cpp`, `two_bone_ik.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/animationsystem)
 - **client.dll** (`game/client/`): `bone_setup.cpp`, `bone_setup.h`, `entity_system.cpp`, `entity_system.h`, `gpu_culling.h`, `inventory_schema.cpp`, `inventory_schema.h`, `movement.cpp`, `movement.h`, `subtick_prediction.cpp`, `subtick_prediction.h`, `usercmd_wire.cpp`, `usercmd_wire.h`, `viewmatrix.cpp`, `viewmatrix.h`, `weapon_accuracy.cpp`, `weapon_accuracy.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/client)
 - **engine.dll** (`game/engine/`): `clock_drift.cpp`, `clock_drift.h`, `parallel_snapshot.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/engine)
@@ -76,7 +85,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **scenesystem.dll** (`game/scenesystem/`): `scene_system.cpp`, `scene_system.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/scenesystem)
 - **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
 - **server.dll** (`game/server/`): `baseentity.h`, `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h`, `player_controller.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
-- **shared** (`game/shared/`): `entity_handle.h`, `hitbox.h`, `math_types.h`, `ray_trace.h`, `skeleton.h`, `usercmd.h`, `weapon_vdata.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/shared)
+- **shared** (`game/shared/`): `entity_handle.h`, `hitbox.h`, `math_types.h`, `ray_trace.h`, `schema_classes/CBaseAnimGraph.h`, `schema_classes/CBaseEntity.h`, `schema_classes/CBaseModelEntity.h`, `schema_classes/CBasePlayerController.h`, `schema_classes/CCSPlayerController.h`, `schema_classes/CEntityInstance.h`, `schema_classes/CGameSceneNode.h`, `schema_classes/C_BaseCSGrenadeProjectile.h`, `schema_classes/C_BaseCombatCharacter.h`, `schema_classes/C_BaseEntity.h`, `schema_classes/C_BaseGrenade.h`, `schema_classes/C_BaseModelEntity.h`, `schema_classes/C_BasePlayerPawn.h`, `schema_classes/C_BasePlayerWeapon.h`, `schema_classes/C_CSPlayerPawn.h`, `schema_classes/C_CSPlayerPawnBase.h`, `schema_classes/C_CSWeaponBase.h`, `schema_classes/C_EconEntity.h`, `schema_classes/C_PlantedC4.h`, `schema_classes/C_SmokeGrenadeProjectile.h`, `schema_classes/schema_classes.h`, `schema_classes/schema_types.h`, `skeleton.h`, `usercmd.h`, `weapon_vdata.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/shared)
 - **soundsystem.dll** (`game/soundsystem/`): `sound_ops.cpp`, `sound_ops.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/soundsystem)
 - **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
 - **vphysics2.dll** (`game/vphysics2/`): `rubikon_collision.cpp`, `rubikon_collision.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/vphysics2)
@@ -177,7 +186,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `server.dll` | `CBaseEntity::Activate` | `0x00cd1c70` | `0x180cd1c70` | Gameplay & Entities |
 | `server.dll` | `CBaseEntity::SetNextThink` | `0x003e8590` | `0x1803e8590` | Gameplay & Entities |
 
-## Architecture Documentation Reports (`docs/*.md`)
+## Architecture Documentation Reports (40 Documents in `docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
 - [01_network_framing.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/01_network_framing.md)
 - [02_flattened_serializers.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/02_flattened_serializers.md)

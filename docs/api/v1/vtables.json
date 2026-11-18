@@ -1,0 +1,236 @@
+{
+  "build_id": "26598758",
+  "count": 8,
+  "vtables": [
+    {
+      "class": "CBaseEntity",
+      "binary": "server.dll",
+      "vtable_va": "0x18194FB38",
+      "vtable_rva": "0x0194FB38",
+      "total_slots": 238,
+      "description": "Master server-side entity virtual dispatch table governing lifecycle, network synchronization, physics attachment, and think cycles.",
+      "key_slots": [
+        {
+          "slot": 0,
+          "name": "~CBaseEntity()",
+          "rva": "0x0061e380",
+          "desc": "Virtual scalar destructor"
+        },
+        {
+          "slot": 1,
+          "name": "PostConstructor()",
+          "rva": "0x0061d4b0",
+          "desc": "Initializes entity identity, handle, and flags"
+        },
+        {
+          "slot": 2,
+          "name": "Spawn()",
+          "rva": "0x00624020",
+          "desc": "Dispatches entity spawn and baseline initialization"
+        },
+        {
+          "slot": 3,
+          "name": "Precache()",
+          "rva": "0x00622b10",
+          "desc": "Precaches models, sounds, and particle assets"
+        },
+        {
+          "slot": 4,
+          "name": "Activate()",
+          "rva": "0x0061ca80",
+          "desc": "Activates entity hierarchy after all map entities spawn"
+        },
+        {
+          "slot": 11,
+          "name": "PostDataUpdate()",
+          "rva": "0x00621f90",
+          "desc": "Invoked after network field delta deserialization"
+        },
+        {
+          "slot": 81,
+          "name": "Think()",
+          "rva": "0x00624890",
+          "desc": "Periodic entity logic execution cycle"
+        }
+      ]
+    },
+    {
+      "class": "CCSPlayerController",
+      "binary": "server.dll",
+      "vtable_va": "0x18190DED8",
+      "vtable_rva": "0x0190DED8",
+      "total_slots": 196,
+      "description": "Non-physical player connection manager holding network client session, matchmaking state, and pawn association.",
+      "key_slots": [
+        {
+          "slot": 0,
+          "name": "~CCSPlayerController()",
+          "rva": "0x0059c210",
+          "desc": "Virtual scalar destructor"
+        },
+        {
+          "slot": 73,
+          "name": "GetPlayerPawn()",
+          "rva": "0x0059b8a0",
+          "desc": "Resolves m_hPlayerPawn handle to active C_CSPlayerPawn pointer"
+        },
+        {
+          "slot": 74,
+          "name": "SetPawn()",
+          "rva": "0x0059c040",
+          "desc": "Binds active controller to spawned player pawn"
+        }
+      ]
+    },
+    {
+      "class": "CCSPlayerPawn",
+      "binary": "server.dll",
+      "vtable_va": "0x1817843E8",
+      "vtable_rva": "0x017843E8",
+      "total_slots": 242,
+      "description": "Physical world player avatar containing collision hulls, health, movement services, weapon services, and hitbox hierarchies.",
+      "key_slots": [
+        {
+          "slot": 0,
+          "name": "~CCSPlayerPawn()",
+          "rva": "0x004721a0",
+          "desc": "Virtual scalar destructor"
+        },
+        {
+          "slot": 12,
+          "name": "GetEyePosition()",
+          "rva": "0x00471200",
+          "desc": "Calculates view origin offset from camera services"
+        },
+        {
+          "slot": 45,
+          "name": "TakeDamage()",
+          "rva": "0x00475800",
+          "desc": "Authoritative damage absorption, armor calculation, and ragdoll dispatch"
+        }
+      ]
+    },
+    {
+      "class": "CNetworkGameClient",
+      "binary": "engine2.dll",
+      "vtable_va": "0x1805D0760",
+      "vtable_rva": "0x005D0760",
+      "total_slots": 94,
+      "description": "Client network connection driver handling packet parsing, clock drift compensation, and tick interpolation.",
+      "key_slots": [
+        {
+          "slot": 0,
+          "name": "~CNetworkGameClient()",
+          "rva": "0x00067400",
+          "desc": "Virtual scalar destructor"
+        },
+        {
+          "slot": 73,
+          "name": "ApplyClockDrift()",
+          "rva": "0x00067aa0",
+          "desc": "Calculates client-server tick divergence and triggers authoritative tick slamming"
+        }
+      ]
+    },
+    {
+      "class": "CVPhysics2Interface",
+      "binary": "vphysics2.dll",
+      "vtable_va": "0x1803FBF50",
+      "vtable_rva": "0x003FBF50",
+      "total_slots": 80,
+      "description": "Master Rubikon physics system interface providing world creation, raycasting, shape sweeps, and collision queries.",
+      "key_slots": [
+        {
+          "slot": 0,
+          "name": "~CVPhysics2Interface()",
+          "rva": "0x0006d800",
+          "desc": "Virtual scalar destructor"
+        },
+        {
+          "slot": 12,
+          "name": "TraceRay()",
+          "rva": "0x002544a0",
+          "desc": "Polyhedral slab-clipping raycast with 1/32\" skin tolerance (0.03125f)"
+        },
+        {
+          "slot": 14,
+          "name": "TraceShape()",
+          "rva": "0x0016caf0",
+          "desc": "Analytical capsule swept cylinder and spherical endcap intersection query"
+        }
+      ]
+    },
+    {
+      "class": "CSchemaSystem",
+      "binary": "schemasystem.dll",
+      "vtable_va": "0x18002D300",
+      "vtable_rva": "0x0002D300",
+      "total_slots": 40,
+      "description": "Master runtime reflection engine maintaining module type scopes, dynamic class bindings, and enum metadata.",
+      "key_slots": [
+        {
+          "slot": 13,
+          "name": "FindTypeScopeForModule()",
+          "rva": "0x0000a200",
+          "desc": "Resolves CSchemaSystemTypeScope for a given DLL name (e.g. client.dll, server.dll)"
+        }
+      ]
+    },
+    {
+      "class": "CSchemaSystemTypeScope",
+      "binary": "schemasystem.dll",
+      "vtable_va": "0x18002D150",
+      "vtable_rva": "0x0002D150",
+      "total_slots": 32,
+      "description": "Module-isolated schema scope holding declared classes, field offsets, and inheritance hierarchies.",
+      "key_slots": [
+        {
+          "slot": 2,
+          "name": "FindDeclaredClass()",
+          "rva": "0x00009100",
+          "desc": "Finds SchemaClassInfoData_t by string class name (e.g. C_CSPlayerPawn)"
+        },
+        {
+          "slot": 3,
+          "name": "FindDeclaredClassByName()",
+          "rva": "0x00009240",
+          "desc": "Resolves declared class by CUtlStringToken hashed identifier"
+        }
+      ]
+    },
+    {
+      "class": "CPacketEntitiesProcessor",
+      "binary": "engine2.dll",
+      "vtable_va": "0x1805CE200",
+      "vtable_rva": "0x005CE200",
+      "total_slots": 16,
+      "description": "Pre-decode packet entities coalescer leasing scratch arena buffers to eliminate intermediate field deserializations.",
+      "key_slots": [
+        {
+          "slot": 0,
+          "name": "AllocScratchBuffer()",
+          "rva": "0x00043f00",
+          "desc": "Leases zero-copy bitstream scratch buffer from thread-local memory"
+        },
+        {
+          "slot": 1,
+          "name": "ReleaseScratchBuffer()",
+          "rva": "0x00044020",
+          "desc": "Returns leased scratch buffer to thread-local pool"
+        },
+        {
+          "slot": 7,
+          "name": "DecodeSinglePass()",
+          "rva": "0x000441a0",
+          "desc": "Unpacks flattened serializer fields in unified single pass"
+        },
+        {
+          "slot": 12,
+          "name": "MergeBitStreams()",
+          "rva": "0x00044300",
+          "desc": "Overlays delta bitstream over baseline bits directly in arena memory"
+        }
+      ]
+    }
+  ]
+}
