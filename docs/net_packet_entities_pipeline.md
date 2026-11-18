@@ -244,8 +244,8 @@ When `cl_parallel_readpacketentities` is enabled and the number of parsed entity
 ## 6. Pure C++20 Reference Simulator & Benchmark
 
 A complete, self-contained reference implementation is provided in:
-- [packet_entities_merge_sim.cpp](file:///docs/simulators/packet_entities_merge_sim.cpp)
-- [build_packet_entities_merge_sim.bat](file:///docs/simulators/build_packet_entities_merge_sim.bat)
+- [packet_entities_merge_sim.cpp](simulators/packet_entities_merge_sim.cpp)
+- [build_packet_entities_merge_sim.bat](simulators/build_packet_entities_merge_sim.bat)
 
 ### Synthetic Benchmark Verification (4,096 Replicated Entities)
 Compiled with MSVC x64 `/O2 /std:c++20 /EHsc`:

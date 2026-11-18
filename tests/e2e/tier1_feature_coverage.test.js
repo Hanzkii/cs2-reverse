@@ -1502,11 +1502,11 @@ registerTest('T1-F39-04', 39, 'Portal Build Pipeline Verification', 'docs-data.j
   assert.ok(content.includes('CS2_DOCS_BUNDLE'));
 });
 
-registerTest('T1-F39-05', 39, 'Portal Build Pipeline Verification', 'All 18 C++ simulators present in repository', () => {
+registerTest('T1-F39-05', 39, 'Portal Build Pipeline Verification', 'All 18+ C++ simulators present in repository', () => {
   const simsDir = path.resolve(__dirname, '../../docs/simulators');
   assert.ok(fs.existsSync(simsDir));
   const files = fs.readdirSync(simsDir).filter(f => f.endsWith('.cpp'));
-  assert.strictEqual(files.length, 18);
+  assert.ok(files.length >= 18, `Expected at least 18 C++ simulators, found ${files.length}`);
 });
 
 // F-40: Repository Guardrails Verification

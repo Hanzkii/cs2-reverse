@@ -153,8 +153,8 @@ Compare the previous baseline against the newly extracted build:
 python tools/cs2_patch_diff.py diff 2026-10-15_25966348 2026-10-22_26011420
 ```
 This generates:
-- `versions/diffs/diff_2026-10-15_25966348_vs_2026-10-22_26011420.json` (Structured JSON)
-- `versions/diffs/diff_2026-10-15_25966348_vs_2026-10-22_26011420.md` (Formatted Markdown report)
+- `versions/diffs/diff_2026-10-15_25966348_vs_2026-10-21_26087496.json` (Structured JSON)
+- `versions/diffs/diff_2026-10-15_25966348_vs_2026-10-21_26087496.md` (Formatted Markdown report)
 
 ### Step 3: Review High-Impact Deltas
 Check the generated Markdown report:
