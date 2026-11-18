@@ -106,7 +106,7 @@ sequenceDiagram
     participant ClientCVar as "Client CCvar Registry"
 
     ServerAdmin->>ServerCVar: sv_gravity 500
-    Note over ServerCVar: FCVAR_REPLICATED detected -> Queue for network broadcast
+    Note over ServerCVar: FCVAR_REPLICATED detected - Queue for network broadcast
     ServerCVar->>Wire: Pack CNETMsg_SetConVar (ID 0x06, name="sv_gravity", value="500")
     Wire->>ClientNet: Receive packet in NetChannel
     ClientNet->>ClientCVar: FindVar("sv_gravity")

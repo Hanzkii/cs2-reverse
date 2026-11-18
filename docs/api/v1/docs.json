@@ -47,14 +47,14 @@
       "filename": "06_convar_storage_and_replication.md",
       "title": "Valve Source 2 (CS2) ConVar Registration, Flags & Networked Replication Pipeline",
       "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/06_convar_storage_and_replication.md",
-      "size_bytes": 11131,
+      "size_bytes": 11130,
       "lines": 230
     },
     {
       "filename": "07_camera_and_view_matrix_pipeline.md",
       "title": "Valve Source 2 (CS2) Camera, View Matrix & Recoil Punch Pipeline",
       "url": "https://github.com/Hanzkii/cs2-reverse/blob/main/docs/07_camera_and_view_matrix_pipeline.md",
-      "size_bytes": 9435,
+      "size_bytes": 9436,
       "lines": 184
     },
     {

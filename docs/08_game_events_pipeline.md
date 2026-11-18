@@ -146,7 +146,7 @@ sequenceDiagram
     ServerGEM->>ServerGEM: Lookup EventId (100) from Registry
     ServerGEM->>NetChannel: Pack CSVCMsgList_GameEvents (Tick: 64250, EventId: 100, typed keys)
     NetChannel->>ClientDispatcher: Receive SVC packet
-    ClientDispatcher->>ClientDispatcher: Map EventId 100 -> Descriptor ("player_death")
+    ClientDispatcher->>ClientDispatcher: Map EventId 100 to Descriptor ("player_death")
     ClientDispatcher->>ClientDispatcher: Reconstruct CGameEvent instance
     ClientDispatcher->>Killfeed: IGameEventListener2::FireGameEvent(event)
     Note over Killfeed: Render kill card: s1mple [AK-47 + Headshot] ZywOo

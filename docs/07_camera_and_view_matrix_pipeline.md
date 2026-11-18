@@ -66,16 +66,16 @@ classDiagram
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Pawn as "C_CSPlayerPawn & AimPunch"
+    participant Pawn as "C_CSPlayerPawn and AimPunch"
     participant AngleMath as "FUN_1817402a0 (AngleVectors)"
     participant ViewSetup as "CViewRender::SetUpView (0x180c147b0)"
     participant Viewport as "Screen Viewport (1920x1080)"
 
     Pawn->>AngleMath: Eye Angles + (Punch Angle * 2.0)
-    Note over AngleMath: Converts deg -> rad (0.017453292)<br/>Computes Forward, Right, Up vectors
-    AngleMath->>ViewSetup: Generates View Matrix (World -> View Space)
+    Note over AngleMath: Converts deg to rad (0.017453292)<br/>Computes Forward, Right, Up vectors
+    AngleMath->>ViewSetup: Generates View Matrix (World to View Space)
     ViewSetup->>ViewSetup: Generates Perspective Matrix (FOV & Aspect Ratio)
-    Note over ViewSetup: Multiplies Proj * View -> Global VMatrix (0x18256ad00)
+    Note over ViewSetup: Multiplies Proj * View = Global VMatrix (0x18256ad00)
     ViewSetup->>Viewport: Transforms Target (X, Y, Z, 1) by VMatrix
     Note over Viewport: Perspective Division (x/w, y/w)<br/>Maps NDC [-1, 1] to Pixels (0..1920, 0..1080)
 ```
