@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Source 2 Panorama UI Architecture & HUD Component Preview</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @font-face {
+      font-family: 'Stratum2';
+      src: local('Stratum2'), local('Segoe UI Semibold'), local('Arial Black');
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #07090e;
+      color: #e2e8f0;
+      user-select: none;
+    }
+    .hud-font {
+      font-family: 'Stratum2', 'Segoe UI', monospace;
+      letter-spacing: 0.05em;
+    }
+    .cs2-glass {
+      background: rgba(13, 17, 27, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.15);
+    }
+    .cs2-glass-t {
+      background: rgba(30, 21, 14, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .cs2-glass-ct {
+      background: rgba(12, 25, 44, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .hud-highlight {
+      outline: 2px solid #38bdf8 !important;
+      outline-offset: 2px;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5) !important;
+    }
+    @keyframes pulse-red {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.8)); }
+      50% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.3)); }
+    }
+    .animate-low-health {
+      animation: pulse-red 1s infinite ease-in-out;
+    }
+    @keyframes bomb-flash {
+      0%, 100% { background-color: rgba(220, 38, 38, 0.2); border-color: rgba(239, 68, 68, 0.8); }
+      50% { background-color: rgba(220, 38, 38, 0.05); border-color: rgba(239, 68, 68, 0.3); }
+    }
+    .animate-bomb {
+      animation: bomb-flash 0.8s infinite ease-in-out;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body class="p-3 antialiased min-h-screen flex flex-col">
+
+  <!-- Header Bar -->
+  <header class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-cyan-600/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 font-bold text-lg">
+        S2
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-white flex items-center gap-2">
+          Source 2 Panorama UI Architecture &amp; Component Inspector
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">CS2 Build 2026-10-25</span>
+        </h1>
+        <p class="text-xs text-slate-400">
+          Reverse-Engineered V8 JS / C++20 DOM Engine &bull; Layout Tree Inspector &bull; Live Telemetry &amp; GameEvents Bus
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 text-xs font-mono">
+      <div class="flex items-center gap-1.5 px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>V8 Isolate: <strong class="text-white">Active</strong></span>
+      </div>
+      <div class="flex items-center gap-1.5 px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300">
+        <span class="text-cyan-400">Tick:</span>
+        <span id="headerTick" class="text-white font-bold">27703</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <div class="grid grid-cols-12 gap-4 flex-1">
+
+    <!-- Left 7 Cols: Interactive CS2 Panorama HUD Viewport -->
+    <div class="col-span-12 lg:col-span-8 flex flex-col gap-4">
+
+      <!-- Viewport Frame (Simulating 1920x1080 Viewport) -->
+      <div class="relative rounded-xl border border-slate-800 bg-[#060a12] overflow-hidden shadow-2xl flex flex-col justify-between p-4" style="min-height: 440px;">
+        <!-- Background Grid Simulation -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#38bdf8 1px, transparent 1px); background-size: 24px 24px;"></div>
+
+        <!-- 1. Top HUD: Scoreboard Match Header + Round Timer (CCSGO_GameTimeLabel) -->
+        <div id="panel_top_header" onclick="selectPanel('panel_top_header')" class="cursor-pointer transition-all hover:ring-1 hover:ring-cyan-500/50 relative z-10 flex flex-col items-center">
+          <div class="flex items-center gap-4">
+            <!-- CT Team Card -->
+            <div id="panel_team_ct" onclick="event.stopPropagation(); selectPanel('panel_team_ct')" class="cs2-glass-ct px-4 py-1.5 rounded-l-lg flex items-center gap-3 border-r-2 border-cyan-400 cursor-pointer">
+              <span class="w-2.5 h-2.5 rounded bg-cyan-400"></span>
+              <span class="text-xs font-bold tracking-wider text-cyan-200">COUNTER-TERRORISTS</span>
+              <span id="score_ct" class="text-lg font-black text-white hud-font">8</span>
+            </div>
+
+            <!-- Match Timer & Round (CCSGO_GameTimeLabel) -->
+            <div id="panel_round_timer" onclick="event.stopPropagation(); selectPanel('panel_round_timer')" class="cs2-glass px-5 py-2 rounded-lg flex flex-col items-center border border-slate-700 min-w-[90px] cursor-pointer">
+              <span id="round_timer_label" class="text-xl font-bold text-white hud-font">1:42</span>
+              <span class="text-[9px] uppercase tracking-widest text-slate-400">Round 15</span>
+            </div>
+
+            <!-- T Team Card -->
+            <div id="panel_team_t" onclick="event.stopPropagation(); selectPanel('panel_team_t')" class="cs2-glass-t px-4 py-1.5 rounded-r-lg flex items-center gap-3 border-l-2 border-amber-500 cursor-pointer">
+              <span id="score_t" class="text-lg font-black text-white hud-font">6</span>
+              <span class="text-xs font-bold tracking-wider text-amber-200">TERRORISTS</span>
+              <span class="w-2.5 h-2.5 rounded bg-amber-500"></span>
+            </div>
+          </div>
+
+          <!-- Bomb Alert Banner (Hidden by default, shown when planted) -->
+          <div id="panel_bomb_alert" onclick="event.stopPropagation(); selectPanel('panel_bomb_alert')" class="hidden mt-2 px-4 py-1 rounded bg-rose-950/80 border border-rose-500/50 flex items-center gap-3 animate-bomb">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            <span class="text-xs font-bold text-rose-300 hud-font tracking-wider">C4 DETONATION COUNTDOWN:</span>
+            <span id="bomb_countdown_label" class="text-xs font-mono font-bold text-white">40.0s</span>
+            <div class="w-32 h-2 bg-slate-900 rounded-full overflow-hidden border border-rose-700">
+              <div id="bomb_progress_fill" class="h-full bg-rose-500 transition-all duration-200" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Center Stage: Sub-Tick Actuation Diagnostic Card -->
+        <div id="panel_subtick_card" onclick="selectPanel('panel_subtick_card')" class="cursor-pointer transition-all hover:ring-1 hover:ring-indigo-500/50 mx-auto my-auto w-full max-w-md cs2-glass p-3 rounded-lg border border-indigo-500/30">
+          <div class="flex items-center justify-between text-xs mb-1">
+            <span class="font-bold text-indigo-300 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+              SUB-TICK TIMING WINDOW // 15.625 ms INTERVAL
+            </span>
+            <span id="subtick_ms_label" class="font-mono text-indigo-200 font-bold">12.18 ms</span>
+          </div>
+          <!-- Track & Needle -->
+          <div class="relative w-full h-4 bg-slate-950 rounded border border-slate-700 overflow-hidden my-1.5">
+            <div id="subtick_fill" class="h-full bg-gradient-to-r from-indigo-700 to-cyan-500" style="width: 78%;"></div>
+            <div id="subtick_needle" class="absolute top-0 bottom-0 w-1 bg-white shadow-lg" style="left: 78%;"></div>
+          </div>
+          <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
+            <span>Tick Start (0.0 ms)</span>
+            <span id="subtick_callout" class="text-cyan-300 font-bold">+attack actuation w = 0.780</span>
+            <span>Tick End (15.625 ms)</span>
+          </div>
+        </div>
+
+        <!-- 3. Bottom Row: Left (Health/Armor) + Center (Crosshair) + Right (Weapon/Ammo) -->
+        <div class="flex items-end justify-between relative z-10">
+
+          <!-- Player Status Card (Health & Armor - C_PanoramaProgressBar) -->
+          <div id="panel_player_status" onclick="selectPanel('panel_player_status')" class="cursor-pointer transition-all hover:ring-1 hover:ring-cyan-500/50 cs2-glass p-3 rounded-lg border border-slate-700 min-w-[240px]">
+            <!-- Player Identity -->
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-6 h-6 rounded bg-slate-800 border border-slate-600 flex items-center justify-center text-[10px] font-bold text-cyan-400">
+                P1
+              </div>
+              <span id="player_name_label" class="text-xs font-bold text-white">s1mple // NAVI</span>
+              <span class="ml-auto text-[10px] font-mono text-emerald-400">$12,400</span>
+            </div>
+
+            <!-- Health Bar -->
+            <div class="space-y-1 mb-2">
+              <div class="flex items-center justify-between text-[10px] font-bold">
+                <span class="text-slate-400 flex items-center gap-1">
+                  <svg class="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
+                  HEALTH
+                </span>
+                <span id="health_number" class="text-sm font-bold text-white hud-font">100</span>
+              </div>
+              <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-700">
+                <div id="health_fill" class="h-full bg-emerald-500 transition-all duration-300" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <!-- Armor Bar -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-[10px] font-bold">
+                <span class="text-slate-400 flex items-center gap-1">
+                  <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 00-.707.293l-7 7a1 1 0 000 1.414l7 7a1 1 0 001.414 0l7-7a1 1 0 000-1.414l-7-7A1 1 0 0010 2z" clip-rule="evenodd"></path></svg>
+                  ARMOR
+                </span>
+                <span id="armor_number" class="text-xs font-bold text-cyan-200 hud-font">100</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-700">
+                <div id="armor_fill" class="h-full bg-cyan-500 transition-all duration-300" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Killfeed Toast Area (Top-Right of Viewport) -->
+          <div id="killfeed_container" class="absolute top-3 right-3 flex flex-col gap-1.5 pointer-events-none z-20 w-64">
+            <div id="killfeed_sample" class="cs2-glass px-2.5 py-1 rounded border border-rose-500/30 flex items-center justify-between text-xs font-mono shadow-lg">
+              <span class="text-cyan-400 font-bold">s1mple</span>
+              <span class="px-1.5 py-0.2 rounded bg-slate-800 text-rose-400 text-[10px]">AK-47 🎯</span>
+              <span class="text-amber-400">zywOo</span>
+            </div>
+          </div>
+
+          <!-- Weapon & Ammo Card (Bottom Right) -->
+          <div id="panel_weapon_status" onclick="selectPanel('panel_weapon_status')" class="cursor-pointer transition-all hover:ring-1 hover:ring-cyan-500/50 cs2-glass p-3 rounded-lg border border-slate-700 min-w-[200px] text-right">
+            <div class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-0.5" id="weapon_name_label">
+              AK-47 // RIFLE
+            </div>
+            <div class="flex items-baseline justify-end gap-1.5">
+              <span id="ammo_clip" class="text-3xl font-black text-white hud-font">30</span>
+              <span class="text-slate-500 font-bold text-lg">/</span>
+              <span id="ammo_reserve" class="text-sm font-bold text-slate-400 hud-font">90</span>
+            </div>
+            <div class="flex items-center justify-end gap-2 mt-2 text-[10px] font-mono text-slate-400">
+              <span class="px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700">AUTO</span>
+              <span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">C4 DEFUSE KIT</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Live Controls Deck (Simulation & Event Trigger) -->
+      <div class="cs2-glass p-4 rounded-xl border border-slate-800 space-y-3">
+        <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          Interactive Simulation Deck &bull; Dynamic Telemetry Dispatcher
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+          <!-- Health Slider -->
+          <div class="space-y-1">
+            <label class="flex justify-between text-slate-400">
+              <span>Health (HP)</span>
+              <span id="slider_hp_val" class="font-mono text-white font-bold">100</span>
+            </label>
+            <input type="range" min="0" max="100" value="100" class="w-full accent-cyan-500 cursor-pointer" oninput="updateHealth(this.value)">
+          </div>
+
+          <!-- Armor Slider -->
+          <div class="space-y-1">
+            <label class="flex justify-between text-slate-400">
+              <span>Armor (AP)</span>
+              <span id="slider_ap_val" class="font-mono text-white font-bold">100</span>
+            </label>
+            <input type="range" min="0" max="100" value="100" class="w-full accent-cyan-500 cursor-pointer" oninput="updateArmor(this.value)">
+          </div>
+
+          <!-- Ammo Slider -->
+          <div class="space-y-1">
+            <label class="flex justify-between text-slate-400">
+              <span>Clip Ammo</span>
+              <span id="slider_ammo_val" class="font-mono text-white font-bold">30</span>
+            </label>
+            <input type="range" min="0" max="30" value="30" class="w-full accent-cyan-500 cursor-pointer" oninput="updateAmmo(this.value)">
+          </div>
+
+          <!-- Sub-Tick Fraction Slider -->
+          <div class="space-y-1">
+            <label class="flex justify-between text-slate-400">
+              <span>Sub-Tick Fraction (w)</span>
+              <span id="slider_subtick_val" class="font-mono text-indigo-300 font-bold">0.780</span>
+            </label>
+            <input type="range" min="0" max="1000" value="780" class="w-full accent-indigo-500 cursor-pointer" oninput="updateSubTick(this.value / 1000)">
+          </div>
+        </div>
+
+        <!-- Event Action Buttons -->
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800 text-xs">
+          <button onclick="triggerPlayerHurt()" class="px-3 py-1.5 rounded bg-rose-600/30 hover:bg-rose-600/50 text-rose-200 border border-rose-500/40 font-semibold flex items-center gap-1.5 transition">
+            <span>💥 Fire 'player_hurt' (-27 HP)</span>
+          </button>
+          <button onclick="triggerWeaponFire()" class="px-3 py-1.5 rounded bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 font-semibold flex items-center gap-1.5 transition">
+            <span>🔫 Fire 'weapon_fire'</span>
+          </button>
+          <button onclick="toggleBombPlant()" class="px-3 py-1.5 rounded bg-amber-600/30 hover:bg-amber-600/50 text-amber-200 border border-amber-500/40 font-semibold flex items-center gap-1.5 transition">
+            <span>💣 Toggle Bomb Planted</span>
+          </button>
+          <button onclick="resetHUDState()" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-semibold ml-auto transition">
+            <span>🔄 Reset HUD</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right 5 Cols: Layout Tree Inspector & V8 Console Log -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-4">
+
+      <!-- DOM Layout Hierarchy Tree Inspector -->
+      <div class="cs2-glass p-4 rounded-xl border border-slate-800 flex flex-col" style="max-height: 380px;">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+          <h2 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+            Panorama DOM Layout Tree
+          </h2>
+          <span class="text-[10px] font-mono text-slate-400">CUIPanel 0x300</span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto scrollbar-thin text-xs font-mono space-y-1 pr-1" id="dom_tree_list">
+          <!-- Tree Nodes populated by script -->
+        </div>
+
+        <!-- Selected Node Inspector Panel -->
+        <div id="inspector_panel" class="mt-3 pt-3 border-t border-slate-800 text-[11px] font-mono space-y-1">
+          <div class="flex items-center justify-between text-cyan-300 font-bold">
+            <span id="inspect_type">&lt;Panel&gt;</span>
+            <span id="inspect_id">#panel_subtick_card</span>
+          </div>
+          <div class="text-slate-400">Class: <span id="inspect_class" class="text-indigo-300">.SubTickCard</span></div>
+          <div class="text-slate-400">Bounds: <span id="inspect_bounds" class="text-white">480 x 74 px (+0x1B8)</span></div>
+          <div class="text-slate-400">CPanelStyle: <span id="inspect_style" class="text-emerald-300">Opacity: 1.0 | Flow: Down</span></div>
+        </div>
+      </div>
+
+      <!-- Live V8 Console & Event Bus Stream -->
+      <div class="cs2-glass p-4 rounded-xl border border-slate-800 flex flex-col flex-1" style="min-height: 220px;">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+          <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            V8 Event Bus &bull; $.Msg() Log
+          </h2>
+          <button onclick="clearConsoleLog()" class="text-[10px] text-slate-400 hover:text-white font-mono">Clear</button>
+        </div>
+        <div id="console_output" class="flex-1 overflow-y-auto scrollbar-thin text-[11px] font-mono space-y-1 pr-1 text-slate-300" style="max-height: 200px;">
+          <div class="text-slate-500">[0.000s] $.Msg: Panorama V8 Host context initialized.</div>
+          <div class="text-slate-500">[0.012s] GameEvents.Subscribe: Hooked 'player_hurt' (listener_id=1).</div>
+          <div class="text-slate-500">[0.015s] GameEvents.Subscribe: Hooked 'weapon_fire' (listener_id=2).</div>
+          <div class="text-cyan-400">[0.020s] $.Msg: CUIPanel layout calculation complete (pass=1).</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- JavaScript Engine & Reactive Data Binding -->
+  <script>
+    // State Model
+    const state = {
+      tick: 27703,
+      health: 100,
+      armor: 100,
+      ammo: 30,
+      ammoReserve: 90,
+      subtickFraction: 0.780,
+      bombPlanted: false,
+      bombTimer: 40.0,
+      bombInterval: null,
+      selectedPanelId: 'panel_subtick_card'
+    };
+
+    // DOM Tree Hierarchy Metadata
+    const domTreeData = [
+      { id: 'CSGOHudRoot', type: 'Panel', class: 'ViewportRoot', bounds: '1920 x 1080', style: 'Flow: None', parent: null },
+      { id: 'panel_top_header', type: 'Panel', class: 'TopMatchBar', bounds: '560 x 48', style: 'Flow: Right', parent: 'CSGOHudRoot' },
+      { id: 'panel_team_ct', type: 'Panel', class: 'CTScoreCard', bounds: '220 x 40', style: 'Flow: Right', parent: 'panel_top_header' },
+      { id: 'panel_round_timer', type: 'Label', class: 'GameTimeLabel', bounds: '90 x 48', style: 'Flow: Down', parent: 'panel_top_header' },
+      { id: 'panel_team_t', type: 'Panel', class: 'TScoreCard', bounds: '220 x 40', style: 'Flow: Right', parent: 'panel_top_header' },
+      { id: 'panel_bomb_alert', type: 'Panel', class: 'BombAlertCard', bounds: '340 x 32', style: 'Flow: Right', parent: 'panel_top_header' },
+      { id: 'panel_subtick_card', type: 'Panel', class: 'SubTickCard', bounds: '480 x 74', style: 'Flow: Down', parent: 'CSGOHudRoot' },
+      { id: 'panel_player_status', type: 'Panel', class: 'PlayerStatusCard', bounds: '240 x 96', style: 'Flow: Down', parent: 'CSGOHudRoot' },
+      { id: 'panel_weapon_status', type: 'Panel', class: 'WeaponAmmoCard', bounds: '200 x 96', style: 'Flow: Down', parent: 'CSGOHudRoot' }
+    ];
+
+    function logMsg(prefix, text, colorClass = 'text-slate-300') {
+      const out = document.getElementById('console_output');
+      const time = (performance.now() / 1000).toFixed(3);
+      const row = document.createElement('div');
+      row.className = `${colorClass}`;
+      row.innerHTML = `<span class="text-slate-500">[${time}s]</span> <span class="font-bold">${prefix}:</span> ${text}`;
+      out.appendChild(row);
+      out.scrollTop = out.scrollHeight;
+    }
+
+    function clearConsoleLog() {
+      document.getElementById('console_output').innerHTML = '';
+    }
+
+    function renderDOMTree() {
+      const container = document.getElementById('dom_tree_list');
+      container.innerHTML = '';
+      domTreeData.forEach(node => {
+        const item = document.createElement('div');
+        const isSelected = node.id === state.selectedPanelId;
+        const indent = node.parent ? 'pl-4' : 'pl-0';
+        item.className = `p-1 rounded cursor-pointer transition flex items-center justify-between ${indent} ${isSelected ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/40' : 'hover:bg-slate-800 text-slate-300'}`;
+        item.onclick = (e) => {
+          e.stopPropagation();
+          selectPanel(node.id);
+        };
+        item.innerHTML = `
+          <span>
+            <span class="text-slate-500">&lt;</span><strong class="text-cyan-400">${node.type}</strong> <span class="text-slate-400">id=</span>"${node.id}"<span class="text-slate-500">&gt;</span>
+          </span>
+          <span class="text-[9px] text-slate-500">${node.class}</span>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function selectPanel(panelId) {
+      state.selectedPanelId = panelId;
+      // Remove prior highlights
+      document.querySelectorAll('.hud-highlight').forEach(el => el.classList.remove('hud-highlight'));
+      const target = document.getElementById(panelId);
+      if (target) {
+        target.classList.add('hud-highlight');
+      }
+
+      // Update inspector
+      const node = domTreeData.find(n => n.id === panelId) || { type: 'Panel', id: panelId, class: 'Generic', bounds: 'Auto', style: 'Default' };
+      document.getElementById('inspect_type').textContent = `<${node.type}>`;
+      document.getElementById('inspect_id').textContent = `#${node.id}`;
+      document.getElementById('inspect_class').textContent = `.${node.class}`;
+      document.getElementById('inspect_bounds').textContent = node.bounds;
+      document.getElementById('inspect_style').textContent = node.style;
+
+      renderDOMTree();
+      logMsg('$.Inspect', `Selected CUIPanel #${panelId} (Offset 0x300, VTable: 0x4CCFF8)`, 'text-cyan-300');
+    }
+
+    function updateHealth(val) {
+      state.health = parseInt(val);
+      document.getElementById('slider_hp_val').textContent = state.health;
+      document.getElementById('health_number').textContent = state.health;
+      const fill = document.getElementById('health_fill');
+      fill.style.width = `${state.health}%`;
+
+      const card = document.getElementById('panel_player_status');
+      if (state.health <= 20) {
+        fill.className = 'h-full bg-rose-500 transition-all duration-300 animate-pulse';
+        card.classList.add('animate-low-health');
+      } else {
+        fill.className = 'h-full bg-emerald-500 transition-all duration-300';
+        card.classList.remove('animate-low-health');
+      }
+    }
+
+    function updateArmor(val) {
+      state.armor = parseInt(val);
+      document.getElementById('slider_ap_val').textContent = state.armor;
+      document.getElementById('armor_number').textContent = state.armor;
+      document.getElementById('armor_fill').style.width = `${state.armor}%`;
+    }
+
+    function updateAmmo(val) {
+      state.ammo = parseInt(val);
+      document.getElementById('slider_ammo_val').textContent = state.ammo;
+      document.getElementById('ammo_clip').textContent = state.ammo;
+      const ammoEl = document.getElementById('ammo_clip');
+      if (state.ammo <= 5) {
+        ammoEl.className = 'text-3xl font-black text-rose-500 hud-font animate-pulse';
+      } else {
+        ammoEl.className = 'text-3xl font-black text-white hud-font';
+      }
+    }
+
+    function updateSubTick(w) {
+      state.subtickFraction = parseFloat(w);
+      const ms = (state.subtickFraction * 15.625).toFixed(2);
+      const pct = (state.subtickFraction * 100).toFixed(1);
+
+      document.getElementById('slider_subtick_val').textContent = state.subtickFraction.toFixed(3);
+      document.getElementById('subtick_ms_label').textContent = `${ms} ms`;
+      document.getElementById('subtick_fill').style.width = `${pct}%`;
+      document.getElementById('subtick_needle').style.left = `${pct}%`;
+      document.getElementById('subtick_callout').textContent = `+attack actuation w = ${state.subtickFraction.toFixed(3)}`;
+    }
+
+    function triggerPlayerHurt() {
+      const dmg = 27;
+      const newHp = Math.max(0, state.health - dmg);
+      updateHealth(newHp);
+      state.tick += 1;
+      document.getElementById('headerTick').textContent = state.tick;
+
+      logMsg('GameEvents.Subscribe("player_hurt")', `Victim HP: ${newHp} (-${dmg} dmg) | Hitgroup: 2 (Chest) | Attacker: 3`, 'text-rose-400');
+    }
+
+    function triggerWeaponFire() {
+      if (state.ammo > 0) {
+        updateAmmo(state.ammo - 1);
+      }
+      state.tick += 1;
+      document.getElementById('headerTick').textContent = state.tick;
+
+      // Add Killfeed Sample Toast
+      const kf = document.getElementById('killfeed_container');
+      const toast = document.createElement('div');
+      toast.className = 'cs2-glass px-2.5 py-1 rounded border border-rose-500/30 flex items-center justify-between text-xs font-mono shadow-lg transition-all duration-500';
+      toast.innerHTML = `
+        <span class="text-cyan-400 font-bold">s1mple</span>
+        <span class="px-1.5 py-0.2 rounded bg-slate-800 text-rose-400 text-[10px]">AK-47 🎯</span>
+        <span class="text-amber-400">Player_${Math.floor(Math.random()*100)}</span>
+      `;
+      kf.prepend(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 500);
+      }, 4000);
+
+      logMsg('GameEvents.Subscribe("weapon_fire")', `Weapon: weapon_ak47 | Tick: ${state.tick} | SubTick Fraction: ${state.subtickFraction.toFixed(3)}`, 'text-yellow-300');
+    }
+
+    function toggleBombPlant() {
+      state.bombPlanted = !state.bombPlanted;
+      const alert = document.getElementById('panel_bomb_alert');
+      if (state.bombPlanted) {
+        alert.classList.remove('hidden');
+        state.bombTimer = 40.0;
+        logMsg('GameEvents.Subscribe("bomb_planted")', 'Site: A | Detonation Timer: 40.0s | Defuser required: 10s (5s w/ kit)', 'text-rose-400 font-bold');
+
+        clearInterval(state.bombInterval);
+        state.bombInterval = setInterval(() => {
+          state.bombTimer = Math.max(0, state.bombTimer - 0.2);
+          document.getElementById('bomb_countdown_label').textContent = `${state.bombTimer.toFixed(1)}s`;
+          document.getElementById('bomb_progress_fill').style.width = `${(state.bombTimer / 40.0) * 100}%`;
+          if (state.bombTimer <= 0) {
+            clearInterval(state.bombInterval);
+            logMsg('GameEvents.Subscribe("bomb_exploded")', 'Target detonation successful. Round awarded to Terrorists.', 'text-rose-500 font-bold');
+          }
+        }, 200);
+      } else {
+        alert.classList.add('hidden');
+        clearInterval(state.bombInterval);
+        logMsg('GameEvents.Subscribe("bomb_defused")', 'Bomb defused successfully by Counter-Terrorists.', 'text-emerald-400 font-bold');
+      }
+    }
+
+    function resetHUDState() {
+      updateHealth(100);
+      updateArmor(100);
+      updateAmmo(30);
+      updateSubTick(0.780);
+      if (state.bombPlanted) toggleBombPlant();
+      logMsg('$.Reset', 'HUD state reset to round baseline.', 'text-slate-400');
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      renderDOMTree();
+      selectPanel('panel_subtick_card');
+    });
+  </script>
+</body>
+</html>

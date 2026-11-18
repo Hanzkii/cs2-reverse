@@ -149,6 +149,11 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `networksystem.dll` | `CNetworkMessages::RegisterNetworkCategory` | `0x000e4c80` | `0x1800e4c80` | Networking & Netchan |
 | `animationsystem.dll` | `CAnimationSystem::Init` | `0x00069a00` | `0x180069a00` | Animation & Bones |
 | `inputsystem.dll` | `CInputSystem::Init` | `0x00003240` | `0x180003240` | Input & Subtick |
+| `vphysics2.dll` | `CRnMeshContact::FindTOI` | `0x00302250` | `0x180302250` | Physics & Simulation |
+| `vphysics2.dll` | `CRnConvexContact::FindTOI` | `0x003074d0` | `0x1803074d0` | Physics & Simulation |
+| `vphysics2.dll` | `RnSolveConservativeAdvancement` | `0x002dddd0` | `0x1802dddd0` | Physics & Simulation |
+| `vphysics2.dll` | `RnGJKDistanceSolver` | `0x002d85c0` | `0x1802d85c0` | Physics & Simulation |
+| `vphysics2.dll` | `CGJKProxy::GetVertex` | `0x002dcf10` | `0x1802dcf10` | Physics & Simulation |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)

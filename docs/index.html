@@ -94,10 +94,11 @@
     /* Range Slider User-Select & Pointer Fixes (Prevent 🚫 drag drop cursor) */
     input[type="range"] {
       touch-action: none !important;
-      cursor: pointer !important;
+      cursor: grab !important;
       user-select: none !important;
       -webkit-user-select: none !important;
       -webkit-user-drag: none !important;
+      -moz-user-select: none !important;
     }
     input[type="range"]::-webkit-slider-thumb {
       cursor: grab !important;
@@ -105,6 +106,9 @@
     }
     input[type="range"]:active::-webkit-slider-thumb {
       cursor: grabbing !important;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      cursor: pointer !important;
     }
     input[type="range"]::-moz-range-thumb {
       cursor: grab !important;
@@ -1107,6 +1111,14 @@
   </div>
 
   <script>
+    // Prevent accidental HTML5 drag-and-drop triggers from slider controls (eliminates 🚫 no-drop cursor)
+    window.addEventListener('dragstart', function(e) {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.type === 'range' || (e.target.closest && e.target.closest('input[type="range"]')))) {
+        e.preventDefault();
+        return false;
+      }
+    }, true);
+
     // ========================================================================
     // 1. Data Store Initialization
     // ========================================================================
@@ -4867,7 +4879,14 @@
       const pillsContainer = document.getElementById('simNavPills');
       if (!pillsContainer) return;
       pillsContainer.innerHTML = SIMULATORS_DATA.map(s => {
+        const isPaused = s.id === '15';
         const isActive = s.id === activeId;
+        if (isPaused) {
+          return `<button onclick="openSimulator('${escapeHtml(s.id)}')" id="pillSim${escapeHtml(s.id)}" class="px-2.5 py-1.5 rounded bg-slate-900/60 text-slate-400 border border-amber-500/30 font-mono text-[11px] cursor-pointer hover:bg-slate-800 transition-colors flex items-center gap-1.5" title="Awaiting authentic VMDL game model extraction">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span>Econ Item (Awaiting VMDL)</span>
+          </button>`;
+        }
         const cls = isActive
           ? 'px-3 py-1.5 rounded bg-purple-600 text-white font-bold shadow-sm cursor-pointer'
           : 'px-3 py-1.5 rounded hover:bg-slate-800 text-slate-300 transition-colors font-medium cursor-pointer';
@@ -4887,16 +4906,22 @@
       renderSimNavPills(currentSimId);
 
       SIMULATORS_DATA.forEach(s => {
+        const isPaused = s.id === '15';
         const card = document.createElement('div');
-        card.className = 'bg-[#111827] border border-cs2-border rounded-xl p-5 shadow-sm hover:border-purple-500/50 hover:bg-[#131c2e] transition-all cursor-pointer flex flex-col justify-between space-y-4 group';
+        card.className = isPaused
+          ? 'bg-[#111827]/70 border border-amber-500/30 rounded-xl p-5 shadow-sm hover:border-amber-400/50 hover:bg-[#131c2e] transition-all cursor-pointer flex flex-col justify-between space-y-4 group'
+          : 'bg-[#111827] border border-cs2-border rounded-xl p-5 shadow-sm hover:border-purple-500/50 hover:bg-[#131c2e] transition-all cursor-pointer flex flex-col justify-between space-y-4 group';
         card.onclick = () => openSimulator(s.id);
 
         card.innerHTML = `
           <div class="space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30 font-bold">${escapeHtml(s.badge)}</span>
-              <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Interactive
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded ${isPaused ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30' : 'bg-purple-500/10 text-purple-300 border border-purple-500/30'} font-bold">
+                ${isPaused ? 'PAUSED: AWAITING VMDL' : escapeHtml(s.badge)}
+              </span>
+              <span class="text-xs font-mono ${isPaused ? 'text-amber-400' : 'text-emerald-400'} flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full ${isPaused ? 'bg-amber-400 animate-ping' : 'bg-emerald-500 animate-pulse'}"></span>
+                ${isPaused ? 'Model Extraction' : 'Interactive'}
               </span>
             </div>
             <div class="font-mono text-sm font-bold text-white group-hover:text-purple-300 transition-colors">${escapeHtml(s.title || s.name)}</div>
@@ -4905,9 +4930,9 @@
             <div class="text-xs text-slate-300 font-sans line-clamp-3 leading-relaxed">${escapeHtml(s.checks)}</div>
           </div>
           <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">${s.addresses ? s.addresses.length + ' Verified RVAs' : 'Real-Time Engine Model'}</span>
-            <span class="text-purple-300 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
-              Launch Visualizer <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="text-slate-400">${isPaused ? 'Authentic CS2 Mesh Ingestion' : (s.addresses ? s.addresses.length + ' Verified RVAs' : 'Real-Time Engine Model')}</span>
+            <span class="${isPaused ? 'text-amber-300' : 'text-purple-300'} group-hover:translate-x-1 transition-transform flex items-center gap-1 font-semibold">
+              ${isPaused ? 'View Pipeline Status &rarr;' : 'Launch Visualizer &rarr;'}
             </span>
           </div>
         `;
@@ -4960,8 +4985,45 @@
         window.CS2Lab.unmount();
       }
 
-      // Check if upgraded CS2Lab provider exists for this simulator
-      if (window.CS2Lab && typeof window.CS2Lab.isSimSupported === 'function' && window.CS2Lab.isSimSupported(simId)) {
+      // Check if this simulation is temporarily paused awaiting real game models
+      if (simId === '15') {
+        const visEl = document.getElementById('simVisualizerContainer');
+        const paramsEl = document.getElementById('simParamsContainer');
+        if (paramsEl) {
+          paramsEl.innerHTML = `
+            <div class="p-4 rounded-xl bg-slate-900 border border-amber-500/30 text-xs font-mono space-y-3">
+              <div class="text-amber-400 font-bold uppercase tracking-wide flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                Status: Model Ingestion Active
+              </div>
+              <p class="text-slate-400 leading-relaxed">
+                This visualizer is temporarily disabled while genuine CS2 weapon assets (<code class="text-amber-300">vmdl_c</code>) and material shaders (<code class="text-amber-300">vmat_c</code>) are decompiled and converted.
+              </p>
+              <div class="text-[11px] text-slate-500 border-t border-slate-800 pt-2">
+                Simulated ODE math and C++ reference code remain fully accessible in the tabs below.
+              </div>
+            </div>
+          `;
+        }
+        if (visEl) {
+          visEl.innerHTML = `
+            <div class="max-w-md mx-auto p-8 text-center space-y-4">
+              <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              </div>
+              <h3 class="text-base font-mono font-bold text-white">Econ Item Schema &amp; Wear ODE Visualizer Paused</h3>
+              <p class="text-xs font-mono text-slate-400 leading-relaxed">
+                Temporarily paused awaiting extraction of authentic Source 2 weapon meshes (<code class="text-amber-300">vmdl_c</code>) and procedural wear shaders (<code class="text-amber-300">vmat_c</code>) to replace placeholder geometry with authentic in-game models.
+              </p>
+              <div class="pt-2">
+                <button onclick="openSimulator('03')" class="px-4 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold transition-all cursor-pointer">
+                  &larr; Switch to Sub-Tick Prediction Simulator
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      } else if (window.CS2Lab && typeof window.CS2Lab.isSimSupported === 'function' && window.CS2Lab.isSimSupported(simId)) {
         window.CS2Lab.mount(simId, '#simVisualizerContainer', '#simParamsContainer');
       } else {
         // Fallback to legacy 2D visualizer & parameter controls
@@ -5122,14 +5184,14 @@
                 <span>Ray Aim Yaw Angle:</span>
                 <span id="lblParam05Yaw" class="text-cyan-300 font-bold">0.0&deg;</span>
               </div>
-              <input type="range" id="param05Yaw" min="-35" max="35" step="1" value="0" class="w-full accent-cyan-400 cursor-pointer select-none" oninput="document.getElementById('lblParam05Yaw').innerText = this.value + '&deg;'; renderSimVisualizer('05');">
+              <input type="range" id="param05Yaw" min="-35" max="35" step="1" value="0" draggable="false" ondragstart="return false;" class="w-full accent-cyan-400" oninput="document.getElementById('lblParam05Yaw').innerText = this.value + '&deg;'; renderSimVisualizer('05');">
             </div>
             <div class="space-y-1">
               <div class="flex justify-between text-xs text-slate-300 font-mono">
                 <span>Target Player Distance:</span>
                 <span id="lblParam05Dist" class="text-emerald-300 font-bold">340 units</span>
               </div>
-              <input type="range" id="param05Dist" min="180" max="440" step="10" value="340" class="w-full accent-emerald-400 cursor-pointer select-none" oninput="document.getElementById('lblParam05Dist').innerText = this.value + ' units'; renderSimVisualizer('05');">
+              <input type="range" id="param05Dist" min="180" max="440" step="10" value="340" draggable="false" ondragstart="return false;" class="w-full accent-emerald-400" oninput="document.getElementById('lblParam05Dist').innerText = this.value + ' units'; renderSimVisualizer('05');">
             </div>
             <div class="space-y-1">
               <label class="text-xs text-slate-300 font-mono">World Solid Obstacle:</label>

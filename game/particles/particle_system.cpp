@@ -491,6 +491,139 @@ void COpWorldCollisionPlane::Operate(CParticleCollection* pParticles, float flDe
     }
 }
 
+void COpVortexRing::Operate(CParticleCollection* pParticles, float flDeltaTime) {
+    const uint32_t count = pParticles->GetActiveParticleCount();
+    if (count == 0 || flDeltaTime <= 0.0f || (m_flCirculation == 0.0f && m_flSwirlMomentum == 0.0f)) {
+        return;
+    }
+
+    const float cx = m_vCenter.x;
+    const float cy = m_vCenter.y;
+    const float cz = m_vCenter.z;
+    const float R = m_flRingRadius;
+    const float rCoreSq = m_flCoreRadius * m_flCoreRadius;
+    const float circ = m_flCirculation * flDeltaTime;
+    const float swirl = m_flSwirlMomentum * flDeltaTime;
+
+    float* const px = pParticles->m_pPosX;
+    float* const py = pParticles->m_pPosY;
+    float* const pz = pParticles->m_pPosZ;
+    float* const vx = pParticles->m_pVelX;
+    float* const vy = pParticles->m_pVelY;
+    float* const vz = pParticles->m_pVelZ;
+
+    for (uint32_t i = 0; i < count; ++i) {
+        const float dx = px[i] - cx;
+        const float dy = py[i] - cy;
+        const float dz = pz[i] - cz;
+
+        const float rho = std::sqrt(dx * dx + dy * dy);
+        if (rho < 1e-4f) {
+            // Along central symmetry axis: upward jet induced by circular filament
+            const float dCoreSq = R * R + dz * dz + rCoreSq;
+            vz[i] += (circ * R / dCoreSq);
+            continue;
+        }
+
+        const float invRho = 1.0f / rho;
+        const float dirX = dx * invRho;
+        const float dirY = dy * invRho;
+
+        // Radial offset from circular filament
+        const float deltaRho = rho - R;
+        const float distCoreSq = deltaRho * deltaRho + dz * dz + rCoreSq;
+        const float invDistSq = 1.0f / distCoreSq;
+
+        // Poloidal rolling velocity around filament
+        const float vRho = -circ * dz * invDistSq;
+        const float vZ_induced = circ * deltaRho * invDistSq;
+
+        // Azimuthal swirl (angular momentum) around Z axis
+        const float vSwirl = swirl * (rCoreSq / distCoreSq);
+
+        vx[i] += vRho * dirX - vSwirl * dirY;
+        vy[i] += vRho * dirY + vSwirl * dirX;
+        vz[i] += vZ_induced;
+    }
+}
+
+void COpWorldCollisionAABB::Operate(CParticleCollection* pParticles, float flDeltaTime) {
+    (void)flDeltaTime;
+    const uint32_t count = pParticles->GetActiveParticleCount();
+    if (count == 0) {
+        return;
+    }
+
+    const float minX = m_vMin.x, maxX = m_vMax.x;
+    const float minY = m_vMin.y, maxY = m_vMax.y;
+    const float minZ = m_vMin.z, maxZ = m_vMax.z;
+    const float rest = m_flRestitution;
+    const float frictionScalar = std::clamp(1.0f - m_flFriction, 0.0f, 1.0f);
+
+    float* const px = pParticles->m_pPosX;
+    float* const py = pParticles->m_pPosY;
+    float* const pz = pParticles->m_pPosZ;
+    float* const vx = pParticles->m_pVelX;
+    float* const vy = pParticles->m_pVelY;
+    float* const vz = pParticles->m_pVelZ;
+    const float* const rad = pParticles->m_pRadius;
+
+    for (uint32_t i = 0; i < count; ++i) {
+        const float r = rad[i];
+
+        // X bounding planes
+        if (px[i] - r < minX) {
+            px[i] = minX + r;
+            if (vx[i] < 0.0f) {
+                vx[i] = -vx[i] * rest;
+                vy[i] *= frictionScalar;
+                vz[i] *= frictionScalar;
+            }
+        } else if (px[i] + r > maxX) {
+            px[i] = maxX - r;
+            if (vx[i] > 0.0f) {
+                vx[i] = -vx[i] * rest;
+                vy[i] *= frictionScalar;
+                vz[i] *= frictionScalar;
+            }
+        }
+
+        // Y bounding planes
+        if (py[i] - r < minY) {
+            py[i] = minY + r;
+            if (vy[i] < 0.0f) {
+                vy[i] = -vy[i] * rest;
+                vx[i] *= frictionScalar;
+                vz[i] *= frictionScalar;
+            }
+        } else if (py[i] + r > maxY) {
+            py[i] = maxY - r;
+            if (vy[i] > 0.0f) {
+                vy[i] = -vy[i] * rest;
+                vx[i] *= frictionScalar;
+                vz[i] *= frictionScalar;
+            }
+        }
+
+        // Z bounding planes
+        if (pz[i] - r < minZ) {
+            pz[i] = minZ + r;
+            if (vz[i] < 0.0f) {
+                vz[i] = -vz[i] * rest;
+                vx[i] *= frictionScalar;
+                vy[i] *= frictionScalar;
+            }
+        } else if (pz[i] + r > maxZ) {
+            pz[i] = maxZ - r;
+            if (vz[i] > 0.0f) {
+                vz[i] = -vz[i] * rest;
+                vx[i] *= frictionScalar;
+                vy[i] *= frictionScalar;
+            }
+        }
+    }
+}
+
 // ----------------------------------------------------------------------------
 // Renderer Implementation
 // ----------------------------------------------------------------------------

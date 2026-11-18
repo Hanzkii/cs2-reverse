@@ -109,10 +109,13 @@
           this.activeCamera.up.set(1, 0, 0); // +X fwd points up on screen (Hammer 2D top blueprint)
           break;
         case 'front':
+          if (this.activeCameraMode !== 'orthographic') this._switchToOrthographic();
           this.activeCamera.position.set(target.x - dist, target.y, target.z);
           this.activeCamera.up.set(0, 0, 1);
+          if (this.controls) this.controls.target.copy(target);
           break;
         case 'side':
+          if (this.activeCameraMode !== 'orthographic') this._switchToOrthographic();
           this.activeCamera.position.set(target.x, target.y - dist, target.z);
           this.activeCamera.up.set(0, 0, 1);
           if (this.controls) this.controls.target.copy(target);
@@ -3391,7 +3394,7 @@
 
       // Display toggles
       this.showBones = true;
-      this.showHitboxes = true;
+      this.showHitboxes = false; // Off by default to avoid visual clutter
       this.showGizmo = true;
       this.showReachVolume = false; // Off by default so it never obscures the mannequin
 
@@ -3540,27 +3543,29 @@
       this.boneLines = new THREE.LineSegments(lineGeom, lineMat);
       this.sceneGroup.add(this.boneLines);
 
-      // 8. Hitbox Capsules (Source 2 Colored Capsules)
+      // 8. Hitbox Capsules (Source 2 Sleek Wireframe Capsules)
       this.capsuleMeshes = this.hitboxes.map(hb => {
         const grp = new THREE.Group();
-        const mat = new THREE.MeshStandardMaterial({
+        const mat = new THREE.MeshBasicMaterial({
           color: hb.color,
-          roughness: 0.5,
+          wireframe: true,
           transparent: true,
-          opacity: 0.38
+          opacity: 0.22,
+          depthWrite: false
         });
 
-        const cylGeom = new THREE.CylinderGeometry(hb.radius, hb.radius, 1.0, 12, 1, false);
+        const cylGeom = new THREE.CylinderGeometry(hb.radius, hb.radius, 1.0, 10, 1, false);
         const cylMesh = new THREE.Mesh(cylGeom, mat);
         grp.add(cylMesh);
 
-        const capTopGeom = new THREE.SphereGeometry(hb.radius, 12, 8);
+        const capTopGeom = new THREE.SphereGeometry(hb.radius, 10, 6);
         const capTopMesh = new THREE.Mesh(capTopGeom, mat);
         grp.add(capTopMesh);
 
         const capBotMesh = new THREE.Mesh(capTopGeom, mat);
         grp.add(capBotMesh);
 
+        grp.visible = this.showHitboxes;
         this.sceneGroup.add(grp);
         return { group: grp, cylMesh, capTopMesh, capBotMesh, hitbox: hb };
       });
@@ -3586,8 +3591,21 @@
     }
 
     update(tick, subTickFrac, dt) {
-      // 1. Base FK Pass
-      const currentLocals = this.bones.map(b => new CTransform(b.local.pos, b.local.rot, b.local.scale));
+      // Natural idle breathing & postural sway during timeline playback
+      const animTime = (tick + subTickFrac) * 0.12;
+      const breathZ = Math.sin(animTime * 1.6) * 0.4;
+      const swayY = Math.cos(animTime * 0.8) * 0.25;
+
+      // 1. Base FK Pass with procedural breathing
+      const currentLocals = this.bones.map((b, idx) => {
+        const tr = new CTransform(b.local.pos, b.local.rot, b.local.scale);
+        if (idx === 1) { // spine
+          tr.pos = { x: b.local.pos.x, y: b.local.pos.y + swayY * 0.4, z: b.local.pos.z + breathZ * 0.3 };
+        } else if (idx === 2) { // chest
+          tr.pos = { x: b.local.pos.x, y: b.local.pos.y + swayY * 0.8, z: b.local.pos.z + breathZ * 0.6 };
+        }
+        return tr;
+      });
       for (let i = 0; i < this.bones.length; i++) {
         const pIdx = this.bones[i].parent;
         this.worldBones[i] = pIdx < 0 ? currentLocals[i] : this.worldBones[pIdx].concatenate(currentLocals[i]);
@@ -3709,7 +3727,18 @@
           let ptr = 0;
           for (let i = 0; i < this.bones.length; i++) {
             const pIdx = this.bones[i].parent;
-            const pPos = pIdx < 0 ? { x: 0, y: 0, z: 0 } : this.worldBones[pIdx].pos;
+            if (pIdx < 0) {
+              // Root pelvis has no parent. Do NOT draw a line from world origin (0, 0, 0)!
+              const cPos = this.worldBones[i].pos;
+              posAttr.array[ptr++] = cPos.x;
+              posAttr.array[ptr++] = cPos.y;
+              posAttr.array[ptr++] = cPos.z;
+              posAttr.array[ptr++] = cPos.x;
+              posAttr.array[ptr++] = cPos.y;
+              posAttr.array[ptr++] = cPos.z;
+              continue;
+            }
+            const pPos = this.worldBones[pIdx].pos;
             const cPos = this.worldBones[i].pos;
             posAttr.array[ptr++] = pPos.x;
             posAttr.array[ptr++] = pPos.y;
@@ -4854,6 +4883,20 @@
       this.sceneGroup.add(this.exitRay);
       this.sceneGroup.add(this.ricochetRay);
 
+      // 5. Animated Ballistic Tracer & Impact Flash
+      const tracerGeo = new THREE.CylinderGeometry(0.8, 0.8, 8.0, 8);
+      const tracerMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+      this.tracerBullet = new THREE.Mesh(tracerGeo, tracerMat);
+      this.tracerBullet.rotation.z = Math.PI * 0.5;
+      this.tracerBullet.visible = false;
+      this.sceneGroup.add(this.tracerBullet);
+
+      const flashGeo = new THREE.SphereGeometry(3.0, 8, 8);
+      const flashMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.9 });
+      this.impactFlash = new THREE.Mesh(flashGeo, flashMat);
+      this.impactFlash.visible = false;
+      this.sceneGroup.add(this.impactFlash);
+
       scene.add(this.sceneGroup);
 
       this._buildParamsUI();
@@ -4928,21 +4971,29 @@
       const res = this._evaluate();
 
       const rad = this.incidentAngleDeg * (Math.PI / 180.0);
+      const cosTheta = Math.max(0.15, Math.cos(rad));
       const halfThick = this.wallThickness * 0.5;
 
-      // Shooter position
-      const shootDist = 140.0;
-      const muzzleX = -halfThick - shootDist * Math.cos(rad);
-      const muzzleY = -shootDist * Math.sin(rad);
+      // Rotate the physical wall slab around the Z axis
+      if (this.wallMesh) {
+        this.wallMesh.rotation.z = rad;
+        this.wallMesh.position.set(0, 0, 70);
+      }
+
+      // Straight collinear line of fire along Y = 0
+      const muzzleX = -160.0;
+      const muzzleY = 0.0;
       const muzzleZ = 70.0;
       if (this.muzzleMarker) {
         this.muzzleMarker.position.set(muzzleX, muzzleY, muzzleZ);
+        this.muzzleMarker.rotation.set(0, 0, Math.PI * 0.5);
       }
 
-      // Entry point on wall
-      const enterX = -halfThick;
-      const enterY = 0.0;
-      const enterZ = 70.0;
+      // Rotated slab plane intersections along line of fire (y = 0)
+      const enterX = Math.max(-120.0, -halfThick / cosTheta);
+      const exitX = Math.min(120.0, halfThick / cosTheta);
+      const enterY = 0.0, exitY = 0.0;
+      const enterZ = 70.0, exitZ = 70.0;
 
       // Entry Ray
       const setLine = (line, x1, y1, z1, x2, y2, z2, visible = true) => {
@@ -4956,28 +5007,77 @@
 
       setLine(this.entryRay, muzzleX, muzzleY, muzzleZ, enterX, enterY, enterZ, true);
 
+      // Ricochet reflection vector: n = (-cos(rad), -sin(rad), 0)
+      const bounceDx = -Math.cos(2 * rad);
+      const bounceDy = -Math.sin(2 * rad);
+      const bounceDist = 120.0;
+
       if (res.isRicochet) {
-        // Reflect angle
-        const bounceX = -halfThick - 100 * Math.cos(rad);
-        const bounceY = 100 * Math.sin(rad);
-        setLine(this.ricochetRay, enterX, enterY, enterZ, bounceX, bounceY, enterZ + 15, true);
+        setLine(this.ricochetRay, enterX, enterY, enterZ, enterX + bounceDx * bounceDist, enterY + bounceDy * bounceDist, enterZ + 15, true);
         setLine(this.subsurfaceRay, 0, 0, 0, 0, 0, 0, false);
         setLine(this.exitRay, 0, 0, 0, 0, 0, 0, false);
       } else {
         setLine(this.ricochetRay, 0, 0, 0, 0, 0, 0, false);
-
-        // Subsurface path inside wall
-        const exitX = halfThick;
-        const exitY = this.wallThickness * Math.tan(rad);
-        const exitZ = 70.0;
         setLine(this.subsurfaceRay, enterX, enterY, enterZ, exitX, exitY, exitZ, true);
 
         if (res.penetrated) {
-          // Exit ray continues to target dummy
           const targetZ = this.targetHitgroup === 'head' ? 110.0 : this.targetHitgroup === 'chest' ? 88.0 : 52.0;
-          setLine(this.exitRay, exitX, exitY, exitZ, 160, 0, targetZ, true);
+          setLine(this.exitRay, exitX, exitY, exitZ, 160.0, 0.0, targetZ, true);
         } else {
           setLine(this.exitRay, 0, 0, 0, 0, 0, 0, false);
+        }
+      }
+
+      // Continuous animated ballistic tracer firing during timeline playback
+      const cTime = tick + subTickFrac;
+      const cycleLen = 16.0; // 1 shot every 16 ticks (~4 Hz realistic rifle cycle)
+      const phase = (cTime % cycleLen) / cycleLen; // 0.0 to 1.0
+
+      if (this.tracerBullet) {
+        this.tracerBullet.visible = true;
+        const totalDist = 320.0;
+        const curDist = phase * totalDist;
+        const curX = muzzleX + curDist;
+
+        if (curX < enterX) {
+          // Pre-wall flight
+          this.tracerBullet.position.set(curX, 0, 70);
+          this.tracerBullet.rotation.set(0, 0, Math.PI * 0.5);
+          this.tracerBullet.material.color.setHex(0x22c55e);
+          if (this.impactFlash) this.impactFlash.visible = false;
+        } else if (curX >= enterX && curX <= exitX) {
+          // Subsurface or Ricochet
+          if (res.isRicochet) {
+            const rDist = (curX - enterX) * 1.4;
+            this.tracerBullet.position.set(enterX + bounceDx * rDist, enterY + bounceDy * rDist, enterZ + rDist * 0.1);
+            this.tracerBullet.material.color.setHex(0xfacc15);
+          } else {
+            this.tracerBullet.position.set(curX, 0, 70);
+            this.tracerBullet.material.color.setHex(0xf59e0b);
+          }
+          if (this.impactFlash) {
+            this.impactFlash.position.set(enterX, 0, 70);
+            this.impactFlash.visible = Math.abs(curX - enterX) < 8.0;
+          }
+        } else {
+          // Post-wall flight or absorption
+          if (res.penetrated) {
+            const targetZ = this.targetHitgroup === 'head' ? 110.0 : this.targetHitgroup === 'chest' ? 88.0 : 52.0;
+            const exitFrac = Math.min(1.0, (curX - exitX) / (160.0 - exitX));
+            this.tracerBullet.position.set(curX, 0, 70.0 + (targetZ - 70.0) * exitFrac);
+            this.tracerBullet.material.color.setHex(0x06b6d4);
+            if (this.impactFlash) {
+              if (exitFrac >= 0.92) {
+                this.impactFlash.position.set(160.0, 0, targetZ);
+                this.impactFlash.visible = true;
+              } else {
+                this.impactFlash.visible = false;
+              }
+            }
+          } else {
+            this.tracerBullet.visible = false;
+            if (this.impactFlash) this.impactFlash.visible = false;
+          }
         }
       }
 
@@ -5512,10 +5612,9 @@
 
     fireShot() {
       const rewoundState = this._sampleRewoundState(-this.clientLatencySec - (this.userCmdSubTickFrac * 0.015625));
-      const liveState = this.historyBuffer[this.BUFFER_CAPACITY - 1].pos;
-
-      const targetX = this.aimTarget === 'rewound' ? rewoundState.x : liveState.x;
-      const targetY = this.aimTarget === 'rewound' ? rewoundState.y : liveState.y;
+      const targetPawn = this.aimTarget === 'rewound' ? this.rewoundPawnGroup : this.livePawnGroup;
+      const targetX = targetPawn ? targetPawn.position.x : 0;
+      const targetY = targetPawn ? targetPawn.position.y : 0;
       const targetZ = 66.0;
 
       if (this.bulletTracer && this.bulletTracer.geometry) {
@@ -5528,12 +5627,15 @@
         }
       }
 
+      const unlagSec = Math.min(0.200, this.clientLatencySec + (this.userCmdSubTickFrac * 0.015625));
+      const rewoundDeltaTicks = unlagSec / 0.015625;
+
       if (this.aimTarget === 'rewound') {
         this.lastHitResult = {
           confirmed: true,
           hitbox: 'HEAD (Authoritative Sub-Tick Rewind)',
-          deltaTicks: rewoundState.tickDelta.toFixed(1),
-          rewindMs: (this.clientLatencySec * 1000).toFixed(0)
+          deltaTicks: rewoundDeltaTicks.toFixed(1),
+          rewindMs: (unlagSec * 1000).toFixed(0)
         };
         if (this.hitMarker) {
           this.hitMarker.position.set(targetX, targetY, targetZ);
@@ -5561,7 +5663,7 @@
         setTimeout(() => {
           if (!this.audio) return;
           if (this.lastHitResult && this.lastHitResult.confirmed) {
-            this.audio.playHeadshot(this.rewoundPawnGroup.position.x, this.rewoundPawnGroup.position.y, 66);
+            this.audio.playHeadshot(targetX, targetY, 66);
           } else {
             this.audio.playImpact('concrete', 0, 0, 0);
           }
@@ -5572,18 +5674,54 @@
     }
 
     update(tick, subTickFrac, dt) {
-      const liveState = this.historyBuffer[this.BUFFER_CAPACITY - 1];
+      // Continuous simulation timeline parameter
+      const cTime = (tick + subTickFrac);
+      const t = cTime * 0.04; // Smooth continuous running time
+
+      // Live pawn coordinates along strafe trajectory
+      const liveX = Math.sin(t * 3.2) * 55.0 + Math.cos(t * 1.1) * 20.0;
+      const liveY = Math.cos(t * 2.1) * 40.0;
+      const liveZ = 0.0;
+      const liveVx = (Math.cos(t * 3.2) * 55.0 * 3.2 - Math.sin(t * 1.1) * 20.0 * 1.1);
+      const liveVy = -Math.sin(t * 2.1) * 40.0 * 2.1;
+      const liveYaw = Math.atan2(liveVy, liveVx);
+
       if (this.livePawnGroup) {
-        this.livePawnGroup.position.set(liveState.pos.x, liveState.pos.y, liveState.pos.z);
-        this.livePawnGroup.rotation.z = liveState.yaw;
+        this.livePawnGroup.position.set(liveX, liveY, liveZ);
+        this.livePawnGroup.rotation.z = liveYaw;
       }
 
-      const rewindTime = -this.clientLatencySec - (this.userCmdSubTickFrac * 0.015625);
-      const rewoundState = this._sampleRewoundState(rewindTime);
+      // Clamped sv_maxunlag (0.200s) rewind offset
+      const unlagSec = Math.min(0.200, this.clientLatencySec + (this.userCmdSubTickFrac * 0.015625));
+      const rewindDt = unlagSec * 2.5; // Offset in trajectory time units
+      const tRewind = t - rewindDt;
+
+      const rewoundX = Math.sin(tRewind * 3.2) * 55.0 + Math.cos(tRewind * 1.1) * 20.0;
+      const rewoundY = Math.cos(tRewind * 2.1) * 40.0;
+      const rewoundZ = 0.0;
+      const rewoundVx = (Math.cos(tRewind * 3.2) * 55.0 * 3.2 - Math.sin(tRewind * 1.1) * 20.0 * 1.1);
+      const rewoundVy = -Math.sin(tRewind * 2.1) * 40.0 * 2.1;
+      const rewoundYaw = Math.atan2(rewoundVy, rewoundVx);
+
       if (this.rewoundPawnGroup) {
-        this.rewoundPawnGroup.position.set(rewoundState.x, rewoundState.y, rewoundState.z);
-        this.rewoundPawnGroup.rotation.z = rewoundState.yaw;
+        this.rewoundPawnGroup.position.set(rewoundX, rewoundY, rewoundZ);
+        this.rewoundPawnGroup.rotation.z = rewoundYaw;
       }
+
+      // Update past history breadcrumbs
+      if (this.historyTrail && this.historyTrail.geometry) {
+        const arr = this.historyTrail.geometry.attributes.position.array;
+        let ptr = 0;
+        for (let k = 0; k < this.BUFFER_CAPACITY; k++) {
+          const stepT = t - (k * 0.015625 * 2.5);
+          arr[ptr++] = Math.sin(stepT * 3.2) * 55.0 + Math.cos(stepT * 1.1) * 20.0;
+          arr[ptr++] = Math.cos(stepT * 2.1) * 40.0;
+          arr[ptr++] = 1.0;
+        }
+        this.historyTrail.geometry.attributes.position.needsUpdate = true;
+      }
+
+      const rewoundDeltaTicks = unlagSec / 0.015625;
 
       if (this.tracerTimer > 0) {
         this.tracerTimer = Math.max(0, this.tracerTimer - dt * 2.5);
@@ -5598,7 +5736,7 @@
       this.viewport.setHudMetrics([
         { label: 'CLIENT LATENCY', value: `${(this.clientLatencySec * 1000).toFixed(0)} ms` },
         { label: 'SUB-TICK FRAC (w)', value: this.userCmdSubTickFrac.toFixed(3) },
-        { label: 'REWOUND TICKS', value: `${rewoundState.tickDelta.toFixed(1)} ticks` },
+        { label: 'REWOUND TICKS', value: `${rewoundDeltaTicks.toFixed(1)} ticks` },
         { label: 'SV_MAXUNLAG', value: '0.200s (NOMINAL)' },
         { label: 'HIT STATUS', value: this.lastHitResult ? (this.lastHitResult.confirmed ? 'CONFIRMED HEADSHOT' : 'SHOT MISSED') : 'AWAITING FIRE', alert: this.lastHitResult && !this.lastHitResult.confirmed }
       ]);
@@ -6431,63 +6569,154 @@
       this.playback = playback;
 
       this.PARTICLE_COUNT = 4096;
-      this.activePreset = 'sparks'; // 'sparks' | 'smoke_vortex' | 'molotov_fire'
-      this.gravity = -380.0;
-      this.turbulenceStrength = 45.0;
+      this.activePreset = 'smoke_vortex'; // 'sparks' | 'smoke_vortex' | 'molotov_fire' | 'shockwave'
+
+      // 3D Compute Force Fields & Solvers
+      this.enableCurl = true;
+      this.turbulenceStrength = 60.0; // 0 - 150 u/s
+
+      this.enableVortex = true;
+      this.vortexMomentum = 120.0;    // 0 - 250 rad/s / circulation
+      this.vortexRingRadius = 32.0;   // Toroidal ring radius R
+      this.vortexCoreRadius = 8.0;    // Core smoothing radius r_core
+      this.vortexCenter = { x: 0.0, y: 0.0, z: 35.0 };
+
+      this.enableGravity = true;
+      this.gravityVec = { x: 0.0, y: 0.0, z: -380.0 }; // 3D gravity vector
+
+      this.enableCollision = true;
+      this.groundRestitution = 0.55;  // 0.0 - 0.95
+      this.groundFriction = 0.25;     // 0.0 - 0.90
+      this.enableBoundingBox = true;
+      this.boxBounds = {
+        minX: -120.0, maxX: 120.0,
+        minY: -120.0, maxY: 120.0,
+        minZ: 0.5,    maxZ: 220.0
+      };
 
       // 64-Byte Aligned Structure-of-Arrays (SoA) SIMD Buffers
-      this.posX = new Float32Array(this.PARTICLE_COUNT);
-      this.posY = new Float32Array(this.PARTICLE_COUNT);
-      this.posZ = new Float32Array(this.PARTICLE_COUNT);
-      this.velX = new Float32Array(this.PARTICLE_COUNT);
-      this.velY = new Float32Array(this.PARTICLE_COUNT);
-      this.velZ = new Float32Array(this.PARTICLE_COUNT);
-      this.age = new Float32Array(this.PARTICLE_COUNT);
-      this.lifespan = new Float32Array(this.PARTICLE_COUNT);
+      this._allocateSoABuffers(this.PARTICLE_COUNT);
 
       this.sceneGroup = null;
       this.particlePoints = null;
+      this.boundingBoxMesh = null;
+      this.vortexRingMesh = null;
+      this.groundMesh = null;
+      this.gridHelper = null;
       this.paramsContainer = null;
 
       this._initParticles();
     }
 
+    _allocateSoABuffers(count) {
+      this.PARTICLE_COUNT = count;
+      this.posX = new Float32Array(count);
+      this.posY = new Float32Array(count);
+      this.posZ = new Float32Array(count);
+      this.velX = new Float32Array(count);
+      this.velY = new Float32Array(count);
+      this.velZ = new Float32Array(count);
+      this.life = new Float32Array(count);       // age
+      this.maxLife = new Float32Array(count);    // lifespan
+      this.radius = new Float32Array(count);
+      this.colorR = new Float32Array(count);
+      this.colorG = new Float32Array(count);
+      this.colorB = new Float32Array(count);
+      this.alpha = new Float32Array(count);
+    }
+
+    _setParticleCount(count) {
+      if (this.PARTICLE_COUNT === count) return;
+      this._allocateSoABuffers(count);
+      this._initParticles();
+      if (this.particlePoints) {
+        const geom = this.particlePoints.geometry;
+        geom.setAttribute('position', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+        geom.setAttribute('color', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+        geom.attributes.position.needsUpdate = true;
+        geom.attributes.color.needsUpdate = true;
+      }
+      this.update(0, 0, 0.016);
+    }
+
     _initParticles() {
       for (let i = 0; i < this.PARTICLE_COUNT; i++) {
         this._respawnParticle(i);
-        this.age[i] = Math.random() * this.lifespan[i]; // Distribute initial ages
+        this.life[i] = Math.random() * this.maxLife[i]; // Distribute initial phases
       }
     }
 
     _respawnParticle(i) {
-      this.posX[i] = 0;
-      this.posY[i] = 0;
-      this.posZ[i] = 10;
+      this.life[i] = 0.0;
 
       if (this.activePreset === 'sparks') {
+        this.posX[i] = (Math.random() - 0.5) * 6.0;
+        this.posY[i] = (Math.random() - 0.5) * 6.0;
+        this.posZ[i] = 12.0;
+
         const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI * 0.45;
-        const spd = 120.0 + Math.random() * 220.0;
+        const phi = Math.random() * Math.PI * 0.42;
+        const spd = 160.0 + Math.random() * 240.0;
         this.velX[i] = Math.cos(theta) * Math.sin(phi) * spd;
         this.velY[i] = Math.sin(theta) * Math.sin(phi) * spd;
         this.velZ[i] = Math.cos(phi) * spd;
-        this.lifespan[i] = 0.8 + Math.random() * 0.8;
+        this.maxLife[i] = 0.7 + Math.random() * 0.7;
+        this.radius[i] = 2.0 + Math.random() * 2.0;
+
+        this.colorR[i] = 1.0;
+        this.colorG[i] = 0.85;
+        this.colorB[i] = 0.25;
       } else if (this.activePreset === 'smoke_vortex') {
-        this.velX[i] = (Math.random() - 0.5) * 40.0;
-        this.velY[i] = (Math.random() - 0.5) * 40.0;
-        this.velZ[i] = 60.0 + Math.random() * 80.0;
-        this.lifespan[i] = 2.0 + Math.random() * 1.5;
+        const rInit = Math.random() * 14.0;
+        const aInit = Math.random() * Math.PI * 2;
+        this.posX[i] = Math.cos(aInit) * rInit;
+        this.posY[i] = Math.sin(aInit) * rInit;
+        this.posZ[i] = 8.0 + Math.random() * 8.0;
+
+        this.velX[i] = (Math.random() - 0.5) * 30.0;
+        this.velY[i] = (Math.random() - 0.5) * 30.0;
+        this.velZ[i] = 75.0 + Math.random() * 95.0;
+        this.maxLife[i] = 2.4 + Math.random() * 1.6;
+        this.radius[i] = 4.0 + Math.random() * 4.0;
+
+        this.colorR[i] = 0.55;
+        this.colorG[i] = 0.72;
+        this.colorB[i] = 0.88;
       } else if (this.activePreset === 'molotov_fire') {
-        const r = Math.random() * 45.0;
+        const r = Math.random() * 48.0;
         const a = Math.random() * Math.PI * 2;
         this.posX[i] = Math.cos(a) * r;
         this.posY[i] = Math.sin(a) * r;
-        this.velX[i] = (Math.random() - 0.5) * 20.0;
-        this.velY[i] = (Math.random() - 0.5) * 20.0;
-        this.velZ[i] = 80.0 + Math.random() * 140.0;
-        this.lifespan[i] = 1.0 + Math.random() * 0.8;
+        this.posZ[i] = 2.0 + Math.random() * 4.0;
+
+        this.velX[i] = (Math.random() - 0.5) * 24.0;
+        this.velY[i] = (Math.random() - 0.5) * 24.0;
+        this.velZ[i] = 85.0 + Math.random() * 135.0;
+        this.maxLife[i] = 1.1 + Math.random() * 0.9;
+        this.radius[i] = 4.5 + Math.random() * 4.5;
+
+        this.colorR[i] = 1.0;
+        this.colorG[i] = 0.45;
+        this.colorB[i] = 0.05;
+      } else if (this.activePreset === 'shockwave') {
+        this.posX[i] = (Math.random() - 0.5) * 8.0;
+        this.posY[i] = (Math.random() - 0.5) * 8.0;
+        this.posZ[i] = 25.0;
+
+        const theta = Math.random() * Math.PI * 2;
+        const u = Math.random() * 2.0 - 1.0;
+        const phi = Math.acos(u);
+        const spd = 260.0 + Math.random() * 220.0;
+        this.velX[i] = Math.sin(phi) * Math.cos(theta) * spd;
+        this.velY[i] = Math.sin(phi) * Math.sin(theta) * spd;
+        this.velZ[i] = Math.cos(phi) * spd;
+        this.maxLife[i] = 0.9 + Math.random() * 0.6;
+        this.radius[i] = 3.0 + Math.random() * 3.0;
+
+        this.colorR[i] = 0.35;
+        this.colorG[i] = 0.92;
+        this.colorB[i] = 1.0;
       }
-      this.age[i] = 0.0;
     }
 
     mount(paramsContainer) {
@@ -6499,7 +6728,7 @@
       this.sceneGroup = new THREE.Group();
       this.sceneGroup.name = 'Sim22_ParticleCompute_Scene';
 
-      // 1. WebGL Points Buffer Geometry
+      // 1. WebGL Points Buffer Geometry (Point Sprites with Hardware Additive Blending)
       const geom = new THREE.BufferGeometry();
       const posArray = new Float32Array(this.PARTICLE_COUNT * 3);
       const colArray = new Float32Array(this.PARTICLE_COUNT * 3);
@@ -6508,10 +6737,10 @@
       geom.setAttribute('color', new THREE.BufferAttribute(colArray, 3));
 
       const mat = new THREE.PointsMaterial({
-        size: 3.5,
+        size: 4.2,
         vertexColors: true,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.92,
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
@@ -6519,12 +6748,48 @@
       this.particlePoints = new THREE.Points(geom, mat);
       this.sceneGroup.add(this.particlePoints);
 
-      // 2. Ground Collision Plane
-      const groundGeo = new THREE.PlaneGeometry(300, 300);
-      const groundMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 });
-      const ground = new THREE.Mesh(groundGeo, groundMat);
-      ground.position.set(0, 0, 0);
-      this.sceneGroup.add(ground);
+      // 2. Ground Collision Plane with Spatial Sub-Tick Grid
+      const groundGeo = new THREE.PlaneGeometry(260, 260);
+      const groundMat = new THREE.MeshStandardMaterial({
+        color: 0x070c18,
+        roughness: 0.9,
+        metalness: 0.1
+      });
+      this.groundMesh = new THREE.Mesh(groundGeo, groundMat);
+      this.groundMesh.position.set(0, 0, 0);
+      this.sceneGroup.add(this.groundMesh);
+
+      this.gridHelper = new THREE.GridHelper(240, 24, 0x00f3ff, 0x1e293b);
+      this.gridHelper.rotation.x = Math.PI / 2; // Orient in XY plane
+      this.gridHelper.position.set(0, 0, 0.2);
+      this.sceneGroup.add(this.gridHelper);
+
+      // 3. 3D Bounding Box AABB Wireframe Mesh
+      const boxW = this.boxBounds.maxX - this.boxBounds.minX;
+      const boxH = this.boxBounds.maxY - this.boxBounds.minY;
+      const boxD = this.boxBounds.maxZ - this.boxBounds.minZ;
+      const boxGeo = new THREE.BoxGeometry(boxW, boxH, boxD);
+      const edgesGeo = new THREE.EdgesGeometry(boxGeo);
+      const lineMat = new THREE.LineBasicMaterial({
+        color: 0x00f3ff,
+        transparent: true,
+        opacity: 0.35
+      });
+      this.boundingBoxMesh = new THREE.LineSegments(edgesGeo, lineMat);
+      this.boundingBoxMesh.position.set(0, 0, this.boxBounds.minZ + boxD * 0.5);
+      this.sceneGroup.add(this.boundingBoxMesh);
+
+      // 4. Toroidal Vortex Ring Visualizer (Rotates with Angular Momentum)
+      const torusGeo = new THREE.TorusGeometry(this.vortexRingRadius, 1.4, 8, 36);
+      const torusMat = new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.45
+      });
+      this.vortexRingMesh = new THREE.Mesh(torusGeo, torusMat);
+      this.vortexRingMesh.position.set(0, 0, this.vortexCenter.z);
+      this.sceneGroup.add(this.vortexRingMesh);
 
       scene.add(this.sceneGroup);
 
@@ -6535,7 +6800,7 @@
         camera.position.set(-140, -180, 120);
         const controls = this.viewport.getControls();
         if (controls) {
-          controls.target.set(0, 0, 35);
+          controls.target.set(0, 0, 40);
           controls.update();
         }
       }
@@ -6544,90 +6809,237 @@
     }
 
     update(tick, subTickFrac, dt) {
+      if (!this.particlePoints) return;
       const stepDt = Math.min(0.033, dt || 0.015625);
-      const positions = this.particlePoints.geometry.attributes.position.array;
-      const colors = this.particlePoints.geometry.attributes.color.array;
+      const geom = this.particlePoints.geometry;
+      const positions = geom.attributes.position.array;
+      const colors = geom.attributes.color.array;
 
       let activeCount = 0;
+      let bounceCount = 0;
       const tStart = performance.now();
 
-      // SIMD Operators: COpMovementBasic, COpTurbulenceNoise, COpWorldCollisionPlane, COpFadeAndKill
+      // Dynamic force fields based on active compute toggles
+      const gx = this.enableGravity ? this.gravityVec.x : 0.0;
+      const gy = this.enableGravity ? this.gravityVec.y : 0.0;
+      const gz = this.enableGravity ? (
+        this.activePreset === 'smoke_vortex' ? 20.0 :
+        (this.activePreset === 'molotov_fire' ? 55.0 : this.gravityVec.z)
+      ) : 0.0;
+
+      const turb = this.enableCurl ? this.turbulenceStrength : 0.0;
+      const vortexCirc = this.enableVortex ? this.vortexMomentum : 0.0;
+      const vortexSwirl = this.enableVortex ? this.vortexMomentum * 0.45 : 0.0;
+      const vRingR = this.vortexRingRadius;
+      const vCoreR2 = this.vortexCoreRadius * this.vortexCoreRadius;
+      const vCenterZ = this.vortexCenter.z;
+
+      const rest = this.groundRestitution;
+      const fric = 1.0 - this.groundFriction;
+      const bounds = this.boxBounds;
+
+      // 64-Byte Aligned Structure-of-Arrays (SoA) SIMD Operator Dispatch
       for (let i = 0; i < this.PARTICLE_COUNT; i++) {
-        this.age[i] += stepDt;
-        if (this.age[i] >= this.lifespan[i]) {
+        this.life[i] += stepDt;
+        if (this.life[i] >= this.maxLife[i]) {
           this._respawnParticle(i);
         }
         activeCount++;
 
-        // 1. COpMovementBasic: Gravity & Newtonian Velocity
-        const g = this.activePreset === 'smoke_vortex' ? 15.0 : (this.activePreset === 'molotov_fire' ? 30.0 : this.gravity);
-        this.velZ[i] += g * stepDt;
+        // 1. COpMovementBasic: 3D Gravity Vector & Drag Acceleration
+        this.velX[i] += gx * stepDt;
+        this.velY[i] += gy * stepDt;
+        this.velZ[i] += gz * stepDt;
 
-        // 2. COpTurbulenceNoise: 3D Curl Vector Field
-        const turb = this.turbulenceStrength;
-        const px = this.posX[i] * 0.04;
-        const py = this.posY[i] * 0.04;
-        const pz = this.posZ[i] * 0.04;
-        const curlX = Math.sin(py * 2.1 + tick * 0.1) * turb;
-        const curlY = Math.cos(px * 2.1 + tick * 0.1) * turb;
-        this.velX[i] += curlX * stepDt;
-        this.velY[i] += curlY * stepDt;
+        const dragFactor = Math.max(0.0, 1.0 - 0.04 * stepDt);
+        this.velX[i] *= dragFactor;
+        this.velY[i] *= dragFactor;
+        this.velZ[i] *= dragFactor;
 
-        // Integrate Position
+        // 2. COpTurbulenceNoise: Divergence-Free 3D Curl Vector Field (del . v == 0)
+        if (turb > 0.0) {
+          const k = 0.035;
+          const px = this.posX[i];
+          const py = this.posY[i];
+          const pz = this.posZ[i];
+          const t = tick * 0.08;
+
+          const curlX = Math.sin(k * pz + t * 0.4) - Math.sin(k * py + t * 0.2);
+          const curlY = Math.sin(k * px + t * 0.7) - Math.sin(k * pz + t * 0.3);
+          const curlZ = Math.sin(k * py + t * 0.5) - Math.sin(k * px + t * 0.6);
+
+          this.velX[i] += curlX * turb * stepDt;
+          this.velY[i] += curlY * turb * stepDt;
+          this.velZ[i] += curlZ * turb * stepDt;
+        }
+
+        // 3. COpVortexRing: Toroidal Vortex Ring Circulation & Azimuthal Angular Momentum
+        if (vortexCirc > 0.0) {
+          const dx = this.posX[i];
+          const dy = this.posY[i];
+          const dz = this.posZ[i] - vCenterZ;
+          const rho = Math.sqrt(dx * dx + dy * dy);
+
+          if (rho > 1e-4) {
+            const invRho = 1.0 / rho;
+            const dirX = dx * invRho;
+            const dirY = dy * invRho;
+
+            const deltaRho = rho - vRingR;
+            const distSq = deltaRho * deltaRho + dz * dz + vCoreR2;
+            const invDistSq = 1.0 / distSq;
+
+            // Poloidal rolling motion (upward jet in core, outer downward roll)
+            const vRho = -vortexCirc * dz * invDistSq;
+            const vZ_ind = vortexCirc * deltaRho * invDistSq;
+
+            // Azimuthal angular momentum swirl around vertical ring axis
+            const vSwirl = vortexSwirl * (vCoreR2 * invDistSq);
+
+            this.velX[i] += (vRho * dirX - vSwirl * dirY) * stepDt;
+            this.velY[i] += (vRho * dirY + vSwirl * dirX) * stepDt;
+            this.velZ[i] += vZ_ind * stepDt;
+          } else {
+            const distSq = vRingR * vRingR + dz * dz + vCoreR2;
+            this.velZ[i] += (vortexCirc * vRingR / distSq) * stepDt;
+          }
+        }
+
+        // Symplectic Euler Integration
         this.posX[i] += this.velX[i] * stepDt;
         this.posY[i] += this.velY[i] * stepDt;
         this.posZ[i] += this.velZ[i] * stepDt;
 
-        // 3. COpWorldCollisionPlane: Ground Bounce & Restitution
-        if (this.posZ[i] <= 0.5) {
-          this.posZ[i] = 0.5;
-          this.velZ[i] = -this.velZ[i] * 0.45; // 45% restitution coefficient
-          this.velX[i] *= 0.75; // Ground friction damping
-          this.velY[i] *= 0.75;
+        // 4. Ground Restitution Plane & 3D Bounding Box Collision Solver
+        if (this.enableCollision) {
+          const r = this.radius[i];
+
+          // Ground restitution floor (Z min)
+          if (this.posZ[i] - r <= bounds.minZ) {
+            this.posZ[i] = bounds.minZ + r;
+            if (this.velZ[i] < 0) {
+              this.velZ[i] = -this.velZ[i] * rest;
+              this.velX[i] *= fric;
+              this.velY[i] *= fric;
+              bounceCount++;
+            }
+          }
+
+          // 3D Bounding box confinement (X, Y walls and ceiling)
+          if (this.enableBoundingBox) {
+            // X boundary planes
+            if (this.posX[i] - r < bounds.minX) {
+              this.posX[i] = bounds.minX + r;
+              if (this.velX[i] < 0) {
+                this.velX[i] = -this.velX[i] * rest;
+                this.velY[i] *= fric;
+                this.velZ[i] *= fric;
+                bounceCount++;
+              }
+            } else if (this.posX[i] + r > bounds.maxX) {
+              this.posX[i] = bounds.maxX - r;
+              if (this.velX[i] > 0) {
+                this.velX[i] = -this.velX[i] * rest;
+                this.velY[i] *= fric;
+                this.velZ[i] *= fric;
+                bounceCount++;
+              }
+            }
+
+            // Y boundary planes
+            if (this.posY[i] - r < bounds.minY) {
+              this.posY[i] = bounds.minY + r;
+              if (this.velY[i] < 0) {
+                this.velY[i] = -this.velY[i] * rest;
+                this.velX[i] *= fric;
+                this.velZ[i] *= fric;
+                bounceCount++;
+              }
+            } else if (this.posY[i] + r > bounds.maxY) {
+              this.posY[i] = bounds.maxY - r;
+              if (this.velY[i] > 0) {
+                this.velY[i] = -this.velY[i] * rest;
+                this.velX[i] *= fric;
+                this.velZ[i] *= fric;
+                bounceCount++;
+              }
+            }
+
+            // Z ceiling plane
+            if (this.posZ[i] + r > bounds.maxZ) {
+              this.posZ[i] = bounds.maxZ - r;
+              if (this.velZ[i] > 0) {
+                this.velZ[i] = -this.velZ[i] * rest;
+                this.velX[i] *= fric;
+                this.velY[i] *= fric;
+                bounceCount++;
+              }
+            }
+          }
         }
 
+        // Stream positions to WebGL Dynamic Buffer
         const idx3 = i * 3;
-        positions[idx3] = this.posX[i];
+        positions[idx3]     = this.posX[i];
         positions[idx3 + 1] = this.posY[i];
         positions[idx3 + 2] = this.posZ[i];
 
-        // 4. COpFadeAndKill: Piecewise Cubic Hermite Alpha Envelope
-        const normAge = this.age[i] / this.lifespan[i];
-        const alpha = Math.sin(normAge * Math.PI);
+        // 5. COpFadeAndKill: Piecewise Hermite Alpha Envelope & Color Gradient
+        const normAge = Math.min(1.0, this.life[i] / this.maxLife[i]);
+        const alphaCurve = Math.sin(normAge * Math.PI);
+        this.alpha[i] = alphaCurve;
 
         if (this.activePreset === 'sparks') {
-          colors[idx3] = 1.0 * alpha;
-          colors[idx3 + 1] = 0.85 * alpha;
-          colors[idx3 + 2] = 0.25 * alpha;
+          colors[idx3]     = this.colorR[i] * alphaCurve;
+          colors[idx3 + 1] = this.colorG[i] * alphaCurve * (1.0 - normAge * 0.35);
+          colors[idx3 + 2] = this.colorB[i] * alphaCurve * (1.0 - normAge * 0.7);
         } else if (this.activePreset === 'smoke_vortex') {
-          colors[idx3] = 0.6 * alpha;
-          colors[idx3 + 1] = 0.7 * alpha;
-          colors[idx3 + 2] = 0.8 * alpha;
+          colors[idx3]     = this.colorR[i] * alphaCurve;
+          colors[idx3 + 1] = this.colorG[i] * alphaCurve;
+          colors[idx3 + 2] = this.colorB[i] * alphaCurve;
         } else if (this.activePreset === 'molotov_fire') {
-          colors[idx3] = 1.0 * alpha;
-          colors[idx3 + 1] = (0.2 + (1.0 - normAge) * 0.6) * alpha;
-          colors[idx3 + 2] = 0.05 * alpha;
+          colors[idx3]     = this.colorR[i] * alphaCurve;
+          colors[idx3 + 1] = (0.2 + (1.0 - normAge) * 0.6) * alphaCurve;
+          colors[idx3 + 2] = 0.05 * alphaCurve;
+        } else if (this.activePreset === 'shockwave') {
+          colors[idx3]     = (0.4 + 0.6 * (1.0 - normAge)) * alphaCurve;
+          colors[idx3 + 1] = 0.9 * alphaCurve;
+          colors[idx3 + 2] = 1.0 * alphaCurve;
         }
       }
 
+      geom.attributes.position.needsUpdate = true;
+      geom.attributes.color.needsUpdate = true;
+
+      // Animate 3D Toroidal Vortex Ring Visualizer
+      if (this.vortexRingMesh) {
+        if (this.enableVortex) {
+          this.vortexRingMesh.visible = true;
+          this.vortexRingMesh.rotation.z += vortexSwirl * 0.001;
+        } else {
+          this.vortexRingMesh.visible = false;
+        }
+      }
+
+      if (this.boundingBoxMesh) {
+        this.boundingBoxMesh.visible = this.enableBoundingBox;
+      }
+
       const tElapsedMicro = ((performance.now() - tStart) * 1000).toFixed(0);
-
-      this.particlePoints.geometry.attributes.position.needsUpdate = true;
-      this.particlePoints.geometry.attributes.color.needsUpdate = true;
-
-      const memBytes = this.PARTICLE_COUNT * 8 * 4; // 8 channels * 4 bytes = 32 bytes/particle (64B aligned block)
+      const memBytes = this.PARTICLE_COUNT * 13 * 4; // 13 channels * 4 bytes = 52 bytes/particle (64B aligned block)
 
       return {
-        pos: { x: 0, y: 0, z: 0 },
-        vel: { x: this.PARTICLE_COUNT, y: tElapsedMicro, z: 0, speed: activeCount },
+        pos: { x: 0, y: 0, z: this.vortexCenter.z },
+        vel: { x: this.PARTICLE_COUNT, y: tElapsedMicro, z: bounceCount, speed: activeCount },
         ground: true,
-        event: `${this.activePreset.toUpperCase()} [4 COMPUTE OPS]`,
+        event: `${this.activePreset.toUpperCase()} [6 COMPUTE OPS]`,
         customMetrics: [
           { label: 'ACTIVE PARTICLES', value: `${activeCount} / ${this.PARTICLE_COUNT}` },
           { label: 'SIMD MEMORY', value: `${(memBytes / 1024).toFixed(1)} KB (SoA 64B)` },
           { label: 'DISPATCH TIME', value: `${tElapsedMicro} μs` },
-          { label: 'COMPUTE OPERATORS', value: '4x SoA BATCHED' },
-          { label: 'COLLISION SOLVER', value: 'WORLD PLANE BOUNCE' }
+          { label: 'COMPUTE OPERATORS', value: '6x SoA BATCHED' },
+          { label: 'FORCE FIELDS', value: `${this.enableCurl ? 'CURL ' : ''}${this.enableVortex ? 'VORTEX ' : ''}${this.enableGravity ? 'GRAV' : ''}`.trim() || 'NONE' },
+          { label: 'COLLISION SOLVER', value: `${this.enableBoundingBox ? '3D AABB BOX' : 'GROUND PLANE'}` }
         ]
       };
     }
@@ -6638,6 +7050,11 @@
         if (scene) scene.remove(this.sceneGroup);
         this.sceneGroup = null;
       }
+      this.particlePoints = null;
+      this.boundingBoxMesh = null;
+      this.vortexRingMesh = null;
+      this.groundMesh = null;
+      this.gridHelper = null;
       if (this.paramsContainer) {
         this.paramsContainer.innerHTML = '';
         this.paramsContainer = null;
@@ -6647,31 +7064,93 @@
     _buildParamsUI() {
       if (!this.paramsContainer) return;
       this.paramsContainer.innerHTML = `
-        <div class="space-y-4 font-mono text-xs select-none" >
+        <div class="space-y-3 font-mono text-xs select-none">
           <div class="bg-slate-900/90 border border-slate-800 rounded-lg p-3 space-y-2.5">
             <div class="flex items-center justify-between text-slate-300 font-bold border-b border-slate-800 pb-1.5">
               <span>SOURCE 2 PARTICLE ENGINE</span>
-              <span class="text-[10px] text-cyan-400">particles.dll</span>
+              <span class="text-[10px] text-cyan-400 font-semibold">particles.dll / SIMD SoA</span>
             </div>
+
+            <!-- Compute Preset -->
             <div>
               <label class="block text-[11px] text-slate-400 mb-1">Compute Operator Preset:</label>
               <select id="sim22PresetSelect" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1.5 text-cyan-300 font-bold cursor-pointer">
-                <option value="sparks" ${this.activePreset === 'sparks' ? 'selected' : ''}>Muzzle Flash Sparks (Restitution Bounce)</option>
                 <option value="smoke_vortex" ${this.activePreset === 'smoke_vortex' ? 'selected' : ''}>Smoke Grenade Vortex (3D Curl Turbulence)</option>
+                <option value="sparks" ${this.activePreset === 'sparks' ? 'selected' : ''}>Muzzle Flash Sparks (Restitution Bounce)</option>
                 <option value="molotov_fire" ${this.activePreset === 'molotov_fire' ? 'selected' : ''}>Molotov Flame Eruption (Buoyant Thermal)</option>
+                <option value="shockwave" ${this.activePreset === 'shockwave' ? 'selected' : ''}>HE Detonation Shockwave (High-Velocity Blast)</option>
               </select>
             </div>
+
+            <!-- Particle Count (SoA SIMD Batch) -->
             <div>
-              <div class="flex justify-between text-[11px] text-slate-400">
-                <span>Turbulence Field Strength:</span>
+              <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                <span>SIMD Particle Count:</span>
+                <span id="sim22LblCount" class="text-cyan-300 font-bold">${this.PARTICLE_COUNT}</span>
+              </div>
+              <div class="grid grid-cols-4 gap-1.5">
+                ${[512, 1024, 2048, 4096].map(cnt => `
+                  <button type="button" data-count="${cnt}" class="sim22-count-btn px-2 py-1 rounded text-[10px] font-bold border transition ${
+                    this.PARTICLE_COUNT === cnt
+                      ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500'
+                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                  }">${cnt}</button>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Curl Turbulence Field -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-[11px]">
+                <label class="flex items-center gap-1.5 text-slate-400 cursor-pointer">
+                  <input type="checkbox" id="sim22CheckCurl" ${this.enableCurl ? 'checked' : ''} class="accent-cyan-400 rounded cursor-pointer">
+                  <span>3D Curl Turbulence Field:</span>
+                </label>
                 <span id="sim22LblTurb" class="text-cyan-300 font-bold">${this.turbulenceStrength.toFixed(0)} u/s</span>
               </div>
-              <input type="range" id="sim22Turb" min="0" max="120" step="5" value="${this.turbulenceStrength}" class="w-full accent-cyan-400 cursor-pointer">
+              <input type="range" id="sim22Turb" min="0" max="150" step="5" value="${this.turbulenceStrength}" class="w-full accent-cyan-400 cursor-pointer">
+            </div>
+
+            <!-- Vortex Angular Momentum -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-[11px]">
+                <label class="flex items-center gap-1.5 text-slate-400 cursor-pointer">
+                  <input type="checkbox" id="sim22CheckVortex" ${this.enableVortex ? 'checked' : ''} class="accent-cyan-400 rounded cursor-pointer">
+                  <span>Vortex Angular Momentum:</span>
+                </label>
+                <span id="sim22LblVortex" class="text-cyan-300 font-bold">${this.vortexMomentum.toFixed(0)} rad/s</span>
+              </div>
+              <input type="range" id="sim22Vortex" min="0" max="250" step="10" value="${this.vortexMomentum}" class="w-full accent-cyan-400 cursor-pointer">
+            </div>
+
+            <!-- 3D Gravity Vector -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-[11px]">
+                <label class="flex items-center gap-1.5 text-slate-400 cursor-pointer">
+                  <input type="checkbox" id="sim22CheckGravity" ${this.enableGravity ? 'checked' : ''} class="accent-cyan-400 rounded cursor-pointer">
+                  <span>3D Gravity Vector (Z):</span>
+                </label>
+                <span id="sim22LblGrav" class="text-cyan-300 font-bold">${this.gravityVec.z.toFixed(0)} u/s²</span>
+              </div>
+              <input type="range" id="sim22Grav" min="-800" max="200" step="25" value="${this.gravityVec.z}" class="w-full accent-cyan-400 cursor-pointer">
+            </div>
+
+            <!-- Ground Restitution Plane & Bounding Box -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-[11px]">
+                <label class="flex items-center gap-1.5 text-slate-400 cursor-pointer">
+                  <input type="checkbox" id="sim22CheckBox" ${this.enableBoundingBox ? 'checked' : ''} class="accent-cyan-400 rounded cursor-pointer">
+                  <span>3D Bounding Box Bounce:</span>
+                </label>
+                <span id="sim22LblRest" class="text-cyan-300 font-bold">${(this.groundRestitution * 100).toFixed(0)}% Restitution</span>
+              </div>
+              <input type="range" id="sim22Rest" min="0" max="0.95" step="0.05" value="${this.groundRestitution}" class="w-full accent-cyan-400 cursor-pointer">
             </div>
           </div>
         </div>
       `;
 
+      // Preset Selector
       const sel = this.paramsContainer.querySelector('#sim22PresetSelect');
       if (sel) {
         sel.onchange = (e) => {
@@ -6681,8 +7160,33 @@
         };
       }
 
+      // Particle Count Selector Buttons
+      const countBtns = this.paramsContainer.querySelectorAll('.sim22-count-btn');
+      countBtns.forEach(btn => {
+        btn.onclick = () => {
+          const count = parseInt(btn.getAttribute('data-count'), 10);
+          this._setParticleCount(count);
+          countBtns.forEach(b => {
+            b.className = 'sim22-count-btn px-2 py-1 rounded text-[10px] font-bold border transition ' +
+              (parseInt(b.getAttribute('data-count'), 10) === count
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500'
+                : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700');
+          });
+          const lblCount = this.paramsContainer.querySelector('#sim22LblCount');
+          if (lblCount) lblCount.textContent = `${count}`;
+        };
+      });
+
+      // Curl Turbulence
+      const chkCurl = this.paramsContainer.querySelector('#sim22CheckCurl');
       const turbIn = this.paramsContainer.querySelector('#sim22Turb');
       const lblTurb = this.paramsContainer.querySelector('#sim22LblTurb');
+      if (chkCurl) {
+        chkCurl.onchange = (e) => {
+          this.enableCurl = e.target.checked;
+          this.update(0, 0, 0.016);
+        };
+      }
       if (turbIn && lblTurb) {
         turbIn.oninput = (e) => {
           this.turbulenceStrength = parseFloat(e.target.value);
@@ -6690,16 +7194,70 @@
           this.update(0, 0, 0.016);
         };
       }
+
+      // Vortex Angular Momentum
+      const chkVortex = this.paramsContainer.querySelector('#sim22CheckVortex');
+      const vortexIn = this.paramsContainer.querySelector('#sim22Vortex');
+      const lblVortex = this.paramsContainer.querySelector('#sim22LblVortex');
+      if (chkVortex) {
+        chkVortex.onchange = (e) => {
+          this.enableVortex = e.target.checked;
+          this.update(0, 0, 0.016);
+        };
+      }
+      if (vortexIn && lblVortex) {
+        vortexIn.oninput = (e) => {
+          this.vortexMomentum = parseFloat(e.target.value);
+          lblVortex.textContent = `${this.vortexMomentum.toFixed(0)} rad/s`;
+          this.update(0, 0, 0.016);
+        };
+      }
+
+      // Gravity Vector
+      const chkGrav = this.paramsContainer.querySelector('#sim22CheckGravity');
+      const gravIn = this.paramsContainer.querySelector('#sim22Grav');
+      const lblGrav = this.paramsContainer.querySelector('#sim22LblGrav');
+      if (chkGrav) {
+        chkGrav.onchange = (e) => {
+          this.enableGravity = e.target.checked;
+          this.update(0, 0, 0.016);
+        };
+      }
+      if (gravIn && lblGrav) {
+        gravIn.oninput = (e) => {
+          this.gravityVec.z = parseFloat(e.target.value);
+          lblGrav.textContent = `${this.gravityVec.z.toFixed(0)} u/s²`;
+          this.update(0, 0, 0.016);
+        };
+      }
+
+      // Ground Restitution & Bounding Box
+      const chkBox = this.paramsContainer.querySelector('#sim22CheckBox');
+      const restIn = this.paramsContainer.querySelector('#sim22Rest');
+      const lblRest = this.paramsContainer.querySelector('#sim22LblRest');
+      if (chkBox) {
+        chkBox.onchange = (e) => {
+          this.enableBoundingBox = e.target.checked;
+          this.update(0, 0, 0.016);
+        };
+      }
+      if (restIn && lblRest) {
+        restIn.oninput = (e) => {
+          this.groundRestitution = parseFloat(e.target.value);
+          lblRest.textContent = `${(this.groundRestitution * 100).toFixed(0)}% Restitution`;
+          this.update(0, 0, 0.016);
+        };
+      }
     }
   }
 
-  // Register providers under simulator IDs '03', '09', '11', '12', '14', '15', '17', '22'
+  // Register providers under active simulator IDs (Sim 15 temporarily disabled awaiting VMDL game mesh extraction)
   CS2Lab.registerProvider('03', Sim03SubtickProvider);
   CS2Lab.registerProvider('09', Sim09SkeletonIKProvider);
   CS2Lab.registerProvider('11', Sim11VolumetricSmokeProvider);
   CS2Lab.registerProvider('12', Sim12LagCompensationProvider);
   CS2Lab.registerProvider('14', Sim14BulletPenetrationProvider);
-  CS2Lab.registerProvider('15', Sim15EconWearProvider);
+  // CS2Lab.registerProvider('15', Sim15EconWearProvider); // Paused for authentic VMDL ingestion
   CS2Lab.registerProvider('17', Sim17SpatialAudioProvider);
   CS2Lab.registerProvider('22', Sim22ParticleComputeProvider);
 

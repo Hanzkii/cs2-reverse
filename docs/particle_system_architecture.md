@@ -2,8 +2,8 @@
 
 > **Binary Target**: `particles.dll` (Base Address: `0x180000000`, Subsystem: `CParticleSystemMgr`)  
 > **Key Subsystems**: `CParticleCollection`, `CParticleSystemDefinition`, `IParticleEmitter`, `IParticleInitializer`, `IParticleOperator`, `IParticleRenderer`  
-> **Mathematical Formulations**: Symplectic Euler ODE Integration, Divergence-Free 3D Curl Turbulence Vector Fields ($\nabla \cdot \mathbf{v}_{\text{curl}} = 0$), Rubikon Half-Space Restitution & Tangential Friction Impulse  
-> **Verification Status**: 9 / 9 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp))
+> **Mathematical Formulations**: Symplectic Euler ODE Integration, Divergence-Free 3D Curl Turbulence Vector Fields ($\nabla \cdot \mathbf{v}_{\text{curl}} = 0$), Toroidal Vortex Ring Angular Momentum & Circulation ($\Gamma$), Rubikon Half-Space & 3D AABB Bounding Restitution & Friction Impulse  
+> **Verification Status**: 11 / 11 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp))
 
 ---
 
@@ -249,13 +249,21 @@ The particle system engine is verified by [`cs2_particle_engine_sim.cpp`](simula
 | **Test 7** | Particle Compaction | Lifetime expiration with $O(1)$ swap-with-last compaction and zero array corruption | **PASS** |
 | **Test 8** | Dynamic Vertex Stream | Billboard quad generation ($4 \times N$ vertices, $6 \times N$ indices, UV alignment) | **PASS** |
 | **Test 9** | End-to-End Graph Step | Full composite simulation step loop evaluated at 60 Hz across 30 ticks | **PASS** |
+| **Test 10** | Toroidal Vortex Ring | Smoothed Biot-Savart circular core circulation ($\Gamma = 120$) & azimuthal angular swirl | **PASS** |
+| **Test 11** | 3D AABB Bounding Box | Multi-planar confinement, restitution velocity reflection ($e = 0.5$), and friction attenuation | **PASS** |
 
 ### Execution Command:
 ```cmd
 cd docs\simulators
 build_particle_engine_sim.bat
 ```
-*(Compiles cleanly with MSVC x64 `/O2 /std:c++20 /EHsc /W4 /WX`, executes all 9 test suites, and deletes binaries post-run).*
+*(Compiles cleanly with MSVC x64 `/O2 /std:c++20 /EHsc /W4 /WX`, executes all 11 test suites, and deletes binaries post-run).*
+
+Additional unit verification is provided in `tests/test_cs2_particle_engine_sim.cpp`, automated via:
+```cmd
+cd tests
+build_particle_engine_sim_test.bat
+```
 
 ---
 
@@ -265,4 +273,5 @@ The authoritative SDK components reside under `game/particles/`:
 - Header: [`game/particles/particle_system.h`](../game/particles/particle_system.h)
 - Implementation: [`game/particles/particle_system.cpp`](../game/particles/particle_system.cpp)
 - Standalone Simulator: [`docs/simulators/cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp)
-- Build Automation: [`docs/simulators/build_particle_engine_sim.bat`](simulators/build_particle_engine_sim.bat)
+- Standalone Unit Test Suite: [`tests/test_cs2_particle_engine_sim.cpp`](../tests/test_cs2_particle_engine_sim.cpp)
+- Build Automation: [`docs/simulators/build_particle_engine_sim.bat`](simulators/build_particle_engine_sim.bat) and [`tests/build_particle_engine_sim_test.bat`](../tests/build_particle_engine_sim_test.bat)

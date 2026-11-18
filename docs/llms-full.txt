@@ -149,6 +149,11 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `networksystem.dll` | `CNetworkMessages::RegisterNetworkCategory` | `0x000e4c80` | `0x1800e4c80` | Networking & Netchan |
 | `animationsystem.dll` | `CAnimationSystem::Init` | `0x00069a00` | `0x180069a00` | Animation & Bones |
 | `inputsystem.dll` | `CInputSystem::Init` | `0x00003240` | `0x180003240` | Input & Subtick |
+| `vphysics2.dll` | `CRnMeshContact::FindTOI` | `0x00302250` | `0x180302250` | Physics & Simulation |
+| `vphysics2.dll` | `CRnConvexContact::FindTOI` | `0x003074d0` | `0x1803074d0` | Physics & Simulation |
+| `vphysics2.dll` | `RnSolveConservativeAdvancement` | `0x002dddd0` | `0x1802dddd0` | Physics & Simulation |
+| `vphysics2.dll` | `RnGJKDistanceSolver` | `0x002d85c0` | `0x1802d85c0` | Physics & Simulation |
+| `vphysics2.dll` | `CGJKProxy::GetVertex` | `0x002dcf10` | `0x1802dcf10` | Physics & Simulation |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -660,6 +665,41 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **Current VA**: `0x180003240`
 - **IDA / Ghidra Pattern**: `40 53 48 83 EC 20 48 83 3D ?? ?? ?? 00 00 48 8B D9 74 ?? 33 C9 E8`
 - **Description**: Initializes raw OS input devices, keyboard scancode tables, and mouse capture hooks.
+
+### CRnMeshContact::FindTOI (vphysics2.dll)
+- **ID**: `vphysics2_crnmeshcontact_findtoi`
+- **Current RVA**: `0x00302250` (Baseline: `0x00302250`, Delta: `+0x0`)
+- **Current VA**: `0x180302250`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 18 F3 0F 11 5C 24 20`
+- **Description**: Calculates Time Of Impact (TOI) between mesh contact geometry and moving sweep shape via conservative advancement.
+
+### CRnConvexContact::FindTOI (vphysics2.dll)
+- **ID**: `vphysics2_crnconvexcontact_findtoi`
+- **Current RVA**: `0x003074d0` (Baseline: `0x003074d0`, Delta: `+0x0`)
+- **Current VA**: `0x1803074d0`
+- **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 10 48 89 68 18 48 89 70 20 57 48 81 EC F0 00 00 00`
+- **Description**: Computes continuous collision time-of-impact between two convex collision hulls using conservative advancement and GJK.
+
+### RnSolveConservativeAdvancement (vphysics2.dll)
+- **ID**: `vphysics2_rnsolve_conservative_advancement`
+- **Current RVA**: `0x002dddd0` (Baseline: `0x002dddd0`, Delta: `+0x0`)
+- **Current VA**: `0x1802dddd0`
+- **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 08 4C 89 48 20 4C 89 40 18 48 89 50 10 55 56 57 41 54 41 55 41 56 41 57 48 8D A8 08 FE FF FF`
+- **Description**: Core Rubikon continuous collision solver executing conservative advancement between moving convex collision shapes.
+
+### RnGJKDistanceSolver (vphysics2.dll)
+- **ID**: `vphysics2_rngjk_distance_solver`
+- **Current RVA**: `0x002d85c0` (Baseline: `0x002d85c0`, Delta: `+0x0`)
+- **Current VA**: `0x1802d85c0`
+- **IDA / Ghidra Pattern**: `48 8B C4 55 53 56 57 41 54 41 55 41 56 41 57 48 8D A8 B8 FE FF FF`
+- **Description**: Gilbert-Johnson-Keerthi (GJK) minimum distance and separating vector solver between two Rubikon convex geometries.
+
+### CGJKProxy::GetVertex (vphysics2.dll)
+- **ID**: `vphysics2_cgjkproxy_getvertex`
+- **Current RVA**: `0x002dcf10` (Baseline: `0x002dcf10`, Delta: `+0x0`)
+- **Current VA**: `0x1802dcf10`
+- **IDA / Ghidra Pattern**: `48 83 EC 18 80 79 14 00`
+- **Description**: Extracts extreme support vertex coordinates from Rubikon OBB or convex hull mesh representation.
 
 ================================================================================
 # SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
@@ -11747,6 +11787,55 @@ public:
 };
 using OpWorldCollisionPlane = COpWorldCollisionPlane;
 
+/**
+ * @brief COpVortexRing: Toroidal vortex ring velocity operator with angular momentum.
+ * Induces poloidal rolling circulation and azimuthal swirl around a circular filament.
+ */
+class COpVortexRing : public IParticleOperator {
+public:
+    COpVortexRing(const Vector3D& vCenter = {0.0f, 0.0f, 35.0f},
+                  const Vector3D& vAxis = {0.0f, 0.0f, 1.0f},
+                  float flRingRadius = 30.0f,
+                  float flCoreRadius = 8.0f,
+                  float flCirculation = 120.0f,
+                  float flSwirlMomentum = 40.0f)
+        : m_vCenter(vCenter), m_vAxis(vAxis.Normalized()),
+          m_flRingRadius(flRingRadius), m_flCoreRadius(flCoreRadius),
+          m_flCirculation(flCirculation), m_flSwirlMomentum(flSwirlMomentum) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    Vector3D m_vCenter{0.0f, 0.0f, 35.0f};
+    Vector3D m_vAxis{0.0f, 0.0f, 1.0f};
+    float    m_flRingRadius{30.0f};
+    float    m_flCoreRadius{8.0f};
+    float    m_flCirculation{120.0f};
+    float    m_flSwirlMomentum{40.0f};
+};
+using OpVortexRing = COpVortexRing;
+
+/**
+ * @brief COpWorldCollisionAABB: 3D Axis-Aligned Bounding Box confinement and bounce solver.
+ * Enforces planar restitution reflection and tangential surface friction on all 6 bounding planes.
+ */
+class COpWorldCollisionAABB : public IParticleOperator {
+public:
+    COpWorldCollisionAABB(const Vector3D& vMin = {-120.0f, -120.0f, 0.0f},
+                          const Vector3D& vMax = {120.0f, 120.0f, 200.0f},
+                          float flRestitution = 0.5f,
+                          float flFriction = 0.2f)
+        : m_vMin(vMin), m_vMax(vMax),
+          m_flRestitution(flRestitution), m_flFriction(flFriction) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    Vector3D m_vMin{-120.0f, -120.0f, 0.0f};
+    Vector3D m_vMax{120.0f, 120.0f, 200.0f};
+    float    m_flRestitution{0.5f};
+    float    m_flFriction{0.2f};
+};
+using OpWorldCollisionAABB = COpWorldCollisionAABB;
+
 // ----------------------------------------------------------------------------
 // Concrete Renderer Implementations
 // ----------------------------------------------------------------------------
@@ -21937,7 +22026,20 @@ Native Panorama overlays can be created and deployed directly to `game/csgo/pano
 
 ---
 
-## 5. Summary & Verification
+## 5. Clean-Room Architectural Specification & Tools
+
+For in-depth reverse engineering breakdowns and C++20 SDK implementations, consult:
+- **Compilation Pipeline & VRF**: [01_compilation_pipeline.md](tools/panorama/01_compilation_pipeline.md)
+- **VTable Layouts & Component Dispatch**: [02_vtable_and_component_dispatch.md](tools/panorama/02_vtable_and_component_dispatch.md)
+- **Event Dispatch Pipeline & Networking**: [03_event_dispatch_pipeline.md](tools/panorama/03_event_dispatch_pipeline.md)
+- **UI Component Schema Layouts**: [04_ui_component_schema_layout.md](tools/panorama/04_ui_component_schema_layout.md)
+- **Web Overlay Bridge Architecture**: [05_web_overlay_bridge_architecture.md](tools/panorama/05_web_overlay_bridge_architecture.md)
+- **Interactive Component Preview Workbench**: [panorama_preview.html](tools/panorama_preview.html)
+- **C++20 Modular SDK Headers**: `sdk/include/panorama/` (`cuipanel.hpp`, `cuiengine.hpp`, `event_pipeline.hpp`, `ui_components.hpp`, `js_bridge.hpp`)
+
+---
+
+## 6. Summary & Verification
 
 1. **Clean Visuals**: Panorama renders within CS2's DirectX 11 / Vulkan graphics pipeline, providing native sub-pixel font anti-aliasing and zero latency.
 2. **Decompilation Parity**: Using ValveResourceFormat (VRF), compiled `_c` resources can be inverted into clean XML, CSS, and JS source files.
@@ -24310,8 +24412,8 @@ The core network delta routines are registered in `data/function_signatures.json
 
 > **Binary Target**: `particles.dll` (Base Address: `0x180000000`, Subsystem: `CParticleSystemMgr`)  
 > **Key Subsystems**: `CParticleCollection`, `CParticleSystemDefinition`, `IParticleEmitter`, `IParticleInitializer`, `IParticleOperator`, `IParticleRenderer`  
-> **Mathematical Formulations**: Symplectic Euler ODE Integration, Divergence-Free 3D Curl Turbulence Vector Fields ($\nabla \cdot \mathbf{v}_{\text{curl}} = 0$), Rubikon Half-Space Restitution & Tangential Friction Impulse  
-> **Verification Status**: 9 / 9 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp))
+> **Mathematical Formulations**: Symplectic Euler ODE Integration, Divergence-Free 3D Curl Turbulence Vector Fields ($\nabla \cdot \mathbf{v}_{\text{curl}} = 0$), Toroidal Vortex Ring Angular Momentum & Circulation ($\Gamma$), Rubikon Half-Space & 3D AABB Bounding Restitution & Friction Impulse  
+> **Verification Status**: 11 / 11 Test Suites Verified with MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`) ([`cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp))
 
 ---
 
@@ -24557,13 +24659,21 @@ The particle system engine is verified by [`cs2_particle_engine_sim.cpp`](simula
 | **Test 7** | Particle Compaction | Lifetime expiration with $O(1)$ swap-with-last compaction and zero array corruption | **PASS** |
 | **Test 8** | Dynamic Vertex Stream | Billboard quad generation ($4 \times N$ vertices, $6 \times N$ indices, UV alignment) | **PASS** |
 | **Test 9** | End-to-End Graph Step | Full composite simulation step loop evaluated at 60 Hz across 30 ticks | **PASS** |
+| **Test 10** | Toroidal Vortex Ring | Smoothed Biot-Savart circular core circulation ($\Gamma = 120$) & azimuthal angular swirl | **PASS** |
+| **Test 11** | 3D AABB Bounding Box | Multi-planar confinement, restitution velocity reflection ($e = 0.5$), and friction attenuation | **PASS** |
 
 ### Execution Command:
 ```cmd
 cd docs\simulators
 build_particle_engine_sim.bat
 ```
-*(Compiles cleanly with MSVC x64 `/O2 /std:c++20 /EHsc /W4 /WX`, executes all 9 test suites, and deletes binaries post-run).*
+*(Compiles cleanly with MSVC x64 `/O2 /std:c++20 /EHsc /W4 /WX`, executes all 11 test suites, and deletes binaries post-run).*
+
+Additional unit verification is provided in `tests/test_cs2_particle_engine_sim.cpp`, automated via:
+```cmd
+cd tests
+build_particle_engine_sim_test.bat
+```
 
 ---
 
@@ -24573,7 +24683,8 @@ The authoritative SDK components reside under `game/particles/`:
 - Header: [`game/particles/particle_system.h`](../game/particles/particle_system.h)
 - Implementation: [`game/particles/particle_system.cpp`](../game/particles/particle_system.cpp)
 - Standalone Simulator: [`docs/simulators/cs2_particle_engine_sim.cpp`](simulators/cs2_particle_engine_sim.cpp)
-- Build Automation: [`docs/simulators/build_particle_engine_sim.bat`](simulators/build_particle_engine_sim.bat)
+- Standalone Unit Test Suite: [`tests/test_cs2_particle_engine_sim.cpp`](../tests/test_cs2_particle_engine_sim.cpp)
+- Build Automation: [`docs/simulators/build_particle_engine_sim.bat`](simulators/build_particle_engine_sim.bat) and [`tests/build_particle_engine_sim_test.bat`](../tests/build_particle_engine_sim_test.bat)
 
 --------------------------------------------------------------------------------
 

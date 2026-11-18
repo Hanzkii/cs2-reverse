@@ -418,6 +418,55 @@ public:
 };
 using OpWorldCollisionPlane = COpWorldCollisionPlane;
 
+/**
+ * @brief COpVortexRing: Toroidal vortex ring velocity operator with angular momentum.
+ * Induces poloidal rolling circulation and azimuthal swirl around a circular filament.
+ */
+class COpVortexRing : public IParticleOperator {
+public:
+    COpVortexRing(const Vector3D& vCenter = {0.0f, 0.0f, 35.0f},
+                  const Vector3D& vAxis = {0.0f, 0.0f, 1.0f},
+                  float flRingRadius = 30.0f,
+                  float flCoreRadius = 8.0f,
+                  float flCirculation = 120.0f,
+                  float flSwirlMomentum = 40.0f)
+        : m_vCenter(vCenter), m_vAxis(vAxis.Normalized()),
+          m_flRingRadius(flRingRadius), m_flCoreRadius(flCoreRadius),
+          m_flCirculation(flCirculation), m_flSwirlMomentum(flSwirlMomentum) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    Vector3D m_vCenter{0.0f, 0.0f, 35.0f};
+    Vector3D m_vAxis{0.0f, 0.0f, 1.0f};
+    float    m_flRingRadius{30.0f};
+    float    m_flCoreRadius{8.0f};
+    float    m_flCirculation{120.0f};
+    float    m_flSwirlMomentum{40.0f};
+};
+using OpVortexRing = COpVortexRing;
+
+/**
+ * @brief COpWorldCollisionAABB: 3D Axis-Aligned Bounding Box confinement and bounce solver.
+ * Enforces planar restitution reflection and tangential surface friction on all 6 bounding planes.
+ */
+class COpWorldCollisionAABB : public IParticleOperator {
+public:
+    COpWorldCollisionAABB(const Vector3D& vMin = {-120.0f, -120.0f, 0.0f},
+                          const Vector3D& vMax = {120.0f, 120.0f, 200.0f},
+                          float flRestitution = 0.5f,
+                          float flFriction = 0.2f)
+        : m_vMin(vMin), m_vMax(vMax),
+          m_flRestitution(flRestitution), m_flFriction(flFriction) {}
+
+    void Operate(CParticleCollection* pParticles, float flDeltaTime) override;
+
+    Vector3D m_vMin{-120.0f, -120.0f, 0.0f};
+    Vector3D m_vMax{120.0f, 120.0f, 200.0f};
+    float    m_flRestitution{0.5f};
+    float    m_flFriction{0.2f};
+};
+using OpWorldCollisionAABB = COpWorldCollisionAABB;
+
 // ----------------------------------------------------------------------------
 // Concrete Renderer Implementations
 // ----------------------------------------------------------------------------

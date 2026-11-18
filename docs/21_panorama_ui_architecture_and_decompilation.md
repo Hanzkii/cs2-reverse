@@ -122,7 +122,20 @@ Native Panorama overlays can be created and deployed directly to `game/csgo/pano
 
 ---
 
-## 5. Summary & Verification
+## 5. Clean-Room Architectural Specification & Tools
+
+For in-depth reverse engineering breakdowns and C++20 SDK implementations, consult:
+- **Compilation Pipeline & VRF**: [01_compilation_pipeline.md](tools/panorama/01_compilation_pipeline.md)
+- **VTable Layouts & Component Dispatch**: [02_vtable_and_component_dispatch.md](tools/panorama/02_vtable_and_component_dispatch.md)
+- **Event Dispatch Pipeline & Networking**: [03_event_dispatch_pipeline.md](tools/panorama/03_event_dispatch_pipeline.md)
+- **UI Component Schema Layouts**: [04_ui_component_schema_layout.md](tools/panorama/04_ui_component_schema_layout.md)
+- **Web Overlay Bridge Architecture**: [05_web_overlay_bridge_architecture.md](tools/panorama/05_web_overlay_bridge_architecture.md)
+- **Interactive Component Preview Workbench**: [panorama_preview.html](tools/panorama_preview.html)
+- **C++20 Modular SDK Headers**: `sdk/include/panorama/` (`cuipanel.hpp`, `cuiengine.hpp`, `event_pipeline.hpp`, `ui_components.hpp`, `js_bridge.hpp`)
+
+---
+
+## 6. Summary & Verification
 
 1. **Clean Visuals**: Panorama renders within CS2's DirectX 11 / Vulkan graphics pipeline, providing native sub-pixel font anti-aliasing and zero latency.
 2. **Decompilation Parity**: Using ValveResourceFormat (VRF), compiled `_c` resources can be inverted into clean XML, CSS, and JS source files.

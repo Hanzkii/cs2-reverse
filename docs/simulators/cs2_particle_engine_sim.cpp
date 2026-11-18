@@ -458,6 +458,112 @@ void RunTest9_SystemDefinitionGraph() {
 }
 
 // ----------------------------------------------------------------------------
+// Test 10: Toroidal Vortex Ring Angular Momentum & Circulation Dynamics
+// ----------------------------------------------------------------------------
+void RunTest10_ToroidalVortexRingDynamics() {
+    PrintTestHeader(10, "Toroidal Vortex Ring Angular Momentum & Circulation Dynamics");
+
+    CParticleCollection collection(10);
+    collection.AllocateParticles(3);
+
+    // Particle 0: On central axis z = 35 (inside ring core, expect upward central jet)
+    collection.SetPosition(0, { 0.0f, 0.0f, 35.0f });
+    collection.SetVelocity(0, { 0.0f, 0.0f, 0.0f });
+
+    // Particle 1: On circular filament radius R = 30, displaced along +X
+    collection.SetPosition(1, { 30.0f, 0.0f, 35.0f });
+    collection.SetVelocity(1, { 0.0f, 0.0f, 0.0f });
+
+    // Particle 2: Outside ring radius (rho = 50, z = 35), displaced along +Y
+    collection.SetPosition(2, { 0.0f, 50.0f, 35.0f });
+    collection.SetVelocity(2, { 0.0f, 0.0f, 0.0f });
+
+    // OpVortexRing: Center (0, 0, 35), Axis (0, 0, 1), R = 30, rCore = 8, Circulation = 120, Swirl = 60
+    OpVortexRing vortexOp(Vector3D{ 0.0f, 0.0f, 35.0f }, Vector3D{ 0.0f, 0.0f, 1.0f }, 30.0f, 8.0f, 120.0f, 60.0f);
+
+    constexpr float dt = 0.016f;
+    vortexOp.Operate(&collection, dt);
+
+    const Vector3D vel0 = collection.GetVelocity(0);
+    const Vector3D vel1 = collection.GetVelocity(1);
+    const Vector3D vel2 = collection.GetVelocity(2);
+
+    std::cout << "  Vortex Field Response @ dt = 16ms:\n";
+    std::cout << "    Central Axis (0, 0, 35):   Vel=(" << vel0.x << ", " << vel0.y << ", " << vel0.z << ")\n";
+    std::cout << "    Ring Filament (30, 0, 35): Vel=(" << vel1.x << ", " << vel1.y << ", " << vel1.z << ")\n";
+    std::cout << "    Outer Flow (0, 50, 35):    Vel=(" << vel2.x << ", " << vel2.y << ", " << vel2.z << ")\n";
+
+    // 1. Central particle must experience positive upward vertical jet along ring axis
+    assert(vel0.z > 0.0f);
+    assert(CheckFloatNear(vel0.x, 0.0f));
+    assert(CheckFloatNear(vel0.y, 0.0f));
+
+    // 2. Filament particle on +X axis experiences azimuthal swirl (+Y direction) and zero deltaRho
+    assert(vel1.y > 0.0f);
+    assert(CheckFloatNear(vel1.z, 0.0f));
+
+    // 3. Outer particle (rho=50 > R=30) has deltaRho = +20, so positive induced vZ rolling
+    assert(vel2.z > 0.0f);
+    // Azimuthal swirl on +Y axis points in -X direction
+    assert(vel2.x < 0.0f);
+
+    std::cout << "\n[PASS] Toroidal vortex ring circulation and azimuthal angular momentum verified.\n";
+}
+
+// ----------------------------------------------------------------------------
+// Test 11: 3D Bounding Box AABB Restitution & Containment Invariant
+// ----------------------------------------------------------------------------
+void RunTest11_BoundingBoxCollision() {
+    PrintTestHeader(11, "3D Bounding Box AABB Restitution & Multi-Planar Containment");
+
+    CParticleCollection collection(10);
+    collection.AllocateParticles(2);
+
+    // Particle 0: Moving right (+X) penetrating max X boundary (x=118, r=5 => right edge at 123 > maxX 120)
+    collection.SetRadius(0, 5.0f);
+    collection.SetPosition(0, { 118.0f, 0.0f, 50.0f });
+    collection.SetVelocity(0, { 200.0f, 100.0f, -50.0f });
+
+    // Particle 1: Moving downward penetrating ceiling/floor or min Y boundary (y=-118, r=4 => edge at -122 < minY -120)
+    collection.SetRadius(1, 4.0f);
+    collection.SetPosition(1, { 0.0f, -118.0f, 80.0f });
+    collection.SetVelocity(1, { 80.0f, -150.0f, 40.0f });
+
+    // AABB Bounds [-120, -120, 0] to [120, 120, 200], restitution e=0.5, friction mu=0.2
+    OpWorldCollisionAABB aabbOp(Vector3D{ -120.0f, -120.0f, 0.0f }, Vector3D{ 120.0f, 120.0f, 200.0f }, 0.5f, 0.2f);
+
+    aabbOp.Operate(&collection, 0.016f);
+
+    const Vector3D pos0 = collection.GetPosition(0);
+    const Vector3D vel0 = collection.GetVelocity(0);
+    const Vector3D pos1 = collection.GetPosition(1);
+    const Vector3D vel1 = collection.GetVelocity(1);
+
+    std::cout << "  Particle 0 (+X Impact): Pos=(" << pos0.x << ", " << pos0.y << ", " << pos0.z << ")\n";
+    std::cout << "                         Vel=(" << vel0.x << ", " << vel0.y << ", " << vel0.z << ")\n";
+    std::cout << "  Particle 1 (-Y Impact): Pos=(" << pos1.x << ", " << pos1.y << ", " << pos1.z << ")\n";
+    std::cout << "                         Vel=(" << vel1.x << ", " << vel1.y << ", " << vel1.z << ")\n";
+
+    // Particle 0: Pushed back to maxX - r = 120 - 5 = 115.0
+    assert(CheckFloatNear(pos0.x, 115.0f));
+    // Velocity reflected: vx = -200 * 0.5 = -100.0
+    assert(CheckFloatNear(vel0.x, -100.0f));
+    // Tangential velocities attenuated by (1 - 0.2) = 0.8: vy = 80, vz = -40
+    assert(CheckFloatNear(vel0.y, 80.0f));
+    assert(CheckFloatNear(vel0.z, -40.0f));
+
+    // Particle 1: Pushed back to minY + r = -120 + 4 = -116.0
+    assert(CheckFloatNear(pos1.y, -116.0f));
+    // Velocity reflected: vy = -(-150) * 0.5 = +75.0
+    assert(CheckFloatNear(vel1.y, 75.0f));
+    // Tangential velocities attenuated: vx = 64.0, vz = 32.0
+    assert(CheckFloatNear(vel1.x, 64.0f));
+    assert(CheckFloatNear(vel1.z, 32.0f));
+
+    std::cout << "\n[PASS] Multi-planar 3D AABB containment, restitution, and friction impulse verified.\n";
+}
+
+// ----------------------------------------------------------------------------
 // Main Runner
 // ----------------------------------------------------------------------------
 int main() {
@@ -475,9 +581,11 @@ int main() {
     RunTest7_LifecycleAndCompaction();
     RunTest8_DynamicVertexStreaming();
     RunTest9_SystemDefinitionGraph();
+    RunTest10_ToroidalVortexRingDynamics();
+    RunTest11_BoundingBoxCollision();
 
     PrintSeparator('=');
-    std::cout << "  ALL 9 / 9 VERIFICATION TEST SUITES PASSED SUCCESSFULLY!\n";
+    std::cout << "  ALL 11 / 11 VERIFICATION TEST SUITES PASSED SUCCESSFULLY!\n";
     PrintSeparator('=');
 
     return 0;
