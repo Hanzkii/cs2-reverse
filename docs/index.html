@@ -7899,53 +7899,23 @@
         drawLagCompCanvas('lagCompCanvas', targetTick, pingMs, interpMs, teleportMode);
       }
       else if (simId === '15') {
-        if (subtitle) subtitle.innerText = 'Econ Item Schema, Wear Degradation ODE & Texture UV Projection';
-        const floatVal = parseFloat((document.getElementById('param15Float') && document.getElementById('param15Float').value) || 0.155);
-        const seedVal = parseInt((document.getElementById('param15Seed') && document.getElementById('param15Seed').value) || 420, 10);
-        const style = (document.getElementById('param15Style') && document.getElementById('param15Style').value) || 'custom';
-
-        let tierName = 'Factory New';
-        let tierColor = 'text-emerald-400';
-        let tierBadge = 'FN';
-        if (floatVal > 0.45) { tierName = 'Battle-Scarred'; tierColor = 'text-rose-400'; tierBadge = 'BS'; }
-        else if (floatVal > 0.38) { tierName = 'Well-Worn'; tierColor = 'text-orange-400'; tierBadge = 'WW'; }
-        else if (floatVal > 0.15) { tierName = 'Field-Tested'; tierColor = 'text-amber-400'; tierBadge = 'FT'; }
-        else if (floatVal > 0.07) { tierName = 'Minimal Wear'; tierColor = 'text-lime-400'; tierBadge = 'MW'; }
-
-        const lacquerLoss = (Math.pow(floatVal, 0.75) * 100.0).toFixed(1);
-        const bareMetalPct = Math.max(0, ((floatVal - 0.15) / 0.85) * 100.0).toFixed(1);
-
+        if (subtitle) subtitle.innerText = 'Econ Item Schema, Wear Degradation ODE & Texture UV Projection (Paused)';
         container.innerHTML = `
-          <div class="w-full space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-              <span class="text-slate-300">Simulator: <strong class="text-cyan-300">cs2_econ_item_wear_sim.cpp</strong></span>
-              <span class="text-emerald-300 font-bold">Target: client.dll (C_EconItemView)</span>
+          <div class="max-w-md mx-auto p-8 text-center space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
             </div>
-            <div class="rounded-xl overflow-hidden border border-slate-800 bg-[#070b12] relative">
-              <canvas id="econWearCanvas" width="850" height="340" class="w-full h-auto block"></canvas>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs text-center">
-              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-                <div class="text-[10px] text-slate-400 uppercase">Wear Tier</div>
-                <div class="${tierColor} font-bold mt-0.5">${tierName} (${tierBadge})</div>
-              </div>
-              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-                <div class="text-[10px] text-slate-400 uppercase">Float Value</div>
-                <div class="text-cyan-300 font-bold mt-0.5">${floatVal.toFixed(4)}</div>
-              </div>
-              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-                <div class="text-[10px] text-slate-400 uppercase">Lacquer Abrasion</div>
-                <div class="text-purple-300 font-bold mt-0.5">${lacquerLoss}% Loss</div>
-              </div>
-              <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
-                <div class="text-[10px] text-slate-400 uppercase">Exposed Bare Metal</div>
-                <div class="text-amber-300 font-bold mt-0.5">${bareMetalPct}% Area</div>
-              </div>
+            <h3 class="text-base font-mono font-bold text-white">Econ Item Schema &amp; Wear ODE Visualizer Paused</h3>
+            <p class="text-xs font-mono text-slate-400 leading-relaxed">
+              Temporarily paused awaiting extraction of authentic Source 2 weapon meshes (<code class="text-amber-300">vmdl_c</code>) and procedural wear shaders (<code class="text-amber-300">vmat_c</code>) to replace placeholder geometry with authentic in-game models.
+            </p>
+            <div class="pt-2">
+              <button onclick="openSimulator('03')" class="px-4 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-bold transition-all cursor-pointer">
+                &larr; Switch to Sub-Tick Prediction Simulator
+              </button>
             </div>
           </div>
         `;
-
-        drawEconWearCanvas('econWearCanvas', floatVal, seedVal, style);
       }
       else if (simId === '17') {
         if (subtitle) subtitle.innerText = 'Steam Audio Spatial Acoustics, Atmospheric Air Absorption ODE & Ambisonics';
@@ -9295,7 +9265,7 @@
       renderSimVisualizer('21');
     }
 
-    let _packetPipelineAnimId = null;
+    var _packetPipelineAnimId = window._packetPipelineAnimId || null;
 
     function drawPacketPipelineCanvas(canvasId, isMerge, isThreaded, allocatedThreads, N) {
       if (_packetPipelineAnimId) {

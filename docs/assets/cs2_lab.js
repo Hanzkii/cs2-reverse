@@ -333,13 +333,13 @@
       }
       this.gridGroup.add(majorGrid);
 
-      // Coordinate Triad (+X red forward, +Y green left, +Z blue up)
+      // Coordinate Triad (+X red forward, +Y green left, +Z blue up) - compact & sleek
       this.triadGroup = new THREE.Group();
-      const axisLen = 64;
+      const axisLen = 16;
       if (typeof THREE.ArrowHelper === 'function') {
-        this.triadGroup.add(new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), axisLen, 0xef4444, 8, 4));
-        this.triadGroup.add(new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), axisLen, 0x10b981, 8, 4));
-        this.triadGroup.add(new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), axisLen, 0x38bdf8, 8, 4));
+        this.triadGroup.add(new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), axisLen, 0xef4444, 4, 2));
+        this.triadGroup.add(new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0), axisLen, 0x10b981, 4, 2));
+        this.triadGroup.add(new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), axisLen, 0x38bdf8, 4, 2));
       } else if (typeof THREE.AxesHelper === 'function') {
         this.triadGroup.add(new THREE.AxesHelper(axisLen));
       }
@@ -550,7 +550,7 @@
       this.options = options || {};
       this.ctx = null;
       this.isInitialized = false;
-      this.isMuted = false;
+      this.isMuted = this.options.isMuted !== undefined ? Boolean(this.options.isMuted) : true;
       this.masterVolume = this.options.masterVolume !== undefined ? this.options.masterVolume : 1.0;
 
       // Bus nodes
@@ -745,9 +745,12 @@
      * @param {THREE.Camera} camera
      */
     setListenerTransform(camera) {
-      if (!this.ctx || !camera) return;
+      if (!this.ctx || !camera || this.isMuted) return;
+      if (this.ctx.state !== 'running') return;
+      if (!this._activeSources || this._activeSources.size === 0) return;
+
       const listener = this.ctx.listener;
-      const t = this.ctx.currentTime;
+      if (!listener) return;
 
       const pos = new THREE.Vector3();
       const fwd = new THREE.Vector3();
@@ -757,6 +760,18 @@
       camera.getWorldDirection(fwd);
       up.applyQuaternion(camera.quaternion);
 
+      // Throttling: only update if camera position or orientation actually changed
+      if (!this._lastCamPos) {
+        this._lastCamPos = new THREE.Vector3();
+        this._lastCamFwd = new THREE.Vector3();
+      }
+      if (pos.distanceToSquared(this._lastCamPos) < 0.05 && fwd.distanceToSquared(this._lastCamFwd) < 0.005) {
+        return;
+      }
+      this._lastCamPos.copy(pos);
+      this._lastCamFwd.copy(fwd);
+
+      const t = this.ctx.currentTime;
       if (listener.positionX) {
         listener.positionX.setValueAtTime(pos.x, t);
         listener.positionY.setValueAtTime(pos.y, t);
@@ -1678,6 +1693,12 @@
             <button id="cs2lab-btn-hud" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-[10px] font-bold transition-colors cursor-pointer" title="Toggle Telemetry HUD (H)">
               HUD
             </button>
+            <button id="cs2lab-btn-audio" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700 font-mono text-[10px] font-bold transition-colors cursor-pointer flex items-center gap-1" title="Toggle Procedural Audio (M)">
+              <span id="cs2lab-audio-icon">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+              </span>
+              <span id="cs2lab-audio-text">MUTED</span>
+            </button>
           </div>
         </div>
       `;
@@ -1769,6 +1790,33 @@
         btnHud.addEventListener('click', () => this.toggleHud());
       }
 
+      // Audio Mute/Unmute Toggle
+      const btnAudio = this.controlsRoot ? this.controlsRoot.querySelector('#cs2lab-btn-audio') : null;
+      if (btnAudio && this.audioEngine) {
+        const updateAudioBtn = () => {
+          const isMuted = Boolean(this.audioEngine.isMuted);
+          const iconEl = btnAudio.querySelector('#cs2lab-audio-icon');
+          const textEl = btnAudio.querySelector('#cs2lab-audio-text');
+          if (isMuted) {
+            btnAudio.className = 'px-2 py-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700 font-mono text-[10px] font-bold transition-colors cursor-pointer flex items-center gap-1';
+            if (iconEl) iconEl.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>';
+            if (textEl) textEl.textContent = 'MUTED';
+          } else {
+            btnAudio.className = 'px-2 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono text-[10px] font-bold transition-colors cursor-pointer flex items-center gap-1';
+            if (iconEl) iconEl.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>';
+            if (textEl) textEl.textContent = 'AUDIO';
+          }
+        };
+        btnAudio.addEventListener('click', () => {
+          if (this.audioEngine.ctx && this.audioEngine.ctx.state === 'suspended') {
+            this.audioEngine.ctx.resume();
+          }
+          this.audioEngine.setMuted(!this.audioEngine.isMuted);
+          updateAudioBtn();
+        });
+        updateAudioBtn();
+      }
+
       // Keyboard Shortcuts
       if (typeof window !== 'undefined' && window.addEventListener) {
         window.addEventListener('keydown', this._onKeyDown);
@@ -1793,6 +1841,10 @@
       } else if (e.code === 'KeyH') {
         e.preventDefault();
         this.toggleHud();
+      } else if (e.code === 'KeyM') {
+        e.preventDefault();
+        const btnAudio = this.controlsRoot ? this.controlsRoot.querySelector('#cs2lab-btn-audio') : null;
+        if (btnAudio) btnAudio.click();
       } else if (e.code === 'Digit1') {
         this.setSpeed(0.1);
       } else if (e.code === 'Digit2') {
@@ -3484,13 +3536,13 @@
         this.update(0, 0, 0);
       });
 
-      // 2. Subtle Translucent Reach Volume (Off by default, never obscures character)
-      const reachGeom = new THREE.SphereGeometry(21.6, 24, 16);
+      // 2. Subtle Planar Reach Boundary Ring (Off by default, never obscures character)
+      const reachGeom = new THREE.RingGeometry(21.4, 21.6, 36);
       const reachMat = new THREE.MeshBasicMaterial({
         color: 0x06b6d4,
         transparent: true,
-        opacity: 0.04,
-        wireframe: false,
+        opacity: 0.35,
+        side: 2, // THREE.DoubleSide
         depthWrite: false
       });
       this.reachSphereMesh = new THREE.Mesh(reachGeom, reachMat);
@@ -3622,13 +3674,30 @@
       const L1 = this.limbLengthL1;
       const L2 = this.limbLengthL2;
 
+      // Dynamic limb reach animation during timeline playback
+      let solveTarget = { x: this.targetPos.x, y: this.targetPos.y, z: this.targetPos.z };
+      if (this.playback && this.playback.isPlaying) {
+        const cycle = ((tick + subTickFrac) / (this.playback.maxTicks || 64)) * Math.PI * 2;
+        const sweepX = Math.sin(cycle) * 7.5;
+        const sweepY = Math.cos(cycle) * 5.0;
+        const sweepZ = Math.sin(cycle * 2.0) * 3.5;
+        solveTarget = {
+          x: this.targetPos.x + sweepX,
+          y: this.targetPos.y + sweepY,
+          z: this.targetPos.z + sweepZ
+        };
+        if (this.targetGizmo) {
+          this.targetGizmo.setPosition(solveTarget.x, solveTarget.y, solveTarget.z);
+        }
+      }
+
       // 3. Analytical Two-Bone IK Solve (Law of Cosines)
       const poleWorld = {
         x: rootWorldPos.x + this.poleVec.x * 20,
         y: rootWorldPos.y + this.poleVec.y * 20,
         z: rootWorldPos.z + this.poleVec.z * 20
       };
-      const ikSol = solveTwoBoneIK(rootWorldPos, this.targetPos, L1, L2, poleWorld);
+      const ikSol = solveTwoBoneIK(rootWorldPos, solveTarget, L1, L2, poleWorld);
 
       // 4. Guaranteed Direct Joint Attachment under Blend Weight
       const w = Math.max(0.0, Math.min(1.0, this.blendWeight));
@@ -3666,9 +3735,9 @@
         posAttr.array[0] = effPos.x;
         posAttr.array[1] = effPos.y;
         posAttr.array[2] = effPos.z;
-        posAttr.array[3] = this.targetPos.x;
-        posAttr.array[4] = this.targetPos.y;
-        posAttr.array[5] = this.targetPos.z;
+        posAttr.array[3] = solveTarget.x;
+        posAttr.array[4] = solveTarget.y;
+        posAttr.array[5] = solveTarget.z;
         posAttr.needsUpdate = true;
         this.reachLineMesh.material.color.setHex(ikSol.reachedTarget ? 0x10b981 : 0xf59e0b);
         this.reachLineMesh.visible = this.showGizmo;
@@ -4877,11 +4946,13 @@
       this.subsurfaceRay = makeLine(0xf59e0b); // Amber subsurface
       this.exitRay = makeLine(0x06b6d4);       // Cyan exit
       this.ricochetRay = makeLine(0xfacc15);   // Bright gold bounce
+      this.normalRay = makeLine(0xfacc15, true); // Yellow dashed surface normal
 
       this.sceneGroup.add(this.entryRay);
       this.sceneGroup.add(this.subsurfaceRay);
       this.sceneGroup.add(this.exitRay);
       this.sceneGroup.add(this.ricochetRay);
+      this.sceneGroup.add(this.normalRay);
 
       // 5. Animated Ballistic Tracer & Impact Flash
       const tracerGeo = new THREE.CylinderGeometry(0.8, 0.8, 8.0, 8);
@@ -4974,16 +5045,19 @@
       const cosTheta = Math.max(0.15, Math.cos(rad));
       const halfThick = this.wallThickness * 0.5;
 
-      // Rotate the physical wall slab around the Z axis
+      // Target elevation based on selected hitgroup
+      const targetZ = this.targetHitgroup === 'head' ? 110.0 : (this.targetHitgroup === 'chest' ? 88.0 : 52.0);
+
+      // Rotate the physical wall slab around the Z axis at height 70
       if (this.wallMesh) {
         this.wallMesh.rotation.z = rad;
         this.wallMesh.position.set(0, 0, 70);
       }
 
-      // Straight collinear line of fire along Y = 0
+      // Collinear ballistic line of fire aimed horizontally at targetZ
       const muzzleX = -160.0;
       const muzzleY = 0.0;
-      const muzzleZ = 70.0;
+      const muzzleZ = targetZ;
       if (this.muzzleMarker) {
         this.muzzleMarker.position.set(muzzleX, muzzleY, muzzleZ);
         this.muzzleMarker.rotation.set(0, 0, Math.PI * 0.5);
@@ -4993,10 +5067,11 @@
       const enterX = Math.max(-120.0, -halfThick / cosTheta);
       const exitX = Math.min(120.0, halfThick / cosTheta);
       const enterY = 0.0, exitY = 0.0;
-      const enterZ = 70.0, exitZ = 70.0;
+      const enterZ = targetZ, exitZ = targetZ;
 
       // Entry Ray
       const setLine = (line, x1, y1, z1, x2, y2, z2, visible = true) => {
+        if (!line) return;
         line.visible = visible;
         if (!visible) return;
         const attr = line.geometry.attributes.position;
@@ -5007,13 +5082,19 @@
 
       setLine(this.entryRay, muzzleX, muzzleY, muzzleZ, enterX, enterY, enterZ, true);
 
-      // Ricochet reflection vector: n = (-cos(rad), -sin(rad), 0)
+      // Surface normal vector of front face: n = (-cos(rad), -sin(rad), 0)
+      const nx = -Math.cos(rad);
+      const ny = -Math.sin(rad);
+      const normalLen = 35.0;
+      setLine(this.normalRay, enterX, enterY, enterZ, enterX + nx * normalLen, enterY + ny * normalLen, enterZ, true);
+
+      // Ricochet reflection vector: r = v - 2(v . n)n -> (-cos(2*rad), -sin(2*rad), 0)
       const bounceDx = -Math.cos(2 * rad);
       const bounceDy = -Math.sin(2 * rad);
       const bounceDist = 120.0;
 
       if (res.isRicochet) {
-        setLine(this.ricochetRay, enterX, enterY, enterZ, enterX + bounceDx * bounceDist, enterY + bounceDy * bounceDist, enterZ + 15, true);
+        setLine(this.ricochetRay, enterX, enterY, enterZ, enterX + bounceDx * bounceDist, enterY + bounceDy * bounceDist, enterZ + 10, true);
         setLine(this.subsurfaceRay, 0, 0, 0, 0, 0, 0, false);
         setLine(this.exitRay, 0, 0, 0, 0, 0, 0, false);
       } else {
@@ -5021,7 +5102,6 @@
         setLine(this.subsurfaceRay, enterX, enterY, enterZ, exitX, exitY, exitZ, true);
 
         if (res.penetrated) {
-          const targetZ = this.targetHitgroup === 'head' ? 110.0 : this.targetHitgroup === 'chest' ? 88.0 : 52.0;
           setLine(this.exitRay, exitX, exitY, exitZ, 160.0, 0.0, targetZ, true);
         } else {
           setLine(this.exitRay, 0, 0, 0, 0, 0, 0, false);
@@ -5041,7 +5121,7 @@
 
         if (curX < enterX) {
           // Pre-wall flight
-          this.tracerBullet.position.set(curX, 0, 70);
+          this.tracerBullet.position.set(curX, 0, targetZ);
           this.tracerBullet.rotation.set(0, 0, Math.PI * 0.5);
           this.tracerBullet.material.color.setHex(0x22c55e);
           if (this.impactFlash) this.impactFlash.visible = false;
@@ -5052,19 +5132,18 @@
             this.tracerBullet.position.set(enterX + bounceDx * rDist, enterY + bounceDy * rDist, enterZ + rDist * 0.1);
             this.tracerBullet.material.color.setHex(0xfacc15);
           } else {
-            this.tracerBullet.position.set(curX, 0, 70);
+            this.tracerBullet.position.set(curX, 0, targetZ);
             this.tracerBullet.material.color.setHex(0xf59e0b);
           }
           if (this.impactFlash) {
-            this.impactFlash.position.set(enterX, 0, 70);
+            this.impactFlash.position.set(enterX, 0, targetZ);
             this.impactFlash.visible = Math.abs(curX - enterX) < 8.0;
           }
         } else {
           // Post-wall flight or absorption
           if (res.penetrated) {
-            const targetZ = this.targetHitgroup === 'head' ? 110.0 : this.targetHitgroup === 'chest' ? 88.0 : 52.0;
             const exitFrac = Math.min(1.0, (curX - exitX) / (160.0 - exitX));
-            this.tracerBullet.position.set(curX, 0, 70.0 + (targetZ - 70.0) * exitFrac);
+            this.tracerBullet.position.set(curX, 0, targetZ);
             this.tracerBullet.material.color.setHex(0x06b6d4);
             if (this.impactFlash) {
               if (exitFrac >= 0.92) {
@@ -6293,7 +6372,7 @@
       this.wallOcclusion = true;
       this.reverbRT60 = 1.45; // seconds
       this.airAbsorptionAlpha = 0.0035; // dB/m
-      this.autoPulse = true; // Auto-pulse audio source on playback
+      this.autoPulse = false; // Disabled by default to prevent unwanted background audio ticks
       this.autoPulseInterval = 1.6; // seconds
       this._pulseTimer = 0;
 
