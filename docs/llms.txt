@@ -75,7 +75,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **resourcesystem.dll** (`game/resourcesystem/`): `kv3_parser.cpp`, `kv3_parser.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/resourcesystem)
 - **scenesystem.dll** (`game/scenesystem/`): `scene_system.cpp`, `scene_system.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/scenesystem)
 - **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
-- **server.dll** (`game/server/`): `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
+- **server.dll** (`game/server/`): `baseentity.h`, `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h`, `player_controller.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
 - **shared** (`game/shared/`): `entity_handle.h`, `hitbox.h`, `math_types.h`, `ray_trace.h`, `skeleton.h`, `usercmd.h`, `weapon_vdata.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/shared)
 - **soundsystem.dll** (`game/soundsystem/`): `sound_ops.cpp`, `sound_ops.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/soundsystem)
 - **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
@@ -171,6 +171,11 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01210ca0` | `0x181210ca0` | Rendering & Math |
 | `rendersystemdx11.dll` | `CRenderContextDx11::DrawIndexedInstancedIndirect` | `0x00026cb0` | `0x180026cb0` | Rendering & Math |
 | `rendersystemdx11.dll` | `CD3D11DeviceContext::DrawIndexedInstancedIndirect` | `0x0001c760` | `0x18001c760` | Rendering & Math |
+| `server.dll` | `CCSPlayerController::GetPlayerPawn` | `0x00212390` | `0x180212390` | Gameplay & Entities |
+| `server.dll` | `CCSPlayerController::SetPawn` | `0x00a6d400` | `0x180a6d400` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Spawn` | `0x00153ff0` | `0x180153ff0` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Activate` | `0x00cd1c70` | `0x180cd1c70` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::SetNextThink` | `0x003e8590` | `0x1803e8590` | Gameplay & Entities |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -198,6 +203,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [22_engine_clockdrift_and_packetentities_merge.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/22_engine_clockdrift_and_packetentities_merge.md)
 - [23_server_parallel_snapshots.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/23_server_parallel_snapshots.md)
 - [24_gpu_driven_occlusion_culling.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/24_gpu_driven_occlusion_culling.md)
+- [25_entity_and_pawn_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/25_entity_and_pawn_architecture.md)
 - [ballistic_penetration_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md)
 - [ghidra_mcp_extensions.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ghidra_mcp_extensions.md)
 - [inferno_combustion_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md)

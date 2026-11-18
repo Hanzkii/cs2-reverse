@@ -75,7 +75,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **resourcesystem.dll** (`game/resourcesystem/`): `kv3_parser.cpp`, `kv3_parser.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/resourcesystem)
 - **scenesystem.dll** (`game/scenesystem/`): `scene_system.cpp`, `scene_system.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/scenesystem)
 - **schemasystem.dll** (`game/schemasystem/`): `schemasystem.cpp`, `schemasystem.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/schemasystem)
-- **server.dll** (`game/server/`): `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
+- **server.dll** (`game/server/`): `baseentity.h`, `bullet_penetration.cpp`, `bullet_penetration.h`, `controller_pawn.cpp`, `controller_pawn.h`, `hit_registration_damage.cpp`, `hit_registration_damage.h`, `lagcompensation.cpp`, `lagcompensation.h`, `player_controller.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/server)
 - **shared** (`game/shared/`): `entity_handle.h`, `hitbox.h`, `math_types.h`, `ray_trace.h`, `skeleton.h`, `usercmd.h`, `weapon_vdata.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/shared)
 - **soundsystem.dll** (`game/soundsystem/`): `sound_ops.cpp`, `sound_ops.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/soundsystem)
 - **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
@@ -171,6 +171,11 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01210ca0` | `0x181210ca0` | Rendering & Math |
 | `rendersystemdx11.dll` | `CRenderContextDx11::DrawIndexedInstancedIndirect` | `0x00026cb0` | `0x180026cb0` | Rendering & Math |
 | `rendersystemdx11.dll` | `CD3D11DeviceContext::DrawIndexedInstancedIndirect` | `0x0001c760` | `0x18001c760` | Rendering & Math |
+| `server.dll` | `CCSPlayerController::GetPlayerPawn` | `0x00212390` | `0x180212390` | Gameplay & Entities |
+| `server.dll` | `CCSPlayerController::SetPawn` | `0x00a6d400` | `0x180a6d400` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Spawn` | `0x00153ff0` | `0x180153ff0` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Activate` | `0x00cd1c70` | `0x180cd1c70` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::SetNextThink` | `0x003e8590` | `0x1803e8590` | Gameplay & Entities |
 
 ## Architecture Documentation Reports (`docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -198,6 +203,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - [22_engine_clockdrift_and_packetentities_merge.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/22_engine_clockdrift_and_packetentities_merge.md)
 - [23_server_parallel_snapshots.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/23_server_parallel_snapshots.md)
 - [24_gpu_driven_occlusion_culling.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/24_gpu_driven_occlusion_culling.md)
+- [25_entity_and_pawn_architecture.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/25_entity_and_pawn_architecture.md)
 - [ballistic_penetration_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ballistic_penetration_physics.md)
 - [ghidra_mcp_extensions.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/ghidra_mcp_extensions.md)
 - [inferno_combustion_physics.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/inferno_combustion_physics.md)
@@ -825,6 +831,41 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **Current VA**: `0x18001c760`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 20 41 8B F1 49 8B D8 48 8B F9 4D 85 C0 75 3D 8B 0D F5`
 - **Description**: Hardware D3D11 device context indirect draw submission.
+
+### CCSPlayerController::GetPlayerPawn (server.dll)
+- **ID**: `server_ccsplayercontroller_getplayerpawn`
+- **Current RVA**: `0x00212390` (Baseline: `0x00212390`, Delta: `+0x0`)
+- **Current VA**: `0x180212390`
+- **IDA / Ghidra Pattern**: `8B 91 EC 08 00 00 45 33 D2 83 FA FF 74 ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 83 FA FE 74 ? 8B C2 25 FF 7F 00 00`
+- **Description**: Dereferences 32-bit CEntityHandle m_hPlayerPawn through CEntitySystem chunked list.
+
+### CCSPlayerController::SetPawn (server.dll)
+- **ID**: `server_ccsplayercontroller_setpawn`
+- **Current RVA**: `0x00a6d400` (Baseline: `0x00a6d400`, Delta: `+0x0`)
+- **Current VA**: `0x180a6d400`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 56 41 57 48 83 EC 20 8B 91 88 03 00 00 48 8B F9 C1 EA 08 83 E2 01 E8 ? ? ? ? 8B 97 EC 08 00 00`
+- **Description**: Binds CCSPlayerPawn to controller, updating m_hPlayerPawn (+0x8ec) and m_hObserverPawn.
+
+### CBaseEntity::Spawn (server.dll)
+- **ID**: `server_cbaseentity_spawn`
+- **Current RVA**: `0x00153ff0` (Baseline: `0x00153ff0`, Delta: `+0x0`)
+- **Current VA**: `0x180153ff0`
+- **IDA / Ghidra Pattern**: `C2 00 00 CC CC CC CC CC CC CC CC CC CC CC CC CC 48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 40 48 8B DA`
+- **Description**: Primary CBaseEntity lifecycle spawn routine (VTable Slot 2).
+
+### CBaseEntity::Activate (server.dll)
+- **ID**: `server_cbaseentity_activate`
+- **Current RVA**: `0x00cd1c70` (Baseline: `0x00cd1c70`, Delta: `+0x0`)
+- **Current VA**: `0x180cd1c70`
+- **IDA / Ghidra Pattern**: `48 89 5C 24 08 57 48 83 EC 20 8B DA 48 8B F9 E8 ?? ?? ?? ?? F6 C3 01 74 0D BA A8 04 00 00 48 8B CF E8 ?? ?? ?? ?? 48 8B 5C 24 30 48 8B C7 48 83 C4 20 5F C3 CC CC CC CC CC CC CC CC CC CC CC CC 48 89 5C 24 08 48 89 6C 24 10`
+- **Description**: Post-spawn world activation routine (VTable Slot 4).
+
+### CBaseEntity::SetNextThink (server.dll)
+- **ID**: `server_cbaseentity_setnextthink`
+- **Current RVA**: `0x003e8590` (Baseline: `0x003e8590`, Delta: `+0x0`)
+- **Current VA**: `0x1803e8590`
+- **IDA / Ghidra Pattern**: `40 53 56 57 48 83 EC 30 F3 0F 10 0D ?? ?? ?? ??`
+- **Description**: Registers entity next think tick into simulation think manager.
 
 ================================================================================
 # SECTION 2: CLEAN-ROOM C++20 SDK HEADERS (`sdk/**/*.hpp` & `game/**/*.h`)
@@ -13325,6 +13366,262 @@ private:
 #endif // CS2_SCHEMASYSTEM_H
 ```
 
+### File: `game/server/baseentity.h` (server.dll)
+```cpp
+//===========================================================================//
+// Valve Source 2 Engine - Clean-Room SDK
+// Module: server.dll (CS2 Build 2026-11-11_26598758)
+// Subsystem: CBaseEntity & CEntityInstance 1:1 Binary Layout
+//===========================================================================//
+
+#pragma once
+
+#include <cstdint>
+#include <cstddef>
+#include <type_traits>
+
+namespace cs2::server {
+
+struct Vector3 {
+    float x{ 0.0f }, y{ 0.0f }, z{ 0.0f };
+};
+static_assert(sizeof(Vector3) == 0x0C);
+
+struct QAngle {
+    float pitch{ 0.0f }, yaw{ 0.0f }, roll{ 0.0f };
+};
+static_assert(sizeof(QAngle) == 0x0C);
+
+struct CTransform {
+    Vector3 vecPosition;
+    float   flPad0;
+    float   rotQuat[4];
+    float   flScale;
+    float   flPad1[3];
+};
+static_assert(sizeof(CTransform) == 0x30);
+
+class CEntityHandle {
+public:
+    union {
+        uint32_t m_Value;
+        struct {
+            uint32_t m_Index  : 15;
+            uint32_t m_Serial : 17;
+        };
+    };
+
+    constexpr CEntityHandle() noexcept : m_Value(0xFFFFFFFF) {}
+    constexpr explicit CEntityHandle(uint32_t val) noexcept : m_Value(val) {}
+    constexpr bool IsValid() const noexcept { return m_Value != 0xFFFFFFFF && (m_Value & 0x7FFF) != 0x7FFF; }
+    constexpr uint32_t GetEntryIndex() const noexcept { return m_Value & 0x7FFF; }
+    constexpr uint32_t GetSerialNumber() const noexcept { return m_Value >> 15; }
+    constexpr bool operator==(const CEntityHandle& other) const noexcept = default;
+};
+static_assert(sizeof(CEntityHandle) == 0x04);
+
+class CEntityIdentity;
+class CGameSceneNode;
+class CCollisionProperty;
+class CBodyComponent;
+
+// 1. CEntityInstance (Base for all Source 2 entities, size 0x30)
+class CEntityInstance {
+public:
+    virtual ~CEntityInstance() = default;              // +0x00: Slot 0 (dtor)
+    int64_t          m_iszPrivateVScripts;             // +0x08
+    CEntityIdentity* m_pEntityIdentity;                // +0x10: Link to descriptor
+    uint8_t          m_pad18[0x18];                    // +0x18
+
+    [[nodiscard]] inline CEntityIdentity* GetIdentity() const noexcept {
+        return m_pEntityIdentity;
+    }
+};
+static_assert(sizeof(CEntityInstance) == 0x30);
+static_assert(offsetof(CEntityInstance, m_pEntityIdentity) == 0x10);
+
+// 2. Component Structure Anchors
+class CGameSceneNode {
+public:
+    virtual ~CGameSceneNode() = default;               // +0x00
+    uint8_t          m_pad08[0x08];                    // +0x08
+    CTransform       m_nodeToWorld;                    // +0x10: Spatial Transform Matrix
+    CEntityInstance* m_pOwner;                         // +0x30
+    CGameSceneNode*  m_pParent;                        // +0x38
+    CGameSceneNode*  m_pChild;                         // +0x40
+    CGameSceneNode*  m_pNextSibling;                   // +0x48
+    uint8_t          m_pad50[0x20];                    // +0x50
+    CEntityHandle    m_hParent;                        // +0x70
+    uint8_t          m_pad74[0x0C];                    // +0x74
+    Vector3          m_vecOrigin;                      // +0x80: Local Origin
+    uint8_t          m_pad8C[0x2C];                    // +0x8C
+    QAngle           m_angRotation;                    // +0xB8: Local Angles
+    float            m_flScale;                        // +0xC4: Local Scale
+    Vector3          m_vecAbsOrigin;                   // +0xC8: World Origin
+    QAngle           m_angAbsRotation;                 // +0xD4: World Angles
+    float            m_flAbsScale;                     // +0xE0: World Scale
+};
+static_assert(offsetof(CGameSceneNode, m_nodeToWorld)    == 0x10);
+static_assert(offsetof(CGameSceneNode, m_vecOrigin)      == 0x80);
+static_assert(offsetof(CGameSceneNode, m_vecAbsOrigin)   == 0xC8);
+static_assert(offsetof(CGameSceneNode, m_angAbsRotation) == 0xD4);
+
+class CBodyComponent {
+public:
+    virtual ~CBodyComponent() = default;               // +0x00
+    CGameSceneNode*  m_pSceneNode;                     // +0x08: Scene graph node
+    uint8_t          m_pad10[0x38];                    // +0x10
+    CEntityInstance* __m_pChainEntity;                 // +0x48
+};
+static_assert(offsetof(CBodyComponent, m_pSceneNode) == 0x08);
+
+// 3. CBaseEntity (Source 2 server.dll Ground-Truth Reconstruction)
+// Size: Exactly 0x4A8 bytes (1,192 bytes)
+class CBaseEntity : public CEntityInstance {
+public:
+    // Virtual Method Table (Slots 0..4, 11, 81)
+    virtual void PostConstructor() {}                  // Slot 1 (RVA 0x1540d0)
+    virtual void Spawn() {}                            // Slot 2 (RVA 0x153ff0)
+    virtual void Precache() {}                         // Slot 3 (RVA 0x614920)
+    virtual void Activate() {}                         // Slot 4 (RVA 0xcd1c70)
+
+    // Member Variables
+    CBodyComponent*            m_CBodyComponent;            // +0x0030
+    void*                      m_NetworkTransmitComponent;  // +0x0038
+    uint8_t                    m_pad40[0x208];              // +0x0040..+0x0248
+    uintptr_t                  m_aThinkFunctions;           // +0x0248
+    uint8_t                    m_pad250[0x10];              // +0x0250
+    int32_t                    m_iCurrentThinkContext;      // +0x0260
+    int32_t                    m_nLastThinkTick;            // +0x0264
+    bool                       m_bDisabledContextThinks;    // +0x0268
+    uint8_t                    m_pad269[0x0F];              // +0x0269
+    int32_t                    m_isSteadyState;             // +0x0278
+    uint8_t                    m_pad27C[0x04];              // +0x027C
+    float                      m_lastNetworkChange;         // +0x0280
+    uint8_t                    m_pad284[0x04];              // +0x0284
+    void*                      m_think;                     // +0x0288: Delegate callback pointer
+    uint8_t                    m_pad290[0x40];              // +0x0290
+    int32_t                    m_iHealth;                   // +0x02D0
+    int32_t                    m_iMaxHealth;                // +0x02D4
+    uint8_t                    m_lifeState;                 // +0x02D8: 0=ALIVE, 1=DYING, 2=DEAD
+    uint8_t                    m_pad2D9[0x03];              // +0x02D9
+    float                      m_flDamageAccumulator;       // +0x02DC
+    bool                       m_bTakesDamage;              // +0x02E0
+    uint8_t                    m_pad2E1[0x07];              // +0x02E1
+    int32_t                    m_nTakeDamageFlags;          // +0x02E8
+    uint8_t                    m_pad2EC[0x04];              // +0x02EC
+    int32_t                    m_nPlatformType;             // +0x02F0
+    uint8_t                    m_MoveCollide;               // +0x02F2
+    uint8_t                    m_MoveType;                  // +0x02F3
+    uint8_t                    m_nPreviouslySetMoveType;    // +0x02F4
+    uint8_t                    m_nActualMoveType;           // +0x02F5
+    uint8_t                    m_nWaterTouch;               // +0x02F6
+    uint8_t                    m_nSlimeTouch;               // +0x02F7
+    bool                       m_bRestoreInHierarchy;       // +0x02F8
+    uint8_t                    m_pad2F9[0x07];              // +0x02F9
+    uintptr_t                  m_target;                    // +0x0300
+    CEntityHandle              m_hDamageFilter;             // +0x0308
+    uint8_t                    m_pad30C[0x04];              // +0x030C
+    uintptr_t                  m_iszDamageFilterName;       // +0x0310
+    float                      m_flMoveDoneTime;            // +0x0318
+    uint32_t                   m_nSubclassID;               // +0x031C: CUtlStringToken
+    uint8_t                    m_pad320[0x08];              // +0x0320
+    float                      m_flAnimTime;                // +0x0328
+    float                      m_flSimulationTime;          // +0x032C
+    float                      m_flCreateTime;              // +0x0330
+    bool                       m_bClientSideRagdoll;        // +0x0334
+    uint8_t                    m_ubInterpolationFrame;      // +0x0335
+    uint8_t                    m_pad336[0x02];              // +0x0336
+    Vector3                    m_vPrevVPhysicsUpdatePos;    // +0x0338
+    int32_t                    m_iTeamNum;                  // +0x0344
+    uintptr_t                  m_iGlobalname;               // +0x0348
+    int32_t                    m_iSentToClients;            // +0x0350
+    uint8_t                    m_pad354[0x04];              // +0x0354
+    uintptr_t                  m_sUniqueHammerID;           // +0x0358
+    uint32_t                   m_spawnflags;                // +0x0360
+    int32_t                    m_nNextThinkTick;            // +0x0364
+    int32_t                    m_nSimulationTick;           // +0x0368
+    uint8_t                    m_pad36C[0x04];              // +0x036C
+    uint8_t                    m_OnKilled[0x18];            // +0x0370: CEntityIOOutput
+    uint32_t                   m_fFlags;                    // +0x0388: FL_ONGROUND, FL_DUCKING, etc.
+    Vector3                    m_vecAbsVelocity;            // +0x038C
+    Vector3                    m_vecVelocity;               // +0x0398
+    uint8_t                    m_pad3A4[0x24];              // +0x03A4
+    Vector3                    m_vecBaseVelocity;           // +0x03C8
+    int32_t                    m_nPushEnumCount;            // +0x03D4
+    CCollisionProperty*        m_pCollision;                // +0x03D8
+    CEntityHandle              m_hEffectEntity;             // +0x03E0
+    CEntityHandle              m_hOwnerEntity;              // +0x03E4
+    uint32_t                   m_fEffects;                  // +0x03E8
+    CEntityHandle              m_hGroundEntity;             // +0x03EC
+    int32_t                    m_nGroundBodyIndex;          // +0x03F0
+    float                      m_flFriction;                // +0x03F4
+    float                      m_flElasticity;              // +0x03F8
+    float                      m_flGravityScale;            // +0x03FC
+    float                      m_flTimeScale;               // +0x0400
+    float                      m_flWaterLevel;              // +0x0404
+    bool                       m_bGravityDisabled;          // +0x0408
+    bool                       m_bAnimatedEveryTick;        // +0x0409
+    uint8_t                    m_pad40A[0x02];              // +0x040A
+    float                      m_flActualGravityScale;      // +0x040C
+    bool                       m_bGravityActuallyDisabled;  // +0x0410
+    bool                       m_bDisableLowViolence;       // +0x0411
+    uint8_t                    m_nWaterType;                // +0x0412
+    uint8_t                    m_pad413[0x01];              // +0x0413
+    int32_t                    m_iEFlags;                   // +0x0414
+    uint8_t                    m_OnUser1[0x18];             // +0x0418
+    uint8_t                    m_OnUser2[0x18];             // +0x0430
+    uint8_t                    m_OnUser3[0x18];             // +0x0448
+    uint8_t                    m_OnUser4[0x18];             // +0x0460
+    int32_t                    m_iInitialTeamNum;           // +0x0478
+    float                      m_flNavIgnoreUntilTime;      // +0x047C
+    Vector3                    m_vecAngVelocity;            // +0x0480
+    bool                       m_bNetworkQuantizeOrigin;    // +0x048C
+    bool                       m_bLagCompensate;            // +0x048D
+    uint8_t                    m_pad48E[0x02];              // +0x048E
+    void*                      m_pBlocker;                  // +0x0490
+    float                      m_flLocalTime;               // +0x0494
+    float                      m_flVPhysicsUpdateLocalTime; // +0x0498
+    int32_t                    m_nBloodType;                // +0x049C
+    void*                      m_pPulseGraphInstance;       // +0x04A0
+
+    [[nodiscard]] inline CGameSceneNode* GetSceneNode() const noexcept {
+        return m_CBodyComponent ? m_CBodyComponent->m_pSceneNode : nullptr;
+    }
+
+    [[nodiscard]] inline const Vector3& GetAbsOrigin() const noexcept {
+        static constexpr Vector3 kZeroOrigin{ 0.0f, 0.0f, 0.0f };
+        CGameSceneNode* pNode = GetSceneNode();
+        return pNode ? pNode->m_vecAbsOrigin : kZeroOrigin;
+    }
+
+    [[nodiscard]] inline const QAngle& GetAbsAngles() const noexcept {
+        static constexpr QAngle kZeroAngle{ 0.0f, 0.0f, 0.0f };
+        CGameSceneNode* pNode = GetSceneNode();
+        return pNode ? pNode->m_angAbsRotation : kZeroAngle;
+    }
+
+    [[nodiscard]] inline const CTransform* GetTransform() const noexcept {
+        CGameSceneNode* pNode = GetSceneNode();
+        return pNode ? &pNode->m_nodeToWorld : nullptr;
+    }
+};
+
+static_assert(sizeof(CBaseEntity) == 0x4A8, "CBaseEntity total footprint must be exactly 0x4a8 (1192 bytes)");
+static_assert(offsetof(CBaseEntity, m_CBodyComponent)    == 0x030);
+static_assert(offsetof(CBaseEntity, m_aThinkFunctions)   == 0x248);
+static_assert(offsetof(CBaseEntity, m_think)             == 0x288);
+static_assert(offsetof(CBaseEntity, m_iHealth)           == 0x2D0);
+static_assert(offsetof(CBaseEntity, m_lifeState)         == 0x2D8);
+static_assert(offsetof(CBaseEntity, m_nSubclassID)       == 0x31C);
+static_assert(offsetof(CBaseEntity, m_nNextThinkTick)    == 0x364);
+static_assert(offsetof(CBaseEntity, m_fFlags)            == 0x388);
+static_assert(offsetof(CBaseEntity, m_pCollision)        == 0x3D8);
+static_assert(offsetof(CBaseEntity, m_pPulseGraphInstance) == 0x4A0);
+
+} // namespace cs2::server
+```
+
 ### File: `game/server/bullet_penetration.h` (server.dll)
 ```cpp
 #ifndef CS2_SERVER_BULLET_PENETRATION_H
@@ -14287,6 +14584,168 @@ using CLagCompensationManager = CLagCompensationServer;
 } // namespace cs2::server
 
 #endif // CS2_SERVER_LAGCOMPENSATION_H
+```
+
+### File: `game/server/player_controller.h` (server.dll)
+```cpp
+//===========================================================================//
+// Valve Source 2 Engine - Clean-Room SDK
+// Module: server.dll (CS2 Build 2026-11-11_26598758)
+// Subsystem: CCSPlayerController & CCSPlayerPawn 1:1 Linkage
+//===========================================================================//
+
+#pragma once
+
+#include <cstdint>
+#include <cstddef>
+#include <type_traits>
+
+namespace cs2::server {
+
+constexpr uint32_t INVALID_EHANDLE_INDEX = 0xFFFFFFFF;
+constexpr uint32_t ENT_ENTRY_MASK        = 0x7FFF;
+constexpr uint32_t NUM_ENT_ENTRIES       = 512;
+
+// 32-bit CEntityHandle bitfield
+class CEntityHandle {
+public:
+    uint32_t m_Index{ INVALID_EHANDLE_INDEX };
+
+    [[nodiscard]] constexpr bool IsValid() const noexcept {
+        return m_Index != INVALID_EHANDLE_INDEX && m_Index != 0xFFFFFFFE;
+    }
+
+    [[nodiscard]] constexpr uint32_t GetEntryIndex() const noexcept {
+        return m_Index & ENT_ENTRY_MASK;
+    }
+
+    [[nodiscard]] constexpr uint32_t GetSerialNumber() const noexcept {
+        return m_Index >> 15;
+    }
+
+    constexpr bool operator==(const CEntityHandle& other) const noexcept = default;
+};
+static_assert(sizeof(CEntityHandle) == 0x4);
+
+template <typename T>
+class CHandle : public CEntityHandle {};
+static_assert(sizeof(CHandle<void*>) == 0x4);
+
+class CEntityInstance;
+
+// 112-byte (0x70) Entity Identity Record
+struct alignas(8) CEntityIdentity {
+    CEntityInstance* m_pEntityInstance; // +0x00
+    void*            m_pClass;          // +0x08
+    CEntityHandle    m_handle;          // +0x10
+    uint32_t         m_nameStringToken; // +0x14
+    const char*      m_pszName;         // +0x18
+    void*            m_pPrev;           // +0x20
+    void*            m_pNext;           // +0x28
+    void*            m_pPrevByClass;    // +0x30
+    void*            m_pNextByClass;    // +0x38
+    uint32_t         m_flags;           // +0x40
+    uint8_t          pad_0x44[0x2C];    // +0x44
+};
+static_assert(sizeof(CEntityIdentity) == 0x70);
+static_assert(offsetof(CEntityIdentity, m_handle) == 0x10);
+
+// Base Entity Instance (+0x10 identity backpointer)
+class CEntityInstance {
+public:
+    virtual ~CEntityInstance() = default;
+    void*            m_pEntityInfo;      // +0x08
+    CEntityIdentity* m_pEntityIdentity;  // +0x10
+};
+static_assert(offsetof(CEntityInstance, m_pEntityIdentity) == 0x10);
+
+// CBaseEntity (+0x344 m_iTeamNum)
+class CBaseEntity : public CEntityInstance {
+public:
+    uint8_t pad_0x18[0x32C];
+    uint8_t m_iTeamNum;                 // +0x0344
+    uint8_t pad_0x345[0x163];
+};
+static_assert(offsetof(CBaseEntity, m_iTeamNum) == 0x0344);
+
+class CBasePlayerPawn;
+class CCSPlayerPawn;
+
+// CBasePlayerController (+0x4e0 m_hPawn, +0x514 m_iConnected, +0x51c m_iszPlayerName)
+class CBasePlayerController : public CBaseEntity {
+public:
+    uint8_t                 pad_0x4a8[0x38];
+    CHandle<CBasePlayerPawn> m_hPawn;               // +0x04e0
+    uint8_t                 pad_0x4e4[0x30];
+    int32_t                 m_iConnected;           // +0x0514
+    int32_t                 m_iMostConnected;       // +0x0518
+    char                    m_iszPlayerName[128];   // +0x051c (m_sSanitizedPlayerName)
+    uint8_t                 pad_0x59c[0x23c];
+};
+static_assert(offsetof(CBasePlayerController, m_hPawn) == 0x04e0);
+static_assert(offsetof(CBasePlayerController, m_iConnected) == 0x0514);
+static_assert(offsetof(CBasePlayerController, m_iszPlayerName) == 0x051c);
+static_assert(sizeof(CBasePlayerController) == 0x7d8);
+
+// CCSPlayerController (Total Size: 0xab8)
+class CCSPlayerController : public CBasePlayerController {
+public:
+    void*                   m_pInGameMoneyServices;      // +0x07e8
+    void*                   m_pInventoryServices;        // +0x07f0
+    void*                   m_pActionTrackingServices;   // +0x07f8
+    void*                   m_pDamageServices;           // +0x0800
+    uint8_t                 pad_0x808[0xe4];
+    CHandle<CCSPlayerPawn>  m_hPlayerPawn;               // +0x08ec
+    CHandle<CBaseEntity>    m_hObserverPawn;             // +0x08f0
+    uint32_t                m_DesiredObserverMode;       // +0x08f4
+    CHandle<CBaseEntity>    m_hDesiredObserverTarget;    // +0x08f8
+    bool                    m_bPawnIsAlive;              // +0x08fc
+    uint8_t                 pad_0x8fd[0x1bb];
+};
+static_assert(offsetof(CCSPlayerController, m_hPlayerPawn) == 0x08ec);
+static_assert(offsetof(CCSPlayerController, m_hObserverPawn) == 0x08f0);
+static_assert(offsetof(CCSPlayerController, m_bPawnIsAlive) == 0x08fc);
+static_assert(sizeof(CCSPlayerController) == 0x0ab8);
+
+// CBasePlayerPawn (Size: 0xcd0)
+class CBasePlayerPawn : public CBaseEntity {
+public:
+    uint8_t                          pad_0x4a8[0x668];
+    void*                            m_pWeaponServices;    // +0x0b10
+    void*                            m_pItemServices;      // +0x0b18
+    uint8_t                          pad_0xb20[0x28];
+    void*                            m_pCameraServices;    // +0x0b48
+    void*                            m_pMovementServices;  // +0x0b50
+    uint8_t                          pad_0xb58[0x140];
+    CHandle<CCSPlayerController>     m_hController;        // +0x0c98
+    CHandle<CCSPlayerController>     m_hDefaultController; // +0x0c9c
+    uint8_t                          pad_0xca0[0x30];
+};
+static_assert(offsetof(CBasePlayerPawn, m_pWeaponServices) == 0x0b10);
+static_assert(offsetof(CBasePlayerPawn, m_pItemServices) == 0x0b18);
+static_assert(offsetof(CBasePlayerPawn, m_pCameraServices) == 0x0b48);
+static_assert(offsetof(CBasePlayerPawn, m_pMovementServices) == 0x0b50);
+static_assert(offsetof(CBasePlayerPawn, m_hController) == 0x0c98);
+static_assert(sizeof(CBasePlayerPawn) == 0x0cd0);
+
+// CCSPlayerPawnBase (Size: 0xe20)
+class CCSPlayerPawnBase : public CBasePlayerPawn {
+public:
+    uint8_t                          pad_0xcd0[0x144];
+    CHandle<CCSPlayerController>     m_hOriginalController; // +0x0e14
+    uint8_t                          pad_0xe18[0x8];
+};
+static_assert(offsetof(CCSPlayerPawnBase, m_hOriginalController) == 0x0e14);
+static_assert(sizeof(CCSPlayerPawnBase) == 0x0e20);
+
+// CCSPlayerPawn (Size: 0x15c0)
+class CCSPlayerPawn : public CCSPlayerPawnBase {
+public:
+    uint8_t pad_0xe20[0x7a0];
+};
+static_assert(sizeof(CCSPlayerPawn) == 0x15c0);
+
+} // namespace cs2::server
 ```
 
 ### File: `game/shared/entity_handle.h` (shared)
@@ -22874,6 +23333,109 @@ $$\text{if } Z_{\min} > Z_{\text{HZB}} \implies \text{Culled (InstanceCount} = 0
 ## 4. Reconstructed SDK Headers
 
 See [game/client/gpu_culling.h](../game/client/gpu_culling.h) and [sdk/include/client/gpu_culling.hpp](../sdk/include/client/gpu_culling.hpp).
+
+--------------------------------------------------------------------------------
+
+## Document: 25_entity_and_pawn_architecture.md
+# Chapter 25: Entity System Architecture, CBaseEntity & Controller-Pawn Linkage
+
+## 1. Executive Subsystem Summary
+
+In Counter-Strike 2 (`server.dll`, Build `2026-11-11_26598758`), Valve implements an entity-component-system hybrid architecture centered around `CBaseEntity`, `CEntitySystem`, and the decoupling of the client's session state (`CCSPlayerController`) from the physical combat avatar (`CCSPlayerPawn`).
+
+This chapter documents the clean-room, 1:1 ground-truth reverse-engineered structures, virtual method tables (VFTables), member byte offsets, and handle dereference mechanics directly from the game binary.
+
+---
+
+## 2. CBaseEntity Virtual Method Table & Footprint
+
+- **Complete Object Locator (COL)**: `0x181B6A6D0` (RVA `0x1B6A6D0`)
+- **Primary VFTable Base**: `0x18194FB38` (RVA `0x194FB38`, 238 slots)
+- **Total Class Footprint**: Exactly **0x4A8 bytes (1,192 bytes)**
+
+### 2.1 Critical Lifecycle Virtual Method Slots
+
+| Method | VFTable Slot | Server VA / RVA | Architectural Role |
+| :--- | :---: | :---: | :--- |
+| `~CBaseEntity` | **Slot 0** | `0x180CDCf00` / `0x0CDCF00` | MSVC x64 Virtual Scalar Destructor |
+| `PostConstructor` | **Slot 1** | `0x1801540D0` / `0x01540D0` | Post-allocation identity & component initialization |
+| `Spawn` | **Slot 2** | `0x180153FF0` / `0x0153FF0` | Primary entity lifecycle spawn routine |
+| `Precache` | **Slot 3** | `0x180614920` / `0x0614920` | Resource string / model / sound preloading |
+| `Activate` | **Slot 4** | `0x180CD1C70` / `0x0CD1C70` | Post-spawn world activation; asserts `sizeof(CBaseEntity) == 0x4A8` |
+| `PostDataUpdate` | **Slot 11** | `0x181399F50` / `0x1399F50` | Post-deserialization network update |
+| `Think` | **Slot 81** | `0x180159DD0` / `0x0159DD0` | Virtual think callback |
+
+### 2.2 Verified Member Offsets in `CBaseEntity`
+
+| Offset | Type | Identifier | Description |
+| :--- | :--- | :--- | :--- |
+| `+0x0010` | `CEntityIdentity*` | `m_pEntityIdentity` | Pointer to 112-byte entity descriptor |
+| `+0x0030` | `CBodyComponent*` | `m_CBodyComponent` | Scene node & transform anchor |
+| `+0x0248` | `CUtlVector<thinkfunc_t>` | `m_aThinkFunctions` | Think context array |
+| `+0x0288` | `void*` | `m_think` | Primary think delegate |
+| `+0x02D0` | `int32_t` | `m_iHealth` | Current hitpoints |
+| `+0x02D4` | `int32_t` | `m_iMaxHealth` | Maximum hitpoints |
+| `+0x02D8` | `uint8_t` | `m_lifeState` | Life state (`0 = ALIVE`, `1 = DYING`, `2 = DEAD`) |
+| `+0x031C` | `uint32_t` | `m_nSubclassID` | MurmurHash2 string token archetype ID |
+| `+0x0344` | `int32_t` | `m_iTeamNum` | Active team index |
+| `+0x0364` | `int32_t` | `m_nNextThinkTick` | Next scheduled execution tick |
+| `+0x0388` | `uint32_t` | `m_fFlags` | Movement flags (`FL_ONGROUND`, `FL_DUCKING`) |
+| `+0x03D8` | `CCollisionProperty*` | `m_pCollision` | Spatial bounding box and collision masks |
+| `+0x04A0` | `void*` | `m_pPulseGraphInstance`| Scripting graph instance pointer |
+
+---
+
+## 3. CEntitySystem Partitioned Chunk Array & Handle Dereference
+
+In Source 2, entities are indexed through a 32-bit `CEntityHandle`:
+$$\text{Entity Index} = \text{Handle} \ \& \ \text{0x7FFF} \quad (15\text{ bits, up to } 32,768 \text{ entities})$$
+$$\text{Serial Number} = \text{Handle} \gg 15 \quad (17\text{ bits, ABA prevention})$$
+
+The `CEntitySystem` stores entities in 64 chunks of 512 entries each:
+$$\text{Chunk Index} = \text{Index} \gg 9, \quad \text{Slot Index} = \text{Index} \ \& \ \text{0x1FF}$$
+$$\text{Descriptor Address} = \text{ChunkPointer} + \text{SlotIndex} \times 0\text{x}70 \quad (\text{sizeof}(CEntityIdentity) = 112\text{ bytes})$$
+
+---
+
+## 4. CCSPlayerController $\leftrightarrow$ CCSPlayerPawn Linkage
+
+- **`CCSPlayerController`** (`0xAB8` bytes): Primary VFTable at `0x18190DED8`. Holds session identity, name, money, and spectator state.
+  - `m_hPlayerPawn`: Offset **`+0x08EC`** (`CHandle<CCSPlayerPawn>`)
+  - `m_hObserverPawn`: Offset **`+0x08F0`** (`CHandle<CBaseEntity>`)
+  - `m_bPawnIsAlive`: Offset **`+0x08FC`** (`bool`)
+  - `m_sSanitizedPlayerName`: Offset **`+0x051C`** (`char[128]`)
+- **`CCSPlayerPawn`** (`0x15C0` bytes): Primary VFTable at `0x1817843E8`. Holds combat physical state, services, and inventory.
+  - `m_hController`: Offset **`+0x0C98`** (`CHandle<CCSPlayerController>`)
+  - `m_pWeaponServices`: Offset **`+0x0B10`**
+  - `m_pItemServices`: Offset **`+0x0B18`**
+  - `m_pMovementServices`: Offset **`+0x0B50`**
+  - `m_pCameraServices`: Offset **`+0x0B48`**
+
+### 4.1 Decompiled Handle Dereference (`0x180212390`)
+```x86asm
+; CCSPlayerController::GetPlayerPawn
+mov     edx, dword ptr [rcx + 8ECh]    ; Load m_hPlayerPawn
+cmp     edx, -1                        ; Invalid handle check
+je      ret_null
+mov     rcx, qword ptr [g_pEntitySystem]
+and     eax, 7FFFh                     ; Index = handle & 0x7FFF
+shr     rax, 9                         ; Chunk = Index / 512
+mov     r9, qword ptr [rcx + rax*8]    ; Chunk pointer
+and     r8d, 1FFh                      ; Slot = Index % 512
+imul    rax, r8, 70h                   ; Offset = Slot * 112
+add     rax, r9                        ; pIdentity
+cmp     dword ptr [rax + 10h], edx     ; Verify serial number matches handle
+cmovne  rax, r10                       ; If mismatch, return nullptr
+mov     rax, qword ptr [rax]           ; return pIdentity->m_pEntityInstance
+ret
+```
+
+---
+
+## 5. Reconstructed 1:1 SDK Headers
+
+- [game/server/baseentity.h](../game/server/baseentity.h) & [sdk/include/server/baseentity.hpp](../sdk/include/server/baseentity.hpp)
+- [game/server/player_controller.h](../game/server/player_controller.h) & [sdk/include/server/player_controller.hpp](../sdk/include/server/player_controller.hpp)
 
 --------------------------------------------------------------------------------
 
