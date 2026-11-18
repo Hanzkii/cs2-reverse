@@ -81,8 +81,8 @@
   </script>
 
   <!-- Embedded Bundled Documentation & Portal Data -->
-  <script src="docs-data.js?v=20261119_04"></script>
-  <script src="portal-data.js?v=20261119_04"></script>
+  <script src="docs-data.js?v=20261119_05"></script>
+  <script src="portal-data.js?v=20261119_05"></script>
 
   <!-- Three.js (r128) & OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -164,6 +164,44 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
       word-break: normal !important;
       word-wrap: normal !important;
+    }
+
+    /* Automatic GitHub & Doc File Links */
+    .markdown-body a.doc-file-link {
+      text-decoration: none !important;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      vertical-align: middle;
+      transition: all 0.15s ease-in-out;
+      margin: 0 0.1rem;
+    }
+    .markdown-body a.doc-file-link code {
+      background: #132337 !important;
+      color: #38bdf8 !important;
+      border: 1px solid #1e40af !important;
+      border-radius: 0.35rem;
+      padding: 0.12rem 0.4rem;
+      font-weight: 600;
+      transition: all 0.15s ease-in-out;
+    }
+    .markdown-body a.doc-file-link:hover code {
+      background: #1e3a8a !important;
+      color: #ffffff !important;
+      border-color: #60a5fa !important;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.45);
+    }
+    .markdown-body a.doc-file-link .file-link-icon {
+      width: 0.85rem;
+      height: 0.85rem;
+      opacity: 0.7;
+      color: #60a5fa;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .markdown-body a.doc-file-link:hover .file-link-icon {
+      opacity: 1;
+      color: #93c5fd;
+      transform: translate(1px, -1px);
     }
   </style>
 </head>
@@ -1519,6 +1557,9 @@
 
       renderArea.innerHTML = parsedHtml;
 
+      // Enhance all file paths and repository links with direct GitHub navigation
+      enhanceDocLinks(renderArea);
+
       // Highlight code blocks
       renderArea.querySelectorAll('pre code').forEach((block) => {
         hljs.highlightElement(block);
@@ -1557,6 +1598,97 @@
       } else {
         clearInDocSearch();
       }
+    }
+
+    // ========================================================================
+    // 3B.2 Automatic Repository File & Architecture Spec Linking
+    // ========================================================================
+    function enhanceDocLinks(container) {
+      if (!container) return;
+      const repoBaseUrl = "https://github.com/Hanzkii/cs2-reverse/blob/main";
+      
+      // 1. Rewrite any existing <a> tags that point to relative paths or files
+      container.querySelectorAll('a').forEach(a => {
+        let href = a.getAttribute('href') || '';
+        if (href.startsWith('../') || href.startsWith('./') || href.startsWith('game/') || href.startsWith('sdk/') || href.startsWith('tools/') || href.startsWith('data/') || href.startsWith('docs/simulators/')) {
+          const cleanPath = href.replace(/^(\.\.\/|\.\/)+/, '');
+          const isDoc = (cleanPath.endsWith('.md') && typeof DOCS !== 'undefined') ? DOCS.find(d => d.filename === cleanPath || d.filename === cleanPath.replace(/^docs\//, '')) : null;
+          if (isDoc) {
+            a.onclick = (e) => {
+              e.preventDefault();
+              selectDoc(isDoc.id);
+            };
+            a.title = `Switch to: ${isDoc.title}`;
+          } else {
+            a.href = `${repoBaseUrl}/${cleanPath}`;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.title = `Open ${cleanPath} on GitHub`;
+            if (!a.querySelector('.file-link-icon')) {
+              a.classList.add('doc-file-link');
+              a.innerHTML += `<svg class="file-link-icon inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`;
+            }
+          }
+        }
+      });
+
+      // 2. Scan all inline <code> tags that are NOT inside an <a> or <pre>
+      container.querySelectorAll(':not(pre):not(a) > code').forEach(codeEl => {
+        if (codeEl.closest('a')) return;
+        const rawText = codeEl.textContent.trim();
+        
+        // Match standard file paths or filenames
+        const match = rawText.match(/^([a-zA-Z0-9_\-\.\/]+?\.(h|hpp|cpp|c|py|json|bat|sh|proto|md|txt))([,:;)]*)$/);
+        const prefixMatch = rawText.match(/^(game|sdk|tools|data|tests|docs\/simulators)\/([a-zA-Z0-9_\-\.\/]+)([,:;)]*)$/);
+        
+        let filePath = null;
+        let suffix = '';
+        if (match) {
+          filePath = match[1];
+          suffix = match[3];
+        } else if (prefixMatch) {
+          filePath = `${prefixMatch[1]}/${prefixMatch[2]}`;
+          suffix = prefixMatch[3];
+        }
+        
+        if (!filePath) return;
+        if (filePath.includes('*') || filePath.includes('?') || filePath.includes('<') || filePath.includes('>')) return;
+        if (filePath.endsWith('.dll') || filePath.endsWith('.exe')) return;
+        
+        const isDoc = (filePath.endsWith('.md') && typeof DOCS !== 'undefined') ? DOCS.find(d => d.filename === filePath || d.filename === filePath.replace(/^docs\//, '')) : null;
+        
+        const a = document.createElement('a');
+        a.className = 'doc-file-link';
+        
+        if (isDoc) {
+          a.href = `#doc/${isDoc.id}`;
+          a.title = `Switch to: ${isDoc.title}`;
+          a.onclick = (e) => {
+            e.preventDefault();
+            selectDoc(isDoc.id);
+          };
+          a.innerHTML = `<code>${filePath}</code><svg class="file-link-icon inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>`;
+        } else {
+          let resolvedPath = filePath;
+          if (resolvedPath.endsWith('_sim.cpp') && !resolvedPath.includes('/')) {
+            resolvedPath = `docs/simulators/${resolvedPath}`;
+          }
+          a.href = `${repoBaseUrl}/${resolvedPath}`;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.title = `Open ${resolvedPath} on GitHub`;
+          a.innerHTML = `<code>${filePath}</code><svg class="file-link-icon inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>`;
+        }
+        
+        if (suffix) {
+          const wrapper = document.createElement('span');
+          wrapper.appendChild(a);
+          wrapper.appendChild(document.createTextNode(suffix));
+          codeEl.replaceWith(wrapper);
+        } else {
+          codeEl.replaceWith(a);
+        }
+      });
     }
 
     // ========================================================================

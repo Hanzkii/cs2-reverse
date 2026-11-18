@@ -28176,9 +28176,9 @@ Each work item (`0xb0` = 176 bytes) encapsulates:
 ## 5. Reconstructed Clean-Room C++20 SDK Headers
 
 The authoritative clean-room implementations are maintained under:
-- `game/engine/clock_drift.h` & `game/engine/clock_drift.cpp`: Exact mathematical tick slamming and drift filter.
-- `game/network/packet_entities_coalescer.h` & `game/network/packet_entities_coalescer.cpp`: Pre-decode bitstream merger and parallel job work-item stride definition.
-- `sdk/include/engine/clock_drift.hpp` & `sdk/include/network/packet_entities_coalescer.hpp`: SDK exposed aliases for client integration.
+- [`game/engine/clock_drift.h`](../game/engine/clock_drift.h) & [`game/engine/clock_drift.cpp`](../game/engine/clock_drift.cpp): Exact mathematical tick slamming and drift filter.
+- [`game/network/packet_entities_coalescer.h`](../game/network/packet_entities_coalescer.h) & [`game/network/packet_entities_coalescer.cpp`](../game/network/packet_entities_coalescer.cpp): Pre-decode bitstream merger and parallel job work-item stride definition.
+- [`sdk/include/engine/clock_drift.hpp`](../sdk/include/engine/clock_drift.hpp) & [`sdk/include/network/packet_entities_coalescer.hpp`](../sdk/include/network/packet_entities_coalescer.hpp): SDK exposed aliases for client integration.
 
 --------------------------------------------------------------------------------
 
