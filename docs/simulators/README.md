@@ -1,6 +1,6 @@
 # Source 2 (CS2) Clean-Room C++20 Simulation Suite
 
-This directory contains 27 standalone, zero-dependency C++20 simulation testbenches and execution runners. Each simulator is an authoritative mathematical and control-flow reconstruction of an internal Source 2 game engine subsystem, compiled and validated under MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`).
+This directory contains 28 standalone, zero-dependency C++20 simulation testbenches and execution runners. Each simulator is an authoritative mathematical and control-flow reconstruction of an internal Source 2 game engine subsystem, compiled and validated under MSVC x64 (`/std:c++20 /O2 /EHsc /W4 /WX`).
 
 ---
 
@@ -34,6 +34,7 @@ This directory contains 27 standalone, zero-dependency C++20 simulation testbenc
 | [`cs2_entity_system_chunk_table_sim.cpp`](cs2_entity_system_chunk_table_sim.cpp) | [`build_entity_chunk_sim.bat`](build_entity_chunk_sim.bat) | 2-Tier Entity Identity | [`05_controller_vs_pawn_architecture.md`](../05_controller_vs_pawn_architecture.md) | 32-bit `CEntityHandle` unpacking (Index: `0x7FFF`, Serial: `>> 15`), chunk pointer indirection ($512$ per chunk) |
 | [`cs2_inferno_fire_sim.cpp`](cs2_inferno_fire_sim.cpp) | [`build_inferno_fire_sim.bat`](build_inferno_fire_sim.bat) | Fire Surface Propagation | [`10_vphysics2_rubikon_collision_engine.md`](../10_vphysics2_rubikon_collision_engine.md) | Molotov ground tracing, obstacle rejection, cellular fire spread automata |
 | [`cs2_econ_item_wear_sim.cpp`](cs2_econ_item_wear_sim.cpp) | [`build_econ_item_wear_sim.bat`](build_econ_item_wear_sim.bat) | Skin Wear & Float Math | [`12_binary_patch_diffing_and_version_archiving.md`](../12_binary_patch_diffing_and_version_archiving.md) | IEEE-754 wear float interpolation, wear tier classification thresholds, pattern seed derivation |
+| [`cs2_movement_edgebug_jumpbug_sim.cpp`](cs2_movement_edgebug_jumpbug_sim.cpp) | [`build_edgebug_sim.bat`](build_edgebug_sim.bat) | Edge Bug & Jump Bug Physics | [`03_subtick_usercmd_and_prediction.md`](../03_subtick_usercmd_and_prediction.md) | Sub-tick jump impulse damage cancellation, non-standable ledge `ClipVelocity` deflection |
 | [`test_sdk_game_integration.cpp`](test_sdk_game_integration.cpp) | [`build_sdk_game_integration.bat`](build_sdk_game_integration.bat) | SDK Master Test Suite | [`20_source2_reconstructed_sdk_architecture.md`](../20_source2_reconstructed_sdk_architecture.md) | Comprehensive cross-module integration test uniting `sdk/` and `game/` C++20 clean-room headers |
 
 ---

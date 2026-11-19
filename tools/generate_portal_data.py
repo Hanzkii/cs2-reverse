@@ -27,7 +27,8 @@ SIMULATOR_FILES = {
     "19": "cs2_inferno_fire_sim.cpp",
     "20": "cs2_kv3_deserializer_sim.cpp",
     "21": "packet_entities_merge_sim.cpp",
-    "22": "cs2_particle_engine_sim.cpp"
+    "22": "cs2_particle_engine_sim.cpp",
+    "23": "cs2_movement_edgebug_jumpbug_sim.cpp"
 }
 
 SIMULATORS_METADATA = [
@@ -366,6 +367,23 @@ SIMULATORS_METADATA = [
             {"name": "COpFadeAndKill::Operate", "addr": "0x1800508a0", "desc": "Normalized age piecewise alpha envelope and O(1) compaction"}
         ],
         "docId": "particle-system-architecture"
+    },
+    {
+        "id": "23",
+        "name": "cs2_movement_edgebug_jumpbug_sim.cpp",
+        "title": "Competitive Movement: Edge Bug & Jump Bug Physics",
+        "target": "client.dll & server.dll",
+        "runner": "build_edgebug_sim.bat",
+        "category": "Movement & Physics",
+        "badge": "Bug Mechanics",
+        "checks": "Sub-tick jump impulse damage cancellation, non-standable ledge ClipVelocity normal deflection, 0 fall damage preservation, horizontal kinetic boost.",
+        "description": "Simulates the exact competitive movement physics in Source 2: sub-tick jump bug (unduck + jump frame cancellation of fall damage in CGameMovement::CategorizePosition) and geometric edge bug (tangent velocity deflection off brush convex edges in ClipVelocity).",
+        "addresses": [
+            {"name": "CCSPlayer_MovementServices::AirAccelerate", "addr": "0x1808bb2b0", "desc": "Air strafe wishspeed clamping and dot product projection"},
+            {"name": "CGameMovement::CategorizePosition", "addr": "0x1808e2b40", "desc": "Floor contact classification and vertical velocity snapping"},
+            {"name": "CGameMovement::CheckFalling", "addr": "0x1808e3120", "desc": "Downward impact velocity thresholding and fall damage calculation"}
+        ],
+        "docId": "subtick-prediction"
     }
 ]
 

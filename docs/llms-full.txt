@@ -10,7 +10,7 @@
 - [Virtual Method Tables / VTables (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/vtables.json): Canonical dispatch tables (slots, RVAs, and prototypes) for CBaseEntity, CCSPlayerController, CCSPlayerPawn, CNetworkGameClient, CVPhysics2Interface, etc.
 - [Reconstructed C++20 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 27 modules.
 - [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for 48 curated modding classes + index of all 2,276 classes.
-- [Standalone C++20 Simulators (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/simulators.json): 26 standalone verification simulation suites.
+- [Standalone C++20 Simulators (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/simulators.json): 27 standalone verification simulation suites.
 - [ConVars & Commands Database (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/convars.json): 4,802 categorized Source 2 console variables with FCVAR flags and descriptions.
 - [Architecture Specs Catalog (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/docs.json): Structured catalog of all 40 reverse engineering reports.
 - [Latest Patch Diff Telemetry (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/latest_diff.json): Differential RVA shifts, schema offset drifts, and newly added ConVars.
