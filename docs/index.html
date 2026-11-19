@@ -5195,16 +5195,16 @@
 
           <!-- Table -->
           <div class="rounded-xl border border-cs2-border overflow-x-auto cs2-scrollbar bg-slate-950/60 shadow-lg w-full min-w-0">
-            <table class="w-full min-w-[740px] text-left font-mono text-xs border-collapse">
+            <table class="w-full text-left font-mono text-xs border-collapse">
               <thead class="bg-slate-900 border-b border-cs2-border text-slate-300">
                 <tr>
-                  <th class="p-3 w-44 min-w-[150px]">Function / Symbol</th>
-                  <th class="p-3 w-24 min-w-[80px]">Binary</th>
-                  <th class="p-3 w-28 min-w-[90px]">Baseline RVA</th>
-                  <th class="p-3 w-28 min-w-[90px]">Target RVA</th>
-                  <th class="p-3 w-32 min-w-[110px]">Status &amp; Shift</th>
-                  <th class="p-3 min-w-[140px]">Pattern</th>
-                  <th class="p-3 text-right pr-4 w-24 min-w-[80px] shrink-0">Action</th>
+                  <th class="py-2.5 px-2.5 w-40 min-w-[130px]">Function / Symbol</th>
+                  <th class="py-2.5 px-2 w-20 min-w-[70px]">Binary</th>
+                  <th class="py-2.5 px-2 w-24 min-w-[80px]">Baseline RVA</th>
+                  <th class="py-2.5 px-2 w-24 min-w-[80px]">Target RVA</th>
+                  <th class="py-2.5 px-2 w-28 min-w-[100px]">Status &amp; Shift</th>
+                  <th class="py-2.5 px-2 min-w-[120px]">Pattern</th>
+                  <th class="py-2.5 px-2 text-right pr-3 w-20 min-w-[75px] shrink-0">Action</th>
                 </tr>
               </thead>
               <tbody id="diffSigTableBody" class="divide-y divide-cs2-border">
@@ -5213,31 +5213,31 @@
                   const deltaStr = isShifted ? (s.delta_str || `+${s.delta_bytes} B`) : '+0 B';
                   const targetRva = isShifted ? (s.current_rva || s.baseline_rva) : s.baseline_rva;
                   const statusBadge = isShifted
-                    ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 whitespace-nowrap">SHIFTED (${escapeHtml(deltaStr)})</span>`
-                    : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">INTACT (+0 B)</span>`;
+                    ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 whitespace-nowrap">SHIFTED (${escapeHtml(deltaStr)})</span>`
+                    : `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">INTACT (+0 B)</span>`;
                   
                   const searchData = `${s.name} ${s.binary} ${s.category || ''} ${s.baseline_rva} ${targetRva} ${deltaStr} ${s.pattern}`;
 
                   return `
                     <tr class="diff-sig-row ${isShifted ? 'bg-amber-500/5 hover:bg-amber-500/10' : 'hover:bg-slate-900/60'} transition-colors group cursor-pointer" data-binary="${escapeHtml(s.binary)}" data-status="${isShifted ? 'shifted' : 'intact'}" data-search="${escapeHtml(searchData)}" onclick="if(!event.target.closest('button') && !event.target.closest('code')) { switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}'); }">
-                      <td class="p-3 w-44 min-w-[150px]">
-                        <span class="font-bold text-white group-hover:text-rose-300 transition-colors block truncate max-w-[200px]" title="${escapeHtml(s.name)}">${escapeHtml(s.name)}</span>
-                        <span class="text-[10px] text-slate-400 font-sans block truncate max-w-[200px]">${escapeHtml(s.category || 'Core Dispatch')}</span>
+                      <td class="py-2.5 px-2.5 w-40 min-w-[130px]">
+                        <span class="font-bold text-white group-hover:text-rose-300 transition-colors block truncate max-w-[160px] lg:max-w-[200px]" title="${escapeHtml(s.name)}">${escapeHtml(s.name)}</span>
+                        <span class="text-[10px] text-slate-400 font-sans block truncate max-w-[160px] lg:max-w-[200px]">${escapeHtml(s.category || 'Core Dispatch')}</span>
                       </td>
-                      <td class="p-3 text-cyan-300 font-bold whitespace-nowrap w-24 min-w-[80px]">${escapeHtml(s.binary)}</td>
-                      <td class="p-3 text-slate-400 whitespace-nowrap font-mono w-28 min-w-[90px]">${escapeHtml(s.baseline_rva)}</td>
-                      <td class="p-3 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'} whitespace-nowrap font-mono w-28 min-w-[90px]">${escapeHtml(targetRva)}</td>
-                      <td class="p-3 whitespace-nowrap w-32 min-w-[110px]">${statusBadge}</td>
-                      <td class="p-3 min-w-[140px]">
+                      <td class="py-2.5 px-2 text-cyan-300 font-bold whitespace-nowrap w-20 min-w-[70px]">${escapeHtml(s.binary)}</td>
+                      <td class="py-2.5 px-2 text-slate-400 whitespace-nowrap font-mono w-24 min-w-[80px] text-[11px]">${escapeHtml(s.baseline_rva)}</td>
+                      <td class="py-2.5 px-2 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'} whitespace-nowrap font-mono w-24 min-w-[80px] text-[11px]">${escapeHtml(targetRva)}</td>
+                      <td class="py-2.5 px-2 whitespace-nowrap w-28 min-w-[100px]">${statusBadge}</td>
+                      <td class="py-2.5 px-2 min-w-[120px]">
                         <div class="flex items-center gap-1.5 min-w-0 max-w-full">
-                          <code class="text-[10px] text-slate-300 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 font-mono truncate block flex-1 max-w-[260px] select-all cursor-text" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern)}</code>
+                          <code class="text-[10px] text-slate-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800 font-mono truncate block flex-1 max-w-[150px] lg:max-w-[190px] xl:max-w-[260px] select-all cursor-text" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern)}</code>
                           <button onclick="event.stopPropagation(); copySigText(this, '${escapeHtml(s.pattern)}')" class="shrink-0 p-1 rounded hover:bg-slate-800 text-slate-500 hover:text-slate-300 transition-colors" title="Copy IDA Pattern">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                           </button>
                         </div>
                       </td>
-                      <td class="p-3 text-right pr-4 w-24 min-w-[80px] shrink-0 whitespace-nowrap">
-                        <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-brand-500 hover:text-black text-rose-300 border border-slate-700 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-colors shadow-sm">Inspect &rarr;</button>
+                      <td class="py-2.5 px-2 text-right pr-3 w-20 min-w-[75px] shrink-0 whitespace-nowrap">
+                        <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-brand-500 hover:text-black text-rose-300 border border-slate-700 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-colors shadow-sm">Inspect &rarr;</button>
                       </td>
                     </tr>
                   `;
