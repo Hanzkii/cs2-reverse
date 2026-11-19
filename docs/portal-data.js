@@ -134224,3 +134224,80 @@ window.CS2_INTERFACES_DATA = [
     "binary": "worldrenderer.dll"
   }
 ];
+
+window.CS2_PROGRESS_DATA = {
+  "overall_engine_percent": 66,
+  "competitive_core_percent": 80,
+  "total_binaries": 34,
+  "total_signatures": 92,
+  "total_simulators": 27,
+  "total_simulator_lines": 12486,
+  "total_convars": 4802,
+  "total_interfaces": 4059,
+  "layers": [
+    {
+      "id": 1,
+      "name": "Engine Reflection & Interface Mapping",
+      "percent": 100,
+      "status": "100% COMPLETE",
+      "color": "emerald",
+      "summary": "100% of SchemaSystem classes (2,276), field offsets (15,470), ConVars (4,802), VTables (13,365), and CreateInterface version tokens (4,059) across all 33 DLLs fully mapped.",
+      "metrics": {
+        "schema_classes": 2276,
+        "field_offsets": 15470,
+        "convars": 4802,
+        "interfaces": 4059,
+        "vtables": 13365
+      }
+    },
+    {
+      "id": 2,
+      "name": "Competitive Mechanics & Mathematical Foundations",
+      "percent": 81,
+      "status": "~81% VERIFIED",
+      "color": "amber",
+      "summary": "27 standalone C++20 simulators (13 competitive math suites, 42 combat/movement signatures): Sub-Tick jump trajectories, jumpbug/edgebug collision cancellation, multi-material bullet penetration ODEs, and 64-tick lag compensation rewind.",
+      "metrics": {
+        "simulators_count": 13,
+        "signatures_count": 42,
+        "total_simulators": 27
+      }
+    },
+    {
+      "id": 3,
+      "name": "Networking, Sub-Tick Protocol & Entity Lifecycle",
+      "percent": 65,
+      "status": "~65% MAPPED",
+      "color": "sky",
+      "summary": "Protobuf UserCmd bitstream codecs, NetMessage framing (24 net signatures, 8 net simulators), cl_packetentities_merge_before_decode pre-merge pipelines, and CBasePlayerController/Pawn handle linking.",
+      "metrics": {
+        "simulators_count": 8,
+        "signatures_count": 24
+      }
+    },
+    {
+      "id": 4,
+      "name": "Rendering, Audio & Panorama UI Pipelines",
+      "percent": 43,
+      "status": "~43% MAPPED",
+      "color": "purple",
+      "summary": "4x4 ViewMatrix camera projection, procedural Web Audio (SOS math) spatialization, Source 2 debug draw wireframes, and KeyValues3 binary decompiler (7 render/audio signatures, 4 simulators).",
+      "metrics": {
+        "simulators_count": 4,
+        "signatures_count": 7
+      }
+    },
+    {
+      "id": 5,
+      "name": "Auxiliary Subsystems (Pulse, Nav, Scripting)",
+      "percent": 27,
+      "status": "~27% RESEARCHED",
+      "color": "rose",
+      "summary": "Pulse visual scripting chunk VM interpreter, NavMesh polygonal geometry navigation, and preliminary VScript / V8 runtime reflection (2 signatures, 1 simulators).",
+      "metrics": {
+        "simulators_count": 1,
+        "signatures_count": 2
+      }
+    }
+  ]
+};

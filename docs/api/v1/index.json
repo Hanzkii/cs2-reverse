@@ -14,7 +14,9 @@
     "sdk_modules_count": 27,
     "simulators_count": 27,
     "docs_count": 40,
-    "vtables_count": 8
+    "vtables_count": 8,
+    "overall_reversal_progress": "~66%",
+    "competitive_core_progress": "~80%"
   },
   "ai_context_files": {
     "llms_txt": "https://hanzkii.github.io/cs2-reverse/docs/llms.txt",
@@ -22,6 +24,7 @@
   },
   "endpoints": {
     "index": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json",
+    "progress": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/progress.json",
     "signatures": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json",
     "schemas": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json",
     "interfaces": "https://hanzkii.github.io/cs2-reverse/docs/api/v1/interfaces.json",

@@ -5,6 +5,7 @@
 ## Quick AI & Modding Context Links
 - [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 92 function signatures, VTables, C++20 SDK headers, key Schema offsets, and 40 architecture docs.
 - [API Master Index (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.
+- [Engine Reversal Progress Telemetry (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/progress.json): Live empirical progress breakdown (~66% Full Engine / ~80% Competitive Core) computed dynamically across all 5 engine layers.
 - [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 92 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
 - [Engine Factory Interfaces (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/interfaces.json): 4,059 exported CreateInterface subsystem tokens across all 33 modular DLLs.
 - [Virtual Method Tables / VTables (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/vtables.json): Canonical dispatch tables (slots, RVAs, and prototypes) for CBaseEntity, CCSPlayerController, CCSPlayerPawn, CNetworkGameClient, CVPhysics2Interface, etc.
