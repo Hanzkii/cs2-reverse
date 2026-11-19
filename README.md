@@ -30,18 +30,22 @@
 | 4. Rendering, Audio & Panorama UI Pipelines  | [█████████░░░░░░░░░░░]  ~43%   |
 | 5. Auxiliary Subsystems (Pulse, Nav, V8)     | [█████░░░░░░░░░░░░░░░]  ~27%   |
 +-------------------------------------------------------------------------------+
-| WEIGHTED TOTAL COMPLETION (34 Core Binaries) | [█████████████░░░░░░░]  ~66%   |
-| TOURNAMENT COMPETITIVE CORE & MODDING SDK    | [████████████████░░░░]  ~80%   |
+| TOURNAMENT COMPETITIVE CORE & SIMULATOR SUITE| [████████████████░░░░]  ~80%   |
+| RESEARCH & METADATA TELEMETRY SCOPE          | [█████████████░░░░░░░]  ~66%   |
+| FULL ENGINE BYTE-FOR-BYTE CODEBASE (120 MB)  | [█░░░░░░░░░░░░░░░░░░░]   ~3%    |
 +-------------------------------------------------------------------------------+
 ```
 
+> **Note on Reversal Scope**: *~82% Competitive Core* tracks tournament gameplay mechanics (sub-tick movement, recoil decay, ballistics ODEs, lag compensation rollback, and smoke dissipation). *100% Reflection* tracks full SchemaSystem reflection tables, interfaces, and ConVars. *~3% Full Binary Codebase* transparently reflects that a byte-for-byte decompilation of all ~120 MB of compiled x64 instructions across 34 stripped DLLs (~300,000+ functions) represents 50–100 engineer-years of commercial Valve engine development.
+
 | Architectural Subsystem | Estimated Completion | Ground-Truth Telemetry & Reconstructed Inventory |
 | :--- | :---: | :--- |
+| **Tournament Competitive Core** | `~80%` | 27 C++20 simulators: sub-tick UserCmds, edgebug/jumpbug physics, bullet penetration ODEs, 64-tick lag compensation rewind |
 | **Engine Reflection & Interfaces** | `100%` | 2,276 Schema classes, 15,470 field offsets, 4,802 ConVars, 4,059 `CreateInterface` tokens across 33/33 DLLs, 13,365 VTables |
-| **Competitive Mechanics & Math** | `~81%` | 27 C++20 simulators: sub-tick movement, edgebug/jumpbug physics, bullet penetration ODEs, lag compensation |
 | **Networking & Sub-Tick Protocol** | `~65%` | Protobuf UserCmd wire codec, packet entities merge (`cl_packetentities_merge_before_decode`), tick pacing |
 | **Rendering, Audio & Panorama UI** | `~43%` | $4 \times 4$ ViewMatrix projection, SOS spatial audio math, Source 2 debug draw, KV3 binary resource decompiler |
 | **Auxiliary Subsystems (Pulse, Nav, V8)** | `~27%` | Pulse visual scripting chunk interpreter, NavMesh polygon geometry, VScript reflection |
+| **Full Byte-for-Byte Binary Codebase** | `~3%` | Realistic instruction-level decompilation of ~120 MB x64 machine code across 34 match execution DLLs |
 <!-- PROGRESS_MATRIX_END -->
 
 ---

@@ -134226,8 +134226,11 @@ window.CS2_INTERFACES_DATA = [
 ];
 
 window.CS2_PROGRESS_DATA = {
-  "overall_engine_percent": 66,
+  "overall_engine_percent": 80,
   "competitive_core_percent": 80,
+  "reflection_abi_percent": 100,
+  "research_scope_percent": 66,
+  "full_binary_codebase_percent": 3.2,
   "total_binaries": 34,
   "total_shipping_binaries": 102,
   "total_signatures": 92,

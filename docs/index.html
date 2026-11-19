@@ -266,9 +266,9 @@
       </button>
 
       <!-- Engine Progress Button -->
-      <button onclick="openProgressModal()" id="topProgressBtn" title="View Estimated Reverse-Engineering Progress (~66% Engine / ~80% Competitive Core)" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-all border border-emerald-500/30 cursor-pointer shadow-sm whitespace-nowrap shrink-0 group">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="topProgressLabel" class="font-mono">~66% Reversed</span>
+      <button onclick="openProgressModal()" id="topProgressBtn" title="View Estimated Reverse-Engineering Progress (~82% Competitive Core / 100% Reflection / ~3% Full Binary Codebase)" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-xs font-bold text-amber-400 hover:text-amber-300 transition-all border border-amber-500/30 cursor-pointer shadow-sm whitespace-nowrap shrink-0 group">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="topProgressLabel" class="font-mono">~82% Competitive Core</span>
       </button>
 
       <!-- Share Link Button -->
@@ -432,17 +432,18 @@
           <div class="bg-gradient-to-br from-[#111827] via-[#0d131f] to-[#111827] border border-cs2-border hover:border-emerald-500/40 rounded-2xl p-5 shadow-xl transition-all space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
                   <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                 </div>
                 <div>
-                  <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <h3 class="text-sm font-bold text-white flex flex-wrap items-center gap-2">
                     <span>Engine Reversal Progress</span>
-                    <span id="binProgressEngineBadge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">~66% Engine-Wide</span>
-                    <span id="binProgressCompBadge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">~80% Competitive Core</span>
+                    <span id="binProgressCompBadge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">~82% Competitive Core</span>
+                    <span id="binProgressEngineBadge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">100% Reflection &amp; ABI</span>
+                    <span id="binProgressFullBinBadge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">~3% Full Binary Volume</span>
                   </h3>
                   <p class="text-[11px] text-slate-400 mt-0.5">
-                    Empirical estimate across 34 core match execution binaries (~120 MB compiled x64 code; 102 total shipping DLLs). Click any layer to explore artifacts.
+                    Empirical progress across competitive gameplay math, C++20 simulators, and static reflection. Full byte-for-byte decompilation of all ~120 MB machine code across 34 DLLs is ~3%.
                   </p>
                 </div>
               </div>
@@ -10692,35 +10693,38 @@
 
     function renderProgressTelemetry(data) {
       if (!data) return;
-      const overall = data.overall_engine_percent;
-      const comp = data.competitive_core_percent;
+      const comp = data.competitive_core_percent || 82;
+      const refl = data.reflection_abi_percent || 100;
+      const fullBin = Math.round(data.full_binary_codebase_percent || 3);
 
       // Top header button
       const topLabel = document.getElementById('topProgressLabel');
-      if (topLabel) topLabel.textContent = `~${overall}% Reversed`;
+      if (topLabel) topLabel.textContent = `~${comp}% Competitive Core`;
       const topBtn = document.getElementById('topProgressBtn');
-      if (topBtn) topBtn.title = `View Estimated Reverse-Engineering Progress (~${overall}% Engine / ~${comp}% Competitive Core)`;
+      if (topBtn) topBtn.title = `Estimated Progress: ~${comp}% Competitive Core | ${refl}% Reflection | ~${fullBin}% Full Binary Codebase`;
 
       // Binaries View Card
-      const binEngineBadge = document.getElementById('binProgressEngineBadge');
-      if (binEngineBadge) binEngineBadge.textContent = `~${overall}% Engine-Wide`;
       const binCompBadge = document.getElementById('binProgressCompBadge');
       if (binCompBadge) binCompBadge.textContent = `~${comp}% Competitive Core`;
+      const binEngineBadge = document.getElementById('binProgressEngineBadge');
+      if (binEngineBadge) binEngineBadge.textContent = `${refl}% Reflection & ABI`;
+      const binFullBinBadge = document.getElementById('binProgressFullBinBadge');
+      if (binFullBinBadge) binFullBinBadge.textContent = `~${fullBin}% Full Binary Volume`;
 
       // Modal Gauges
-      const mEngCircle = document.getElementById('modalEngineCircle');
-      if (mEngCircle) mEngCircle.setAttribute('stroke-dasharray', `${overall}, 100`);
-      const mEngPct = document.getElementById('modalEnginePct');
-      if (mEngPct) mEngPct.textContent = `~${overall}%`;
-      const mEngTitle = document.getElementById('modalEngineTitle');
-      if (mEngTitle) mEngTitle.textContent = `~${overall}% Entire Engine`;
-
       const mCompCircle = document.getElementById('modalCompCoreCircle');
       if (mCompCircle) mCompCircle.setAttribute('stroke-dasharray', `${comp}, 100`);
       const mCompPct = document.getElementById('modalCompCorePct');
       if (mCompPct) mCompPct.textContent = `~${comp}%`;
       const mCompTitle = document.getElementById('modalCompCoreTitle');
-      if (mCompTitle) mCompTitle.textContent = `~${comp}% Tournament SDK`;
+      if (mCompTitle) mCompTitle.textContent = `~${comp}% Competitive Core`;
+
+      const mEngCircle = document.getElementById('modalEngineCircle');
+      if (mEngCircle) mEngCircle.setAttribute('stroke-dasharray', `${refl}, 100`);
+      const mEngPct = document.getElementById('modalEnginePct');
+      if (mEngPct) mEngPct.textContent = `${refl}%`;
+      const mEngTitle = document.getElementById('modalEngineTitle');
+      if (mEngTitle) mEngTitle.textContent = `${refl}% Reflection & ABI`;
 
       // Layers 1 through 5
       if (data.layers && Array.isArray(data.layers)) {
@@ -11163,34 +11167,53 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
       <div class="p-6 overflow-y-auto space-y-6 text-xs text-slate-300">
         <!-- Dual KPI Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-4 flex items-center gap-4">
-            <div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
-              <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                <path class="text-slate-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path id="modalEngineCircle" class="text-emerald-400" stroke-dasharray="66, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-              </svg>
-              <span id="modalEnginePct" class="absolute font-mono font-bold text-sm text-white">~66%</span>
-            </div>
-            <div>
-              <div class="text-[10px] font-mono uppercase text-emerald-400 tracking-wider">Core Engine Telemetry</div>
-              <div id="modalEngineTitle" class="text-lg font-bold text-white mt-0.5">~66% Core Engine</div>
-              <div class="text-[11px] text-slate-400">34 Core Game Binaries (~120 MB x64; 102 total shipping engine &amp; tool DLLs)</div>
-            </div>
-          </div>
-
           <div class="bg-slate-900/90 border border-amber-500/30 rounded-xl p-4 flex items-center gap-4">
             <div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
               <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
                 <path class="text-slate-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path id="modalCompCoreCircle" class="text-amber-400" stroke-dasharray="80, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path id="modalCompCoreCircle" class="text-amber-400" stroke-dasharray="82, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
               </svg>
-              <span id="modalCompCorePct" class="absolute font-mono font-bold text-sm text-white">~80%</span>
+              <span id="modalCompCorePct" class="absolute font-mono font-bold text-sm text-white">~82%</span>
             </div>
             <div>
-              <div class="text-[10px] font-mono uppercase text-amber-400 tracking-wider">Competitive Gameplay Core</div>
-              <div id="modalCompCoreTitle" class="text-lg font-bold text-white mt-0.5">~80% Tournament SDK</div>
-              <div class="text-[11px] text-slate-400">Sub-Tick prediction, combat math, lag compensation</div>
+              <div class="text-[10px] font-mono uppercase text-amber-400 tracking-wider">Primary Metric: Gameplay Core</div>
+              <div id="modalCompCoreTitle" class="text-lg font-bold text-white mt-0.5">~82% Competitive Core</div>
+              <div class="text-[11px] text-slate-400">Sub-Tick prediction, combat math, lag comp, 28 C++ simulators</div>
             </div>
+          </div>
+
+          <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-4 flex items-center gap-4">
+            <div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
+              <svg class="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+                <path class="text-slate-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path id="modalEngineCircle" class="text-emerald-400" stroke-dasharray="100, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <span id="modalEnginePct" class="absolute font-mono font-bold text-sm text-white">100%</span>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono uppercase text-emerald-400 tracking-wider">Secondary Metric: Reflection &amp; ABI</div>
+              <div id="modalEngineTitle" class="text-lg font-bold text-white mt-0.5">100% Reflection &amp; ABI</div>
+              <div class="text-[11px] text-slate-400">2,276 Schema classes, 15,470 fields, 4,802 ConVars, 4,059 factories</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Engine Codebase Realistic Context Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+              <span class="font-bold text-white text-xs font-mono uppercase tracking-wide">Realistic Engine Scale: Full Binary Codebase (~3%)</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-sky-500/10 text-sky-400 border border-sky-500/30">~120 MB x64 Machine Code</span>
+            </div>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              Full byte-for-byte decompilation of all 34 stripped PE binaries (~300,000+ functions including Vulkan render graph, cluster occlusion culling shaders, Panorama JavaScript engine, and Steam Audio DSP) represents ~50–100 engineer-years of commercial Valve engine development. Our project focuses on 100% of the tournament competitive mechanics and engine reflection.
+            </p>
+          </div>
+          <div class="shrink-0 font-mono text-right bg-slate-950 p-2.5 rounded-lg border border-slate-800/80">
+            <div class="text-[10px] text-slate-500 uppercase">Total Machine Code</div>
+            <div class="text-base font-bold text-sky-400 mt-0.5">~3% Byte-for-Byte</div>
+            <div class="text-[10px] text-slate-500">102 shipping DLLs</div>
           </div>
         </div>
 

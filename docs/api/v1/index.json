@@ -15,8 +15,10 @@
     "simulators_count": 27,
     "docs_count": 40,
     "vtables_count": 8,
-    "overall_reversal_progress": "~66%",
-    "competitive_core_progress": "~80%"
+    "competitive_core_progress": "~80%",
+    "reflection_abi_progress": "100%",
+    "full_binary_codebase_progress": "~3%",
+    "research_scope_progress": "~66%"
   },
   "ai_context_files": {
     "llms_txt": "https://hanzkii.github.io/cs2-reverse/docs/llms.txt",
