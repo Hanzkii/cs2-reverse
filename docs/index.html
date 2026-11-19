@@ -3633,12 +3633,31 @@
     }
 
     function copyPatchImage(oldTag, newTag) {
-      const diff = (typeof DIFFS_DATA !== 'undefined' ? DIFFS_DATA : []).find(d => d.old_tag === oldTag && d.new_tag === newTag);
+      const diff = (typeof DIFFS_DATA !== 'undefined' ? DIFFS_DATA : (window.CS2_DIFFS_DATA || [])).find(d => d.old_tag === oldTag && d.new_tag === newTag) ||
+                   (typeof DIFFS_DATA !== 'undefined' && DIFFS_DATA.length > 0 ? DIFFS_DATA[DIFFS_DATA.length - 1] : null);
       if (!diff || !diff.ai_overview) return;
       const ai = diff.ai_overview;
-      const buildId = diff.new_build_id || newTag;
+      const buildId = diff.new_build_id || (newTag ? (newTag.split('_')[1] || newTag) : '26772654');
       const btnText = document.getElementById('copyImgBtnText_' + newTag);
       if (btnText) btnText.innerText = 'Rendering...';
+
+      // Parse dynamic human-readable date (e.g. NOVEMBER 19, 2026)
+      const rawDate = diff.new_date || (newTag ? newTag.split('_')[0] : '2026-11-19');
+      const dParts = rawDate.split('-');
+      const months = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+      const mIdx = parseInt(dParts[1], 10) - 1;
+      const monthName = (mIdx >= 0 && mIdx < 12) ? months[mIdx] : 'NOVEMBER';
+      const day = parseInt(dParts[2], 10) || 19;
+      const year = dParts[0] || '2026';
+      const dateStr = `${monthName} ${day}, ${year}`;
+
+      // Calculate dynamic ABI stability & signature count
+      const totalSigs = (diff.summary && diff.summary.signatures_total_count) ||
+                        (diff.signatures ? diff.signatures.length : (window.SIGNATURES_DATA ? window.SIGNATURES_DATA.length : 92));
+      const brokenSigs = (diff.summary && diff.summary.signatures_broken_count) || 0;
+      const intactSigs = Math.max(0, totalSigs - brokenSigs);
+      const abiPct = totalSigs > 0 ? Math.round((intactSigs / totalSigs) * 100) : 100;
+      const abiText = `${abiPct}% ABI STABILITY (${intactSigs}/${totalSigs})`;
 
       const canvas = document.createElement('canvas');
       const scale = 2; // Retina sharpness
@@ -3673,39 +3692,82 @@
         if (stroke) { ctx.strokeStyle = strokeStyle; ctx.stroke(); }
       }
 
+      function wrapCanvasText(context, text, x, y, maxWidth, lineHeight, maxLines) {
+        const words = (text || '').split(' ');
+        let line = '';
+        let lineCount = 0;
+        for (let n = 0; n < words.length; n++) {
+          const testLine = line + words[n] + ' ';
+          const metrics = context.measureText(testLine);
+          if (metrics.width > maxWidth && n > 0) {
+            context.fillText(line.trim(), x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+            lineCount++;
+            if (maxLines && lineCount >= maxLines - 1) {
+              let remaining = words.slice(n).join(' ');
+              while (context.measureText(remaining + '...').width > maxWidth && remaining.length > 0) {
+                remaining = remaining.slice(0, -1).trim();
+              }
+              context.fillText((remaining + '...').trim(), x, y);
+              return;
+            }
+          } else {
+            line = testLine;
+          }
+        }
+        if (line.trim().length > 0) {
+          context.fillText(line.trim(), x, y);
+        }
+      }
+
       // Outer Card Box
       drawRoundRect(25, 18, W - 50, H - 36, 12, true, true, '#0F172A', '#1E293B');
 
       // Top Header Badges
       let by = 36;
+      ctx.font = 'bold 12px monospace';
+
       // Badge 1: Category
       drawRoundRect(45, by, 180, 26, 6, true, true, 'rgba(14, 116, 144, 0.35)', 'rgba(6, 182, 212, 0.7)');
       ctx.fillStyle = '#38BDF8';
-      ctx.font = 'bold 12px monospace';
       ctx.fillText('CS2 UPDATE BRIEFING', 55, by + 17);
 
       // Badge 2: Build
-      drawRoundRect(235, by, 135, 26, 6, true, true, 'rgba(30, 41, 59, 0.8)', 'rgba(71, 85, 105, 0.8)');
+      const buildText = `BUILD ${buildId}`;
+      const buildW = ctx.measureText(buildText).width + 24;
+      const buildX = 45 + 180 + 10;
+      drawRoundRect(buildX, by, buildW, 26, 6, true, true, 'rgba(30, 41, 59, 0.8)', 'rgba(71, 85, 105, 0.8)');
       ctx.fillStyle = '#F1F5F9';
-      ctx.fillText(`BUILD ${buildId}`, 247, by + 17);
+      ctx.fillText(buildText, buildX + 12, by + 17);
 
-      // Badge 3: Date
-      drawRoundRect(380, by, 160, 26, 6, true, true, 'rgba(30, 41, 59, 0.8)', 'rgba(71, 85, 105, 0.8)');
+      // Badge 3: Date (Dynamic)
+      const dateW = ctx.measureText(dateStr).width + 24;
+      const dateX = buildX + buildW + 10;
+      drawRoundRect(dateX, by, dateW, 26, 6, true, true, 'rgba(30, 41, 59, 0.8)', 'rgba(71, 85, 105, 0.8)');
       ctx.fillStyle = '#94A3B8';
-      ctx.fillText('NOVEMBER 11, 2026', 392, by + 17);
+      ctx.fillText(dateStr, dateX + 12, by + 17);
 
-      // Badge 4: ABI Status (Right-aligned)
-      drawRoundRect(W - 245, by, 200, 26, 6, true, true, 'rgba(6, 78, 59, 0.4)', 'rgba(16, 185, 129, 0.7)');
+      // Badge 4: ABI Status (Right-aligned, Dynamic)
+      const abiW = ctx.measureText(abiText).width + 24;
+      const abiX = W - 45 - abiW;
+      drawRoundRect(abiX, by, abiW, 26, 6, true, true, 'rgba(6, 78, 59, 0.4)', 'rgba(16, 185, 129, 0.7)');
       ctx.fillStyle = '#34D399';
-      ctx.fillText('100% ABI STABILITY (39/39)', W - 235, by + 17);
+      ctx.fillText(abiText, abiX + 12, by + 17);
 
-      // Title (No Truncation)
+      // Title (Dynamic with truncation protection)
       ctx.fillStyle = '#FFFFFF';
       ctx.font = 'bold 22px sans-serif';
-      const fullTitle = ai.title || `CS2 Update ${buildId} — Direct3D 11 Render Hang Fix, Hidden Netcode ConVars & SDR Pacing`;
+      let fullTitle = ai.title || `CS2 Update ${buildId} (${dateStr}) — Binary Differential & Signatures`;
+      if (ctx.measureText(fullTitle).width > W - 90) {
+        while (ctx.measureText(fullTitle + '...').width > W - 90 && fullTitle.length > 25) {
+          fullTitle = fullTitle.slice(0, -1);
+        }
+        fullTitle += '...';
+      }
       ctx.fillText(fullTitle, 45, 98);
 
-      // Executive TL;DR Box (Full Text, Clean 3-Line Wrap)
+      // Executive TL;DR Box (Full Text, Clean Dynamic 3-Line Wrap)
       const tldrY = 118;
       const tldrH = 76;
       drawRoundRect(45, tldrY, W - 90, tldrH, 8, true, true, 'rgba(24, 30, 48, 0.8)', 'rgba(99, 102, 241, 0.4)');
@@ -3714,92 +3776,157 @@
       ctx.fillText('EXECUTIVE TL;DR', 60, tldrY + 18);
 
       ctx.fillStyle = '#CBD5E1';
-      ctx.font = '12.5px sans-serif';
-      ctx.fillText("Critical engine update resolving DirectX 11 device-lost rendering hangs in rendersystemdx11.dll via pre-present state validation.", 60, tldrY + 36);
-      ctx.fillText("Uncovered 5 hidden/unannounced ConVars: packet entity pre-decode delta merging, worker thread decoding, and stealth reload audio.", 60, tldrY + 52);
-      ctx.fillStyle = '#94A3B8';
-      ctx.fillText("Steam Datagram Relay (+14.4 KB) expanded AES-256-GCM crypto pacing. 0 Schema shifts, 39/39 canonical signatures intact.", 60, tldrY + 67);
+      ctx.font = '12px sans-serif';
+      const summaryText = ai.executive_summary || `Automated binary comparison and reverse-engineering telemetry across target Source 2 binaries.`;
+      wrapCanvasText(ctx, summaryText, 60, tldrY + 36, W - 120, 16.5, 3);
 
-      // Two-Column Section (Balanced 5 Items Each, Zero Void)
+      // Two-Column Section (Balanced Dynamic Items Each)
       const colY = tldrY + tldrH + 16;
       const colW = Math.floor((W - 90 - 24) / 2);
       const x1 = 45;
       const x2 = 45 + colW + 24;
       const boxH = 328;
 
-      // Left Box: Hidden Updates & ConVars
+      // Prepare dynamic Left Box items (Reversed Discoveries)
+      let leftItems = [];
+      if (ai.key_discoveries && ai.key_discoveries.length > 0) {
+        leftItems = ai.key_discoveries.map(d => ({
+          name: d.title || 'Binary Delta',
+          mod: d.binary || 'engine',
+          desc: d.summary || ''
+        }));
+      } else if (ai.items_added && ai.items_added.length > 0) {
+        leftItems = ai.items_added.map(it => {
+          const parts = it.split(':');
+          return {
+            name: (parts[0] || 'Engine Update').trim(),
+            mod: 'patch',
+            desc: (parts[1] || it).trim()
+          };
+        });
+      } else {
+        leftItems = [
+          { name: 'Recompiled Core PE Binaries', mod: '31 DLLs', desc: 'Updated PE timestamp, code relocation, and section headers.' },
+          { name: 'SDK Signature Realignment', mod: '28 shifted', desc: 'Canonical function RVAs updated with 100% resolution confidence.' },
+          { name: 'SchemaSystem Layout Invariance', mod: 'Clean ABI', desc: 'All entity schema offsets match baseline across game systems.' }
+        ];
+      }
+
+      // Prepare dynamic Right Box items (Subsystems & Takeaways)
+      let rightItems = [];
+      if (ai.subsystems && ai.subsystems.length > 0) {
+        rightItems = ai.subsystems.map(s => ({
+          name: s.name || 'Subsystem',
+          mod: (s.badge || s.status || 'STABLE').split(',')[0].trim(),
+          desc: s.description || ''
+        }));
+      } else if (ai.takeaways && ai.takeaways.length > 0) {
+        rightItems = ai.takeaways.map((t, idx) => ({
+          name: `Telemetry Finding #${idx + 1}`,
+          mod: 'analysis',
+          desc: t
+        }));
+      } else {
+        rightItems = [
+          { name: 'Graphics & Rendering Pipeline', mod: 'rendersystem', desc: 'DirectX / Vulkan rendering pipeline and shader cache updated.' },
+          { name: 'Combat & Simulation Logic', mod: 'client/server', desc: 'Player controller, weapon dynamics, and game state entities updated.' },
+          { name: 'Networking & Serialization', mod: 'networksystem', desc: 'Network packet encoding and wire protocol serialization updated.' }
+        ];
+      }
+
+      // Left Box: Key Reversed Discoveries
       drawRoundRect(x1, colY, colW, boxH, 8, true, true, 'rgba(17, 24, 39, 0.9)', 'rgba(16, 185, 129, 0.5)');
-      drawRoundRect(x1 + 14, colY + 12, 295, 24, 4, true, false, 'rgba(6, 78, 59, 0.5)', null);
+      drawRoundRect(x1 + 14, colY + 12, 280, 24, 4, true, false, 'rgba(6, 78, 59, 0.5)', null);
       ctx.fillStyle = '#34D399';
       ctx.font = 'bold 12px monospace';
-      ctx.fillText('🕵️ HIDDEN UPDATES & UNANNOUNCED CONVARS', x1 + 22, colY + 28);
-
-      const hiddenItems = [
-        { name: 'cl_packetentities_merge_before_decode', mod: 'engine2.dll', desc: 'Merges entity deltas before decode to cut framing latency & memory jitter' },
-        { name: 'cl_parallel_readpacketentities', mod: 'engine2.dll', desc: 'Parallel worker thread packet entity decoding across available CPU cores' },
-        { name: 'cl_weapon_stealth_reload_toggle', mod: 'client/server', desc: 'Weapon audio silent reload behavior flag across replicated entities' },
-        { name: 'r_csgo_frost_* (3 ConVars)', mod: 'client.dll', desc: 'Frost screen overlay shader parameters: heat_cool_time, grow_time, melt_time' },
-        { name: 'net_gather_child_fields_only', mod: 'networksystem', desc: 'Protobuf wire transport delta serialization compression switch' }
-      ];
+      ctx.fillText('🕵️ KEY REVERSED DISCOVERIES', x1 + 22, colY + 28);
 
       let iy1 = colY + 58;
-      hiddenItems.forEach(it => {
+      leftItems.slice(0, 5).forEach(it => {
         ctx.fillStyle = '#34D399';
         ctx.beginPath();
         ctx.arc(x1 + 20, iy1 - 4, 3, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.fillStyle = '#F1F5F9';
-        ctx.font = 'bold 12.5px monospace';
-        ctx.fillText(it.name, x1 + 32, iy1);
+        ctx.font = 'bold 12px monospace';
+        let name = it.name || 'Engine Modification';
+        if (ctx.measureText(name).width > colW - 145) {
+          while (ctx.measureText(name + '...').width > colW - 145 && name.length > 5) {
+            name = name.slice(0, -1);
+          }
+          name += '...';
+        }
+        ctx.fillText(name, x1 + 32, iy1);
 
-        const nw = ctx.measureText(it.name).width;
-        drawRoundRect(x1 + 32 + nw + 8, iy1 - 13, ctx.measureText(it.mod).width + 12, 17, 3, true, false, 'rgba(30, 41, 59, 0.9)', null);
-        ctx.fillStyle = '#94A3B8';
-        ctx.font = '11px monospace';
-        ctx.fillText(it.mod, x1 + 32 + nw + 14, iy1 - 1);
+        const nw = ctx.measureText(name).width;
+        const modText = it.mod || '';
+        if (modText) {
+          ctx.font = '10.5px monospace';
+          const mw = ctx.measureText(modText).width;
+          drawRoundRect(x1 + 32 + nw + 8, iy1 - 13, mw + 12, 17, 3, true, false, 'rgba(30, 41, 59, 0.9)', null);
+          ctx.fillStyle = '#94A3B8';
+          ctx.fillText(modText, x1 + 32 + nw + 14, iy1 - 1);
+        }
 
         ctx.fillStyle = '#94A3B8';
-        ctx.font = '12px sans-serif';
-        ctx.fillText(it.desc, x1 + 32, iy1 + 17);
+        ctx.font = '11.5px sans-serif';
+        let desc = it.desc || '';
+        if (ctx.measureText(desc).width > colW - 45) {
+          while (ctx.measureText(desc + '...').width > colW - 45 && desc.length > 10) {
+            desc = desc.slice(0, -1);
+          }
+          desc += '...';
+        }
+        ctx.fillText(desc, x1 + 32, iy1 + 17);
         iy1 += 54;
       });
 
-      // Right Box: Core Architecture & Fixes
+      // Right Box: Core Subsystem Impact
       drawRoundRect(x2, colY, colW, boxH, 8, true, true, 'rgba(17, 24, 39, 0.9)', 'rgba(56, 189, 248, 0.5)');
       drawRoundRect(x2 + 14, colY + 12, 280, 24, 4, true, false, 'rgba(12, 74, 110, 0.5)', null);
       ctx.fillStyle = '#38BDF8';
       ctx.font = 'bold 12px monospace';
-      ctx.fillText('✨ CORE ARCHITECTURE & SYSTEM FIXES', x2 + 22, colY + 28);
-
-      const coreItems = [
-        { name: 'DirectX 11 Device Lost Crash Guard', mod: 'rendersystemdx11', desc: "Inserted 'cmp byte ptr [rcx+38h], 0' state check before IDXGISwapChain::Present" },
-        { name: 'Steam Datagram Relay (+14.4 KB)', mod: 'steamnetworking', desc: 'Expanded AES-256-GCM crypto decryption buffers & UDP packet pacing rate limiter' },
-        { name: 'Profiler CLI Switch Automation', mod: 'engine2.dll', desc: 'Reversed VProfLite_ParseCommandLineOption at 0x18021F820 for automated benchmarks' },
-        { name: 'Recompiled Core Binaries (4 DLLs)', mod: 'dx11/sdr/engine', desc: 'rendersystemdx11.dll, steamnetworkingsockets.dll, engine2.dll, client.dll' },
-        { name: '100% Signature & ABI Invariance', mod: 'SDK Signatures', desc: 'All 39 canonical function patterns match with 0 offset drift and 0 broken patterns' }
-      ];
+      ctx.fillText('✨ SUBSYSTEM & ARCHITECTURE IMPACT', x2 + 22, colY + 28);
 
       let iy2 = colY + 58;
-      coreItems.forEach(it => {
+      rightItems.slice(0, 5).forEach(it => {
         ctx.fillStyle = '#38BDF8';
         ctx.beginPath();
         ctx.arc(x2 + 20, iy2 - 4, 3, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.fillStyle = '#F1F5F9';
-        ctx.font = 'bold 12.5px sans-serif';
-        ctx.fillText(it.name, x2 + 32, iy2);
+        ctx.font = 'bold 12px sans-serif';
+        let name = it.name || 'Core Subsystem';
+        if (ctx.measureText(name).width > colW - 145) {
+          while (ctx.measureText(name + '...').width > colW - 145 && name.length > 5) {
+            name = name.slice(0, -1);
+          }
+          name += '...';
+        }
+        ctx.fillText(name, x2 + 32, iy2);
 
-        const nw = ctx.measureText(it.name).width;
-        drawRoundRect(x2 + 32 + nw + 8, iy2 - 13, ctx.measureText(it.mod).width + 12, 17, 3, true, false, 'rgba(30, 41, 59, 0.9)', null);
-        ctx.fillStyle = '#94A3B8';
-        ctx.font = '11px monospace';
-        ctx.fillText(it.mod, x2 + 32 + nw + 14, iy2 - 1);
+        const nw = ctx.measureText(name).width;
+        const modText = it.mod || '';
+        if (modText) {
+          ctx.font = '10.5px monospace';
+          const mw = ctx.measureText(modText).width;
+          drawRoundRect(x2 + 32 + nw + 8, iy2 - 13, mw + 12, 17, 3, true, false, 'rgba(30, 41, 59, 0.9)', null);
+          ctx.fillStyle = '#94A3B8';
+          ctx.fillText(modText, x2 + 32 + nw + 14, iy2 - 1);
+        }
 
         ctx.fillStyle = '#94A3B8';
-        ctx.font = '12px sans-serif';
-        ctx.fillText(it.desc, x2 + 32, iy2 + 17);
+        ctx.font = '11.5px sans-serif';
+        let desc = it.desc || '';
+        if (ctx.measureText(desc).width > colW - 45) {
+          while (ctx.measureText(desc + '...').width > colW - 45 && desc.length > 10) {
+            desc = desc.slice(0, -1);
+          }
+          desc += '...';
+        }
+        ctx.fillText(desc, x2 + 32, iy2 + 17);
         iy2 += 54;
       });
 
@@ -3980,7 +4107,7 @@
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
                 <h2 class="text-lg font-bold text-white">Counter-Strike 2 Patch Changelog</h2>
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">4 Releases Tracked</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-sky-400 border border-slate-700">5 Releases Tracked</span>
               </div>
               <p class="text-xs text-slate-400 mt-1">
                 Select an update to compare or click any card, stat box, or module below to immediately open detailed views, code deltas, or schema shifts.
@@ -3995,7 +4122,7 @@
             </a>
           </div>
 
-          <!-- PATCH 1: November 11, 2026 (Build 26598758) -->
+          <!-- PATCH 1: November 19, 2026 (Build 26772654) - LATEST PATCH -->
           <div class="bg-[#111827] border-2 border-amber-500/60 rounded-2xl p-6 shadow-2xl space-y-5 relative overflow-hidden">
             <div class="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
             
@@ -4005,6 +4132,158 @@
                   <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                     Latest Patch
+                  </span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                    Patch 1.41.9.4
+                  </span>
+                  <span class="text-slate-500 text-xs font-mono">SourceRevision 11186412 (CL 2007520)</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mt-1.5 flex items-center gap-2">
+                  <span>November 19, 2026 &mdash; Build 26772654</span>
+                  <span class="text-slate-500 font-normal text-sm font-mono">(4.9 GB Engine &amp; Shader Rebuild)</span>
+                </h3>
+              </div>
+
+              <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
+                <button onclick="loadPatchDiff('2026-11-11_26598758', '2026-11-19_26772654')" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-sm cursor-pointer">
+                  <span>Compare with Previous</span>
+                  <span>&rarr;</span>
+                </button>
+                <button onclick="loadPatchDiff('2026-10-15_25966348', '2026-11-19_26772654')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                  <span>Diff vs Baseline</span>
+                  <span>&rarr;</span>
+                </button>
+              </div>
+            </div>
+
+            ${renderPatchAiOverviewBox('2026-11-11_26598758', '2026-11-19_26772654')}
+
+            <!-- 4 Interactive Summary Click Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs relative z-10">
+              <div onclick="loadPatchDiff('2026-11-11_26598758', '2026-11-19_26772654', 'binaries')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-amber-400 cursor-pointer transition-all group shadow-md hover:shadow-amber-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Recompiled Modules</span>
+                  <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-amber-400 font-bold">31 files (client, server, soundsystem...)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-amber-300">Click to view binary deltas &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-11-11_26598758', '2026-11-19_26772654', 'schemas')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-cyan-400 cursor-pointer transition-all group shadow-md hover:shadow-cyan-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Schema Shifts</span>
+                  <span class="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-cyan-400 font-bold">0 offsets (Clean ABI Stability)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-cyan-300">Click to view schema diff &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-11-11_26598758', '2026-11-19_26772654', 'binaries')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-emerald-500/40 hover:border-emerald-400 cursor-pointer transition-all group shadow-md hover:shadow-emerald-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-emerald-400/90 font-bold block text-[10px] flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Recompiled Binaries
+                  </span>
+                  <span class="text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-emerald-400 font-bold">31 PE Binaries Delta</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-emerald-300">Click to open binary inspector &rarr;</span>
+              </div>
+              <div onclick="loadPatchDiff('2026-11-11_26598758', '2026-11-19_26772654', 'signatures')" class="bg-slate-900/80 hover:bg-slate-800/90 p-3 rounded-xl border border-slate-800 hover:border-purple-400 cursor-pointer transition-all group shadow-md hover:shadow-purple-500/10">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 block text-[10px]">Signatures Intact</span>
+                  <span class="text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs">&rarr;</span>
+                </div>
+                <span class="text-purple-400 font-bold">92 / 92 (28 shifted, 0 broken)</span>
+                <span class="text-[10px] text-slate-500 block mt-1 group-hover:text-purple-300">Click to view signature RVAs &rarr;</span>
+              </div>
+            </div>
+
+            <!-- Modified Modules List -->
+            <div class="space-y-3 pt-2 relative z-10">
+              <h4 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                <span>Key Affected Modules in this Patch</span>
+                <span class="text-[11px] text-amber-400 normal-case font-normal">Click card to open Disassembly Inspector &rarr;</span>
+              </h4>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- client.dll Card -->
+                <div onclick="openBinaryCodeDelta('client.dll')" class="bg-slate-950/90 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                      <span class="text-sm font-bold text-amber-300">client.dll</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">
+                      RECOMPILED (+20.5 KB)
+                    </span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routines Changed:</span>
+                    <p class="text-slate-300">
+                      <strong class="text-white">AngleVectors &amp; CalculateWorldBones</strong>: Code section realignment across animation &amp; hitbox dispatchers (+0x2f00 / +0xaa0 RVA shift).
+                    </p>
+                  </div>
+                  <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
+                    <span>Inspect Assembly Code Delta</span>
+                    <span>&rarr;</span>
+                  </div>
+                </div>
+
+                <!-- server.dll Card -->
+                <div onclick="openBinaryCodeDelta('server.dll')" class="bg-slate-950/90 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                      <span class="text-sm font-bold text-amber-300">server.dll</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/50">
+                      RECOMPILED (+6.0 KB)
+                    </span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routines Changed:</span>
+                    <p class="text-slate-300">
+                      <strong class="text-white">Lag Compensation &amp; Smoke Grenade</strong>: Realignment across tick update, line-of-sight raymarching, and bullet penetration dispatchers (+0x11a0 RVA shift).
+                    </p>
+                  </div>
+                  <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
+                    <span>Inspect Assembly Code Delta</span>
+                    <span>&rarr;</span>
+                  </div>
+                </div>
+
+                <!-- engine2.dll Card -->
+                <div onclick="openBinaryCodeDelta('engine2.dll')" class="bg-slate-950/90 border border-amber-500/40 hover:border-amber-400 rounded-xl p-4 space-y-3 font-mono text-xs transition-all cursor-pointer group shadow-lg">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                      <span class="text-sm font-bold text-amber-300">engine2.dll</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/50">
+                      MAINTENANCE (+2.0 KB)
+                    </span>
+                  </div>
+                  <div class="space-y-1.5 text-[11px] bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-400 font-bold block text-[10px] uppercase text-amber-400/90">Exact Routines Changed:</span>
+                    <p class="text-slate-300">
+                      <strong class="text-white">Core Host Engine Loop</strong>: Host loop timing and memory allocator routines adjusted for sub-tick frame pacing.
+                    </p>
+                  </div>
+                  <div class="pt-1 flex items-center justify-between text-amber-400 font-bold text-xs group-hover:text-amber-300">
+                    <span>Inspect Assembly Code Delta</span>
+                    <span>&rarr;</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PATCH 2: November 11, 2026 (Build 26598758) -->
+          <div class="bg-[#111827] border border-cs2-border hover:border-amber-500/40 rounded-2xl p-6 shadow-xl space-y-5 relative overflow-hidden transition-all">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-cs2-border pb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+                    Previous Update
                   </span>
                   <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
                     Patch 1.41.9.3
