@@ -5194,18 +5194,18 @@
           </div>
 
           <!-- Table -->
-          <div class="rounded-xl border border-cs2-border overflow-hidden">
-            <div class="overflow-x-auto">
-              <table class="w-full text-left font-mono text-xs">
+          <div class="rounded-xl border border-cs2-border overflow-hidden bg-slate-950/60 shadow-lg">
+            <div class="overflow-x-auto cs2-scrollbar">
+              <table class="w-full min-w-[1020px] xl:min-w-[1140px] text-left font-mono text-xs">
                 <thead class="bg-slate-900 border-b border-cs2-border text-slate-300">
                   <tr>
-                    <th class="p-3">Function / Symbol</th>
-                    <th class="p-3">Binary</th>
-                    <th class="p-3">Baseline RVA</th>
-                    <th class="p-3">Target RVA</th>
-                    <th class="p-3">Shift &Delta;</th>
-                    <th class="p-3">Status</th>
-                    <th class="p-3">Pattern &amp; Action</th>
+                    <th class="p-3 min-w-[200px]">Function / Symbol</th>
+                    <th class="p-3 min-w-[130px]">Binary</th>
+                    <th class="p-3 min-w-[110px]">Baseline RVA</th>
+                    <th class="p-3 min-w-[110px]">Target RVA</th>
+                    <th class="p-3 min-w-[90px]">Shift &Delta;</th>
+                    <th class="p-3 min-w-[120px]">Status</th>
+                    <th class="p-3 min-w-[280px]">Pattern &amp; Action</th>
                   </tr>
                 </thead>
                 <tbody id="diffSigTableBody" class="divide-y divide-cs2-border">
@@ -5221,19 +5221,19 @@
 
                     return `
                       <tr class="diff-sig-row ${isShifted ? 'bg-amber-500/5 hover:bg-amber-500/10' : 'hover:bg-slate-900/60'} transition-colors" data-binary="${escapeHtml(s.binary)}" data-status="${isShifted ? 'shifted' : 'intact'}" data-search="${escapeHtml(searchData)}">
-                        <td class="p-3">
+                        <td class="p-3 min-w-[200px]">
                           <span class="font-bold text-white block">${escapeHtml(s.name)}</span>
                           <span class="text-[10px] text-slate-400 font-sans block">${escapeHtml(s.category || 'Core Dispatch')}</span>
                         </td>
-                        <td class="p-3 text-cyan-300 font-bold">${escapeHtml(s.binary)}</td>
-                        <td class="p-3 text-slate-400">${escapeHtml(s.baseline_rva)}</td>
-                        <td class="p-3 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'}">${escapeHtml(targetRva)}</td>
-                        <td class="p-3 ${isShifted ? 'text-amber-400 font-bold' : 'text-slate-500'}">${escapeHtml(deltaStr)}</td>
-                        <td class="p-3">${statusBadge}</td>
-                        <td class="p-3">
-                          <div class="flex items-center gap-2">
-                            <code class="text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 max-w-[200px] truncate block" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern.substring(0, 24))}...</code>
-                            <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 border border-slate-700 text-[10px] whitespace-nowrap cursor-pointer">Inspect &rarr;</button>
+                        <td class="p-3 text-cyan-300 font-bold whitespace-nowrap">${escapeHtml(s.binary)}</td>
+                        <td class="p-3 text-slate-400 whitespace-nowrap">${escapeHtml(s.baseline_rva)}</td>
+                        <td class="p-3 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'} whitespace-nowrap">${escapeHtml(targetRva)}</td>
+                        <td class="p-3 ${isShifted ? 'text-amber-400 font-bold' : 'text-slate-500'} whitespace-nowrap">${escapeHtml(deltaStr)}</td>
+                        <td class="p-3 whitespace-nowrap">${statusBadge}</td>
+                        <td class="p-3 min-w-[280px] whitespace-nowrap">
+                          <div class="flex items-center gap-2.5">
+                            <code class="text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 max-w-[160px] truncate block" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern.substring(0, 24))}...</code>
+                            <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="shrink-0 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 hover:text-white border border-slate-700 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-colors shadow-sm">Inspect &rarr;</button>
                           </div>
                         </td>
                       </tr>
