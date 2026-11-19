@@ -17,7 +17,7 @@
 ## 📊 Estimated Reverse-Engineering Progress
 
 > [!NOTE]
-> *Because Counter-Strike 2 comprises ~120 MB of compiled machine code across 34 stripped PE binaries, completion percentages represent empirical telemetry tracking across reverse-engineered reflection tables, ABI vtables, competitive math routines, and modular SDK reconstructions.*
+> *Because Counter-Strike 2 comprises ~120 MB of compiled machine code across 34 core match execution binaries (out of ~102 total shipping engine, tooling, and vendor DLLs), completion percentages represent empirical telemetry tracking across reverse-engineered reflection tables, ABI vtables, competitive math routines, and modular SDK reconstructions.*
 
 <!-- PROGRESS_MATRIX_START -->
 ```
@@ -30,7 +30,7 @@
 | 4. Rendering, Audio & Panorama UI Pipelines  | [█████████░░░░░░░░░░░]  ~43%   |
 | 5. Auxiliary Subsystems (Pulse, Nav, V8)     | [█████░░░░░░░░░░░░░░░]  ~27%   |
 +-------------------------------------------------------------------------------+
-| WEIGHTED TOTAL COMPLETION (Full 34 Binaries) | [█████████████░░░░░░░]  ~66%   |
+| WEIGHTED TOTAL COMPLETION (34 Core Binaries) | [█████████████░░░░░░░]  ~66%   |
 | TOURNAMENT COMPETITIVE CORE & MODDING SDK    | [████████████████░░░░]  ~80%   |
 +-------------------------------------------------------------------------------+
 ```

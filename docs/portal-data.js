@@ -134229,6 +134229,7 @@ window.CS2_PROGRESS_DATA = {
   "overall_engine_percent": 66,
   "competitive_core_percent": 80,
   "total_binaries": 34,
+  "total_shipping_binaries": 102,
   "total_signatures": 92,
   "total_simulators": 27,
   "total_simulator_lines": 12486,
