@@ -2498,7 +2498,8 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     repo_url = "https://github.com/Hanzkii/cs2-reverse"
 
     latest_ver = version_manifests[-1] if version_manifests else {"tag": "2026-10-25_26144732", "build_id": "26144732", "date": "2026-10-25"}
-    latest_diff = diff_reports[-1] if diff_reports else {}
+    non_self_diffs = [d for d in diff_reports if d.get('old_tag') != d.get('new_tag')]
+    latest_diff = non_self_diffs[-1] if non_self_diffs else (diff_reports[-1] if diff_reports else {})
 
     # 2. Extract curated + latest schema classes for modding
     key_classes_names = [
