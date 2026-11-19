@@ -1,6 +1,6 @@
 # CS2 (Source 2) Reverse Engineering & Modding Reference
 
-> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26598758).
+> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26772654).
 
 ## Quick AI & Modding Context Links
 - [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 92 function signatures, VTables, C++20 SDK headers, key Schema offsets, and 40 architecture docs.
@@ -92,55 +92,55 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
 - **vphysics2.dll** (`game/vphysics2/`): `rubikon_collision.cpp`, `rubikon_collision.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/vphysics2)
 
-## Verified Function Signatures Summary (Latest Build 26598758)
+## Verified Function Signatures Summary (Latest Build 26772654)
 | Binary | Symbol / Routine | Current RVA | Current VA | Category |
 | :--- | :--- | :--- | :--- | :--- |
-| `client.dll` | `AngleVectors` | `0x01739120` | `0x181739120` | Rendering & Math |
-| `client.dll` | `CalculateWorldBones` | `0x00a955f0` | `0x180a955f0` | Animation & Hitboxes |
-| `client.dll` | `CTransform::ConcatenateTransforms` | `0x01741300` | `0x181741300` | Animation & Hitboxes |
-| `server.dll` | `LineOfSightThroughSmoke` | `0x009b82f0` | `0x1809b82f0` | Volumetric & Smoke |
-| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009cba30` | `0x1809cba30` | Volumetric & Smoke |
-| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009cec20` | `0x1809cec20` | Volumetric & Smoke |
-| `server.dll` | `VoxelGrid_Raymarch` | `0x009cd690` | `0x1809cd690` | Volumetric & Smoke |
-| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009c9070` | `0x1809c9070` | Volumetric & Smoke |
-| `server.dll` | `SerializeSparseDelta` | `0x009b2230` | `0x1809b2230` | Volumetric & Smoke |
-| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x008007d0` | `0x1808007d0` | Gameplay & Physics |
+| `client.dll` | `AngleVectors` | `0x0173c020` | `0x18173c020` | Rendering & Math |
+| `client.dll` | `CalculateWorldBones` | `0x00a96090` | `0x180a96090` | Animation & Hitboxes |
+| `client.dll` | `CTransform::ConcatenateTransforms` | `0x01744200` | `0x181744200` | Animation & Hitboxes |
+| `server.dll` | `LineOfSightThroughSmoke` | `0x009b9490` | `0x1809b9490` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009ccbd0` | `0x1809ccbd0` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009cfdc0` | `0x1809cfdc0` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_Raymarch` | `0x009ce830` | `0x1809ce830` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009ca210` | `0x1809ca210` | Volumetric & Smoke |
+| `server.dll` | `SerializeSparseDelta` | `0x009b33d0` | `0x1809b33d0` | Volumetric & Smoke |
+| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x00801810` | `0x180801810` | Gameplay & Physics |
 | `pulse_system.dll` | `PulseInstructionDispatchLoop` | `0x0008f930` | `0x18008f930` | Scripting & VM |
 | `tier0.dll` | `CCvar::FindVar` | `0x0006c740` | `0x18006c740` | Engine Core |
 | `tier0.dll` | `HashStringCaseless` | `0x0006c950` | `0x18006c950` | Engine Core |
-| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001c4ef0` | `0x1801c4ef0` | Networking |
-| `networksystem.dll` | `SerializeNetMessage` | `0x000e6fd0` | `0x1800e6fd0` | Networking |
-| `networksystem.dll` | `WriteVarInt32` | `0x001c5fb0` | `0x1801c5fb0` | Networking |
-| `networksystem.dll` | `ReadVarInt32` | `0x001c5020` | `0x1801c5020` | Networking |
+| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001c4f00` | `0x1801c4f00` | Networking |
+| `networksystem.dll` | `SerializeNetMessage` | `0x000e6fe0` | `0x1800e6fe0` | Networking |
+| `networksystem.dll` | `WriteVarInt32` | `0x001c5fc0` | `0x1801c5fc0` | Networking |
+| `networksystem.dll` | `ReadVarInt32` | `0x001c5030` | `0x1801c5030` | Networking |
 | `networksystem.dll` | `DecodeFieldPaths` | `0x0007c813` | `0x18007c813` | Delta Compression |
 | `vphysics2.dll` | `ConvexPolyhedronRaycast` | `0x002544a0` | `0x1802544a0` | Physics & Collision |
 | `vphysics2.dll` | `CapsuleSweepIntersection` | `0x0016caf0` | `0x18016caf0` | Physics & Collision |
 | `animationsystem.dll` | `CTwoBoneIK_LawOfCosines` | `0x002f96f0` | `0x1802f96f0` | Animation & Hitboxes |
-| `server.dll` | `EvaluateBulletPenetration` | `0x00a90280` | `0x180a90280` | Weapon & Penetration |
+| `server.dll` | `EvaluateBulletPenetration` | `0x00a91420` | `0x180a91420` | Weapon & Penetration |
 | `navsystem.dll` | `NavAreaBuildPath` | `0x0003bdf0` | `0x18003bdf0` | Navigation & Pathfinding |
-| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x008230d0` | `0x1808230d0` | Weapons & Ballistics |
-| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x008594e0` | `0x1808594e0` | Weapons & Ballistics |
-| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008e4c10` | `0x1808e4c10` | Movement & Physics |
-| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008bb2b0` | `0x1808bb2b0` | Movement & Physics |
-| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f33f0` | `0x1804f33f0` | Sub-Tick & UserCmd |
-| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f4e90` | `0x1804f4e90` | Sub-Tick & UserCmd |
-| `client.dll` | `CSGOInput::CreateMove` | `0x00cf2250` | `0x180cf2250` | Sub-Tick & UserCmd |
-| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x008074a0` | `0x1808074a0` | Weapons & Ballistics |
-| `client.dll` | `FX_CalculateSpread` | `0x00d1bc20` | `0x180d1bc20` | Weapons & Ballistics |
-| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00eb8f40` | `0x180eb8f40` | Gameplay & Physics |
-| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ecdb00` | `0x180ecdb00` | Gameplay & Physics |
-| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a81610` | `0x180a81610` | Weapons & Ballistics |
-| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00acaca0` | `0x180acaca0` | Weapons & Ballistics |
+| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x00823bb0` | `0x180823bb0` | Weapons & Ballistics |
+| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x00859f70` | `0x180859f70` | Weapons & Ballistics |
+| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008e56a0` | `0x1808e56a0` | Movement & Physics |
+| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008bbd40` | `0x1808bbd40` | Movement & Physics |
+| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f2aa0` | `0x1804f2aa0` | Sub-Tick & UserCmd |
+| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f4540` | `0x1804f4540` | Sub-Tick & UserCmd |
+| `client.dll` | `CSGOInput::CreateMove` | `0x00cf2db0` | `0x180cf2db0` | Sub-Tick & UserCmd |
+| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x00807f80` | `0x180807f80` | Weapons & Ballistics |
+| `client.dll` | `FX_CalculateSpread` | `0x00d1c7b0` | `0x180d1c7b0` | Weapons & Ballistics |
+| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00eba0e0` | `0x180eba0e0` | Gameplay & Physics |
+| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ececa0` | `0x180ececa0` | Gameplay & Physics |
+| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a827b0` | `0x180a827b0` | Weapons & Ballistics |
+| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00acbe40` | `0x180acbe40` | Weapons & Ballistics |
 | `animationsystem.dll` | `CBlendUpdateNode_ComputeWeights` | `0x002d7a20` | `0x1802d7a20` | Animation & Hitboxes |
 | `animationsystem.dll` | `CStateMachineUpdateNode_EvaluateTransitions` | `0x002c8260` | `0x1802c8260` | Animation & Hitboxes |
 | `animationsystem.dll` | `Quaternion_FromAngleAxis` | `0x0038dc60` | `0x18038dc60` | Animation & Hitboxes |
 | `rendersystemdx11.dll` | `CDX11Device::Present` | `0x001e0b70` | `0x1801e0b70` | Rendering & Math |
-| `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
+| `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021fc50` | `0x18021fc50` | Core Engine & Profiling |
 | `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
-| `engine2.dll` | `CreateInterface` | `0x00407190` | `0x180407190` | Engine Interface |
-| `server.dll` | `CInferno::InfernoThink` | `0x00346090` | `0x180346090` | Combustion & Thermal |
-| `server.dll` | `CInferno::Spread` | `0x0034ef00` | `0x18034ef00` | Combustion & Thermal |
-| `server.dll` | `CInferno::ExtinguishFire` | `0x00344790` | `0x180344790` | Combustion & Thermal |
+| `engine2.dll` | `CreateInterface` | `0x004075c0` | `0x1804075c0` | Engine Interface |
+| `server.dll` | `CInferno::InfernoThink` | `0x003460b0` | `0x1803460b0` | Combustion & Thermal |
+| `server.dll` | `CInferno::Spread` | `0x0034ef20` | `0x18034ef20` | Combustion & Thermal |
+| `server.dll` | `CInferno::ExtinguishFire` | `0x003447b0` | `0x1803447b0` | Combustion & Thermal |
 | `tier0.dll` | `CThread::Start` | `0x00197600` | `0x180197600` | Threading & Concurrency |
 | `tier0.dll` | `MemAlloc_AllocFunc` | `0x0012ddc0` | `0x18012ddc0` | Memory Management |
 | `tier0.dll` | `LoggingSystem_Log` | `0x0012a190` | `0x18012a190` | Diagnostics & Logging |
@@ -148,14 +148,14 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `schemasystem.dll` | `CSchemaSystem::FindTypeScopeForModule` | `0x00011350` | `0x180011350` | Schema & Reflection |
 | `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClass` | `0x000162b0` | `0x1800162b0` | Schema & Reflection |
 | `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClassByName` | `0x00010380` | `0x180010380` | Schema & Reflection |
-| `engine2.dll` | `CEngineServiceMgr::Init` | `0x0020fad0` | `0x18020fad0` | Engine Lifecycle |
-| `engine2.dll` | `CHostStateMgr::Init` | `0x002193c0` | `0x1802193c0` | Engine Lifecycle |
-| `engine2.dll` | `CHostStateMgr::QueueNewRequest` | `0x002195e0` | `0x1802195e0` | Engine Lifecycle |
-| `client.dll` | `CCSGOInput::GetViewAngles` | `0x00b638d0` | `0x180b638d0` | Input & Subtick |
-| `client.dll` | `C_CSPlayerPawn::PostDataUpdate` | `0x00c866c0` | `0x180c866c0` | Entity System |
-| `client.dll` | `CEntitySubclassGameSystem::LoadSubclasses` | `0x00377430` | `0x180377430` | Entity System |
-| `server.dll` | `CBombTarget::BombExplode` | `0x00982810` | `0x180982810` | Weapons & Grenades |
-| `server.dll` | `CCSPlayerPawn::CommitSuicide` | `0x001ceb60` | `0x1801ceb60` | Player & Movement |
+| `engine2.dll` | `CEngineServiceMgr::Init` | `0x0020ff00` | `0x18020ff00` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::Init` | `0x002197f0` | `0x1802197f0` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::QueueNewRequest` | `0x00219a10` | `0x180219a10` | Engine Lifecycle |
+| `client.dll` | `CCSGOInput::GetViewAngles` | `0x00b64370` | `0x180b64370` | Input & Subtick |
+| `client.dll` | `C_CSPlayerPawn::PostDataUpdate` | `0x00c871d0` | `0x180c871d0` | Entity System |
+| `client.dll` | `CEntitySubclassGameSystem::LoadSubclasses` | `0x00376ae0` | `0x180376ae0` | Entity System |
+| `server.dll` | `CBombTarget::BombExplode` | `0x00983aa0` | `0x180983aa0` | Weapons & Grenades |
+| `server.dll` | `CCSPlayerPawn::CommitSuicide` | `0x001ceb80` | `0x1801ceb80` | Player & Movement |
 | `vphysics2.dll` | `RnPhysicsWorld_Step` | `0x00283b80` | `0x180283b80` | Physics & Collision |
 | `vphysics2.dll` | `CRnWorld::WakeBodiesFromAppliedForces` | `0x00203d70` | `0x180203d70` | Physics & Collision |
 | `vphysics2.dll` | `CVPhysics2Interface::Init` | `0x0006d940` | `0x18006d940` | Physics & Collision |
@@ -175,18 +175,18 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `engine2.dll` | `CServerSideClient::SetupParallelSnapshotDependencies` | `0x000beb00` | `0x1800beb00` | Networking |
 | `engine2.dll` | `CFrameSnapshotManager::CreateFrameSnapshot` | `0x000d4f60` | `0x1800d4f60` | Networking |
 | `engine2.dll` | `CFrameSnapshotManager::DeleteFrameSnapshot` | `0x000d5320` | `0x1800d5320` | Networking |
-| `engine2.dll` | `CFrameSnapshot::ReleaseReference` | `0x000d9ce0` | `0x1800d9ce0` | Networking |
+| `engine2.dll` | `CFrameSnapshot::ReleaseReference` | `0x00052840` | `0x180052840` | Networking |
 | `engine2.dll` | `CServerSideClient::CSendJob_Regular::Execute` | `0x000b8e30` | `0x1800b8e30` | Networking |
-| `client.dll` | `CViewRender::SetupGpuCullingView` | `0x011d17b0` | `0x1811d17b0` | Rendering & Math |
-| `client.dll` | `CRenderingPipelineCsgo::AddGpuCullingLayer` | `0x011d3d50` | `0x1811d3d50` | Rendering & Math |
-| `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01210ca0` | `0x181210ca0` | Rendering & Math |
+| `client.dll` | `CViewRender::SetupGpuCullingView` | `0x011d3230` | `0x1811d3230` | Rendering & Math |
+| `client.dll` | `CRenderingPipelineCsgo::AddGpuCullingLayer` | `0x011d57d0` | `0x1811d57d0` | Rendering & Math |
+| `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01213b30` | `0x181213b30` | Rendering & Math |
 | `rendersystemdx11.dll` | `CRenderContextDx11::DrawIndexedInstancedIndirect` | `0x00026cb0` | `0x180026cb0` | Rendering & Math |
 | `rendersystemdx11.dll` | `CD3D11DeviceContext::DrawIndexedInstancedIndirect` | `0x0001c760` | `0x18001c760` | Rendering & Math |
-| `server.dll` | `CCSPlayerController::GetPlayerPawn` | `0x00212390` | `0x180212390` | Gameplay & Entities |
-| `server.dll` | `CCSPlayerController::SetPawn` | `0x00a6d400` | `0x180a6d400` | Gameplay & Entities |
-| `server.dll` | `CBaseEntity::Spawn` | `0x00153ff0` | `0x180153ff0` | Gameplay & Entities |
-| `server.dll` | `CBaseEntity::Activate` | `0x00cd1c70` | `0x180cd1c70` | Gameplay & Entities |
-| `server.dll` | `CBaseEntity::SetNextThink` | `0x003e8590` | `0x1803e8590` | Gameplay & Entities |
+| `server.dll` | `CCSPlayerController::GetPlayerPawn` | `0x002123b0` | `0x1802123b0` | Gameplay & Entities |
+| `server.dll` | `CCSPlayerController::SetPawn` | `0x00a6e5a0` | `0x180a6e5a0` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Spawn` | `0x00154010` | `0x180154010` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Activate` | `0x00cd2e10` | `0x180cd2e10` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::SetNextThink` | `0x003e85b0` | `0x1803e85b0` | Gameplay & Entities |
 
 ## Architecture Documentation Reports (40 Documents in `docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)
@@ -236,71 +236,71 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### AngleVectors (client.dll)
 - **ID**: `client_angle_vectors`
-- **Current RVA**: `0x01739120` (Baseline: `0x017402a0`, Delta: `-0x7180`)
-- **Current VA**: `0x181739120`
+- **Current RVA**: `0x0173c020` (Baseline: `0x017402a0`, Delta: `-0x4280`)
+- **Current VA**: `0x18173c020`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 08 55 48 8D 68 B8 48 81 EC 40 01 00 00 F3 0F 10 02`
 - **Description**: Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors.
 
 ### CalculateWorldBones (client.dll)
 - **ID**: `client_calc_world_bones`
-- **Current RVA**: `0x00a955f0` (Baseline: `0x00aa0f80`, Delta: `-0xb990`)
-- **Current VA**: `0x180a955f0`
+- **Current RVA**: `0x00a96090` (Baseline: `0x00aa0f80`, Delta: `-0xaef0`)
+- **Current VA**: `0x180a96090`
 - **IDA / Ghidra Pattern**: `48 89 4C 24 08 55 53 56 57 41 54 41 55 41 56 41 57 B8 98 42 00 00`
 - **Description**: Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes.
 
 ### CTransform::ConcatenateTransforms (client.dll)
 - **ID**: `client_concatenate_transforms`
-- **Current RVA**: `0x01741300` (Baseline: `0x01748480`, Delta: `-0x7180`)
-- **Current VA**: `0x181741300`
+- **Current RVA**: `0x01744200` (Baseline: `0x01748480`, Delta: `-0x4280`)
+- **Current VA**: `0x181744200`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 83 EC 68 0F 29 70 E8 0F 28 E9 0F 28 F0`
 - **Description**: SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies.
 
 ### LineOfSightThroughSmoke (server.dll)
 - **ID**: `server_los_smoke`
-- **Current RVA**: `0x009b82f0` (Baseline: `0x009b7f50`, Delta: `+0x3a0`)
-- **Current VA**: `0x1809b82f0`
+- **Current RVA**: `0x009b9490` (Baseline: `0x009b7f50`, Delta: `+0x1540`)
+- **Current VA**: `0x1809b9490`
 - **IDA / Ghidra Pattern**: `48 8B C4 55 53 56 41 55 41 57 48 8D 68 A8 48 81 EC 30 01 00 00`
 - **Description**: Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold.
 
 ### CSmokeGrenadeProjectile::Spawn (server.dll)
 - **ID**: `server_smoke_spawn`
-- **Current RVA**: `0x009cba30` (Baseline: `0x009cb810`, Delta: `+0x220`)
-- **Current VA**: `0x1809cba30`
+- **Current RVA**: `0x009ccbd0` (Baseline: `0x009cb810`, Delta: `+0x13c0`)
+- **Current VA**: `0x1809ccbd0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 48 89 7C 24 20 41 56 48 83 EC 20 48 8D B9 90 0B 00 00`
 - **Description**: Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask.
 
 ### CSmokeGrenadeProjectile::TickUpdate (server.dll)
 - **ID**: `server_smoke_tick_update`
-- **Current RVA**: `0x009cec20` (Baseline: `0x009cea90`, Delta: `+0x190`)
-- **Current VA**: `0x1809cec20`
+- **Current RVA**: `0x009cfdc0` (Baseline: `0x009cea90`, Delta: `+0x1330`)
+- **Current VA**: `0x1809cfdc0`
 - **IDA / Ghidra Pattern**: `40 53 41 55 48 83 EC 58 80 B9 6C 0B 00 00 00 4C`
 - **Description**: Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization.
 
 ### VoxelGrid_Raymarch (server.dll)
 - **ID**: `server_voxel_raymarch`
-- **Current RVA**: `0x009cd690` (Baseline: `0x009cd500`, Delta: `+0x190`)
-- **Current VA**: `0x1809cd690`
+- **Current RVA**: `0x009ce830` (Baseline: `0x009cd500`, Delta: `+0x1330`)
+- **Current VA**: `0x1809ce830`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 18 48 89 78 20 55 41 56 41 57 48 8D A8 28 FF FF FF`
 - **Description**: 3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks.
 
 ### VoxelGrid_ExpandAndCarve (server.dll)
 - **ID**: `server_voxel_expand_carve`
-- **Current RVA**: `0x009c9070` (Baseline: `0x009c8e50`, Delta: `+0x220`)
-- **Current VA**: `0x1809c9070`
+- **Current RVA**: `0x009ca210` (Baseline: `0x009c8e50`, Delta: `+0x13c0`)
+- **Current VA**: `0x1809ca210`
 - **IDA / Ghidra Pattern**: `40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 C8 48 81 EC 38 01 00 00 80 79 08 00`
 - **Description**: 3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units).
 
 ### SerializeSparseDelta (server.dll)
 - **ID**: `server_serialize_sparse_delta`
-- **Current RVA**: `0x009b2230` (Baseline: `0x009b1bd0`, Delta: `+0x660`)
-- **Current VA**: `0x1809b2230`
+- **Current RVA**: `0x009b33d0` (Baseline: `0x009b1bd0`, Delta: `+0x1800`)
+- **Current VA**: `0x1809b33d0`
 - **IDA / Ghidra Pattern**: `40 53 55 56 57 41 54 41 55 41 56 41 57 48 83 EC 58 48 63 2A 4C 8D B1 D0 00 00 00`
 - **Description**: Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire.
 
 ### CLagCompensationManager::StartLagCompensation (server.dll)
 - **ID**: `server_lag_compensation`
-- **Current RVA**: `0x008007d0` (Baseline: `0x0080f320`, Delta: `-0xeb50`)
-- **Current VA**: `0x1808007d0`
+- **Current RVA**: `0x00801810` (Baseline: `0x0080f320`, Delta: `-0xdb10`)
+- **Current VA**: `0x180801810`
 - **IDA / Ghidra Pattern**: `CC FD FF FF 80 38 22 74 CE E9 C2 FD FF FF 40 80`
 - **Description**: Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps.
 
@@ -327,29 +327,29 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### ReadVariableBitMessageId (networksystem.dll)
 - **ID**: `network_read_varbit_msg_id`
-- **Current RVA**: `0x001c4ef0` (Baseline: `0x001bf5c0`, Delta: `+0x5930`)
-- **Current VA**: `0x1801c4ef0`
+- **Current RVA**: `0x001c4f00` (Baseline: `0x001bf5c0`, Delta: `+0x5940`)
+- **Current VA**: `0x1801c4f00`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 10 48 89 6C 24 18 56 44 8B 51 10 44 8B C2 41 C1 F8 04`
 - **Description**: Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens.
 
 ### SerializeNetMessage (networksystem.dll)
 - **ID**: `network_serialize_net_message`
-- **Current RVA**: `0x000e6fd0` (Baseline: `0x000e23d0`, Delta: `+0x4c00`)
-- **Current VA**: `0x1800e6fd0`
+- **Current RVA**: `0x000e6fe0` (Baseline: `0x000e23d0`, Delta: `+0x4c10`)
+- **Current VA**: `0x1800e6fe0`
 - **IDA / Ghidra Pattern**: `48 89 74 24 20 57 41 ? 41 57 48 83 EC 20 C6 81 ? ? ? ? 00 4C 8B`
 - **Description**: Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment.
 
 ### WriteVarInt32 (networksystem.dll)
 - **ID**: `network_write_varint32`
-- **Current RVA**: `0x001c5fb0` (Baseline: `0x001c0760`, Delta: `+0x5850`)
-- **Current VA**: `0x1801c5fb0`
+- **Current RVA**: `0x001c5fc0` (Baseline: `0x001c0760`, Delta: `+0x5860`)
+- **Current VA**: `0x1801c5fc0`
 - **IDA / Ghidra Pattern**: `40 55 48 83 EC 10 4C 63 41 10 8B EA 8B 51 0C 48`
 - **Description**: LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths.
 
 ### ReadVarInt32 (networksystem.dll)
 - **ID**: `network_read_varint32`
-- **Current RVA**: `0x001c5020` (Baseline: `0x001bf770`, Delta: `+0x58b0`)
-- **Current VA**: `0x1801c5020`
+- **Current RVA**: `0x001c5030` (Baseline: `0x001bf770`, Delta: `+0x58c0`)
+- **Current VA**: `0x1801c5030`
 - **IDA / Ghidra Pattern**: `45 33 D2 48 8B C1 45 8B DA ? ? ? ? ? ? ? 41 83 FB 23 74 ? 8B 48 10`
 - **Description**: LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths.
 
@@ -383,8 +383,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### EvaluateBulletPenetration (server.dll)
 - **ID**: `server_bullet_penetration`
-- **Current RVA**: `0x00a90280` (Baseline: `0x00a8fca0`, Delta: `+0x5e0`)
-- **Current VA**: `0x180a90280`
+- **Current RVA**: `0x00a91420` (Baseline: `0x00a8fca0`, Delta: `+0x1780`)
+- **Current VA**: `0x180a91420`
 - **IDA / Ghidra Pattern**: `48 8B C4 44 89 48 20 48 89 50 10 48 89 48 08 55 57 41 57 48 8D A8 78 FE FF FF 48 81 EC 70 02 00 00`
 - **Description**: Authoritative surface penetration evaluator computing material absorption, penetration power reduction, and distance damage falloff.
 
@@ -397,92 +397,92 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### C_CSWeaponBase::UpdateAccuracyPenalty (client.dll)
 - **ID**: `client_weapon_update_accuracy_penalty`
-- **Current RVA**: `0x008230d0` (Baseline: `0x00828a10`, Delta: `-0x5940`)
-- **Current VA**: `0x1808230d0`
+- **Current RVA**: `0x00823bb0` (Baseline: `0x00828a10`, Delta: `-0x4e60`)
+- **Current VA**: `0x180823bb0`
 - **IDA / Ghidra Pattern**: `40 57 41 56 48 83 EC ? 48 8B F9 E8 ? ? ? ? 4C 8B F0 48 85 C0 0F 84`
 - **Description**: Per-tick weapon inaccuracy penalty evaluator calculating recovery time decay, stances, jumping, and recoil index decay.
 
 ### CPlayer_AimPunchServices::SimulateAimPunchDecay (client.dll)
 - **ID**: `client_aim_punch_decay`
-- **Current RVA**: `0x008594e0` (Baseline: `0x0085dc60`, Delta: `-0x4780`)
-- **Current VA**: `0x1808594e0`
+- **Current RVA**: `0x00859f70` (Baseline: `0x0085dc60`, Delta: `-0x3cf0`)
+- **Current VA**: `0x180859f70`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 18 48 89 70 20 55 57 41 54 41 56 41 57 48 8D 68 A1 48 81 EC D0 00 00 00`
 - **Description**: Integrates damped spring recoil aim punch angles and velocities per tick.
 
 ### CCSPlayer_MovementServices::WalkMove (client.dll)
 - **ID**: `client_walk_move`
-- **Current RVA**: `0x008e4c10` (Baseline: `0x008e9380`, Delta: `-0x4770`)
-- **Current VA**: `0x1808e4c10`
+- **Current RVA**: `0x008e56a0` (Baseline: `0x008e9380`, Delta: `-0x3ce0`)
+- **Current VA**: `0x1808e56a0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 50 0F 29 7C 24 30 0F 28 FA 48 8B FA`
 - **Description**: Ground walking physics dispatcher executing friction, directional acceleration, obstacle stepping, and ground snapping.
 
 ### CCSPlayer_MovementServices::AirAccelerate (client.dll)
 - **ID**: `client_air_accelerate`
-- **Current RVA**: `0x008bb2b0` (Baseline: `0x008bfa30`, Delta: `-0x4780`)
-- **Current VA**: `0x1808bb2b0`
+- **Current RVA**: `0x008bbd40` (Baseline: `0x008bfa30`, Delta: `-0x3cf0`)
+- **Current VA**: `0x1808bbd40`
 - **IDA / Ghidra Pattern**: `F3 0F 11 5C 24 20 53 56 57 48 83 EC 60 48 83 79 38 00 49 8B F0 0F 29 7C 24 40 48 8B DA`
 - **Description**: Airborne strafe acceleration routine enforcing sv_air_max_wishspeed (30.0f) clamp and surface friction integration.
 
 ### CSubtickMoveStep::_InternalParse (client.dll)
 - **ID**: `client_subtick_move_step_parse`
-- **Current RVA**: `0x004f33f0` (Baseline: `0x004f4950`, Delta: `-0x1560`)
-- **Current VA**: `0x1804f33f0`
+- **Current RVA**: `0x004f2aa0` (Baseline: `0x004f4950`, Delta: `-0x1eb0`)
+- **Current VA**: `0x1804f2aa0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 48 89 6C 24 20 56 41 56 41 57 48 83 EC 60 49 8B F0 48 89 BC 24 88 00 00 00 48 8B DA 4C 8D 3D ? ? ? ? 48 8B E9 45 33 F6 66 90 48 3B 1E 72 32 8B C3 2B 46 08 3B 46 1C 0F 84 3D 02 00 00`
 - **Description**: Protobuf wire unmarshaling routine decoding CSubtickMoveStep fields (VarInt button, bool pressed, fixed32 when, analog deltas).
 
 ### CBaseUserCmdPB::_InternalSerialize (client.dll)
 - **ID**: `client_base_usercmd_pb_serialize`
-- **Current RVA**: `0x004f4e90` (Baseline: `0x004f63f0`, Delta: `-0x1560`)
-- **Current VA**: `0x1804f4e90`
+- **Current RVA**: `0x004f4540` (Baseline: `0x004f63f0`, Delta: `-0x1eb0`)
+- **Current VA**: `0x1804f4540`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 10 48 89 6C 24 18 56 57 41 56 48 83 EC 30 8B 71 10 45 33 F6 49 8B D8 4C 8B CA 48 8B F9 40 F6 C6 10 74 61 49 3B 10 72 0B`
 - **Description**: Protobuf wire serialization for CBaseUserCmdPB, formatting repeated field 18 subtick_moves with 2-byte tag 0x92 0x01.
 
 ### CSGOInput::CreateMove (client.dll)
 - **ID**: `client_csgo_input_create_move`
-- **Current RVA**: `0x00cf2250` (Baseline: `0x00cfa6b0`, Delta: `-0x8460`)
-- **Current VA**: `0x180cf2250`
+- **Current RVA**: `0x00cf2db0` (Baseline: `0x00cfa6b0`, Delta: `-0x7900`)
+- **Current VA**: `0x180cf2db0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 55 57 41 56 48 8D 6C 24 C9 48 81 EC B0 00 00 00 8B 01 48 8B F9 81 4A 10 00 02 00 00`
 - **Description**: High-level input sampling routine calculating sub-tick fractional time w in [0, 1] and assembling CSGOUserCmdPB.
 
 ### C_CSWeaponBase::GetInaccuracy (client.dll)
 - **ID**: `client_weapon_get_inaccuracy`
-- **Current RVA**: `0x008074a0` (Baseline: `0x0080c1a0`, Delta: `-0x4d00`)
-- **Current VA**: `0x1808074a0`
+- **Current RVA**: `0x00807f80` (Baseline: `0x0080c1a0`, Delta: `-0x4220`)
+- **Current VA**: `0x180807f80`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 10 55 56 57 48 81 EC B0 00 00 00 44 0F 29 84 24 80 00 00 00 49 8B F0 48 8B EA 48 8B F9`
 - **Description**: Composite weapon inaccuracy evaluator synthesizing base penalty, posture, 2D movement speed power curve, airborne apex, strafing, and turning.
 
 ### FX_CalculateSpread (client.dll)
 - **ID**: `client_fx_calculate_spread`
-- **Current RVA**: `0x00d1bc20` (Baseline: `0x00d23fe0`, Delta: `-0x83c0`)
-- **Current VA**: `0x180d1bc20`
+- **Current RVA**: `0x00d1c7b0` (Baseline: `0x00d23fe0`, Delta: `-0x7830`)
+- **Current VA**: `0x180d1c7b0`
 - **IDA / Ghidra Pattern**: `48 8B C4 48 89 58 18 48 89 68 20 89 50 10 56 57 41 54 41 56 41 57 48 81 EC E0 00 00 00 44 8B 15 ? ? ? ? 41 8B F9 0F 29 78 B8 41 8B E8`
 - **Description**: Calculates 2D bullet/pellet spread deflection vector using dual uniform disk sampling (inaccuracy and intrinsic spread disks) and weapon distributions.
 
 ### CLagCompensationManager::FinishLagCompensation (server.dll)
 - **ID**: `server_lag_compensation_finish`
-- **Current RVA**: `0x00eb8f40` (Baseline: `0x00ebf350`, Delta: `-0x6410`)
-- **Current VA**: `0x180eb8f40`
+- **Current RVA**: `0x00eba0e0` (Baseline: `0x00ebf350`, Delta: `-0x5270`)
+- **Current VA**: `0x180eba0e0`
 - **IDA / Ghidra Pattern**: `40 53 57 41 57 48 83 EC 60 48 8D 05 ? ? ? ? 48 C7 44 24 28 59 06 00 00 48 8B F9 48 89 44 24 20`
 - **Description**: Restores all backtracked player pawns to authoritative current states after lag-compensated traces.
 
 ### CLagCompensationManager::RestoreEntityTo (server.dll)
 - **ID**: `server_lag_compensation_restore`
-- **Current RVA**: `0x00ecdb00` (Baseline: `0x00ed3f10`, Delta: `-0x6410`)
-- **Current VA**: `0x180ecdb00`
+- **Current RVA**: `0x00ececa0` (Baseline: `0x00ed3f10`, Delta: `-0x5270`)
+- **Current VA**: `0x180ececa0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 57 41 56 41 57 48 83 EC 40 45 33 F6 45 33 FF 49 8B D8 48 8B FA 45 38 70 01`
 - **Description**: Restores entity origin, angles, bounds, and bone matrix cache with 4096.0 sqr teleport distance breaker.
 
 ### CCSPlayerPawn::ApplyArmorDamageCalculation (server.dll)
 - **ID**: `server_apply_armor_damage`
-- **Current RVA**: `0x00a81610` (Baseline: `0x00a81050`, Delta: `+0x5c0`)
-- **Current VA**: `0x180a81610`
+- **Current RVA**: `0x00a827b0` (Baseline: `0x00a81050`, Delta: `+0x1760`)
+- **Current VA**: `0x180a827b0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 20 55 56 57 41 56 41 57 48 83 EC 50 48 83 79 38 00 48 8B DA 48 8B F9 75 05 E8 ? ? ? ? 8B 4B 4C 4C 8B 77`
 - **Description**: Evaluates Kevlar and Helmet armor absorption, durability exhaustion overflow, and post-mitigation health loss.
 
 ### CCSPlayerPawn::IsArmored (server.dll)
 - **ID**: `server_pawn_is_armored`
-- **Current RVA**: `0x00acaca0` (Baseline: `0x00aca700`, Delta: `+0x5a0`)
-- **Current VA**: `0x180acaca0`
+- **Current RVA**: `0x00acbe40` (Baseline: `0x00aca700`, Delta: `+0x1740`)
+- **Current VA**: `0x180acbe40`
 - **IDA / Ghidra Pattern**: `45 32 C0 83 B9 ? ? 00 00 00 7E 3C 83 FA 08 77 37 48 63 C2 4C 8D 0D ? ? ? ? 41 8B 94 81 ? ? ? ? 49 03 D1 FF E2`
 - **Description**: 8-way HitGroup_t jump table verifying Kevlar vest coverage on torso/arms and m_bHasHelmet on head/neck.
 
@@ -516,8 +516,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### VProfLite_ParseCommandLineOption (engine2.dll)
 - **ID**: `engine_vprof_lite_parse_option`
-- **Current RVA**: `0x0021f820` (Baseline: `0x0021f820`, Delta: `+0x0`)
-- **Current VA**: `0x18021f820`
+- **Current RVA**: `0x0021fc50` (Baseline: `0x0021f820`, Delta: `+0x430`)
+- **Current VA**: `0x18021fc50`
 - **IDA / Ghidra Pattern**: `48 85 FF 78 11 3B D8 7D 0D 48 8B 86 40 04 00 00 48 8B 0C F8 EB 07 48 8D 0D ?? ?? ?? ?? 4C 8D 44 24 38 48 8D 15 ?? ?? ?? ?? E8 B2 FD FF FF 84 C0`
 - **Description**: Automated command-line argument parser and option validator for VProf Lite profiler telemetry.
 
@@ -530,29 +530,29 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### CreateInterface (engine2.dll)
 - **ID**: `engine2_createinterface`
-- **Current RVA**: `0x00407190` (Baseline: `0x00407190`, Delta: `+0x0`)
-- **Current VA**: `0x180407190`
+- **Current RVA**: `0x004075c0` (Baseline: `0x00407190`, Delta: `+0x430`)
+- **Current VA**: `0x1804075c0`
 - **IDA / Ghidra Pattern**: `4C 8B 0D ?? ?? ?? ?? 4C 8B D2 4C 8B D9`
 - **Description**: Standard Source 2 engine module interface factory dispatcher.
 
 ### CInferno::InfernoThink (server.dll)
 - **ID**: `server_inferno_think`
-- **Current RVA**: `0x00346090` (Baseline: `0x003427b0`, Delta: `+0x38e0`)
-- **Current VA**: `0x180346090`
+- **Current RVA**: `0x003460b0` (Baseline: `0x003427b0`, Delta: `+0x3900`)
+- **Current VA**: `0x1803460b0`
 - **IDA / Ghidra Pattern**: `40 55 57 48 8D AC 24 68 D7 FF FF B8 98 29 00 00`
 - **Description**: Main simulation tick loop managing node combustion lifecycles, mutual smoke interaction, radial spread, and area damage.
 
 ### CInferno::Spread (server.dll)
 - **ID**: `server_inferno_spread`
-- **Current RVA**: `0x0034ef00` (Baseline: `0x0034b560`, Delta: `+0x39a0`)
-- **Current VA**: `0x18034ef00`
+- **Current RVA**: `0x0034ef20` (Baseline: `0x0034b560`, Delta: `+0x39c0`)
+- **Current VA**: `0x18034ef20`
 - **IDA / Ghidra Pattern**: `48 89 54 24 10 55 53 56 48 8D AC 24 00 FD FF FF 48 81 EC 00 04 00 00`
 - **Description**: Dynamic 2D/3D surface propagation expanding flame nodes along terrain tangent planes with slope and step height gating.
 
 ### CInferno::ExtinguishFire (server.dll)
 - **ID**: `server_inferno_extinguish`
-- **Current RVA**: `0x00344790` (Baseline: `0x00340eb0`, Delta: `+0x38e0`)
-- **Current VA**: `0x180344790`
+- **Current RVA**: `0x003447b0` (Baseline: `0x00340eb0`, Delta: `+0x3900`)
+- **Current VA**: `0x1803447b0`
 - **IDA / Ghidra Pattern**: `4C 8B DC 49 89 6B 20 57 48 81 EC A0 00 00 00`
 - **Description**: Quenches individual flame node upon smoke overlap, stopping ambient sound loops and emitting steam dissipation particles.
 
@@ -607,57 +607,57 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### CEngineServiceMgr::Init (engine2.dll)
 - **ID**: `engine2_engineservicemgr_init`
-- **Current RVA**: `0x0020fad0` (Baseline: `0x002119e0`, Delta: `-0x1f10`)
-- **Current VA**: `0x18020fad0`
+- **Current RVA**: `0x0020ff00` (Baseline: `0x002119e0`, Delta: `-0x1ae0`)
+- **Current VA**: `0x18020ff00`
 - **IDA / Ghidra Pattern**: `40 57 48 83 EC 20 48 83 3D ?? ?? ?? ?? 00 48 8B F9 74 ?? 33 C9 E8`
 - **Description**: Initializes core engine services and subsystem thread watchdogs.
 
 ### CHostStateMgr::Init (engine2.dll)
 - **ID**: `engine2_hoststatemgr_init`
-- **Current RVA**: `0x002193c0` (Baseline: `0x0021b6a0`, Delta: `-0x22e0`)
-- **Current VA**: `0x1802193c0`
+- **Current RVA**: `0x002197f0` (Baseline: `0x0021b6a0`, Delta: `-0x1eb0`)
+- **Current VA**: `0x1802197f0`
 - **IDA / Ghidra Pattern**: `40 53 48 83 EC 20 48 83 3D ?? ?? ?? ?? 00 48 8B D9 74 ?? 33 C9 E8`
 - **Description**: Initializes host state machine and registers frame update listeners.
 
 ### CHostStateMgr::QueueNewRequest (engine2.dll)
 - **ID**: `engine2_hoststatemgr_queuenewrequest`
-- **Current RVA**: `0x002195e0` (Baseline: `0x0021b8c0`, Delta: `-0x22e0`)
-- **Current VA**: `0x1802195e0`
+- **Current RVA**: `0x00219a10` (Baseline: `0x0021b8c0`, Delta: `-0x1eb0`)
+- **Current VA**: `0x180219a10`
 - **IDA / Ghidra Pattern**: `40 57 48 83 EC 20 48 8B 05 ?? ?? ?? 00 48 8B F9 80 78 58 00 74 09 33 C9 FF 15 ?? ?? ?? 00 CC 48 8B 05 ?? ?? ?? 00 BA 68 00 00 00 48 89 5C 24 30`
 - **Description**: Queues transition requests into the host state machine execution queue.
 
 ### CCSGOInput::GetViewAngles (client.dll)
 - **ID**: `client_ccsgoinput_getviewangles`
-- **Current RVA**: `0x00b638d0` (Baseline: `0x00b6e720`, Delta: `-0xae50`)
-- **Current VA**: `0x180b638d0`
+- **Current RVA**: `0x00b64370` (Baseline: `0x00b6e720`, Delta: `-0xa3b0`)
+- **Current VA**: `0x180b64370`
 - **IDA / Ghidra Pattern**: `41 8B 81 38 04 00 00 F2 41 0F 10 81 30 04 00 00 F2 0F 11 02 89 42 08 48 8B C2 C3`
 - **Description**: Retrieves local client camera view angles (Pitch, Yaw, Roll) for target splitscreen slot.
 
 ### C_CSPlayerPawn::PostDataUpdate (client.dll)
 - **ID**: `client_c_csplayerpawn_postdataupdate`
-- **Current RVA**: `0x00c866c0` (Baseline: `0x00c901f0`, Delta: `-0x9b30`)
-- **Current VA**: `0x180c866c0`
+- **Current RVA**: `0x00c871d0` (Baseline: `0x00c901f0`, Delta: `-0x9020`)
+- **Current VA**: `0x180c871d0`
 - **IDA / Ghidra Pattern**: `40 53 48 83 EC ?? 48 8B D9 E8 ?? ?? E7 FF 0F B6 83 E1 15 00 00 38 83 E0 15 00 00 0F 84 82 00 00 00 80 BB C5 14 00 00 00 74 79 48 89 7C 24`
 - **Description**: Post-network deserialization entity state update and simulation resync for player pawns.
 
 ### CEntitySubclassGameSystem::LoadSubclasses (client.dll)
 - **ID**: `client_centitysubclass_loadsubclasses`
-- **Current RVA**: `0x00377430` (Baseline: `0x00377f80`, Delta: `-0xb50`)
-- **Current VA**: `0x180377430`
+- **Current RVA**: `0x00376ae0` (Baseline: `0x00377f80`, Delta: `-0x14a0`)
+- **Current VA**: `0x180376ae0`
 - **IDA / Ghidra Pattern**: `48 8B C4 41 57 48 81 EC 90 00 00 00 80 B9 ?? 01 00 00 00 4C 8B F9 0F 85`
 - **Description**: Parses compiled subclass vdata definitions and registers entity template archetypes.
 
 ### CBombTarget::BombExplode (server.dll)
 - **ID**: `server_cbombtarget_bombexplode`
-- **Current RVA**: `0x00982810` (Baseline: `0x00982370`, Delta: `+0x4a0`)
-- **Current VA**: `0x180982810`
+- **Current RVA**: `0x00983aa0` (Baseline: `0x00982370`, Delta: `+0x1730`)
+- **Current VA**: `0x180983aa0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 57 48 83 EC 20 48 8B 44 24 50 49 8B D9 48 8B ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 48 8B 03 48 8B CB FF 10 48 8B 03 48 8B CB FF 50 08 48 8D 8F C8 09 00 00 4C 8B C7 48 8B D7 E8 ?? ?? ?? ?? 48 8B 5C 24 30 33 C0 48 83`
 - **Description**: Timed objective spatial detonation dispatcher triggering site destruction and scoring.
 
 ### CCSPlayerPawn::CommitSuicide (server.dll)
 - **ID**: `server_ccsplayerpawn_commitsuicide`
-- **Current RVA**: `0x001ceb60` (Baseline: `0x001dc710`, Delta: `-0xdbb0`)
-- **Current VA**: `0x1801ceb60`
+- **Current RVA**: `0x001ceb80` (Baseline: `0x001dc710`, Delta: `-0xdb90`)
+- **Current VA**: `0x1801ceb80`
 - **IDA / Ghidra Pattern**: `48 89 54 24 10 48 89 4C 24 08 55 56 57 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC`
 - **Description**: Pawn lifecycle termination and death cleanup dispatcher.
 
@@ -796,8 +796,8 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### CFrameSnapshot::ReleaseReference (engine2.dll)
 - **ID**: `engine2_cframesnapshot_releasereference`
-- **Current RVA**: `0x000d9ce0` (Baseline: `0x000d9ce0`, Delta: `+0x0`)
-- **Current VA**: `0x1800d9ce0`
+- **Current RVA**: `0x00052840` (Baseline: `0x000d9ce0`, Delta: `-0x874a0`)
+- **Current VA**: `0x180052840`
 - **IDA / Ghidra Pattern**: `B8 FF FF FF FF F0 0F C1 81 B4 00 00 00 83 F8 01 75 1B 4C 8B 05 47`
 - **Description**: Atomic reference decrement for frame snapshots.
 
@@ -810,23 +810,23 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### CViewRender::SetupGpuCullingView (client.dll)
 - **ID**: `client_cviewrender_setupgpucullingview`
-- **Current RVA**: `0x011d17b0` (Baseline: `0x011d17b0`, Delta: `+0x0`)
-- **Current VA**: `0x1811d17b0`
+- **Current RVA**: `0x011d3230` (Baseline: `0x011d17b0`, Delta: `+0x1a80`)
+- **Current VA**: `0x1811d3230`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 18 55 56 57 48 81 EC F0 00 00 00 48`
 - **Description**: Constructs GPU culling view constants and checks r_csgo_gpu_culling.
 
 ### CRenderingPipelineCsgo::AddGpuCullingLayer (client.dll)
 - **ID**: `client_crenderingpipelinecsgo_addgpucullinglayer`
-- **Current RVA**: `0x011d3d50` (Baseline: `0x011d3d50`, Delta: `+0x0`)
-- **Current VA**: `0x1811d3d50`
+- **Current RVA**: `0x011d57d0` (Baseline: `0x011d3d50`, Delta: `+0x1a80`)
+- **Current VA**: `0x1811d57d0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 74 24 18 55 57 41 54 41 56 41 57 48 8D 6C 24 D1 48`
 - **Description**: Injects GPU culling compute shader layer into render schedule.
 
 ### CDepthPyramidComputeRenderer::RenderMultiPass (client.dll)
 - **ID**: `client_cdepthpyramidcomputerenderer_rendermultipass`
-- **Current RVA**: `0x01210ca0` (Baseline: `0x01210ca0`, Delta: `+0x0`)
-- **Current VA**: `0x181210ca0`
-- **IDA / Ghidra Pattern**: `48 8D 05 D9 22 B1 00 C7 44 24 6C 14 00 00 00 48`
+- **Current RVA**: `0x01213b30` (Baseline: `0x01215340`, Delta: `-0x1810`)
+- **Current VA**: `0x181213b30`
+- **IDA / Ghidra Pattern**: `48 8D 05 ?? ?? ?? ?? C7 44 24 6C 14 00 00 00 48 89 44 24 58 48 8D 4C 24 50 48 8D 05 ?? ?? ?? ?? 48 89 44 24 60 FF 15 ?? ?? ?? ?? 84 C0 74 01 CC 85 DB`
 - **Description**: Hierarchical Z-Buffer depth pyramid mip chain generator.
 
 ### CRenderContextDx11::DrawIndexedInstancedIndirect (rendersystemdx11.dll)
@@ -845,36 +845,36 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 
 ### CCSPlayerController::GetPlayerPawn (server.dll)
 - **ID**: `server_ccsplayercontroller_getplayerpawn`
-- **Current RVA**: `0x00212390` (Baseline: `0x00212390`, Delta: `+0x0`)
-- **Current VA**: `0x180212390`
+- **Current RVA**: `0x002123b0` (Baseline: `0x00212390`, Delta: `+0x20`)
+- **Current VA**: `0x1802123b0`
 - **IDA / Ghidra Pattern**: `8B 91 EC 08 00 00 45 33 D2 83 FA FF 74 ? 48 8B 0D ? ? ? ? 48 85 C9 74 ? 83 FA FE 74 ? 8B C2 25 FF 7F 00 00`
 - **Description**: Dereferences 32-bit CEntityHandle m_hPlayerPawn through CEntitySystem chunked list.
 
 ### CCSPlayerController::SetPawn (server.dll)
 - **ID**: `server_ccsplayercontroller_setpawn`
-- **Current RVA**: `0x00a6d400` (Baseline: `0x00a6d400`, Delta: `+0x0`)
-- **Current VA**: `0x180a6d400`
+- **Current RVA**: `0x00a6e5a0` (Baseline: `0x00a6d400`, Delta: `+0x11a0`)
+- **Current VA**: `0x180a6e5a0`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 56 41 57 48 83 EC 20 8B 91 88 03 00 00 48 8B F9 C1 EA 08 83 E2 01 E8 ? ? ? ? 8B 97 EC 08 00 00`
 - **Description**: Binds CCSPlayerPawn to controller, updating m_hPlayerPawn (+0x8ec) and m_hObserverPawn.
 
 ### CBaseEntity::Spawn (server.dll)
 - **ID**: `server_cbaseentity_spawn`
-- **Current RVA**: `0x00153ff0` (Baseline: `0x00153ff0`, Delta: `+0x0`)
-- **Current VA**: `0x180153ff0`
+- **Current RVA**: `0x00154010` (Baseline: `0x00153ff0`, Delta: `+0x20`)
+- **Current VA**: `0x180154010`
 - **IDA / Ghidra Pattern**: `C2 00 00 CC CC CC CC CC CC CC CC CC CC CC CC CC 48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 57 48 83 EC 40 48 8B DA`
 - **Description**: Primary CBaseEntity lifecycle spawn routine (VTable Slot 2).
 
 ### CBaseEntity::Activate (server.dll)
 - **ID**: `server_cbaseentity_activate`
-- **Current RVA**: `0x00cd1c70` (Baseline: `0x00cd1c70`, Delta: `+0x0`)
-- **Current VA**: `0x180cd1c70`
+- **Current RVA**: `0x00cd2e10` (Baseline: `0x00cd1c70`, Delta: `+0x11a0`)
+- **Current VA**: `0x180cd2e10`
 - **IDA / Ghidra Pattern**: `48 89 5C 24 08 57 48 83 EC 20 8B DA 48 8B F9 E8 ?? ?? ?? ?? F6 C3 01 74 0D BA A8 04 00 00 48 8B CF E8 ?? ?? ?? ?? 48 8B 5C 24 30 48 8B C7 48 83 C4 20 5F C3 CC CC CC CC CC CC CC CC CC CC CC CC 48 89 5C 24 08 48 89 6C 24 10`
 - **Description**: Post-spawn world activation routine (VTable Slot 4).
 
 ### CBaseEntity::SetNextThink (server.dll)
 - **ID**: `server_cbaseentity_setnextthink`
-- **Current RVA**: `0x003e8590` (Baseline: `0x003e8590`, Delta: `+0x0`)
-- **Current VA**: `0x1803e8590`
+- **Current RVA**: `0x003e85b0` (Baseline: `0x003e8590`, Delta: `+0x20`)
+- **Current VA**: `0x1803e85b0`
 - **IDA / Ghidra Pattern**: `40 53 56 57 48 83 EC 30 F3 0F 10 0D ?? ?? ?? ??`
 - **Description**: Registers entity next think tick into simulation think manager.
 
@@ -21243,7 +21243,7 @@ public:
 ```
 
 ================================================================================
-# SECTION 4: KEY SCHEMA CLASS MEMBER OFFSETS (48 CURATED CLASSES, Build 26598758)
+# SECTION 4: KEY SCHEMA CLASS MEMBER OFFSETS (48 CURATED CLASSES, Build 26772654)
 ================================================================================
 
 ### `C_BaseEntity` (`client.dll`, Size: `0x600` / 1536 bytes, Base: `CEntityInstance`)

@@ -2,9 +2,9 @@
   "name": "CS2 (Source 2) Reverse Engineering & Modding API",
   "version": "1.1.0",
   "latest_build": {
-    "tag": "2026-11-11_26598758",
-    "build_id": "26598758",
-    "date": "2026-11-11",
+    "tag": "2026-11-19_26772654",
+    "build_id": "26772654",
+    "date": "2026-11-19",
     "binaries_count": 34,
     "signatures_count": 92,
     "schema_classes_count": 2276,

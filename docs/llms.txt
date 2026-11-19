@@ -1,6 +1,6 @@
 # CS2 (Source 2) Reverse Engineering & Modding Reference
 
-> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26598758).
+> Authoritative clean-room C++20 SDK, byte-level function signatures, runtime SchemaSystem offsets, ConVars, and architectural documentation for Valve's Counter-Strike 2 (Source 2 Engine, Build 26772654).
 
 ## Quick AI & Modding Context Links
 - [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 92 function signatures, VTables, C++20 SDK headers, key Schema offsets, and 40 architecture docs.
@@ -92,55 +92,55 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 - **tier0.dll** (`game/tier0/`): `memalloc.cpp`, `memalloc.h`, `utl_string_token.h`, `utl_vector.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/tier0)
 - **vphysics2.dll** (`game/vphysics2/`): `rubikon_collision.cpp`, `rubikon_collision.h` — [View on GitHub](https://github.com/Hanzkii/cs2-reverse/tree/main/game/vphysics2)
 
-## Verified Function Signatures Summary (Latest Build 26598758)
+## Verified Function Signatures Summary (Latest Build 26772654)
 | Binary | Symbol / Routine | Current RVA | Current VA | Category |
 | :--- | :--- | :--- | :--- | :--- |
-| `client.dll` | `AngleVectors` | `0x01739120` | `0x181739120` | Rendering & Math |
-| `client.dll` | `CalculateWorldBones` | `0x00a955f0` | `0x180a955f0` | Animation & Hitboxes |
-| `client.dll` | `CTransform::ConcatenateTransforms` | `0x01741300` | `0x181741300` | Animation & Hitboxes |
-| `server.dll` | `LineOfSightThroughSmoke` | `0x009b82f0` | `0x1809b82f0` | Volumetric & Smoke |
-| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009cba30` | `0x1809cba30` | Volumetric & Smoke |
-| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009cec20` | `0x1809cec20` | Volumetric & Smoke |
-| `server.dll` | `VoxelGrid_Raymarch` | `0x009cd690` | `0x1809cd690` | Volumetric & Smoke |
-| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009c9070` | `0x1809c9070` | Volumetric & Smoke |
-| `server.dll` | `SerializeSparseDelta` | `0x009b2230` | `0x1809b2230` | Volumetric & Smoke |
-| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x008007d0` | `0x1808007d0` | Gameplay & Physics |
+| `client.dll` | `AngleVectors` | `0x0173c020` | `0x18173c020` | Rendering & Math |
+| `client.dll` | `CalculateWorldBones` | `0x00a96090` | `0x180a96090` | Animation & Hitboxes |
+| `client.dll` | `CTransform::ConcatenateTransforms` | `0x01744200` | `0x181744200` | Animation & Hitboxes |
+| `server.dll` | `LineOfSightThroughSmoke` | `0x009b9490` | `0x1809b9490` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::Spawn` | `0x009ccbd0` | `0x1809ccbd0` | Volumetric & Smoke |
+| `server.dll` | `CSmokeGrenadeProjectile::TickUpdate` | `0x009cfdc0` | `0x1809cfdc0` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_Raymarch` | `0x009ce830` | `0x1809ce830` | Volumetric & Smoke |
+| `server.dll` | `VoxelGrid_ExpandAndCarve` | `0x009ca210` | `0x1809ca210` | Volumetric & Smoke |
+| `server.dll` | `SerializeSparseDelta` | `0x009b33d0` | `0x1809b33d0` | Volumetric & Smoke |
+| `server.dll` | `CLagCompensationManager::StartLagCompensation` | `0x00801810` | `0x180801810` | Gameplay & Physics |
 | `pulse_system.dll` | `PulseInstructionDispatchLoop` | `0x0008f930` | `0x18008f930` | Scripting & VM |
 | `tier0.dll` | `CCvar::FindVar` | `0x0006c740` | `0x18006c740` | Engine Core |
 | `tier0.dll` | `HashStringCaseless` | `0x0006c950` | `0x18006c950` | Engine Core |
-| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001c4ef0` | `0x1801c4ef0` | Networking |
-| `networksystem.dll` | `SerializeNetMessage` | `0x000e6fd0` | `0x1800e6fd0` | Networking |
-| `networksystem.dll` | `WriteVarInt32` | `0x001c5fb0` | `0x1801c5fb0` | Networking |
-| `networksystem.dll` | `ReadVarInt32` | `0x001c5020` | `0x1801c5020` | Networking |
+| `networksystem.dll` | `ReadVariableBitMessageId` | `0x001c4f00` | `0x1801c4f00` | Networking |
+| `networksystem.dll` | `SerializeNetMessage` | `0x000e6fe0` | `0x1800e6fe0` | Networking |
+| `networksystem.dll` | `WriteVarInt32` | `0x001c5fc0` | `0x1801c5fc0` | Networking |
+| `networksystem.dll` | `ReadVarInt32` | `0x001c5030` | `0x1801c5030` | Networking |
 | `networksystem.dll` | `DecodeFieldPaths` | `0x0007c813` | `0x18007c813` | Delta Compression |
 | `vphysics2.dll` | `ConvexPolyhedronRaycast` | `0x002544a0` | `0x1802544a0` | Physics & Collision |
 | `vphysics2.dll` | `CapsuleSweepIntersection` | `0x0016caf0` | `0x18016caf0` | Physics & Collision |
 | `animationsystem.dll` | `CTwoBoneIK_LawOfCosines` | `0x002f96f0` | `0x1802f96f0` | Animation & Hitboxes |
-| `server.dll` | `EvaluateBulletPenetration` | `0x00a90280` | `0x180a90280` | Weapon & Penetration |
+| `server.dll` | `EvaluateBulletPenetration` | `0x00a91420` | `0x180a91420` | Weapon & Penetration |
 | `navsystem.dll` | `NavAreaBuildPath` | `0x0003bdf0` | `0x18003bdf0` | Navigation & Pathfinding |
-| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x008230d0` | `0x1808230d0` | Weapons & Ballistics |
-| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x008594e0` | `0x1808594e0` | Weapons & Ballistics |
-| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008e4c10` | `0x1808e4c10` | Movement & Physics |
-| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008bb2b0` | `0x1808bb2b0` | Movement & Physics |
-| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f33f0` | `0x1804f33f0` | Sub-Tick & UserCmd |
-| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f4e90` | `0x1804f4e90` | Sub-Tick & UserCmd |
-| `client.dll` | `CSGOInput::CreateMove` | `0x00cf2250` | `0x180cf2250` | Sub-Tick & UserCmd |
-| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x008074a0` | `0x1808074a0` | Weapons & Ballistics |
-| `client.dll` | `FX_CalculateSpread` | `0x00d1bc20` | `0x180d1bc20` | Weapons & Ballistics |
-| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00eb8f40` | `0x180eb8f40` | Gameplay & Physics |
-| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ecdb00` | `0x180ecdb00` | Gameplay & Physics |
-| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a81610` | `0x180a81610` | Weapons & Ballistics |
-| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00acaca0` | `0x180acaca0` | Weapons & Ballistics |
+| `client.dll` | `C_CSWeaponBase::UpdateAccuracyPenalty` | `0x00823bb0` | `0x180823bb0` | Weapons & Ballistics |
+| `client.dll` | `CPlayer_AimPunchServices::SimulateAimPunchDecay` | `0x00859f70` | `0x180859f70` | Weapons & Ballistics |
+| `client.dll` | `CCSPlayer_MovementServices::WalkMove` | `0x008e56a0` | `0x1808e56a0` | Movement & Physics |
+| `client.dll` | `CCSPlayer_MovementServices::AirAccelerate` | `0x008bbd40` | `0x1808bbd40` | Movement & Physics |
+| `client.dll` | `CSubtickMoveStep::_InternalParse` | `0x004f2aa0` | `0x1804f2aa0` | Sub-Tick & UserCmd |
+| `client.dll` | `CBaseUserCmdPB::_InternalSerialize` | `0x004f4540` | `0x1804f4540` | Sub-Tick & UserCmd |
+| `client.dll` | `CSGOInput::CreateMove` | `0x00cf2db0` | `0x180cf2db0` | Sub-Tick & UserCmd |
+| `client.dll` | `C_CSWeaponBase::GetInaccuracy` | `0x00807f80` | `0x180807f80` | Weapons & Ballistics |
+| `client.dll` | `FX_CalculateSpread` | `0x00d1c7b0` | `0x180d1c7b0` | Weapons & Ballistics |
+| `server.dll` | `CLagCompensationManager::FinishLagCompensation` | `0x00eba0e0` | `0x180eba0e0` | Gameplay & Physics |
+| `server.dll` | `CLagCompensationManager::RestoreEntityTo` | `0x00ececa0` | `0x180ececa0` | Gameplay & Physics |
+| `server.dll` | `CCSPlayerPawn::ApplyArmorDamageCalculation` | `0x00a827b0` | `0x180a827b0` | Weapons & Ballistics |
+| `server.dll` | `CCSPlayerPawn::IsArmored` | `0x00acbe40` | `0x180acbe40` | Weapons & Ballistics |
 | `animationsystem.dll` | `CBlendUpdateNode_ComputeWeights` | `0x002d7a20` | `0x1802d7a20` | Animation & Hitboxes |
 | `animationsystem.dll` | `CStateMachineUpdateNode_EvaluateTransitions` | `0x002c8260` | `0x1802c8260` | Animation & Hitboxes |
 | `animationsystem.dll` | `Quaternion_FromAngleAxis` | `0x0038dc60` | `0x18038dc60` | Animation & Hitboxes |
 | `rendersystemdx11.dll` | `CDX11Device::Present` | `0x001e0b70` | `0x1801e0b70` | Rendering & Math |
-| `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021f820` | `0x18021f820` | Core Engine & Profiling |
+| `engine2.dll` | `VProfLite_ParseCommandLineOption` | `0x0021fc50` | `0x18021fc50` | Core Engine & Profiling |
 | `steamnetworkingsockets.dll` | `CSteamNetworkConnectionUDP::ProcessPacket` | `0x000b4128` | `0x1800b4128` | Networking & Protocol |
-| `engine2.dll` | `CreateInterface` | `0x00407190` | `0x180407190` | Engine Interface |
-| `server.dll` | `CInferno::InfernoThink` | `0x00346090` | `0x180346090` | Combustion & Thermal |
-| `server.dll` | `CInferno::Spread` | `0x0034ef00` | `0x18034ef00` | Combustion & Thermal |
-| `server.dll` | `CInferno::ExtinguishFire` | `0x00344790` | `0x180344790` | Combustion & Thermal |
+| `engine2.dll` | `CreateInterface` | `0x004075c0` | `0x1804075c0` | Engine Interface |
+| `server.dll` | `CInferno::InfernoThink` | `0x003460b0` | `0x1803460b0` | Combustion & Thermal |
+| `server.dll` | `CInferno::Spread` | `0x0034ef20` | `0x18034ef20` | Combustion & Thermal |
+| `server.dll` | `CInferno::ExtinguishFire` | `0x003447b0` | `0x1803447b0` | Combustion & Thermal |
 | `tier0.dll` | `CThread::Start` | `0x00197600` | `0x180197600` | Threading & Concurrency |
 | `tier0.dll` | `MemAlloc_AllocFunc` | `0x0012ddc0` | `0x18012ddc0` | Memory Management |
 | `tier0.dll` | `LoggingSystem_Log` | `0x0012a190` | `0x18012a190` | Diagnostics & Logging |
@@ -148,14 +148,14 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `schemasystem.dll` | `CSchemaSystem::FindTypeScopeForModule` | `0x00011350` | `0x180011350` | Schema & Reflection |
 | `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClass` | `0x000162b0` | `0x1800162b0` | Schema & Reflection |
 | `schemasystem.dll` | `CSchemaSystemTypeScope::FindDeclaredClassByName` | `0x00010380` | `0x180010380` | Schema & Reflection |
-| `engine2.dll` | `CEngineServiceMgr::Init` | `0x0020fad0` | `0x18020fad0` | Engine Lifecycle |
-| `engine2.dll` | `CHostStateMgr::Init` | `0x002193c0` | `0x1802193c0` | Engine Lifecycle |
-| `engine2.dll` | `CHostStateMgr::QueueNewRequest` | `0x002195e0` | `0x1802195e0` | Engine Lifecycle |
-| `client.dll` | `CCSGOInput::GetViewAngles` | `0x00b638d0` | `0x180b638d0` | Input & Subtick |
-| `client.dll` | `C_CSPlayerPawn::PostDataUpdate` | `0x00c866c0` | `0x180c866c0` | Entity System |
-| `client.dll` | `CEntitySubclassGameSystem::LoadSubclasses` | `0x00377430` | `0x180377430` | Entity System |
-| `server.dll` | `CBombTarget::BombExplode` | `0x00982810` | `0x180982810` | Weapons & Grenades |
-| `server.dll` | `CCSPlayerPawn::CommitSuicide` | `0x001ceb60` | `0x1801ceb60` | Player & Movement |
+| `engine2.dll` | `CEngineServiceMgr::Init` | `0x0020ff00` | `0x18020ff00` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::Init` | `0x002197f0` | `0x1802197f0` | Engine Lifecycle |
+| `engine2.dll` | `CHostStateMgr::QueueNewRequest` | `0x00219a10` | `0x180219a10` | Engine Lifecycle |
+| `client.dll` | `CCSGOInput::GetViewAngles` | `0x00b64370` | `0x180b64370` | Input & Subtick |
+| `client.dll` | `C_CSPlayerPawn::PostDataUpdate` | `0x00c871d0` | `0x180c871d0` | Entity System |
+| `client.dll` | `CEntitySubclassGameSystem::LoadSubclasses` | `0x00376ae0` | `0x180376ae0` | Entity System |
+| `server.dll` | `CBombTarget::BombExplode` | `0x00983aa0` | `0x180983aa0` | Weapons & Grenades |
+| `server.dll` | `CCSPlayerPawn::CommitSuicide` | `0x001ceb80` | `0x1801ceb80` | Player & Movement |
 | `vphysics2.dll` | `RnPhysicsWorld_Step` | `0x00283b80` | `0x180283b80` | Physics & Collision |
 | `vphysics2.dll` | `CRnWorld::WakeBodiesFromAppliedForces` | `0x00203d70` | `0x180203d70` | Physics & Collision |
 | `vphysics2.dll` | `CVPhysics2Interface::Init` | `0x0006d940` | `0x18006d940` | Physics & Collision |
@@ -175,18 +175,18 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py
 | `engine2.dll` | `CServerSideClient::SetupParallelSnapshotDependencies` | `0x000beb00` | `0x1800beb00` | Networking |
 | `engine2.dll` | `CFrameSnapshotManager::CreateFrameSnapshot` | `0x000d4f60` | `0x1800d4f60` | Networking |
 | `engine2.dll` | `CFrameSnapshotManager::DeleteFrameSnapshot` | `0x000d5320` | `0x1800d5320` | Networking |
-| `engine2.dll` | `CFrameSnapshot::ReleaseReference` | `0x000d9ce0` | `0x1800d9ce0` | Networking |
+| `engine2.dll` | `CFrameSnapshot::ReleaseReference` | `0x00052840` | `0x180052840` | Networking |
 | `engine2.dll` | `CServerSideClient::CSendJob_Regular::Execute` | `0x000b8e30` | `0x1800b8e30` | Networking |
-| `client.dll` | `CViewRender::SetupGpuCullingView` | `0x011d17b0` | `0x1811d17b0` | Rendering & Math |
-| `client.dll` | `CRenderingPipelineCsgo::AddGpuCullingLayer` | `0x011d3d50` | `0x1811d3d50` | Rendering & Math |
-| `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01210ca0` | `0x181210ca0` | Rendering & Math |
+| `client.dll` | `CViewRender::SetupGpuCullingView` | `0x011d3230` | `0x1811d3230` | Rendering & Math |
+| `client.dll` | `CRenderingPipelineCsgo::AddGpuCullingLayer` | `0x011d57d0` | `0x1811d57d0` | Rendering & Math |
+| `client.dll` | `CDepthPyramidComputeRenderer::RenderMultiPass` | `0x01213b30` | `0x181213b30` | Rendering & Math |
 | `rendersystemdx11.dll` | `CRenderContextDx11::DrawIndexedInstancedIndirect` | `0x00026cb0` | `0x180026cb0` | Rendering & Math |
 | `rendersystemdx11.dll` | `CD3D11DeviceContext::DrawIndexedInstancedIndirect` | `0x0001c760` | `0x18001c760` | Rendering & Math |
-| `server.dll` | `CCSPlayerController::GetPlayerPawn` | `0x00212390` | `0x180212390` | Gameplay & Entities |
-| `server.dll` | `CCSPlayerController::SetPawn` | `0x00a6d400` | `0x180a6d400` | Gameplay & Entities |
-| `server.dll` | `CBaseEntity::Spawn` | `0x00153ff0` | `0x180153ff0` | Gameplay & Entities |
-| `server.dll` | `CBaseEntity::Activate` | `0x00cd1c70` | `0x180cd1c70` | Gameplay & Entities |
-| `server.dll` | `CBaseEntity::SetNextThink` | `0x003e8590` | `0x1803e8590` | Gameplay & Entities |
+| `server.dll` | `CCSPlayerController::GetPlayerPawn` | `0x002123b0` | `0x1802123b0` | Gameplay & Entities |
+| `server.dll` | `CCSPlayerController::SetPawn` | `0x00a6e5a0` | `0x180a6e5a0` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Spawn` | `0x00154010` | `0x180154010` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::Activate` | `0x00cd2e10` | `0x180cd2e10` | Gameplay & Entities |
+| `server.dll` | `CBaseEntity::SetNextThink` | `0x003e85b0` | `0x1803e85b0` | Gameplay & Entities |
 
 ## Architecture Documentation Reports (40 Documents in `docs/*.md`)
 - [00_tooling_and_methodology.md](https://github.com/Hanzkii/cs2-reverse/blob/main/docs/00_tooling_and_methodology.md)

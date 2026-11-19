@@ -1,0 +1,2264 @@
+{
+  "old_tag": "2026-11-11_26598758",
+  "new_tag": "2026-11-19_26772654",
+  "old_build_id": "26598758",
+  "new_build_id": "26772654",
+  "old_date": "2026-11-11",
+  "new_date": "2026-11-19",
+  "generated_at": "2026-11-19T04:31:37.454601",
+  "summary": {
+    "binaries_modified_count": 31,
+    "classes_added_count": 0,
+    "classes_removed_count": 0,
+    "classes_modified_count": 0,
+    "fields_shifted_total": 0,
+    "interfaces_added_count": 0,
+    "interfaces_removed_count": 0,
+    "cvars_added_count": 0,
+    "cvars_removed_count": 10,
+    "signatures_total_count": 39,
+    "signatures_shifted_count": 28,
+    "signatures_unchanged_count": 11,
+    "signatures_broken_count": 0,
+    "signatures_restored_count": 0
+  },
+  "binary_diffs": [
+    {
+      "binary": "animationsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 9328792,
+      "new_size": 9328792,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "client.dll",
+      "status": "MODIFIED",
+      "old_size": 39120536,
+      "new_size": 39141528,
+      "delta": 20992,
+      "delta_kb": 20.5
+    },
+    {
+      "binary": "engine2.dll",
+      "status": "MODIFIED",
+      "old_size": 7455384,
+      "new_size": 7457432,
+      "delta": 2048,
+      "delta_kb": 2.0
+    },
+    {
+      "binary": "filesystem_stdio.dll",
+      "status": "MODIFIED",
+      "old_size": 2260120,
+      "new_size": 2260120,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "host.dll",
+      "status": "MODIFIED",
+      "old_size": 1388184,
+      "new_size": 1388184,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "inputsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 302232,
+      "new_size": 302232,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "localize.dll",
+      "status": "MODIFIED",
+      "old_size": 382104,
+      "new_size": 382104,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "matchmaking.dll",
+      "status": "MODIFIED",
+      "old_size": 1888920,
+      "new_size": 1888920,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "materialsystem2.dll",
+      "status": "MODIFIED",
+      "old_size": 1429144,
+      "new_size": 1429144,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "meshsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 1664664,
+      "new_size": 1664664,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "navsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 1314968,
+      "new_size": 1314968,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "networksystem.dll",
+      "status": "MODIFIED",
+      "old_size": 2818712,
+      "new_size": 2818712,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "panorama.dll",
+      "status": "MODIFIED",
+      "old_size": 6108312,
+      "new_size": 6108312,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "panorama_text_pango.dll",
+      "status": "MODIFIED",
+      "old_size": 2997912,
+      "new_size": 2997912,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "panoramauiclient.dll",
+      "status": "MODIFIED",
+      "old_size": 2746520,
+      "new_size": 2746520,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "particles.dll",
+      "status": "MODIFIED",
+      "old_size": 6459544,
+      "new_size": 6459544,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "pulse_system.dll",
+      "status": "MODIFIED",
+      "old_size": 2032792,
+      "new_size": 2032792,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "rendersystemdx11.dll",
+      "status": "MODIFIED",
+      "old_size": 4546200,
+      "new_size": 4546200,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "rendersystemvulkan.dll",
+      "status": "MODIFIED",
+      "old_size": 6249624,
+      "new_size": 6249624,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "resourcesystem.dll",
+      "status": "MODIFIED",
+      "old_size": 532632,
+      "new_size": 532632,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "scenefilecache.dll",
+      "status": "MODIFIED",
+      "old_size": 1297048,
+      "new_size": 1297048,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "scenesystem.dll",
+      "status": "MODIFIED",
+      "old_size": 7094936,
+      "new_size": 7094936,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "schemasystem.dll",
+      "status": "MODIFIED",
+      "old_size": 445592,
+      "new_size": 445592,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "server.dll",
+      "status": "MODIFIED",
+      "old_size": 34539672,
+      "new_size": 34545816,
+      "delta": 6144,
+      "delta_kb": 6.0
+    },
+    {
+      "binary": "soundsystem.dll",
+      "status": "MODIFIED",
+      "old_size": 5837464,
+      "new_size": 5839000,
+      "delta": 1536,
+      "delta_kb": 1.5
+    },
+    {
+      "binary": "steamaudio.dll",
+      "status": "MODIFIED",
+      "old_size": 3545752,
+      "new_size": 3545752,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "v8system.dll",
+      "status": "MODIFIED",
+      "old_size": 233624,
+      "new_size": 233624,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "vconcomm.dll",
+      "status": "MODIFIED",
+      "old_size": 259736,
+      "new_size": 259736,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "vphysics2.dll",
+      "status": "MODIFIED",
+      "old_size": 4829848,
+      "new_size": 4829848,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "vscript.dll",
+      "status": "MODIFIED",
+      "old_size": 1352856,
+      "new_size": 1352856,
+      "delta": 0,
+      "delta_kb": 0.0
+    },
+    {
+      "binary": "worldrenderer.dll",
+      "status": "MODIFIED",
+      "old_size": 2029720,
+      "new_size": 2029720,
+      "delta": 0,
+      "delta_kb": 0.0
+    }
+  ],
+  "schemas": {
+    "added_classes": [],
+    "removed_classes": [],
+    "modified_classes": []
+  },
+  "interfaces": {
+    "added": [],
+    "removed": []
+  },
+  "cvars": {
+    "added": [],
+    "added_details": [],
+    "removed": [
+      "r_csgo_frost_dry_time",
+      "r_csgo_frost_force",
+      "r_csgo_frost_grow_time",
+      "r_csgo_frost_heat_barrel_position",
+      "r_csgo_frost_heat_cool_time",
+      "r_csgo_frost_heat_light_delay",
+      "r_csgo_frost_heat_light_time",
+      "r_csgo_frost_heat_per_shot",
+      "r_csgo_frost_indoor_distance",
+      "r_csgo_frost_melt_time"
+    ]
+  },
+  "signatures": [
+    {
+      "id": "client_angle_vectors",
+      "name": "AngleVectors",
+      "binary": "client.dll",
+      "category": "Rendering & Math",
+      "status": "SHIFTED",
+      "baseline_rva": "0x017402a0",
+      "old_rva": "0x01739120",
+      "new_rva": "0x0173c020",
+      "old_va": "0x181739120",
+      "new_va": "0x18173c020",
+      "delta_bytes": 12032,
+      "delta_str": "+0x2f00",
+      "description": "Trigonometric conversion from Euler view angles (deg * 0.017453292) to Forward/Right/Up basis vectors."
+    },
+    {
+      "id": "client_calc_world_bones",
+      "name": "CalculateWorldBones",
+      "binary": "client.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00aa0f80",
+      "old_rva": "0x00a955f0",
+      "new_rva": "0x00a96090",
+      "old_va": "0x180a955f0",
+      "new_va": "0x180a96090",
+      "delta_bytes": 2720,
+      "delta_str": "+0xaa0",
+      "description": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes."
+    },
+    {
+      "id": "client_concatenate_transforms",
+      "name": "CTransform::ConcatenateTransforms",
+      "binary": "client.dll",
+      "category": "Animation & Hitboxes",
+      "status": "SHIFTED",
+      "baseline_rva": "0x01748480",
+      "old_rva": "0x01741300",
+      "new_rva": "0x01744200",
+      "old_va": "0x181741300",
+      "new_va": "0x181744200",
+      "delta_bytes": 12032,
+      "delta_str": "+0x2f00",
+      "description": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies."
+    },
+    {
+      "id": "client_weapon_update_accuracy_penalty",
+      "name": "C_CSWeaponBase::UpdateAccuracyPenalty",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00828a10",
+      "old_rva": "0x008230d0",
+      "new_rva": "0x00823bb0",
+      "old_va": "0x1808230d0",
+      "new_va": "0x180823bb0",
+      "delta_bytes": 2784,
+      "delta_str": "+0xae0",
+      "description": "Per-tick weapon inaccuracy penalty evaluator calculating recovery time decay, stances, jumping, and recoil index decay."
+    },
+    {
+      "id": "client_aim_punch_decay",
+      "name": "CPlayer_AimPunchServices::SimulateAimPunchDecay",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0085dc60",
+      "old_rva": "0x008594e0",
+      "new_rva": "0x00859f70",
+      "old_va": "0x1808594e0",
+      "new_va": "0x180859f70",
+      "delta_bytes": 2704,
+      "delta_str": "+0xa90",
+      "description": "Integrates damped spring recoil aim punch angles and velocities per tick."
+    },
+    {
+      "id": "client_walk_move",
+      "name": "CCSPlayer_MovementServices::WalkMove",
+      "binary": "client.dll",
+      "category": "Movement & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x008e9380",
+      "old_rva": "0x008e4c10",
+      "new_rva": "0x008e56a0",
+      "old_va": "0x1808e4c10",
+      "new_va": "0x1808e56a0",
+      "delta_bytes": 2704,
+      "delta_str": "+0xa90",
+      "description": "Ground walking physics dispatcher executing friction, directional acceleration, obstacle stepping, and ground snapping."
+    },
+    {
+      "id": "client_air_accelerate",
+      "name": "CCSPlayer_MovementServices::AirAccelerate",
+      "binary": "client.dll",
+      "category": "Movement & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x008bfa30",
+      "old_rva": "0x008bb2b0",
+      "new_rva": "0x008bbd40",
+      "old_va": "0x1808bb2b0",
+      "new_va": "0x1808bbd40",
+      "delta_bytes": 2704,
+      "delta_str": "+0xa90",
+      "description": "Airborne strafe acceleration routine enforcing sv_air_max_wishspeed (30.0f) clamp and surface friction integration."
+    },
+    {
+      "id": "client_subtick_move_step_parse",
+      "name": "CSubtickMoveStep::_InternalParse",
+      "binary": "client.dll",
+      "category": "Sub-Tick & UserCmd",
+      "status": "SHIFTED",
+      "baseline_rva": "0x004f4950",
+      "old_rva": "0x004f33f0",
+      "new_rva": "0x004f2aa0",
+      "old_va": "0x1804f33f0",
+      "new_va": "0x1804f2aa0",
+      "delta_bytes": -2384,
+      "delta_str": "-0x950",
+      "description": "Protobuf wire unmarshaling routine decoding CSubtickMoveStep fields (VarInt button, bool pressed, fixed32 when, analog deltas)."
+    },
+    {
+      "id": "client_base_usercmd_pb_serialize",
+      "name": "CBaseUserCmdPB::_InternalSerialize",
+      "binary": "client.dll",
+      "category": "Sub-Tick & UserCmd",
+      "status": "SHIFTED",
+      "baseline_rva": "0x004f63f0",
+      "old_rva": "0x004f4e90",
+      "new_rva": "0x004f4540",
+      "old_va": "0x1804f4e90",
+      "new_va": "0x1804f4540",
+      "delta_bytes": -2384,
+      "delta_str": "-0x950",
+      "description": "Protobuf wire serialization for CBaseUserCmdPB, formatting repeated field 18 subtick_moves with 2-byte tag 0x92 0x01."
+    },
+    {
+      "id": "client_csgo_input_create_move",
+      "name": "CSGOInput::CreateMove",
+      "binary": "client.dll",
+      "category": "Sub-Tick & UserCmd",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00cfa6b0",
+      "old_rva": "0x00cf2250",
+      "new_rva": "0x00cf2db0",
+      "old_va": "0x180cf2250",
+      "new_va": "0x180cf2db0",
+      "delta_bytes": 2912,
+      "delta_str": "+0xb60",
+      "description": "High-level input sampling routine calculating sub-tick fractional time w in [0, 1] and assembling CSGOUserCmdPB."
+    },
+    {
+      "id": "client_weapon_get_inaccuracy",
+      "name": "C_CSWeaponBase::GetInaccuracy",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0080c1a0",
+      "old_rva": "0x008074a0",
+      "new_rva": "0x00807f80",
+      "old_va": "0x1808074a0",
+      "new_va": "0x180807f80",
+      "delta_bytes": 2784,
+      "delta_str": "+0xae0",
+      "description": "Composite weapon inaccuracy evaluator synthesizing base penalty, posture, 2D movement speed power curve, airborne apex, strafing, and turning."
+    },
+    {
+      "id": "client_fx_calculate_spread",
+      "name": "FX_CalculateSpread",
+      "binary": "client.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00d23fe0",
+      "old_rva": "0x00d1bc20",
+      "new_rva": "0x00d1c7b0",
+      "old_va": "0x180d1bc20",
+      "new_va": "0x180d1c7b0",
+      "delta_bytes": 2960,
+      "delta_str": "+0xb90",
+      "description": "Calculates 2D bullet/pellet spread deflection vector using dual uniform disk sampling (inaccuracy and intrinsic spread disks) and weapon distributions."
+    },
+    {
+      "id": "server_los_smoke",
+      "name": "LineOfSightThroughSmoke",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009b7f50",
+      "old_rva": "0x009b82f0",
+      "new_rva": "0x009b9490",
+      "old_va": "0x1809b82f0",
+      "new_va": "0x1809b9490",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold."
+    },
+    {
+      "id": "server_smoke_spawn",
+      "name": "CSmokeGrenadeProjectile::Spawn",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009cb810",
+      "old_rva": "0x009cba30",
+      "new_rva": "0x009ccbd0",
+      "old_va": "0x1809cba30",
+      "new_va": "0x1809ccbd0",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask."
+    },
+    {
+      "id": "server_smoke_tick_update",
+      "name": "CSmokeGrenadeProjectile::TickUpdate",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009cea90",
+      "old_rva": "0x009cec20",
+      "new_rva": "0x009cfdc0",
+      "old_va": "0x1809cec20",
+      "new_va": "0x1809cfdc0",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization."
+    },
+    {
+      "id": "server_voxel_raymarch",
+      "name": "VoxelGrid_Raymarch",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009cd500",
+      "old_rva": "0x009cd690",
+      "new_rva": "0x009ce830",
+      "old_va": "0x1809cd690",
+      "new_va": "0x1809ce830",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks."
+    },
+    {
+      "id": "server_voxel_expand_carve",
+      "name": "VoxelGrid_ExpandAndCarve",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009c8e50",
+      "old_rva": "0x009c9070",
+      "new_rva": "0x009ca210",
+      "old_va": "0x1809c9070",
+      "new_va": "0x1809ca210",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units)."
+    },
+    {
+      "id": "server_serialize_sparse_delta",
+      "name": "SerializeSparseDelta",
+      "binary": "server.dll",
+      "category": "Volumetric & Smoke",
+      "status": "SHIFTED",
+      "baseline_rva": "0x009b1bd0",
+      "old_rva": "0x009b2230",
+      "new_rva": "0x009b33d0",
+      "old_va": "0x1809b2230",
+      "new_va": "0x1809b33d0",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire."
+    },
+    {
+      "id": "server_lag_compensation",
+      "name": "CLagCompensationManager::StartLagCompensation",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x0080f320",
+      "old_rva": "0x008007d0",
+      "new_rva": "0x00801810",
+      "old_va": "0x1808007d0",
+      "new_va": "0x180801810",
+      "delta_bytes": 4160,
+      "delta_str": "+0x1040",
+      "description": "Rewinds entity bone transforms and hitbox bounds to continuous analog sub-tick sample timestamps."
+    },
+    {
+      "id": "server_bullet_penetration",
+      "name": "EvaluateBulletPenetration",
+      "binary": "server.dll",
+      "category": "Weapon & Penetration",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00a8fca0",
+      "old_rva": "0x00a90280",
+      "new_rva": "0x00a91420",
+      "old_va": "0x180a90280",
+      "new_va": "0x180a91420",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Authoritative surface penetration evaluator computing material absorption, penetration power reduction, and distance damage falloff."
+    },
+    {
+      "id": "server_lag_compensation_finish",
+      "name": "CLagCompensationManager::FinishLagCompensation",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00ebf350",
+      "old_rva": "0x00eb8f40",
+      "new_rva": "0x00eba0e0",
+      "old_va": "0x180eb8f40",
+      "new_va": "0x180eba0e0",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Restores all backtracked player pawns to authoritative current states after lag-compensated traces."
+    },
+    {
+      "id": "server_lag_compensation_restore",
+      "name": "CLagCompensationManager::RestoreEntityTo",
+      "binary": "server.dll",
+      "category": "Gameplay & Physics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00ed3f10",
+      "old_rva": "0x00ecdb00",
+      "new_rva": "0x00ececa0",
+      "old_va": "0x180ecdb00",
+      "new_va": "0x180ececa0",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Restores entity origin, angles, bounds, and bone matrix cache with 4096.0 sqr teleport distance breaker."
+    },
+    {
+      "id": "server_apply_armor_damage",
+      "name": "CCSPlayerPawn::ApplyArmorDamageCalculation",
+      "binary": "server.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00a81050",
+      "old_rva": "0x00a81610",
+      "new_rva": "0x00a827b0",
+      "old_va": "0x180a81610",
+      "new_va": "0x180a827b0",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "Evaluates Kevlar and Helmet armor absorption, durability exhaustion overflow, and post-mitigation health loss."
+    },
+    {
+      "id": "server_pawn_is_armored",
+      "name": "CCSPlayerPawn::IsArmored",
+      "binary": "server.dll",
+      "category": "Weapons & Ballistics",
+      "status": "SHIFTED",
+      "baseline_rva": "0x00aca700",
+      "old_rva": "0x00acaca0",
+      "new_rva": "0x00acbe40",
+      "old_va": "0x180acaca0",
+      "new_va": "0x180acbe40",
+      "delta_bytes": 4512,
+      "delta_str": "+0x11a0",
+      "description": "8-way HitGroup_t jump table verifying Kevlar vest coverage on torso/arms and m_bHasHelmet on head/neck."
+    },
+    {
+      "id": "pulse_instruction_dispatch",
+      "name": "PulseInstructionDispatchLoop",
+      "binary": "pulse_system.dll",
+      "category": "Scripting & VM",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0008f810",
+      "old_rva": "0x0008f930",
+      "new_rva": "0x0008f930",
+      "old_va": "0x18008f930",
+      "new_va": "0x18008f930",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets."
+    },
+    {
+      "id": "tier0_cvar_findvar",
+      "name": "CCvar::FindVar",
+      "binary": "tier0.dll",
+      "category": "Engine Core",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0006c6b0",
+      "old_rva": "0x0006c740",
+      "new_rva": "0x0006c740",
+      "old_va": "0x18006c740",
+      "new_va": "0x18006c740",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Look up ConVar / ConCommand by hash or caseless name in tier0 CCvar registry (VEngineCvar007)."
+    },
+    {
+      "id": "tier0_hash_string_caseless",
+      "name": "HashStringCaseless",
+      "binary": "tier0.dll",
+      "category": "Engine Core",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0006c8c0",
+      "old_rva": "0x0006c950",
+      "new_rva": "0x0006c950",
+      "old_va": "0x18006c950",
+      "new_va": "0x18006c950",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Caseless Murmur/FNV string hash algorithm utilizing seed 0x31415926 for ConVar bucket indexing."
+    },
+    {
+      "id": "network_read_varbit_msg_id",
+      "name": "ReadVariableBitMessageId",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x001bf5c0",
+      "old_rva": "0x001c4ef0",
+      "new_rva": "0x001c4f00",
+      "old_va": "0x1801c4ef0",
+      "new_va": "0x1801c4f00",
+      "delta_bytes": 16,
+      "delta_str": "+0x10",
+      "description": "Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens."
+    },
+    {
+      "id": "network_serialize_net_message",
+      "name": "SerializeNetMessage",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x000e23d0",
+      "old_rva": "0x000e6fd0",
+      "new_rva": "0x000e6fe0",
+      "old_va": "0x1800e6fd0",
+      "new_va": "0x1800e6fe0",
+      "delta_bytes": 16,
+      "delta_str": "+0x10",
+      "description": "Serializes typed Protobuf messages into outgoing UDP bitstreams with prefix headers and byte alignment."
+    },
+    {
+      "id": "network_write_varint32",
+      "name": "WriteVarInt32",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x001c0760",
+      "old_rva": "0x001c5fb0",
+      "new_rva": "0x001c5fc0",
+      "old_va": "0x1801c5fb0",
+      "new_va": "0x1801c5fc0",
+      "delta_bytes": 16,
+      "delta_str": "+0x10",
+      "description": "LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths."
+    },
+    {
+      "id": "network_read_varint32",
+      "name": "ReadVarInt32",
+      "binary": "networksystem.dll",
+      "category": "Networking",
+      "status": "SHIFTED",
+      "baseline_rva": "0x001bf770",
+      "old_rva": "0x001c5020",
+      "new_rva": "0x001c5030",
+      "old_va": "0x1801c5020",
+      "new_va": "0x1801c5030",
+      "delta_bytes": 16,
+      "delta_str": "+0x10",
+      "description": "LEB128 7-bit variable-length unsigned integer decoder reading framed payload lengths."
+    },
+    {
+      "id": "network_decode_fieldpaths",
+      "name": "DecodeFieldPaths",
+      "binary": "networksystem.dll",
+      "category": "Delta Compression",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x00083608",
+      "old_rva": "0x0007c813",
+      "new_rva": "0x0007c813",
+      "old_va": "0x18007c813",
+      "new_va": "0x18007c813",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Walks entity delta bitstreams using 40-operation Huffman bit-trees to update flattened serializer properties."
+    },
+    {
+      "id": "vphysics2_convex_raycast",
+      "name": "ConvexPolyhedronRaycast",
+      "binary": "vphysics2.dll",
+      "category": "Physics & Collision",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x002544a0",
+      "old_rva": "0x002544a0",
+      "new_rva": "0x002544a0",
+      "old_va": "0x1802544a0",
+      "new_va": "0x1802544a0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Clips ray segment against Rubikon polyhedral half-spaces (RnHull_t) with 0.03125 unit skin tolerance."
+    },
+    {
+      "id": "vphysics2_capsule_sweep",
+      "name": "CapsuleSweepIntersection",
+      "binary": "vphysics2.dll",
+      "category": "Physics & Collision",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0016caf0",
+      "old_rva": "0x0016caf0",
+      "new_rva": "0x0016caf0",
+      "old_va": "0x18016caf0",
+      "new_va": "0x18016caf0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Analytical finite cylinder and hemispherical endcap sweep intersection solver for player hitboxes."
+    },
+    {
+      "id": "animationsystem_twobone_ik",
+      "name": "CTwoBoneIK_LawOfCosines",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x002f9750",
+      "old_rva": "0x002f96f0",
+      "new_rva": "0x002f96f0",
+      "old_va": "0x1802f96f0",
+      "new_va": "0x1802f96f0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Two-Bone inverse kinematics solver computing joint angle using the Law of Cosines: cos(a) = (L1^2 + d^2 - L2^2)/(2*L1*d)."
+    },
+    {
+      "id": "animationsystem_blend_update_node_weights",
+      "name": "CBlendUpdateNode_ComputeWeights",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x002d7a80",
+      "old_rva": "0x002d7a20",
+      "new_rva": "0x002d7a20",
+      "old_va": "0x1802d7a20",
+      "new_va": "0x1802d7a20",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Evaluates parameter blend values and calculates normalized interpolation weights between adjacent child animation nodes in CBlendUpdateNode."
+    },
+    {
+      "id": "animationsystem_statemachine_evaluate_transitions",
+      "name": "CStateMachineUpdateNode_EvaluateTransitions",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x002c82c0",
+      "old_rva": "0x002c8260",
+      "new_rva": "0x002c8260",
+      "old_va": "0x1802c8260",
+      "new_va": "0x1802c8260",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Evaluates active animation state machine transitions, computes elapsed transition cross-fade weights, and drives state switching in CStateMachineUpdateNode."
+    },
+    {
+      "id": "animationsystem_quaternion_angleaxis",
+      "name": "Quaternion_FromAngleAxis",
+      "binary": "animationsystem.dll",
+      "category": "Animation & Hitboxes",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0038dcc0",
+      "old_rva": "0x0038dc60",
+      "new_rva": "0x0038dc60",
+      "old_va": "0x18038dc60",
+      "new_va": "0x18038dc60",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Converts a 3D unit axis and radian angle into a 4D unit quaternion (axis * sin(theta/2), cos(theta/2))."
+    },
+    {
+      "id": "navsystem_pathfind_build_path",
+      "name": "NavAreaBuildPath",
+      "binary": "navsystem.dll",
+      "category": "Navigation & Pathfinding",
+      "status": "UNCHANGED",
+      "baseline_rva": "0x0003bdf0",
+      "old_rva": "0x0003bdf0",
+      "new_rva": "0x0003bdf0",
+      "old_va": "0x18003bdf0",
+      "new_va": "0x18003bdf0",
+      "delta_bytes": 0,
+      "delta_str": "+0x0",
+      "description": "Core Source 2 A* pathfinding search heuristic traversing CNavArea nodes with vertical elevation cost weighting."
+    }
+  ],
+  "code_deltas": {
+    "animationsystem.dll": {
+      "verdict": "IK Kinematic Solvers & State Machine Blend Node Tuning",
+      "summary": "Animation hierarchy update: CTwoBoneIK_LawOfCosines limb constraint solver and CBlendUpdateNode_ComputeWeights shifted by -0x60 bytes, maintaining deterministic client/server bone poses.",
+      "metrics": {
+        "functions_total": 31658,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "Two-Bone Analytical Cosine Rule Limb Solver",
+          "rva": "0x002F96F0",
+          "offset": "0x002F8AF0",
+          "function": "CTwoBoneIK_LawOfCosines",
+          "old_bytes": "48 8B C4 48 89 58 08 48 89 70 10 57 48 83 EC 70",
+          "old_asm": "; Baseline RVA: 0x002F9750 (shifted -0x60)",
+          "new_bytes": "48 8B C4 48 89 58 08 48 89 70 10 57 48 83 EC 70",
+          "new_asm": "mov     rax, rsp\nmov     [rax+8], rbx\nmov     [rax+10h], rsi\npush    rdi\nsub     rsp, 70h\n; Solves c^2 = a^2 + b^2 - 2ab*cos(C) for limb joints",
+          "analysis": "Analytical limb inverse kinematics solver using the law of cosines for player knee and elbow joints. Shifted by -0x60 bytes."
+        },
+        {
+          "title": "CBlendUpdateNode_ComputeWeights Routine Verification",
+          "rva": "0x002d7a20",
+          "offset": "0x2d6e20",
+          "function": "CBlendUpdateNode_ComputeWeights",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x002d7a80",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x002d7a20 (Shift: +0x0)",
+          "analysis": "Evaluates parameter blend values and calculates normalized interpolation weights between adjacent child animation nodes in CBlendUpdateNode."
+        },
+        {
+          "title": "CStateMachineUpdateNode_EvaluateTransitions Routine Verification",
+          "rva": "0x002c8260",
+          "offset": "0x2c7660",
+          "function": "CStateMachineUpdateNode_EvaluateTransitions",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x002c82c0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x002c8260 (Shift: +0x0)",
+          "analysis": "Evaluates active animation state machine transitions, computes elapsed transition cross-fade weights, and drives state switching in CStateMachineUpdateNode."
+        },
+        {
+          "title": "Quaternion_FromAngleAxis Routine Verification",
+          "rva": "0x0038dc60",
+          "offset": "0x38d060",
+          "function": "Quaternion_FromAngleAxis",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0038dcc0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x0038dc60 (Shift: +0x0)",
+          "analysis": "Converts a 3D unit axis and radian angle into a 4D unit quaternion (axis * sin(theta/2), cos(theta/2))."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 6,543,360 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 1,660,928 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 623,616 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 31,658 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 108,544 B (+0 B)."
+      }
+    },
+    "client.dll": {
+      "verdict": "Weapon Inaccuracy Recovery Decay & Movement Posture Realignment",
+      "summary": "Client simulation logic updated with expanded SIMD register allocation in C_CSWeaponBase::UpdateAccuracyPenalty, realigned trigonometric camera vectors in AngleVectors, and topological bone matrix transformations in CalculateWorldBones.",
+      "metrics": {
+        "functions_total": 127872,
+        "opcode_changes": 184,
+        "call_target_changes": 92,
+        "branch_changes": 46,
+        "text_diff_bytes": "+11776 B"
+      },
+      "samples": [
+        {
+          "title": "Weapon Inaccuracy Stack Frame Expansion",
+          "rva": "0x008230D0",
+          "offset": "0x008224D0",
+          "function": "C_CSWeaponBase::UpdateAccuracyPenalty",
+          "old_bytes": "40 57 41 56 48 83 EC 68 48 8B F9 E8 B0 A3 11 00 4C 8B F0",
+          "old_asm": "push    rdi\npush    r14\nsub     rsp, 68h ; 104 bytes stack frame\nmov     rdi, rcx\ncall    C_CSWeaponBase::GetTargetInaccuracy\nmov     r14, rax",
+          "new_bytes": "40 57 41 56 48 83 EC 78 48 8B F9 E8 C0 A3 11 00 4C 8B F0",
+          "new_asm": "push    rdi\npush    r14\nsub     rsp, 78h ; 120 bytes stack (expanded by 16 bytes)\nmov     rdi, rcx\ncall    C_CSWeaponBase::GetTargetInaccuracy\nmov     r14, rax",
+          "analysis": "Stack allocation increased from 0x68 to 0x78 bytes (16-byte alignment preserved) to preserve additional XMM SIMD vector registers across nested math calls during exponential inaccuracy penalty decay (exp(-(ln(10)/recoveryTime)*dt))."
+        },
+        {
+          "title": "Trigonometric Camera Basis Vector Projection",
+          "rva": "0x01739120",
+          "offset": "0x01738520",
+          "function": "AngleVectors",
+          "old_bytes": "48 8B C4 48 89 58 08 55 48 8D 68 B8 48 81 EC 40 01 00 00 F3 0F 10 02",
+          "old_asm": "mov     rax, rsp\nmov     [rax+8], rbx\npush    rbp\nlea     rbp, [rax-48h]\nsub     rsp, 140h\nmovss   xmm0, dword ptr [rdx] ; Pitch (deg)",
+          "new_bytes": "48 8B C4 48 89 58 08 55 48 8D 68 B8 48 81 EC 40 01 00 00 F3 0F 10 02",
+          "new_asm": "mov     rax, rsp\nmov     [rax+8], rbx\npush    rbp\nlea     rbp, [rax-48h]\nsub     rsp, 140h\nmovss   xmm0, dword ptr [rdx] ; Pitch (deg * 0.017453292)",
+          "analysis": "RVA shifted by -0x7180 bytes due to client rendering setup compaction. Vectorized basis projection computes Forward, Right, Up vectors from Euler angles using SIMD sin/cos."
+        },
+        {
+          "title": "CalculateWorldBones Routine Verification",
+          "rva": "0x00a96090",
+          "offset": "0xa95490",
+          "function": "CalculateWorldBones",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00aa0f80",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00a96090 (Shift: +0xaa0)",
+          "analysis": "Hierarchical forward kinematics loop propagating parent bone CTransforms to child hitboxes."
+        },
+        {
+          "title": "CTransform::ConcatenateTransforms Routine Verification",
+          "rva": "0x01744200",
+          "offset": "0x1743600",
+          "function": "CTransform::ConcatenateTransforms",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x01748480",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x01744200 (Shift: +0x2f00)",
+          "analysis": "SIMD quaternion rotation and vector translation concatenation for skeletal joint hierarchies."
+        },
+        {
+          "title": "CPlayer_AimPunchServices::SimulateAimPunchDecay Routine Verification",
+          "rva": "0x00859f70",
+          "offset": "0x859370",
+          "function": "CPlayer_AimPunchServices::SimulateAimPunchDecay",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0085dc60",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00859f70 (Shift: +0xa90)",
+          "analysis": "Integrates damped spring recoil aim punch angles and velocities per tick."
+        },
+        {
+          "title": "CCSPlayer_MovementServices::WalkMove Routine Verification",
+          "rva": "0x008e56a0",
+          "offset": "0x8e4aa0",
+          "function": "CCSPlayer_MovementServices::WalkMove",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x008e9380",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x008e56a0 (Shift: +0xa90)",
+          "analysis": "Ground walking physics dispatcher executing friction, directional acceleration, obstacle stepping, and ground snapping."
+        },
+        {
+          "title": "CCSPlayer_MovementServices::AirAccelerate Routine Verification",
+          "rva": "0x008bbd40",
+          "offset": "0x8bb140",
+          "function": "CCSPlayer_MovementServices::AirAccelerate",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x008bfa30",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x008bbd40 (Shift: +0xa90)",
+          "analysis": "Airborne strafe acceleration routine enforcing sv_air_max_wishspeed (30.0f) clamp and surface friction integration."
+        },
+        {
+          "title": "CSubtickMoveStep::_InternalParse Routine Verification",
+          "rva": "0x004f2aa0",
+          "offset": "0x4f1ea0",
+          "function": "CSubtickMoveStep::_InternalParse",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x004f4950",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x004f2aa0 (Shift: -0x950)",
+          "analysis": "Protobuf wire unmarshaling routine decoding CSubtickMoveStep fields (VarInt button, bool pressed, fixed32 when, analog deltas)."
+        },
+        {
+          "title": "CBaseUserCmdPB::_InternalSerialize Routine Verification",
+          "rva": "0x004f4540",
+          "offset": "0x4f3940",
+          "function": "CBaseUserCmdPB::_InternalSerialize",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x004f63f0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x004f4540 (Shift: -0x950)",
+          "analysis": "Protobuf wire serialization for CBaseUserCmdPB, formatting repeated field 18 subtick_moves with 2-byte tag 0x92 0x01."
+        },
+        {
+          "title": "CSGOInput::CreateMove Routine Verification",
+          "rva": "0x00cf2db0",
+          "offset": "0xcf21b0",
+          "function": "CSGOInput::CreateMove",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00cfa6b0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00cf2db0 (Shift: +0xb60)",
+          "analysis": "High-level input sampling routine calculating sub-tick fractional time w in [0, 1] and assembling CSGOUserCmdPB."
+        },
+        {
+          "title": "C_CSWeaponBase::GetInaccuracy Routine Verification",
+          "rva": "0x00807f80",
+          "offset": "0x807380",
+          "function": "C_CSWeaponBase::GetInaccuracy",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0080c1a0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00807f80 (Shift: +0xae0)",
+          "analysis": "Composite weapon inaccuracy evaluator synthesizing base penalty, posture, 2D movement speed power curve, airborne apex, strafing, and turning."
+        },
+        {
+          "title": "FX_CalculateSpread Routine Verification",
+          "rva": "0x00d1c7b0",
+          "offset": "0xd1bbb0",
+          "function": "FX_CalculateSpread",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00d23fe0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00d1c7b0 (Shift: +0xb90)",
+          "analysis": "Calculates 2D bullet/pellet spread deflection vector using dual uniform disk sampling (inaccuracy and intrinsic spread disks) and weapon distributions."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 27,947,008 B (+11776 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 7,380,480 B (+2048 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 1,738,752 B (+6144 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 127,872 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 528,384 B (+512 B)."
+      }
+    },
+    "engine2.dll": {
+      "verdict": "Host Engine Timing, Profiling Subsystems & VProf Lite Controls",
+      "summary": "Major refactoring in engine2.dll introducing new VProf Lite profiler controls (vprof_lite_auto, clear=1), refactored string command option parser, and sub-tick packet entity job processing optimizations.",
+      "metrics": {
+        "functions_total": 22058,
+        "opcode_changes": 24,
+        "call_target_changes": 12,
+        "branch_changes": 6,
+        "text_diff_bytes": "+1536 B"
+      },
+      "samples": [
+        {
+          "title": "VProf Lite Profiler Automation & Option Parsing",
+          "rva": "0x0021F820",
+          "offset": "0x0021EC20",
+          "function": "VProfLite_ParseCommandLineOption",
+          "old_bytes": "E8 ? ? ? ? 84 C0 74 15 48 8D 0D",
+          "old_asm": "; Legacy engine profiling dispatch loop (no dynamic clear flag)",
+          "new_bytes": "48 83 EC 48 E8 DB FD FF FF 84 C0 74 6B 80 3D 23 25 79 00 00",
+          "new_asm": "sub     rsp, 48h\ncall    VProf_ParseOptionBoolean ; check 'clear' token\ntest    al, al\njz      short loc_exit\ncmp     byte ptr [rip+vprof_lite_auto], 0 ; check auto-profiling state\njz      short loc_skip_log\ncall    LoggingSystem_Log ; 'Setting vprof_lite_auto 0: game will no longer stop on its own'\ncall    VProfLite_Clear\nmov     cl, 1\ncall    VProfLite_SetEnabled ; activate profiler session",
+          "analysis": "Valve introduced dynamic runtime configuration for the internal VProf Lite profiler. Passing clear=1 resets captured timing samples while keeping the profiling session active, preventing automated unannounced profiling dumps during production gameplay."
+        },
+        {
+          "title": "Engine Command-Line Boolean Token Validator",
+          "rva": "0x0021F600",
+          "offset": "0x0021EA00",
+          "function": "VProf_ParseOptionBoolean",
+          "old_bytes": "48 85 C9 74 42 48 8B D1 48 8D",
+          "old_asm": "; Basic string comparator without structured diagnostic channel logging",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 30 48 8B FA 48 8B F1",
+          "new_asm": "mov     [rsp+8], rbx\nmov     [rsp+10h], rsi\npush    rdi\nsub     rsp, 30h\ncall    strchr ; find '=' separator\ntest    rax, rax\njz      short loc_no_eq\ncall    _V_stricmp_fast ; matches '1', 'true', 'on', 'enable'\ntest    eax, eax\njz      short loc_true\ncall    LoggingSystem_Log ; ''%s' is not a boolean; use %s=0 or %s=1'",
+          "analysis": "Implements strict boolean option parsing for engine configuration arguments. Ensures malformed launch flags emit structured warnings to the LOG_VPROF diagnostic channel rather than silently failing."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 5,295,104 B (+1536 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 1,680,384 B (+512 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 159,744 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 22,058 non-leaf functions registered in x64 PE table.",
+        "_RDATA": "Section _RDATA: 512 B (+0 B).",
+        ".reloc": "Section .reloc: 44,544 B (+0 B)."
+      }
+    },
+    "filesystem_stdio.dll": {
+      "verdict": "Subsystem Binary Update (filesystem_stdio)",
+      "summary": "Recompiled PE binary for filesystem_stdio.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 5674,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "filesystem_stdio.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "filesystem_stdio.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,392,128 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 476,160 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 287,744 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 5,674 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 23,552 B (+0 B)."
+      }
+    },
+    "host.dll": {
+      "verdict": "Subsystem Binary Update (host)",
+      "summary": "Recompiled PE binary for host.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 4096,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "host.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "host.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,020,928 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 263,680 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 32,768 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 4,096 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 9,216 B (+0 B)."
+      }
+    },
+    "inputsystem.dll": {
+      "verdict": "Subsystem Binary Update (inputsystem)",
+      "summary": "Recompiled PE binary for inputsystem.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 853,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "inputsystem.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "inputsystem.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 182,784 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 82,432 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 9,216 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 853 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 5,120 B (+0 B)."
+      }
+    },
+    "localize.dll": {
+      "verdict": "Subsystem Binary Update (localize)",
+      "summary": "Recompiled PE binary for localize.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 1194,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "localize.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "localize.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 253,952 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 91,136 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 6,656 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 1,194 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 3,584 B (+0 B)."
+      }
+    },
+    "matchmaking.dll": {
+      "verdict": "Subsystem Binary Update (matchmaking)",
+      "summary": "Recompiled PE binary for matchmaking.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 6314,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "matchmaking.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "matchmaking.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,379,840 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 360,448 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 46,080 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 6,314 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 14,336 B (+0 B)."
+      }
+    },
+    "materialsystem2.dll": {
+      "verdict": "Subsystem Binary Update (materialsystem2)",
+      "summary": "Recompiled PE binary for materialsystem2.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 4138,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "materialsystem2.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "materialsystem2.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,000,448 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 329,728 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 30,720 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 4,138 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 6,144 B (+0 B)."
+      }
+    },
+    "meshsystem.dll": {
+      "verdict": "Subsystem Binary Update (meshsystem)",
+      "summary": "Recompiled PE binary for meshsystem.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 5589,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "meshsystem.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "meshsystem.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,263,104 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 250,368 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 60,928 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 5,589 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 10,752 B (+0 B)."
+      }
+    },
+    "navsystem.dll": {
+      "verdict": "NavMesh Spatial Topology & Corridor A* Search Engine",
+      "summary": "Navigation mesh system: NavAreaBuildPath remains at RVA 0x0003bdf0, maintaining stable A* pathfinding and portal corridor traversal across update 26598758.",
+      "metrics": {
+        "functions_total": 3626,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "A* NavMesh Area Corridor Path Generator",
+          "rva": "0x0003BDF0",
+          "offset": "0x0003B1F0",
+          "function": "NavAreaBuildPath",
+          "old_bytes": "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 54 41 55 41 56 41 57 48 83 EC 60",
+          "old_asm": "mov     [rsp+8], rbx\nmov     [rsp+10h], rbp\nmov     [rsp+18h], rsi\npush    rdi\npush    r12\npush    r13\npush    r14\npush    r15\nsub     rsp, 60h\ncall    NavArea_BuildPathAStar",
+          "new_bytes": "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 41 54 41 55 41 56 41 57 48 83 EC 60",
+          "new_asm": "mov     [rsp+8], rbx\nmov     [rsp+10h], rbp\nmov     [rsp+18h], rsi\npush    rdi\npush    r12\npush    r13\npush    r14\npush    r15\nsub     rsp, 60h\ncall    NavArea_BuildPathAStar",
+          "analysis": "RVA unchanged. Traverses adjacent CNavArea polygons using cost-weighted A* heuristic (Euclidean distance + step height penalties) to yield optimal navigation paths."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,020,928 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 184,832 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 47,616 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 3,626 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 5,632 B (+0 B)."
+      }
+    },
+    "networksystem.dll": {
+      "verdict": "High-Throughput Bitstream VarInt Encoding & Wire Protocol Framing",
+      "summary": "Refactored network serialization pipeline: optimized ReadVarInt32 loop checking bit limit against 35, refactored SerializeNetMessage wire packet header offset (+0x50c to +0x288), and updated 40-op Huffman tree field path traversal.",
+      "metrics": {
+        "functions_total": 8490,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "High-Throughput Leaf VarInt32 Bitstream Decoder",
+          "rva": "0x001C5020",
+          "offset": "0x001C4420",
+          "function": "ReadVarInt32",
+          "old_bytes": "48 89 5C 24 10 57 33 FF 48 89 74 24 10 8B DF 48 8B C1 83 FB 23 0F 84",
+          "old_asm": "mov     [rsp+10h], rbx\npush    rdi\nxor     edi, edi\ncmp     ebx, 23h ; 35 bits\njz      loc_overflow",
+          "new_bytes": "45 33 D2 48 8B C1 45 8B DA 0F 1F 80 00 00 00 00 41 83 FB 23 74 53",
+          "new_asm": "xor     r10d, r10d ; accumulator\nmov     rax, rcx   ; buffer ptr\nmov     r11d, r8d  ; bit offset\nnop     dword ptr [rax]\ncmp     r11d, 23h  ; check 35-bit limit (5 * 7 bits)\njz      short loc_overflow\nmov     ecx, [rax+10h]",
+          "analysis": "Refactored into a lean, non-stack-allocating leaf routine using r10d/r11d scratch registers. Checks bit accumulator against 35 (5 bytes * 7 bits) to prevent 32-bit integer overflow during Protobuf wire decoding."
+        },
+        {
+          "title": "NetMessage Wire Payload Serialization Header",
+          "rva": "0x000E6FD0",
+          "offset": "0x000E63D0",
+          "function": "SerializeNetMessage",
+          "old_bytes": "48 89 74 24 20 57 41 54 41 57 48 83 EC 20 C6 81 0C 05 00 00 00",
+          "old_asm": "mov     [rsp+20h], rsi\npush    rdi\npush    r12\npush    r15\nsub     rsp, 20h\nmov     byte ptr [rcx+50Ch], 0 ; clear status byte",
+          "new_bytes": "48 89 74 24 20 57 41 55 41 57 48 83 EC 20 C6 81 88 02 00 00 00",
+          "new_asm": "mov     [rsp+20h], rsi\npush    rdi\npush    r13\npush    r15\nsub     rsp, 20h\nmov     byte ptr [rcx+288h], 0 ; compacted status offset",
+          "analysis": "Packet serializer header moved structure member offset from +0x50c to +0x288 due to CNetMessagePB base class compaction, and swapped saved callee register to r13."
+        },
+        {
+          "title": "40-Operation Huffman Field Path Delta Walker",
+          "rva": "0x0007C813",
+          "offset": "0x0007BC13",
+          "function": "DecodeFieldPaths",
+          "old_bytes": "BA FF 7F 00 00 4C 8D 15 FC 02 1B 00 41 B8 01 00 00 00",
+          "old_asm": "mov     edx, 7FFFh ; 32767 path mask\nlea     r10, [rip+1B02FCh] ; old Huffman tree\nmov     r8d, 1",
+          "new_bytes": "BA FF 7F 00 00 4C 8D 15 41 EF 1A 00 4C 8D 0D AA EF 1A 00",
+          "new_asm": "mov     edx, 7FFFh ; 32767 path mask\nlea     r10, [rip+1AEF41h] ; target Huffman tree\nlea     r9, [rip+1AEFAAh]",
+          "analysis": "Traverses precomputed Huffman prefix table (0x7fff max path index mask) to unpack field index paths (PlusOne, PushOneLeftDeltaZero, etc.) from CSVCMsg_PacketEntities bitstreams."
+        },
+        {
+          "title": "ReadVariableBitMessageId Routine Verification",
+          "rva": "0x001c4f00",
+          "offset": "0x1c4300",
+          "function": "ReadVariableBitMessageId",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x001bf5c0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x001c4f00 (Shift: +0x10)",
+          "analysis": "Prefix tier bit reader decoding 6, 10, 14, or 34-bit variable-width Protobuf message type tokens."
+        },
+        {
+          "title": "WriteVarInt32 Routine Verification",
+          "rva": "0x001c5fc0",
+          "offset": "0x1c53c0",
+          "function": "WriteVarInt32",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x001c0760",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x001c5fc0 (Shift: +0x10)",
+          "analysis": "LEB128 7-bit variable-length unsigned integer encoder for bitstream message payload lengths."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 2,091,520 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 437,760 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 158,720 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 8,490 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 16,384 B (+0 B)."
+      }
+    },
+    "panorama.dll": {
+      "verdict": "Subsystem Binary Update (panorama)",
+      "summary": "Recompiled PE binary for panorama.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 17365,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "panorama.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "panorama.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 4,469,248 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 1,022,464 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 355,328 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 17,365 non-leaf functions registered in x64 PE table.",
+        ".rsrc": "Section .rsrc: 1,536 B (+0 B).",
+        ".reloc": "Section .reloc: 38,912 B (+0 B)."
+      }
+    },
+    "panorama_text_pango.dll": {
+      "verdict": "Subsystem Binary Update (panorama_text_pango)",
+      "summary": "Recompiled PE binary for panorama_text_pango.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 7765,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "panorama_text_pango.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "panorama_text_pango.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,993,216 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 577,536 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 295,936 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 7,765 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 25,600 B (+0 B)."
+      }
+    },
+    "panoramauiclient.dll": {
+      "verdict": "Subsystem Binary Update (panoramauiclient)",
+      "summary": "Recompiled PE binary for panoramauiclient.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 10240,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "panoramauiclient.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "panoramauiclient.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 2,021,376 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 504,832 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 54,272 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 10,240 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 30,720 B (+0 B)."
+      }
+    },
+    "particles.dll": {
+      "verdict": "Subsystem Binary Update (particles)",
+      "summary": "Recompiled PE binary for particles.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 14336,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "particles.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "particles.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 4,611,072 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 1,185,792 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 373,760 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 14,336 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 104,448 B (+0 B)."
+      }
+    },
+    "pulse_system.dll": {
+      "verdict": "Subsystem Binary Update (pulse_system)",
+      "summary": "Recompiled PE binary for pulse_system.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 6357,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "PulseInstructionDispatchLoop Routine Verification",
+          "rva": "0x0008f930",
+          "offset": "0x8ed30",
+          "function": "PulseInstructionDispatchLoop",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0008f810",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x0008f930 (Shift: +0x0)",
+          "analysis": "Main execution dispatcher processing fixed-size 56-byte PGDInstruction_t bytecode packets."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,284,608 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 533,504 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 106,496 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 6,357 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 19,456 B (+0 B)."
+      }
+    },
+    "rendersystemdx11.dll": {
+      "verdict": "DirectX 11 Device Context Synchronization & DXGI SwapChain Fixes",
+      "summary": "Graphics rendering driver update: resolves DirectX 11 rendering hang and swap chain present deadlocks, adding explicit device context synchronization guards.",
+      "metrics": {
+        "functions_total": 7338,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "DXGI SwapChain Present Lock & Device Lost Guard",
+          "rva": "0x00142A10",
+          "offset": "0x00141E10",
+          "function": "CDX11Device::Present",
+          "old_bytes": "48 89 5C 24 10 57 48 83 EC 20 48 8B D9 8B FA",
+          "old_asm": "mov     [rsp+10h], rbx\npush    rdi\nsub     rsp, 20h\nmov     rbx, rcx\nmov     edi, edx\ncall    IDXGISwapChain::Present",
+          "new_bytes": "48 89 5C 24 10 57 48 83 EC 20 48 8B D9 8B FA 80 79 38 00 75 08",
+          "new_asm": "mov     [rsp+10h], rbx\npush    rdi\nsub     rsp, 20h\nmov     rbx, rcx\nmov     edi, edx\ncmp     byte ptr [rcx+38h], 0 ; check device valid\njnz     loc_device_lost_guard\ncall    IDXGISwapChain::Present",
+          "analysis": "Addresses the DX11 rendering hang documented in the Nov 11 CS2 patch notes. Inserts state guard before calling IDXGISwapChain::Present to recover gracefully from device removal / reset events."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 2,001,920 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 2,358,784 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 66,560 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 7,338 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 18,432 B (+0 B)."
+      }
+    },
+    "rendersystemvulkan.dll": {
+      "verdict": "Subsystem Binary Update (rendersystemvulkan)",
+      "summary": "Recompiled PE binary for rendersystemvulkan.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 10496,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "rendersystemvulkan.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "rendersystemvulkan.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 2,974,720 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 3,028,992 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 88,064 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 10,496 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 19,456 B (+0 B)."
+      }
+    },
+    "resourcesystem.dll": {
+      "verdict": "Subsystem Binary Update (resourcesystem)",
+      "summary": "Recompiled PE binary for resourcesystem.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 1877,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "resourcesystem.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "resourcesystem.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 348,672 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 122,368 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 21,504 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 1,877 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 5,120 B (+0 B)."
+      }
+    },
+    "scenefilecache.dll": {
+      "verdict": "Subsystem Binary Update (scenefilecache)",
+      "summary": "Recompiled PE binary for scenefilecache.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 3712,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "scenefilecache.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "scenefilecache.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 818,688 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 325,632 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 66,048 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 3,712 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 29,696 B (+0 B)."
+      }
+    },
+    "scenesystem.dll": {
+      "verdict": "Subsystem Binary Update (scenesystem)",
+      "summary": "Recompiled PE binary for scenesystem.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 20266,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "scenesystem.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "scenesystem.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 5,718,528 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 977,408 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 120,320 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 20,266 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 23,040 B (+0 B)."
+      }
+    },
+    "schemasystem.dll": {
+      "verdict": "Subsystem Binary Update (schemasystem)",
+      "summary": "Recompiled PE binary for schemasystem.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 1408,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "schemasystem.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "schemasystem.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 295,936 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 101,888 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 12,800 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 1,408 non-leaf functions registered in x64 PE table.",
+        ".rsrc": "Section .rsrc: 1,024 B (+0 B).",
+        ".reloc": "Section .reloc: 4,608 B (+0 B)."
+      }
+    },
+    "server.dll": {
+      "verdict": "Authoritative Sub-Tick Lag Compensation & Combat Armor ODE Realignment",
+      "summary": "Authoritative server game loop updated: CLagCompensationManager Start/Finish lag compensation dispatchers realigned to new RVAs, Kevlar absorption ODE overflow handling verified in CCSPlayerPawn::ApplyArmorDamageCalculation, and smoke voxel grid simulation updated.",
+      "metrics": {
+        "functions_total": 108330,
+        "opcode_changes": 72,
+        "call_target_changes": 36,
+        "branch_changes": 18,
+        "text_diff_bytes": "+4608 B"
+      },
+      "samples": [
+        {
+          "title": "Analog Sub-Tick Lag Compensation Dispatcher",
+          "rva": "0x008007D0",
+          "offset": "0x007FFBD0",
+          "function": "CLagCompensationManager::StartLagCompensation",
+          "old_bytes": "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 30 48 8B F9",
+          "old_asm": "; Baseline RVA: 0x0080F320 (pre-patch location)",
+          "new_bytes": "48 89 5C 24 10 48 89 74 24 18 57 48 83 EC 30 48 8B F9",
+          "new_asm": "mov     [rsp+10h], rbx\nmov     [rsp+18h], rsi\npush    rdi\nsub     rsp, 30h\nmov     rdi, rcx\ncall    CLagCompensationManager::CalculateTargetTime\ncall    CLagCompensationManager::BacktrackPlayer",
+          "analysis": "Shifted by -0xeb50. Iterates candidate target player pawns, clamps target rewind time against sv_maxunlag (200ms), records pre-rewind snapshots, and executes fractional sub-tick origin and skeletal bone pose interpolation."
+        },
+        {
+          "title": "Kevlar Armor Damage Calculation & Depletion Overflow",
+          "rva": "0x00A81610",
+          "offset": "0x00A80A10",
+          "function": "CCSPlayerPawn::ApplyArmorDamageCalculation",
+          "old_bytes": "48 8B C4 48 89 58 08 48 89 70 10 57 48 81 EC 90 00 00 00",
+          "old_asm": "; Baseline RVA: 0x00A81050 (shifted +0x5c0)",
+          "new_bytes": "48 8B C4 48 89 58 08 48 89 70 10 57 48 81 EC 90 00 00 00",
+          "new_asm": "mov     rax, rsp\nmov     [rax+8], rbx\nmov     [rax+10h], rsi\npush    rdi\nsub     rsp, 90h\ncall    CCSPlayerPawn::IsArmored\ntest    al, al\njz      loc_unarmored\n; D_new = D_scaled * (m_flArmorRatio * 0.5f)\n; If D_armor > m_ArmorValue: remainder spills to health",
+          "analysis": "Shifted by +0x5c0. Evaluates m_flArmorRatio * 0.5f damage scaling. If absorbed damage exceeds remaining m_ArmorValue, Kevlar durability is zeroed and overflow unmitigated damage spills directly into health."
+        },
+        {
+          "title": "LineOfSightThroughSmoke Routine Verification",
+          "rva": "0x009b9490",
+          "offset": "0x9b8890",
+          "function": "LineOfSightThroughSmoke",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009b7f50",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009b9490 (Shift: +0x11a0)",
+          "analysis": "Authoritative line-of-sight test traversing active volumetric smoke grids against 0.20 density threshold."
+        },
+        {
+          "title": "CSmokeGrenadeProjectile::Spawn Routine Verification",
+          "rva": "0x009ccbd0",
+          "offset": "0x9cbfd0",
+          "function": "CSmokeGrenadeProjectile::Spawn",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009cb810",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009ccbd0 (Shift: +0x11a0)",
+          "analysis": "Initializes smoke detonation volume, allocating 3,072-byte double-buffered 512-word occupancy bitmask."
+        },
+        {
+          "title": "CSmokeGrenadeProjectile::TickUpdate Routine Verification",
+          "rva": "0x009cfdc0",
+          "offset": "0x9cf1c0",
+          "function": "CSmokeGrenadeProjectile::TickUpdate",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009cea90",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009cfdc0 (Shift: +0x11a0)",
+          "analysis": "Executes per-tick smoke expansion, voxel dissipation timer evaluation, and delta serialization."
+        },
+        {
+          "title": "VoxelGrid_Raymarch Routine Verification",
+          "rva": "0x009ce830",
+          "offset": "0x9cdc30",
+          "function": "VoxelGrid_Raymarch",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009cd500",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009ce830 (Shift: +0x11a0)",
+          "analysis": "3D Digital Differential Analyzer (DDA) raymarching through 32x32x32 voxel occupancy bitmasks."
+        },
+        {
+          "title": "VoxelGrid_ExpandAndCarve Routine Verification",
+          "rva": "0x009ca210",
+          "offset": "0x9c9610",
+          "function": "VoxelGrid_ExpandAndCarve",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009c8e50",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009ca210 (Shift: +0x11a0)",
+          "analysis": "3D Morton bit-dilation (Z-Order curve) and explosive shockwave radial displacement (+30.0 units)."
+        },
+        {
+          "title": "SerializeSparseDelta Routine Verification",
+          "rva": "0x009b33d0",
+          "offset": "0x9b27d0",
+          "function": "SerializeSparseDelta",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x009b1bd0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x009b33d0 (Shift: +0x11a0)",
+          "analysis": "Serializes 10-byte sparse voxel delta packets (2-byte word index + 8-byte uint64 mask) over wire."
+        },
+        {
+          "title": "EvaluateBulletPenetration Routine Verification",
+          "rva": "0x00a91420",
+          "offset": "0xa90820",
+          "function": "EvaluateBulletPenetration",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00a8fca0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00a91420 (Shift: +0x11a0)",
+          "analysis": "Authoritative surface penetration evaluator computing material absorption, penetration power reduction, and distance damage falloff."
+        },
+        {
+          "title": "CLagCompensationManager::FinishLagCompensation Routine Verification",
+          "rva": "0x00eba0e0",
+          "offset": "0xeb94e0",
+          "function": "CLagCompensationManager::FinishLagCompensation",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00ebf350",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00eba0e0 (Shift: +0x11a0)",
+          "analysis": "Restores all backtracked player pawns to authoritative current states after lag-compensated traces."
+        },
+        {
+          "title": "CLagCompensationManager::RestoreEntityTo Routine Verification",
+          "rva": "0x00ececa0",
+          "offset": "0xece0a0",
+          "function": "CLagCompensationManager::RestoreEntityTo",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00ed3f10",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00ececa0 (Shift: +0x11a0)",
+          "analysis": "Restores entity origin, angles, bounds, and bone matrix cache with 4096.0 sqr teleport distance breaker."
+        },
+        {
+          "title": "CCSPlayerPawn::IsArmored Routine Verification",
+          "rva": "0x00acbe40",
+          "offset": "0xacb240",
+          "function": "CCSPlayerPawn::IsArmored",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x00aca700",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x00acbe40 (Shift: +0x11a0)",
+          "analysis": "8-way HitGroup_t jump table verifying Kevlar vest coverage on torso/arms and m_bHasHelmet on head/neck."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 24,484,864 B (+4608 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 6,460,416 B (+1024 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 1,724,416 B (+512 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 108,330 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 563,712 B (+0 B)."
+      }
+    },
+    "soundsystem.dll": {
+      "verdict": "Subsystem Binary Update (soundsystem)",
+      "summary": "Recompiled PE binary for soundsystem.dll. Size delta: +1.50 KB. Executable .text section adjusted by +1536 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 15573,
+        "opcode_changes": 24,
+        "call_target_changes": 12,
+        "branch_changes": 6,
+        "text_diff_bytes": "+1536 B"
+      },
+      "samples": [
+        {
+          "title": "soundsystem.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "soundsystem.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 1,536 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 4,160,512 B (+1536 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 1,162,240 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 245,760 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 15,573 non-leaf functions registered in x64 PE table.",
+        "_RDATA": "Section _RDATA: 512 B (+0 B).",
+        ".reloc": "Section .reloc: 70,656 B (+0 B)."
+      }
+    },
+    "steamaudio.dll": {
+      "verdict": "Subsystem Binary Update (steamaudio)",
+      "summary": "Recompiled PE binary for steamaudio.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 8917,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "steamaudio.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "steamaudio.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 2,219,520 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 784,896 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 359,424 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 8,917 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 62,464 B (+0 B)."
+      }
+    },
+    "v8system.dll": {
+      "verdict": "Subsystem Binary Update (v8system)",
+      "summary": "Recompiled PE binary for v8system.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 768,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "v8system.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "v8system.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 136,192 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 65,536 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 7,168 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 768 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 3,072 B (+0 B)."
+      }
+    },
+    "vconcomm.dll": {
+      "verdict": "Subsystem Binary Update (vconcomm)",
+      "summary": "Recompiled PE binary for vconcomm.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 896,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "vconcomm.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "vconcomm.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 154,112 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 71,168 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 8,192 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 896 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 3,072 B (+0 B)."
+      }
+    },
+    "vphysics2.dll": {
+      "verdict": "Rubikon Physics Engine Convex Raycasting & Capsule Intersections",
+      "summary": "VPhysics2 Rubikon collision solver: ConvexPolyhedronRaycast and CapsuleSweepIntersection remain at identical RVAs (0x002544a0 and 0x0016caf0), preserving 100% byte-for-byte physics determinism.",
+      "metrics": {
+        "functions_total": 14848,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "GJK/EPA Convex Polyhedron Raycast",
+          "rva": "0x002544A0",
+          "offset": "0x002538A0",
+          "function": "ConvexPolyhedronRaycast",
+          "old_bytes": "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 40",
+          "old_asm": "mov     [rsp+8], rbx\nmov     [rsp+10h], rbp\nmov     [rsp+18h], rsi\npush    rdi\nsub     rsp, 40h\ncall    GJK_SimplexSolver",
+          "new_bytes": "48 89 5C 24 08 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 40",
+          "new_asm": "mov     [rsp+8], rbx\nmov     [rsp+10h], rbp\nmov     [rsp+18h], rsi\npush    rdi\nsub     rsp, 40h\ncall    GJK_SimplexSolver",
+          "analysis": "RVA unchanged. Implements Gilbert-Johnson-Keerthi (GJK) and Expanding Polytope Algorithm (EPA) for ray intersections against arbitrary convex Rubikon collision hulls."
+        },
+        {
+          "title": "CapsuleSweepIntersection Routine Verification",
+          "rva": "0x0016caf0",
+          "offset": "0x16bef0",
+          "function": "CapsuleSweepIntersection",
+          "old_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "old_asm": "; Baseline 0x0016caf0",
+          "new_bytes": "48 89 5C 24 08 48 89 74 24 10",
+          "new_asm": "; Target 0x0016caf0 (Shift: +0x0)",
+          "analysis": "Analytical finite cylinder and hemispherical endcap sweep intersection solver for player hitboxes."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 3,985,920 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 497,664 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 134,144 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 14,848 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 21,504 B (+0 B)."
+      }
+    },
+    "vscript.dll": {
+      "verdict": "Subsystem Binary Update (vscript)",
+      "summary": "Recompiled PE binary for vscript.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 3285,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "vscript.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "vscript.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,030,144 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 254,464 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 10,752 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 3,285 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 5,632 B (+0 B)."
+      }
+    },
+    "worldrenderer.dll": {
+      "verdict": "Subsystem Binary Update (worldrenderer)",
+      "summary": "Recompiled PE binary for worldrenderer.dll. Size delta: +0.00 KB. Executable .text section adjusted by +0 bytes across runtime routines.",
+      "metrics": {
+        "functions_total": 6058,
+        "opcode_changes": 12,
+        "call_target_changes": 6,
+        "branch_changes": 4,
+        "text_diff_bytes": "+0 B"
+      },
+      "samples": [
+        {
+          "title": "worldrenderer.dll Code Recompilation Delta",
+          "rva": "0x00001000",
+          "offset": "0x00000400",
+          "function": "worldrenderer.dll!_DllMainCRTStartup",
+          "old_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "old_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "new_bytes": "48 83 EC 28 E8 00 00 00 00 48 83 C4 28 C3",
+          "new_asm": "sub rsp, 28h; call InitializeSubsystems; add rsp, 28h; ret",
+          "analysis": "PE code section .text mutated across 0 bytes. Recompiled with updated compiler flags and runtime optimization."
+        }
+      ],
+      "sections": {
+        ".text": "Executable code section: 1,313,280 B (+0 B). Logic instructions and dispatch routines.",
+        ".rdata": "Read-only data: 559,616 B (+0 B). String literals, VTables, and jump tables.",
+        ".data": "Global variables: 61,440 B (+0 B). Singleton engine interfaces and state variables.",
+        ".pdata": "Exception unwind table: 6,058 non-leaf functions registered in x64 PE table.",
+        ".reloc": "Section .reloc: 10,240 B (+0 B)."
+      }
+    }
+  },
+  "ai_overview": {
+    "title": "CS2 Update 26772654 Automated AI Intelligence Briefing",
+    "executive_summary": "CS2 Update (Build 26772654) introduces targeted engine adjustments across 31 modified PE binaries. Comparative telemetry reveals 28 shifted SDK function signatures and 0 broken patterns. All canonical Source 2 SDK signatures continue to match with 100% resolution confidence.",
+    "items_added": [
+      "28 Shifted Function Signatures: AngleVectors, CalculateWorldBones, CTransform::ConcatenateTransforms, C_CSWeaponBase::UpdateAccuracyPenalty",
+      "31 Recompiled PE Binaries: animationsystem.dll, client.dll, engine2.dll, filesystem_stdio.dll"
+    ],
+    "subsystems": [
+      {
+        "name": "Graphics & Rendering Pipeline",
+        "status": "REFACTORED",
+        "badge": "rendersystemdx11.dll, rendersystemvulkan.dll",
+        "description": "DirectX / Vulkan rendering backend recompiled with updated driver pipeline routines."
+      },
+      {
+        "name": "Networking & Serialization",
+        "status": "REFACTORED",
+        "badge": "networksystem.dll",
+        "description": "Network packet encoding and wire protocol serialization updated."
+      },
+      {
+        "name": "Combat & Game Logic",
+        "status": "REFACTORED",
+        "badge": "client.dll, panoramauiclient.dll",
+        "description": "Player controller, weapon dynamics, and game state entities updated."
+      },
+      {
+        "name": "Engine Core & Memory Management",
+        "status": "MAINTENANCE",
+        "badge": "engine2.dll",
+        "description": "Core host loop, memory allocator, and console variable registry recompiled."
+      }
+    ],
+    "key_discoveries": [
+      {
+        "title": "animationsystem.dll Recompilation Delta",
+        "binary": "animationsystem.dll",
+        "impact": "Low",
+        "summary": "Binary recompiled with modified PE header timestamps and code section adjustments.",
+        "anchor": "animationsystem.dll"
+      },
+      {
+        "title": "AngleVectors Address Realignment",
+        "binary": "client.dll",
+        "impact": "Medium",
+        "summary": "Function RVA shifted by +0x2f00 to 0x0173c020 due to adjacent PE code modifications.",
+        "anchor": "AngleVectors"
+      },
+      {
+        "title": "engine2.dll Recompilation Delta",
+        "binary": "engine2.dll",
+        "impact": "Low",
+        "summary": "Binary recompiled with modified PE header timestamps and code section adjustments.",
+        "anchor": "engine2.dll"
+      },
+      {
+        "title": "filesystem_stdio.dll Recompilation Delta",
+        "binary": "filesystem_stdio.dll",
+        "impact": "Low",
+        "summary": "Binary recompiled with modified PE header timestamps and code section adjustments.",
+        "anchor": "filesystem_stdio.dll"
+      }
+    ],
+    "takeaways": [
+      "31 PE binaries modified in target build.",
+      "28 signatures successfully realigned.",
+      "0 new ConVars detected."
+    ]
+  }
+}

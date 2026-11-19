@@ -1,6 +1,6 @@
 {
-  "build_id": "26598758",
-  "tag": "2026-11-11_26598758",
+  "build_id": "26772654",
+  "tag": "2026-11-19_26772654",
   "total_classes_in_profile": 2276,
   "curated_modding_classes_count": 48,
   "curated_classes": {
@@ -15125,6 +15125,13 @@
       "base": "C_BaseModelEntity",
       "field_count": 4
     },
+    "C_PointClientUIWorldTextPanel": {
+      "module": "client.dll",
+      "size": 5376,
+      "size_hex": "0x1500",
+      "base": "C_PointClientUIWorldPanel",
+      "field_count": 1
+    },
     "C_PointClientUIWorldPanel": {
       "module": "client.dll",
       "size": 4864,
@@ -15152,13 +15159,6 @@
       "size_hex": "0x1290",
       "base": "C_BaseClientUIEntity",
       "field_count": 13
-    },
-    "C_PointClientUIWorldTextPanel": {
-      "module": "client.dll",
-      "size": 5376,
-      "size_hex": "0x1500",
-      "base": "C_PointClientUIWorldPanel",
-      "field_count": 1
     },
     "CRenderComponent": {
       "module": "server.dll",
@@ -15237,6 +15237,27 @@
       "base": "CEntityComponent",
       "field_count": 71
     },
+    "C_BaseTrigger": {
+      "module": "client.dll",
+      "size": 4480,
+      "size_hex": "0x1180",
+      "base": "C_BaseToggle",
+      "field_count": 12
+    },
+    "WaterWheelFrictionScale_t": {
+      "module": "server.dll",
+      "size": 8,
+      "size_hex": "0x8",
+      "base": "",
+      "field_count": 2
+    },
+    "WaterWheelDrag_t": {
+      "module": "server.dll",
+      "size": 8,
+      "size_hex": "0x8",
+      "base": "",
+      "field_count": 2
+    },
     "CBuoyancyHelper": {
       "module": "server.dll",
       "size": 280,
@@ -15258,26 +15279,12 @@
       "base": "C_BaseEntity",
       "field_count": 27
     },
-    "C_BaseTrigger": {
+    "C_GradientFog": {
       "module": "client.dll",
-      "size": 4480,
-      "size_hex": "0x1180",
-      "base": "C_BaseToggle",
-      "field_count": 12
-    },
-    "WaterWheelFrictionScale_t": {
-      "module": "server.dll",
-      "size": 8,
-      "size_hex": "0x8",
-      "base": "",
-      "field_count": 2
-    },
-    "WaterWheelDrag_t": {
-      "module": "server.dll",
-      "size": 8,
-      "size_hex": "0x8",
-      "base": "",
-      "field_count": 2
+      "size": 1688,
+      "size_hex": "0x698",
+      "base": "C_BaseEntity",
+      "field_count": 16
     },
     "C_PlayerVisibility": {
       "module": "client.dll",
@@ -15328,12 +15335,12 @@
       "base": "C_BaseEntity",
       "field_count": 20
     },
-    "C_GradientFog": {
-      "module": "client.dll",
-      "size": 1688,
-      "size_hex": "0x698",
-      "base": "C_BaseEntity",
-      "field_count": 16
+    "CPointTemplate": {
+      "module": "server.dll",
+      "size": 1344,
+      "size_hex": "0x540",
+      "base": "CLogicalEntity",
+      "field_count": 12
     },
     "CPulseCell_LerpCameraSettings": {
       "module": "server.dll",
@@ -15412,12 +15419,12 @@
       "base": "CBaseEntity",
       "field_count": 7
     },
-    "CPointTemplate": {
-      "module": "server.dll",
-      "size": 1344,
-      "size_hex": "0x540",
-      "base": "CLogicalEntity",
-      "field_count": 12
+    "C_Team": {
+      "module": "client.dll",
+      "size": 1720,
+      "size_hex": "0x6b8",
+      "base": "C_BaseEntity",
+      "field_count": 4
     },
     "C_SoundAreaEntityBase": {
       "module": "client.dll",
@@ -15552,12 +15559,33 @@
       "base": "CEntityComponent",
       "field_count": 10
     },
-    "C_Team": {
+    "PrecipitationFilter_t": {
+      "module": "server.dll",
+      "size": 4,
+      "size_hex": "0x4",
+      "base": "",
+      "field_count": 1
+    },
+    "shard_model_desc_t": {
+      "module": "server.dll",
+      "size": 128,
+      "size_hex": "0x80",
+      "base": "",
+      "field_count": 13
+    },
+    "CPrecipitationVData": {
+      "module": "server.dll",
+      "size": 752,
+      "size_hex": "0x2f0",
+      "base": "",
+      "field_count": 11
+    },
+    "C_ShatterGlassShardPhysics": {
       "module": "client.dll",
-      "size": 1720,
-      "size_hex": "0x6b8",
-      "base": "C_BaseEntity",
-      "field_count": 4
+      "size": 4384,
+      "size_hex": "0x1120",
+      "base": "C_BaseModelEntity",
+      "field_count": 1
     },
     "CEffectData": {
       "module": "server.dll",
@@ -15656,34 +15684,6 @@
       "size_hex": "0x30",
       "base": "",
       "field_count": 5
-    },
-    "PrecipitationFilter_t": {
-      "module": "server.dll",
-      "size": 4,
-      "size_hex": "0x4",
-      "base": "",
-      "field_count": 1
-    },
-    "shard_model_desc_t": {
-      "module": "server.dll",
-      "size": 128,
-      "size_hex": "0x80",
-      "base": "",
-      "field_count": 13
-    },
-    "CPrecipitationVData": {
-      "module": "server.dll",
-      "size": 752,
-      "size_hex": "0x2f0",
-      "base": "",
-      "field_count": 11
-    },
-    "C_ShatterGlassShardPhysics": {
-      "module": "client.dll",
-      "size": 4384,
-      "size_hex": "0x1120",
-      "base": "C_BaseModelEntity",
-      "field_count": 1
     },
     "CTakeDamageInfo": {
       "module": "server.dll",
@@ -15930,6 +15930,20 @@
       "base": "",
       "field_count": 1
     },
+    "CBodyComponentBaseAnimGraph": {
+      "module": "server.dll",
+      "size": 2864,
+      "size_hex": "0xb30",
+      "base": "CBodyComponentSkeletonInstance",
+      "field_count": 1
+    },
+    "C_BaseDoor": {
+      "module": "client.dll",
+      "size": 4256,
+      "size_hex": "0x10a0",
+      "base": "C_BaseToggle",
+      "field_count": 1
+    },
     "C_EntityDissolve": {
       "module": "client.dll",
       "size": 4320,
@@ -16119,19 +16133,33 @@
       "base": "C_BaseTrigger",
       "field_count": 8
     },
-    "CBodyComponentBaseAnimGraph": {
+    "CDestructiblePartsComponent": {
       "module": "server.dll",
-      "size": 2864,
-      "size_hex": "0xb30",
-      "base": "CBodyComponentSkeletonInstance",
-      "field_count": 1
+      "size": 112,
+      "size_hex": "0x70",
+      "base": "",
+      "field_count": 4
     },
-    "C_BaseDoor": {
+    "C_DynamicProp": {
       "module": "client.dll",
-      "size": 4256,
-      "size_hex": "0x10a0",
-      "base": "C_BaseToggle",
-      "field_count": 1
+      "size": 5296,
+      "size_hex": "0x14b0",
+      "base": "C_BreakableProp",
+      "field_count": 25
+    },
+    "C_BasePropDoor": {
+      "module": "client.dll",
+      "size": 5360,
+      "size_hex": "0x14f0",
+      "base": "C_DynamicProp",
+      "field_count": 8
+    },
+    "DestructiblePartDamageRequest_t": {
+      "module": "server.dll",
+      "size": 60,
+      "size_hex": "0x3c",
+      "base": "",
+      "field_count": 10
     },
     "CDynamicPropGraphController": {
       "module": "server.dll",
@@ -16322,33 +16350,47 @@
       "base": "",
       "field_count": 2
     },
-    "CDestructiblePartsComponent": {
+    "ParticleNode_t": {
       "module": "server.dll",
-      "size": 112,
-      "size_hex": "0x70",
+      "size": 36,
+      "size_hex": "0x24",
       "base": "",
-      "field_count": 4
+      "field_count": 7
     },
-    "C_DynamicProp": {
-      "module": "client.dll",
-      "size": 5296,
-      "size_hex": "0x14b0",
-      "base": "C_BreakableProp",
-      "field_count": 25
-    },
-    "C_BasePropDoor": {
-      "module": "client.dll",
-      "size": 5360,
-      "size_hex": "0x14f0",
-      "base": "C_DynamicProp",
-      "field_count": 8
-    },
-    "DestructiblePartDamageRequest_t": {
+    "CInButtonState": {
       "module": "server.dll",
-      "size": 60,
-      "size_hex": "0x3c",
+      "size": 32,
+      "size_hex": "0x20",
       "base": "",
-      "field_count": 10
+      "field_count": 1
+    },
+    "SAVE_HEADER": {
+      "module": "server.dll",
+      "size": 96,
+      "size_hex": "0x60",
+      "base": "",
+      "field_count": 7
+    },
+    "CRopeOverlapHit": {
+      "module": "server.dll",
+      "size": 32,
+      "size_hex": "0x20",
+      "base": "",
+      "field_count": 2
+    },
+    "CLogicRelay": {
+      "module": "server.dll",
+      "size": 1248,
+      "size_hex": "0x4e0",
+      "base": "CLogicalEntity",
+      "field_count": 7
+    },
+    "CGameSceneNodeHandle": {
+      "module": "server.dll",
+      "size": 16,
+      "size_hex": "0x10",
+      "base": "",
+      "field_count": 2
     },
     "CGameSceneNode": {
       "module": "server.dll",
@@ -16448,47 +16490,26 @@
       "base": "",
       "field_count": 10
     },
-    "ParticleNode_t": {
+    "CSkeletonInstance": {
       "module": "server.dll",
-      "size": 36,
-      "size_hex": "0x24",
+      "size": 1120,
+      "size_hex": "0x460",
+      "base": "CGameSceneNode",
+      "field_count": 8
+    },
+    "EngineCountdownTimer": {
+      "module": "server.dll",
+      "size": 24,
+      "size_hex": "0x18",
       "base": "",
+      "field_count": 3
+    },
+    "CTimeline": {
+      "module": "server.dll",
+      "size": 552,
+      "size_hex": "0x228",
+      "base": "IntervalTimer",
       "field_count": 7
-    },
-    "CInButtonState": {
-      "module": "server.dll",
-      "size": 32,
-      "size_hex": "0x20",
-      "base": "",
-      "field_count": 1
-    },
-    "SAVE_HEADER": {
-      "module": "server.dll",
-      "size": 96,
-      "size_hex": "0x60",
-      "base": "",
-      "field_count": 7
-    },
-    "CRopeOverlapHit": {
-      "module": "server.dll",
-      "size": 32,
-      "size_hex": "0x20",
-      "base": "",
-      "field_count": 2
-    },
-    "CLogicRelay": {
-      "module": "server.dll",
-      "size": 1248,
-      "size_hex": "0x4e0",
-      "base": "CLogicalEntity",
-      "field_count": 7
-    },
-    "CGameSceneNodeHandle": {
-      "module": "server.dll",
-      "size": 16,
-      "size_hex": "0x10",
-      "base": "",
-      "field_count": 2
     },
     "CNetworkedSequenceOperation": {
       "module": "server.dll",
@@ -16623,29 +16644,36 @@
       "base": "ISkeletonAnimationController",
       "field_count": 1
     },
-    "CSkeletonInstance": {
-      "module": "server.dll",
-      "size": 1120,
-      "size_hex": "0x460",
-      "base": "CGameSceneNode",
-      "field_count": 8
-    },
-    "EngineCountdownTimer": {
-      "module": "server.dll",
-      "size": 24,
-      "size_hex": "0x18",
-      "base": "",
-      "field_count": 3
-    },
-    "CTimeline": {
-      "module": "server.dll",
-      "size": 552,
-      "size_hex": "0x228",
-      "base": "IntervalTimer",
-      "field_count": 7
-    },
     "CNMEventPulseState_t": {
       "module": "server.dll",
+      "size": 8,
+      "size_hex": "0x8",
+      "base": "",
+      "field_count": 1
+    },
+    "EventPostDataUpdate_t": {
+      "module": "soundsystem.dll",
+      "size": 16,
+      "size_hex": "0x10",
+      "base": "",
+      "field_count": 1
+    },
+    "EventPreDataUpdate_t": {
+      "module": "soundsystem.dll",
+      "size": 16,
+      "size_hex": "0x10",
+      "base": "",
+      "field_count": 1
+    },
+    "EventAppShutdown_t": {
+      "module": "soundsystem.dll",
+      "size": 4,
+      "size_hex": "0x4",
+      "base": "",
+      "field_count": 1
+    },
+    "EventBugBugComplete_t": {
+      "module": "soundsystem.dll",
       "size": 8,
       "size_hex": "0x8",
       "base": "",
@@ -16861,32 +16889,11 @@
       "base": "EventSimulate_t",
       "field_count": 1
     },
-    "EventPostDataUpdate_t": {
-      "module": "soundsystem.dll",
-      "size": 16,
-      "size_hex": "0x10",
-      "base": "",
-      "field_count": 1
-    },
-    "EventPreDataUpdate_t": {
-      "module": "soundsystem.dll",
-      "size": 16,
-      "size_hex": "0x10",
-      "base": "",
-      "field_count": 1
-    },
-    "EventAppShutdown_t": {
-      "module": "soundsystem.dll",
-      "size": 4,
-      "size_hex": "0x4",
-      "base": "",
-      "field_count": 1
-    },
-    "EventBugBugComplete_t": {
-      "module": "soundsystem.dll",
-      "size": 8,
-      "size_hex": "0x8",
-      "base": "",
+    "CPulseCell_Step_EntFire": {
+      "module": "server.dll",
+      "size": 80,
+      "size_hex": "0x50",
+      "base": "CPulseCell_BaseFlow",
       "field_count": 1
     },
     "CPulseCell_PlaySequence": {
@@ -16910,13 +16917,6 @@
       "base": "CBaseEntity",
       "field_count": 2
     },
-    "CPulseCell_Step_EntFire": {
-      "module": "server.dll",
-      "size": 80,
-      "size_hex": "0x50",
-      "base": "CPulseCell_BaseFlow",
-      "field_count": 1
-    },
     "CNmAimCSNode::CDefinition": {
       "module": "server.dll",
       "size": 56,
@@ -16930,6 +16930,34 @@
       "size_hex": "0x20",
       "base": "CNmPassthroughNode::CDefinition",
       "field_count": 3
+    },
+    "C_BaseGrenade": {
+      "module": "client.dll",
+      "size": 4784,
+      "size_hex": "0x12b0",
+      "base": "CBaseAnimGraph",
+      "field_count": 12
+    },
+    "HUDPanelHasClass_t": {
+      "module": "server.dll",
+      "size": 8,
+      "size_hex": "0x8",
+      "base": "",
+      "field_count": 3
+    },
+    "HUDPanelDialogVariableString_t": {
+      "module": "server.dll",
+      "size": 32,
+      "size_hex": "0x20",
+      "base": "",
+      "field_count": 4
+    },
+    "CCSCustomHudLayoutState": {
+      "module": "server.dll",
+      "size": 408,
+      "size_hex": "0x198",
+      "base": "",
+      "field_count": 4
     },
     "CCSCustomPlayerCamera": {
       "module": "server.dll",
@@ -16980,33 +17008,12 @@
       "base": "CBaseEntity",
       "field_count": 4
     },
-    "C_BaseGrenade": {
-      "module": "client.dll",
-      "size": 4784,
-      "size_hex": "0x12b0",
-      "base": "CBaseAnimGraph",
-      "field_count": 12
-    },
-    "HUDPanelHasClass_t": {
+    "CCSGameModeRules_ArmsRace": {
       "module": "server.dll",
-      "size": 8,
-      "size_hex": "0x8",
-      "base": "",
-      "field_count": 3
-    },
-    "HUDPanelDialogVariableString_t": {
-      "module": "server.dll",
-      "size": 32,
-      "size_hex": "0x20",
-      "base": "",
-      "field_count": 4
-    },
-    "CCSCustomHudLayoutState": {
-      "module": "server.dll",
-      "size": 408,
-      "size_hex": "0x198",
-      "base": "",
-      "field_count": 4
+      "size": 136,
+      "size_hex": "0x88",
+      "base": "CCSGameModeRules",
+      "field_count": 1
     },
     "CCSGameModeRules_Deathmatch": {
       "module": "server.dll",
@@ -17041,13 +17048,6 @@
       "size": 48,
       "size_hex": "0x30",
       "base": "",
-      "field_count": 1
-    },
-    "CCSGameModeRules_ArmsRace": {
-      "module": "server.dll",
-      "size": 136,
-      "size_hex": "0x88",
-      "base": "CCSGameModeRules",
       "field_count": 1
     },
     "CSPerRoundStats_t": {
@@ -17113,6 +17113,13 @@
       "base": "CBaseTrigger",
       "field_count": 9
     },
+    "C_ItemDogtags": {
+      "module": "client.dll",
+      "size": 6688,
+      "size_hex": "0x1a20",
+      "base": "C_Item",
+      "field_count": 2
+    },
     "C_BaseCSGrenade": {
       "module": "client.dll",
       "size": 8224,
@@ -17148,12 +17155,19 @@
       "base": "C_BaseGrenade",
       "field_count": 16
     },
-    "C_ItemDogtags": {
+    "C_CSWeaponBaseGun": {
       "module": "client.dll",
-      "size": 6688,
-      "size_hex": "0x1a20",
-      "base": "C_Item",
-      "field_count": 2
+      "size": 8080,
+      "size_hex": "0x1f90",
+      "base": "C_CSWeaponBase",
+      "field_count": 7
+    },
+    "C_WeaponCZ75a": {
+      "module": "client.dll",
+      "size": 8096,
+      "size_hex": "0x1fa0",
+      "base": "C_CSWeaponBaseGun",
+      "field_count": 1
     },
     "C_StattrakModule": {
       "module": "client.dll",
@@ -17218,19 +17232,12 @@
       "base": "C_CSWeaponBase",
       "field_count": 10
     },
-    "C_CSWeaponBaseGun": {
+    "C_IronSightController": {
       "module": "client.dll",
-      "size": 8080,
-      "size_hex": "0x1f90",
-      "base": "C_CSWeaponBase",
-      "field_count": 7
-    },
-    "C_WeaponCZ75a": {
-      "module": "client.dll",
-      "size": 8096,
-      "size_hex": "0x1fa0",
-      "base": "C_CSWeaponBaseGun",
-      "field_count": 1
+      "size": 176,
+      "size_hex": "0xb0",
+      "base": "",
+      "field_count": 13
     },
     "C_Knife": {
       "module": "client.dll",
@@ -17245,13 +17252,6 @@
       "size_hex": "0x1fa0",
       "base": "C_CSWeaponBaseGun",
       "field_count": 2
-    },
-    "C_IronSightController": {
-      "module": "client.dll",
-      "size": 176,
-      "size_hex": "0xb0",
-      "base": "",
-      "field_count": 13
     },
     "CCSObserver_ObserverServices": {
       "module": "client.dll",
@@ -17294,6 +17294,20 @@
       "size_hex": "0x380",
       "base": "CPlayerPawnComponent",
       "field_count": 5
+    },
+    "CCSPlayerAnimationState": {
+      "module": "server.dll",
+      "size": 224,
+      "size_hex": "0xe0",
+      "base": "",
+      "field_count": 16
+    },
+    "CCSPlayerController": {
+      "module": "server.dll",
+      "size": 2744,
+      "size_hex": "0xab8",
+      "base": "CBasePlayerController",
+      "field_count": 93
     },
     "CCSPlayer_HostageServices": {
       "module": "server.dll",
@@ -17344,19 +17358,12 @@
       "base": "CCSPlayerBase_CameraServices",
       "field_count": 4
     },
-    "CCSPlayerAnimationState": {
-      "module": "server.dll",
-      "size": 224,
-      "size_hex": "0xe0",
-      "base": "",
-      "field_count": 16
-    },
-    "CCSPlayerController": {
-      "module": "server.dll",
-      "size": 2744,
-      "size_hex": "0xab8",
-      "base": "CBasePlayerController",
-      "field_count": 93
+    "C_CSPlayerResource": {
+      "module": "client.dll",
+      "size": 1688,
+      "size_hex": "0x698",
+      "base": "C_BaseEntity",
+      "field_count": 10
     },
     "CCSPlayerModernJump": {
       "module": "server.dll",
@@ -17413,13 +17420,6 @@
       "size_hex": "0x18",
       "base": "",
       "field_count": 2
-    },
-    "C_CSPlayerResource": {
-      "module": "client.dll",
-      "size": 1688,
-      "size_hex": "0x698",
-      "base": "C_BaseEntity",
-      "field_count": 10
     },
     "CDamageRecord": {
       "module": "server.dll",
@@ -17491,6 +17491,13 @@
       "base": "",
       "field_count": 3
     },
+    "C_BasePlayerWeapon": {
+      "module": "client.dll",
+      "size": 6480,
+      "size_hex": "0x1950",
+      "base": "C_EconEntity",
+      "field_count": 7
+    },
     "ViewAngleServerChange_t": {
       "module": "server.dll",
       "size": 72,
@@ -17519,12 +17526,26 @@
       "base": "CBaseEntity",
       "field_count": 25
     },
-    "C_BasePlayerWeapon": {
-      "module": "client.dll",
-      "size": 6480,
-      "size_hex": "0x1950",
-      "base": "C_EconEntity",
-      "field_count": 7
+    "CFilterMultiple": {
+      "module": "server.dll",
+      "size": 1376,
+      "size_hex": "0x560",
+      "base": "CBaseFilter",
+      "field_count": 3
+    },
+    "CFilterProximity": {
+      "module": "server.dll",
+      "size": 1256,
+      "size_hex": "0x4e8",
+      "base": "CBaseFilter",
+      "field_count": 1
+    },
+    "CFilterClass": {
+      "module": "server.dll",
+      "size": 1256,
+      "size_hex": "0x4e8",
+      "base": "CBaseFilter",
+      "field_count": 1
     },
     "CBreakableStageHelper": {
       "module": "server.dll",
@@ -17597,27 +17618,6 @@
       "field_count": 2
     },
     "CFilterAttributeInt": {
-      "module": "server.dll",
-      "size": 1256,
-      "size_hex": "0x4e8",
-      "base": "CBaseFilter",
-      "field_count": 1
-    },
-    "CFilterMultiple": {
-      "module": "server.dll",
-      "size": 1376,
-      "size_hex": "0x560",
-      "base": "CBaseFilter",
-      "field_count": 3
-    },
-    "CFilterProximity": {
-      "module": "server.dll",
-      "size": 1256,
-      "size_hex": "0x4e8",
-      "base": "CBaseFilter",
-      "field_count": 1
-    },
-    "CFilterClass": {
       "module": "server.dll",
       "size": 1256,
       "size_hex": "0x4e8",
@@ -17736,6 +17736,20 @@
       "base": "",
       "field_count": 33
     },
+    "CGlobalLightBase": {
+      "module": "client.dll",
+      "size": 1216,
+      "size_hex": "0x4c0",
+      "base": "",
+      "field_count": 43
+    },
+    "C_GlobalLight": {
+      "module": "client.dll",
+      "size": 2800,
+      "size_hex": "0xaf0",
+      "base": "C_BaseEntity",
+      "field_count": 1
+    },
     "C_DynamicLight": {
       "module": "client.dll",
       "size": 4288,
@@ -17757,19 +17771,12 @@
       "base": "C_BaseTrigger",
       "field_count": 9
     },
-    "CGlobalLightBase": {
+    "C_FuncMonitor": {
       "module": "client.dll",
-      "size": 1216,
-      "size_hex": "0x4c0",
-      "base": "",
-      "field_count": 43
-    },
-    "C_GlobalLight": {
-      "module": "client.dll",
-      "size": 2800,
-      "size_hex": "0xaf0",
-      "base": "C_BaseEntity",
-      "field_count": 1
+      "size": 5392,
+      "size_hex": "0x1510",
+      "base": "C_FuncBrush",
+      "field_count": 8
     },
     "C_PhysMagnet": {
       "module": "client.dll",
@@ -17798,13 +17805,6 @@
       "size_hex": "0x10a8",
       "base": "C_BaseModelEntity",
       "field_count": 2
-    },
-    "C_FuncMonitor": {
-      "module": "client.dll",
-      "size": 5392,
-      "size_hex": "0x1510",
-      "base": "C_FuncBrush",
-      "field_count": 8
     },
     "C_PointValueRemapper": {
       "module": "client.dll",
@@ -17848,6 +17848,20 @@
       "base": "C_ModelPointEntity",
       "field_count": 19
     },
+    "SoundCommand_t": {
+      "module": "server.dll",
+      "size": 32,
+      "size_hex": "0x20",
+      "base": "",
+      "field_count": 4
+    },
+    "C_HandleTest": {
+      "module": "client.dll",
+      "size": 1544,
+      "size_hex": "0x608",
+      "base": "C_BaseEntity",
+      "field_count": 2
+    },
     "screenfade_t": {
       "module": "client.dll",
       "size": 40,
@@ -17869,26 +17883,19 @@
       "base": "CBaseEntity",
       "field_count": 8
     },
-    "SoundCommand_t": {
-      "module": "server.dll",
-      "size": 32,
-      "size_hex": "0x20",
-      "base": "",
-      "field_count": 4
-    },
-    "C_HandleTest": {
-      "module": "client.dll",
-      "size": 1544,
-      "size_hex": "0x608",
-      "base": "C_BaseEntity",
-      "field_count": 2
-    },
     "C_EnvWind": {
       "module": "client.dll",
       "size": 1784,
       "size_hex": "0x6f8",
       "base": "C_BaseEntity",
       "field_count": 1
+    },
+    "C_CSPlayerPawn": {
+      "module": "client.dll",
+      "size": 14160,
+      "size_hex": "0x3750",
+      "base": "C_CSPlayerPawnBase",
+      "field_count": 105
     },
     "C_Hostage": {
       "module": "client.dll",
@@ -17931,13 +17938,6 @@
       "size_hex": "0x12b8",
       "base": "CBaseAnimGraph",
       "field_count": 6
-    },
-    "C_CSPlayerPawn": {
-      "module": "client.dll",
-      "size": 14160,
-      "size_hex": "0x3750",
-      "base": "C_CSPlayerPawnBase",
-      "field_count": 105
     },
     "C_FuncConveyor": {
       "module": "client.dll",
@@ -18086,6 +18086,34 @@
       "base": "C_BarnLight",
       "field_count": 3
     },
+    "inv_image_light_sun_t": {
+      "module": "client.dll",
+      "size": 28,
+      "size_hex": "0x1c",
+      "base": "",
+      "field_count": 3
+    },
+    "inv_image_clearcolor_t": {
+      "module": "client.dll",
+      "size": 12,
+      "size_hex": "0xc",
+      "base": "",
+      "field_count": 1
+    },
+    "inv_image_light_fill_t": {
+      "module": "client.dll",
+      "size": 28,
+      "size_hex": "0x1c",
+      "base": "",
+      "field_count": 3
+    },
+    "inv_image_light_barn_t": {
+      "module": "client.dll",
+      "size": 32,
+      "size_hex": "0x20",
+      "base": "",
+      "field_count": 4
+    },
     "inv_image_data_t": {
       "module": "client.dll",
       "size": 240,
@@ -18121,40 +18149,19 @@
       "base": "",
       "field_count": 8
     },
-    "inv_image_light_sun_t": {
-      "module": "client.dll",
-      "size": 28,
-      "size_hex": "0x1c",
-      "base": "",
-      "field_count": 3
-    },
-    "inv_image_clearcolor_t": {
-      "module": "client.dll",
-      "size": 12,
-      "size_hex": "0xc",
-      "base": "",
-      "field_count": 1
-    },
-    "inv_image_light_fill_t": {
-      "module": "client.dll",
-      "size": 28,
-      "size_hex": "0x1c",
-      "base": "",
-      "field_count": 3
-    },
-    "inv_image_light_barn_t": {
-      "module": "client.dll",
-      "size": 32,
-      "size_hex": "0x20",
-      "base": "",
-      "field_count": 4
-    },
     "CGrenadeTracer": {
       "module": "client.dll",
       "size": 5424,
       "size_hex": "0x1530",
       "base": "C_BaseModelEntity",
       "field_count": 2
+    },
+    "C_EconEntity": {
+      "module": "client.dll",
+      "size": 6424,
+      "size_hex": "0x1918",
+      "base": "CBaseAnimGraph",
+      "field_count": 20
     },
     "C_EconEntity::AttachedModelData_t": {
       "module": "client.dll",
@@ -18184,12 +18191,12 @@
       "base": "CAttributeManager",
       "field_count": 3
     },
-    "C_EconEntity": {
+    "C_EconWearable": {
       "module": "client.dll",
-      "size": 6424,
-      "size_hex": "0x1918",
-      "base": "CBaseAnimGraph",
-      "field_count": 20
+      "size": 6432,
+      "size_hex": "0x1920",
+      "base": "C_EconEntity",
+      "field_count": 2
     },
     "CAttributeList": {
       "module": "server.dll",
@@ -18211,13 +18218,6 @@
       "size_hex": "0x5b0",
       "base": "IEconItemInterface",
       "field_count": 31
-    },
-    "C_EconWearable": {
-      "module": "client.dll",
-      "size": 6432,
-      "size_hex": "0x1920",
-      "base": "C_EconEntity",
-      "field_count": 2
     },
     "CompMatPropertyMutator_t": {
       "module": "client.dll",
@@ -21964,6 +21964,27 @@
       "base": "CBaseToggle",
       "field_count": 13
     },
+    "CEnvSky": {
+      "module": "server.dll",
+      "size": 2224,
+      "size_hex": "0x8b0",
+      "base": "CBaseModelEntity",
+      "field_count": 12
+    },
+    "CEnvVolumetricFogController": {
+      "module": "server.dll",
+      "size": 1368,
+      "size_hex": "0x558",
+      "base": "CBaseEntity",
+      "field_count": 36
+    },
+    "CFogTrigger": {
+      "module": "server.dll",
+      "size": 2608,
+      "size_hex": "0xa30",
+      "base": "CBaseTrigger",
+      "field_count": 1
+    },
     "CTonemapTrigger": {
       "module": "server.dll",
       "size": 2520,
@@ -22013,26 +22034,19 @@
       "base": "CBaseEntity",
       "field_count": 5
     },
-    "CEnvSky": {
+    "CInfoVisibilityBox": {
       "module": "server.dll",
-      "size": 2224,
-      "size_hex": "0x8b0",
-      "base": "CBaseModelEntity",
-      "field_count": 12
-    },
-    "CEnvVolumetricFogController": {
-      "module": "server.dll",
-      "size": 1368,
-      "size_hex": "0x558",
+      "size": 1216,
+      "size_hex": "0x4c0",
       "base": "CBaseEntity",
-      "field_count": 36
+      "field_count": 3
     },
-    "CFogTrigger": {
+    "CPointCamera": {
       "module": "server.dll",
-      "size": 2608,
-      "size_hex": "0xa30",
-      "base": "CBaseTrigger",
-      "field_count": 1
+      "size": 1288,
+      "size_hex": "0x508",
+      "base": "CBaseEntity",
+      "field_count": 26
     },
     "CPointCameraVFOV": {
       "module": "server.dll",
@@ -22062,19 +22076,12 @@
       "base": "CBaseEntity",
       "field_count": 3
     },
-    "CInfoVisibilityBox": {
+    "CGameGibManager": {
       "module": "server.dll",
-      "size": 1216,
-      "size_hex": "0x4c0",
+      "size": 1232,
+      "size_hex": "0x4d0",
       "base": "CBaseEntity",
-      "field_count": 3
-    },
-    "CPointCamera": {
-      "module": "server.dll",
-      "size": 1288,
-      "size_hex": "0x508",
-      "base": "CBaseEntity",
-      "field_count": 26
+      "field_count": 4
     },
     "CTeam": {
       "module": "server.dll",
@@ -22188,12 +22195,19 @@
       "base": "CBaseEntity",
       "field_count": 2
     },
-    "CGameGibManager": {
+    "CBeam": {
       "module": "server.dll",
-      "size": 1232,
-      "size_hex": "0x4d0",
-      "base": "CBaseEntity",
-      "field_count": 4
+      "size": 2288,
+      "size_hex": "0x8f0",
+      "base": "CBaseModelEntity",
+      "field_count": 23
+    },
+    "CGameRules": {
+      "module": "server.dll",
+      "size": 208,
+      "size_hex": "0xd0",
+      "base": "",
+      "field_count": 8
     },
     "CEnvWindShared": {
       "module": "server.dll",
@@ -22244,19 +22258,40 @@
       "base": "CBaseEntity",
       "field_count": 2
     },
-    "CBeam": {
+    "CSoundOpvarSetPathCornerEntity": {
       "module": "server.dll",
-      "size": 2288,
-      "size_hex": "0x8f0",
-      "base": "CBaseModelEntity",
-      "field_count": 23
+      "size": 1648,
+      "size_hex": "0x670",
+      "base": "CSoundOpvarSetPointEntity",
+      "field_count": 4
     },
-    "CGameRules": {
+    "SoundOpvarTraceResult_t": {
       "module": "server.dll",
-      "size": 208,
-      "size_hex": "0xd0",
+      "size": 20,
+      "size_hex": "0x14",
       "base": "",
-      "field_count": 8
+      "field_count": 3
+    },
+    "AutoRoomDoorwayPairs_t": {
+      "module": "server.dll",
+      "size": 24,
+      "size_hex": "0x18",
+      "base": "",
+      "field_count": 2
+    },
+    "CSingleplayRules": {
+      "module": "server.dll",
+      "size": 216,
+      "size_hex": "0xd8",
+      "base": "CGameRules",
+      "field_count": 1
+    },
+    "CSoundOpvarSetAutoRoomEntity": {
+      "module": "server.dll",
+      "size": 1664,
+      "size_hex": "0x680",
+      "base": "CSoundOpvarSetPointEntity",
+      "field_count": 5
     },
     "CSoundOpvarSetDomeEntity": {
       "module": "server.dll",
@@ -22300,47 +22335,19 @@
       "base": "CSoundOpvarSetPointEntity",
       "field_count": 9
     },
-    "CSoundOpvarSetPathCornerEntity": {
-      "module": "server.dll",
-      "size": 1648,
-      "size_hex": "0x670",
-      "base": "CSoundOpvarSetPointEntity",
-      "field_count": 4
-    },
-    "SoundOpvarTraceResult_t": {
-      "module": "server.dll",
-      "size": 20,
-      "size_hex": "0x14",
-      "base": "",
-      "field_count": 3
-    },
-    "AutoRoomDoorwayPairs_t": {
-      "module": "server.dll",
-      "size": 24,
-      "size_hex": "0x18",
-      "base": "",
-      "field_count": 2
-    },
-    "CSingleplayRules": {
-      "module": "server.dll",
-      "size": 216,
-      "size_hex": "0xd8",
-      "base": "CGameRules",
-      "field_count": 1
-    },
-    "CSoundOpvarSetAutoRoomEntity": {
-      "module": "server.dll",
-      "size": 1664,
-      "size_hex": "0x680",
-      "base": "CSoundOpvarSetPointEntity",
-      "field_count": 5
-    },
     "CTriggerSoundscape": {
       "module": "server.dll",
       "size": 2544,
       "size_hex": "0x9f0",
       "base": "CBaseTrigger",
       "field_count": 3
+    },
+    "CBaseButton": {
+      "module": "server.dll",
+      "size": 2512,
+      "size_hex": "0x9d0",
+      "base": "CBaseToggle",
+      "field_count": 26
     },
     "ResponseContext_t": {
       "module": "server.dll",
@@ -22461,12 +22468,26 @@
       "base": "CBaseProp",
       "field_count": 33
     },
-    "CBaseButton": {
+    "FuncMoverMovementSummary_t": {
       "module": "server.dll",
-      "size": 2512,
-      "size_hex": "0x9d0",
-      "base": "CBaseToggle",
-      "field_count": 26
+      "size": 32,
+      "size_hex": "0x20",
+      "base": "",
+      "field_count": 8
+    },
+    "CEnvLaser": {
+      "module": "server.dll",
+      "size": 2328,
+      "size_hex": "0x918",
+      "base": "CBeam",
+      "field_count": 5
+    },
+    "CEntityFlame": {
+      "module": "server.dll",
+      "size": 1256,
+      "size_hex": "0x4e8",
+      "base": "CBaseEntity",
+      "field_count": 10
     },
     "CMessage": {
       "module": "server.dll",
@@ -22580,26 +22601,12 @@
       "base": "CPathWithDynamicNodes",
       "field_count": 6
     },
-    "FuncMoverMovementSummary_t": {
+    "FuncRotatorRotationSummary_t": {
       "module": "server.dll",
-      "size": 32,
-      "size_hex": "0x20",
+      "size": 8,
+      "size_hex": "0x8",
       "base": "",
-      "field_count": 8
-    },
-    "CEnvLaser": {
-      "module": "server.dll",
-      "size": 2328,
-      "size_hex": "0x918",
-      "base": "CBeam",
-      "field_count": 5
-    },
-    "CEntityFlame": {
-      "module": "server.dll",
-      "size": 1256,
-      "size_hex": "0x4e8",
-      "base": "CBaseEntity",
-      "field_count": 10
+      "field_count": 2
     },
     "CItemGenericTriggerHelper": {
       "module": "server.dll",
@@ -22692,12 +22699,12 @@
       "base": "",
       "field_count": 3
     },
-    "FuncRotatorRotationSummary_t": {
+    "CPathTrack": {
       "module": "server.dll",
-      "size": 8,
-      "size_hex": "0x8",
-      "base": "",
-      "field_count": 2
+      "size": 1256,
+      "size_hex": "0x4e8",
+      "base": "CPointEntity",
+      "field_count": 10
     },
     "CMotorController": {
       "module": "server.dll",
@@ -22874,12 +22881,26 @@
       "base": "CRuleEntity",
       "field_count": 1
     },
-    "CPathTrack": {
+    "CRelativeLocation": {
       "module": "server.dll",
-      "size": 1256,
-      "size_hex": "0x4e8",
-      "base": "CPointEntity",
-      "field_count": 10
+      "size": 56,
+      "size_hex": "0x38",
+      "base": "",
+      "field_count": 4
+    },
+    "CSkyCamera": {
+      "module": "server.dll",
+      "size": 1352,
+      "size_hex": "0x548",
+      "base": "CBaseEntity",
+      "field_count": 4
+    },
+    "CRelativeTransform": {
+      "module": "server.dll",
+      "size": 96,
+      "size_hex": "0x60",
+      "base": "",
+      "field_count": 4
     },
     "CTriggerMultiple": {
       "module": "server.dll",
@@ -22958,26 +22979,12 @@
       "base": "CServerOnlyPointEntity",
       "field_count": 7
     },
-    "CRelativeLocation": {
+    "CScriptNavBlocker": {
       "module": "server.dll",
-      "size": 56,
-      "size_hex": "0x38",
-      "base": "",
-      "field_count": 4
-    },
-    "CSkyCamera": {
-      "module": "server.dll",
-      "size": 1352,
-      "size_hex": "0x548",
-      "base": "CBaseEntity",
-      "field_count": 4
-    },
-    "CRelativeTransform": {
-      "module": "server.dll",
-      "size": 96,
-      "size_hex": "0x60",
-      "base": "",
-      "field_count": 4
+      "size": 2168,
+      "size_hex": "0x878",
+      "base": "CFuncNavBlocker",
+      "field_count": 1
     },
     "CNavVolumeBreadthFirstSearch": {
       "module": "server.dll",
@@ -23014,13 +23021,6 @@
       "base": "CBaseModelEntity",
       "field_count": 2
     },
-    "CScriptNavBlocker": {
-      "module": "server.dll",
-      "size": 2168,
-      "size_hex": "0x878",
-      "base": "CFuncNavBlocker",
-      "field_count": 1
-    },
     "CFogVolume": {
       "module": "server.dll",
       "size": 2168,
@@ -23041,6 +23041,13 @@
       "size_hex": "0xad0",
       "base": "CBaseAnimGraph",
       "field_count": 15
+    },
+    "CCSGameRules": {
+      "module": "server.dll",
+      "size": 70736,
+      "size_hex": "0x11450",
+      "base": "CTeamplayRules",
+      "field_count": 191
     },
     "CRetakeGameRules": {
       "module": "server.dll",
@@ -23070,13 +23077,6 @@
       "base": "CGameRulesProxy",
       "field_count": 1
     },
-    "CCSGameRules": {
-      "module": "server.dll",
-      "size": 70736,
-      "size_hex": "0x11450",
-      "base": "CTeamplayRules",
-      "field_count": 191
-    },
     "CCSGO_TeamPreviewCharacterPosition": {
       "module": "server.dll",
       "size": 5224,
@@ -23104,6 +23104,13 @@
       "size_hex": "0x500",
       "base": "CBaseEntity",
       "field_count": 11
+    },
+    "CSmokeGrenadeProjectile": {
+      "module": "server.dll",
+      "size": 11856,
+      "size_hex": "0x2e50",
+      "base": "CBaseCSGrenadeProjectile",
+      "field_count": 13
     },
     "CBaseCSGrenadeProjectile": {
       "module": "server.dll",
@@ -23138,13 +23145,6 @@
       "size": 4800,
       "size_hex": "0x12c0",
       "base": "CCSWeaponBase",
-      "field_count": 13
-    },
-    "CSmokeGrenadeProjectile": {
-      "module": "server.dll",
-      "size": 11856,
-      "size_hex": "0x2e50",
-      "base": "CBaseCSGrenadeProjectile",
       "field_count": 13
     },
     "CCSWeaponBase": {
@@ -23350,6 +23350,27 @@
       "base": "CAI_ExpresserWithFollowup",
       "field_count": 1
     },
+    "CTestEffect": {
+      "module": "server.dll",
+      "size": 1400,
+      "size_hex": "0x578",
+      "base": "CBaseEntity",
+      "field_count": 5
+    },
+    "CBlood": {
+      "module": "server.dll",
+      "size": 1224,
+      "size_hex": "0x4c8",
+      "base": "CPointEntity",
+      "field_count": 4
+    },
+    "CCommentarySystem": {
+      "module": "server.dll",
+      "size": 96,
+      "size_hex": "0x60",
+      "base": "",
+      "field_count": 10
+    },
     "CEnvBeverage": {
       "module": "server.dll",
       "size": 1200,
@@ -23469,26 +23490,19 @@
       "base": "CPointEntity",
       "field_count": 12
     },
-    "CTestEffect": {
-      "module": "server.dll",
-      "size": 1400,
-      "size_hex": "0x578",
-      "base": "CBaseEntity",
-      "field_count": 5
-    },
-    "CBlood": {
+    "CCredits": {
       "module": "server.dll",
       "size": 1224,
       "size_hex": "0x4c8",
       "base": "CPointEntity",
-      "field_count": 4
+      "field_count": 3
     },
-    "CCommentarySystem": {
+    "CEnvSpark": {
       "module": "server.dll",
-      "size": 96,
-      "size_hex": "0x60",
-      "base": "",
-      "field_count": 10
+      "size": 1232,
+      "size_hex": "0x4d0",
+      "base": "CPointEntity",
+      "field_count": 5
     },
     "CEnvFade": {
       "module": "server.dll",
@@ -23553,19 +23567,19 @@
       "base": "CPointEntity",
       "field_count": 4
     },
-    "CCredits": {
+    "CHintMessage": {
       "module": "server.dll",
-      "size": 1224,
-      "size_hex": "0x4c8",
-      "base": "CPointEntity",
+      "size": 40,
+      "size_hex": "0x28",
+      "base": "",
       "field_count": 3
     },
-    "CEnvSpark": {
+    "CHintMessageQueue": {
       "module": "server.dll",
-      "size": 1232,
-      "size_hex": "0x4d0",
-      "base": "CPointEntity",
-      "field_count": 5
+      "size": 40,
+      "size_hex": "0x28",
+      "base": "",
+      "field_count": 3
     },
     "CInfoSpawnGroupLoadUnload": {
       "module": "server.dll",
@@ -23621,20 +23635,6 @@
       "size": 1208,
       "size_hex": "0x4b8",
       "base": "CPointEntity",
-      "field_count": 3
-    },
-    "CHintMessage": {
-      "module": "server.dll",
-      "size": 40,
-      "size_hex": "0x28",
-      "base": "",
-      "field_count": 3
-    },
-    "CHintMessageQueue": {
-      "module": "server.dll",
-      "size": 40,
-      "size_hex": "0x28",
-      "base": "",
       "field_count": 3
     },
     "CLogicAutosave": {
@@ -23875,6 +23875,13 @@
       "base": "CPointEntity",
       "field_count": 5
     },
+    "CPhysBallSocket": {
+      "module": "server.dll",
+      "size": 1312,
+      "size_hex": "0x520",
+      "base": "CPhysConstraint",
+      "field_count": 6
+    },
     "CPhysSlideConstraint": {
       "module": "server.dll",
       "size": 1488,
@@ -24015,12 +24022,12 @@
       "base": "CRagdollProp",
       "field_count": 6
     },
-    "CPhysBallSocket": {
+    "CPointAngleSensor": {
       "module": "server.dll",
-      "size": 1312,
-      "size_hex": "0x520",
-      "base": "CPhysConstraint",
-      "field_count": 6
+      "size": 1352,
+      "size_hex": "0x548",
+      "base": "CPointEntity",
+      "field_count": 12
     },
     "CPointValueRemapper": {
       "module": "server.dll",
@@ -24092,12 +24099,19 @@
       "base": "CModelPointEntity",
       "field_count": 16
     },
-    "CPointAngleSensor": {
+    "CPulseCell_Outflow_ListenForEntityOutput::CursorState_t": {
       "module": "server.dll",
-      "size": 1352,
-      "size_hex": "0x548",
-      "base": "CPointEntity",
-      "field_count": 12
+      "size": 4,
+      "size_hex": "0x4",
+      "base": "",
+      "field_count": 1
+    },
+    "CPulseCell_ApplyParent::CursorState_t": {
+      "module": "server.dll",
+      "size": 8,
+      "size_hex": "0x8",
+      "base": "",
+      "field_count": 2
     },
     "CPulseCell_ApplyAnimGraphParam": {
       "module": "server.dll",
@@ -24267,20 +24281,6 @@
       "base": "CPulseCell_BaseYieldingInflow",
       "field_count": 3
     },
-    "CPulseCell_Outflow_ListenForEntityOutput::CursorState_t": {
-      "module": "server.dll",
-      "size": 4,
-      "size_hex": "0x4",
-      "base": "",
-      "field_count": 1
-    },
-    "CPulseCell_ApplyParent::CursorState_t": {
-      "module": "server.dll",
-      "size": 8,
-      "size_hex": "0x8",
-      "base": "",
-      "field_count": 2
-    },
     "CSceneEntity": {
       "module": "server.dll",
       "size": 2048,
@@ -24336,6 +24336,20 @@
       "size_hex": "0x6f0",
       "base": "CBaseEntity",
       "field_count": 77
+    },
+    "CHandleTest": {
+      "module": "server.dll",
+      "size": 1200,
+      "size_hex": "0x4b0",
+      "base": "CBaseEntity",
+      "field_count": 2
+    },
+    "CTriggerSave": {
+      "module": "server.dll",
+      "size": 2520,
+      "size_hex": "0x9d8",
+      "base": "CBaseTrigger",
+      "field_count": 4
     },
     "CAI_ChangeHintGroup": {
       "module": "server.dll",
@@ -24512,20 +24526,6 @@
       "base": "CTriggerPush",
       "field_count": 1
     },
-    "CHandleTest": {
-      "module": "server.dll",
-      "size": 1200,
-      "size_hex": "0x4b0",
-      "base": "CBaseEntity",
-      "field_count": 2
-    },
-    "CTriggerSave": {
-      "module": "server.dll",
-      "size": 2520,
-      "size_hex": "0x9d8",
-      "base": "CBaseTrigger",
-      "field_count": 4
-    },
     "CAttributeContainer": {
       "module": "server.dll",
       "size": 1080,
@@ -24540,19 +24540,19 @@
       "base": "CBaseAnimGraph",
       "field_count": 9
     },
-    "CEconWearable": {
-      "module": "server.dll",
-      "size": 3776,
-      "size_hex": "0xec0",
-      "base": "CEconEntity",
-      "field_count": 2
-    },
     "CEconItemView": {
       "module": "server.dll",
       "size": 1000,
       "size_hex": "0x3e8",
       "base": "IEconItemInterface",
       "field_count": 15
+    },
+    "CEconWearable": {
+      "module": "server.dll",
+      "size": 3776,
+      "size_hex": "0xec0",
+      "base": "CEconEntity",
+      "field_count": 2
     },
     "CFuncNavObstruction": {
       "module": "server.dll",
