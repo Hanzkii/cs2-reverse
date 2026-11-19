@@ -4059,9 +4059,9 @@ window.CS2_TOOLS_DATA = [
     "exampleOutput": "Scanning 10 core binaries for Source 2 VTables...\nclient.dll: 4,120 vtables found\nserver.dll: 3,890 vtables found\nengine2.dll: 1,450 vtables found\nTotal VTables Resolved: 13,365 (101 canonical slots mapped)",
     "codeSnippet": "for off in range(0, len(rdata) - 8, 8):\n    fn_ptr = struct.unpack_from('<Q', rdata, off)[0]\n    if is_executable_text(fn_ptr):\n        vtable_methods.append(fn_ptr)",
     "paths": [
-      "tools/ghidra/resolve_vtables.py"
+      "tools/resolve_vtables.py"
     ],
-    "path": "tools/ghidra/resolve_vtables.py"
+    "path": "tools/resolve_vtables.py"
   },
   {
     "id": "port_signatures_to_ghidra",
