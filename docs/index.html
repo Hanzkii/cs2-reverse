@@ -408,8 +408,8 @@
     </div>
 
     <!-- TAB 2: BINARY LIST -->
-    <div id="tabBinariesView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
-      <div class="max-w-6xl mx-auto space-y-6">
+    <div id="tabBinariesView" class="hidden flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full bg-cs2-dark p-4 sm:p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6 w-full min-w-0">
 
         <!-- 3A: List View -->
         <div id="binariesListView" class="space-y-6">
@@ -518,8 +518,8 @@
           </div>
 
           <!-- Binaries Table -->
-          <div class="rounded-xl border border-cs2-border overflow-x-auto relative shadow-inner bg-[#111827]">
-            <table class="w-full text-left text-xs border-collapse min-w-[1000px] xl:min-w-[1240px]">
+          <div class="rounded-xl border border-cs2-border overflow-x-auto cs2-scrollbar relative shadow-inner bg-[#111827] w-full min-w-0">
+            <table class="w-full text-left text-xs border-collapse min-w-[940px]">
               <thead class="bg-slate-900 text-slate-400 font-mono">
                 <tr>
                   <th class="p-3 w-40 min-w-[150px] border-b border-cs2-border">Module</th>
@@ -709,8 +709,8 @@
     </div>
 
     <!-- TAB: PATCH DIFFING & VERSION ARCHIVING -->
-    <div id="tabDiffView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
-      <div class="max-w-6xl mx-auto space-y-6">
+    <div id="tabDiffView" class="hidden flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full bg-cs2-dark p-4 sm:p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6 w-full min-w-0">
         
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -793,7 +793,7 @@
         </div>
 
         <!-- Diff Subtab Content Container -->
-        <div id="diffSubtabContent" class="space-y-6">
+        <div id="diffSubtabContent" class="space-y-6 w-full min-w-0">
           <!-- Injected by JavaScript -->
         </div>
 
@@ -801,8 +801,8 @@
     </div>
 
     <!-- TAB 4: ANALYSIS TOOLS CATALOG -->
-    <div id="tabToolsView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
-      <div class="max-w-6xl mx-auto space-y-6">
+    <div id="tabToolsView" class="hidden flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full bg-cs2-dark p-4 sm:p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6 w-full min-w-0">
         
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -849,8 +849,8 @@
     </div>
 
     <!-- TAB 5: INTERACTIVE VISUALIZERS -->
-    <div id="tabSimulatorsView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
-      <div class="max-w-7xl mx-auto space-y-6">
+    <div id="tabSimulatorsView" class="hidden flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full bg-cs2-dark p-4 sm:p-6 lg:p-8">
+      <div class="max-w-7xl mx-auto space-y-6 w-full min-w-0">
 
         <!-- 4A: Visualizers Overview -->
         <div id="simulatorsMatrixView" class="space-y-6">
@@ -967,8 +967,8 @@
     </div>
 
     <!-- TAB 6: FUNCTION SIGNATURES & OFFSETS -->
-    <div id="tabSignaturesView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
-      <div class="max-w-6xl mx-auto space-y-6">
+    <div id="tabSignaturesView" class="hidden flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full bg-cs2-dark p-4 sm:p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6 w-full min-w-0">
 
         <!-- 6A: Minimal Signatures List View -->
         <div id="signaturesListView" class="space-y-6">
@@ -1108,8 +1108,8 @@
     </div>
 
     <!-- TAB 7: CONVARS & CONSOLE COMMANDS DATABASE -->
-    <div id="tabConvarsView" class="hidden flex-1 overflow-y-auto bg-cs2-dark p-6 lg:p-8">
-      <div class="max-w-6xl mx-auto space-y-6">
+    <div id="tabConvarsView" class="hidden flex-1 overflow-y-auto overflow-x-hidden min-w-0 w-full bg-cs2-dark p-4 sm:p-6 lg:p-8">
+      <div class="max-w-6xl mx-auto space-y-6 w-full min-w-0">
 
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -4970,7 +4970,7 @@
       ];
 
       container.innerHTML = `
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-5">
+        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-4 sm:p-6 shadow-xl space-y-5 w-full min-w-0">
           <!-- Header -->
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cs2-border pb-4">
             <div>
@@ -5149,7 +5149,7 @@
       const intactSigs = isSelf ? sigs : sigs.filter(s => !s.delta_bytes || s.delta_bytes === 0);
 
       container.innerHTML = `
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-5">
+        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-4 sm:p-6 shadow-xl space-y-5 w-full min-w-0">
           <!-- Header -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cs2-border pb-4">
             <div>
@@ -5194,54 +5194,52 @@
           </div>
 
           <!-- Table -->
-          <div class="rounded-xl border border-cs2-border overflow-hidden bg-slate-950/60 shadow-lg">
-            <div class="overflow-x-auto cs2-scrollbar">
-              <table class="w-full min-w-[1020px] xl:min-w-[1140px] text-left font-mono text-xs">
-                <thead class="bg-slate-900 border-b border-cs2-border text-slate-300">
-                  <tr>
-                    <th class="p-3 min-w-[200px]">Function / Symbol</th>
-                    <th class="p-3 min-w-[130px]">Binary</th>
-                    <th class="p-3 min-w-[110px]">Baseline RVA</th>
-                    <th class="p-3 min-w-[110px]">Target RVA</th>
-                    <th class="p-3 min-w-[90px]">Shift &Delta;</th>
-                    <th class="p-3 min-w-[120px]">Status</th>
-                    <th class="p-3 min-w-[280px]">Pattern &amp; Action</th>
-                  </tr>
-                </thead>
-                <tbody id="diffSigTableBody" class="divide-y divide-cs2-border">
-                  ${sigs.map(s => {
-                    const isShifted = !isSelf && (s.status === 'SHIFTED' || (s.delta_bytes && s.delta_bytes !== 0));
-                    const statusBadge = isShifted
-                      ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">SHIFTED</span>`
-                      : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">INTACT (+0 B)</span>`;
-                    
-                    const deltaStr = isShifted ? (s.delta_str || `+${s.delta_bytes} B`) : '+0 B';
-                    const targetRva = isShifted ? (s.current_rva || s.baseline_rva) : s.baseline_rva;
-                    const searchData = `${s.name} ${s.binary} ${s.category || ''} ${s.baseline_rva} ${targetRva} ${s.pattern}`;
+          <div class="rounded-xl border border-cs2-border overflow-x-auto cs2-scrollbar bg-slate-950/60 shadow-lg w-full min-w-0">
+            <table class="w-full min-w-[860px] text-left font-mono text-xs border-collapse">
+              <thead class="bg-slate-900 border-b border-cs2-border text-slate-300">
+                <tr>
+                  <th class="p-3 min-w-[170px]">Function / Symbol</th>
+                  <th class="p-3 min-w-[100px]">Binary</th>
+                  <th class="p-3 min-w-[95px]">Baseline RVA</th>
+                  <th class="p-3 min-w-[95px]">Target RVA</th>
+                  <th class="p-3 min-w-[80px]">Shift &Delta;</th>
+                  <th class="p-3 min-w-[95px]">Status</th>
+                  <th class="p-3 min-w-[225px]">Pattern &amp; Action</th>
+                </tr>
+              </thead>
+              <tbody id="diffSigTableBody" class="divide-y divide-cs2-border">
+                ${sigs.map(s => {
+                  const isShifted = !isSelf && (s.status === 'SHIFTED' || (s.delta_bytes && s.delta_bytes !== 0));
+                  const statusBadge = isShifted
+                    ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">SHIFTED</span>`
+                    : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">INTACT (+0 B)</span>`;
+                  
+                  const deltaStr = isShifted ? (s.delta_str || `+${s.delta_bytes} B`) : '+0 B';
+                  const targetRva = isShifted ? (s.current_rva || s.baseline_rva) : s.baseline_rva;
+                  const searchData = `${s.name} ${s.binary} ${s.category || ''} ${s.baseline_rva} ${targetRva} ${s.pattern}`;
 
-                    return `
-                      <tr class="diff-sig-row ${isShifted ? 'bg-amber-500/5 hover:bg-amber-500/10' : 'hover:bg-slate-900/60'} transition-colors" data-binary="${escapeHtml(s.binary)}" data-status="${isShifted ? 'shifted' : 'intact'}" data-search="${escapeHtml(searchData)}">
-                        <td class="p-3 min-w-[200px]">
-                          <span class="font-bold text-white block">${escapeHtml(s.name)}</span>
-                          <span class="text-[10px] text-slate-400 font-sans block">${escapeHtml(s.category || 'Core Dispatch')}</span>
-                        </td>
-                        <td class="p-3 text-cyan-300 font-bold whitespace-nowrap">${escapeHtml(s.binary)}</td>
-                        <td class="p-3 text-slate-400 whitespace-nowrap">${escapeHtml(s.baseline_rva)}</td>
-                        <td class="p-3 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'} whitespace-nowrap">${escapeHtml(targetRva)}</td>
-                        <td class="p-3 ${isShifted ? 'text-amber-400 font-bold' : 'text-slate-500'} whitespace-nowrap">${escapeHtml(deltaStr)}</td>
-                        <td class="p-3 whitespace-nowrap">${statusBadge}</td>
-                        <td class="p-3 min-w-[280px] whitespace-nowrap">
-                          <div class="flex items-center gap-2.5">
-                            <code class="text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 max-w-[160px] truncate block" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern.substring(0, 24))}...</code>
-                            <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="shrink-0 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 hover:text-white border border-slate-700 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-colors shadow-sm">Inspect &rarr;</button>
-                          </div>
-                        </td>
-                      </tr>
-                    `;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>
+                  return `
+                    <tr class="diff-sig-row ${isShifted ? 'bg-amber-500/5 hover:bg-amber-500/10' : 'hover:bg-slate-900/60'} transition-colors" data-binary="${escapeHtml(s.binary)}" data-status="${isShifted ? 'shifted' : 'intact'}" data-search="${escapeHtml(searchData)}">
+                      <td class="p-3 min-w-[170px]">
+                        <span class="font-bold text-white block">${escapeHtml(s.name)}</span>
+                        <span class="text-[10px] text-slate-400 font-sans block">${escapeHtml(s.category || 'Core Dispatch')}</span>
+                      </td>
+                      <td class="p-3 text-cyan-300 font-bold whitespace-nowrap min-w-[100px]">${escapeHtml(s.binary)}</td>
+                      <td class="p-3 text-slate-400 whitespace-nowrap min-w-[95px]">${escapeHtml(s.baseline_rva)}</td>
+                      <td class="p-3 ${isShifted ? 'text-amber-300 font-bold' : 'text-slate-300'} whitespace-nowrap min-w-[95px]">${escapeHtml(targetRva)}</td>
+                      <td class="p-3 ${isShifted ? 'text-amber-400 font-bold' : 'text-slate-500'} whitespace-nowrap min-w-[80px]">${escapeHtml(deltaStr)}</td>
+                      <td class="p-3 whitespace-nowrap min-w-[95px]">${statusBadge}</td>
+                      <td class="p-3 min-w-[225px] whitespace-nowrap">
+                        <div class="flex items-center gap-2">
+                          <code class="text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 max-w-[120px] sm:max-w-[140px] truncate block font-mono" title="${escapeHtml(s.pattern)}">${escapeHtml(s.pattern.substring(0, 20))}...</code>
+                          <button onclick="switchTab('signatures'); filterSignatures('${escapeHtml(s.name)}')" class="shrink-0 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-rose-300 hover:text-white border border-slate-700 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-colors shadow-sm">Inspect &rarr;</button>
+                        </div>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
           </div>
         </div>
       `;
