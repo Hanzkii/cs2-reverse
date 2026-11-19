@@ -1,15 +1,15 @@
 {
   "source_dir": "versions/archive/2026-11-19_26772654",
-  "scanned_at": "2026-11-19 04:28:27",
-  "duration_seconds": 0.976,
+  "scanned_at": "2026-11-19 04:53:36",
+  "duration_seconds": 0.975,
   "total_signatures": 92,
   "metrics": {
     "unchanged": 26,
-    "shifted": 65,
-    "broken": 1,
+    "shifted": 66,
+    "broken": 0,
     "ambiguous": 0,
     "file_missing": 0,
-    "valid_unique": 91
+    "valid_unique": 92
   },
   "signatures": [
     {
@@ -272,14 +272,14 @@
       "name": "CDepthPyramidComputeRenderer::RenderMultiPass",
       "binary": "client.dll",
       "category": "Rendering & Math",
-      "status": "BROKEN",
-      "matches": 0,
-      "baseline_rva": "0x01210ca0",
-      "current_rva": null,
-      "current_va": null,
-      "delta_bytes": null,
-      "delta_str": "N/A",
-      "pattern": "48 8D 05 D9 22 B1 00 C7 44 24 6C 14 00 00 00 48",
+      "status": "SHIFTED",
+      "matches": 1,
+      "baseline_rva": "0x01215340",
+      "current_rva": "0x01213b30",
+      "current_va": "0x181213b30",
+      "delta_bytes": -6160,
+      "delta_str": "-0x1810",
+      "pattern": "48 8D 05 ?? ?? ?? ?? C7 44 24 6C 14 00 00 00 48 89 44 24 58 48 8D 4C 24 50 48 8D 05 ?? ?? ?? ?? 48 89 44 24 60 FF 15 ?? ?? ?? ?? 84 C0 74 01 CC 85 DB",
       "description": "Hierarchical Z-Buffer depth pyramid mip chain generator."
     },
     {
