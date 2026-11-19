@@ -983,7 +983,7 @@
               </p>
             </div>
             <div class="flex items-center gap-2">
-              <span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 text-xs font-mono font-bold" id="signaturesVerifiedBadge">39 Verified Unique (100% Pass)</span>
+              <span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 text-xs font-mono font-bold" id="signaturesVerifiedBadge">92 Verified Unique (100% Pass)</span>
             </div>
           </div>
 
@@ -996,7 +996,7 @@
 
             <!-- Binary Filter Pills -->
             <div class="flex flex-wrap gap-1 bg-slate-900 p-1 rounded-xl border border-cs2-border text-xs font-mono" id="sigBinaryPills">
-              <button onclick="setSigBinaryFilter('all')" id="sigBin_all" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">All (39)</button>
+              <button onclick="setSigBinaryFilter('all')" id="sigBin_all" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">All (92)</button>
               <button onclick="setSigBinaryFilter('client.dll')" id="sigBin_client" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">client.dll</button>
               <button onclick="setSigBinaryFilter('server.dll')" id="sigBin_server" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">server.dll</button>
               <button onclick="setSigBinaryFilter('pulse_system.dll')" id="sigBin_pulse" class="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white">pulse_system.dll</button>
@@ -1352,12 +1352,14 @@
       });
 
       const capTab = tab.charAt(0).toUpperCase() + tab.slice(1);
-      const activeBtn = document.getElementById('navTab' + capTab);
+      const isDiffSignatures = (tab === 'diff' && typeof currentDiffSubtab !== 'undefined' && currentDiffSubtab === 'signatures');
+      const targetNavTab = isDiffSignatures ? 'Signatures' : capTab;
+      const activeBtn = document.getElementById('navTab' + targetNavTab);
       if (activeBtn) {
         activeBtn.classList.add('bg-slate-800', 'text-white', 'shadow-sm');
         activeBtn.classList.remove('text-slate-400');
       }
-      const mobActiveBtn = document.getElementById('mobNavTab' + capTab);
+      const mobActiveBtn = document.getElementById('mobNavTab' + targetNavTab);
       if (mobActiveBtn) {
         mobActiveBtn.classList.add('bg-slate-800', 'text-white', 'shadow-sm');
         mobActiveBtn.classList.remove('text-slate-400');
@@ -2938,6 +2940,11 @@
       if (!container) return;
       container.innerHTML = '';
 
+      const badge = document.getElementById('signaturesVerifiedBadge');
+      if (badge) badge.innerText = `${SIGNATURES_DATA.length} Verified Unique (100% Pass)`;
+      const binAll = document.getElementById('sigBin_all');
+      if (binAll) binAll.innerText = `All (${SIGNATURES_DATA.length})`;
+
       const q = filter.toLowerCase().trim();
       const filtered = SIGNATURES_DATA.filter(s => {
         const matchesBin = (binaryFilter === 'all' || s.binary.toLowerCase() === binaryFilter.toLowerCase());
@@ -3464,6 +3471,25 @@
           }
         }
       });
+
+      // Synchronize top navbar active highlight:
+      // When viewing the signatures subtab, highlight Function Signatures in navbar so users aren't confused by Patch Diffing being marked active!
+      const navDiff = document.getElementById('navTabDiff');
+      const navSig = document.getElementById('navTabSignatures');
+      const mobDiff = document.getElementById('mobNavTabDiff');
+      const mobSig = document.getElementById('mobNavTabSignatures');
+      if (subtab === 'signatures') {
+        if (navDiff) { navDiff.classList.remove('bg-slate-800', 'text-white', 'shadow-sm'); navDiff.classList.add('text-slate-400'); }
+        if (mobDiff) { mobDiff.classList.remove('bg-slate-800', 'text-white', 'shadow-sm'); mobDiff.classList.add('text-slate-400'); }
+        if (navSig) { navSig.classList.add('bg-slate-800', 'text-white', 'shadow-sm'); navSig.classList.remove('text-slate-400'); }
+        if (mobSig) { mobSig.classList.add('bg-slate-800', 'text-white', 'shadow-sm'); mobSig.classList.remove('text-slate-400'); }
+      } else {
+        if (navSig) { navSig.classList.remove('bg-slate-800', 'text-white', 'shadow-sm'); navSig.classList.add('text-slate-400'); }
+        if (mobSig) { mobSig.classList.remove('bg-slate-800', 'text-white', 'shadow-sm'); mobSig.classList.remove('text-slate-400'); }
+        if (navDiff) { navDiff.classList.add('bg-slate-800', 'text-white', 'shadow-sm'); navDiff.classList.remove('text-slate-400'); }
+        if (mobDiff) { mobDiff.classList.add('bg-slate-800', 'text-white', 'shadow-sm'); mobDiff.classList.remove('text-slate-400'); }
+      }
+
       renderDiffSubtabContent();
     }
 
@@ -5131,12 +5157,12 @@
                 Canonical Function Signatures &amp; RVA Shift Inspector
               </h2>
               <p class="text-xs text-slate-300 mt-1">
-                Monitors 39 IDA/Ghidra wildcard byte patterns across builds. Displacements ('??') absorb code relocations while tracking exact RVA drift (+N bytes).
+                Monitors ${sigs.length} IDA/Ghidra wildcard byte patterns across builds. Displacements ('??') absorb code relocations while tracking exact RVA drift (+N bytes).
               </p>
             </div>
             <div class="flex flex-wrap items-center gap-2 shrink-0">
               <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30">
-                39 / 39 Verified (100% Unique)
+                ${sigs.length} / ${sigs.length} Verified (100% Unique)
               </span>
               <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold ${shiftedSigs.length > 0 ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'}">
                 ${shiftedSigs.length > 0 ? `${shiftedSigs.length} Shifted RVAs` : '0 Shifts (Baseline Matches)'}
@@ -5153,7 +5179,7 @@
 
             <!-- Filter Pills -->
             <div class="flex flex-wrap items-center gap-1.5 font-mono text-xs shrink-0">
-              <button onclick="setDiffSigFilter('all')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'all' ? 'bg-rose-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors cursor-pointer">All (39)</button>
+              <button onclick="setDiffSigFilter('all')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'all' ? 'bg-rose-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:text-white'} transition-colors cursor-pointer">All (${sigs.length})</button>
               <button onclick="setDiffSigFilter('shifted')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'shifted' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-amber-300 hover:bg-slate-700'} transition-colors cursor-pointer">Shifted (${shiftedSigs.length})</button>
               <button onclick="setDiffSigFilter('intact')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'intact' ? 'bg-emerald-500 text-slate-950 font-bold' : 'bg-slate-800 text-emerald-300 hover:bg-slate-700'} transition-colors cursor-pointer">Intact (${intactSigs.length})</button>
               <button onclick="setDiffSigFilter('client.dll')" class="px-2.5 py-1 rounded-lg ${diffSigFilter === 'client.dll' ? 'bg-sky-500 text-slate-950 font-bold' : 'bg-slate-800 text-sky-300 hover:bg-slate-700'} transition-colors cursor-pointer">client.dll</button>
