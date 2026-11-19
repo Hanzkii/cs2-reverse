@@ -71,6 +71,13 @@ def verify_build_pipeline(repo_root):
         print(f"[FAIL] tools/verify_vtable_completeness.py failed:\n{res3.stdout}\n{res3.stderr}")
         return False
 
+    # 5. audit_portal_links.py (validates 100% of doc links, code spans, and tool buttons)
+    audit_script = repo_root / "tools" / "audit_portal_links.py"
+    res4 = subprocess.run([sys.executable, str(audit_script)], cwd=str(repo_root), capture_output=True, text=True)
+    if res4.returncode != 0:
+        print(f"[FAIL] tools/audit_portal_links.py failed:\n{res4.stdout}\n{res4.stderr}")
+        return False
+
     return True
 
 def verify_guardrails(repo_root):
