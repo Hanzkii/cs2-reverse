@@ -81,8 +81,8 @@
   </script>
 
   <!-- Embedded Bundled Documentation & Portal Data -->
-  <script src="docs-data.js?v=20261119_15"></script>
-  <script src="portal-data.js?v=20261119_15"></script>
+  <script src="docs-data.js?v=20261119_16"></script>
+  <script src="portal-data.js?v=20261119_16"></script>
 
   <!-- Three.js (r128) & OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -551,6 +551,35 @@
                   </tr>
                 </thead>
                 <tbody id="binSchemasTableBody" class="divide-y divide-cs2-border">
+                  <!-- Filled by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Exported Subsystem Interfaces (CreateInterface) -->
+          <div id="binInterfacesSection" class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Exported Subsystem Interfaces (<code class="text-cyan-300 text-sm font-mono">CreateInterface</code>)
+              </h2>
+              <span id="binInterfacesCountBadge" class="px-2.5 py-1 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-mono text-xs font-semibold">0 Interfaces</span>
+            </div>
+            <p class="text-xs text-slate-400">All versioned subsystem interface tokens and factory function virtual addresses registered in <code class="text-slate-300 font-mono">s_pInterfaceRegs</code>.</p>
+            <div class="flex items-center gap-2">
+              <input type="text" id="binInterfaceFilter" oninput="filterBinaryInterfaces()" placeholder="Filter interfaces (e.g. Engine, Schema, Client, Sound)..." class="w-full sm:w-80 bg-slate-900 border border-cs2-border rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono">
+            </div>
+            <div class="rounded-xl border border-cs2-border overflow-x-auto max-h-96">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-900 border-b border-cs2-border text-slate-400 font-mono sticky top-0 z-10">
+                  <tr>
+                    <th class="p-3">Interface Token</th>
+                    <th class="p-3">Factory Virtual Address (VA)</th>
+                    <th class="p-3">Export Mechanism</th>
+                  </tr>
+                </thead>
+                <tbody id="binInterfacesTableBody" class="divide-y divide-cs2-border font-mono">
                   <!-- Filled by JS -->
                 </tbody>
               </table>
@@ -2357,6 +2386,41 @@
       renderBinariesTable(filtered);
     }
 
+    let currentBinaryInterfaces = [];
+    function renderBinaryInterfacesList(list) {
+      const tbody = document.getElementById('binInterfacesTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-slate-500 text-center italic">No interfaces match the current filter.</td></tr>';
+        return;
+      }
+      list.forEach(iface => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-800/30 text-xs transition-colors';
+        row.innerHTML = `
+          <td class="p-3 font-bold text-cyan-400 font-mono">${escapeHtml(iface.token || '')}</td>
+          <td class="p-3 text-emerald-400 font-bold font-mono">${escapeHtml(iface.fn_va || 'Exported')}</td>
+          <td class="p-3 text-slate-400"><span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-300 font-mono">CreateInterface</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function filterBinaryInterfaces() {
+      const input = document.getElementById('binInterfaceFilter');
+      const q = (input ? input.value : '').toLowerCase().trim();
+      if (!q) {
+        renderBinaryInterfacesList(currentBinaryInterfaces);
+        return;
+      }
+      const filtered = currentBinaryInterfaces.filter(iface => 
+        (iface.token || '').toLowerCase().includes(q) ||
+        (iface.fn_va || '').toLowerCase().includes(q)
+      );
+      renderBinaryInterfacesList(filtered);
+    }
+
     function showBinaryDetail(binaryName, highlightTarget = '') {
       const b = BINARIES_DATA.find(item => item.name === binaryName);
       if (!b) return;
@@ -2481,6 +2545,22 @@
         });
       } else {
         document.getElementById('binSchemasSection').classList.add('hidden');
+      }
+
+      // Populate Interfaces
+      const ifSec = document.getElementById('binInterfacesSection');
+      const ifBody = document.getElementById('binInterfacesTableBody');
+      const ifBadge = document.getElementById('binInterfacesCountBadge');
+      const ifFilter = document.getElementById('binInterfaceFilter');
+      if (ifFilter) ifFilter.value = '';
+      ifBody.innerHTML = '';
+      currentBinaryInterfaces = b.interfaces || [];
+      if (currentBinaryInterfaces.length > 0) {
+        ifSec.classList.remove('hidden');
+        ifBadge.innerText = `${currentBinaryInterfaces.length} Interfaces`;
+        renderBinaryInterfacesList(currentBinaryInterfaces);
+      } else {
+        ifSec.classList.add('hidden');
       }
 
       // Highlight target row if requested from Omnisearch

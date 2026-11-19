@@ -6,6 +6,7 @@
 - [Full AI Context Bundle (llms-full.txt)](https://hanzkii.github.io/cs2-reverse/docs/llms-full.txt): Single-file concatenation of all 92 function signatures, VTables, C++20 SDK headers, key Schema offsets, and 40 architecture docs.
 - [API Master Index (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.
 - [Function Signatures & RVAs (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/signatures.json): 92 verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.
+- [Engine Factory Interfaces (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/interfaces.json): 4,059 exported CreateInterface subsystem tokens across all 33 modular DLLs.
 - [Virtual Method Tables / VTables (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/vtables.json): Canonical dispatch tables (slots, RVAs, and prototypes) for CBaseEntity, CCSPlayerController, CCSPlayerPawn, CNetworkGameClient, CVPhysics2Interface, etc.
 - [Reconstructed C++20 SDK (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across 27 modules.
 - [Core Modding Schemas & Offsets (JSON)](https://hanzkii.github.io/cs2-reverse/docs/api/v1/schemas.json): Exact field byte offsets for 48 curated modding classes + index of all 2,276 classes.

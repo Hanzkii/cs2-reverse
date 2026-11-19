@@ -2175,7 +2175,26 @@ def main():
         with open(convars_file, "r", encoding="utf-8") as f:
             convars_data = json.load(f)
 
-    print(f"Exporting {len(BINARIES_DETAIL)} binary profiles, {len(simulators_list)} simulator suites, {len(TOOLS_DATA)} tool profiles, {len(signatures_data)} function signatures, {len(convars_data)} convars, and {len(version_manifests)} version manifests...")
+    # Load Interfaces database
+    interfaces_data = []
+    interfaces_by_bin = {}
+    interfaces_file = os.path.join(data_dir, "interfaces.json")
+    if os.path.exists(interfaces_file):
+        with open(interfaces_file, "r", encoding="utf-8") as f:
+            interfaces_data = json.load(f)
+        for item in interfaces_data:
+            bn = item.get("binary", "")
+            if bn not in interfaces_by_bin:
+                interfaces_by_bin[bn] = []
+            interfaces_by_bin[bn].append(item)
+
+    # Attach interfaces count and tokens to each binary
+    for b in BINARIES_DETAIL:
+        bn = b.get("name", "")
+        b["interfaces_count"] = len(interfaces_by_bin.get(bn, []))
+        b["interfaces"] = interfaces_by_bin.get(bn, [])
+
+    print(f"Exporting {len(BINARIES_DETAIL)} binary profiles, {len(simulators_list)} simulator suites, {len(TOOLS_DATA)} tool profiles, {len(signatures_data)} function signatures, {len(convars_data)} convars, {len(interfaces_data)} interfaces, and {len(version_manifests)} version manifests...")
 
     # Resolve exact repository paths for all tools
     for t in TOOLS_DATA:
@@ -2218,15 +2237,18 @@ def main():
         f.write(";\n\n")
         f.write("window.CS2_SDK_DATA = ")
         json.dump(sdk_modules, f, indent=2)
+        f.write(";\n\n")
+        f.write("window.CS2_INTERFACES_DATA = ")
+        json.dump(interfaces_data, f, indent=2)
         f.write(";\n")
 
     print(f"Successfully generated {out_file} ({os.path.getsize(out_file)} bytes)")
 
     # Generate Static AI & Modding API (docs/llms.txt, docs/llms-full.txt, docs/api/v1/*.json)
-    generate_ai_modding_api(root, BINARIES_DETAIL, simulators_list, TOOLS_DATA, signatures_data, convars_data, version_manifests, diff_reports, sdk_modules)
+    generate_ai_modding_api(root, BINARIES_DETAIL, simulators_list, TOOLS_DATA, signatures_data, convars_data, version_manifests, diff_reports, sdk_modules, interfaces_data, interfaces_by_bin)
 
 
-def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, signatures_data, convars_data, version_manifests, diff_reports, sdk_modules):
+def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, signatures_data, convars_data, version_manifests, diff_reports, sdk_modules, interfaces_data=None, interfaces_by_bin=None):
     """Generates static AI/LLM context indices (llms.txt, llms-full.txt) and REST-like JSON endpoints under docs/api/v1/."""
     docs_dir = os.path.join(root, "docs")
     api_dir = os.path.join(docs_dir, "api", "v1")
@@ -2409,6 +2431,11 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         })
 
     # 5. Write /docs/api/v1/ JSON endpoints
+    if interfaces_data is None:
+        interfaces_data = []
+    if interfaces_by_bin is None:
+        interfaces_by_bin = {}
+
     index_payload = {
         "name": "CS2 (Source 2) Reverse Engineering & Modding API",
         "version": "1.1.0",
@@ -2421,6 +2448,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             "schema_classes_count": total_schema_classes,
             "curated_classes_count": len(curated_schemas),
             "convars_count": len(convars_data),
+            "interfaces_count": len(interfaces_data),
             "sdk_modules_count": len(sdk_modules),
             "simulators_count": len(simulators_list),
             "docs_count": len(docs_catalog),
@@ -2434,6 +2462,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
             "index": f"{base_url}/api/v1/index.json",
             "signatures": f"{base_url}/api/v1/signatures.json",
             "schemas": f"{base_url}/api/v1/schemas.json",
+            "interfaces": f"{base_url}/api/v1/interfaces.json",
             "vtables": f"{base_url}/api/v1/vtables.json",
             "simulators": f"{base_url}/api/v1/simulators.json",
             "docs": f"{base_url}/api/v1/docs.json",
@@ -2445,6 +2474,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         "usage_instructions_for_ai": (
             "Use signatures.json for verified IDA/Ghidra byte patterns and current RVAs/VAs. "
             "Use vtables.json for virtual method layouts and dispatch slots. "
+            "Use interfaces.json for exported engine factory tokens (CreateInterface) across all 33 DLLs. "
             "Use schemas.json for exact member byte offsets (both curated modding classes and full 2,276+ class index). "
             "Use simulators.json for C++20 clean-room simulation test harnesses. "
             "Use sdk.json for clean-room C++20 master headers and implementations across all modules."
@@ -2556,6 +2586,15 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
     with open(os.path.join(api_dir, "latest_diff.json"), "w", encoding="utf-8") as f:
         json.dump(latest_diff, f, indent=2)
 
+    with open(os.path.join(api_dir, "interfaces.json"), "w", encoding="utf-8") as f:
+        json.dump({
+            "build_id": latest_ver.get("build_id"),
+            "tag": latest_ver.get("tag"),
+            "count": len(interfaces_data),
+            "binaries_count": len(interfaces_by_bin),
+            "interfaces": interfaces_data
+        }, f, indent=2)
+
     # 6. Generate /docs/llms.txt (Standard concise AI directory index)
     llms_lines = [
         "# CS2 (Source 2) Reverse Engineering & Modding Reference",
@@ -2566,6 +2605,7 @@ def generate_ai_modding_api(root, binaries_detail, simulators_list, tools_data, 
         f"- [Full AI Context Bundle (llms-full.txt)]({base_url}/llms-full.txt): Single-file concatenation of all {len(signatures_data)} function signatures, VTables, C++20 SDK headers, key Schema offsets, and {len(md_files)} architecture docs.",
         f"- [API Master Index (JSON)]({base_url}/api/v1/index.json): Discoverable JSON endpoints for programmatic AI tool-calling.",
         f"- [Function Signatures & RVAs (JSON)]({base_url}/api/v1/signatures.json): {len(signatures_data)} verified unique IDA/Ghidra byte patterns with baseline and current RVAs/VAs.",
+        f"- [Engine Factory Interfaces (JSON)]({base_url}/api/v1/interfaces.json): {len(interfaces_data):,} exported CreateInterface subsystem tokens across all {len(interfaces_by_bin)} modular DLLs.",
         f"- [Virtual Method Tables / VTables (JSON)]({base_url}/api/v1/vtables.json): Canonical dispatch tables (slots, RVAs, and prototypes) for CBaseEntity, CCSPlayerController, CCSPlayerPawn, CNetworkGameClient, CVPhysics2Interface, etc.",
         f"- [Reconstructed C++20 SDK (JSON)]({base_url}/api/v1/sdk.json): Complete clean-room C++20 headers and implementations across {len(sdk_modules)} modules.",
         f"- [Core Modding Schemas & Offsets (JSON)]({base_url}/api/v1/schemas.json): Exact field byte offsets for {len(curated_schemas)} curated modding classes + index of all {total_schema_classes:,} classes.",
