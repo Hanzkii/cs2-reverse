@@ -30129,7 +30129,7 @@ In the Counter-Strike 2 engine update `2026-11-11_26598758`, Valve overhauled th
 
 > [!TIP]
 > **Live Interactive Visualizer Available**:
-> Launch the interactive **[Network Packet Entities Pipeline Visualizer](index.html#simulators/21)** to experiment with `cl_packetentities_merge_before_decode`, tune entity counts from 1 to 4,096, adjust worker thread concurrency (1 to 16 `CJobThread` workers), and observe real-time latency, throughput, and redundant callback elimination metrics.
+> Launch the interactive **[Network Packet Entities Pipeline Visualizer](#simulators/21)** to experiment with `cl_packetentities_merge_before_decode`, tune entity counts from 1 to 4,096, adjust worker thread concurrency (1 to 16 `CJobThread` workers), and observe real-time latency, throughput, and redundant callback elimination metrics.
 
 ```mermaid
 flowchart TD
