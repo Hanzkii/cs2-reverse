@@ -788,7 +788,6 @@
               <svg class="w-3.5 h-3.5 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               <span>Canonical Signatures &amp; RVAs</span>
             </button>
-            <button onclick="setDiffSubtab('guide')" id="diffSubtabBtn_guide" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white border border-transparent inline-flex items-center gap-1.5 whitespace-nowrap">How to Diff Updates</button>
           </div>
         </div>
 
@@ -3449,12 +3448,12 @@
     }
 
     function setDiffSubtab(subtab, updateHash = true) {
-      if (subtab === 'overview') subtab = 'patches';
+      if (subtab === 'overview' || subtab === 'guide') subtab = 'patches';
       if (updateHash) {
         setUrlHash('diff/' + subtab);
       }
       currentDiffSubtab = subtab;
-      const tabs = ['patches', 'binaries', 'schemas', 'interfaces', 'signatures', 'guide'];
+      const tabs = ['patches', 'binaries', 'schemas', 'interfaces', 'signatures'];
       tabs.forEach(t => {
         const btn = document.getElementById('diffSubtabBtn_' + t);
         if (btn) {
@@ -3531,8 +3530,6 @@
         renderDiffInterfaces(container, vOld, vNew, diff);
       } else if (currentDiffSubtab === 'signatures') {
         renderDiffSignatures(container, vOld, vNew, diff);
-      } else if (currentDiffSubtab === 'guide') {
-        renderDiffGuide(container);
       } else {
         renderDiffPatches(container);
       }
@@ -5222,63 +5219,6 @@
         </div>
       `;
       filterDiffSigRows();
-    }
-
-    function renderDiffGuide(container) {
-      container.innerHTML = `
-        <div class="bg-[#111827] border border-cs2-border rounded-2xl p-6 shadow-xl space-y-6">
-          <div class="flex items-center justify-between border-b border-cs2-border pb-4">
-            <div>
-              <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Complete Guide: Reversing &amp; Diffing Future Updates
-              </h2>
-              <p class="text-xs text-slate-400 mt-1">Step-by-step instructions for when Valve publishes a new CS2 patch on Steam.</p>
-            </div>
-            <button onclick="switchTab('docs'); selectDoc('patch-diffing');" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition-colors flex items-center gap-1.5">
-              Read Patch Diffing Guide &rarr;
-            </button>
-          </div>
-
-          <div class="space-y-4 text-xs font-mono">
-            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-              <div class="flex items-center justify-between text-sky-400 font-bold">
-                <span>Step 1: Archive Newly Patched Binaries</span>
-                <span class="text-slate-500 text-[11px]">Command Line</span>
-              </div>
-              <p class="text-slate-400 font-sans text-xs">Copy new DLLs from your Steam installation directory into the local versioned archive folder:</p>
-              <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-200 select-all overflow-x-auto">python tools/cs2_patch_diff.py archive --date 2026-10-25 --build 25999999 --bin-dir &quot;&lt;STEAM_LIBRARY&gt;/Counter-Strike Global Offensive&quot;</pre>
-            </div>
-
-            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-              <div class="flex items-center justify-between text-amber-400 font-bold">
-                <span>Step 2: Generate Static Profile (Schemas, Interfaces, ConVars)</span>
-                <span class="text-slate-500 text-[11px]">Static Reflection Crawl</span>
-              </div>
-              <p class="text-slate-400 font-sans text-xs">Runs the pure-Python 64-bit PE crawler to extract 2,200+ schema classes, interfaces, and cvars in ~25 seconds:</p>
-              <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-200 select-all overflow-x-auto">python tools/cs2_patch_diff.py profile --tag 2026-10-25_25999999</pre>
-            </div>
-
-            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-              <div class="flex items-center justify-between text-emerald-400 font-bold">
-                <span>Step 3: Execute Differential Engine &amp; Generate Report</span>
-                <span class="text-slate-500 text-[11px]">Multi-Dimensional Differ</span>
-              </div>
-              <p class="text-slate-400 font-sans text-xs">Calculates shifted offsets (+N bytes), creates a markdown report, and outputs structured JSON diff:</p>
-              <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-200 select-all overflow-x-auto">python tools/cs2_patch_diff.py diff --old 2026-10-15_25966348 --new 2026-10-25_25999999</pre>
-            </div>
-
-            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-              <div class="flex items-center justify-between text-purple-400 font-bold">
-                <span>Step 4: Regenerate Web Portal Data &amp; Deploy</span>
-                <span class="text-slate-500 text-[11px]">Portal Synchronization</span>
-              </div>
-              <p class="text-slate-400 font-sans text-xs">Updates portal-data.js and docs-data.js to publish the new comparison directly to the web portal:</p>
-              <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-200 select-all overflow-x-auto">python tools/generate_docs_bundle.py &amp;&amp; python tools/generate_portal_data.py</pre>
-            </div>
-          </div>
-        </div>
-      `;
     }
 
     // ========================================================================
