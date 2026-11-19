@@ -3537,7 +3537,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Source 2 entities are driven by engine-wide reflection. This utility directly parses the binary PE Section Headers to map Virtual Addresses (VA) to file offsets, walks the 32-byte SchemaClassInfoData_t table passed to ResolveDeclaredClasses, resolves type descriptors, and dumps every member field offset (e.g. m_pGameSceneNode at +0x0330, m_pAimPunchServices at +0x1598, m_hPlayerPawn at +0x07dc).",
     "usage": "python tools/extract_schema_classes.py",
     "exampleOutput": "Reading SchemaClassInfoData_t table from 0x181d33c20 (file off 0x1d31c20)...\nClass C_CSPlayerPawn (Size: 0x3b80, Fields: 34):\n  +0x0330: m_pGameSceneNode (CGameSceneNode*)\n  +0x0344: m_iHealth (int32)\n  +0x0348: m_lifeState (uint8)\n  +0x1598: m_pAimPunchServices (CPlayer_AimPunchServices*)\n  +0x1600: m_hController (CEntityHandle)\n  +0x3600: m_angEyeAngles (QAngle)",
-    "codeSnippet": "def va_to_off(v):\n    r = v - image_base\n    for name, rva, vsize, raw_ptr, raw_size in sections:\n        if rva <= r < rva + vsize:\n            return raw_ptr + (r - rva)\n    return None"
+    "codeSnippet": "def va_to_off(v):\n    r = v - image_base\n    for name, rva, vsize, raw_ptr, raw_size in sections:\n        if rva <= r < rva + vsize:\n            return raw_ptr + (r - rva)\n    return None",
+    "paths": [
+      "tools/extract_schema_classes.py"
+    ],
+    "path": "tools/extract_schema_classes.py"
   },
   {
     "id": "find_all_schema_chunks",
@@ -3551,7 +3555,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Monolithic binaries like client.dll (39.2 MB) contain over 4,000 declared classes. To avoid MSVC compilation and section layout limits, Valve splits schema registrations into dozens of independent registration callbacks. This tool disassembles the call references leading into InstallSchemaBindings and enumerates all chunk registration pointers.",
     "usage": "python tools/find_all_schema_chunks.py",
     "exampleOutput": "Scanning client.dll .text for Schema Registration Chunks...\nChunk 0: 0x181d33c20 (148 classes)\nChunk 1: 0x181d45a00 (210 classes)\nChunk 2: 0x181d60180 (185 classes)\nTotal Schema Classes Discovered across 18 chunks: 4,120 classes",
-    "codeSnippet": "# Scans for LEA R8, [table] followed by CALL RegisterDeclaredClasses\npattern = b'\\x48\\x8d\\x15' # LEA RDX, ...\nfor match in find_all(data, pattern):\n    table_va = resolve_rip_rel(match)"
+    "codeSnippet": "# Scans for LEA R8, [table] followed by CALL RegisterDeclaredClasses\npattern = b'\\x48\\x8d\\x15' # LEA RDX, ...\nfor match in find_all(data, pattern):\n    table_va = resolve_rip_rel(match)",
+    "paths": [
+      "tools/find_all_schema_chunks.py"
+    ],
+    "path": "tools/find_all_schema_chunks.py"
   },
   {
     "id": "inspect_controller_pawn",
@@ -3566,7 +3574,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Verifies the separation of player identity (CCSPlayerController) from physical body (C_CSPlayerPawn). Extracts the bi-directional 32-bit handle links (m_hPlayerPawn at +0x07dc, m_hController at +0x1600), checks proxy telemetry mirroring (m_iPawnHealth, m_iPawnArmor, m_bPawnIsAlive), and validates bot takeover fields.",
     "usage": "python tools/inspect_controller_pawn.py",
     "exampleOutput": "=== CCSPlayerController (Server) ===\n  +0x0720: m_sSanitizedPlayerName (CUtlSymbolLarge)\n  +0x07dc: m_hPlayerPawn (CEntityHandle)\n  +0x0818: m_iPawnHealth (uint32 - Mirrored)\n  +0x081c: m_iPawnArmor (uint32 - Mirrored)\n  +0x08e0: m_bControllingBot (bool)\n  +0x0918: m_hOriginalControllerOfCurrentPawn (CEntityHandle)",
-    "codeSnippet": "print(f'Checking bi-directional handle linkage...')\nassert controller['m_hPlayerPawn']['type'] == 'CEntityHandle'\nassert pawn['m_hController']['type'] == 'CEntityHandle'"
+    "codeSnippet": "print(f'Checking bi-directional handle linkage...')\nassert controller['m_hPlayerPawn']['type'] == 'CEntityHandle'\nassert pawn['m_hController']['type'] == 'CEntityHandle'",
+    "paths": [
+      "tools/inspect_controller_pawn.py"
+    ],
+    "path": "tools/inspect_controller_pawn.py"
   },
   {
     "id": "dump_schemasystem_vtable",
@@ -3580,7 +3592,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Locates the CSchemaSystem RTTI Complete Object Locator in schemasystem.dll .rdata and dumps every 64-bit function pointer in the vtable. Labels virtual methods including InstallSchemaBindings, FindTypeScopeForModule, RegisterDeclaredClasses, and ResolveDeclaredClasses.",
     "usage": "python tools/dump_schemasystem_vtable.py",
     "exampleOutput": "CSchemaSystem vtable at VA 0x180058598 (file off 0x56d98):\n  [ 0] offset +0x00: 0x1800100a0 (QueryInterface)\n  [ 1] offset +0x08: 0x1800100b0 (AddRef)\n  [ 2] offset +0x10: 0x1800100c0 (Release)\n  [ 5] offset +0x28: 0x180011420 (FindTypeScopeForModule)\n  [13] offset +0x68: 0x180012890 (RegisterDeclaredClasses)\n  [25] offset +0xc8: 0x180014020 (ResolveDeclaredClasses)",
-    "codeSnippet": "col_va = off_to_va(rtti_col_off)\nvtable_va = find_pointer_to(col_va) + 8\nfor i in range(40):\n    fn = read_qword(vtable_va + i * 8)"
+    "codeSnippet": "col_va = off_to_va(rtti_col_off)\nvtable_va = find_pointer_to(col_va) + 8\nfor i in range(40):\n    fn = read_qword(vtable_va + i * 8)",
+    "paths": [
+      "tools/dump_schemasystem_vtable.py"
+    ],
+    "path": "tools/dump_schemasystem_vtable.py"
   },
   {
     "id": "find_vtable_rtti",
@@ -3594,7 +3610,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "MSVC x64 builds encode Run-Time Type Information in .rdata via TypeDescriptor and _s__RTTICompleteObjectLocator structs. This tool searches for mangled class names (e.g. .?AVCCvar@@, .?AVCViewRender@@), computes the 32-bit RVA, finds the referencing COL, and resolves the vtable pointer located at COL_PTR + 8.",
     "usage": "python tools/find_vtable_rtti.py",
     "exampleOutput": "RTTI str offset: 0x64508 (.?AVCSchemaSystem@@)\nTypeDescriptor RVA: 0x65ef8\nCandidate COL at off 0x5a44c, VA 0x18005bc4c\n  --> FOUND VTABLE at off 0x56d98, VA 0x0000000180058598!",
-    "codeSnippet": "if rtti_str_off != -1:\n    td_rva = off_to_va(rtti_str_off - 16) - image_base\n    for o in range(0, len(data) - 4, 4):\n        if struct.unpack_from('<I', data, o)[0] == td_rva:\n            # Found COL reference"
+    "codeSnippet": "if rtti_str_off != -1:\n    td_rva = off_to_va(rtti_str_off - 16) - image_base\n    for o in range(0, len(data) - 4, 4):\n        if struct.unpack_from('<I', data, o)[0] == td_rva:\n            # Found COL reference",
+    "paths": [
+      "tools/find_vtable_rtti.py"
+    ],
+    "path": "tools/find_vtable_rtti.py"
   },
   {
     "id": "dump_interfaces",
@@ -3608,7 +3628,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Every modular dynamic library in Source 2 exports CreateInterface to provide decoupled abstraction. This tool locates the InterfaceReg linked list head, follows m_pNext pointers, and extracts interface strings like SchemaSystem_001, VEngineCvar007, GAMEEVENTSMANAGER002, and InputSystemVersion001.",
     "usage": "python tools/dump_interfaces.py",
     "exampleOutput": "Enumerating InterfaceReg linked list in tier0.dll...\n  * 'VEngineCvar007' -> Factory VA 0x180068f40 -> Instance 0x180313208\n  * 'VProcessUtils001' -> Factory VA 0x180069020\n  * 'VFileSystem017' -> Factory VA 0x180069150\nTotal Interfaces Exported: 8",
-    "codeSnippet": "while curr != 0:\n    name_va = read_qword(curr + 8)\n    factory_va = read_qword(curr + 0)\n    curr = read_qword(curr + 16) # m_pNext"
+    "codeSnippet": "while curr != 0:\n    name_va = read_qword(curr + 8)\n    factory_va = read_qword(curr + 0)\n    curr = read_qword(curr + 16) # m_pNext",
+    "paths": [
+      "tools/dump_interfaces.py"
+    ],
+    "path": "tools/dump_interfaces.py"
   },
   {
     "id": "dump_cvar_vtable",
@@ -3622,7 +3646,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Maps the ConVar registry interface in tier0.dll. Resolves function pointers for RegisterConCommand (+0x48), FindVar (+0x58), Caseless String Hash Lookup (+0x60), and flag validation logic, verifying hash seed 0x31415926.",
     "usage": "python tools/dump_cvar_vtable.py",
     "exampleOutput": "CCvar vtable at VA 0x180313208 (file off 0x311c08):\n  [ 0] offset +0x00: 0x1800789e0\n  [11] offset +0x58: 0x18006c6b0 (CCvar::FindVar)\n  [12] offset +0x60: 0x18006c8c0 (HashStringCaseless)\n  [45] offset +0x168: 0x18006b460\n  Total: 46 virtual methods mapped.",
-    "codeSnippet": "cvar_vtable_va = 0x180313208\nfor i in range(46):\n    fn = read_qword(va_to_off(cvar_vtable_va + i * 8))\n    print(f'  [{i:2d}] offset +0x{i*8:02x}: 0x{fn:016x}')"
+    "codeSnippet": "cvar_vtable_va = 0x180313208\nfor i in range(46):\n    fn = read_qword(va_to_off(cvar_vtable_va + i * 8))\n    print(f'  [{i:2d}] offset +0x{i*8:02x}: 0x{fn:016x}')",
+    "paths": [
+      "tools/dump_cvar_vtable.py"
+    ],
+    "path": "tools/dump_cvar_vtable.py"
   },
   {
     "id": "dump_net_messages",
@@ -3636,7 +3664,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Parses compiled Google Protobuf descriptor tables in networksystem.dll to reconstruct the complete enum registry of network messages. Discovers core engine messages (net_Tick, net_SetConVar), client-to-server messages (clc_Move, clc_RespondCvarValue), and server-to-client messages (svc_PacketEntities, svc_FlattenedSerializer).",
     "usage": "python tools/dump_net_messages.py",
     "exampleOutput": "=== Extracting All CS2 Network Message Types ===\n--- CNETMsg (12) ---\n  CNETMsg_NOP\n  CNETMsg_Tick\n  CNETMsg_SetConVar\n--- CCLCMsg (16) ---\n  CCLCMsg_Move\n  CCLCMsg_ClientInfo\n--- CSVCMsg (40) ---\n  CSVCMsg_PacketEntities\n  CSVCMsg_FlattenedSerializer\n  CSVCMsg_GameEventList",
-    "codeSnippet": "proto_patterns = [b'CNETMsg_', b'CCLCMsg_', b'CSVCMsg_']\nfor pat in proto_patterns:\n    for match in find_all(data, pat):\n        msg_name = read_null_terminated(match)"
+    "codeSnippet": "proto_patterns = [b'CNETMsg_', b'CCLCMsg_', b'CSVCMsg_']\nfor pat in proto_patterns:\n    for match in find_all(data, pat):\n        msg_name = read_null_terminated(match)",
+    "paths": [
+      "tools/dump_net_messages.py"
+    ],
+    "path": "tools/dump_net_messages.py"
   },
   {
     "id": "dump_fp_ops",
@@ -3650,7 +3682,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Source 2 entity delta updates do not send property names or field IDs over the wire; they traverse the property tree using a 40-op Huffman code table at 0x180272420. This utility extracts each operation name (PlusOne, PushOne, PopOnePlusOne...), function pointer, pre-weight, and post-weight.",
     "usage": "python tools/dump_fp_ops.py",
     "exampleOutput": "FieldPath Operations Array (stride = 16 bytes):\n[ 0] name='PlusOne                               ' (0x1802140A0) | post:  0,  0\n[ 1] name='PlusTwo                               ' (0x1802140A8) | post:  1,  0\n[ 5] name='PushOneLeftDeltaZeroRightZero         ' (0x1802140D8) | post:  5,  0\n[27] name='PopOnePlusOne                         ' (0x180214360) | post: 27,  0\n[39] name='FieldPathEncodeFinish                 ' (0x180214470) | post: 39,  0",
-    "codeSnippet": "fp_ops_va = 0x180272420\nfor i in range(40):\n    name_va = read_qword(va_to_off(fp_ops_va + i * 16))\n    name = read_str(name_va)"
+    "codeSnippet": "fp_ops_va = 0x180272420\nfor i in range(40):\n    name_va = read_qword(va_to_off(fp_ops_va + i * 16))\n    name = read_str(name_va)",
+    "paths": [
+      "tools/dump_fp_ops.py"
+    ],
+    "path": "tools/dump_fp_ops.py"
   },
   {
     "id": "explore_camera_pipeline",
@@ -3664,7 +3700,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Analyzes the mathematical conversion from Euler view angles to Forward/Right/Up basis vectors (AngleVectors at FUN_1817402a0). Extracts the 0.017453292 rad constant, the 2.0x recoil punch multiplier in AimPunchServices (+0x1598), and the active 4x4 VMatrix memory buffer at 0x18256ad00.",
     "usage": "python tools/explore_camera_pipeline.py",
     "exampleOutput": "AngleVectors signature located at 0x1817402a0\nFound float constant 0.017453292519943295 (deg-to-rad)\nLocated 2.0x weapon aim punch multiplier in SetUpView\nVMatrix global array mapped at VA 0x18256ad00",
-    "codeSnippet": "# Searches for radians constant 0x3c8efa35 (0.017453292f)\nrad_pattern = struct.pack('<f', 0.0174532925f)\noff = data.find(rad_pattern)"
+    "codeSnippet": "# Searches for radians constant 0x3c8efa35 (0.017453292f)\nrad_pattern = struct.pack('<f', 0.0174532925f)\noff = data.find(rad_pattern)",
+    "paths": [
+      "tools/explore_camera_pipeline.py"
+    ],
+    "path": "tools/explore_camera_pipeline.py"
   },
   {
     "id": "find_animation_classes",
@@ -3679,7 +3719,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Disassembles CSkeletonInstance (vtable 0x181c41ce0), CalculateWorldBones (FUN_180aa0f80), CTransform concatenation (FUN_181748480), and CTwoBoneIKPoseOperation (vtable 0x180689268). Extracts procedural hitbox bounds (CHitBox, CHitBoxSet) and Law of Cosines IK formulas.",
     "usage": "python tools/find_animation_classes.py",
     "exampleOutput": "CSkeletonInstance VTable: 0x181c41ce0\nCalculateWorldBones: 0x180aa0f80\nCTwoBoneIKPoseOperation VTable: 0x180689268\nTwo-Bone IK Law of Cosines Solver: 0x1802f9750\nCHitBox Descriptor: 0x18081d840 (Size: 112 bytes)",
-    "codeSnippet": "print(f'Checking Law of Cosines analytical solver...')\n# Verifies FUN_1802f9750 math: cos(alpha) = (L1^2 + d^2 - L2^2) / (2 * L1 * d)"
+    "codeSnippet": "print(f'Checking Law of Cosines analytical solver...')\n# Verifies FUN_1802f9750 math: cos(alpha) = (L1^2 + d^2 - L2^2) / (2 * L1 * d)",
+    "paths": [
+      "tools/find_animation_classes.py"
+    ],
+    "path": "tools/find_animation_classes.py"
   },
   {
     "id": "inspect_vphysics2_rubikon",
@@ -3693,7 +3737,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Inspects Valve's proprietary Rubikon physics engine. Resolves RTTI Complete Object Locators and VTables for IVPhysics2 (0x1803fbf50), IVPhysics2World (0x1803f9b20), and CRnShape hierarchies. Extracts the 118 schema classes in physicslib (RnHull_t, RnCapsule_t, RnCompoundTree_t) and locates exact decompilation addresses for polyhedral ray clipping and GJK support mapping.",
     "usage": "python tools/inspect_vphysics2_rubikon.py --dll \"game/bin/win64/vphysics2.dll\"",
     "exampleOutput": "[1] Resolving 24 Rubikon RTTI Descriptors & VTables:\n[*] Class: CVPhysics2Interface              | COL: 0x180407D20 | VTable: 0x1803FBF50 (80 slots)\n[*] Class: CVPhys2World                     | COL: 0x180405468 | VTable: 0x1803F9B20 (80 slots)\n[*] Class: CRnHullShape                     | COL: 0x180400FA0 | VTable: 0x1803E1140 (33 slots)\n[*] Class: CRnCapsuleShape                  | COL: 0x180400F20 | VTable: 0x1803E1030 (33 slots)\n[*] Class: CTraceAABB                       | COL: 0x1804021F0 | VTable: 0x1803E3128\n[2] Extracting Key Schema Registration Tables (physicslib):\n   Schema Registration Table at VA 0x1803DADB0 (118 declared classes)\n   -> [ 1] RnCapsule_t                  Size: 0x001C ( 28b) | Fields: 2\n   -> [82] RnHull_t                     Size: 0x00F8 (248b) | Fields: 15",
-    "codeSnippet": "def off_to_rva(off):\n    for s in sections:\n        if s['roff'] <= off < s['roff'] + s['rsize']:\n            return s['rva'] + (off - s['roff'])\n    return 0"
+    "codeSnippet": "def off_to_rva(off):\n    for s in sections:\n        if s['roff'] <= off < s['roff'] + s['rsize']:\n            return s['rva'] + (off - s['roff'])\n    return 0",
+    "paths": [
+      "tools/inspect_vphysics2_rubikon.py"
+    ],
+    "path": "tools/inspect_vphysics2_rubikon.py"
   },
   {
     "id": "fast_scan",
@@ -3707,7 +3755,12 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Searches gigabytes of game binaries in milliseconds. Uses Windows memory-mapped files (CreateFileMapping) and SIMD bitwise scanning to locate byte patterns, RTTI descriptors, interface names, and instruction signatures without Python overhead.",
     "usage": "tools\\run_fast_scan.bat",
     "exampleOutput": "Compiling fast_scan.cpp with MSVC x64 /O2...\nScanning 24 binaries across CS2 installation...\nScanned 142.8 MB in 18.4 ms (7,760 MB/s)\nMatches found: 42 RTTI descriptors, 18 VTables, 68 NetMessages",
-    "codeSnippet": "HANDLE hFile = CreateFileA(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);\nHANDLE hMap = CreateFileMappingA(hFile, NULL, PAGE_READONLY, 0, 0, NULL);\nconst uint8_t* pData = (const uint8_t*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);"
+    "codeSnippet": "HANDLE hFile = CreateFileA(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);\nHANDLE hMap = CreateFileMappingA(hFile, NULL, PAGE_READONLY, 0, 0, NULL);\nconst uint8_t* pData = (const uint8_t*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);",
+    "paths": [
+      "tools/fast_scan.cpp",
+      "tools/run_fast_scan.bat"
+    ],
+    "path": "tools/fast_scan.cpp"
   },
   {
     "id": "generate_portal_data",
@@ -3721,7 +3774,12 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Automates the continuous deployment pipeline for GitHub Pages. Reads all markdown documentation files, embeds standalone C++ simulator source code, formats all 24 binary profiles, and exports docs/docs-data.js and docs/portal-data.js for zero-latency client-side browsing.",
     "usage": "python tools/generate_portal_data.py && python tools/generate_docs_bundle.py",
     "exampleOutput": "Bundled 10 documentation files into docs/docs-data.js (111,070 bytes)\nExporting 24 binary profiles, 9 simulator suites, and 14 tools into docs/portal-data.js (248,312 bytes)\nBuild pipeline complete!",
-    "codeSnippet": "with open(out_file, 'w', encoding='utf-8') as f:\n    f.write('window.CS2_TOOLS_DATA = ' + json.dumps(TOOLS_DATA, indent=2) + ';\\n')"
+    "codeSnippet": "with open(out_file, 'w', encoding='utf-8') as f:\n    f.write('window.CS2_TOOLS_DATA = ' + json.dumps(TOOLS_DATA, indent=2) + ';\\n')",
+    "paths": [
+      "tools/generate_portal_data.py",
+      "tools/generate_docs_bundle.py"
+    ],
+    "path": "tools/generate_portal_data.py"
   },
   {
     "id": "cs2_patch_diff",
@@ -3735,7 +3793,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Provides deep static binary diffing between CS2 updates far beyond SteamDB. When Valve releases a new patch, this engine archives the binaries, extracts 2,200+ schema classes, tracks exact byte offset shifts (+/- bytes), detects newly introduced cvars and CreateInterface exports, and generates comprehensive markdown reports.",
     "usage": "python tools/cs2_patch_diff.py archive --source \"<PATH>\" --tag \"2026-10-15_25966348\" --build-id \"25966348\"\npython tools/cs2_patch_diff.py diff <old_tag> <new_tag>",
     "exampleOutput": "[*] Diffing Source 2 Updates: 2026-10-15_25966348 vs 2026-10-22_26011420\n[+] Modified Binaries: 4 (client.dll, server.dll, particles.dll, engine2.dll)\n[+] Schema Classes Modified: 12\n[+] Field Offset Shifts: 38 (e.g. CCSPlayerController::m_hPlayerPawn +0x07dc -> +0x07e0 (+4b))\n[+] ConVars Added: +6 (cl_predict_subtick_interp, sv_smoke_density_threshold...)\n[+] Generated diffs/diff_25966348_vs_26011420.md",
-    "codeSnippet": "def diff_profiles(old_profile_dir, new_profile_dir):\n    # Compares schemas, shifted offsets, cvars, and interfaces\n    for cname, new_cls in new_schemas.items():\n        shift = nf['offset'] - of['offset']"
+    "codeSnippet": "def diff_profiles(old_profile_dir, new_profile_dir):\n    # Compares schemas, shifted offsets, cvars, and interfaces\n    for cname, new_cls in new_schemas.items():\n        shift = nf['offset'] - of['offset']",
+    "paths": [
+      "tools/cs2_patch_diff.py"
+    ],
+    "path": "tools/cs2_patch_diff.py"
   },
   {
     "id": "scan_signatures",
@@ -3749,7 +3811,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Locates stripped and internal functions across CS2 binaries (AngleVectors, CalculateWorldBones, LineOfSightThroughSmoke, Pulse dispatch loop, etc.) without symbols. Verifies pattern uniqueness (1 match), computes exact RVAs and deltas (+/- bytes), and dynamically updates function_signatures.json via --update-db on every new game build.",
     "usage": "python tools/scan_signatures.py --dir versions/archive/2026-10-25_26144732 --update-db\npython tools/scan_signatures.py --diff <old_dir> <new_dir>",
     "exampleOutput": "SOURCE 2 FUNCTION SIGNATURE & OFFSET VERIFICATION REPORT\nclient.dll         | AngleVectors        | [PASS] | 0x017402a0 | 0x17402a0 | +0x0 | 1\nclient.dll         | CalculateWorldBones | [PASS] | 0x00aa0f80 | 0x0aa0f80 | +0x0 | 1\nserver.dll         | LineOfSightThroughSmoke | [PASS] | 0x009b7f50 | 0x09b7f50 | +0x0 | 1\npulse_system.dll   | PulseInstructionDispatchLoop | [PASS] | 0x0008f810 | 0x008f810 | +0x0 | 1\nTotal: 21 | Unchanged: 21 | Shifted: 0 | Broken: 0",
-    "codeSnippet": "regex = pattern_to_regex(sig['pattern'])\nmatches = [m.start() for m in regex.finditer(pe.data)]\nassert len(matches) == 1 # Validates unique function signature"
+    "codeSnippet": "regex = pattern_to_regex(sig['pattern'])\nmatches = [m.start() for m in regex.finditer(pe.data)]\nassert len(matches) == 1 # Validates unique function signature",
+    "paths": [
+      "tools/scan_signatures.py"
+    ],
+    "path": "tools/scan_signatures.py"
   },
   {
     "id": "find_smoke_classes",
@@ -3764,7 +3830,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Extracts CSmokeGrenadeProjectile and CParticleProperty schema reflection tables. Locates the double-buffered 512-word uint64 voxel occupancy bitmasks, bullet tunnel carving routines (FUN_1809cb810), and line-of-sight raymarching density thresholds.",
     "usage": "python tools/find_smoke_classes.py",
     "exampleOutput": "Found 12 Smoke & Voxel Classes in server.dll\n  CSmokeGrenadeProjectile (Size: 0x1180, Fields: 42)\n    +0x0df8: m_bSmokeVolumeCreated (bool)\n    +0x0e00: m_vSmokeColor (Vector3)\n  Voxel occupancy grid: 32x32x32 = 32,768 cells (512 QWORDs)",
-    "codeSnippet": "def part1_by_2(n):\n    n &= 0x000003ff\n    n = (n ^ (n << 16)) & 0xff0000ff\n    n = (n ^ (n <<  8)) & 0x0300f00f\n    n = (n ^ (n <<  4)) & 0x030c30c3\n    n = (n ^ (n <<  2)) & 0x09249249\n    return n"
+    "codeSnippet": "def part1_by_2(n):\n    n &= 0x000003ff\n    n = (n ^ (n << 16)) & 0xff0000ff\n    n = (n ^ (n <<  8)) & 0x0300f00f\n    n = (n ^ (n <<  4)) & 0x030c30c3\n    n = (n ^ (n <<  2)) & 0x09249249\n    return n",
+    "paths": [
+      "tools/find_smoke_classes.py"
+    ],
+    "path": "tools/find_smoke_classes.py"
   },
   {
     "id": "find_lag_comp",
@@ -3778,7 +3848,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Locates CLagCompensationManager (FUN_18084a920) and CHitboxHistoryRecord allocations. Extracts the 64-tick circular history buffer, bone matrix interpolation formulas, and raycast hitbox rewinding logic used during authoritative bullet hit registration.",
     "usage": "python tools/find_lag_comp.py",
     "exampleOutput": "Scanning server.dll for CLagCompensationManager...\n  VTable: 0x180bb2940 (24 slots)\n  Record size: 0x0380 bytes per player tick\n  History buffer: 64 entries (1.000s window at 64Hz)",
-    "codeSnippet": "def get_lerp_time(cl_interp, cl_updaterate):\n    return max(cl_interp, 1.0 / cl_updaterate)"
+    "codeSnippet": "def get_lerp_time(cl_interp, cl_updaterate):\n    return max(cl_interp, 1.0 / cl_updaterate)",
+    "paths": [
+      "tools/find_lag_comp.py"
+    ],
+    "path": "tools/find_lag_comp.py"
   },
   {
     "id": "dump_game_events_proto",
@@ -3792,7 +3866,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Parses compiled Google Protobuf FileDescriptorProto structures embedded in networksystem.dll .rdata to extract event declaration wire tags, field numbers, and serialization schemas for multiplayer killfeed, round start, and bomb events.",
     "usage": "python tools/dump_game_events_proto.py",
     "exampleOutput": "Extracted GameEvents Protobuf Descriptors:\n  CSVCMsg_GameEventList (wire tag: 0x1e / 30)\n  CSVCMsgList_GameEvents (wire tag: 0x22 / 34)\n  Fields: descriptor_keys, event_data, passthrough_tags",
-    "codeSnippet": "with open('networksystem.dll', 'rb') as f:\n    pos = data.find(b'CSVCMsg_GameEventList')"
+    "codeSnippet": "with open('networksystem.dll', 'rb') as f:\n    pos = data.find(b'CSVCMsg_GameEventList')",
+    "paths": [
+      "tools/dump_game_events_proto.py"
+    ],
+    "path": "tools/dump_game_events_proto.py"
   },
   {
     "id": "dump_usercmd_proto",
@@ -3806,7 +3884,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Maps the sub-tick input serialization wire layout: legacy command number, input history protobuf array, and fractional sub-tick step timestamps (when: 0.0f..1.0f).",
     "usage": "python tools/dump_usercmd_proto.py",
     "exampleOutput": "CSGOUserCmdPB Wire Descriptors:\n  Tag 1: legacy_command_number (uint32)\n  Tag 2: client_tick (uint32)\n  Tag 3: subtick_moves (repeated CSubtickMoveStep)\n  Tag 4: input_history (repeated CSGOInputHistoryEntryPB)",
-    "codeSnippet": "pos = data.find(b'CSGOUserCmdPB')"
+    "codeSnippet": "pos = data.find(b'CSGOUserCmdPB')",
+    "paths": [
+      "tools/dump_usercmd_proto.py"
+    ],
+    "path": "tools/dump_usercmd_proto.py"
   },
   {
     "id": "dump_setconvar_proto",
@@ -3820,7 +3902,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Decodes the client-server replicated ConVar wire format (ID 0x06 / 6) carrying name-value pairs across the network boundary.",
     "usage": "python tools/dump_setconvar_proto.py",
     "exampleOutput": "CNETMsg_SetConVar Wire Descriptors:\n  Tag 1: convars (CMsg_CVars)\n  CMsg_CVars.CVar:\n    Tag 1: name (string)\n    Tag 2: value (string)",
-    "codeSnippet": "pos = data.find(b'CNETMsg_SetConVar')"
+    "codeSnippet": "pos = data.find(b'CNETMsg_SetConVar')",
+    "paths": [
+      "tools/dump_setconvar_proto.py"
+    ],
+    "path": "tools/dump_setconvar_proto.py"
   },
   {
     "id": "find_cvar_flags",
@@ -3835,7 +3921,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Locates bitwise flag checks guarding FCVAR_REPLICATED (Bit 13 / 0x2000), FCVAR_CHEAT (Bit 14 / 0x4000), and FCVAR_DEVELOPMENTONLY in CCvar::RegisterConVar.",
     "usage": "python tools/find_cvar_flags.py",
     "exampleOutput": "Scanning tier0.dll for ConVar flag security bitmasks...\n  Found FCVAR_REPLICATED mask at 0x1800825e0\n  Found FCVAR_CHEAT gate at 0x180083110",
-    "codeSnippet": "FCVAR_REPLICATED = 1 << 13\nFCVAR_CHEAT = 1 << 14\nFCVAR_PROTECTED = 1 << 5"
+    "codeSnippet": "FCVAR_REPLICATED = 1 << 13\nFCVAR_CHEAT = 1 << 14\nFCVAR_PROTECTED = 1 << 5",
+    "paths": [
+      "tools/find_cvar_flags.py"
+    ],
+    "path": "tools/find_cvar_flags.py"
   },
   {
     "id": "enrich_signatures",
@@ -3849,7 +3939,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Reads data/function_signatures.json and injects structured decompilation blocks and architecture references for web portal rendering.",
     "usage": "python tools/enrich_signatures.py",
     "exampleOutput": "Enriched 21 signatures with C++ snippets and verification docs.",
-    "codeSnippet": "with open('data/function_signatures.json', 'r') as f:\n    sigs = json.load(f)"
+    "codeSnippet": "with open('data/function_signatures.json', 'r') as f:\n    sigs = json.load(f)",
+    "paths": [
+      "tools/enrich_signatures.py"
+    ],
+    "path": "tools/enrich_signatures.py"
   },
   {
     "id": "export_source2_ghidra_headers",
@@ -3866,7 +3960,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Transmutes raw extracted JSON schema tables into C struct definitions with explicit byte-aligned padding (uint8_t _pad_0x[N]), deduced member types (Vector, QAngle, CEntityHandle, pointers, floats, booleans), and verified total class byte allocations. Allows researchers to import 2,000+ typed structures into any Ghidra project in 2 seconds via File -> Parse C Source.",
     "usage": "python tools/export_source2_ghidra_headers.py versions/profiles/2026-10-25_26144732/schemas.json data/source2_types.h",
     "exampleOutput": "[+] Successfully exported 2276 classes to data/source2_types.h (1,189,283 bytes)",
-    "codeSnippet": "def generate_headers(schemas_path, out_path, module_filter=None):\n    with open(schemas_path, 'r', encoding='utf-8') as f:\n        schemas = json.load(f)\n    # Generates C structs with uint8_t _pad_0x[N] padding"
+    "codeSnippet": "def generate_headers(schemas_path, out_path, module_filter=None):\n    with open(schemas_path, 'r', encoding='utf-8') as f:\n        schemas = json.load(f)\n    # Generates C structs with uint8_t _pad_0x[N] padding",
+    "paths": [
+      "tools/export_source2_ghidra_headers.py"
+    ],
+    "path": "tools/export_source2_ghidra_headers.py"
   },
   {
     "id": "source2_schema_importer",
@@ -3882,7 +3980,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Ingests schemas.json through Gson reflection directly into the active Ghidra program's DataTypeManager. Resolves Hungarian type conventions into Ghidra base types (Vector, QAngle, CEntityHandle, pointers) and populates every field via struct.replaceAtOffset(). Organizes structures into /Source2/<binary> categories, instantly turning raw pointer decompiler math (*(int*)(param_1 + 0x15a8)) into high-level field accesses (param_1->m_flHealthShotBoostExpirationTime).",
     "usage": "Ghidra Script Manager: Source2 -> Source2_SchemaImporter.java (or via MCP run_ghidra_script)",
     "exampleOutput": "[*] Target Program: client.dll\n[*] Total schema definitions parsed: 2276\n[+] SUCCESS: Created 183 classes with 2055 typed fields in /Source2/client.dll",
-    "codeSnippet": "StructureDataType struct = new StructureDataType(progCat, className, classSize, dtm);\nstruct.replaceAtOffset(offset, fType, fSize, fieldName, comment);\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER);"
+    "codeSnippet": "StructureDataType struct = new StructureDataType(progCat, className, classSize, dtm);\nstruct.replaceAtOffset(offset, fType, fSize, fieldName, comment);\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER);",
+    "paths": [
+      "tools/ghidra/Source2_SchemaImporter.java"
+    ],
+    "path": "tools/ghidra/Source2_SchemaImporter.java"
   },
   {
     "id": "source2_base_types",
@@ -3897,7 +3999,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Pre-defines core Source 2 types with exact memory alignments: Vector (12B), Vector2D (8B), Vector4D (16B), QAngle (12B), Quaternion (16B), CTransform (32B SIMD aligned), CEntityHandle (4B bitfield: index & 0x7FFF, serial >> 15), CUtlString (8B), CUtlSymbolLarge (8B), CUtlStringToken (4B), and CUtlVector_void (16B).",
     "usage": "Ghidra Script Manager: Source2 -> Source2_BaseTypes.java",
     "exampleOutput": "[+] Successfully registered 11 Source 2 base types in /Source2/BaseTypes",
-    "codeSnippet": "StructureDataType transform = new StructureDataType(cat, \"CTransform\", 32, dtm);\ntransform.replaceAtOffset(0, quat, 16, \"rot\", \"Rodrigues rotation quaternion\");\ntransform.replaceAtOffset(16, vec, 12, \"pos\", \"Translation world position\");\ndtm.addDataType(transform, DataTypeConflictHandler.REPLACE_HANDLER);"
+    "codeSnippet": "StructureDataType transform = new StructureDataType(cat, \"CTransform\", 32, dtm);\ntransform.replaceAtOffset(0, quat, 16, \"rot\", \"Rodrigues rotation quaternion\");\ntransform.replaceAtOffset(16, vec, 12, \"pos\", \"Translation world position\");\ndtm.addDataType(transform, DataTypeConflictHandler.REPLACE_HANDLER);",
+    "paths": [
+      "tools/ghidra/Source2_BaseTypes.java"
+    ],
+    "path": "tools/ghidra/Source2_BaseTypes.java"
   },
   {
     "id": "generate_game_interfaces",
@@ -3913,7 +4019,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Parses data/vtables.json and data/function_signatures.json to synthesize pure virtual abstract C++20 class headers in game/interfaces/ (INetworkServerService, INetworkClientService, ISource2Server, ISource2Client, IEngineCVar, ISchemaSystem, IMemAlloc, IInputSystem, IFileSystem, ITraceManager). Guarantees exact virtual function slot index alignment matching the MSVC x64 ABI layout.",
     "usage": "python tools/generate_game_interfaces.py",
     "exampleOutput": "=================================================================\n SOURCE 2 C++20 INTERFACE GENERATOR\n=================================================================\nLoaded 13,365 VTables from data/vtables.json\nGenerating interfaces for 10 canonical classes...\n  [+] Generated game/interfaces/network_server_service.h (51 slots)\n  [+] Generated game/interfaces/network_client_service.h (64 slots)\n  [+] Generated game/interfaces/source2_server.h (103 slots)\n  [+] Generated game/interfaces/source2_client.h (211 slots)\n  [+] Generated game/interfaces/cvar.h (46 slots)\n  [+] Generated game/interfaces/schema_interface.h (40 slots)\n  [+] Generated game/interfaces/memalloc.h (40 slots)\n  [+] Generated game/interfaces/input_system.h (106 slots)\n  [+] Generated game/interfaces/file_system.h (128 slots)\n  [+] Generated game/interfaces/trace_manager.h (6 slots)\n  [+] Updated game/interfaces/interfaces.h master registry\nAll 10 interface headers generated successfully!",
-    "codeSnippet": "def generate_interface(class_name, token, binary, target_header, total_slots, known_slots):\n    lines = ['#pragma once', '#include \"interfaces.h\"', 'namespace cs2::interfaces {', f'class {class_name} {\\npublic:\\n    virtual ~{class_name}() = default;']\n    for i in range(1, total_slots):\n        if i in known_slots:\n            lines.append(f'    virtual {known_slots[i][0]} {known_slots[i][1]} = 0; // slot {i}')\n        else:\n            lines.append(f'    virtual void Unk{i:02d}() = 0; // slot {i}')"
+    "codeSnippet": "def generate_interface(class_name, token, binary, target_header, total_slots, known_slots):\n    lines = ['#pragma once', '#include \"interfaces.h\"', 'namespace cs2::interfaces {', f'class {class_name} {\\npublic:\\n    virtual ~{class_name}() = default;']\n    for i in range(1, total_slots):\n        if i in known_slots:\n            lines.append(f'    virtual {known_slots[i][0]} {known_slots[i][1]} = 0; // slot {i}')\n        else:\n            lines.append(f'    virtual void Unk{i:02d}() = 0; // slot {i}')",
+    "paths": [
+      "tools/generate_game_interfaces.py"
+    ],
+    "path": "tools/generate_game_interfaces.py"
   },
   {
     "id": "generate_schema_classes",
@@ -3928,7 +4038,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Parses extracted schemas.json profiles (2,276 classes) to synthesize modern C++20 entity headers (C_CSPlayerPawn, CCSPlayerController, C_BaseEntity, C_SmokeGrenadeProjectile, C_PlantedC4). Resolves inheritance hierarchies, bit offsets, Hungarian type descriptors, and equips every property with lvalue-reference accessors (SCHEMA_FIELD) for safe zero-overhead memory inspection.",
     "usage": "python tools/generate_schema_classes.py --schemas versions/profiles/2026-11-11_26598758/schemas.json",
     "exampleOutput": "=================================================================\n SOURCE 2 C++20 SCHEMA CLASS GENERATOR\n=================================================================\nLoaded 2,276 classes from schemas.json\nGenerating C++20 classes for core entities...\n  [+] Generated game/shared/schema_classes/C_BaseEntity.h\n  [+] Generated game/shared/schema_classes/C_CSPlayerPawn.h\n  [+] Generated game/shared/schema_classes/CCSPlayerController.h\n  [+] Generated game/shared/schema_classes/C_SmokeGrenadeProjectile.h\n  [+] Generated game/shared/schema_classes/C_PlantedC4.h\n  [+] Generated game/shared/schema_classes/schema_classes.h master header\nSuccessfully generated schema entity classes!",
-    "codeSnippet": "#define SCHEMA_FIELD(type, name, offset) \\\n    [[nodiscard]] std::add_lvalue_reference_t<type> name() noexcept { \\\n        return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \\\n    }"
+    "codeSnippet": "#define SCHEMA_FIELD(type, name, offset) \\\n    [[nodiscard]] std::add_lvalue_reference_t<type> name() noexcept { \\\n        return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \\\n    }",
+    "paths": [
+      "tools/generate_schema_classes.py"
+    ],
+    "path": "tools/generate_schema_classes.py"
   },
   {
     "id": "resolve_vtables",
@@ -3943,7 +4057,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Scans .rdata sections across PE binaries for MSVC x64 _RTTICompleteObjectLocator descriptors, demangles class hierarchies, extracts consecutive 64-bit function pointers pointing to executable .text code, and correlates slot indices against AlliedModders s2sdk interfaces. Runs at >2,000 vtables/second offline or headlessly drives Ghidra via Source2_VTableResolver.java.",
     "usage": "python tools/ghidra/resolve_vtables.py --output data/vtables.json",
     "exampleOutput": "Scanning 10 core binaries for Source 2 VTables...\nclient.dll: 4,120 vtables found\nserver.dll: 3,890 vtables found\nengine2.dll: 1,450 vtables found\nTotal VTables Resolved: 13,365 (101 canonical slots mapped)",
-    "codeSnippet": "for off in range(0, len(rdata) - 8, 8):\n    fn_ptr = struct.unpack_from('<Q', rdata, off)[0]\n    if is_executable_text(fn_ptr):\n        vtable_methods.append(fn_ptr)"
+    "codeSnippet": "for off in range(0, len(rdata) - 8, 8):\n    fn_ptr = struct.unpack_from('<Q', rdata, off)[0]\n    if is_executable_text(fn_ptr):\n        vtable_methods.append(fn_ptr)",
+    "paths": [
+      "tools/ghidra/resolve_vtables.py"
+    ],
+    "path": "tools/ghidra/resolve_vtables.py"
   },
   {
     "id": "port_signatures_to_ghidra",
@@ -3958,7 +4076,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Bridges the data/function_signatures.json registry with Ghidra. Dispatches analyzeHeadless across all binaries in the project, running Source2_PortSignatures.java to resolve ImageBase + current_rva, rename functions with proper C++ namespaces, disassemble missing instructions, and create bookmarks under category 'CS2 Canonical Signature'.",
     "usage": "python tools/ghidra/port_signatures_to_ghidra.py --project-dir <CS2_DIR> --project-name CS2",
     "exampleOutput": "Processing server.dll (14 signatures)...\n  [+] Renamed FUN_180a90280 -> EvaluateBulletPenetration\n  [+] Renamed FUN_180ed27d0 -> CLagCompensationManager::StartLagCompensation\n  [+] Bookmarked 14 canonical signatures under 'CS2 Canonical Signature'\nFinished porting across 34 binaries.",
-    "codeSnippet": "proc = subprocess.run([analyze_bat, project_dir, project_name, '-process', bin_name, '-noanalysis', '-postScript', 'Source2_PortSignatures.java', str(sigs_path)])"
+    "codeSnippet": "proc = subprocess.run([analyze_bat, project_dir, project_name, '-process', bin_name, '-noanalysis', '-postScript', 'Source2_PortSignatures.java', str(sigs_path)])",
+    "paths": [
+      "tools/ghidra/port_signatures_to_ghidra.py"
+    ],
+    "path": "tools/ghidra/port_signatures_to_ghidra.py"
   },
   {
     "id": "sync_live_ghidra",
@@ -3974,7 +4096,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Connects to active Ghidra GUI or headless server via the GhidraMCP HTTP REST bridge. Bypasses exclusive analyzeHeadless project locks (CS2.lock) to programmatically open target binaries, create and rename functions, apply Plate comments, and set bookmarks under 'CS2 Canonical Signature' across all update binaries in real time.",
     "usage": "python tools/ghidra/sync_live_ghidra.py --port 8089 --version-folder /2026-11-11_26598758",
     "exampleOutput": "[+] Connected to GhidraMCP: Connected with program 'server.dll'\n[*] Opening /2026-11-11_26598758/server.dll (12 signatures)...\n  [+] Synced server.dll: 12 functions created/renamed, 12 bookmarked\n  [+] Saved server.dll successfully\nAll 11 target binaries synced in 5.8s!",
-    "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nclient.open_program(f'{folder}/{binary_name}')\nclient.create_function(clean_va, name)\nclient.set_bookmark(clean_va, 'CS2 Canonical Signature', comment)\nclient.save_program(binary_name)"
+    "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nclient.open_program(f'{folder}/{binary_name}')\nclient.create_function(clean_va, name)\nclient.set_bookmark(clean_va, 'CS2 Canonical Signature', comment)\nclient.save_program(binary_name)",
+    "paths": [
+      "tools/ghidra/sync_live_ghidra.py"
+    ],
+    "path": "tools/ghidra/sync_live_ghidra.py"
   },
   {
     "id": "label_live_vtables",
@@ -3990,7 +4116,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Connects to running Ghidra instances via the GhidraMCP REST API to annotate stripped virtual method tables across 8 core binaries (client.dll, server.dll, engine2.dll, schemasystem.dll, vphysics2.dll, networksystem.dll, inputsystem.dll, tier0.dll). Ingests tools/interfaces_with_vtables.json and data/vtables.json, reads 64-bit function pointer arrays from active memory, dereferences slot targets, labels symbols formatted as <InterfaceName>::<MethodName> (e.g. ISource2Client::FrameStageNotify, ISchemaSystem::FindTypeScopeForModule), tags bookmarks under 'Source2 VTable Method', and commits modifications.",
     "usage": "python tools/ghidra/label_live_vtables.py --port 8089 --version-folder /2026-11-11_26598758",
     "exampleOutput": "[+] Connected to GhidraMCP: Connected with program 'client.dll'\n[*] Processing binary client.dll (4 core interfaces)...\n  [+] ISource2Client: Resolved 16 methods\n  [+] Saved client.dll successfully (29 methods labeled, 29 bookmarks)\nAll 8 core binaries labeled (185 methods, 189 bookmarks)!",
-    "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nraw_bytes = client.read_memory(vtable_va, num_slots * 8, program=binary_name)\nptrs = struct.unpack(f'<{len(raw_bytes)//8}Q', raw_bytes)\nfor slot, ptr in enumerate(ptrs):\n    client.rename_function_by_address(f'0x{ptr:x}', f'{iface_name}::{method_name}', program=binary_name)\n    client.set_bookmark(f'0x{ptr:x}', 'Source2 VTable Method', comment, program=binary_name)"
+    "codeSnippet": "client = GhidraClient(host='127.0.0.1', port=8089)\nraw_bytes = client.read_memory(vtable_va, num_slots * 8, program=binary_name)\nptrs = struct.unpack(f'<{len(raw_bytes)//8}Q', raw_bytes)\nfor slot, ptr in enumerate(ptrs):\n    client.rename_function_by_address(f'0x{ptr:x}', f'{iface_name}::{method_name}', program=binary_name)\n    client.set_bookmark(f'0x{ptr:x}', 'Source2 VTable Method', comment, program=binary_name)",
+    "paths": [
+      "tools/ghidra/label_live_vtables.py"
+    ],
+    "path": "tools/ghidra/label_live_vtables.py"
   },
   {
     "id": "import_sdk_types",
@@ -4006,7 +4136,12 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Headlessly feeds data/source2_types.h and reconstructed C++20 definitions from game/shared/schema_classes/ into Ghidra's DataTypeManager (/Source2/Classes and /Source2/BaseTypes). Resolves exact struct layouts, offsets, base classes, and typed pointers so Ghidra decompilation displays high-level member accesses (e.g. pawn->m_pGameSceneNode) instead of raw pointer offsets (*(int*)(param_1 + 0x34c)). Supports analyzeHeadless postScript batching, dry-run validation, and in-Ghidra GUI parsing.",
     "usage": "python tools/ghidra/import_sdk_types.py --project-dir <CS2_DIR> --project-name CS2\npython tools/ghidra/import_sdk_types.py --dry-run",
     "exampleOutput": "=================================================================\n CS2 HEADLESS SDK TYPE IMPORTER & C-PARSER PIPELINE\n=================================================================\n Source C Header:    data/source2_types.h (2,276 classes)\n C++20 Schemas Dir:  game/shared/schema_classes (20 classes)\n Merged SDK catalog: 2,276 total classes (207 fields upgraded)\n[*] Module: client.dll (183 classes to populate in /Source2/Classes)...\n  [+] Ingested 183 client schema classes into /Source2/Classes\n[+] Finished SDK type import across target binaries.",
-    "codeSnippet": "dtm = currentProgram.getDataTypeManager()\nstruct = StructureDataType(CategoryPath('/Source2/Classes'), cls_name, cls_size, dtm)\nstruct.replaceAtOffset(offset, field_type, field_size, field_name, comment)\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER)"
+    "codeSnippet": "dtm = currentProgram.getDataTypeManager()\nstruct = StructureDataType(CategoryPath('/Source2/Classes'), cls_name, cls_size, dtm)\nstruct.replaceAtOffset(offset, field_type, field_size, field_name, comment)\ndtm.addDataType(struct, DataTypeConflictHandler.REPLACE_HANDLER)",
+    "paths": [
+      "tools/ghidra/import_sdk_types.py",
+      "tools/ghidra/Source2_ImportSDKTypes.java"
+    ],
+    "path": "tools/ghidra/import_sdk_types.py"
   },
   {
     "id": "cs2_ghidra_toolkit",
@@ -4021,7 +4156,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Provides a single master interface to automate Ghidra analysis across CS2 binaries without project lock collisions. Orchestrates status diagnostics, DataTypeManager injection, C++ prototype syncing, MSVC RTTI discovery, and caller/callee cross-reference inspection.",
     "usage": "python tools/ghidra/cs2_ghidra_toolkit.py <command> [--binary <dll>] [--all]",
     "exampleOutput": "==========================================================================================\n  GHIDRA MCP BRIDGE STATUS REPORT\n==========================================================================================\n[+] Status: ONLINE (Connected with program 'vphysics2.dll')\n  Function Count: 6,568 | Symbol Count: 7,125 | Data Type Count: 301",
-    "codeSnippet": "client = GhidraClient(port=8089)\nclient.open_program(path)\ninject_types_into_binary(client, binary)\nsync_prototypes_for_binary(client, binary, sigs)\nscan_binary_rtti(client, binary, annotate=True)\nclient.save_program(binary)"
+    "codeSnippet": "client = GhidraClient(port=8089)\nclient.open_program(path)\ninject_types_into_binary(client, binary)\nsync_prototypes_for_binary(client, binary, sigs)\nscan_binary_rtti(client, binary, annotate=True)\nclient.save_program(binary)",
+    "paths": [
+      "tools/ghidra/cs2_ghidra_toolkit.py"
+    ],
+    "path": "tools/ghidra/cs2_ghidra_toolkit.py"
   },
   {
     "id": "inject_source2_types",
@@ -4036,7 +4175,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Injects Vector2D, Vector, Vector4D, QAngle, Quaternion, Matrix3x4_t, CTransform, CEntityIndex, CEntityHandle, CUtlStringToken, CUtlString, CUtlMemory, CUtlVector, Ray_t, and RaycastHit_t directly into Ghidra's DataTypeManager so disassembled code displays high-level member accesses instead of raw byte offsets.",
     "usage": "python tools/ghidra/inject_source2_types.py --all",
     "exampleOutput": "[+] Connected to Ghidra: Connected with program 'server.dll'\n[*] Executing Type Injection Script for server.dll...\n[+] Successfully injected types into server.dll!\n[+] Saved server.dll in Ghidra database.\nSource 2 Type Injection Complete: 11/11 binaries updated",
-    "codeSnippet": "StructureDataType vec3 = new StructureDataType(root, \"Vector\", 0);\nvec3.add(dtFloat, 4, \"x\", \"X coordinate\");\nvec3.add(dtFloat, 4, \"y\", \"Y coordinate\");\nvec3.add(dtFloat, 4, \"z\", \"Z coordinate\");\ndtm.addDataType(vec3, DataTypeConflictHandler.REPLACE_HANDLER);"
+    "codeSnippet": "StructureDataType vec3 = new StructureDataType(root, \"Vector\", 0);\nvec3.add(dtFloat, 4, \"x\", \"X coordinate\");\nvec3.add(dtFloat, 4, \"y\", \"Y coordinate\");\nvec3.add(dtFloat, 4, \"z\", \"Z coordinate\");\ndtm.addDataType(vec3, DataTypeConflictHandler.REPLACE_HANDLER);",
+    "paths": [
+      "tools/ghidra/inject_source2_types.py"
+    ],
+    "path": "tools/ghidra/inject_source2_types.py"
   },
   {
     "id": "sync_function_prototypes",
@@ -4051,7 +4194,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Replaces generic 'undefined8 FUN_180...()' signatures in Ghidra with accurate, typed C++ prototypes, argument types, return values, and calling conventions, converting low-level decompiler listings into clear C++ Source 2 code.",
     "usage": "python tools/ghidra/sync_function_prototypes.py --all",
     "exampleOutput": "[*] Target Binary: server.dll (15 signatures)\n  [+] CCSPlayerPawn::ApplyArmorDamageCalculation @ 0x180a81610 -> float ApplyArmorDamageCalculation(void* this, float flDamage, float flArmorRatio, int nHitGroup, bool* pbArmorAbsorbed) [__fastcall]\n  [+] CInferno::InfernoThink @ 0x180346090 -> void InfernoThink(void* this) [__fastcall]\n[+] Saved server.dll (15 prototypes applied)",
-    "codeSnippet": "payload = {'function_address': va, 'prototype': proto_str, 'calling_convention': conv_str}\nclient.post_json('/set_function_prototype', payload)"
+    "codeSnippet": "payload = {'function_address': va, 'prototype': proto_str, 'calling_convention': conv_str}\nclient.post_json('/set_function_prototype', payload)",
+    "paths": [
+      "tools/ghidra/sync_function_prototypes.py"
+    ],
+    "path": "tools/ghidra/sync_function_prototypes.py"
   },
   {
     "id": "scan_rtti_vtables",
@@ -4066,7 +4213,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Scans PE .rdata sections for 64-bit Complete Object Locators (signature == 1 && pSelf == RVA), demangles class names from TypeDescriptors, locates referencing VTables in O(1) via an inverted pointer index, counts executable code pointers, and creates user-defined symbols and bookmarks.",
     "usage": "python tools/ghidra/scan_rtti_vtables.py --binary server.dll --annotate",
     "exampleOutput": "MSVC x64 RTTI & VTABLE SCAN REPORT: server.dll\nTotal Polymorphic Classes Recovered: 300\n  CPointEntity: 0x18176c508 (238 slots)\n  IGameSystem: 0x18176c290 (65 slots)\n  CBaseClientUIEntity: 0x18176d2d8 (256 slots)\n[+] Classes with Valid VTables: 300 / 300",
-    "codeSnippet": "if (sig == 1 && pSelf == (int)expectedRva) {\n    vtableAddr = ptrMap.get(locAddr.getOffset()).get(0).add(8);\n    symTable.createLabel(vtableAddr, \"vftable_\" + className, SourceType.USER_DEFINED);\n}"
+    "codeSnippet": "if (sig == 1 && pSelf == (int)expectedRva) {\n    vtableAddr = ptrMap.get(locAddr.getOffset()).get(0).add(8);\n    symTable.createLabel(vtableAddr, \"vftable_\" + className, SourceType.USER_DEFINED);\n}",
+    "paths": [
+      "tools/ghidra/scan_rtti_vtables.py"
+    ],
+    "path": "tools/ghidra/scan_rtti_vtables.py"
   },
   {
     "id": "trace_xrefs",
@@ -4081,7 +4232,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Queries Ghidra's ReferenceManager and Function call graphs to expose incoming code references, outgoing callee lists, and string literal cross-references in formatted CLI tables or machine-readable JSON.",
     "usage": "python tools/ghidra/trace_xrefs.py --target ConvexPolyhedronRaycast\npython tools/ghidra/trace_xrefs.py --string \"Molotov extinguished\"",
     "exampleOutput": "==========================================================================================\n  TARGET: ConvexPolyhedronRaycast\n  Address: 0x1802544a0 | RVA: 0x2544a0\n==========================================================================================\n[+] Incoming Cross-References (1 found):\n  0x180580554 | 0x580554 | unassigned | DATA",
-    "codeSnippet": "ReferenceIterator refsTo = refMgr.getReferencesTo(targetAddr);\nwhile (refsTo.hasNext()) {\n    Reference ref = refsTo.next();\n    Function caller = getFunctionContaining(ref.getFromAddress());\n}"
+    "codeSnippet": "ReferenceIterator refsTo = refMgr.getReferencesTo(targetAddr);\nwhile (refsTo.hasNext()) {\n    Reference ref = refsTo.next();\n    Function caller = getFunctionContaining(ref.getFromAddress());\n}",
+    "paths": [
+      "tools/ghidra/trace_xrefs.py"
+    ],
+    "path": "tools/ghidra/trace_xrefs.py"
   },
   {
     "id": "generate_signature",
@@ -4096,7 +4251,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Given a target binary and RVA/VA, disassembles machine instructions, identifies invariant opcodes while masking RIP-relative offsets, immediate addresses, and dynamic relocations into '??' wildcards, and iteratively expands the byte pattern until it matches exactly 1 time across the entire binary.",
     "usage": "python tools/generate_signature.py --binary server.dll --rva 0x00ed27d0 --name CLagCompensationManager::StartLagCompensation",
     "exampleOutput": "Generating signature for server.dll @ RVA 0x00ed27d0...\nCandidate (16 bytes): 48 89 5c 24 08 48 89 6c 24 10 48 89 74 24 18 57 (Matches: 14)\nExpanded  (28 bytes): 48 89 5c 24 08 48 89 6c 24 10 48 89 74 24 18 57 48 83 ec 20 48 8b f9 e8 ?? ?? ?? ?? (Matches: 1)\n[+] UNIQUE SIGNATURE GENERATED: 100% uniqueness verified!",
-    "codeSnippet": "pattern = generate_masked_pattern(data, rva, min_len=16)\nwhile count_matches(data, pattern) > 1:\n    pattern = expand_pattern(data, pattern)"
+    "codeSnippet": "pattern = generate_masked_pattern(data, rva, min_len=16)\nwhile count_matches(data, pattern) > 1:\n    pattern = expand_pattern(data, pattern)",
+    "paths": [
+      "tools/generate_signature.py"
+    ],
+    "path": "tools/generate_signature.py"
   },
   {
     "id": "update_orchestrator",
@@ -4112,7 +4271,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Executes the authoritative Source 2 update protocol whenever Valve pushes a new build: archives binaries, diffs exports and PE geometry, scans all 43 function signatures with delta displacement calculation, regenerates profiles, and writes markdown release diff reports.",
     "usage": "python tools/update_orchestrator.py --target-build 2026-11-11_26598758",
     "exampleOutput": "=== Source 2 Game Update Ingestion Engine ===\nScanning 43 canonical signatures across 34 updated binaries...\n  [+] All 43 signatures successfully migrated! Zero broken signatures.\nGenerating markdown diff report in versions/diffs/2026-11-11_26598758.md...",
-    "codeSnippet": "def run_update_pipeline(build_tag):\n    run_patch_diff(build_tag)\n    run_signature_scan(build_tag, update_db=True)\n    run_portal_sync()"
+    "codeSnippet": "def run_update_pipeline(build_tag):\n    run_patch_diff(build_tag)\n    run_signature_scan(build_tag, update_db=True)\n    run_portal_sync()",
+    "paths": [
+      "tools/update_orchestrator.py"
+    ],
+    "path": "tools/update_orchestrator.py"
   },
   {
     "id": "diff_vtables",
@@ -4127,7 +4290,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Compares two vtables.json datasets across Source 2 game updates to detect virtual method additions, removals, slot count changes, and index displacement shifts. Emits structured warnings and markdown alerts if canonical interface slots (CEntityInstance, CEngineClient, CCvar, CSchemaSystem) have moved, ensuring C++20 interface headers stay ABI-synchronized.",
     "usage": "python tools/diff_vtables.py --old versions/archive/2026-10-25_26144732/vtables.json --new data/vtables.json --output-report report.md",
     "exampleOutput": "=================================================================\n VTABLE ABI DIFF ANALYSIS SUMMARY\n=================================================================\n  Binaries Audited:        client.dll, engine2.dll, server.dll, tier0.dll\n  Baseline Total VTables:  13,365\n  Target Total VTables:    13,365\n  Added VTables:           +0\n  Removed VTables:         -0\n  Modified VTables:        0\n  Canonical Slot Shifts:   0\n=================================================================",
-    "codeSnippet": "engine = VTableDiffEngine(old_data, new_data)\ndiff_res = engine.compute_diff(binary_filter=args.binary)\nreport_md = format_markdown_report(diff_res, args.old, args.new)"
+    "codeSnippet": "engine = VTableDiffEngine(old_data, new_data)\ndiff_res = engine.compute_diff(binary_filter=args.binary)\nreport_md = format_markdown_report(diff_res, args.old, args.new)",
+    "paths": [
+      "tools/diff_vtables.py"
+    ],
+    "path": "tools/diff_vtables.py"
   },
   {
     "id": "extract_protobuf_schemas",
@@ -4145,7 +4312,11 @@ window.CS2_TOOLS_DATA = [
     "purpose": "Locates compiled DescriptorTable and FileDescriptorProto/FileDescriptorSet structures across Source 2 binaries, parses the LEB128 varint wire streams with a version-resilient pure Python decoder, and reconstructs 42 canonical .proto definitions (cstrike15_usermessages.proto, cs_usercmd.proto, netmessages.proto, gameevents.proto, networkbasetypes.proto) into data/protobuf/ with an indexed manifest.json.",
     "usage": "python tools/extract_protobuf_schemas.py --archive versions/archive/2026-11-11_26598758 --outdir data/protobuf",
     "exampleOutput": "=================================================================\n SOURCE 2 PROTOBUF SCHEMA EXTRACTOR\n=================================================================\n[*] Scanning 33 binaries in: versions/archive/2026-11-11_26598758...\n  [+] client.dll               : Discovered 33 descriptor tables\n  [+] networksystem.dll        : Discovered 7 descriptor tables\n[*] Total unique schemas successfully decoded: 42 / 108 tables\n[+] Successfully extracted 42 canonical .proto files!\n[+] Generated schema manifest at: data/protobuf/manifest.json",
-    "codeSnippet": "scanner = BinaryProtoScanner(dll_path)\ndescs = scanner.scan_descriptors()\nfor proto_name, size, desc_off in descs:\n    decoded = ProtoWireDecoder.decode_file_descriptor(raw_chunk)\n    proto_code = ProtoFormatter.emit_proto_file(decoded, dll_name, size)"
+    "codeSnippet": "scanner = BinaryProtoScanner(dll_path)\ndescs = scanner.scan_descriptors()\nfor proto_name, size, desc_off in descs:\n    decoded = ProtoWireDecoder.decode_file_descriptor(raw_chunk)\n    proto_code = ProtoFormatter.emit_proto_file(decoded, dll_name, size)",
+    "paths": [
+      "tools/extract_protobuf_schemas.py"
+    ],
+    "path": "tools/extract_protobuf_schemas.py"
   }
 ];
 

@@ -81,8 +81,8 @@
   </script>
 
   <!-- Embedded Bundled Documentation & Portal Data -->
-  <script src="docs-data.js?v=20261119_11"></script>
-  <script src="portal-data.js?v=20261119_11"></script>
+  <script src="docs-data.js?v=20261119_12"></script>
+  <script src="portal-data.js?v=20261119_12"></script>
 
   <!-- Three.js (r128) & OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -1614,6 +1614,22 @@
       if ((clean.endsWith('_sim.cpp') || clean.endsWith('_sim.bat')) && !clean.includes('/')) {
         clean = 'docs/simulators/' + clean;
       }
+      // If it points to tools/ that reside in tools/ghidra/
+      if (clean.startsWith('tools/') && !clean.startsWith('tools/ghidra/')) {
+        const toolBase = clean.substring('tools/'.length);
+        const ghidraTools = [
+          'Source2_SchemaImporter.java', 'Source2_BaseTypes.java', 'resolve_vtables.py',
+          'port_signatures_to_ghidra.py', 'sync_live_ghidra.py', 'label_live_vtables.py',
+          'import_sdk_types.py', 'Source2_ImportSDKTypes.java', 'cs2_ghidra_toolkit.py',
+          'inject_source2_types.py', 'sync_function_prototypes.py', 'scan_rtti_vtables.py',
+          'trace_xrefs.py'
+        ];
+        if (ghidraTools.includes(toolBase) || toolBase.startsWith('Source2_')) {
+          clean = 'tools/ghidra/' + toolBase;
+        } else if (clean.startsWith('tools/panorama/') || clean === 'tools/panorama_preview.html') {
+          clean = 'docs/' + clean;
+        }
+      }
       // Eliminate any duplicate docs/docs/
       clean = clean.replace(/^docs\/docs\//, 'docs/');
       return clean;
@@ -2532,13 +2548,25 @@
         const targetsPills = t.targets.map(tg => `<span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-400 font-bold">${tg}</span>`).join(' ');
 
         const fileNames = t.name.split('&').map(s => s.trim());
-        const sourceButtonsHtml = fileNames.map(fn => `
-          <a href="https://github.com/Hanzkii/cs2-reverse/blob/main/tools/${fn}" target="_blank" class="px-2.5 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-mono font-medium flex items-center gap-1.5 transition-all shadow-sm group cursor-pointer" title="View ${fn} source code on GitHub">
-            <svg class="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-            <span>View Source${fileNames.length > 1 ? ` (${fn})` : ''}</span>
-            <svg class="w-3 h-3 text-amber-400/70 group-hover:text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
-        `).join('');
+        const sourceButtonsHtml = fileNames.map((fn, idx) => {
+          let resolvedPath = (t.paths && t.paths[idx]) ? t.paths[idx] : '';
+          if (!resolvedPath) {
+            const isGhidra = fn.startsWith('Source2_') || [
+              'resolve_vtables.py', 'port_signatures_to_ghidra.py', 'sync_live_ghidra.py', 
+              'label_live_vtables.py', 'import_sdk_types.py', 'Source2_ImportSDKTypes.java',
+              'cs2_ghidra_toolkit.py', 'inject_source2_types.py', 'sync_function_prototypes.py', 
+              'scan_rtti_vtables.py', 'trace_xrefs.py'
+            ].includes(fn);
+            resolvedPath = isGhidra ? `tools/ghidra/${fn}` : `tools/${fn}`;
+          }
+          return `
+            <a href="https://github.com/Hanzkii/cs2-reverse/blob/main/${resolvedPath}" target="_blank" class="px-2.5 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[11px] font-mono font-medium flex items-center gap-1.5 transition-all shadow-sm group cursor-pointer" title="View ${fn} source code on GitHub">
+              <svg class="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              <span>View Source${fileNames.length > 1 ? ` (${fn})` : ''}</span>
+              <svg class="w-3 h-3 text-amber-400/70 group-hover:text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          `;
+        }).join('');
 
         card.innerHTML = `
           <div class="space-y-3">
