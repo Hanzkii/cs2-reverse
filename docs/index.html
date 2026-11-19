@@ -81,8 +81,8 @@
   </script>
 
   <!-- Embedded Bundled Documentation & Portal Data -->
-  <script src="docs-data.js?v=20261119_12"></script>
-  <script src="portal-data.js?v=20261119_12"></script>
+  <script src="docs-data.js?v=20261119_13"></script>
+  <script src="portal-data.js?v=20261119_13"></script>
 
   <!-- Three.js (r128) & OrbitControls -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -1504,12 +1504,13 @@
       }
     }
 
-    function selectDoc(docId, highlightTerm = '', updateHash = true) {
+    function selectDoc(docId, highlightTerm = '', updateHash = true, targetSection = '') {
       if (updateHash && activeTab === 'docs') {
-        setUrlHash('doc/' + docId);
+        const hashTarget = targetSection ? `doc/${docId}/${targetSection}` : `doc/${docId}`;
+        setUrlHash(hashTarget);
       }
       const docMain = document.getElementById('docContentMain');
-      if (docMain) docMain.scrollTop = 0;
+      if (docMain && !targetSection) docMain.scrollTop = 0;
       currentDocId = docId;
       const currentQuery = highlightTerm || document.getElementById('docSearchInput').value.trim();
       renderDocList(document.getElementById('docSearchInput').value);
@@ -1560,6 +1561,9 @@
       // Enhance all file paths and repository links with direct GitHub navigation
       enhanceDocLinks(renderArea);
 
+      // Enhance section headings with deep-link anchors and copyable URLs
+      enhanceHeadingAnchors(renderArea);
+
       // Highlight code blocks (exclude mermaid diagrams)
       renderArea.querySelectorAll('pre code:not(.language-mermaid)').forEach((block) => {
         hljs.highlightElement(block);
@@ -1598,6 +1602,56 @@
       } else {
         clearInDocSearch();
       }
+
+      // Smooth-scroll to target section heading if requested in URL
+      if (targetSection) {
+        setTimeout(() => {
+          const el = document.getElementById(targetSection);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            el.classList.add('bg-brand-500/10', 'rounded', 'p-1', 'transition-colors');
+            setTimeout(() => el.classList.remove('bg-brand-500/10'), 2500);
+          }
+        }, 120);
+      }
+    }
+
+    // ========================================================================
+    // 3B.1 Heading Deep-Link Anchors & Copy Section URL
+    // ========================================================================
+    function enhanceHeadingAnchors(container) {
+      if (!container) return;
+      container.querySelectorAll('h2, h3, h4').forEach(h => {
+        const text = h.textContent.trim();
+        if (!text) return;
+        const slug = text.toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .trim()
+          .replace(/[\s_-]+/g, '-');
+        if (!slug) return;
+        h.id = slug;
+        h.classList.add('group', 'relative');
+
+        if (!h.querySelector('.heading-anchor')) {
+          const a = document.createElement('a');
+          a.className = 'heading-anchor opacity-0 group-hover:opacity-100 text-brand-400 hover:text-brand-300 ml-2 transition-opacity no-underline text-xs font-mono inline-flex items-center cursor-pointer select-none align-middle';
+          a.href = `#doc/${currentDocId}/${slug}`;
+          a.title = 'Copy link to this section';
+          a.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-brand-500/10 border border-brand-500/30">#</span>`;
+          a.onclick = (e) => {
+            e.preventDefault();
+            const fullUrl = `${window.location.origin}${window.location.pathname}#doc/${currentDocId}/${slug}`;
+            navigator.clipboard.writeText(fullUrl).then(() => {
+              setUrlHash(`doc/${currentDocId}/${slug}`);
+              a.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">✓ Copied</span>`;
+              setTimeout(() => {
+                a.innerHTML = `<span class="px-1.5 py-0.5 rounded bg-brand-500/10 border border-brand-500/30">#</span>`;
+              }, 1500);
+            });
+          };
+          h.appendChild(a);
+        }
+      });
     }
 
     // ========================================================================
@@ -10459,7 +10513,8 @@
       } else if (section === 'doc' && parts[1]) {
         if (DOCS.some(d => d.id === parts[1])) currentDocId = parts[1];
         switchTab('docs', false);
-        selectDoc(parts[1], '', false);
+        const targetSection = parts[2] || '';
+        selectDoc(parts[1], '', false, targetSection);
       } else if (section === 'simulators' && parts[1]) {
         switchTab('simulators', false);
         openSimulator(parts[1], false);
