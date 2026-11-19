@@ -454,7 +454,7 @@
 
             <!-- 5-Layer Progress Bar Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-1">
-              <div onclick="filterBinaries('schema');" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 transition-all cursor-pointer group space-y-1.5">
+              <div onclick="openProgressModal(1);" title="View Layer 1: Reflection & Interface Mapping details" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 transition-all cursor-pointer group space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] font-mono">
                   <span class="text-slate-300 group-hover:text-emerald-400 font-semibold truncate">1. Reflection &amp; ABI</span>
                   <span id="binProgressL1Pct" class="text-emerald-400 font-bold">100%</span>
@@ -465,7 +465,7 @@
                 <div class="text-[10px] text-slate-500 font-mono truncate">4,059 Interfaces &bull; 2,276 Schemas</div>
               </div>
 
-              <div onclick="switchTab('simulators');" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all cursor-pointer group space-y-1.5">
+              <div onclick="openProgressModal(2);" title="View Layer 2: Competitive Math & Verification details" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all cursor-pointer group space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] font-mono">
                   <span class="text-slate-300 group-hover:text-amber-400 font-semibold truncate">2. Competitive Math</span>
                   <span id="binProgressL2Pct" class="text-amber-400 font-bold">~81%</span>
@@ -476,7 +476,7 @@
                 <div class="text-[10px] text-slate-500 font-mono truncate">27 C++ Simulators &bull; Jumpbug</div>
               </div>
 
-              <div onclick="switchTab('docs'); selectDoc('subtick-prediction');" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 transition-all cursor-pointer group space-y-1.5">
+              <div onclick="openProgressModal(3);" title="View Layer 3: Networking & Sub-Tick Protocol details" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 transition-all cursor-pointer group space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] font-mono">
                   <span class="text-slate-300 group-hover:text-sky-400 font-semibold truncate">3. Net &amp; Sub-Tick</span>
                   <span id="binProgressL3Pct" class="text-sky-400 font-bold">~65%</span>
@@ -487,7 +487,7 @@
                 <div class="text-[10px] text-slate-500 font-mono truncate">UserCmd Wire &bull; Snapshot Merge</div>
               </div>
 
-              <div onclick="switchTab('docs'); selectDoc('camera-viewmatrix');" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 transition-all cursor-pointer group space-y-1.5">
+              <div onclick="openProgressModal(4);" title="View Layer 4: Rendering & Audio Pipeline details" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 transition-all cursor-pointer group space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] font-mono">
                   <span class="text-slate-300 group-hover:text-purple-400 font-semibold truncate">4. Render &amp; Audio</span>
                   <span id="binProgressL4Pct" class="text-purple-400 font-bold">~43%</span>
@@ -498,7 +498,7 @@
                 <div class="text-[10px] text-slate-500 font-mono truncate">ViewMatrix &bull; SOS &bull; KV3</div>
               </div>
 
-              <div onclick="filterBinaries('pulse');" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 transition-all cursor-pointer group space-y-1.5">
+              <div onclick="openProgressModal(5);" title="View Layer 5: Auxiliary Subsystems & VM details" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 transition-all cursor-pointer group space-y-1.5">
                 <div class="flex items-center justify-between text-[11px] font-mono">
                   <span class="text-slate-300 group-hover:text-rose-400 font-semibold truncate">5. Auxiliary &amp; VM</span>
                   <span id="binProgressL5Pct" class="text-rose-400 font-bold">~27%</span>
@@ -10775,17 +10775,28 @@
       }
     }
 
-    function openProgressModal(updateHash = true) {
-      if (updateHash) setUrlHash('progress');
+    function openProgressModal(targetLayer = null) {
       if (window.CS2_PROGRESS_DATA) {
         renderProgressTelemetry(window.CS2_PROGRESS_DATA);
       }
       const modal = document.getElementById('engineProgressModal');
       if (modal) modal.classList.remove('hidden');
+
+      if (targetLayer && targetLayer >= 1 && targetLayer <= 5) {
+        setTimeout(() => {
+          const targetCard = document.getElementById(`modalL${targetLayer}Card`);
+          if (targetCard) {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetCard.classList.add('ring-2', 'ring-cyan-400', 'bg-slate-800');
+            setTimeout(() => {
+              targetCard.classList.remove('ring-2', 'ring-cyan-400', 'bg-slate-800');
+            }, 2000);
+          }
+        }, 60);
+      }
     }
 
     function closeProgressModal() {
-      setUrlHash(activeTab === 'docs' && currentDocId ? 'doc/' + currentDocId : activeTab);
       const modal = document.getElementById('engineProgressModal');
       if (modal) modal.classList.add('hidden');
     }
@@ -11222,7 +11233,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           <h3 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">Architectural Layer Telemetry</h3>
 
           <!-- Layer 1 -->
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div id="modalL1Card" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2 transition-all duration-300">
             <div class="flex items-center justify-between text-xs">
               <span class="font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -11239,7 +11250,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           </div>
 
           <!-- Layer 2 -->
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div id="modalL2Card" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2 transition-all duration-300">
             <div class="flex items-center justify-between text-xs">
               <span class="font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-amber-400"></span>
@@ -11256,7 +11267,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           </div>
 
           <!-- Layer 3 -->
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div id="modalL3Card" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2 transition-all duration-300">
             <div class="flex items-center justify-between text-xs">
               <span class="font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-sky-400"></span>
@@ -11273,7 +11284,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           </div>
 
           <!-- Layer 4 -->
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div id="modalL4Card" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2 transition-all duration-300">
             <div class="flex items-center justify-between text-xs">
               <span class="font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-purple-400"></span>
@@ -11290,7 +11301,7 @@ python tools/generate_docs_bundle.py && python tools/generate_portal_data.py`;
           </div>
 
           <!-- Layer 5 -->
-          <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2">
+          <div id="modalL5Card" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2 transition-all duration-300">
             <div class="flex items-center justify-between text-xs">
               <span class="font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-rose-400"></span>
